@@ -30,7 +30,7 @@ git -C <folder> show HEAD:<path>                 # one file
   | Column | What goes in it |
   |---|---|
   | `path_here` | where it now lives in this repo |
-  | `source_repo` | `envoi-on-the-longest-night` or `moon-faire` |
+  | `source_repo` | `envoi-on-the-longest-night`, `moon-faire` or `airship-game-in-aethermoor-` |
   | `source_branch` | `main` |
   | `source_commit` | the commit it was read from (short hash is fine) |
   | `source_path` | its path in the old repo |
@@ -76,6 +76,11 @@ git -C <folder> show HEAD:<path>                 # one file
 - **Uncluttered phone screens.** Few buttons, large enough for a thumb, nothing covering the middle of the picture.
 - **A build is one HTML file** with everything inside it, that opens on his laptop and on his phone, with no
   internet needed. Send it as a file to download.
+  Make it with `python3 tools/build.py game/pages/<page>.html`. The builder stops if the file would reach outside
+  itself. Check it with `tools/walk-test.py` and look at it with `tools/look.py` before sending it.
+- **Say what could not be checked.** A browser with no screen cannot measure a frame rate or show motion. Only Chris's
+  laptop and phone can. Every build shows its own frame rate so he can read it off.
+- **A copied file that is changed here** gets a comment marked "Coven" at each change, and a line in the job's slip.
 - Every step ends with something Chris can open.
 
 ## 7. The repo is public
@@ -98,3 +103,6 @@ git -C <folder> show HEAD:<path>                 # one file
 | `docs/lore/` | The lore: what is settled, what is proposed, what is open | the hub and the lore job |
 | `docs/slips/<name>.md` | One job's own notes | that job only |
 | `assets/INDEX.csv` | One line for every asset copied in | whoever copies it, in the same commit |
+| `game/` | The game's own files (`game/README.md` says how they join) | the job that owns each piece |
+| `tools/` | The builder and the checks | the hub, or a job for its own check |
+| `builds/` | Built pages. Not kept in git | made when needed |

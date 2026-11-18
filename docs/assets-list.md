@@ -1,5 +1,11 @@
 # The asset list: everything finished in both old games
 
+> **Since this list was written** (November 18, evening): Chris answered the questions (`docs/decisions.md`), so read
+> each "suggestion" below in the light of his answers: all four witches from the start, one fight (the new Envoi's
+> battle), Skies of Aethermoor added as a third source. The first test has copied in the pieces in section 14, except
+> that the land's code was written new to Moon Faire's method rather than copied (see `docs/slips/first-test.md`).
+> What is actually in this repo is in `assets/INDEX.csv`.
+
 Written by the hub, November 18, 2026. Started from the two surveys of November 17 and checked against each old
 repo's `main`. Nothing has been copied into this repo yet.
 

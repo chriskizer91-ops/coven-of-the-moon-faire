@@ -12,10 +12,14 @@ open land; use the open land to make the wilds of Aethermoor walkable. Then keep
 
 ## Where it stands
 
-**Nothing of the game is built here yet.** This repo so far holds the rules, the board, the list of what exists in
-both old games, and the questions Chris answers before building starts. See `docs/BOARD.md`.
+**Milestone 1 is built: the first test.** Wickhollow's square with open land round it. Io walks out of town into the
+land and back with no fade; across the bridge is the Thornwood, with herbs to pick.
 
-The first build will be a test: Moon Faire's open land around the Thornwood, with Envoi's Wickhollow in it.
+```
+python3 tools/build.py game/pages/first-test.html     # makes builds/first-test.html: one file, everything inside
+```
+
+Next is the rest of zone 1. `docs/BOARD.md` has the order and what is waiting.
 
 ## Start here
 
@@ -37,8 +41,8 @@ The first build will be a test: Moon Faire's open land around the Thornwood, wit
 | `docs/lore/` | The lore |
 | `docs/slips/` | One note per job |
 | `assets/INDEX.csv` | Where every copied asset came from |
-
-The game's own folders are added when the first build is made.
+| `game/` | The game's own files: engines, places, witches, pages (`game/README.md`) |
+| `tools/` | The builder, and the checks that run with no screen |
 
 ## The old repos
 

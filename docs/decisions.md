@@ -13,6 +13,30 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 18, 2026, evening: hub's calls made while building the first test
+
+All of these are the hub's, not Chris's. Each is easy to change. The reasons are in `docs/slips/first-test.md`.
+
+- **Hub's call.** *The land's code is new; its method is Moon Faire's.* Squares of 32 m round the walker, four levels
+  of detail, skirts on the seams, rules for height and ground. It is written inside the place engine's light, textures
+  and trees, so the town and the land are one picture. Moon Faire's own land files were not copied: they are lit by a
+  different shader and read Moon Faire's painted map.
+- **Hub's call.** *The test's land is made up.* The lake to the west, the river past the east side, the Thornwood
+  across the bridge, the stone ring and the pool are the hub's layout. The real zone 1 takes its broad shape from the
+  3D map of Aethermoor.
+- **Hub's call.** *The town is open on every side.* Io can leave Wickhollow's ground anywhere that is not water or
+  solid, not only by its three roads.
+- **Hub's call.** *The camera's zoom is gentler than Moon Faire's:* 1.2 times as far walking, about 1.5 times running
+  (Moon Faire: 2.15 and 4.9). The fog here is close, and she would be lost in it.
+- **Hub's call.** *Walking speeds stay the new Envoi's for now:* walk 1.3, run 3.0, sprint 5.2 metres a second.
+- **Hub's call.** *The herbs on the ground are Moonpetal and Lavender,* Envoi's two healing herbs. Their look is a
+  small picture painted in code: a stand-in until Chris wants to paint them.
+- **Hub's call.** *The fog by place:* the town keeps its own; the woods are thicker (it ends at 92 m); the Thornwood is
+  thickest and paler (it ends at 62 m), in the Thornwood's own colours.
+- **Hub's call.** *How the game's files are laid out:* `game/` holds the pieces (`engine/`, `places/`, `witches/`,
+  `pages/`), `tools/` the builder and the checks, `builds/` the built files, which are not kept in git.
+- **Hub's call.** *Left out of the first test:* the keepsake shimmers, the two fonts, the painting-from-above button.
+
 ## November 18, 2026, afternoon: Chris's answers to the 13 questions
 
 He said yes to all 13 suggestions in `docs/questions.md`, and added the following in his own words. Where his own
