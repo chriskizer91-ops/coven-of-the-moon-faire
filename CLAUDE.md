@@ -9,8 +9,9 @@ This is **Coven of the Moon Faire**, one game made from two: the new Envoi and M
   branch only.
 - Never push to them, never open a pull request on them, never change a file in them.
 - This repo, `chriskizer91-ops/coven-of-the-moon-faire`, is the only one any session writes to.
-- Any other repo of Chris's (for example Skies of Aethermoor) is off limits until Chris adds it as a source in
-  `docs/decisions.md`.
+- A third read-only source, added by Chris on November 18: `chriskizer91-ops/airship-game-in-aethermoor-` (Skies of
+  Aethermoor), for flying between zones. The same rules apply to it: never push to it, copy only what the game uses.
+- Any other repo of Chris's is off limits until Chris adds it as a source in `docs/decisions.md`.
 
 Both old repos are heavy. Read them without downloading everything:
 

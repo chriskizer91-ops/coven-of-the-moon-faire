@@ -1,5 +1,9 @@
 # Questions for Chris
 
+> **Answered, November 18, 2026, afternoon.** Chris said yes to all 13, with changes in his own words on questions 3,
+> 5 and 8: all four witches from the start; any of them can lead; and crossing the whole map on foot should take about
+> an hour and a half. His answers are in `docs/decisions.md`. This page is kept as the record of what was asked.
+
 Written by the hub, November 18, 2026. These are the calls only you can make. Each one says what the two games do
 today, then my suggestion. A suggestion is only that: nothing is built on it until you answer.
 

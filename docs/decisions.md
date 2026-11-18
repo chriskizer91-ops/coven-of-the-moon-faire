@@ -1,9 +1,10 @@
 # Chris's decisions
 
-Newest first. Every line is something Chris said. Claude's suggestions are not here: they are in `docs/questions.md`
-until he answers them.
+Newest first. Every line is something Chris said, except the lines marked **Hub's call**. Those are small calls the
+hub made so the work could go on, as Chris asked on November 18. He can change any of them with a word.
 
 - **Stands** means nothing later changes it.
+- **Hub's call** means the hub decided it, not Chris. It is easy to change.
 - **Replaced** means a later decision changed it, and the line says which.
 - **Carried over** means he decided it for one of the old games, nothing since has changed it, and it bears on this
   game. Whether it still holds for the merged game is his call; the ones that pull against each other are in
@@ -11,6 +12,90 @@ until he answers them.
 
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
+
+## November 18, 2026, afternoon: Chris's answers to the 13 questions
+
+He said yes to all 13 suggestions in `docs/questions.md`, and added the following in his own words. Where his own
+words go further than a suggestion, or differ from it, his own words are what is written here.
+
+How the work goes from here:
+
+- **Stands.** Build the game. The hub makes the small calls itself, writes each one here marked "hub's call", and keeps
+  going. It stops to ask only for something that can't be undone, or a big change to the story.
+- **Stands.** The hub is the creative director for how the game goes together. He answers questions when asked.
+- **Stands.** The order: the first test (the Thornwood with Wickhollow), then the rest of zone 1, then the fights
+  joined on, then the people, then zones 2 to 4.
+- **Stands.** One HTML file at each milestone for him to try. Push often. Keep `docs/BOARD.md` up to date so a new hub
+  can pick up at any point.
+- **Stands.** The hub may use Opus 5.5 sub-agents to write lore and dialogue, or for any task where they help. The hub
+  may also give him prompts to take to another AI to make pictures.
+
+The world (questions 1, 5, 6, 7, 11, 12):
+
+- **Stands.** The world is Aethermoor: the 3D continent map from the Envoi repo is the world. He is proud of how that
+  map looks and wants to stick with it. It may be altered slightly to fit the Moon Faire's camp where the game starts.
+- **Stands.** Moon Faire's open land is used to add the wilds you explore.
+- **Stands.** Each zone becomes one open land of about 1.5 km by 1 km, with its towns at real size and the distances
+  squeezed. Walking into a town is seamless: no fade.
+- **Stands.** Flying should be strongly encouraged, so walking far must really be far. Running the straight road
+  across the whole map, with no fights, should take about an hour and a half. Not three hours.
+- **Stands.** Air travel uses his airship game, Skies of Aethermoor. It may be copied into this repo so it can be
+  used. (So it is now a third read-only source. Its repo is `chriskizer91-ops/airship-game-in-aethermoor-`.)
+- **Stands.** The game is a number of pages in this repo that call each other. He is not sure of the wording and
+  leaves how to the hub.
+- **Stands.** One final fire, at Misthollow's dead Moonwell.
+- **Stands.** The moon's name is **Auros**.
+- **Stands.** The setting is dusk to night. The wilds should look a little different from the towns: tree cover and
+  heavy fog, so you cannot see as far.
+- **Stands.** Laptop first.
+
+The party and the story (questions 3, 8):
+
+- **Stands.** All four witches are in the party from the beginning. (His own words. This replaces the suggestion of
+  one witch joining per zone.)
+- **Stands.** Who you walk as is selectable: any of the four, from the start of the game.
+- **Stands.** The game starts at the Moon Faire's tent centre. The hub picks where that is; it has to be in zone 1.
+- **Stands.** Some lore has to be made up for this. A first thought of his: Io's cottage is her family's cottage.
+
+The fights and the levels (questions 2, 4, 9):
+
+- **Stands.** The fight is Envoi's new battle. Bring in Europa's and Callisto's moves. Moon Faire's wild-plant herbs
+  beside Envoi's shop herbs. The eight pretend players are a second check.
+- **Stands.** Envoi's four zones, with gate fights at levels 5, 10, 15 and 20.
+- **Stands.** Level 20 is the highest a player can reach. The final boss is harder than that, with a choice of easy,
+  medium, hard or crazy: levels 20, 21, 22 and 22.8.
+- **Stands.** About 180 fights should be what it takes to reach level 20.
+- **Stands.** Foes are met Moon Faire's way (unseen, only in the wild) at Envoi's rate.
+- **Stands.** Io has to be able to find herbs growing on the ground in the wilds.
+
+The people (question 10):
+
+- **Stands.** The fair folk are themselves at the Faire's camp. Townsfolk stay on the fair-folk bodies. The doll plays
+  a few important people. The Grey Hat captains the ship. Whether the lines are redone is left to the hub.
+
+The first test (question 13):
+
+- **Stands.** Io walks out of Wickhollow's square into open land and back, with no fade. The land is Moon Faire's kind
+  of land (drawn in squares round the camera, far hills, fog), wearing Envoi's zone 1 textures and the Thornwood's
+  thorny trees.
+
+### Hub's calls made with these answers
+
+- **Hub's call.** *All four from the start, and any of them can lead.* His message said both "yes to all 13 as
+  written" and, in his own words, "you start with all 4 at the beginning". The two disagree on question 3 (and on
+  question 8, where the suggestion was Io first). The hub took his own words. To change: say "one witch per zone".
+- **Hub's call.** *How 1.5 km zones and a 90-minute crossing fit together.* Each zone's own land is about 1.5 km by
+  1 km. The zones are joined by **long wild roads of about 6 km each**, about 22 minutes at a run. Four zones and
+  three long roads come to about 24 km, which is about an hour and a half at the land's running speed (4.4 m a
+  second). The long roads are what make flying the easy way.
+- **Hub's call.** *What "pages that call each other" means here.* In the repo the game is separate pieces, each in its
+  own folder: the land, each town, the battle, the map, the flight. A build for Chris packs the pieces it needs into
+  one HTML file. Whether the finished game is one file or a few that open each other is decided when the fights are
+  joined on.
+- **Hub's call.** *The hub builds too.* When the hub builds a piece itself it still uses a branch `job/<name>` and a
+  slip, then merges into `main`, so the record reads the same whoever did the work.
+- **Hub's call.** *Lines.* Every line is written new, after the opening lore is agreed. The 480 Moon Faire lines are a
+  model of the voice only.
 
 ## November 18, 2026: the new repo and how it works
 
