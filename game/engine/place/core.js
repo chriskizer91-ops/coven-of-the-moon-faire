@@ -267,6 +267,8 @@
     float vnoise(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
       return mix(mix(hash2(i), hash2(i + vec2(1.0, 0.0)), f.x), mix(hash2(i + vec2(0.0, 1.0)), hash2(i + vec2(1.0, 1.0)), f.x), f.y); }
   `;
+  // (Coven of the Moon Faire, November 18) the two shared pieces of every surface's shader, for the open land's own ground
+  W3D.GLSL = { V: CHUNK_V, F: CHUNK_F_HEAD };
   // a surface: textured (map), tinted, lit by the night (uLit 1) or glowing by itself (uLit 0)
   W3D.mat = function (U, o) {
     o = o || {};

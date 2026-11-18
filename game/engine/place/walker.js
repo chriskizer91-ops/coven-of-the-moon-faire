@@ -87,7 +87,7 @@
       const asp = W / H; cam.aspect = asp;
       // upright: a taller view and a higher camera, so the square shows round her; on its side: wider and lower
       view = asp < 1 ? { fov: 64, dist: 7.4, pitch: 0.5, ahead: 2.6 } : { fov: 46, dist: 6.6, pitch: 0.42, ahead: 1.6 };
-      cam.fov = view.fov; cam.updateProjectionMatrix(); C.dist = view.dist; if (!C.pitchSet) C.pitch = view.pitch;
+      cam.fov = view.fov; cam.updateProjectionMatrix(); C.base = view.dist; C.dist = C.base * (C.zoom || 1); if (!C.pitchSet) C.pitch = view.pitch;
       if (guide.on) fitTop();
     }
     const camPos = new THREE.Vector3(), camAim = new THREE.Vector3(); 
@@ -263,6 +263,10 @@
       const go = mag > 0.14 && ml > 0;
       const jog = mag > 0.82, want = go ? (mag > 1.15 ? SPEED.sprint : jog ? SPEED.jog : SPEED.walk * clamp(mag / 0.65, 0.45, 1)) : 0;
       io.speed += (want - io.speed) * Math.min(1, dt * (want > io.speed ? 7 : 10));
+      // (Coven of the Moon Faire, November 18) the camera draws back by itself, as Moon Faire's open world does: closest
+      // while she stands, a little further as she walks, further again as she runs, and back in as she slows. The amounts
+      // are gentler than Moon Faire's moor (there 2.15 and 4.9 times): here the fog is close, and she would be lost in it
+      if (!C.hold) { const zk = 1 + 0.2 * W3D.ss(0.3, 1.2, io.speed) + 0.32 * W3D.ss(2.0, 4.6, io.speed); C.zoom = (C.zoom || 1) + (zk - (C.zoom || 1)) * Math.min(1, dt * (zk > (C.zoom || 1) ? 1.5 : 1.0)); C.dist = (C.base || view.dist) * C.zoom; }
       if (go) { mx /= ml; mz /= ml; const ty = Math.atan2(mx, mz); let d = ty - io.yaw; d = Math.atan2(Math.sin(d), Math.cos(d)); io.yaw += d * Math.min(1, dt * 11); }
       let moved = 0;
       if (io.speed > 0.02) {
@@ -431,7 +435,7 @@
       step(sec, fps, draw) { const n = Math.max(1, Math.round(sec * (fps || 30))); for (let i = 0; i < n; i++) { clock += 1 / (fps || 30); tick(1 / (fps || 30), clock); } if (draw !== false && !busy) drawFrame(); return numbers(); },
       render() { if (!busy) drawFrame(); }, setLook, look,
       setIo(px, py, yaw) { io.px = px; io.py = py; io.y = P.walkH(px, py); if (yaw != null) io.yaw = yaw; placeCamera(0, true); },
-      setCam(yaw, pitch, dist) { if (yaw != null) C.yaw = yaw; C.pitch = pitch != null ? pitch : view.pitch; C.pitchSet = pitch != null; C.dist = dist != null ? dist : view.dist; C.auto = 99; placeCamera(0, true); },
+      setCam(yaw, pitch, dist) { if (yaw != null) C.yaw = yaw; C.pitch = pitch != null ? pitch : view.pitch; C.pitchSet = pitch != null; C.dist = dist != null ? dist : view.dist; C.base = C.dist; C.zoom = 1; C.hold = dist != null; C.auto = 99; placeCamera(0, true); },
       push(x, y, mag) { scripted = x == null ? null : { x, y, mag: mag == null ? 0.7 : mag }; },
       fits, items: P.items,
     };

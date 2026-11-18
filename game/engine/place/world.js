@@ -832,10 +832,12 @@
     const UPV = new THREE.Vector3(0, 1, 0), _d = new THREE.Vector3(), _q = new THREE.Quaternion();
     // a limb from `base` along `dir` (a bare tree's trunk and branches): thick at the bottom, thin at the tip
     const limb = (TB, base, dir, len, r, col) => { _d.copy(dir).normalize(); _q.setFromUnitVectors(UPV, _d); TB.geom('bark', limbG, new THREE.Matrix4().compose(base, _q, new THREE.Vector3(r, len, r)), col, [1, len / 2]); };
-    for (const [tx, ty, size, kind, seed] of trees) {
+    // (Coven of the Moon Faire, November 18) one tree, as a function, so the open land round the place can plant more
+    // of the very same trees later (plantPatch, below). TB: the patch it goes into; far: the lighter version; y: the
+    // ground under it
+    const plantOne = (TB, tx, ty, size, kind, seed, far, y) => {
       const fir = kind === 1;
-      const x = X(tx), z = Z(ty), y = terrain(tx, ty), key = Math.floor(x / PATCH) + ',' + Math.floor(z / PATCH);
-      const TB = patches[key] || (patches[key] = W3D.Builder()), r = rand(seed + 1), far = tx < 0 || tx > place.size[0] || ty < 0 || ty > place.size[1];
+      const x = X(tx), z = Z(ty), r = rand(seed + 1);
       if (fir) {
         const H = (5.8 + r() * 2.6) * size, rb = (1.35 + r() * 0.4) * size;
         TB.geom('bark', trunk, new THREE.Matrix4().compose(new THREE.Vector3(x, y + 0.9, z), new THREE.Quaternion(), new THREE.Vector3(0.22 * size, 1.8, 0.22 * size)), [0.7, 0.6, 0.6], [1.5, 2]);
@@ -904,8 +906,12 @@
         }
         shadeMarks.push(['dot', tx, ty, cr / M.SX * 0.95, 0.5]);
       }
+    };
+    for (const [tx, ty, size, kind, seed] of trees) {
+      const key = Math.floor(X(tx) / PATCH) + ',' + Math.floor(Z(ty) / PATCH);
+      plantOne(patches[key] || (patches[key] = W3D.Builder()), tx, ty, size, kind, seed, tx < 0 || tx > place.size[0] || ty < 0 || ty > place.size[1], terrain(tx, ty));
     }
-    cone.dispose(); trunk.dispose(); limbG.dispose();
+    // (Coven: the shapes stay, so plantPatch can use them after the place is built)
     // every trunk is solid: Io walks round it
     for (const [tx, ty, size] of trees) if (tx >= WX0 && tx <= WX1 && ty >= WY0 && ty <= WY1) addBlock(circlePx(tx, ty, 0.3 * size, 6));
     // ---- a thicket of bushes along the bounds' edge (not across water, exits or paths), so the edge looks closed ----
@@ -1248,7 +1254,20 @@
       while (scene.children.length) scene.remove(scene.children[0]);
       U.uGlow.value = U.uShade.value = null; walkGrid = null; walkPic = null;
     }
+    // (Coven of the Moon Faire, November 18) for the open land round the place (engine/land/land.js): a patch of trees
+    // planted after the place is built, with the place's own tree builder and materials, and taken out again.
+    // list: [tx, ty, size, kind, seed, far, y] for each tree (painting pixels; y in metres). They join treeMeshes, so
+    // they thin away between the camera and Io like the place's own
+    function plantPatch(list) {
+      const TB = W3D.Builder(); TB.solid = false;
+      for (const q of list) plantOne(TB, q[0], q[1], q[2], q[3], q[4], q[5], q[6]);
+      const out = [], meshes = TB.build(TM.whole);
+      for (const k in meshes) { const mesh = meshes[k]; mesh.userData.tree = k; scene.add(mesh); treeMeshes.push(mesh); out.push(mesh); }
+      return out;
+    }
+    function unplant(meshes) { for (const mesh of meshes) { scene.remove(mesh); const i = treeMeshes.indexOf(mesh); if (i >= 0) treeMeshes.splice(i, 1); mesh.geometry.dispose(); } }
     return { scene, U, M, walkable, walkH, terrain, update, precompile, stats, used, place, lamps: lamps3d, items, takeItem, maps: { splat, glow, shade }, exits: place.exits || [], camSolids, camHouses, sight,
-      walkPic: () => walkPic, walkRect: [WX0, WY0, WX1, WY1], dispose };
+      walkPic: () => walkPic, walkRect: [WX0, WY0, WX1, WY1], dispose,
+      tex, pics, mats: MAT, treeMeshes, plantPatch, unplant };
   };
 })(window);
