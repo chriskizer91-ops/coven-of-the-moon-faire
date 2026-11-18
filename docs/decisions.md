@@ -13,6 +13,22 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 18, 2026, late evening: hub's calls made while setting zone 1 on one land
+
+The reasons are in `docs/slips/zone-1.md`.
+
+- **Hub's call.** *Every place of a zone is built when the page opens, and kept.* It keeps walking free of stalls. It
+  costs a longer wait at the start (12 seconds for six places on the hub's machine) and a bigger file (70 MB).
+- **Hub's call.** *Where zone 1's places stand.* Wickhollow in the middle; the Thornwood 226 m east across the bridge;
+  Bogmire 463 m east; the fen's dark heart 159 m north of Bogmire; Io's cottage 205 m south; the jetty 190 m west of
+  that. They join the way their roads join in the old Envoi, with 62 to 112 m of road between neighbours.
+- **Hub's call.** *The Thornwood keeps its thorn hedge and its two gates.* Everywhere else she can leave a place's
+  ground anywhere.
+- **Hub's call.** *One night for the whole zone.* One moon, sky and fog, which come round to each place's own as she
+  nears it.
+- **Hub's call.** *A place's lake or fen stays inside its own ground;* only water that reaches the edge (the
+  Thornwood's stream, Wickhollow's lake and river) is carried on across the land.
+
 ## November 18, 2026, evening: Chris tried the first test
 
 - **Stands.** The first test runs at **144 frames a second on his laptop** and **60 on his phone**, in town and in the

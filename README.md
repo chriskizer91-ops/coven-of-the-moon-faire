@@ -12,14 +12,19 @@ open land; use the open land to make the wilds of Aethermoor walkable. Then keep
 
 ## Where it stands
 
-**Milestone 1 is built: the first test.** Wickhollow's square with open land round it. Io walks out of town into the
-land and back with no fade; across the bridge is the Thornwood, with herbs to pick.
+**Milestone 1 is done: the first test.** Wickhollow's square with open land round it, walked out of and into with no
+fade.
+
+**Milestone 2 is part built: zone 1.** All six of its places (Wickhollow, the Thornwood, Bogmire, the fen's dark
+heart, Io's cottage, the jetty) stand on one land, joined by roads. The Moon Faire's camp, where the game starts, is
+next.
 
 ```
-python3 tools/build.py game/pages/first-test.html     # makes builds/first-test.html: one file, everything inside
+python3 tools/build.py game/pages/zone-1.html     # makes builds/zone-1.html: one file, everything inside
+python3 tools/zone-test.py builds/zone-1.html     # walks between the places and checks it by numbers
 ```
 
-Next is the rest of zone 1. `docs/BOARD.md` has the order and what is waiting.
+`docs/BOARD.md` has the order and what is waiting.
 
 ## Start here
 

@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 18, 2026, evening, by the hub.
+Last updated: November 18, 2026, late evening, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -20,8 +20,8 @@ zones by Skies of Aethermoor, and walking far is far on purpose.
 
 ## The order Chris set
 
-1. **The first test** (the Thornwood with Wickhollow). **Built. Waiting for Chris to try it.**
-2. The rest of zone 1.
+1. **The first test** (the Thornwood with Wickhollow). **Done.**
+2. The rest of zone 1. **Part built: six places joined. The camp is next.**
 3. The fights joined on.
 4. The people.
 5. Zones 2 to 4.
@@ -30,49 +30,42 @@ One HTML file to Chris at each milestone.
 
 ## Where we are
 
-**Milestone 1 is built and sent: `builds/first-test.html`** (built from `game/pages/first-test.html`, 27.5 MB).
+**Milestone 1, the first test: done.** Chris ran it at 144 frames a second on his laptop and 60 on his phone, in town
+and in the woods (90 to 100 and 45 to 50 with the Flipbook look). Those are almost certainly each screen's top speed.
 
-What it is: Wickhollow's square as the reskinned zone 1 has it, with 770 m by 510 m of open land round it. Io walks
-out of town into the land and back with no fade. Across the bridge is the Thornwood: thorn trees, heavy pale fog, a
-road, a ring of standing stones, a still pool, herbs to pick. Its slip is `docs/slips/first-test.md`.
+**Milestone 2, zone 1: part built.** `builds/zone-1.html` (from `game/pages/zone-1.html`, 69.6 MB) has all six of the
+zone's places on one land of 955 m by 645 m, joined by roads, walked between with no fade. Its slip is
+`docs/slips/zone-1.md`. An early copy went to Chris on November 18 so he can try six places at once.
 
-What the checks say (all with no screen and no graphics card):
+What the checks say (no screen, no graphics card):
 
-- She walks 74 m out past the town's edge and back; her height never jumps more than 3.8 cm crossing it.
-- 0 page errors. The file fetches nothing from outside itself.
-- A piece of land takes 2 to 4 thousandths of a second to make.
-- 130,000 to 365,000 triangles and 95 to 290 draw calls, depending on where she looks. The square alone was 203,000
-  and 135 before the land.
+- Io walks from each place to the next and arrives; her height never jumps more than 7 cm at an edge.
+- 0 page errors. The file fetches nothing from outside itself. The first test still passes.
+- The page takes 12 seconds to start with six places (8 with one).
+- 150,000 to 435,000 triangles and 105 to 375 draw calls.
 
-**What nobody has measured: the frame rate on a real laptop or phone.** The page shows it at the bottom left.
+**Not measured:** the frame rate with six places, and whether a phone opens a 70 MB file.
 
 ## What is being worked on now
 
 | Who | What |
 |---|---|
-| Chris | Trying the first test on his laptop and phone, and reading the frame rate off the bottom left |
-| The hub | Next: the rest of zone 1 (below) |
+| Chris | Trying `zone-1.html`: the frame rate in each place, and whether his phone opens it |
+| The hub | The rest of milestone 2 (below) |
 
 No job conversations are running.
 
-## What comes next: the rest of zone 1
+## What is left of milestone 2 (job `zone-1`)
 
-Job `zone-1`. Zone 1 has six places (Wickhollow, Io's cottage, the jetty, the Thornwood, Bogmire, Bogmire's dark
-heart) and now the Moon Faire's camp, where the game starts.
-
-In this order:
-
-1. **Several places on one land.** Today the land engine wraps one place, at the land's middle. Zone 1 needs many,
-   each at its own spot, each built when she comes near and let go when she is far, without a stall. This is the main
-   piece of new engine work and the main risk: building a place takes a few seconds today.
-2. **Zone 1's shape from the 3D map.** The land's broad heights and kinds of ground read from the map of Aethermoor,
-   with the distances squeezed: about 1.5 km by 1 km for the zone.
-3. **The other five places copied in** and set on the land, with roads between them.
-4. **The Moon Faire's camp**, with Moon Faire's fair kit (tents, stalls, the wagon), as the place the game starts.
-   Hub's call still to make: where. The hub's leaning is the meadow by the south road, between Wickhollow and Io's
-   cottage.
-5. **A choice of who walks**: Kore beside Io first, then Europa and Callisto.
-6. **The long wild road** out of zone 1 toward zone 2 (about 6 km), as rules only.
+1. **The Moon Faire's camp**, where the game starts: Moon Faire's fair kit (tents, stalls, the wagon, the well)
+   copied in and set on the land. Hub's leaning for the spot: the meadow about 70 m west and 150 m south of
+   Wickhollow's square, between the lake and the cottage's road. The kit is lit by Moon Faire's own shader, so it
+   needs fitting to the place engine's night, the way the land was.
+2. **A choice of who walks**: Kore beside Io first (her light model is in the new Envoi), then Europa and Callisto.
+3. **Zone 1's broad shape from the 3D map** of Aethermoor, so the land's hills and shores are the map's.
+4. **The fen's own ground and reeds** on the land round Bogmire, and the lakes joined up.
+5. **The long wild road** out of zone 1 toward zone 2 (about 6 km), as rules only.
+6. **A lighter build for the phone**, if 70 MB proves too much: smaller copies of the textures.
 
 Then milestone 2 goes to Chris as one HTML file.
 
@@ -95,9 +88,9 @@ The hub's plan. Names and order may change.
 
 **To carry on well:**
 
-- **The frame rate of the first test** on his laptop and on his phone (bottom left of the screen), standing in the
-  square, and standing in the Thornwood. It decides how thick the trees and how wide the view can be in zone 1.
-- Anything he wants changed in how the land looks or feels: the fog, the trees, the roads, the camera drawing back.
+- **The frame rate of `zone-1.html`** on his laptop and phone (bottom left), in Wickhollow, in Bogmire and by the
+  cottage. And whether the phone opens the file at all.
+- Anything he wants changed about where the places stand or how far apart they are.
 
 **A big story call, so the hub will ask before building on it:**
 
@@ -122,7 +115,7 @@ The hub's plan. Names and order may change.
 | Job | What it does | Branch | Slip | State |
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
-| `zone-1` | The rest of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | Next. Not started |
+| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Part done, in `main`.** Six places joined. The camp and the rest are left |
 
 ## How to start a job (for Chris)
 
