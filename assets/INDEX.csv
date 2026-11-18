@@ -57,3 +57,7 @@ game/texture-packs/made-web/wick_wall_timber_plaster_b.webp,envoi-on-the-longest
 game/texture-packs/made-web/wick_wall_timber_plaster_c.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wick_wall_timber_plaster_c.webp,"Chris's made texture, web copy: wick_wall_timber_plaster_c",2026-11-18
 game/texture-packs/made-web/index.csv,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/index.csv,the labels of the textures copied here (only their rows),2026-11-18
 game/data/maps-wickhollow.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Wickhollow walking map: only its walk and block areas, written out as plain numbers",2026-11-18
+game/places/thornwood.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/thornwood.js,The Thornwood as a 3D place,2026-11-18
+game/places/thornwood-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/thornwood-trees.js,where The Thornwood's trees stand,2026-11-18
+game/texture-packs/made-web/thorn_bark_black.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/thorn_bark_black.webp,"Chris's made texture, web copy: thorn_bark_black",2026-11-18
+game/data/maps-thornwood.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The Thornwood's walking map: only its walk and block areas, as plain numbers",2026-11-18
