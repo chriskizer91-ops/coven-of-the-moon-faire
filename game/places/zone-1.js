@@ -1,8 +1,9 @@
 // zone-1.js: zone 1, "Wickhollow and the fen", as one open land with its places standing in it (Coven of the Moon Faire,
 // November 18, 2026). Load it after every place's own file and after places/wickhollow-open.js.
 //
-// So far it holds two of the zone's six places: Wickhollow, and the Thornwood across its bridge. Still to come: Io's
-// cottage, the jetty, Bogmire, Bogmire's dark heart, and the Moon Faire's camp (docs/BOARD.md).
+// It holds the zone's six places: Wickhollow; the Thornwood across its bridge; Bogmire past the Thornwood, and the
+// fen's dark heart north of Bogmire; Io's cottage down the south road; the jetty west of the cottage.
+// Still to come: the Moon Faire's camp, where the game starts (docs/BOARD.md).
 // Everything is metres: x east, z south, Wickhollow's square at 0, 0.
 // The layout is the hub's (hub's call): the places stand the way their roads join in the old Envoi (Wickhollow's bridge
 // leads east to the Thornwood, the Thornwood's far side to Bogmire), with the distances squeezed.
@@ -27,16 +28,23 @@
     zone: {
       // where each place stands. Its own ground reaches out round that spot: Wickhollow 49 m east and west, 47 m north
       // and south; the Thornwood 92 m and 77 m. autoWater: its streams and shores are carried on past its edge by rule
+      // open: a town that used to be closed in at its painting's edge, opened to the edge of its own ground
       places: [
-        { id: 'wickhollow', at: [0, 0] },
-        { id: 'thornwood', at: [226.3, 0], autoWater: true },
+        { id: 'wickhollow', at: [0, 0] },                                  // (opened by places/wickhollow-open.js)
+        { id: 'thornwood', at: [226.3, 0], autoWater: true },              // its west gate 85 m from Wickhollow's bridge road's end
+        { id: 'bogmire', at: [462.6, 9.1], open: true },                   // its west road 95 m from the Thornwood's east gate
+        { id: 'bogmire-heart', at: [463.5, -159.1], open: true },          // its south road 75 m north of Bogmire's north road
+        { id: 'cottage', at: [-30, 205], open: true },                     // its north road 112 m south of Wickhollow's south road
+        { id: 'jetty', at: [-190, 250], open: true },                      // its north road 62 m west of the cottage's west road
       ],
       land: {
-        bounds: [-385, -300, 470, 300],          // for now: it grows as the other places are set down
+        bounds: [-385, -300, 570, 345],          // 955 m by 645 m
         level: -1.0, roll: [0.8, 1.15],
         // how much of the thorn country a spot is (0 the woods round the town, 1 the thorns): from the river's far bank east
-        thornK: (x, z) => ss(44, 72, x),
+        thornK: (x, z) => ss(44, 72, x) * (1 - ss(345, 400, x)),
         names: { woods: 'The woods round Wickhollow', thorn: 'The thorn country' },
+        // what the open land is called where she stands (past the thorns, the fen's edge)
+        nameAt: (x, z) => (x > 372 ? 'The fen’s edge' : x > 58 ? 'The thorn country' : z > 120 ? 'The south woods' : 'The woods round Wickhollow'),
         ground: { grass: 'shared_grass_meadow', bramble: 'thorn_bramble_ground', moss: 'thorn_moss_ground', dirt: 'shared_dirt_track', rock: 'thorn_rock_mossy',
           cob: 'shared_cobbles_town', pave: 'wick_bridge_paving', repStone: [3.2, 2.6],
           rep: [4.0, 3.4, 2.6, 4.0], grassTint: [0.5, 0.58, 0.55], brambleTint: [0.9, 0.86, 0.95], mossTint: [1, 1, 1], dirtTint: [1, 1, 1] },
@@ -45,12 +53,16 @@
           woods: { fog: [0.085, 0.09, 0.175], near: 20, far: 92 },
           thorn: { fog: [0.16, 0.165, 0.3], near: 11, far: 62, sky: [0.58, 0.58, 0.72], moon: [0.4, 0.44, 0.6] },
         },
-        // roads: the middle line of each, its width, and the town's stone it carries out from its first point (if any)
+        // roads: the middle line of each, its width, and the town's stone it carries out from its first point (`stone`)
+        // or in to its last (`stoneTo`), if any
         roads: [
-          { w: 4.0, stone: 'pave', pts: [[49.1, -7.1], [62, -7.4], [80, -10.5], [100, -12]] },          // east from Wickhollow's bridge
-          { w: 2.6, pts: [[100, -12], [118, -9.5], [134.2, -7.3]] },                                     // narrowing to the Thornwood's west gate
-          { w: 2.6, pts: [[318.4, 1.8], [340, 3], [370, -4], [400, -8], [440, -4], [472, 0]] },         // on east from the Thornwood's far gate, toward Bogmire
-          { w: 3.3, stone: 'cob', pts: [[0.5, 46.6], [1, 60], [-4, 85], [-10, 115], [-6, 150], [4, 190], [10, 230], [8, 270], [6, 302]] },   // south, toward Io's cottage
+          { w: 4.0, stone: 'pave', pts: [[49.1, -7.1], [62, -7.4], [80, -10.5], [100, -12]] },                         // east from Wickhollow's bridge
+          { w: 2.6, pts: [[100, -12], [118, -9.5], [134.2, -7.3]] },                                                    // narrowing to the Thornwood's west gate
+          { w: 2.6, pts: [[318.4, 1.8], [340, 3], [365, -3], [390, -2], [413.5, 1.8]] },                               // the Thornwood's east gate to Bogmire's west road
+          { w: 2.4, pts: [[463.5, -37.5], [466, -58], [460, -80], [462, -100], [463.5, -112.5]] },                     // Bogmire's north road to the fen's dark heart
+          { w: 3.3, stone: 'cob', stoneTo: 'cob', pts: [[0.5, 46.6], [1, 62], [-4, 85], [-14, 112], [-28, 136], [-38.6, 158.4]] },     // south from Wickhollow to Io's cottage
+          { w: 2.6, stone: 'cob', stoneTo: 'cob', pts: [[-79.1, 200.4], [-100, 198], [-130, 188], [-165, 186], [-186, 192], [-190, 203.4]] },        // the cottage's west road round to the jetty
+          { w: 2.6, stone: 'cob', pts: [[-30.9, 251.6], [-28, 270], [-34, 300], [-30, 330], [-32, 350]] },                           // the cottage's south road, on toward the world
         ],
         // Wickhollow's river, carried on north and south: [x, z, width] along the middle
         rivers: [

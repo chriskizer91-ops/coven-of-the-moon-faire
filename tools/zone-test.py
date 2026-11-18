@@ -6,17 +6,19 @@
 For every place after the first it walks Io from the land onto the place's own ground and on into it, and checks that she
 got there without stopping and that her height never jumped at the edge. It then checks the land's rules at 4,000 spots
 (no spot in water can be stood on; no spot is both a place's and the land's) and that the page made no errors.
-The walks are listed in WALKS below: where she starts (metres, x east and z south of Wickhollow's square), which way she
-walks (the camera's turn: -1.57 walks east, 1.57 west, 3.14 south, 0 north), for how many seconds, and where she must end.
+The walks are listed in WALKS below: where she starts (metres, x east and z south of Wickhollow's square), the spot she
+walks straight toward (through whatever is between, sliding round trees), for how many seconds, and where she must end.
 """
 import json, os, sys
 from playwright.sync_api import sync_playwright
 
-WALKS = [
-    ('from Wickhollow\'s bridge east along the road to the Thornwood\'s west gate', [22, -7], -1.5708, 46, lambda e, R: e[0] > R['The Thornwood']['x0'] - 6),
-    ('in through the Thornwood\'s west gate, past its hedge', [128, -7.3], -1.5708, 22, lambda e, R: e[0] > R['The Thornwood']['x0'] + 22),
-    ('out of the Thornwood\'s east gate onto the land', [300, 1.8], -1.5708, 16, lambda e, R: e[0] > R['The Thornwood']['x1'] + 8),
-    ('back in through the east gate', [332, 2.5], 1.5708, 16, lambda e, R: e[0] < R['The Thornwood']['x1'] - 8),
+WALKS = [   # (what, where she starts, the spot she walks straight toward, seconds, the place she must end up on)
+    ('Wickhollow\'s bridge, east along the road, to the Thornwood', [22, -7], [170, -7.3], 46, 'The Thornwood'),
+    ('the Thornwood\'s east gate, on to Bogmire', [322, 2], [440, 2], 40, 'Bogmire'),
+    ('Bogmire\'s north road, up to the fen\'s dark heart', [463.5, -42], [463.5, -140], 30, 'The fen’s dark heart'),
+    ('Wickhollow\'s south road, down to Io\'s cottage', [0.5, 50], [-38, 175], 50, 'Io’s cottage'),
+    ('the cottage\'s west road, round to the jetty', [-84, 200], [-190, 215], 44, 'The jetty'),
+    ('the jetty, back toward Wickhollow', [-150, 200], [-30, 20], 90, 'Wickhollow'),
 ]
 page_file = os.path.abspath(sys.argv[1]); errors, fails = [], []
 def check(ok, text):
@@ -37,9 +39,12 @@ with sync_playwright() as p:
     print('the places, and how far their own ground reaches (metres east and south of Wickhollow\'s square):')
     for n, r in R.items(): print('   %-16s %6.1f to %6.1f east, %6.1f to %6.1f south' % (n, r['x0'], r['x1'], r['z0'], r['z1']))
     print('1. walking between them')
-    for name, at, yaw, secs, want in WALKS:
-        r = pg.evaluate(WALK, at + [yaw, secs])
-        check(want(r['end'], R), '%s (ended %.0f m east, %.0f m south)' % (name, r['end'][0], r['end'][1]))
+    import math
+    for name, at, to, secs, place in WALKS:
+        yaw = math.atan2(-(to[0] - at[0]), -(to[1] - at[1]))
+        r = pg.evaluate(WALK, at + [yaw, secs]); q = R[place]; e = r['end']
+        inside = e[0] > q['x0'] + 3 and e[0] < q['x1'] - 3 and e[1] > q['z0'] + 3 and e[1] < q['z1'] - 3
+        check(inside, '%s: she ended on its ground (%.0f m east, %.0f m south)' % (name, e[0], e[1]))
         check(r['jump'] < 0.15, '   her height never jumped (at most %.1f cm in a thirtieth of a second)' % (r['jump'] * 100))
         print('           (seconds she spent stopped against something on the way: %d of %d)' % (r['stuck'], secs))
     print('2. the land\'s rules at 4,000 spots')

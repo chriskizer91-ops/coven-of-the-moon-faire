@@ -44,9 +44,12 @@
     const R = Z.parts.map((p) => {
       const e = 0.01, nx = Math.ceil((p.x1 - p.x0) / STEP), nz = Math.ceil((p.z1 - p.z0) / STEP);   // (a hair inside the edge, so the place itself answers)
       const X = (i) => clamp(p.x0 + i * STEP, p.x0 + e, p.x1 - e), Zc = (i) => clamp(p.z0 + i * STEP, p.z0 + e, p.z1 - e);
+      // the edge's height is the place's ground there; or, where a boardwalk or a deck she can walk reaches the edge above
+      // the ground (the dark heart's road out is a boardwalk), the deck's own height, so the land rises to meet it
+      const top = (x, z) => { const g = p.terrain(x, z); return p.walkable(x, z) ? Math.max(g, p.walkH(x, z)) : g; };
       return { part: p, x0: p.x0, z0: p.z0, x1: p.x1, z1: p.z1, nx, nz, terr: p.terrain, name: p.name, night: p.night,
-        eTop: edge(nx, (i) => p.terrain(X(i), p.z0 + e)), eBot: edge(nx, (i) => p.terrain(X(i), p.z1 - e)),
-        eLeft: edge(nz, (i) => p.terrain(p.x0 + e, Zc(i))), eRight: edge(nz, (i) => p.terrain(p.x1 - e, Zc(i))) };
+        eTop: edge(nx, (i) => top(X(i), p.z0 + e)), eBot: edge(nx, (i) => top(X(i), p.z1 - e)),
+        eLeft: edge(nz, (i) => top(p.x0 + e, Zc(i))), eRight: edge(nz, (i) => top(p.x1 - e, Zc(i))) };
     });
     const rectAt = (x, z) => { for (const r of R) if (x >= r.x0 && x <= r.x1 && z >= r.z0 && z <= r.z1) return r; return null; };
     const inRectM = (x, z) => rectAt(x, z) !== null;
@@ -63,7 +66,7 @@
 
     // ---- the land's lines: roads, rivers, lakes, clearings ----
     const box = (pts, pad) => { let a = 1e9, b = 1e9, c = -1e9, d = -1e9; for (const q of pts) { a = Math.min(a, q[0]); b = Math.min(b, q[1]); c = Math.max(c, q[0]); d = Math.max(d, q[1]); } return [a - pad, b - pad, c + pad, d + pad]; };
-    const ROADS = (L.roads || []).map((r) => ({ pts: r.pts, w: r.w || 3.4, stone: r.stone || null, from: r.pts[0], b: box(r.pts, 14) }));
+    const ROADS = (L.roads || []).map((r) => ({ pts: r.pts, w: r.w || 3.4, stone: r.stone || null, from: r.pts[0], stoneTo: r.stoneTo || null, to: r.pts[r.pts.length - 1], b: box(r.pts, 14) }));
     const RIVERS = (L.rivers || []).map((r) => ({ pts: r.pts, level: r.level, bed: r.bed, tex: r.tex, rep: r.rep, flow: r.flow, b: box(r.pts, 26) }));
     const LAKES = (L.lakes || []).map((l) => ({ poly: l.poly, level: l.level, bed: l.bed, tex: l.tex, rep: l.rep, flow: l.flow, b: box(l.poly, 16), bb: box(l.poly, 0) }));
     const CLEAR = L.clearings || [];
@@ -108,12 +111,12 @@
       });
     }
     // how far from the middle of the nearest road, less half its width (so 0 is the road's edge)
-    let roadStone = null;   // the nearest road, if it carries a town's stone (paving or cobbles) out from its first point: set by roadEdge
+    let roadStone = null;   // the nearest road, if it carries a town's stone (paving or cobbles) out from its first point (`stone`) or in to its last (`stoneTo`): set by roadEdge
     function roadEdge(x, z) {
       let best = 1e9; roadStone = null;
       for (const r of ROADS) {
         if (x < r.b[0] || x > r.b[2] || z < r.b[1] || z > r.b[3]) continue;
-        for (let i = 0; i + 1 < r.pts.length; i++) { const d = segDist(x, z, r.pts[i][0], r.pts[i][1], r.pts[i + 1][0], r.pts[i + 1][1]) - r.w / 2; if (d < best) { best = d; roadStone = r.stone ? r : null; } }
+        for (let i = 0; i + 1 < r.pts.length; i++) { const d = segDist(x, z, r.pts[i][0], r.pts[i][1], r.pts[i + 1][0], r.pts[i + 1][1]) - r.w / 2; if (d < best) { best = d; roadStone = r.stone || r.stoneTo ? r : null; } }
       }
       return best;
     }
@@ -156,7 +159,8 @@
       if (want) {
         F.road = rw;
         // a road out of town keeps the town's stone underfoot for its first steps, then wears down to earth
-        const sk = stone ? rw * (1 - ss(3, 24, Math.hypot(x - stone.from[0], z - stone.from[1]))) : 0; F.cob = stone && stone.stone === 'cob' ? sk : 0; F.pave = stone && stone.stone === 'pave' ? sk : 0;
+        F.cob = 0; F.pave = 0;
+        if (stone) for (const [kind, at] of [[stone.stone, stone.from], [stone.stoneTo, stone.to]]) { if (!kind) continue; const sk = rw * (1 - ss(3, 24, Math.hypot(x - at[0], z - at[1]))); if (kind === 'cob') F.cob = Math.max(F.cob, sk); else F.pave = Math.max(F.pave, sk); }
         F.thorn = tk;
         F.moss = tk * ss(0.52, 0.7, vnoise(x / 23 + 9.9, z / 23 + 4.4)) * (1 - rw);
         F.wet = 1 - ss(0, 5, Math.max(sd, 0));
@@ -521,7 +525,7 @@
         }
       }
       // where she is, by name: told once she has been there a moment
-      const now = dN < 10 ? near.name : tk > 0.5 ? L.names.thorn : L.names.woods;
+      const now = dN < 10 ? near.name : L.nameAt ? L.nameAt(io.x, io.z) : tk > 0.5 ? L.names.thorn : L.names.woods;
       if (now !== regionWant) { regionWant = now; regionT = performance.now(); }
       else if (now !== region && (region === null || performance.now() - regionT > 900 || TEST)) { const was = region; region = now; if (W3D.landEvents && W3D.landEvents.region) W3D.landEvents.region(now, was); }
     }
