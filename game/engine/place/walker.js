@@ -349,7 +349,12 @@
       if (!TEST) try { localStorage.setItem(LOOK_KEY, JSON.stringify(look)); } catch (e) { /* kept while the page is open */ }
       if (lookUI) lookUI.show();
     }
+    // (Coven of the Moon Faire, November 18) the counts are of everything drawn in a frame. The Flipbook look draws the
+    // world into a small picture and then that picture onto the screen; counted the old way, only the last step showed
+    // (2 triangles, 1 draw call), as Chris saw.
+    renderer.info.autoReset = false;
     function drawFrame() {
+      renderer.info.reset();
       if (guide.on || !look.flip || !FB) { renderer.render(scene, guide.on ? top : cam); return; }
       // never finer than the screen can show: a row is at least a pixel and a half of the canvas
       FB.on = true; FB.rows = Math.min(look.rows, Math.max(ROWS[0], Math.floor(cv.height / 1.5)));

@@ -57,3 +57,34 @@ game/texture-packs/made-web/wick_wall_timber_plaster_b.webp,envoi-on-the-longest
 game/texture-packs/made-web/wick_wall_timber_plaster_c.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wick_wall_timber_plaster_c.webp,"Chris's made texture, web copy: wick_wall_timber_plaster_c",2026-11-18
 game/texture-packs/made-web/index.csv,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/index.csv,the labels of the textures copied here (only their rows),2026-11-18
 game/data/maps-wickhollow.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Wickhollow walking map: only its walk and block areas, written out as plain numbers",2026-11-18
+game/places/thornwood.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/thornwood.js,The Thornwood as a 3D place,2026-11-18
+game/places/thornwood-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/thornwood-trees.js,where The Thornwood's trees stand,2026-11-18
+game/texture-packs/made-web/thorn_bark_black.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/thorn_bark_black.webp,"Chris's made texture, web copy: thorn_bark_black",2026-11-18
+game/data/maps-thornwood.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The Thornwood's walking map: only its walk and block areas, as plain numbers",2026-11-18
+game/places/cottage.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/cottage.js,Io's cottage as a 3D place,2026-11-18
+game/places/cottage-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/cottage-trees.js,where Io's cottage's trees stand,2026-11-18
+game/texture-packs/made-web/cottage_path.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/cottage_path.webp,"Chris's made texture, web copy: cottage_path",2026-11-18
+game/texture-packs/made-web/cottage_roof_moss.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/cottage_roof_moss.webp,"Chris's made texture, web copy: cottage_roof_moss",2026-11-18
+game/texture-packs/made-web/shared_forest_floor.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_forest_floor.webp,"Chris's made texture, web copy: shared_forest_floor",2026-11-18
+game/data/maps-cottage.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Io's cottage's walking map: only its walk and block areas, as plain numbers",2026-11-18
+game/places/jetty.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/jetty.js,The jetty as a 3D place,2026-11-18
+game/places/jetty-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/jetty-trees.js,where The jetty's trees stand,2026-11-18
+game/data/maps-jetty.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The jetty's walking map: only its walk and block areas, as plain numbers",2026-11-18
+game/places/bogmire.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/bogmire.js,Bogmire as a 3D place,2026-11-18
+game/places/bogmire-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/bogmire-trees.js,where Bogmire's trees stand,2026-11-18
+game/texture-packs/made-web/bogmire_bank_grass.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/bogmire_bank_grass.webp,"Chris's made texture, web copy: bogmire_bank_grass",2026-11-18
+game/texture-packs/made-web/camp_tent_canvas.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/camp_tent_canvas.webp,"Chris's made texture, web copy: camp_tent_canvas",2026-11-18
+game/texture-packs/made-web/eldergrove_dead_bark.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/eldergrove_dead_bark.webp,"Chris's made texture, web copy: eldergrove_dead_bark",2026-11-18
+game/texture-packs/made-web/shared_planks_wall.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_planks_wall.webp,"Chris's made texture, web copy: shared_planks_wall",2026-11-18
+game/texture-packs/made-web/shared_planks_wall_b.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_planks_wall_b.webp,"Chris's made texture, web copy: shared_planks_wall_b",2026-11-18
+game/texture-packs/made-web/shared_roof_shingle.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_roof_shingle.webp,"Chris's made texture, web copy: shared_roof_shingle",2026-11-18
+game/texture-packs/made-web/shared_roof_thatch.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_roof_thatch.webp,"Chris's made texture, web copy: shared_roof_thatch",2026-11-18
+game/data/maps-bogmire.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Bogmire's walking map: only its walk and block areas, as plain numbers",2026-11-18
+game/places/bogmire-heart.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/bogmire-heart.js,Bogmire's dark heart as a 3D place,2026-11-18
+game/places/bogmire-heart-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/bogmire-heart-trees.js,where Bogmire's dark heart's trees stand,2026-11-18
+game/texture-packs/made-web/heart_deck_mossy.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/heart_deck_mossy.webp,"Chris's made texture, web copy: heart_deck_mossy",2026-11-18
+game/texture-packs/made-web/heart_roof_red.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/heart_roof_red.webp,"Chris's made texture, web copy: heart_roof_red",2026-11-18
+game/texture-packs/made-web/heart_water_open.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/heart_water_open.webp,"Chris's made texture, web copy: heart_water_open",2026-11-18
+game/texture-packs/made-web/wilds_fir_boughs.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_fir_boughs.webp,"Chris's made texture, web copy: wilds_fir_boughs",2026-11-18
+game/texture-packs/made-web/wilds_oak_leaves.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_oak_leaves.webp,"Chris's made texture, web copy: wilds_oak_leaves",2026-11-18
+game/data/maps-bogmire-heart.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Bogmire's dark heart's walking map: only its walk and block areas, as plain numbers",2026-11-18

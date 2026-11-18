@@ -2,8 +2,8 @@
 // the woods round the town, the lake to the west, the river running north to south past its east side, and across the
 // town's bridge the Thornwood: bare thorny trees in clumps, heavy pale fog, a road east, a trail to a ring of standing
 // stones, another to a still pool, and herbs growing on the ground for Io to find.
-// It changes Wickhollow's own data in four small ways so the town opens onto the land, then gives it `land`, which the
-// land engine reads (engine/land/land.js). Load it after places/wickhollow.js.
+// It gives Wickhollow's data `land`, which the land engine reads (engine/land/land.js). Load it after
+// places/wickhollow.js and places/wickhollow-open.js (which opens the town onto the land).
 // Everything in `land` is metres: x east, z south, the square's middle at 0, 0. The town's own ground reaches 49.1 m
 // east and west of that and 46.6 m north and south; the land takes over there.
 // The shape of this land is made up for the test (hub's call). The real zone 1 will take its shape from the 3D map.
@@ -11,24 +11,6 @@
   'use strict';
   const place = G.W3D_PLACES.wickhollow;
   const ss = (a, b, v) => { const t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
-
-  // ---- the town, opened up ----
-  // 1. She can walk anywhere on the town's own ground that isn't water or solid, right to its edge (before: only inside
-  //    the painting, behind a hedge of bushes).
-  place.bounds = [[-460, -420], [1996, -420], [1996, 1444], [-460, 1444]];
-  place.thicket = false;
-  // 2. Its far hills stay off: the land draws them round the camera instead, wherever she goes.
-  place.night = Object.assign({}, place.night, { hills: false });
-  // 3. Its roads out are just roads now, not doors to another page.
-  place.exits = [];
-  // 4. Its lake and its river used to stop a few metres past the painting. Now they run on to the edge of the town's
-  //    ground, where the land's lake and river carry on (the same water, the same level).
-  for (const w of place.water) w.poly = w.poly.map(([x, y]) => [x === -200 ? -700 : x, y === -200 ? -700 : y === 1300 ? 1800 : y]);
-  // and the textures the land wears that the town didn't already carry: the Thornwood's two grounds
-  place.textures = place.textures.concat([
-    { id: 'thorn_bramble_ground', made: "./../texture-packs/made-web/thorn_bramble_ground.webp" },
-    { id: 'thorn_moss_ground', made: "./../texture-packs/made-web/thorn_moss_ground.webp" },
-  ]);
 
   // ---- the land ----
   place.land = {
