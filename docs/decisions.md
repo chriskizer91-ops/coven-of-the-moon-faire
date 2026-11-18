@@ -13,6 +13,16 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 18, 2026, evening: Chris tried the first test
+
+- **Stands.** The first test runs at **144 frames a second on his laptop** and **60 on his phone**, in town and in the
+  woods alike. With the Flipbook look on: 90 to 100 on the laptop, 45 to 50 on the phone. He saw 90 squares of land and
+  about 1,190 trees past the town on the laptop, 930 on the phone.
+- **Hub's call.** *What those numbers mean for zone 1.* 144 and 60 are almost certainly the most each screen can show,
+  so the test is not near either machine's limit. Zone 1 keeps the test's thickness of trees and width of view, and
+  every place of the zone is built when the page opens and kept, rather than built as she comes near. If a later build
+  drops under 60 on the laptop or 40 on the phone, that is the sign to thin something.
+
 ## November 18, 2026, evening: hub's calls made while building the first test
 
 All of these are the hub's, not Chris's. Each is easy to change. The reasons are in `docs/slips/first-test.md`.
