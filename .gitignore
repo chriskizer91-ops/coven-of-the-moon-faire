@@ -1,0 +1,5 @@
+builds/
+game/witches/io/io_plus.js
+__pycache__/
+*.pyc
+node_modules/

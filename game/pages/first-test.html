@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Coven of the Moon Faire: the first test</title>
+<style>
+html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#world{position:fixed;inset:0}
+#world canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#load{position:fixed;inset:0;z-index:9;display:grid;place-content:center;text-align:center;background:#0a0b18;color:#e8e4ff;font-family:Georgia,serif}
+</style>
+</head>
+<body>
+<div id="world"><canvas id="cv"></canvas></div>
+<div id="load"><div><h1>Wickhollow</h1><p id="loadmsg">Loading…</p></div></div>
+<script src="../lib/three.r128.min.js"></script>
+<script src="../witches/io/meshopt_simplifier.js"></script>
+<script src="../witches/io/palette.js"></script>
+<script src="../witches/io/io_tex.js"></script>
+<script src="../witches/io/io_plus.js"></script>
+<script src="../witches/io/witch_levels.js"></script>
+<script src="../witches/io/moon-io.js"></script>
+<script src="../look/flipbook.js"></script>
+<script src="../data/maps-wickhollow.js"></script>
+<script src="../engine/place/core.js"></script>
+<script src="../engine/place/cutouts.js"></script>
+<script src="../engine/place/extras.js"></script>
+<script src="../engine/place/paint.js"></script>
+<script src="../engine/place/world.js"></script>
+<script src="../engine/place/walker.js"></script>
+<script src="../places/wickhollow.js"></script>
+<script src="../places/wickhollow-trees.js"></script>
+<script>
+(async function () {
+  const $ = (id) => document.getElementById(id);
+  const place = window.W3D_PLACES.wickhollow;
+  place.paintingSrc = place.painting;
+  try {
+    const W = await W3D.walk({ place, root: $('world'), canvas: $('cv'), say: (s) => { $('loadmsg').textContent = s; } });
+    $('load').style.display = 'none'; window.__ready = true;
+  } catch (e) { console.error(e); $('loadmsg').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }
+})();
+</script>
+</body>
+</html>
