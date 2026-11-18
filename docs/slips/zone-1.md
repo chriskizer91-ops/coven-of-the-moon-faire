@@ -62,7 +62,7 @@ Where the new code is:
 
 ## What was copied in
 
-26 more lines in `assets/INDEX.csv` (85 in all): the five places' files, their walking areas, and 16 more of Chris's
+31 more lines in `assets/INDEX.csv` (89 in all): the five places' files, their walking areas, and 16 more of Chris's
 textures with their labels. All from the new Envoi, `main`, commit `d450c3f`. The place files are unchanged; what
 opens the Thornwood's gates is in `game/places/zone-1.js`.
 
