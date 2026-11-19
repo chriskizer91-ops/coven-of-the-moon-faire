@@ -21,6 +21,14 @@ WALKS = [   # (what, where she starts, the spot she walks straight toward, secon
     ('the cottage\'s west road, round to the jetty', [-84, 230], [-190, 245], 44, 'The jetty'),
     ('the jetty, back toward Wickhollow', [-150, 230], [-30, 20], 110, 'Wickhollow'),
 ]
+# walks along a road of the land: (what, the road's points to follow [first, last], seconds)
+ROAD_WALKS = [
+    ('off the jetty road, west to the long road\'s gate', 'gate', 90),
+    ('the long road, its first 600 m', [0, 11], 170),
+    ('the long road, over its highest hill', [30, 38], 140),
+    ('the long road, its last 300 m', [-7, -1], 100),
+]
+GATE_ROAD = [[-165, 216], [-200, 205], [-245, 190], [-300, 160], [-350, 128], [-400, 105]]
 page_file = os.path.abspath(sys.argv[1]); errors, fails = [], []
 def check(ok, text):
     print(('  ok    ' if ok else '  FAIL  ') + text)
@@ -31,6 +39,14 @@ WALK = """([x, z, camYaw, secs]) => {
   for (let i = 0; i < secs * 30; i++) { w.step(1 / 30, 30, false); jump = Math.max(jump, Math.abs(w.io.y - last)); last = w.io.y;
     if (i % 30 === 29) { const x = M.x(w.io.px), z = M.z(w.io.py); if (Math.hypot(x - lx, z - lz) < 0.3) stuck++; lx = x; lz = z; } }
   w.push(null); return { jump, stuck, end: [M.x(w.io.px), M.z(w.io.py)] }; }"""
+WALK_ROAD = """([pts, secs]) => {
+  const w = window.__w3d, M = w.P.M, L = window.__land; let k = 1; const at = w.nearestFit(M.px(pts[0][0]), M.py(pts[0][1])); w.setIo(at[0], at[1], 0);
+  let last = null, jump = 0, lo = 1e9, hi = -1e9, t = 0;
+  for (let i = 0; i < secs * 30 && k < pts.length; i++) { const x = M.x(w.io.px), z = M.z(w.io.py); if (Math.hypot(pts[k][0] - x, pts[k][1] - z) < 4) { k++; if (k >= pts.length) break; }
+    w.setCam(Math.atan2(-(pts[k][0] - x), -(pts[k][1] - z)), 0.4, 8); w.push(0, -1, 1.3); w.step(1 / 30, 30, false); t++;   // (1.3: a sprint, 5.2 m a second)
+    if (last !== null) jump = Math.max(jump, Math.abs(w.io.y - last)); last = w.io.y; lo = Math.min(lo, w.io.y); hi = Math.max(hi, w.io.y); }
+  w.push(null); const x = M.x(w.io.px), z = M.z(w.io.py), e = pts[pts.length - 1];
+  return { jump, left: Math.hypot(e[0] - x, e[1] - z), secs: t / 30, lo, hi, name: L.region(), done: k >= pts.length }; }"""
 with sync_playwright() as p:
     b = p.chromium.launch(channel='chrome', headless=True, args=['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'])
     pg = b.new_page(viewport={'width': 960, 'height': 540}); pg.on('pageerror', lambda e: errors.append(str(e)))
@@ -48,6 +64,17 @@ with sync_playwright() as p:
         check(inside, '%s: she ended on its ground (%.0f m east, %.0f m south)' % (name, e[0], e[1]))
         check(r['jump'] < 0.15, '   her height never jumped (at most %.1f cm in a thirtieth of a second)' % (r['jump'] * 100))
         print('           (seconds she spent stopped against something on the way: %d of %d)' % (r['stuck'], secs))
+    lr = pg.evaluate('(() => { const m = window.__land.mapData(); return m.longRoad ? m.longRoad.pts : null; })()')
+    if lr:
+        total = sum(math.hypot(lr[i + 1][0] - lr[i][0], lr[i + 1][1] - lr[i][1]) for i in range(len(lr) - 1))
+        print('   the long road: %.2f km, %d points' % (total / 1000, len(lr)))
+        for name, span, secs in ROAD_WALKS:
+            pts = GATE_ROAD if span == 'gate' else lr[span[0]:] if span[1] == -1 else lr[span[0]:span[1] + 1]
+            r = pg.evaluate(WALK_ROAD, [pts, secs])
+            check(r['done'], '%s: she reached its end in %.0f s (now in "%s"; her height went from %.1f to %.1f m)' % (name, r['secs'], r['name'], r['lo'], r['hi']))
+            check(r['jump'] < 0.15, '   her height never jumped (at most %.1f cm in a thirtieth of a second)' % (r['jump'] * 100))
+        w = pg.evaluate('(() => { const L = window.__land; let n = 0, ok = 0, wet = 0; for (let i = 0; i < lr.length; i++) for (const o of [-60, -30, 0, 30, 60]) { const a = lr[Math.max(0, i - 1)], b = lr[Math.min(lr.length - 1, i + 1)], l = Math.hypot(b[0] - a[0], b[1] - a[1]), x = lr[i][0] - (b[1] - a[1]) / l * o, z = lr[i][1] + (b[0] - a[0]) / l * o, f = L.field(x, z), wk = L.walkable(x, z); n++; if (wk) ok++; if (wk && f.sd < 0.4) wet++; } return { n, ok, wet }; })()'.replace('lr.', 'window.__land.mapData().longRoad.pts.').replace('lr[', 'window.__land.mapData().longRoad.pts['))
+        print('        %d of %d spots along and beside the long road can be stood on' % (w['ok'], w['n'])); check(w['wet'] == 0, 'no spot in the water beside the long road can be stood on')
     f = pg.evaluate("() => { const w = window.__w3d, M = w.P.M, f = w.P.fair; const s = w.P.place.start; return f ? { pieces: f.pieces, lamps: f.lamps, triangles: f.triangles, startOk: w.P.walkable(s[0], s[1]), name: window.__land.region() } : null; }")
     if f:
         print('   the Moon Faire\'s camp: %d pieces, %d lamps and fires, %d triangles' % (f['pieces'], f['lamps'], f['triangles']))

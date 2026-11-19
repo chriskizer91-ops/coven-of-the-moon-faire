@@ -22,6 +22,12 @@
     G.W3D_TREES.thornwood = G.W3D_TREES.thornwood.filter(([x, y]) => !GATES.some(([a, b, c, d]) => x > a - 40 && x < c + 40 && y > b - 50 && y < d + 50));
   }
 
+  // ---- the long road toward zone 2: from its gate at the zone's west edge to where the Warm Roads camp will be,
+  // 5.98 km in a straight line on the map, winding a little (hub's call). The map is at true size along it, so the
+  // end's place here is the gate plus ten metres for every atlas pixel between them: (820, 1530) less (1145, 2032) ----
+  const LONG = (() => { const gate = [-400, 105], end = [-3650, -4915], dx = end[0] - gate[0], dz = end[1] - gate[1], len = Math.hypot(dx, dz), ux = dx / len, uz = dz / len, n = Math.round(len / 55), pts = [];
+    for (let i = 0; i <= n; i++) { const t = i / n * len, k = Math.min(1, t / 300, (len - t) / 300), o = k * (48 * Math.sin(t / 290) + 22 * Math.sin(t / 113 + 1.3)); pts.push([+(gate[0] + ux * t - uz * o).toFixed(1), +(gate[1] + uz * t + ux * o).toFixed(1)]); }
+    return { gate, end, pts }; })();
   PL['zone-1'] = {
     id: 'zone-1', name: 'Wickhollow and the fen', size: [1536, 1024],
     // she starts in the Moon Faire's camp, 5 m south of its well. (The zone's pixels are Wickhollow's painting's: one
@@ -34,26 +40,42 @@
       places: [
         { id: 'wickhollow', at: [0, 0] },                                  // (opened by places/wickhollow-open.js)
         { id: 'thornwood', at: [226.3, 0], autoWater: true },              // its west gate 85 m from Wickhollow's bridge road's end
-        { id: 'bogmire', at: [462.6, 9.1], open: true },                   // its west road 95 m from the Thornwood's east gate
-        { id: 'bogmire-heart', at: [463.5, -159.1], open: true },          // its south road 75 m north of Bogmire's north road
+        { id: 'bogmire', at: [462.6, 9.1], open: true, moat: true, waterY: -1.5 },               // its west road 95 m from the Thornwood's east gate
+        { id: 'bogmire-heart', at: [463.5, -159.1], open: true, moat: true, waterY: -1.8 },          // its south road 75 m north of Bogmire's north road
         { id: 'cottage', at: [-30, 235], open: true },                     // its north road 142 m south of Wickhollow's south road, past the camp
         { id: 'jetty', at: [-190, 280], open: true },                      // its north road 62 m west of the cottage's west road
       ],
       land: {
         bounds: [-385, -300, 570, 375],          // 955 m by 675 m
         level: -1.0, roll: [0.8, 1.15],
+        // ---- how the zone lies on the 3D map of Aethermoor (engine/land/atlas.js; hub's call, November 18) ----
+        // pins: each place's middle here [metres east, south] and its own spot on the map [atlas pixels; 1 = 10 m], as
+        // Envoi's 3D map has them. Round a pin the zone is the map shrunk 6 times (scale: 0.6 atlas pixels to a metre);
+        // between pins it stretches to fit (the Thornwood is 3.7 km from Wickhollow on the map and 226 m here).
+        // squash: the map's heights are divided by 8 in the zone, and kept between `dip` and `rise` metres.
+        // waterY: the level of the map's water here (Bogmire's own). trueFrom: past the gate, at the zone's west edge,
+        // the land is the map at its true size (the long road): the gate's spot on the map, and the band of metres
+        // east over which the one becomes the other.
+        atlas: { height: "art/world/aethermoor-terrain-height.png", kinds: "art/world/aethermoor-terrain-kinds.png",
+          pins: [[0, 0, 1348, 1838], [226.3, 0, 1530, 2160], [462.6, 9.1, 1752, 2512], [463.5, -159.1, 1800, 2385], [-30, 235, 1352, 1948]],
+          scale: 0.6, squash: 8, dip: -6, rise: 14, waterY: -1.5,
+          water: { tex: 'shared_water_dark', rep: 6, flow: [0.003, 0.0015] },
+          trueFrom: { gate: LONG.gate, atlas: [1145, 2032], fade: [-400, -300] } },
+        // the long road toward zone 2: about 6 km, the map at true size, walkable 70 m either side
+        longRoad: { pts: LONG.pts, half: 70, w: 3.6, name: 'The long road' },
         // how much of the thorn country a spot is (0 the woods round the town, 1 the thorns): from the river's far bank east
         thornK: (x, z) => ss(44, 72, x) * (1 - ss(345, 400, x)),
         names: { woods: 'The woods round Wickhollow', thorn: 'The thorn country' },
         // what the open land is called where she stands (past the thorns, the fen's edge)
-        nameAt: (x, z) => (x > 372 ? 'The fen’s edge' : x > 58 ? 'The thorn country' : z > 110 ? 'The south woods' : 'The woods round Wickhollow'),
+        nameAt: (x, z) => (Math.hypot(x - LONG.end[0], z - LONG.end[1]) < 150 ? 'The end of the road, for now' : x < -392 || z < -300 ? 'The long road' : x > 372 ? 'The fen’s edge' : x > 58 ? 'The thorn country' : z > 110 ? 'The south woods' : 'The woods round Wickhollow'),
         ground: { grass: 'shared_grass_meadow', bramble: 'thorn_bramble_ground', moss: 'thorn_moss_ground', dirt: 'shared_dirt_track', rock: 'thorn_rock_mossy',
-          cob: 'shared_cobbles_town', pave: 'wick_bridge_paving', repStone: [3.2, 2.6],
+          cob: 'shared_cobbles_town', pave: 'wick_bridge_paving', repStone: [3.2, 2.6], fen: 'bogmire_bank_grass', repFen: 4.0, fenTint: [0.62, 0.7, 0.68],
           rep: [4.0, 3.4, 2.6, 4.0], grassTint: [0.5, 0.58, 0.55], brambleTint: [0.9, 0.86, 0.95], mossTint: [1, 1, 1], dirtTint: [1, 1, 1] },
         shade: [0.78, 0.7],
         night: {
           woods: { fog: [0.085, 0.09, 0.175], near: 20, far: 92 },
           thorn: { fog: [0.16, 0.165, 0.3], near: 11, far: 62, sky: [0.58, 0.58, 0.72], moon: [0.4, 0.44, 0.6] },
+          fen: { fog: [0.075, 0.115, 0.125], near: 10, far: 66, sky: [0.5, 0.58, 0.62], moon: [0.38, 0.46, 0.5] },   // the fen: a low green-grey mist
         },
         // roads: the middle line of each, its width, and the town's stone it carries out from its first point (`stone`)
         // or in to its last (`stoneTo`), if any
@@ -65,6 +87,7 @@
           { w: 3.3, stone: 'cob', stoneTo: 'cob', pts: [[0.5, 46.6], [1, 62], [-4, 85], [-12, 108], [-20, 130], [-30, 160], [-38.6, 188.4]] },   // south from Wickhollow, past the camp, to Io's cottage
           { w: 2.6, pts: [[-20, 128.5], [-29, 127.5], [-39, 128]] },                                                    // the lane off it to the camp's gate
           { w: 2.6, stone: 'cob', stoneTo: 'cob', pts: [[-79.1, 230.4], [-100, 228], [-130, 218], [-165, 216], [-186, 222], [-190, 233.4]] },        // the cottage's west road round to the jetty
+          { w: 3.0, pts: [[-165, 216], [-200, 205], [-245, 190], [-300, 160], [-350, 128], LONG.gate] },                          // off the jetty road, west to the gate of the long road
           { w: 2.6, stone: 'cob', pts: [[-30.9, 281.6], [-28, 300], [-34, 330], [-30, 360], [-32, 382]] },                           // the cottage's south road, on toward the world
         ],
         // Wickhollow's river, carried on north and south: [x, z, width] along the middle

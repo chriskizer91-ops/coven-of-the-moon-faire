@@ -65,7 +65,7 @@
         // its lamplight and shade are painted in its own painting's pixels: tell them where the painting now lies
         const k = P.U.uMapK.value; k.z -= ox * k.x; k.w -= oz * k.y;
         const [a, b, c, d] = P.walkRect, PM = P.M, px = (x) => PM.px(x - ox), py = (z) => PM.py(z - oz);
-        parts.push({ id: e.id, name: pl.name, P, ox, oz, x0: ox + PM.x(a), z0: oz + PM.z(b), x1: ox + PM.x(c), z1: oz + PM.z(d), night: nightOf(pl), autoWater: !!e.autoWater,
+        parts.push({ id: e.id, name: pl.name, P, ox, oz, x0: ox + PM.x(a), z0: oz + PM.z(b), x1: ox + PM.x(c), z1: oz + PM.z(d), night: nightOf(pl), autoWater: !!e.autoWater, moat: !!e.moat, waterY: e.waterY,
           walkable: (x, z) => P.walkable(px(x), py(z)), walkH: (x, z) => P.walkH(px(x), py(z)), terrain: (x, z) => P.terrain(px(x), py(z)) });
       }
     }
@@ -123,6 +123,7 @@
     say('Laying out the land…');
     await new Promise((r) => setTimeout(r, 0));
     if (!zone.land) return Z;
+    if (zone.land.atlas && W3D.atlas) { say('Reading the map of Aethermoor…'); await W3D.atlas.load(zone.land.atlas.height, zone.land.atlas.kinds); }
     W3D.landAttach(Z, zone.land);
     // the Moon Faire's camp, if the zone has one and the page carries the fair kit (fair/fair.js)
     if (zone.camp && W3D.fair) { say('Pitching the Moon Faire…'); await new Promise((r) => setTimeout(r, 0)); await W3D.fair.build(Z, zone.camp); }

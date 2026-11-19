@@ -108,3 +108,5 @@ game/witches/europa/fox_tex.js,moon-faire,main,6371714,game/fight/witches/fox_te
 game/witches/europa/fox_lod.js,moon-faire,main,6371714,game/fight/witches/fox_lod.js,Europa's (the Fox's) light models,2026-11-18
 game/witches/callisto/ranger_tex.js,moon-faire,main,6371714,game/fight/witches/ranger_tex.js,Callisto's (the Ranger's) painted textures,2026-11-18
 game/witches/callisto/ranger_lod.js,moon-faire,main,6371714,game/fight/witches/ranger_lod.js,Callisto's (the Ranger's) light models,2026-11-18
+game/art/world/aethermoor-terrain-height.png,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world-map/art/aethermoor-terrain-height.png,"The 3D map of Aethermoor: how high each spot of the land stands (data, 40 m to the pixel)",2026-11-18
+game/art/world/aethermoor-terrain-kinds.png,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world-map/art/aethermoor-terrain-kinds.png,"The 3D map of Aethermoor: what kind of ground each spot is (sea, river, lake, forests, grass, fen and so on)",2026-11-18
