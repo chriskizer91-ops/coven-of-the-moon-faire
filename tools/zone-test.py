@@ -13,12 +13,13 @@ import json, os, sys
 from playwright.sync_api import sync_playwright
 
 WALKS = [   # (what, where she starts, the spot she walks straight toward, seconds, the place she must end up on)
+    ('the Moon Faire\'s gate, up to Wickhollow', [-37, 128], [-5, 30], 50, 'Wickhollow'),
     ('Wickhollow\'s bridge, east along the road, to the Thornwood', [22, -7], [170, -7.3], 46, 'The Thornwood'),
     ('the Thornwood\'s east gate, on to Bogmire', [322, 2], [440, 2], 40, 'Bogmire'),
     ('Bogmire\'s north road, up to the fen\'s dark heart', [463.5, -42], [463.5, -140], 30, 'The fen’s dark heart'),
-    ('Wickhollow\'s south road, down to Io\'s cottage', [0.5, 50], [-38, 175], 50, 'Io’s cottage'),
-    ('the cottage\'s west road, round to the jetty', [-84, 200], [-190, 215], 44, 'The jetty'),
-    ('the jetty, back toward Wickhollow', [-150, 200], [-30, 20], 90, 'Wickhollow'),
+    ('Wickhollow\'s south road, down past the camp to Io\'s cottage', [0.5, 50], [-44.7, 210], 70, 'Io’s cottage'),
+    ('the cottage\'s west road, round to the jetty', [-84, 230], [-190, 245], 44, 'The jetty'),
+    ('the jetty, back toward Wickhollow', [-150, 230], [-30, 20], 110, 'Wickhollow'),
 ]
 page_file = os.path.abspath(sys.argv[1]); errors, fails = [], []
 def check(ok, text):
@@ -47,6 +48,10 @@ with sync_playwright() as p:
         check(inside, '%s: she ended on its ground (%.0f m east, %.0f m south)' % (name, e[0], e[1]))
         check(r['jump'] < 0.15, '   her height never jumped (at most %.1f cm in a thirtieth of a second)' % (r['jump'] * 100))
         print('           (seconds she spent stopped against something on the way: %d of %d)' % (r['stuck'], secs))
+    f = pg.evaluate("() => { const w = window.__w3d, M = w.P.M, f = w.P.fair; const s = w.P.place.start; return f ? { pieces: f.pieces, lamps: f.lamps, triangles: f.triangles, startOk: w.P.walkable(s[0], s[1]), name: window.__land.region() } : null; }")
+    if f:
+        print('   the Moon Faire\'s camp: %d pieces, %d lamps and fires, %d triangles' % (f['pieces'], f['lamps'], f['triangles']))
+        check(f['startOk'], 'the spot the game starts on, in the camp, can be stood on')
     print('2. the land\'s rules at 4,000 spots')
     r = pg.evaluate("""() => { const L = window.__land, [x0, z0, x1, z1] = L.bounds; let n = 0, ok = 0, wet = 0, bad = 0; let s = 777; const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
       for (let i = 0; i < 4000; i++) { const x = x0 + rnd() * (x1 - x0), z = z0 + rnd() * (z1 - z0); if (L.rects.some((r) => x > r.x0 && x < r.x1 && z > r.z0 && z < r.z1)) continue; n++;

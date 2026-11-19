@@ -88,3 +88,16 @@ game/texture-packs/made-web/heart_water_open.webp,envoi-on-the-longest-night,mai
 game/texture-packs/made-web/wilds_fir_boughs.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_fir_boughs.webp,"Chris's made texture, web copy: wilds_fir_boughs",2026-11-18
 game/texture-packs/made-web/wilds_oak_leaves.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_oak_leaves.webp,"Chris's made texture, web copy: wilds_oak_leaves",2026-11-18
 game/data/maps-bogmire-heart.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Bogmire's dark heart's walking map: only its walk and block areas, as plain numbers",2026-11-18
+game/fair/ow-kit.js,moon-faire,main,6371714,game/openworld/src/ow-kit.js,"the fair kit: tents, stalls, the wagon, the well, lantern posts, carts, crates, barrels, in Chris's painted skins",2026-11-18
+game/fair/data/kit_atlas.webp,moon-faire,main,6371714,game/openworld/data/kit_atlas.webp,"Chris's fair picture, made ready: the fair kit's picture sheet (stall fronts, wagon, well, post, crates, carts)",2026-11-18
+game/fair/data/kit_trim.webp,moon-faire,main,6371714,game/openworld/data/kit_trim.webp,"Chris's fair picture, made ready: the tents' valances",2026-11-18
+game/fair/data/mat_wood.webp,moon-faire,main,6371714,game/openworld/data/mat_wood.webp,"Chris's fair picture, made ready: planks",2026-11-18
+game/fair/data/tile_wooddark.webp,moon-faire,main,6371714,game/openworld/data/tile_wooddark.webp,"Chris's fair picture, made ready: dark planks",2026-11-18
+game/fair/data/tile_shingles.webp,moon-faire,main,6371714,game/openworld/data/tile_shingles.webp,"Chris's fair picture, made ready: shingles",2026-11-18
+game/fair/data/tile_rubble.webp,moon-faire,main,6371714,game/openworld/data/tile_rubble.webp,"Chris's fair picture, made ready: rubble stone",2026-11-18
+game/fair/data/tile_straw.webp,moon-faire,main,6371714,game/openworld/data/tile_straw.webp,"Chris's fair picture, made ready: straw",2026-11-18
+game/fair/data/mat_stripe.webp,moon-faire,main,6371714,game/openworld/data/mat_stripe.webp,"Chris's fair picture, made ready: red striped canvas",2026-11-18
+game/fair/data/tile_bluestripe.webp,moon-faire,main,6371714,game/openworld/data/tile_bluestripe.webp,"Chris's fair picture, made ready: blue striped canvas",2026-11-18
+game/fair/data/tile_damask.webp,moon-faire,main,6371714,game/openworld/data/tile_damask.webp,"Chris's fair picture, made ready: damask canvas",2026-11-18
+game/fair/data/mat_awning.webp,moon-faire,main,6371714,game/openworld/data/mat_awning.webp,"Chris's fair picture, made ready: cream awning cloth",2026-11-18
+game/fair/data/kit-data.js,moon-faire,main,6371714,game/openworld/data/kit.json,"where each fair piece's picture lies on the kit's sheet (kit.json), with the pictures' paths, as the kit reads them",2026-11-18

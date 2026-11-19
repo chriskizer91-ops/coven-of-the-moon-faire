@@ -69,7 +69,10 @@
     const ROADS = (L.roads || []).map((r) => ({ pts: r.pts, w: r.w || 3.4, stone: r.stone || null, from: r.pts[0], stoneTo: r.stoneTo || null, to: r.pts[r.pts.length - 1], b: box(r.pts, 14) }));
     const RIVERS = (L.rivers || []).map((r) => ({ pts: r.pts, level: r.level, bed: r.bed, tex: r.tex, rep: r.rep, flow: r.flow, b: box(r.pts, 26) }));
     const LAKES = (L.lakes || []).map((l) => ({ poly: l.poly, level: l.level, bed: l.bed, tex: l.tex, rep: l.rep, flow: l.flow, b: box(l.poly, 16), bb: box(l.poly, 0) }));
-    const CLEAR = L.clearings || [];
+    // flats: round stretches of ground levelled and trampled to earth, with no trees (the Moon Faire's camp). Each may
+    // carry its own name and its own night (clearer fog round the lanterns)
+    const FLATS = (L.flats || []).map((f) => Object.assign({ h: null }, f));
+    const CLEAR = (L.clearings || []).concat(FLATS.map((f) => ({ x: f.x, z: f.z, r: f.r + 3 })));
     // ---- a place's water carried on past its edge by rule (a place set down with `autoWater`): wherever one of its
     // lakes or streams reaches the edge of its ground, the land takes it on from there at the same level. A narrow
     // run (a stream) becomes a river winding out to the land's rim; a wide one (a lake's shore) becomes a bay ----
@@ -140,6 +143,8 @@
       return WAT;
     }
     const thornK = L.thornK || (() => 0);
+    // rolling ground: a slow swell, hummocks, and small bumps
+    const roll = (x, z, amp) => L.level + (vnoise(x / 150 + 3.1, z / 150 + 8.7) - 0.5) * 2.6 + ((vnoise(x / 41 + 11.3, z / 41 + 2.9) - 0.5) * 1.9 + (vnoise(x / 13 + 5.5, z / 13 + 1.7) - 0.5) * 0.55 + (vnoise(x / 4.1, z / 4.1) - 0.5) * 0.13) * amp;
 
     // ---- the rules: a height and a kind of ground for any spot past the place ----
     // F: what field() fills in. h the height; road, thorn, moss, wet 0 to 1 for the ground's look
@@ -148,7 +153,9 @@
       const tk = thornK(x, z), re = roadEdge(x, z), stone = roadStone, rw = 1 - ss(-0.5, 1.4, re), calm = 1 - ss(0, 7, re);
       // rolling ground: a slow swell, hummocks, and small bumps; gentler along a road, a little wilder in the thorns
       const amp = lerp(L.roll[0], L.roll[1], tk) * (1 - 0.72 * calm);
-      let h = L.level + (vnoise(x / 150 + 3.1, z / 150 + 8.7) - 0.5) * 2.6 + ((vnoise(x / 41 + 11.3, z / 41 + 2.9) - 0.5) * 1.9 + (vnoise(x / 13 + 5.5, z / 13 + 1.7) - 0.5) * 0.55 + (vnoise(x / 4.1, z / 4.1) - 0.5) * 0.13) * amp;
+      let h = roll(x, z, amp), flatK = 0;
+      // a flat: the ground comes level with its middle, and is trampled to earth
+      for (const f of FLATS) { const dd = Math.hypot(x - f.x, z - f.z); if (dd >= f.r) continue; if (f.h === null) f.h = roll(f.x, f.z, lerp(L.roll[0], L.roll[1], thornK(f.x, f.z)) * 0.5); const k = 1 - ss(f.r * 0.6, f.r, dd); h = lerp(h, f.h, k); if (k > flatK) flatK = k; }
       // water: the banks stand a little above it, and the bed drops away inside it
       const w = water(x, z), sd = w.sd;
       if (sd < 14) { const low = w.level + 0.45 - h; if (low > 0) h += low * (1 - ss(4, 14, sd)); if (sd < 0.4) h = lerp(w.bed, h, ss(-1.4, 0.4, sd)); }   // (a steep bank, as the town's own water has)
@@ -157,7 +164,7 @@
       F.h = d < 28 ? lerp(hEdge(NR, x, z), h, ss(0, 28, d)) : h;
       F.sd = sd; F.re = re;
       if (want) {
-        F.road = rw;
+        F.road = Math.max(rw, flatK * (0.5 + 0.5 * ss(0.3, 0.6, vnoise(x / 6.3 + 1.1, z / 6.3 + 7.7))));
         // a road out of town keeps the town's stone underfoot for its first steps, then wears down to earth
         F.cob = 0; F.pave = 0;
         if (stone) for (const [kind, at] of [[stone.stone, stone.from], [stone.stoneTo, stone.to]]) { if (!kind) continue; const sk = rw * (1 - ss(3, 24, Math.hypot(x - at[0], z - at[1]))); if (kind === 'cob') F.cob = Math.max(F.cob, sk); else F.pave = Math.max(F.pave, sk); }
@@ -181,7 +188,7 @@
     const GM = L.ground;
     // (near a place the ground also takes that place's lamplight and shade, fading out over 16 m: r is that place)
     const makeGroundMat = (r) => new THREE.ShaderMaterial({
-      uniforms: Object.assign({}, r ? r.part.P.U : U, {
+      uniforms: Object.assign({}, r ? r.U || r.part.P.U : U, {
         tCob: { value: tx(GM.cob) }, tPave: { value: tx(GM.pave) }, uRepS: { value: new THREE.Vector2(1 / GM.repStone[0], 1 / GM.repStone[1]) },
         tGrass: { value: tx(GM.grass) }, tBram: { value: tx(GM.bramble) }, tMoss: { value: tx(GM.moss) }, tDirt: { value: tx(GM.dirt) }, tRock: { value: tx(GM.rock) },
         uRepL: { value: new THREE.Vector4(1 / GM.rep[0], 1 / GM.rep[1], 1 / GM.rep[2], 1 / GM.rep[3]) },
@@ -225,6 +232,8 @@
       polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 2, defines: Object.assign(PHONE ? { LITE: '' } : {}, r ? {} : { WILD: '' }),
     });
     const wildMat = makeGroundMat(null); for (const r of R) r.mat = makeGroundMat(r);
+    // ground lit by lamps that are not a place's (the camp's lanterns): { x0, z0, x1, z1, U } with its own lamplight picture
+    const GLOWS = [];
 
     // ---- the rim: a low upright band of ground all round the place's edge, just under its ground's own edge. The land
     // lies a finger lower than the place's ground where they meet, and seen from outside at a low angle that would show
@@ -254,7 +263,7 @@
       const Hh = new Float32Array(HP * HP);
       const nearRect = R.some((r) => x0 + SIZE > r.x0 - 1 && x0 < r.x1 + 1 && z0 + SIZE > r.z0 - 1 && z0 < r.z1 + 1);
       // the ground within 16 m of a place takes that place's lamplight and shade
-      const by = R.find((r) => x0 + SIZE > r.x0 - 17 && x0 < r.x1 + 17 && z0 + SIZE > r.z0 - 17 && z0 < r.z1 + 17);
+      const nearBy = (r) => x0 + SIZE > r.x0 - 17 && x0 < r.x1 + 17 && z0 + SIZE > r.z0 - 17 && z0 < r.z1 + 17, by = R.find(nearBy) || GLOWS.find(nearBy);
       const nv = N1 * N1 + 4 * N1, pos = new Float32Array(nv * 3), nrm = new Float32Array(nv * 3), wt = new Float32Array(nv * 4), st = new Float32Array(nv * 2), deep = nearRect ? new Uint8Array(N1 * N1) : null;
       let lo = 1e9, hi = -1e9;
       for (let j = -1; j <= n + 1; j++) for (let i = -1; i <= n + 1; i++) {
@@ -386,7 +395,7 @@
       for (let gz = Math.floor(z0 / HS); gz <= Math.floor(z1 / HS); gz++) for (let gx = Math.floor(x0 / HS); gx <= Math.floor(x1 / HS); gx++) {
         const x = (gx + 0.15 + 0.7 * h2(gx, gz, 11)) * HS, z = (gz + 0.15 + 0.7 * h2(gx, gz, 12)) * HS;
         if (x < x0 || x >= x1 || z < z0 || z >= z1 || dOut(x, z) < L.herbs.away || x < BX0 + 16 || x > BX1 - 16 || z < BZ0 + 16 || z > BZ1 - 16) continue;
-        const tk = thornK(x, z); if (h2(gx, gz, 13) > lerp(L.herbs.woods, L.herbs.thorn, tk)) continue;
+        const tk = thornK(x, z); if (h2(gx, gz, 13) > lerp(L.herbs.woods, L.herbs.thorn, tk) || !freeOfClearing(x, z)) continue;
         const f = field(x, z, false); if (f.re < 0.3 || f.sd < 1.4) continue;
         if (q.trees.some((t) => Math.hypot(t.x - x, t.z - z) < t.r + 0.9)) continue;
         const kinds = L.herbs.kinds, kind = kinds[Math.floor(h2(gx, gz, 14) * kinds.length) % kinds.length];
@@ -397,6 +406,7 @@
 
     // ---- pockets: things built once that stand on the land (the first test has one: a ring of standing stones) ----
     const SOLID = [];   // [x, z, r]: what she walks round, besides the trees
+    const BLOCK = [];   // and what the fair kit sets down: { x, z, r } round, or { x, z, w, d, a } a box turned by a
     {
       const rockMat = W3D.mat(U, { map: tx(GM.rock), rep: 1.8, cut: true, shade: 0, glow: 0, vary: 0.25 });
       const PB = W3D.Builder(); PB.solid = false; let any = false;
@@ -445,6 +455,7 @@
       if (x < BX0 + 6 || x > BX1 - 6 || z < BZ0 + 6 || z > BZ1 - 6) return false;
       if (water(x, z).sd < 0.5) return false;
       for (const s of SOLID) if (Math.hypot(x - s[0], z - s[1]) < s[2]) return false;
+      for (const b of BLOCK) { const dx = x - b.x, dz = z - b.z; if (b.r != null) { if (dx * dx + dz * dz < b.r * b.r) return false; } else if (Math.abs(dx) < b.w + b.d && Math.abs(dz) < b.w + b.d) { const c = Math.cos(b.a), sn = Math.sin(b.a); if (Math.abs(dx * c - dz * sn) < b.w && Math.abs(dx * sn + dz * c) < b.d) return false; } }
       const ci = Math.floor(x / SIZE), cj = Math.floor(z / SIZE), fx = x - ci * SIZE, fz = z - cj * SIZE;
       for (let dj = fz < 1.2 ? -1 : 0; dj <= (fz > SIZE - 1.2 ? 1 : 0); dj++) for (let di = fx < 1.2 ? -1 : 0; di <= (fx > SIZE - 1.2 ? 1 : 0); di++)
         for (const t of listFor(ci + di, cj + dj).trees) if (Math.abs(t.x - x) < t.r && Math.hypot(t.x - x, t.z - z) < t.r) return false;
@@ -478,6 +489,10 @@
         U.uFog.value.setRGB(...mix3(pn.fog, mix3(NW.fog, NT.fog, tk), kw));
         U.uSky.value.setRGB(...mix3(pn.sky, mix3(SKY0, NT.sky, tk), kw)); U.uMoon.value.setRGB(...mix3(pn.moon, mix3(MOON0, NT.moon, tk), kw));
       }
+      // a flat with a night of its own (the camp): the fog clears toward it
+      let flat = null;
+      for (const f of FLATS) { const dd = Math.hypot(io.x - f.x, io.z - f.z); if (dd < f.r) flat = f; if (!f.night || guideOn) continue; const kc = 1 - ss(f.r * 0.8, f.r + 32, dd); if (kc <= 0) continue;
+        U.uFogNear.value = lerp(U.uFogNear.value, f.night.near, kc); U.uFogFar.value = lerp(U.uFogFar.value, f.night.far, kc); U.uFog.value.lerp(col.setRGB(...f.night.fog), kc); }
       const fogFar = guideOn ? 115 : U.uFogFar.value;
       if (sky) { sky.position.copy(cam.position); sky.updateMatrix(); }
       // the far hills sink out of sight where the fog is heavy
@@ -525,7 +540,7 @@
         }
       }
       // where she is, by name: told once she has been there a moment
-      const now = dN < 10 ? near.name : L.nameAt ? L.nameAt(io.x, io.z) : tk > 0.5 ? L.names.thorn : L.names.woods;
+      const now = flat && flat.name ? flat.name : dN < 10 ? near.name : L.nameAt ? L.nameAt(io.x, io.z) : tk > 0.5 ? L.names.thorn : L.names.woods;
       if (now !== regionWant) { regionWant = now; regionT = performance.now(); }
       else if (now !== region && (region === null || performance.now() - regionT > 900 || TEST)) { const was = region; region = now; if (W3D.landEvents && W3D.landEvents.region) W3D.landEvents.region(now, was); }
     }
@@ -538,6 +553,7 @@
       rect: [R[0].x0, R[0].z0, R[0].x1, R[0].z1], rects: R.map((r) => ({ name: r.name, x0: r.x0, z0: r.z0, x1: r.x1, z1: r.z1 })), bounds: L.bounds,
       times() { const o = {}; for (const k in TIMES) o[k] = +(TIMES[k][0] / TIMES[k][1]).toFixed(1); return o; },
       pending: () => queue.length,
+      addGlow(a) { a.mat = makeGroundMat(a); GLOWS.push(a); }, addBlockers(list) { for (const b of list) BLOCK.push(b); },
       // the nearest herb still on the ground to a spot, among the squares made so far (for the checks)
       nearestHerb(x, z) { let best = null, bd = 1e9; for (const sq of squares.values()) { if (!sq.herbs) continue; for (const h of listFor(sq.ci, sq.cj).herbs) { const d = Math.hypot(h.x - x, h.z - z); if (!picked.has(h.id) && d < bd) { bd = d; best = h; } } } return best; },
       numbers() { let g = 0, t = 0, h = 0, tr = 0; for (const s of squares.values()) { if (s.mesh) g++; if (s.trees) { t++; tr += listFor(s.ci, s.cj).trees.length; } if (s.herbs && s.herbs.length) h += listFor(s.ci, s.cj).herbs.filter((q) => !picked.has(q.id)).length; } return { squares: g, treeSquares: t, trees: tr, herbs: h, fogFar: Math.round(U.uFogFar.value) }; },

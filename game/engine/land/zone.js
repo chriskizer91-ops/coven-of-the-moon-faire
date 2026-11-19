@@ -122,6 +122,10 @@
     };
     say('Laying out the land…');
     await new Promise((r) => setTimeout(r, 0));
-    return zone.land ? W3D.landAttach(Z, zone.land) : Z;
+    if (!zone.land) return Z;
+    W3D.landAttach(Z, zone.land);
+    // the Moon Faire's camp, if the zone has one and the page carries the fair kit (fair/fair.js)
+    if (zone.camp && W3D.fair) { say('Pitching the Moon Faire…'); await new Promise((r) => setTimeout(r, 0)); await W3D.fair.build(Z, zone.camp); }
+    return Z;
   };
 })(window);

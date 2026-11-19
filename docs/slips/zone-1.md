@@ -1,26 +1,33 @@
 # zone-1: all of zone 1 on one land
 
-Branch: job/zone-1      Built by: the hub      Updated: November 18, 2026, late evening
+Branch: job/zone-1      Built by: the hub      Updated: November 18, 2026, night
 
-**State: part done.** All six places stand on one land and are joined by roads. Still to come before this is
-milestone 2: the Moon Faire's camp (where the game starts), a choice of who walks, the zone's shape taken from the 3D
-map, and the long road out toward zone 2.
+**State: part done.** All six places stand on one land and are joined by roads, and the game starts in the Moon
+Faire's camp. Still to come before this is milestone 2: a choice of who walks, the zone's shape taken from the 3D map,
+the fen's own ground round Bogmire, and the long road out toward zone 2.
+
+Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
 
 ## What it built
 
 One page: **`game/pages/zone-1.html`**. Build it with `python3 tools/build.py game/pages/zone-1.html`; the file to
-open is `builds/zone-1.html` (69.6 MB, everything inside).
+open is `builds/zone-1.html` (71.0 MB, everything inside).
 
-- **Six places on one land, 955 m by 645 m**, walked between with no fade:
+- **The Moon Faire's camp, where the game starts**: 70 m west and 128 m south of Wickhollow's square, in a levelled,
+  trampled meadow off the south road. 43 pieces of Moon Faire's fair kit in Chris's painted skins: the big top, two
+  round tents, two square tents, four stalls, a booth, two wagons, the well, the gate, an oven cart, a pie cart, two
+  braziers, 14 lantern posts, crates, barrels, bales and tables. 2,724 triangles, two draws. Its lanterns light the
+  ground between the tents and light Io. None of it can be walked through.
+- **Six places on one land, 955 m by 675 m**, walked between with no fade:
 
   | Place | Where its middle is (metres east, south of Wickhollow's square) | How it is reached |
   |---|---|---|
-  | Wickhollow | 0, 0 | the game starts here for now |
+  | Wickhollow | 0, 0 | from the camp: out of its gate, up the south road |
   | The Thornwood | 226 east | east over Wickhollow's bridge, 85 m of road, in at its west gate |
   | Bogmire | 463 east, 9 south | out of the Thornwood's east gate, 95 m of road |
   | The fen's dark heart | 464 east, 159 north | 75 m up Bogmire's north road |
-  | Io's cottage | 30 west, 205 south | 112 m down Wickhollow's south road |
-  | The jetty | 190 west, 250 south | 110 m along the cottage's west road |
+  | Io's cottage | 30 west, 235 south | 142 m down Wickhollow's south road, past the camp |
+  | The jetty | 190 west, 280 south | 110 m along the cottage's west road |
 
 - **The Thornwood is the old Envoi's own place now**: its bridge and lantern, its stream in its ravine, its standing
   stones, shrine, ruined walls and pool. The stone ring and pool made up for the first test are gone from this page.
@@ -39,7 +46,9 @@ Where the new code is:
 |---|---|
 | `game/engine/land/zone.js` | New. Builds each place, sets it at its spot, shares the night, the sky and the textures, and answers the walker for all of them |
 | `game/engine/land/land.js` | Reworked from one place to many: meets every place's edge, a ground material per place, the water rule, the stone rule |
-| `game/places/zone-1.js` | New. Which places, where, the roads, the land |
+| `game/places/zone-1.js` | New. Which places, where, the roads, the land, and the camp's layout |
+| `game/fair/fair.js` | New. Gives Moon Faire's fair kit this game's night, and sets the camp down |
+| `game/fair/ow-kit.js`, `game/fair/data/` | Moon Faire's fair kit and its 11 pictures, unchanged |
 | `game/places/wickhollow-open.js` | The four changes that open Wickhollow, moved out of the first test's file so both pages share them |
 | `game/places/thornwood.js` and four more, with their `-trees.js` | From the new Envoi, unchanged |
 | `game/data/maps-*.js` | Each place's walking areas |
@@ -57,13 +66,21 @@ Where the new code is:
 - **The Thornwood keeps its hedge and its two gates.** Elsewhere on the land she can walk anywhere; the Thornwood's
   heart is entered by its trails.
 - **The other four towns are opened to the edge of their own ground**, as Wickhollow was.
+- **Where the camp is, and how it is laid out,** is the hub's: the big top at the north, tents either side, a half ring
+  of stalls to the south, wagons behind, the gate to the east where a lane comes in from the south road. To make room,
+  Io's cottage and the jetty moved 30 m further south and the lake's south shore was drawn in.
+- **The fair kit is Moon Faire's own code, unchanged.** It asks a few helpers for its light and fog; `fair.js` answers
+  with this game's night, so no line of the kit was edited.
+- **The camp's lamplight** is painted once into a small picture (a warm pool under each lantern and fire), the way a
+  town's is.
 - **Each place's lake or fen stays inside that place's own ground** for now (the jetty's lake, Bogmire's fen and the
   cottage's stream all end at a shore inside it). Only water that reaches the edge is carried on.
 
 ## What was copied in
 
-31 more lines in `assets/INDEX.csv` (89 in all): the five places' files, their walking areas, and 16 more of Chris's
-textures with their labels. All from the new Envoi, `main`, commit `d450c3f`. The place files are unchanged; what
+44 more lines in `assets/INDEX.csv` (102 in all). From the new Envoi (`main`, `d450c3f`): the five places' files,
+their walking areas, and 16 more of Chris's textures with their labels. From Moon Faire (`main`, `6371714`): the fair
+kit, its 11 pictures, and where each piece lies on the kit's sheet. The place files are unchanged; what
 opens the Thornwood's gates is in `game/places/zone-1.js`.
 
 Changed after copying: `game/engine/place/walker.js` (the frame's counts; marked "Coven").
@@ -86,19 +103,22 @@ python3 tools/look.py builds/zone-1.html <a folder> --plan <plan.json>
 | Wickhollow's south road to Io's cottage | arrived; 7.2 cm |
 | The cottage's west road to the jetty | arrived; 1.8 cm |
 | The jetty back to Wickhollow, straight through the woods | arrived |
+| The camp's gate up to Wickhollow | arrived; 2.0 cm |
+| The spot the game starts on | can be stood on |
 | The land's rules at 3,533 spots | every spot has a height; no spot in water can be stood on; 88% can be stood on |
 | Page errors | 0 |
-| Time for the page to start (this machine, no graphics card) | 12 seconds for six places (8 for one) |
+| Time for the page to start (this machine, no graphics card) | 11 to 12 seconds for six places and the camp (8 for one place) |
 | What is drawn | 150,000 to 435,000 triangles, 105 to 375 draw calls |
 | The first test | still builds and still passes its own checks |
-| Looked at by eye, in 24 pictures | each place, each road arriving, the Thornwood's stream leaving its ground |
+| Looked at by eye, in 34 pictures | each place, each road arriving, the Thornwood's stream leaving its ground, the camp from the ground and from above, the camp in the Flipbook look |
 
-**Not checked:** the frame rate; anything in motion; whether a phone will open a 70 MB file; how long a real phone
-takes to start.
+**Not checked:** the frame rate with the camp in; anything in motion (the lanterns' flicker, the camera near a tent).
 
 ## Unfinished, and known rough spots
 
-- **The Moon Faire's camp is not built.** The game still starts in Wickhollow's square.
+- **Nobody is in the camp yet**: no fair folk, no captain.
+- The camera can pass inside a tent or a stall (the kit's pieces do not thin away as walls and trees do).
+- The tents cannot be entered.
 - **Only Io walks.**
 - **The land's shape is still rules, not the 3D map's.**
 - The land round Bogmire wears Wickhollow's grass and woods, not the fen's own ground and reeds.
@@ -106,9 +126,8 @@ takes to start.
 - The cottage's stream ends at a bank inside the cottage's ground.
 - The ground changes tone in a line where the land meets the Thornwood's own ground at its west gate.
 - The keepsake shimmers are still left out.
-- The file is 69.6 MB, of which 49.6 MB is 98 pictures. The textures could be made smaller for a phone build.
+- The file is 71 MB, of which 50.6 MB is 109 pictures. Chris's phone opens it.
 
 ## For the hub
 
-- Where the camp goes: there is not room for it between Wickhollow's south road and the river (30 m). The meadow west
-  of the south road, south of the lake (about 70 m west, 150 m south), is free.
+- Nothing waiting.
