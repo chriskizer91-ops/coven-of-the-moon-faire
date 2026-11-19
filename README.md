@@ -16,8 +16,7 @@ open land; use the open land to make the wilds of Aethermoor walkable. Then keep
 fade.
 
 **Milestone 2 is part built: zone 1.** All six of its places (Wickhollow, the Thornwood, Bogmire, the fen's dark
-heart, Io's cottage, the jetty) stand on one land, joined by roads. The Moon Faire's camp, where the game starts, is
-next.
+heart, Io's cottage, the jetty) stand on one land, joined by roads, and the game starts in the Moon Faire's camp.
 
 ```
 python3 tools/build.py game/pages/zone-1.html     # makes builds/zone-1.html: one file, everything inside

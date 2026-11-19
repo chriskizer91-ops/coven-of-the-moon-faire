@@ -13,6 +13,19 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 18, 2026, night: hub's calls made while pitching the Moon Faire's camp
+
+The reasons are in `docs/slips/zone-1.md`.
+
+- **Hub's call.** *Where the game starts.* The Moon Faire's camp stands 70 m west and 128 m south of Wickhollow's
+  square, in a meadow off the south road, between the lake and Io's cottage. A lane runs from the road to its gate.
+- **Hub's call.** *How the camp is laid out.* The big top at the north, a round tent either side, two square tents, a
+  half ring of four stalls to the south, two wagons drawn up behind, the well in the middle, the gate to the east.
+- **Hub's call.** *Io's cottage and the jetty moved 30 m further south,* and the lake's south shore was drawn in, to
+  make room for the camp.
+- **Hub's call.** *A second conversation can take the fights* (the job `fights` on the board), since none of its files
+  are the hub's.
+
 ## November 18, 2026, night: Chris tried zone 1 with six places
 
 - **Stands.** With all six places on one land it still runs at **144 frames a second on his laptop** (88 to 90 with the

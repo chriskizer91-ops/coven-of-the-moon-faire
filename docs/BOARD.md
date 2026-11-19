@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 18, 2026, late evening, by the hub.
+Last updated: November 18, 2026, night, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -21,7 +21,7 @@ zones by Skies of Aethermoor, and walking far is far on purpose.
 ## The order Chris set
 
 1. **The first test** (the Thornwood with Wickhollow). **Done.**
-2. The rest of zone 1. **Part built: six places joined. The camp is next.**
+2. The rest of zone 1. **Most of it built: six places joined, the camp pitched.**
 3. The fights joined on.
 4. The people.
 5. Zones 2 to 4.
@@ -30,42 +30,41 @@ One HTML file to Chris at each milestone.
 
 ## Where we are
 
-**Milestone 1, the first test: done.** Chris ran it at 144 frames a second on his laptop and 60 on his phone, in town
-and in the woods (90 to 100 and 45 to 50 with the Flipbook look). Those are almost certainly each screen's top speed.
+**Milestone 1, the first test: done.** Chris ran it at his screens' top speed (144 frames a second on the laptop, 60 on
+the phone).
 
-**Milestone 2, zone 1: part built.** `builds/zone-1.html` (from `game/pages/zone-1.html`, 69.6 MB) has all six of the
-zone's places on one land of 955 m by 645 m, joined by roads, walked between with no fade. Its slip is
-`docs/slips/zone-1.md`. An early copy went to Chris on November 18 so he can try six places at once.
+**Milestone 2, zone 1: most of it built.** `builds/zone-1.html` (from `game/pages/zone-1.html`, 71 MB):
+
+- All six of the zone's places on one land of 955 m by 675 m, joined by roads, walked between with no fade.
+- **The game starts in the Moon Faire's camp**: 43 pieces of Moon Faire's fair kit in a meadow off the south road,
+  lantern-lit, a lane to its gate.
+
+Its slip is `docs/slips/zone-1.md`. Chris ran the six places (before the camp) at 144 and 60 frames a second again, and
+his phone opens the file. The copy with the camp went to him on November 18, at night.
 
 What the checks say (no screen, no graphics card):
 
-- Io walks from each place to the next and arrives; her height never jumps more than 7 cm at an edge.
+- Io walks from the camp to Wickhollow and from each place to the next, and arrives; her height never jumps more than
+  9 cm at an edge.
 - 0 page errors. The file fetches nothing from outside itself. The first test still passes.
-- The page takes 12 seconds to start with six places (8 with one).
-- 150,000 to 435,000 triangles and 105 to 375 draw calls.
-
-**Not measured:** the frame rate with six places, and whether a phone opens a 70 MB file.
+- The page takes 11 to 12 seconds to start.
 
 ## What is being worked on now
 
 | Who | What |
 |---|---|
-| Chris | Trying `zone-1.html`: the frame rate in each place, and whether his phone opens it |
+| Chris | Trying the camp; starting a second conversation on `fights` if he wants (starter text below) |
 | The hub | The rest of milestone 2 (below) |
-
-No job conversations are running.
 
 ## What is left of milestone 2 (job `zone-1`)
 
-1. **The Moon Faire's camp**, where the game starts: Moon Faire's fair kit (tents, stalls, the wagon, the well)
-   copied in and set on the land. Hub's leaning for the spot: the meadow about 70 m west and 150 m south of
-   Wickhollow's square, between the lake and the cottage's road. The kit is lit by Moon Faire's own shader, so it
-   needs fitting to the place engine's night, the way the land was.
-2. **A choice of who walks**: Kore beside Io first (her light model is in the new Envoi), then Europa and Callisto.
-3. **Zone 1's broad shape from the 3D map** of Aethermoor, so the land's hills and shores are the map's.
-4. **The fen's own ground and reeds** on the land round Bogmire, and the lakes joined up.
-5. **The long wild road** out of zone 1 toward zone 2 (about 6 km), as rules only.
-6. **A lighter build for the phone**, if 70 MB proves too much: smaller copies of the textures.
+1. **A choice of who walks**: Kore beside Io first (her light model is in the new Envoi), then Europa and Callisto.
+   If `fights` is running, it copies in the three witches' models (`game/witches/kore/` and so on): use those, do not
+   copy them twice.
+2. **Zone 1's broad shape from the 3D map** of Aethermoor, so the land's hills and shores are the map's.
+3. **The fen's own ground and reeds** on the land round Bogmire, and the two lakes joined up.
+4. **The long wild road** out of zone 1 toward zone 2 (about 6 km), as rules only.
+5. **The camp's rough spots**: the camera can pass inside a tent; nobody is there yet (that is the `people` piece).
 
 Then milestone 2 goes to Chris as one HTML file.
 
@@ -88,8 +87,7 @@ The hub's plan. Names and order may change.
 
 **To carry on well:**
 
-- **The frame rate of `zone-1.html`** on his laptop and phone (bottom left), in Wickhollow, in Bogmire and by the
-  cottage. And whether the phone opens the file at all.
+- What he makes of the camp: where it is, how it is laid out, how bright the lanterns are.
 - Anything he wants changed about where the places stand or how far apart they are.
 
 **A big story call, so the hub will ask before building on it:**
@@ -115,8 +113,8 @@ The hub's plan. Names and order may change.
 | Job | What it does | Branch | Slip | State |
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
-| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Part done, in `main`.** Six places joined. The hub is building the Moon Faire's camp now |
-| `fights` | The new Envoi's battle copied in and running here as its own page, then grown to four witches | `job/fights` | `docs/slips/fights.md` | **Ready for a second conversation.** Starter text below |
+| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places joined; the camp pitched. Who walks, the map's shape and the long road are left |
+| `fights` | The new Envoi's battle copied in and running here as its own page, then grown to four witches | `job/fights` | `docs/slips/fights.md` | **Ready for a second conversation.** Chris has the starter text (also below). No branch yet |
 
 **Who owns which files, so two conversations never write the same one:**
 
