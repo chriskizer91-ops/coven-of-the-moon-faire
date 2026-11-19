@@ -386,10 +386,10 @@
       lookUI.show();
     }
 
-    let last = null, clock = 0;
+    let last = null, clock = 0, paused = false;   // Coven: paused, for a fight or a talk laid over the land (api.pause)
     function frame(now) {
       const dt = last == null ? 0 : Math.min(0.05, (now - last) / 1000); last = now; clock += dt;
-      if (!busy) { tick(dt, clock); drawFrame(); measure(now); }
+      if (!busy && !paused) { tick(dt, clock); drawFrame(); measure(now); }
       requestAnimationFrame(frame);
     }
     window.addEventListener('resize', layout);
@@ -441,6 +441,9 @@
       P, A, io, C, cam, renderer, guide: setGuide, numbers, switchTo, warm, nearestFit, isBusy: () => busy,
       step(sec, fps, draw) { const n = Math.max(1, Math.round(sec * (fps || 30))); for (let i = 0; i < n; i++) { clock += 1 / (fps || 30); tick(1 / (fps || 30), clock); } if (draw !== false && !busy) drawFrame(); return numbers(); },
       render() { if (!busy) drawFrame(); }, setLook, look,
+      // Coven: stop the land (no walking, no drawing) while something is laid over it, and start it again. Keys held are let go.
+      pause(on) { paused = !!on; input.keys = {}; run.on = false; last = null; return paused; },
+      get paused() { return paused; },
       setWho(id) { const B = W3D.witch(id); if (B === A) return id; B.root.position.copy(A.root.position); B.root.rotation.copy(A.root.rotation); scene.remove(A.root); scene.add(B.root); A = B; return id; },
       get who() { return A.id || 'io'; },
       setIo(px, py, yaw) { io.px = px; io.py = py; io.y = P.walkH(px, py); if (yaw != null) io.yaw = yaw; placeCamera(0, true); },
