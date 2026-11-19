@@ -13,6 +13,13 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 18, 2026, night: Chris tried zone 1 with six places
+
+- **Stands.** With all six places on one land it still runs at **144 frames a second on his laptop** (88 to 90 with the
+  Flipbook look) and **60 on his phone** (45 to 50 with the Flipbook look). His phone opens the 70 MB file. His words:
+  "this is looking so good".
+- **Hub's call.** *So building every place when the page opens stays,* and no lighter phone build is needed yet.
+
 ## November 18, 2026, late evening: hub's calls made while setting zone 1 on one land
 
 The reasons are in `docs/slips/zone-1.md`.
