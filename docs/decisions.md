@@ -19,6 +19,9 @@ The full older record stays in the old repos and is not copied here:
   better one than the first plain one. (It is the job `minimap`.)
 - **Chris: the order.** Who walks (all four), then zone 1's hills and shores from the 3D map, then the fen's own
   ground round Bogmire, then the long road toward zone 2.
+- **Hub's call.** *The map's look* is the sub-agent's design, accepted by the hub: dark blue paper, the land in
+  moonlit inks, a small drawing for each place, a gold arrow for her. The small map shows 290 m across and follows
+  her; the big one shows the whole zone, or the whole long road when she is on it.
 - **Hub's call.** *How zone 1 lies on the 3D map.* On the map zone 1's places are up to 8 km apart; in the game they
   are within 1 km (Chris's size for a zone). So each place is pinned to its own spot on the map and the land between
   is stretched to fit: round a place the land is the map shrunk 6 times. The map's heights are divided by 8.

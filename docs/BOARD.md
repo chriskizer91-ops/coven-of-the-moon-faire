@@ -62,8 +62,9 @@ Done on November 18 (late): any of the four witches walks; a map in the corner; 
 Aethermoor (its hills, water and fen); the long road toward zone 2 (6.07 km). The details and numbers are in
 `docs/slips/zone-1.md`.
 
-1. **The better map**, being made by a sub-agent on `job/minimap` (`docs/slips/minimap.md`). The hub checks it and
-   merges it.
+1. **The better map is in** (job `minimap`, done by a sub-agent, checked and merged by the hub): a hand-drawn night
+   map, small in the corner and following her, big when tapped, with the whole long road when she is on it.
+   `docs/slips/minimap.md` has its numbers and what it could not check.
 2. **Chris's frame rates** with the new land (the fen's water, the long road's forest), on his laptop and phone.
 3. **Rough spots**: the camera can pass inside a tent; a road crosses water on a plain bank of earth; the long road
    is bare and ends at a hedge; the two lakes are still two.
@@ -116,7 +117,7 @@ The hub's plan. Names and order may change.
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
 | `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places, the camp, four witches to walk as, the 3D map's hills and fen, the long road. The better map and the rough spots are left |
-| `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Running.** Its only files: `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html` |
+| `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
 | `fights` | The new Envoi's battle copied in and running here as its own page, then grown to four witches | `job/fights` | `docs/slips/fights.md` | **Ready for a second conversation.** Chris has the starter text (also below). No branch yet |
 
 **Who owns which files, so two conversations never write the same one:**
