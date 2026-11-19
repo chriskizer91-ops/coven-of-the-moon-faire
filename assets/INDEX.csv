@@ -110,3 +110,47 @@ game/witches/callisto/ranger_tex.js,moon-faire,main,6371714,game/fight/witches/r
 game/witches/callisto/ranger_lod.js,moon-faire,main,6371714,game/fight/witches/ranger_lod.js,Callisto's (the Ranger's) light models,2026-11-18
 game/art/world/aethermoor-terrain-height.png,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world-map/art/aethermoor-terrain-height.png,"The 3D map of Aethermoor: how high each spot of the land stands (data, 40 m to the pixel)",2026-11-18
 game/art/world/aethermoor-terrain-kinds.png,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world-map/art/aethermoor-terrain-kinds.png,"The 3D map of Aethermoor: what kind of ground each spot is (sea, river, lake, forests, grass, fen and so on)",2026-11-18
+game/battle/rules.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/battle/rules.js,"the new battle's rules: the witches' moves, the foes, every number",2026-11-18
+game/battle/engine.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/battle/engine.js,"the new battle's engine: turns, blows, Fate, the result",2026-11-18
+game/battle/sim.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/battle/sim.js,"the new battle's simulator: the three play styles, the fights and Envoi's 51 balance targets",2026-11-18
+game/battle/screen.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/battle/screen.js,"the new battle's screen: the 3D stage, the camera, the menus, the numbers that pop up",2026-11-18
+game/battle/screen.css,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/battle/screen.css,"the new battle's screen: its look",2026-11-18
+game/battle/fights.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/battle/fights.js,"the new battle's fights: how each of the game's fights is set up",2026-11-18
+game/battle/trance.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/trance.js,"the witches' trance glow, made in code",2026-11-18
+game/battle/witch-look.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/witch-look.js,"the witches' own Moon Faire look in Envoi's light",2026-11-18
+game/battle/song-bed.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/song-bed.js,"plays Chris's song Herbal Decay quietly under the battle, with its knob",2026-11-18
+game/sound/sound.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/battle/sound.js,"the battle's 155 sounds and its music (the six dark pieces), all made in code",2026-11-18
+game/sound/herbal-decay.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/music/herbal-decay.js,"where Chris's song Herbal Decay is",2026-11-18
+game/sound/herbal-decay-battle-aac-96k.m4a,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/music/herbal-decay-battle-aac-96k.m4a,"Chris's song Herbal Decay, his own file",2026-11-18
+game/witches/kore/moon-jester.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/src/moon-jester.js,"Kore behind the face the battle uses",2026-11-18
+game/battle/stage/night-square.js,envoi-on-the-longest-night,main,d450c3f,src/stage/night-square.js,"the first Envoi's battle place: night-square",2026-11-18
+game/battle/stage/arena-river-glade.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-river-glade.js,"the first Envoi's battle place: arena-river-glade",2026-11-18
+game/battle/stage/arena-warm-roads-moor.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-warm-roads-moor.js,"the first Envoi's battle place: arena-warm-roads-moor",2026-11-18
+game/battle/stage/arena-eldergrove.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-eldergrove.js,"the first Envoi's battle place: arena-eldergrove",2026-11-18
+game/battle/stage/arena-frostmere.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-frostmere.js,"the first Envoi's battle place: arena-frostmere",2026-11-18
+game/battle/stage/arena-bogmire.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-bogmire.js,"the first Envoi's battle place: arena-bogmire",2026-11-18
+game/battle/stage/arena-dawnroost.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-dawnroost.js,"the first Envoi's battle place: arena-dawnroost",2026-11-18
+game/battle/stage/arena-crossroads.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-crossroads.js,"the first Envoi's battle place: arena-crossroads",2026-11-18
+game/battle/stage/arena-dead-moonwell.js,envoi-on-the-longest-night,main,d450c3f,src/stage/arena-dead-moonwell.js,"the first Envoi's battle place: arena-dead-moonwell",2026-11-18
+game/battle/models/wraith.js,envoi-on-the-longest-night,main,d450c3f,src/models/wraith.js,"the first Envoi's model: wraith",2026-11-18
+game/battle/models/wisp.js,envoi-on-the-longest-night,main,d450c3f,src/models/wisp.js,"the first Envoi's model: wisp",2026-11-18
+game/battle/models/bramble.js,envoi-on-the-longest-night,main,d450c3f,src/models/bramble.js,"the first Envoi's model: bramble",2026-11-18
+game/battle/models/colossus.js,envoi-on-the-longest-night,main,d450c3f,src/models/colossus.js,"the first Envoi's model: colossus",2026-11-18
+game/battle/models/halcyon.js,envoi-on-the-longest-night,main,d450c3f,src/models/halcyon.js,"the first Envoi's model: halcyon",2026-11-18
+game/battle/models/noctara.js,envoi-on-the-longest-night,main,d450c3f,src/models/noctara.js,"the first Envoi's model: noctara",2026-11-18
+game/battle/models/lunara.js,envoi-on-the-longest-night,main,d450c3f,src/models/lunara.js,"the first Envoi's model: lunara",2026-11-18
+game/battle/models/envoi.js,envoi-on-the-longest-night,main,d450c3f,src/models/envoi.js,"the first Envoi's model: envoi",2026-11-18
+game/battle/fx/battle-fx.js,envoi-on-the-longest-night,main,d450c3f,src/fx/battle-fx.js,"the first Envoi's battle effects",2026-11-18
+game/battle/fx/battlefield.js,envoi-on-the-longest-night,main,d450c3f,src/fx/battlefield.js,"the first Envoi's battlefield marks and weather",2026-11-18
+game/battle/fx/arena.js,envoi-on-the-longest-night,main,d450c3f,src/fx/arena.js,"the first Envoi's live 3D arena ground in front of the painting",2026-11-18
+game/battle/fx/io-spells.js,envoi-on-the-longest-night,main,d450c3f,src/fx/io-spells.js,"the first Envoi's spell effects for Io",2026-11-18
+game/art/arena/01-wickhollow-river-glade.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/01-wickhollow-river-glade.avif,"Chris's battle painting: 01-wickhollow-river-glade",2026-11-18
+game/art/arena/02-eldergrove-clearing.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/02-eldergrove-clearing.avif,"Chris's battle painting: 02-eldergrove-clearing",2026-11-18
+game/art/arena/03-bogmire-lantern-banks.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/03-bogmire-lantern-banks.avif,"Chris's battle painting: 03-bogmire-lantern-banks",2026-11-18
+game/art/arena/05-frostmere-lake.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/05-frostmere-lake.avif,"Chris's battle painting: 05-frostmere-lake",2026-11-18
+game/art/arena/11-warm-roads-moor.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/11-warm-roads-moor.avif,"Chris's battle painting: 11-warm-roads-moor",2026-11-18
+game/art/arena/12-dawnroost-living-node.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/12-dawnroost-living-node.avif,"Chris's battle painting: 12-dawnroost-living-node",2026-11-18
+game/art/arena/13-northern-crossroads.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/13-northern-crossroads.avif,"Chris's battle painting: 13-northern-crossroads",2026-11-18
+game/art/arena/14-dead-moonwell.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/14-dead-moonwell.avif,"Chris's battle painting: 14-dead-moonwell",2026-11-18
+game/art/backdrops/night-square.avif,envoi-on-the-longest-night,main,d450c3f,art/backdrops/night-square.avif,"Chris's painting of the Night square, behind the first fight",2026-11-18
+tools/battle-balance.mjs,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/tools/balance.mjs,"Envoi's balance check: every fight played thousands of times against the 51 targets",2026-11-18
