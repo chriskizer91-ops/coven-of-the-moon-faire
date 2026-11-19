@@ -58,6 +58,12 @@ What the checks say (no screen, no graphics card):
 
 ## What is left of milestone 2 (job `zone-1`)
 
+**Being rebuilt now (November 18, 21:04, Chris's word): the land is the map of Aethermoor at one third size, every
+place where the map has it.** Zone 1's six places move to their own spots (the Thornwood 1.2 km south-east of
+Wickhollow, Bogmire 2.6 km, the jetty on the lake north-east of the town), each at the map's height; the roads are
+redrawn between them; the hand-drawn lake and rivers give way to the map's. Until this note is taken down, what
+follows describes the squeezed zone that is being replaced.
+
 Done on November 18 (late): any of the four witches walks; a map in the corner; zone 1 lies on the 3D map of
 Aethermoor (its hills, water and fen); the long road toward zone 2 (6.07 km). The details and numbers are in
 `docs/slips/zone-1.md`.

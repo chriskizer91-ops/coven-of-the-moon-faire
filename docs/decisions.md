@@ -13,6 +13,20 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 18, 2026, 21:04: the land you walk is the map of Aethermoor
+
+- **Chris: the 3D world the player explores is built and mapped to match the 3D world map of all of Aethermoor.** It
+  is the map he has used for all his stories, so every place stands where the map has it. **Stands.**
+- **Chris: the walkable world is one third the size of the map.** A metre in the game is three metres on the map,
+  across and in height. Wickhollow to the Thornwood is 1.2 km. Crossing the whole map (46 km) is about 15 km: about an
+  hour and a half at a jog. Towns stay real size. (He chose it from four sizes the hub offered: true, half, a third,
+  a sixth.)
+- **Replaced by the two lines above:** each zone about 1.5 km by 1 km; the hub's call that zone 1 is the map squeezed
+  with its places pinned; the hub's call that the long roads are 6 km at true size. The long road toward zone 2 is now
+  simply the map between them, about 2.2 km.
+- **Chris: in the Flipbook look on his phone the frame rate fell to 17 for a moment while moving from one area to
+  another;** with the look off it was 60 again. To be looked into.
+
 ## November 18, 2026, late: Chris's word, and hub's calls made putting zone 1 on the map
 
 - **Chris: a mini map,** to see where he is as the full map is wired in. Then: have an Opus 5.5 sub-agent build a
