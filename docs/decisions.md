@@ -40,6 +40,16 @@ The full older record stays in the old repos and is not copied here:
 - **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
   (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
 
+## November 19, 2026, later in the morning: hub's calls made placing the people
+
+- **Hub's call.** *Where each of the fair folk stands:* nine in the camp at their own stall, cart, booth, fire or
+  gate; Old Bridie on the south road two thirds of the way to Io's cottage; Jory by the lake on the jetty road.
+  All in `game/people/zone-1.js`.
+- **Hub's call.** *Talking is one button at the foot of the screen,* with the person's name on it, and the words
+  just over it. No choices. Nothing over the middle of the picture.
+- **Hub's call.** *Stand-in words until the story's lines come,* one or two a person, several leaning on Moon
+  Faire's own stand-ins. They are not lore and every one is replaced.
+
 ## November 19, 2026, morning: Chris tries the rebuilt land; the fights job's steps 1 and 2 are in
 
 - **Chris: the rebuilt land looks "so very beautiful"** and he wants to continue. The frame rate is the same as

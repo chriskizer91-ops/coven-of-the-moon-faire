@@ -23,7 +23,7 @@ zones by Skies of Aethermoor, and walking far is far on purpose.
 1. **The first test** (the Thornwood with Wickhollow). **Done.**
 2. The rest of zone 1. **Built, bar the people, and rebuilt on the map of Aethermoor at one third size.**
 3. The fights joined on. **Done for zone 1** (job `fights`, November 19).
-4. The people.
+4. The people. **Begun** (November 19): the Moon Faire's eleven stand in the camp and on the roads, and talk; every person will speak aloud; the story job writes the lines.
 5. Zones 2 to 4.
 
 One HTML file to Chris at each milestone.
@@ -56,7 +56,7 @@ What the checks say (no screen, no graphics card):
 | Chris | Starting a fresh conversation on `story` (text below); trying the fights on the land |
 | The `story` conversation (to be started) | The story page and a sample of lines for Chris's yes; then zone 1's 236 spoken lines |
 | The `fights` conversation | Step 3 done and in `main`. Free for more work |
-| The hub | The people in the Moon Faire's camp and the talk itself (bodies, where they stand, the Talk button, playing a recorded line) |
+| The hub | **The eleven fair folk stand in the land and can be talked to** (stand-in words). Next: the Grey Hat at the jetty; the townsfolk in Wickhollow and Bogmire; taking in the recorded lines when the zips come (`<line id>.mp3`); the stages of zone 1's story; the people moving about |
 
 ## What is left of milestone 2 (job `zone-1`)
 
@@ -133,7 +133,7 @@ The hub's plan. Names and order may change.
 
 | Job | Its own folders and files | Must not change |
 |---|---|---|
-| `zone-1` (the hub) | `game/engine/`, `game/places/`, `game/fair/`, `game/data/`, `game/pages/zone-1.html`, `game/pages/first-test.html`, `game/witches/`, `game/art/world/`, `tools/build.py`, `tools/look.py`, `tools/walk-test.py`, `tools/zone-test.py` | anything of `fights` |
+| `zone-1` (the hub) | `game/engine/`, `game/places/`, `game/fair/`, `game/people/`, `game/data/`, `game/pages/zone-1.html`, `game/pages/first-test.html`, `game/witches/`, `game/art/world/`, `tools/build.py`, `tools/look.py`, `tools/walk-test.py`, `tools/zone-test.py` | anything of `fights` |
 | `fights` | `game/battle/`, `game/sound/`, `game/party/`, `game/encounters/`, `game/art/arena/`, `game/art/backdrops/`, `game/pages/battle.html`, `tools/battle-*`, `tools/encounter-*`, `docs/slips/fights.md`, the faces the battle uses in `game/witches/*/moon-*.js`, and **the two marked slots in `game/pages/zone-1.html`** ("fights job: ..." to "fights job: end") | everything in the row above (read it, use it, ask the hub for a change in the slip) |
 | `story` | `game/talk/`, `tools/talk-*`, `docs/lore/story-*.md` (but not `story-brief.md`, the hub's), `docs/slips/story.md` | everything else (read it, ask the hub for a change in the slip) |
 
