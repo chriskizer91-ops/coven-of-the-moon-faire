@@ -24,6 +24,15 @@ The full older record stays in the old repos and is not copied here:
 - **Replaced by the two lines above:** each zone about 1.5 km by 1 km; the hub's call that zone 1 is the map squeezed
   with its places pinned; the hub's call that the long roads are 6 km at true size. The long road toward zone 2 is now
   simply the map between them, about 2.2 km.
+- **Hub's call.** *The land walked for zone 1* is the map from atlas pixel (1215, 1700) to (1960, 2650): 2.5 km by
+  3.2 km in the game.
+- **Hub's call.** *Roads find their own way and are graded:* the easiest way by slope between the gates, never
+  steeper than 18 m in 100, cutting through a rise and banking over a dip.
+- **Hub's call.** *The road toward zone 2 leaves Io's cottage by its west gate* (2.6 km to where the Warm Roads camp
+  will be).
+- **Hub's call.** *The jetty keeps Envoi's pin, in the lake north-east of Wickhollow;* its road runs round its west
+  side because its gate faces the cliffs. Moving the pin a little to a kinder shore is Chris's call.
+- **Hub's call.** *The lake and rivers the hub drew by hand round Wickhollow are gone;* the map's water is the water.
 - **Chris: in the Flipbook look on his phone the frame rate fell to 17 for a moment while moving from one area to
   another;** with the look off it was 60 again. To be looked into.
 

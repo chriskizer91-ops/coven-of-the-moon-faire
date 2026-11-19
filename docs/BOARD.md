@@ -21,7 +21,7 @@ zones by Skies of Aethermoor, and walking far is far on purpose.
 ## The order Chris set
 
 1. **The first test** (the Thornwood with Wickhollow). **Done.**
-2. The rest of zone 1. **Built, bar the people: six places, the camp, four witches to walk as, the map's hills and fen, the long road.**
+2. The rest of zone 1. **Built, bar the people, and rebuilt on the map of Aethermoor at one third size.**
 3. The fights joined on.
 4. The people.
 5. Zones 2 to 4.
@@ -58,22 +58,22 @@ What the checks say (no screen, no graphics card):
 
 ## What is left of milestone 2 (job `zone-1`)
 
-**Being rebuilt now (November 18, 21:04, Chris's word): the land is the map of Aethermoor at one third size, every
-place where the map has it.** Zone 1's six places move to their own spots (the Thornwood 1.2 km south-east of
-Wickhollow, Bogmire 2.6 km, the jetty on the lake north-east of the town), each at the map's height; the roads are
-redrawn between them; the hand-drawn lake and rivers give way to the map's. Until this note is taken down, what
-follows describes the squeezed zone that is being replaced.
+**The land is the map of Aethermoor at one third size** (Chris's word, November 18, 21:04; rebuilt the same night).
+Every place stands where the map has it and at the map's height: the Thornwood 1.2 km south-east of Wickhollow,
+Bogmire 2.6 km, the jetty on the lake to the north-east, Io's cottage up the hill to the south. The map's lakes, fen
+and sea are the water. Roads find their own way over the hills and are graded. The road toward zone 2 is 2.6 km.
+Any of the four witches walks. The better map is in. Where everything is, the numbers and the rough spots are in
+`docs/slips/zone-1.md` ("Rebuilt on November 18, night").
 
-Done on November 18 (late): any of the four witches walks; a map in the corner; zone 1 lies on the 3D map of
-Aethermoor (its hills, water and fen); the long road toward zone 2 (6.07 km). The details and numbers are in
-`docs/slips/zone-1.md`.
+How a new zone is added now: give each place its pin on the map (`at(ax, ay)` in `game/places/zone-1.js`), widen
+`bounds`, and name the roads between gates with `route: true`. The engine does the rest.
 
-1. **The better map is in** (job `minimap`, done by a sub-agent, checked and merged by the hub): a hand-drawn night
-   map, small in the corner and following her, big when tapped, with the whole long road when she is on it.
-   `docs/slips/minimap.md` has its numbers and what it could not check.
-2. **Chris's frame rates** with the new land (the fen's water, the long road's forest), on his laptop and phone.
-3. **Rough spots**: the camera can pass inside a tent; a road crosses water on a plain bank of earth; the long road
-   is bare and ends at a hedge; the two lakes are still two.
+1. **Chris's frame rates** on the rebuilt land, on his laptop and phone; and the Flipbook look's stutter on the
+   phone when moving between areas (17 frames a second for a moment), not looked into yet.
+2. **Rough spots**: the jetty's road goes round its west side; Wickhollow's river and lake stop just past the town;
+   some of the map's heights are abrupt at this size; roads cross water on a plain bank of earth; the camera can
+   pass inside a tent.
+3. **The long roads' other ends**: the road toward zone 2 ends at a hedge.
 
 Then milestone 2 goes to Chris as one HTML file.
 
