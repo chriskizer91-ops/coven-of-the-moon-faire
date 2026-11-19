@@ -53,6 +53,8 @@
     });
     const rectAt = (x, z) => { for (const r of R) if (x >= r.x0 && x <= r.x1 && z >= r.z0 && z <= r.z1) return r; return null; };
     const inRectM = (x, z) => rectAt(x, z) !== null;
+    // an upright rectangle [a..c] x [b..d], less every place's own ground: the pieces left
+    const cutRects = (a, b, c, d) => { let list = [[a, b, c, d]]; for (const r of R) { const out = []; for (const q of list) { const [qa, qb, qc, qd] = q; if (qc <= r.x0 || qa >= r.x1 || qd <= r.z0 || qb >= r.z1) { out.push(q); continue; } if (qb < r.z0) out.push([qa, qb, qc, r.z0]); if (qd > r.z1) out.push([qa, r.z1, qc, qd]); const m0 = Math.max(qb, r.z0), m1 = Math.min(qd, r.z1); if (qa < r.x0) out.push([qa, m0, r.x0, m1]); if (qc > r.x1) out.push([r.x1, m0, qc, m1]); } list = out; } return list; };
     const dOutR = (r, x, z) => Math.hypot(Math.max(r.x0 - x, 0, x - r.x1), Math.max(r.z0 - z, 0, z - r.z1));
     // how far outside the nearest place's ground a spot is (0 inside one); NR is that place
     let NR = R[0];
@@ -72,6 +74,15 @@
     // flats: round stretches of ground levelled and trampled to earth, with no trees (the Moon Faire's camp). Each may
     // carry its own name and its own night (clearer fog round the lanterns)
     const FLATS = (L.flats || []).map((f) => Object.assign({ h: null }, f));
+    // ---- a long road out of the zone (L.longRoad: { pts, half, w }): the land she can walk is the zone's own ground and
+    // a band `half` metres either side of it. It is kept in short runs, each with its own box, so finding the nearest
+    // run is quick however long the road is ----
+    const LR = [], LRH = L.longRoad ? L.longRoad.half : 0;
+    if (L.longRoad) { const q = L.longRoad.pts; for (let i = 0; i + 1 < q.length; i += 8) { const pts = q.slice(i, i + 9); LR.push({ pts, b: box(pts, LRH + 2) }); ROADS.push({ pts, w: L.longRoad.w || 3.4, stone: null, from: pts[0], stoneTo: null, to: pts[pts.length - 1], b: box(pts, 12) }); } }
+    // how far inside the edge of the land she can walk (under 0: outside it)
+    const rimD = (x, z) => { let d = Math.min(x - BX0, BX1 - x, z - BZ0, BZ1 - z); if (d >= 16) return d;
+      for (const c of LR) { if (x < c.b[0] || x > c.b[2] || z < c.b[1] || z > c.b[3]) continue; for (let i = 0; i + 1 < c.pts.length; i++) d = Math.max(d, LRH - segDist(x, z, c.pts[i][0], c.pts[i][1], c.pts[i + 1][0], c.pts[i + 1][1])); }
+      return d; };
     const CLEAR = (L.clearings || []).concat(FLATS.map((f) => ({ x: f.x, z: f.z, r: f.r + 3 })));
     // ---- a place's water carried on past its edge by rule (a place set down with `autoWater`): wherever one of its
     // lakes or streams reaches the edge of its ground, the land takes it on from there at the same level. A narrow
@@ -143,26 +154,68 @@
       return WAT;
     }
     const thornK = L.thornK || (() => 0);
+    // ---- the 3D map of Aethermoor under this land (engine/land/atlas.js; L.atlas says how the zone lies on it) ----
+    // Each place is pinned to its own spot on the map; round a pin the zone is the map shrunk (`scale` atlas pixels to a
+    // metre), and between pins it stretches to fit. Past `trueFrom` (the long road) the land is the map at its true size.
+    // The map's heights are added on as hills (in the zone squashed by `squash`, so slopes stay walkable); its lakes,
+    // rivers and fen pools become water here; its fen, open grass and pine forest change the ground and the trees.
+    const AT = L.atlas && W3D.atlas && W3D.atlas.ready ? L.atlas : null, AO = { h: 0, water: 0, fen: 0, open: 0, pine: 0 };
+    const PINS = AT ? AT.pins.map(([x, z, ax, ay]) => ({ x, z, ax, ay, h: W3D.atlas.at(ax, ay, AO).h })) : [];
+    const TG = AT && AT.trueFrom ? AT.trueFrom : null, HG = TG ? W3D.atlas.at(TG.atlas[0], TG.atlas[1], AO).h : 0;
+    const MOATS = AT ? R.filter((r) => r.part.moat) : [];
+    // AQ: what atlasAt fills in. rel: the height the map adds; wk, fen, open, pine: 0 to 1; wz: the water's level by the
+    // zone's own rule; wl: the water's level there; c: 0 in the zone to 1 at true size; hs: the map's height in metres;
+    // mpp: about how many metres here the map's water edge is spread over
+    const AQ = { rel: 0, wk: 0, fen: 0, open: 0, pine: 0, wz: 0, wl: 0, c: 0, hs: 0, mpp: 1 };
+    function atlasAt(x, z) {
+      let sw = 0, ax = 0, ay = 0, href = 0;
+      for (const p of PINS) { const dx = x - p.x, dz = z - p.z, w = 1 / (dx * dx + dz * dz + 900); sw += w; ax += w * (p.ax + AT.scale * dx); ay += w * (p.ay + AT.scale * dz); href += w * p.h; }
+      ax /= sw; ay /= sw; href /= sw;
+      const c = TG ? 1 - ss(TG.fade[0], TG.fade[1], x) : 0;
+      if (c > 0) { ax = lerp(ax, TG.atlas[0] + (x - TG.gate[0]) / 10, c); ay = lerp(ay, TG.atlas[1] + (z - TG.gate[1]) / 10, c); }
+      const a = W3D.atlas.at(ax, ay, AO);
+      AQ.c = c; AQ.hs = a.h; AQ.wk = a.water; AQ.fen = a.fen; AQ.open = a.open; AQ.pine = a.pine;
+      AQ.rel = lerp(clamp((a.h - href) / AT.squash, AT.dip, AT.rise), a.h - HG, c);
+      // a place that stands in the fen's water (`moat`): the water comes right up to it, at its own level
+      let wz = AT.waterY;
+      for (const m of MOATS) { const d = dOutR(m, x, z); if (d >= 60) continue; wz = lerp(m.part.waterY, wz, ss(10, 50, d)); AQ.fen = Math.max(AQ.fen, 1 - ss(20, 60, d)); AQ.wk = Math.max(AQ.wk, 1 - ss(12, 22, d)); }
+      AQ.wz = wz; AQ.wl = wz + c * (a.h - HG); AQ.mpp = lerp(40 / (10 * AT.scale), 40, c);
+      return AQ;
+    }
     // rolling ground: a slow swell, hummocks, and small bumps
     const roll = (x, z, amp) => L.level + (vnoise(x / 150 + 3.1, z / 150 + 8.7) - 0.5) * 2.6 + ((vnoise(x / 41 + 11.3, z / 41 + 2.9) - 0.5) * 1.9 + (vnoise(x / 13 + 5.5, z / 13 + 1.7) - 0.5) * 0.55 + (vnoise(x / 4.1, z / 4.1) - 0.5) * 0.13) * amp;
 
     // ---- the rules: a height and a kind of ground for any spot past the place ----
     // F: what field() fills in. h the height; road, thorn, moss, wet 0 to 1 for the ground's look
-    const F = { h: 0, road: 0, thorn: 0, moss: 0, wet: 0, cob: 0, pave: 0, sd: 1e9, re: 1e9 };
+    for (const f of FLATS) f.h = roll(f.x, f.z, lerp(L.roll[0], L.roll[1], thornK(f.x, f.z)) * 0.5) + (AT ? atlasAt(f.x, f.z).rel : 0);
+    const F = { h: 0, road: 0, thorn: 0, moss: 0, wet: 0, cob: 0, pave: 0, sd: 1e9, re: 1e9, aw: 0, fen: 0, open: 0, pine: 0, wl: 0, wz: 0, hs: 0, c: 0 };
     function field(x, z, want) {
       const tk = thornK(x, z), re = roadEdge(x, z), stone = roadStone, rw = 1 - ss(-0.5, 1.4, re), calm = 1 - ss(0, 7, re);
       // rolling ground: a slow swell, hummocks, and small bumps; gentler along a road, a little wilder in the thorns
       const amp = lerp(L.roll[0], L.roll[1], tk) * (1 - 0.72 * calm);
-      let h = roll(x, z, amp), flatK = 0;
+      let h = roll(x, z, amp), flatK = 0, q = null;
+      // the map's hills are added on; the fen lies flat, a hand above its water
+      if (AT) { q = atlasAt(x, z); const bumps = h - L.level; h = lerp(L.level + bumps + q.rel, q.wl + 0.42 + bumps * 0.16, q.fen); }
       // a flat: the ground comes level with its middle, and is trampled to earth
       for (const f of FLATS) { const dd = Math.hypot(x - f.x, z - f.z); if (dd >= f.r) continue; if (f.h === null) f.h = roll(f.x, f.z, lerp(L.roll[0], L.roll[1], thornK(f.x, f.z)) * 0.5); const k = 1 - ss(f.r * 0.6, f.r, dd); h = lerp(h, f.h, k); if (k > flatK) flatK = k; }
       // water: the banks stand a little above it, and the bed drops away inside it
       const w = water(x, z), sd = w.sd;
       if (sd < 14) { const low = w.level + 0.45 - h; if (low > 0) h += low * (1 - ss(4, 14, sd)); if (sd < 0.4) h = lerp(w.bed, h, ss(-1.4, 0.4, sd)); }   // (a steep bank, as the town's own water has)
       // meeting the place: its own edge height at the edge, the wild's by 28 m out
-      const d = dOut(x, z);
-      F.h = d < 28 ? lerp(hEdge(NR, x, z), h, ss(0, 28, d)) : h;
-      F.sd = sd; F.re = re;
+      const d = dOut(x, z), moat = AT !== null && NR.part.moat === true;
+      // the map's own water: the land never lies lower than a hand above it, slopes down to it as a bank, and drops
+      // away under it. A road crosses on a raised bank of earth. It keeps clear of the water drawn by hand, of the
+      // camp, and of the places that do not stand in it
+      let wk = 0;
+      if (q) {
+        wk = q.wk * ss(1.2, 4.0, re) * ss(25, 55, sd) * (1 - flatK); if (!moat) wk *= ss(24, 44, d);
+        const fl = q.wl + 0.3; if (h < fl) h = lerp(h, fl, ss(2, 10, sd));
+        h = lerp(h, fl, ss(0.15, 0.45, wk)) - 1.4 * ss(0.47, 0.7, wk);
+      }
+      const bd = moat ? 12 : 28;
+      F.h = d < bd ? lerp(hEdge(NR, x, z), h, ss(0, bd, d)) : h;
+      F.sd = q && wk > 0.25 ? Math.min(sd, (0.5 - wk) * q.mpp) : sd; F.re = re;
+      F.aw = wk; if (q) { F.fen = q.fen; F.open = q.open; F.pine = q.pine; F.wl = q.wl; F.wz = q.wz; F.hs = q.hs; F.c = q.c; }
       if (want) {
         F.road = Math.max(rw, flatK * (0.5 + 0.5 * ss(0.3, 0.6, vnoise(x / 6.3 + 1.1, z / 6.3 + 7.7))));
         // a road out of town keeps the town's stone underfoot for its first steps, then wears down to earth
@@ -170,7 +223,7 @@
         if (stone) for (const [kind, at] of [[stone.stone, stone.from], [stone.stoneTo, stone.to]]) { if (!kind) continue; const sk = rw * (1 - ss(3, 24, Math.hypot(x - at[0], z - at[1]))); if (kind === 'cob') F.cob = Math.max(F.cob, sk); else F.pave = Math.max(F.pave, sk); }
         F.thorn = tk;
         F.moss = tk * ss(0.52, 0.7, vnoise(x / 23 + 9.9, z / 23 + 4.4)) * (1 - rw);
-        F.wet = 1 - ss(0, 5, Math.max(sd, 0));
+        F.wet = Math.max(1 - ss(0, 5, Math.max(sd, 0)), ss(0.12, 0.5, wk));
       }
       return F;
     }
@@ -186,20 +239,21 @@
     // ---- the ground's look: the place engine's own lighting, four of Chris's ground textures laid by the rules ----
     const tx = (id) => W3D.zoneTex(id) || W3D.zoneTex(L.ground.grass);
     const GM = L.ground;
+    const atlasWaterMat = AT ? W3D.waterMat(U, { water: tx(AT.water.tex), rep: AT.water.rep, flow: AT.water.flow }) : null;
     // (near a place the ground also takes that place's lamplight and shade, fading out over 16 m: r is that place)
     const makeGroundMat = (r) => new THREE.ShaderMaterial({
       uniforms: Object.assign({}, r ? r.U || r.part.P.U : U, {
         tCob: { value: tx(GM.cob) }, tPave: { value: tx(GM.pave) }, uRepS: { value: new THREE.Vector2(1 / GM.repStone[0], 1 / GM.repStone[1]) },
-        tGrass: { value: tx(GM.grass) }, tBram: { value: tx(GM.bramble) }, tMoss: { value: tx(GM.moss) }, tDirt: { value: tx(GM.dirt) }, tRock: { value: tx(GM.rock) },
+        tGrass: { value: tx(GM.grass) }, tBram: { value: tx(GM.bramble) }, tMoss: { value: tx(GM.moss) }, tDirt: { value: tx(GM.dirt) }, tRock: { value: tx(GM.rock) }, tFen: { value: tx(GM.fen || GM.grass) }, uFen: { value: new THREE.Vector4(1 / (GM.repFen || 4), ...(GM.fenTint || [1, 1, 1])) },
         uRepL: { value: new THREE.Vector4(1 / GM.rep[0], 1 / GM.rep[1], 1 / GM.rep[2], 1 / GM.rep[3]) },
         uGrassTint: { value: new THREE.Vector3(...GM.grassTint) }, uBramTint: { value: new THREE.Vector3(...GM.brambleTint) }, uMossTint: { value: new THREE.Vector3(...GM.mossTint) }, uDirtTint: { value: new THREE.Vector3(...GM.dirtTint) },
         uRect: { value: r ? new THREE.Vector4(r.x0, r.z0, r.x1, r.z1) : new THREE.Vector4(0, 0, 0, 0) }, uWildShade: { value: new THREE.Vector2(L.shade[0], L.shade[1]) },
         uRep: { value: new THREE.Vector2(1, 1) }, uTint: { value: new THREE.Color(0xffffff) }, uEmis: { value: new THREE.Color(0) }, uLit: { value: 1 }, uGlowUse: { value: 1 }, uSpec: { value: 0 }, uShadeK: { value: 1 },
       }),
-      vertexShader: `attribute vec4 aW; attribute vec2 aS; varying vec3 vW; varying vec3 vN; varying vec2 vUv; varying vec3 vCol; varying vec4 vWt; varying vec2 vSt;
+      vertexShader: `attribute vec4 aW; attribute vec3 aS; varying vec3 vW; varying vec3 vN; varying vec2 vUv; varying vec3 vCol; varying vec4 vWt; varying vec3 vSt;
         void main() { vW = position; vN = normal; vUv = position.xz; vCol = vec3(1.0); vWt = aW; vSt = aS; gl_Position = projectionMatrix * viewMatrix * vec4(position, 1.0); }`,
       fragmentShader: W3D.GLSL.F + `
-        uniform sampler2D tGrass, tBram, tMoss, tDirt, tRock; uniform vec4 uRepL, uRect; uniform vec3 uGrassTint, uBramTint, uMossTint, uDirtTint; uniform vec2 uWildShade; varying vec4 vWt; uniform sampler2D tCob, tPave; uniform vec2 uRepS; varying vec2 vSt;
+        uniform sampler2D tGrass, tBram, tMoss, tDirt, tRock; uniform vec4 uRepL, uRect; uniform vec3 uGrassTint, uBramTint, uMossTint, uDirtTint; uniform vec2 uWildShade; varying vec4 vWt; uniform sampler2D tCob, tPave, tFen; uniform vec2 uRepS; uniform vec4 uFen; varying vec3 vSt;
         // each picture twice, the second larger and shifted, as the town's ground does, so it never reads as tiles
         vec3 two(sampler2D t, vec2 w, float rep) {
           #ifdef LITE
@@ -213,6 +267,7 @@
           vec2 w = vW.xz; vec3 n = normalize(vN);
           vec3 c = mix(two(tGrass, w, uRepL.x) * uGrassTint, two(tBram, w, uRepL.y) * uBramTint, vWt.y);
           c = mix(c, two(tMoss, w, uRepL.z) * uMossTint, vWt.z);
+          c = mix(c, two(tFen, w, uFen.x) * uFen.yzw, vSt.z);   // the fen's own ground
           c = mix(c, two(tDirt, w, uRepL.w) * uDirtTint, vWt.x);
           c = mix(c, two(tCob, w, uRepS.x), vSt.x); c = mix(c, two(tPave, w, uRepS.y), vSt.y);
           // bare rock where the ground is steep (a river's banks)
@@ -264,13 +319,13 @@
       const nearRect = R.some((r) => x0 + SIZE > r.x0 - 1 && x0 < r.x1 + 1 && z0 + SIZE > r.z0 - 1 && z0 < r.z1 + 1);
       // the ground within 16 m of a place takes that place's lamplight and shade
       const nearBy = (r) => x0 + SIZE > r.x0 - 17 && x0 < r.x1 + 17 && z0 + SIZE > r.z0 - 17 && z0 < r.z1 + 17, by = R.find(nearBy) || GLOWS.find(nearBy);
-      const nv = N1 * N1 + 4 * N1, pos = new Float32Array(nv * 3), nrm = new Float32Array(nv * 3), wt = new Float32Array(nv * 4), st = new Float32Array(nv * 2), deep = nearRect ? new Uint8Array(N1 * N1) : null;
-      let lo = 1e9, hi = -1e9;
+      const nv = N1 * N1 + 4 * N1, pos = new Float32Array(nv * 3), nrm = new Float32Array(nv * 3), wt = new Float32Array(nv * 4), st = new Float32Array(nv * 3), deep = nearRect ? new Uint8Array(N1 * N1) : null;
+      let lo = 1e9, hi = -1e9, wetN = 0, hsMin = 1e9;
       for (let j = -1; j <= n + 1; j++) for (let i = -1; i <= n + 1; i++) {
         const x = x0 + i * cell, z = z0 + j * cell, inner = i >= 0 && j >= 0 && i <= n && j <= n;
         let y;
         if (nearRect && inRectM(x, z)) { y = drawnY(x, z); if (inner) { if (y < -50) deep[j * N1 + i] = 1; const k = (j * N1 + i) * 4; wt[k] = 0; wt[k + 1] = 0; wt[k + 2] = 0; wt[k + 3] = 0; } }
-        else if (inner) { const f = field(x, z, true); y = f.h; const k = (j * N1 + i) * 4; wt[k] = f.road; wt[k + 1] = f.thorn; wt[k + 2] = f.moss; wt[k + 3] = f.wet; st[k / 2] = f.cob; st[k / 2 + 1] = f.pave; }
+        else if (inner) { const f = field(x, z, true); y = f.h; const k = (j * N1 + i) * 4; wt[k] = f.road; wt[k + 1] = f.thorn; wt[k + 2] = f.moss; wt[k + 3] = f.wet; const s3 = (j * N1 + i) * 3; st[s3] = f.cob; st[s3 + 1] = f.pave; st[s3 + 2] = f.fen; if (f.aw > 0.47) { wetN++; if (f.hs < hsMin) hsMin = f.hs; } }
         else y = height(x, z);
         Hh[(j + 1) * HP + i + 1] = y;
         if (inner && y > -50) { if (y < lo) lo = y; if (y > hi) hi = y; }
@@ -295,17 +350,24 @@
       const drop = cell * 1.3 + 0.5; let v = N1 * N1;
       const hang = (list, flip) => {
         const s0 = v;
-        for (const a of list) { pos[v * 3] = pos[a * 3]; pos[v * 3 + 1] = pos[a * 3 + 1] - drop; pos[v * 3 + 2] = pos[a * 3 + 2]; nrm[v * 3] = nrm[a * 3]; nrm[v * 3 + 1] = nrm[a * 3 + 1]; nrm[v * 3 + 2] = nrm[a * 3 + 2]; wt.set(wt.subarray(a * 4, a * 4 + 4), v * 4); st[v * 2] = st[a * 2]; st[v * 2 + 1] = st[a * 2 + 1]; v++; }
+        for (const a of list) { pos[v * 3] = pos[a * 3]; pos[v * 3 + 1] = pos[a * 3 + 1] - drop; pos[v * 3 + 2] = pos[a * 3 + 2]; nrm[v * 3] = nrm[a * 3]; nrm[v * 3 + 1] = nrm[a * 3 + 1]; nrm[v * 3 + 2] = nrm[a * 3 + 2]; wt.set(wt.subarray(a * 4, a * 4 + 4), v * 4); st[v * 3] = st[a * 3]; st[v * 3 + 1] = st[a * 3 + 1]; st[v * 3 + 2] = st[a * 3 + 2]; v++; }
         for (let q = 0; q + 1 < list.length; q++) { const a = list[q], b = list[q + 1], c = s0 + q, d = s0 + q + 1; if (deep && (deep[a] || deep[b])) continue; if (flip) idx.push(a, b, c, b, d, c); else idx.push(a, c, b, b, c, d); }
       };
       const row = (j) => Array.from({ length: N1 }, (_, i) => j * N1 + i), colm = (i) => Array.from({ length: N1 }, (_, j) => j * N1 + i);
       hang(row(0), false); hang(row(n), true); hang(colm(0), true); hang(colm(n), false);
       if (!idx.length) return null;
       const g = new THREE.BufferGeometry();
-      g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('normal', new THREE.BufferAttribute(nrm, 3)); g.setAttribute('aW', new THREE.BufferAttribute(wt, 4)); g.setAttribute('aS', new THREE.BufferAttribute(st, 2));
+      g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('normal', new THREE.BufferAttribute(nrm, 3)); g.setAttribute('aW', new THREE.BufferAttribute(wt, 4)); g.setAttribute('aS', new THREE.BufferAttribute(st, 3));
       g.setIndex(new THREE.BufferAttribute(new Uint16Array(idx), 1));
       g.boundingSphere = new THREE.Sphere(new THREE.Vector3(x0 + SIZE / 2, (lo + hi) / 2 - drop / 2, z0 + SIZE / 2), Math.hypot(SIZE * 0.71, (hi - lo) / 2 + drop) + 1);
       const mesh = new THREE.Mesh(g, by ? by.mat : wildMat); mesh.matrixAutoUpdate = false; mesh.name = 'land';
+      // the map's water in this square: one sheet over it, which the land hides wherever it stands higher. In the zone
+      // it lies at the zone's water level; out at true size, at the height the map gives that water
+      if (wetN) {
+        const WB = W3D.Builder(); WB.solid = false; const up = atlasAt(x0 + SIZE / 2, z0 + SIZE / 2).c * (hsMin - HG) - 0.02, wy = (x, z) => atlasAt(x, z).wz + up;
+        for (const [a, b, c, d] of cutRects(x0, z0, x0 + SIZE, z0 + SIZE)) WB.quad('w', [a, wy(a, d), d], [c, wy(c, d), d], [c, wy(c, b), b], [a, wy(a, b), b], [a, d, c, b]);
+        const wm = WB.build({ w: atlasWaterMat }).w; if (wm) { wm.name = 'land-water'; mesh.add(wm); mesh.water = wm; }
+      }
       return mesh;
     }
 
@@ -376,31 +438,40 @@
     const freeOfClearing = (x, z) => !CLEAR.some((c) => Math.hypot(x - c.x, z - c.z) < c.r);
     function listFor(ci, cj) {
       const key = ci + ',' + cj; let q = lists.get(key); if (q) return q;
-      q = { trees: [], herbs: [] };
+      q = { trees: [], herbs: [], reeds: [] };
       const x0 = ci * SIZE, z0 = cj * SIZE, x1 = x0 + SIZE, z1 = z0 + SIZE;
       for (let gz = Math.floor(z0 / TS) - 1; gz <= Math.floor(z1 / TS); gz++) for (let gx = Math.floor(x0 / TS) - 1; gx <= Math.floor(x1 / TS); gx++) {
         const x = (gx + 0.12 + 0.76 * h2(gx, gz, 1)) * TS, z = (gz + 0.12 + 0.76 * h2(gx, gz, 2)) * TS;
         if (x < x0 || x >= x1 || z < z0 || z >= z1 || dOut(x, z) < 0.6) continue;
-        const tk = thornK(x, z), rim = Math.min(x - BX0, BX1 - x, z - BZ0, BZ1 - z);
+        const tk = thornK(x, z), rim = rimD(x, z);
         // the woods thin and thicken; the thorns stand in clumps with clearings between; the land's rim is a thick hedge
-        const dens = rim < 14 ? 1 : lerp(L.trees.woods * (0.55 + 0.45 * ss(0.3, 0.55, vnoise(x / 31 + 2.2, z / 31 + 6.1))), L.trees.thorn * (0.08 + 0.92 * ss(0.4, 0.6, vnoise(x / 36 + 7.7, z / 36 + 1.3))), tk);
-        if (h2(gx, gz, 3) > dens || !freeOfClearing(x, z)) continue;
+        let dens = rim < 14 ? 1 : lerp(L.trees.woods * (0.55 + 0.45 * ss(0.3, 0.55, vnoise(x / 31 + 2.2, z / 31 + 6.1))), L.trees.thorn * (0.08 + 0.92 * ss(0.4, 0.6, vnoise(x / 36 + 7.7, z / 36 + 1.3))), tk);
         const f = field(x, z, false); if (f.re < 1.7 || f.sd < 1.8) continue;
+        // by the map: few trees on its open grass and in the fen (where they stand bare), firs in its pine forest
+        const fen = f.fen, pine = f.pine; if (rim >= 14) dens *= (1 - 0.55 * f.open * (1 - tk)) * (1 - 0.7 * fen);
+        if (h2(gx, gz, 3) > dens || !freeOfClearing(x, z)) continue;
         const r = h2(gx, gz, 4), r2 = h2(gx, gz, 5);
         // kinds as the place engine names them: 0 a leafy tree, 1 a fir, 2 a bare thorn
-        const kind = r < tk * L.trees.thornShare ? 2 : (r2 < (tk > 0.5 ? 0.25 : L.trees.firShare) ? 1 : 0);
+        const kind = r < Math.max(tk * L.trees.thornShare, fen * 0.8) ? 2 : (r2 < (tk > 0.5 ? 0.25 : lerp(L.trees.firShare, 0.85, pine)) ? 1 : 0);
         const size = kind === 2 ? 1.15 + 0.95 * r2 * r2 + 0.25 * h2(gx, gz, 6) : 0.8 + 0.7 * r2;
         q.trees.push({ x, z, y: f.h, size, kind, seed: (gx * 73 + gz * 151) & 0xffff, r: 0.3 * size });
       }
       for (let gz = Math.floor(z0 / HS); gz <= Math.floor(z1 / HS); gz++) for (let gx = Math.floor(x0 / HS); gx <= Math.floor(x1 / HS); gx++) {
         const x = (gx + 0.15 + 0.7 * h2(gx, gz, 11)) * HS, z = (gz + 0.15 + 0.7 * h2(gx, gz, 12)) * HS;
-        if (x < x0 || x >= x1 || z < z0 || z >= z1 || dOut(x, z) < L.herbs.away || x < BX0 + 16 || x > BX1 - 16 || z < BZ0 + 16 || z > BZ1 - 16) continue;
+        if (x < x0 || x >= x1 || z < z0 || z >= z1 || dOut(x, z) < L.herbs.away || rimD(x, z) < 16) continue;
         const tk = thornK(x, z); if (h2(gx, gz, 13) > lerp(L.herbs.woods, L.herbs.thorn, tk) || !freeOfClearing(x, z)) continue;
         const f = field(x, z, false); if (f.re < 0.3 || f.sd < 1.4) continue;
         if (q.trees.some((t) => Math.hypot(t.x - x, t.z - z) < t.r + 0.9)) continue;
         const kinds = L.herbs.kinds, kind = kinds[Math.floor(h2(gx, gz, 14) * kinds.length) % kinds.length];
         q.herbs.push({ id: gx + ',' + gz, x, z, y: f.h, kind: kind.id, turn: h2(gx, gz, 15) * 6.283 });
       }
+      // reeds along the map's water: in the fen thick, by a lake's shore a few
+      if (AT) { const RS = 2.1; for (let gz = Math.floor(z0 / RS); gz <= Math.floor(z1 / RS); gz++) for (let gx = Math.floor(x0 / RS); gx <= Math.floor(x1 / RS); gx++) {
+        const x = (gx + 0.1 + 0.8 * h2(gx, gz, 21)) * RS, z = (gz + 0.1 + 0.8 * h2(gx, gz, 22)) * RS;
+        if (x < x0 || x >= x1 || z < z0 || z >= z1) continue;
+        const f = field(x, z, false); if (f.aw < 0.3 || f.aw > 0.6 || f.re < 1.4 || h2(gx, gz, 23) > 0.2 + 0.5 * f.fen || inRectM(x, z)) continue;
+        q.reeds.push({ x, z, y: Math.max(f.h, f.wl - 0.1), s: 0.75 + 0.7 * h2(gx, gz, 24), turn: h2(gx, gz, 25) * 3.14 });
+      } }
       lists.set(key, q); return q;
     }
 
@@ -434,6 +505,12 @@
     };
     const herbMats = {};
     for (const k of L.herbs.kinds) herbMats[k.id] = W3D.mat(U, { map: sprig(k.petal, k.heart), alphaTest: 0.35, side: THREE.DoubleSide, noflip: true, lit: 0.3, glow: 0, shade: 0 });
+    // (and the reeds: pale stalks with dark heads, painted here)
+    if (AT) { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'); g.lineCap = 'round';
+      for (let i = 0; i < 17; i++) { const x0 = 14 + i * 6.2 + (h2(i, 1, 31) - 0.5) * 5, top = 14 + h2(i, 2, 31) * 60, lean = (h2(i, 3, 31) - 0.5) * 34;
+        g.strokeStyle = i % 3 ? '#7f9a7c' : '#a3b58e'; g.lineWidth = 2.2 + h2(i, 4, 31) * 1.6; g.beginPath(); g.moveTo(x0, 128); g.quadraticCurveTo(x0 + lean * 0.2, 70, x0 + lean, top); g.stroke();
+        if (i % 2 === 0) { g.strokeStyle = '#5a4634'; g.lineWidth = 5; g.beginPath(); g.moveTo(x0 + lean * 0.86, top + 16); g.lineTo(x0 + lean, top + 2); g.stroke(); } }
+      herbMats.reed = W3D.mat(U, { map: W3D.canvasTex(c, false), alphaTest: 0.4, side: THREE.DoubleSide, noflip: true, lit: 0.09, glow: 0, shade: 0 }); }
     const picked = new Set(), bag = {};
     function herbMeshes(q) {
       const HB = W3D.Builder(); HB.solid = false; let any = false;
@@ -444,6 +521,7 @@
           HB.quad(h.kind, [h.x - dx, y0, h.z - dz], [h.x + dx, y0, h.z + dz], [h.x + dx, y1, h.z + dz], [h.x - dx, y1, h.z - dz], [0, 0, 1, 1]);
         }
       }
+      for (const r of q.reeds) { any = true; for (let i = 0; i < 2; i++) { const a = r.turn + i * 1.571, dx = Math.cos(a) * 0.55 * r.s, dz = Math.sin(a) * 0.55 * r.s, y1 = r.y + 1.5 * r.s; HB.quad('reed', [r.x - dx, r.y, r.z - dz], [r.x + dx, r.y, r.z + dz], [r.x + dx, y1, r.z + dz], [r.x - dx, y1, r.z - dz], [0, 0, 1, 1]); } }
       if (!any) return [];
       const out = HB.build(herbMats), list = [];
       for (const k in out) { out[k].name = 'land-herbs'; scene.add(out[k]); list.push(out[k]); }
@@ -452,8 +530,8 @@
 
     // ---- where her feet can stand on the land ----
     function landWalkable(x, z) {
-      if (x < BX0 + 6 || x > BX1 - 6 || z < BZ0 + 6 || z > BZ1 - 6) return false;
-      if (water(x, z).sd < 0.5) return false;
+      if (rimD(x, z) < 6) return false;
+      if (field(x, z, false).sd < 0.5) return false;
       for (const s of SOLID) if (Math.hypot(x - s[0], z - s[1]) < s[2]) return false;
       for (const b of BLOCK) { const dx = x - b.x, dz = z - b.z; if (b.r != null) { if (dx * dx + dz * dz < b.r * b.r) return false; } else if (Math.abs(dx) < b.w + b.d && Math.abs(dz) < b.w + b.d) { const c = Math.cos(b.a), sn = Math.sin(b.a); if (Math.abs(dx * c - dz * sn) < b.w && Math.abs(dx * sn + dz * c) < b.d) return false; } }
       const ci = Math.floor(x / SIZE), cj = Math.floor(z / SIZE), fx = x - ci * SIZE, fz = z - cj * SIZE;
@@ -471,12 +549,12 @@
     const TIMES = {};   // how long each kind of piece takes to make: { kind: [thousandths of a second in all, how many] }
     let queue = [], made = 0, region = null, regionWant = null, regionT = 0;
     const SKY0 = [0.62, 0.6, 0.7], MOON0 = [0.42, 0.43, 0.56];   // the place engine's own sky and moon
-    const NW = L.night.woods, NT = L.night.thorn, col = new THREE.Color();
+    const NW = L.night.woods, NT = L.night.thorn, NF = L.night.fen || null, col = new THREE.Color();
     const mix3 = (a, b, t) => [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
     const nearestD = (ci, cj, x, z) => Math.hypot(Math.max(ci * SIZE - x, 0, x - (ci + 1) * SIZE), Math.max(cj * SIZE - z, 0, z - (cj + 1) * SIZE));
     const levelFor = (d, cur) => { for (let k = 0; k < LEVELS.length; k++) if (d < LEVELS[k].d * (cur >= 0 && cur <= k ? 1.12 : 0.92)) return k; return LEVELS.length - 1; };
     function drop(s) {
-      if (s.mesh) { scene.remove(s.mesh); s.mesh.geometry.dispose(); s.mesh = null; }
+      if (s.mesh) { scene.remove(s.mesh); s.mesh.geometry.dispose(); if (s.mesh.water) s.mesh.water.geometry.dispose(); s.mesh = null; }
       if (s.trees) { P.unplant(s.trees); s.trees = null; }
       if (s.herbs) { for (const m of s.herbs) { scene.remove(m); m.geometry.dispose(); } s.herbs = null; }
     }
@@ -485,9 +563,11 @@
       // the fog: each place's own in and near it; past it thicker in the woods, thickest (and paler) in the thorns
       const dN = dOut(io.x, io.z), near = NR, kw = ss(4, 40, dN), tk = thornK(io.x, io.z), pn = near.night;
       if (!guideOn) {
-        U.uFogNear.value = lerp(pn.near, lerp(NW.near, NT.near, tk), kw); U.uFogFar.value = lerp(pn.far, lerp(NW.far, NT.far, tk), kw);
-        U.uFog.value.setRGB(...mix3(pn.fog, mix3(NW.fog, NT.fog, tk), kw));
-        U.uSky.value.setRGB(...mix3(pn.sky, mix3(SKY0, NT.sky, tk), kw)); U.uMoon.value.setRGB(...mix3(pn.moon, mix3(MOON0, NT.moon, tk), kw));
+        // (the wild's own: the woods', the thorn country's, and the fen's where the map has fen)
+        const fk = AT && NF ? atlasAt(io.x, io.z).fen : 0, NFq = NF || NT;
+        U.uFogNear.value = lerp(pn.near, lerp(lerp(NW.near, NT.near, tk), NFq.near, fk), kw); U.uFogFar.value = lerp(pn.far, lerp(lerp(NW.far, NT.far, tk), NFq.far, fk), kw);
+        U.uFog.value.setRGB(...mix3(pn.fog, mix3(mix3(NW.fog, NT.fog, tk), NFq.fog, fk), kw));
+        U.uSky.value.setRGB(...mix3(pn.sky, mix3(mix3(SKY0, NT.sky, tk), NFq.sky || SKY0, fk), kw)); U.uMoon.value.setRGB(...mix3(pn.moon, mix3(mix3(MOON0, NT.moon, tk), NFq.moon || MOON0, fk), kw));
       }
       // a flat with a night of its own (the camp): the fog clears toward it
       let flat = null;
@@ -496,14 +576,14 @@
       const fogFar = guideOn ? 115 : U.uFogFar.value;
       if (sky) { sky.position.copy(cam.position); sky.updateMatrix(); }
       // the far hills sink out of sight where the fog is heavy
-      hills.position.set(cam.position.x, -110 * (1 - ss(62, 95, fogFar)), cam.position.z);
+      hills.position.set(cam.position.x, -110 * (1 - ss(62, 95, fogFar)) + (AT ? height(io.x, io.z) - L.level : 0), cam.position.z);   // (they rise and fall with the ground she stands on)
       // which squares are wanted, and at what detail
       const R = fogFar + 46, RT = fogFar + 14, RH = Math.min(fogFar, 70);
       const c0 = Math.floor((io.x - R) / SIZE), c1 = Math.floor((io.x + R) / SIZE), r0 = Math.floor((io.z - R) / SIZE), r1 = Math.floor((io.z + R) / SIZE);
       const want = [];
       for (let cj = r0; cj <= r1; cj++) for (let ci = c0; ci <= c1; ci++) {
         // nothing is made past the land's rim but a ring of ground one square deep, lost in the fog
-        if ((ci + 1) * SIZE < BX0 - SIZE || ci * SIZE > BX1 + SIZE || (cj + 1) * SIZE < BZ0 - SIZE || cj * SIZE > BZ1 + SIZE) continue;
+        if (rimD((ci + 0.5) * SIZE, (cj + 0.5) * SIZE) < -SIZE * 1.6) continue;
         const d = nearestD(ci, cj, io.x, io.z); if (d > R) continue;
         const key = ci + ',' + cj; let s = squares.get(key); if (!s) { s = { ci, cj, lv: -1, mesh: null, trees: null, herbs: null, none: false }; squares.set(key, s); }
         s.d = d; const lv = levelFor(d, s.lv);
@@ -520,7 +600,7 @@
         const w = queue.shift(), s = w.s, t1 = performance.now();
         if (w.job === 'ground') {
           const mesh = makeSquare(s.ci, s.cj, w.lv);
-          if (s.mesh) { scene.remove(s.mesh); s.mesh.geometry.dispose(); }
+          if (s.mesh) { scene.remove(s.mesh); s.mesh.geometry.dispose(); if (s.mesh.water) s.mesh.water.geometry.dispose(); }
           s.mesh = mesh; s.lv = w.lv; if (mesh) scene.add(mesh); else s.none = true;   // wholly under the place: nothing to draw, ever
         } else if (w.job === 'trees') {
           const q = listFor(s.ci, s.cj);
@@ -553,6 +633,15 @@
       rect: [R[0].x0, R[0].z0, R[0].x1, R[0].z1], rects: R.map((r) => ({ name: r.name, x0: r.x0, z0: r.z0, x1: r.x1, z1: r.z1 })), bounds: L.bounds,
       times() { const o = {}; for (const k in TIMES) o[k] = +(TIMES[k][0] / TIMES[k][1]).toFixed(1); return o; },
       pending: () => queue.length,
+      // everything a map of the land needs to draw it (engine/land/minimap.js)
+      mapData: () => ({ bounds: L.bounds, roads: ROADS.map((r) => ({ pts: r.pts, w: r.w })), rivers: RIVERS.map((r) => ({ pts: r.pts })), lakes: LAKES.map((l) => l.poly),
+        places: Z.parts.map((p) => ({ name: p.name, x0: p.x0, z0: p.z0, x1: p.x1, z1: p.z1, water: (p.P.place.water || []).map((w) => w.poly.map(([x, y]) => [p.ox + p.P.M.x(x), p.oz + p.P.M.z(y)])) })),
+        flats: FLATS.map((f) => ({ name: f.name, x: f.x, z: f.z, r: f.r })), thornK,
+        // what a spot is, 0 to 1 each: water (the map's or drawn by hand), fen, thorn country, open grass, pine forest; and rim, metres inside the edge of the land she can walk
+        kind: (x, z) => { const f = field(x, z, false); return { water: f.sd < 0 ? 1 : 0, fen: f.fen, thorn: thornK(x, z) * (1 - f.fen), open: f.open, pine: f.pine, rim: rimD(x, z) }; },
+        wide: L.longRoad ? box(L.longRoad.pts.concat([[BX0, BZ0], [BX1, BZ1]]), L.longRoad.half) : L.bounds,
+        longRoad: L.longRoad ? { pts: L.longRoad.pts, half: L.longRoad.half, name: L.longRoad.name } : null }),
+      atlas: (x, z) => (AT ? Object.assign({}, atlasAt(x, z)) : null), rim: rimD,
       addGlow(a) { a.mat = makeGroundMat(a); GLOWS.push(a); }, addBlockers(list) { for (const b of list) BLOCK.push(b); },
       // the nearest herb still on the ground to a spot, among the squares made so far (for the checks)
       nearestHerb(x, z) { let best = null, bd = 1e9; for (const sq of squares.values()) { if (!sq.herbs) continue; for (const h of listFor(sq.ci, sq.cj).herbs) { const d = Math.hypot(h.x - x, h.z - z); if (!picked.has(h.id) && d < bd) { bd = d; best = h; } } } return best; },
