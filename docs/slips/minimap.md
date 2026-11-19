@@ -1,6 +1,6 @@
 # minimap: a better map, small in the corner and big when tapped
 
-Branch: job/minimap      Last commit: (see `git log job/minimap`)      Updated: 2026-11-18
+Branch: job/minimap      Last commit: 9f58b93      Updated: 2026-11-18
 
 ## What it built
 - **`game/engine/land/minimap.js`, rewritten.** It is a hand-drawn night map: dark blue paper, the land in moonlit inks.
