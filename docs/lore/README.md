@@ -62,6 +62,13 @@ In `envoi-on-the-longest-night`, `docs/project-notes/claude/lore/`:
 - `envoi-at-moonset-story.md`: **a proposal by Claude, not approved.** One story that would answer the open questions:
   the Faire is the last thing a land sees before its moon sets, and the fire is a light that will not let go.
 
+## The story brief (November 19, 2026)
+
+`story-brief.md` is the hub's proposal for the story, written for the job that writes the spoken dialogue. It says
+what is settled and what is proposed, and lists nine calls that are Chris's. The questions in the table above were
+answered on November 18 (`docs/decisions.md`): Aethermoor; one fire at Misthollow's dead Moonwell; Auros; a soul is
+a light; all four witches from the start; any of them leads.
+
 ## How lore gets written here
 
 - A lore job writes drafts on its own branch and its slip. The hub brings approved text into this folder.

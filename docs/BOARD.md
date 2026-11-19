@@ -22,7 +22,7 @@ zones by Skies of Aethermoor, and walking far is far on purpose.
 
 1. **The first test** (the Thornwood with Wickhollow). **Done.**
 2. The rest of zone 1. **Built, bar the people, and rebuilt on the map of Aethermoor at one third size.**
-3. The fights joined on.
+3. The fights joined on. **Done for zone 1** (job `fights`, November 19).
 4. The people.
 5. Zones 2 to 4.
 
@@ -53,9 +53,10 @@ What the checks say (no screen, no graphics card):
 
 | Who | What |
 |---|---|
-| Chris | Trying the rebuilt zone 1 on his laptop and phone; giving the `fights` conversation its step 3 (text below) |
-| The `fights` conversation | Step 3: fights on the land (milestone 3) |
-| The hub | The Flipbook stutter on the phone; then the people in the camp, and zone 2's land |
+| Chris | Starting a fresh conversation on `story` (text below); trying the fights on the land |
+| The `story` conversation (to be started) | The story page and a sample of lines for Chris's yes; then zone 1's 236 spoken lines |
+| The `fights` conversation | Step 3 done and in `main`. Free for more work |
+| The hub | The people in the Moon Faire's camp and the talk itself (bodies, where they stand, the Talk button, playing a recorded line) |
 
 ## What is left of milestone 2 (job `zone-1`)
 
@@ -125,7 +126,8 @@ The hub's plan. Names and order may change.
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
 | `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places, the camp, four witches to walk as, the 3D map's hills and fen, the long road. The better map and the rough spots are left |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
-| `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1 and 2 done and in `main`** (November 19): `game/pages/battle.html`, all four witches in every fight but the first, 49 of Envoi's 51 balance targets, `CovenBattle.start()` for the land. **Step 3 handed out:** fights on the land (text below) |
+| `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1, 2 and 3 done and in `main`** (November 19): the battle page; `CovenBattle.start()`; the party kept in the browser; unseen meetings in zone 1's wilds (about 46 fights to level 5); the fight over the land and back; rest at the camp; the gate's spot (a proposal). Zone 1's page is 83.5 MB |
+| `story` | The story's dialogue, written to be spoken aloud (every person has a voice) | `job/story` | `docs/slips/story.md` | **Ready for a fresh conversation** (Opus 5.5, extra high). The hub's brief is `docs/lore/story-brief.md` (a proposal). Step 1 stops for Chris's yes |
 
 **Who owns which files, so two conversations never write the same one:**
 
@@ -133,6 +135,7 @@ The hub's plan. Names and order may change.
 |---|---|---|
 | `zone-1` (the hub) | `game/engine/`, `game/places/`, `game/fair/`, `game/data/`, `game/pages/zone-1.html`, `game/pages/first-test.html`, `game/witches/`, `game/art/world/`, `tools/build.py`, `tools/look.py`, `tools/walk-test.py`, `tools/zone-test.py` | anything of `fights` |
 | `fights` | `game/battle/`, `game/sound/`, `game/party/`, `game/encounters/`, `game/art/arena/`, `game/art/backdrops/`, `game/pages/battle.html`, `tools/battle-*`, `tools/encounter-*`, `docs/slips/fights.md`, the faces the battle uses in `game/witches/*/moon-*.js`, and **the two marked slots in `game/pages/zone-1.html`** ("fights job: ..." to "fights job: end") | everything in the row above (read it, use it, ask the hub for a change in the slip) |
+| `story` | `game/talk/`, `tools/talk-*`, `docs/lore/story-*.md` (but not `story-brief.md`, the hub's), `docs/slips/story.md` | everything else (read it, ask the hub for a change in the slip) |
 
 Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join when it merges).
 
@@ -143,6 +146,99 @@ Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join whe
 3. Tell the hub when the job says a step is ready. The hub brings it into `main` and updates this board.
 
 ## Starter texts
+
+### `story` (paste this into a new conversation, with `docs/lore/story-brief.md` pasted under it)
+
+```
+You are a job conversation for Coven of the Moon Faire. Your job is `story`: the story's dialogue, written to be
+spoken aloud. Every person in the game will have a voice (ElevenLabs), so every line you write will be recorded.
+
+SETTING UP
+Add the repo chriskizer91-ops/coven-of-the-moon-faire with push access. Add chriskizer91-ops/envoi-on-the-longest-night
+and chriskizer91-ops/moon-faire as read-only sources: their main branch only, never push to them, and read them the
+light way CLAUDE.md shows (no full download). Read CLAUDE.md, docs/BOARD.md, the top of docs/decisions.md,
+docs/lore/README.md and docs/lore/story-brief.md. The brief is also pasted whole below, so you have it at once.
+Then read the sources the brief lists in its section 8.
+
+Work on your own branch job/story, made from main. You are the lore job. Under docs/ you may write only
+docs/slips/story.md (read docs/slips/README.md for what a slip holds) and your own files in docs/lore/ whose names
+begin "story-" (not story-brief.md: that is the hub's). Each of your lore files says at its top that it is a
+proposal. Your game files are game/talk/ and tools/talk-*. Nothing else. The repo is public: no keys, and nothing
+private about Chris or his family (the old notes mark where such lines were left out; leave them out).
+
+WHO YOU ARE WRITING FOR
+Chris made this world: the map of Aethermoor, the four witches, the Moon Faire. He is not a programmer. Write to him
+in plain words and short sentences, and end every step with something he can open (one HTML file). Lore is not final
+until he says so. The brief marks what is his settled word and what is the hub's proposal. Do not settle one of his
+calls by writing it into lines: section 7 of the brief lists them.
+
+WHAT TO MAKE, IN THREE STEPS. STOP AFTER STEP 1 AND WAIT FOR CHRIS.
+
+Step 1: the story page and a sample, for his yes.
+- docs/lore/story-page.md: one page. The story in ten lines (start from the brief's; make it better where you can and
+  say what you changed and why). Each witch's thread. The calls that are his, each with your pick. A table of
+  proposed names for the eleven fair folk. Anything in the two old games' lore that fights with this, and your way
+  through it.
+- A sample of about 24 lines so he can hear the voice before the rest is written: the lamp-seller, the Grey Hat,
+  Nettie, one ordinary person's full six, and a line or two from each witch.
+- Send him both as one HTML page he can read on his phone. Then stop. He will say yes, or mark it up.
+
+Step 2: all of zone 1's lines (about 236, as the brief's table has them), as data the game reads.
+- game/talk/cast.js: every speaker: an id, the name shown, where they stand, and a voice note for casting (age, sex,
+  where they sound like they are from, pitch, pace, texture, and one line to audition with).
+- game/talk/zone-1.js: every line: an id that will also be its sound file's name (for example z1.captain.03); who
+  says it; the words shown on the screen; the same words with any delivery cues in square brackets, in a field of
+  their own; when it can be said (the stage, first talk or later, lamps home; for the four people with many lines
+  also the few extra things the brief allows); what kind of line it is (hello, stage, pointer, call, story, coven);
+  for a story talk, the order of its lines; and about how many seconds it takes to say.
+- For each person, a short list of every fact you invented about their own life, so Chris can see it.
+- tools/talk-check.py: counts the lines for each person against the brief's table; no line over 24 words; the minutes
+  of speech in all and for each person; no banned word; no name Chris has not approved; every person has something
+  to say at every stage; every id used once.
+- A reading page, one HTML file: every line by person and by stage, with the seconds and the totals; and for each
+  speaker a plain script of their lines, ready to paste into ElevenLabs.
+- Tell Chris. He tells the hub.
+
+Step 3: his notes worked in. Then the cast and the beats for zones 2 to 4 (Dawnroost and the Warm Roads; the northern
+wilds and the shipyard; the frozen pass, Misthollow and the dead Moonwell) as an outline only: who speaks, how many
+lines, what each is for. Their lines are written when the hub asks, zone by zone.
+
+WHAT THE DIALOGUE SHOULD BE
+This is the part that matters most.
+- Written for the ear. Say every line aloud before you keep it. Short words. The strongest word last. Numbers as
+  words. Nothing that needs its punctuation to be understood. No dashes, semicolons or trailing dots.
+- One breath: about 12 words, never more than 24. One new thing in a line, never two.
+- Every voice unmistakable with the name covered. Each person notices one kind of thing: the lamp-seller notices
+  flames before faces, the dyer sees what holds its colour, the gate keeper counts. Let that do the work.
+- The feeling under all of it: a fair at dusk on a land's last good nights, and a goodbye said kindly. Warm, dry,
+  a little funny, a little sad. Never grim and never cute. Humour comes from the person, not from a pun.
+- People talk about their own small thing and the big story shows through it. Nobody explains the plot. Nobody
+  outside the coven knows what the fire is, or says its name. Each has a guess about the wisps, from their own
+  trade, and holds it as a guess.
+- The heart is Io, who holds on, and Kore, who lets go. Let the two of them disagree gently and often. Europa is
+  quick and playful and sees threads. Callisto says little and sees first. The witches' lines are few: make each
+  one earn its place.
+- The first thing a person says must make the player want the second.
+- Each of the four people with many lines (the lamp-seller, the Grey Hat, Nettie, Old Wenna) tells a small story of
+  their own across the stages: a beginning, a turn and an end. They are who the story is told through, and every
+  ordinary person has one line that sends the player toward one of them, by a place the player can find ("past the
+  town, on the lake").
+- Leave room for the voice: write the line that has the feeling under it, not the line that states the feeling.
+- A lamp-and-candle world. No modern words. Never the words level, HP, MP, experience, quest, player, game, zone,
+  or a spell's name. Say "the moon" unless a line truly needs "Auros".
+- The same recording plays whichever witch the player walks as, and all four are always there. So "you" always
+  means the coven. A witch may be spoken to by name.
+- Invent nothing bigger than a person's own life. What the world is, is Chris's.
+- The 480 lines in Moon Faire's lines.json and the old words in Envoi's script.js show the voice of each person.
+  Learn from them. Reuse none of them.
+
+You may use sub-agents to draft, but read every line yourself and make it one hand. ElevenLabs changes often: if you
+need a detail of how it reads cues or what it can make, look it up in its own documentation, do not go from memory.
+
+The hub is building the people into the camp and the talk itself while you write, to the shape in the brief's
+section 5. If that shape gets in the way of a better line, say so in your slip early. Small calls are yours: write
+each in your slip as a job's call. Push to job/story often.
+```
 
 ### `fights`, step 3 (paste this into the fights conversation)
 

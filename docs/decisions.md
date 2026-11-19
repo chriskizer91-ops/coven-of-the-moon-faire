@@ -13,6 +13,26 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 19, 2026, 08:05: every person speaks aloud
+
+- **Chris: every person in the game speaks aloud,** with ElevenLabs voices.
+- **Chris: everyone has at least five or six lines. A few people have many more, and the story leads the player to
+  them.** The size of the sound has to be thought about, so some dialogue may have to be kept small.
+- **Chris: a fresh Opus 5.5 conversation at extra-high effort writes the story's dialogue,** from a brief the hub
+  puts together: the lore, and what the dialogue should be.
+- **Chris: the fights job's second round is done.** The hub brought step 3 (fights on the land) into `main`.
+- **Chris: next for the hub is the people in the Moon Faire's camp.**
+- **Hub's proposal, not approved:** `docs/lore/story-brief.md`. It marks what is Chris's settled word and what is
+  proposed: these are Aethermoor's last moonlit years; the fire at Misthollow was lit by Halcyon, Io's older sister;
+  the Grey Hat's twelve lamps fly on the first night and he will not fly dark. Nine calls in it are Chris's, each
+  with the hub's pick. The story job's first step stops for his yes before the lines are written.
+- **Hub's call.** *Zone 1 has about 236 spoken lines, about 17 minutes:* four people with 20 to 28 lines (the
+  lamp-seller, the Grey Hat, Nettie, Old Wenna), fifteen with 6 to 8, and 46 for the four witches. About 11 MB
+  inside the one-file build at MP3 64 kbps. The whole game should stay near an hour of speech.
+- **Hub's call.** *The Grey Hat stands at the jetty,* where his ship is moored, not in the camp.
+- **Hub's call.** *No line says a name Chris has not approved,* because a spoken name costs a new recording to
+  change.
+
 ## November 19, 2026, morning: Chris tries the rebuilt land; the fights job's steps 1 and 2 are in
 
 - **Chris: the rebuilt land looks "so very beautiful"** and he wants to continue. The frame rate is the same as
