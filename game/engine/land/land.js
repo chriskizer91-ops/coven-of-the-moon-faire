@@ -553,6 +553,10 @@
       rect: [R[0].x0, R[0].z0, R[0].x1, R[0].z1], rects: R.map((r) => ({ name: r.name, x0: r.x0, z0: r.z0, x1: r.x1, z1: r.z1 })), bounds: L.bounds,
       times() { const o = {}; for (const k in TIMES) o[k] = +(TIMES[k][0] / TIMES[k][1]).toFixed(1); return o; },
       pending: () => queue.length,
+      // everything a map of the land needs to draw it (engine/land/minimap.js)
+      mapData: () => ({ bounds: L.bounds, roads: ROADS.map((r) => ({ pts: r.pts, w: r.w })), rivers: RIVERS.map((r) => ({ pts: r.pts })), lakes: LAKES.map((l) => l.poly),
+        places: Z.parts.map((p) => ({ name: p.name, x0: p.x0, z0: p.z0, x1: p.x1, z1: p.z1, water: (p.P.place.water || []).map((w) => w.poly.map(([x, y]) => [p.ox + p.P.M.x(x), p.oz + p.P.M.z(y)])) })),
+        flats: FLATS.map((f) => ({ name: f.name, x: f.x, z: f.z, r: f.r })), thornK }),
       addGlow(a) { a.mat = makeGroundMat(a); GLOWS.push(a); }, addBlockers(list) { for (const b of list) BLOCK.push(b); },
       // the nearest herb still on the ground to a spot, among the squares made so far (for the checks)
       nearestHerb(x, z) { let best = null, bd = 1e9; for (const sq of squares.values()) { if (!sq.herbs) continue; for (const h of listFor(sq.ci, sq.cj).herbs) { const d = Math.hypot(h.x - x, h.z - z); if (!picked.has(h.id) && d < bd) { bd = d; best = h; } } } return best; },

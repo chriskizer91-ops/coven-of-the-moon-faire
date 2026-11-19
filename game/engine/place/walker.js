@@ -41,7 +41,9 @@
       const panel = (x, y, z, w, h, r, gg, b) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(r, gg, b), side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 1, 0); es.add(m); };
       panel(4, 6, 5, 4, 3, 4.2, 3.9, 3.8); panel(-6, 3, 2, 2, 4, 0.8, 0.9, 1.6); panel(-2, 5, -7, 5, 2.5, 2.2, 1.2, 3.6);
       const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(es, 0.03).texture; pm.dispose(); }
-    const A = makeMoonIo({ weight: 'lightest' }); A.walkRun = false; scene.add(A.root);
+    // (Coven of the Moon Faire, November 18) who walks: any of the four witches (witches/walkers.js); Io unless the page
+    // says otherwise. api.setWho(id) swaps her for another where she stands
+    let A = W3D.witch ? W3D.witch(opt.who || 'io') : makeMoonIo({ weight: 'lightest' }); A.walkRun = false; scene.add(A.root);
     // her triangles as drawn (her spells' props stay hidden while she walks)
     const ioDrawn = () => { const shown = (o) => { for (let q = o; q; q = q.parent) if (!q.visible) return false; return true; }; let n = 0; A.root.traverse((o) => { if (o.isMesh && o.geometry && shown(o)) n += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; }); return Math.round(n); };
     // her light: the moon from above, a cool sky, a violet rim, a soft fill from the camera, and the three lamps nearest her
@@ -439,6 +441,8 @@
       P, A, io, C, cam, renderer, guide: setGuide, numbers, switchTo, warm, nearestFit, isBusy: () => busy,
       step(sec, fps, draw) { const n = Math.max(1, Math.round(sec * (fps || 30))); for (let i = 0; i < n; i++) { clock += 1 / (fps || 30); tick(1 / (fps || 30), clock); } if (draw !== false && !busy) drawFrame(); return numbers(); },
       render() { if (!busy) drawFrame(); }, setLook, look,
+      setWho(id) { const B = W3D.witch(id); if (B === A) return id; B.root.position.copy(A.root.position); B.root.rotation.copy(A.root.rotation); scene.remove(A.root); scene.add(B.root); A = B; return id; },
+      get who() { return A.id || 'io'; },
       setIo(px, py, yaw) { io.px = px; io.py = py; io.y = P.walkH(px, py); if (yaw != null) io.yaw = yaw; placeCamera(0, true); },
       setCam(yaw, pitch, dist) { if (yaw != null) C.yaw = yaw; C.pitch = pitch != null ? pitch : view.pitch; C.pitchSet = pitch != null; C.dist = dist != null ? dist : view.dist; C.base = C.dist; C.zoom = 1; C.hold = dist != null; C.auto = 99; placeCamera(0, true); },
       push(x, y, mag) { scripted = x == null ? null : { x, y, mag: mag == null ? 0.7 : mag }; },

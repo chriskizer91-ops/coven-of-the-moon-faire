@@ -101,3 +101,10 @@ game/fair/data/tile_bluestripe.webp,moon-faire,main,6371714,game/openworld/data/
 game/fair/data/tile_damask.webp,moon-faire,main,6371714,game/openworld/data/tile_damask.webp,"Chris's fair picture, made ready: damask canvas",2026-11-18
 game/fair/data/mat_awning.webp,moon-faire,main,6371714,game/openworld/data/mat_awning.webp,"Chris's fair picture, made ready: cream awning cloth",2026-11-18
 game/fair/data/kit-data.js,moon-faire,main,6371714,game/openworld/data/kit.json,"where each fair piece's picture lies on the kit's sheet (kit.json), with the pictures' paths, as the kit reads them",2026-11-18
+game/witches/kore/jester_tex.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/jester_tex.js,Kore's (the Jester's) painted textures,2026-11-18
+game/witches/kore/jester_kit.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/jester_kit.js,Kore's (the Jester's) model,2026-11-18
+game/witches/kore/lod.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/lod.js,"Kore's light weights (Full, Light, Lightest)",2026-11-18
+game/witches/europa/fox_tex.js,moon-faire,main,6371714,game/fight/witches/fox_tex.js,Europa's (the Fox's) painted textures,2026-11-18
+game/witches/europa/fox_lod.js,moon-faire,main,6371714,game/fight/witches/fox_lod.js,Europa's (the Fox's) light models,2026-11-18
+game/witches/callisto/ranger_tex.js,moon-faire,main,6371714,game/fight/witches/ranger_tex.js,Callisto's (the Ranger's) painted textures,2026-11-18
+game/witches/callisto/ranger_lod.js,moon-faire,main,6371714,game/fight/witches/ranger_lod.js,Callisto's (the Ranger's) light models,2026-11-18
