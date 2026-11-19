@@ -13,6 +13,8 @@ const require = createRequire(import.meta.url);
 const R = path.resolve(new URL('..', import.meta.url).pathname);
 for (const f of ['rules', 'engine', 'sim']) require(path.join(R, 'game/battle', f + '.js'));
 const S = globalThis.BattleSim, RL = globalThis.BattleRules;
+// Coven: --two plays the new Envoi's party of two (Io and Kore), to compare with Envoi's own check; by default the party of four
+if (process.argv.includes('--two')) S.setParty(['io', 'jester']);
 // MFW_TUNE='{"FATE.perBlow":650,"HEROES.jester.hp":2000}': numbers tried without changing rules.js (for tuning)
 if (process.env.MFW_TUNE) for (const [k, v] of Object.entries(JSON.parse(process.env.MFW_TUNE))) { const ks = k.split('.'); let o = RL; for (const x of ks.slice(0, -1)) o = o[x]; o[ks[ks.length - 1]] = v; }
 
@@ -22,6 +24,7 @@ for (let i = 0; i < args.length; i++) {
   if (args[i] === '--n') n = +args[++i];
   else if (args[i] === '--report') report = args[++i];
   else if (args[i] === '--results') results = args[++i];
+  else if (args[i] === '--two') { /* above */ }
 }
 
 const pct = (x) => Math.round(x * 100) + '%';

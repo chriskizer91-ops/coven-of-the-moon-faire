@@ -54,6 +54,10 @@
   const wildLevel = (band, rand) => { const [lo, hi] = BAND_LEVELS[band]; return lo + Math.floor(rand() * (hi - lo + 1)); };
   // the story flags a party has at a level when it isn't in the gate fight that grants them
   const flagsAt = (L) => ({ party: true, refit: L > 5, envoi: L > 10, stoop: L > 15 });
+  // Coven: the party in every fight but the first is the game's four (rules.js PARTY); setParty(['io', 'jester']) plays
+  // the new Envoi's party of two instead, for comparing with Envoi's own balance
+  let PARTY_IDS = null;
+  const party = (L) => (PARTY_IDS || G.BattleRules.PARTY).map((id) => ({ id, level: L }));
   const FIGHTS = {
     first: {
       name: 'The first fight', note: 'Io alone against the Night square wraith, as in the demo', level: 1, levels: [1, 3],
@@ -63,7 +67,7 @@
       name: 'Wild fights', note: "a random pack from the party's band, each foe at a level in the band's range", level: 3, levels: [2, 20],
       setup: (L, rand) => {
         const b = bandOf(L), pack = wildPack(b, rand);
-        return { party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: pack.map((id) => ({ id: formOf(id, b, rand), level: wildLevel(b, rand) })), flags: flagsAt(L), herbs: BAGS.wild };
+        return { party: party(L), foes: pack.map((id) => ({ id: formOf(id, b, rand), level: wildLevel(b, rand) })), flags: flagsAt(L), herbs: BAGS.wild };
       },
     },
     // the wild fights without the Bramble Horror (the packs), and the Bramble Horror as the wilds bring it: its band's
@@ -72,45 +76,45 @@
       name: 'Wild packs', note: 'a random pack of wisps and wraiths from the band, as above, without the Bramble Horror', level: 3, levels: [2, 20],
       setup: (L, rand) => {
         const b = bandOf(L), packs = BAND_PACKS[b].filter((p) => p[0] !== 'bramble?'), pack = packs[Math.floor(rand() * packs.length)];
-        return { party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: pack.map((id) => ({ id, level: wildLevel(b, rand) })), flags: flagsAt(L), herbs: BAGS.wild };
+        return { party: party(L), foes: pack.map((id) => ({ id, level: wildLevel(b, rand) })), flags: flagsAt(L), herbs: BAGS.wild };
       },
     },
     wildBramble: {
       name: 'Wild bramble', note: "the Bramble Horror as band 3's wilds bring it: any of its four forms, at a level from 11 to 15", level: 13, levels: [11, 15],
-      setup: (L, rand) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: formOf('bramble?', 3, rand), level: wildLevel(3, rand) }], flags: flagsAt(L), herbs: BAGS.wild }),
+      setup: (L, rand) => ({ party: party(L), foes: [{ id: formOf('bramble?', 3, rand), level: wildLevel(3, rand) }], flags: flagsAt(L), herbs: BAGS.wild }),
     },
     // the Bramble Horror alone, at the party's own level
     bramble: {
       name: 'Bramble Horror', note: 'the Classic Horror alone, at the party’s level', level: 9, levels: [1, 20],
-      setup: (L) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: 'bramble', level: L }], flags: flagsAt(L), herbs: BAGS.wild }),
+      setup: (L) => ({ party: party(L), foes: [{ id: 'bramble', level: L }], flags: flagsAt(L), herbs: BAGS.wild }),
     },
     // the Bramble Colossus alone, at the party's level, where the party can flee (it is rooted, so fleeing always works)
     colossus: {
       name: 'Bramble Colossus', note: 'the Bramble Colossus alone, at the party’s level; the party can flee', level: 19, levels: [16, 20],
-      setup: (L) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: 'colossus', level: L }], flags: flagsAt(L), herbs: BAGS.wild, ends: { canFlee: true } }),
+      setup: (L) => ({ party: party(L), foes: [{ id: 'colossus', level: L }], flags: flagsAt(L), herbs: BAGS.wild, ends: { canFlee: true } }),
     },
     brambleAncient: {
       name: 'Ancient Crown', note: 'the Ancient Crown alone, at the party’s level', level: 14, levels: [11, 20],
-      setup: (L) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: 'brambleAncient', level: L }], flags: flagsAt(L), herbs: BAGS.wild }),
+      setup: (L) => ({ party: party(L), foes: [{ id: 'brambleAncient', level: L }], flags: flagsAt(L), herbs: BAGS.wild }),
     },
     greatWraith: {
       name: 'The great wraith', note: "the level 5 gate, at Bogmire's dark heart", level: 5, levels: [3, 8],
-      setup: (L) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: 'greatWraith', level: 5 }], flags: { party: true }, herbs: BAGS.gate }),
+      setup: (L) => ({ party: party(L), foes: [{ id: 'greatWraith', level: 5 }], flags: { party: true }, herbs: BAGS.gate }),
     },
     dawnroost: {
       name: 'Dawnroost', note: 'the level 10 gate: three level 12 wraiths at the living node, without Envoi', level: 10, levels: [8, 13],
-      setup: (L) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: 'wraith', level: 12 }, { id: 'wraith', level: 12 }, { id: 'wraith', level: 12 }], flags: { party: true, refit: true }, herbs: BAGS.gate }),
+      setup: (L) => ({ party: party(L), foes: [{ id: 'wraith', level: 12 }, { id: 'wraith', level: 12 }, { id: 'wraith', level: 12 }], flags: { party: true, refit: true }, herbs: BAGS.gate }),
     },
     halcyon: {
       name: "Halcyon's ambush", note: 'the level 15 gate: Halcyon at 20; it ends when the party falls, or when she is down to 20% and retreats', level: 15, levels: [15, 20],
-      setup: (L) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: 'halcyon' }], flags: { party: true, refit: true, envoi: true, kestrel: true }, herbs: BAGS.gate, ends: { retreat: { foe: 'halcyon', below: 0.2 } } }),
+      setup: (L) => ({ party: party(L), foes: [{ id: 'halcyon' }], flags: { party: true, refit: true, envoi: true, kestrel: true }, herbs: BAGS.gate, ends: { retreat: { foe: 'halcyon', below: 0.2 } } }),
     },
     finale: {
       // at Noctara's side Halcyon fights at a little over a third of her ambush strength: Blackout gives her extra
       // blows, and at full strength the two of them end the fight before it can become a race. The cold deepens for
       // both
       name: 'The finale', note: 'Noctara with Halcyon, both at 20, at the dead Moonwell; the cold deepens every turn', level: 20, levels: [17, 20],
-      setup: (L) => ({ party: [{ id: 'io', level: L }, { id: 'jester', level: L }], foes: [{ id: 'halcyon', hpMul: 0.4, dmgMul: 0.35, rage: G.BattleRules.FOES.noctara.rage }, { id: 'noctara' }], flags: { party: true, refit: true, envoi: true, stoop: true }, herbs: BAGS.finale }),
+      setup: (L) => ({ party: party(L), foes: [{ id: 'halcyon', hpMul: 0.4, dmgMul: 0.35, rage: G.BattleRules.FOES.noctara.rage }, { id: 'noctara' }], flags: { party: true, refit: true, envoi: true, stoop: true }, herbs: BAGS.finale }),
     },
   };
 
@@ -265,7 +269,9 @@
       const col = v.foes.find((f) => f.def.heart);
       if (col && v.ok('flee') && col.hp > col.maxHp * 0.25) {
         const noRevive = v.fallen.length && !v.ok('lunara') && !v.ok('herb:nightrose');
-        if (noRevive || v.heroes.every((h) => v.pct(h) < FLEE_LOW)) return ['flee'];
+        // Coven: with four in the party it is the party's average that tells her to go (all four low together comes too late)
+        const allLow = v.heroes.length > 2 ? v.heroes.reduce((a, h) => a + v.pct(h), 0) / v.heroes.length < FLEE_LOW : v.heroes.every((h) => v.pct(h) < FLEE_LOW);
+        if (noRevive || allLow) return ['flee'];
       }
       if (u.id === 'io') {
         const low = v.heroes.filter((h) => v.pct(h) < 0.45 && !h.severed).sort((a, b) => v.pct(a) - v.pct(b));
@@ -451,6 +457,49 @@
     if (o('flee') && s.options.length < 2) return ['flee'];
     return ['rebuke', foes[0] && foes[0].key];
   };
-  for (const k of Object.keys(POLICIES)) { const f = POLICIES[k]; POLICIES[k] = (B, s, rand) => (s.unit.id === 'jester' ? jesterPolicy(B, s, rand, k) : f(B, s, rand)); }
-  G.BattleSim = { setFleeLow: (x) => { FLEE_LOW = x; }, FIGHTS, POLICIES, BAND_PACKS, BRAMBLE_FORMS, COLOSSUS, wildPack, formOf, BAND_LEVELS, wildLevel, BAGS, TARGETS, check, economy, playOne, run, bandOf, THINK };
+  // Coven: Europa and Callisto, as Moon Faire's engine plays them (moon-faire game/sim/blob-battle-engine.js and its eight
+  // testers): the wisps first, then the wraiths, then the boss nearest its seal
+  const focusFoe = (B) => B.living('foe').reduce((a, e) => {
+    const tier = (f) => (f.def.boss || f.def.alone ? 2 : (f.def.hp || 0) < 2000 ? 0 : 1), key = (f) => (tier(f) === 2 ? f.hp - (f.fate || 0) : f.hp);
+    return tier(e) < tier(a) || (tier(e) === tier(a) && key(e) < key(a)) ? e : a;
+  });
+  // a foe about to strike one of the party with a blow it warned of, or the hardest-hitting foe: what Same Cloth is for
+  const clothFoe = (B, ok) => {
+    const ts = new Set(ok.targets), fs = B.living('foe').filter((f) => ts.has(f.key));
+    const warned = fs.find((f) => f.charging && f.def.moves[f.charging].target !== 'all');
+    if (warned) return warned;
+    return fs.filter((f) => f.def.boss || f.def.alone || (f.def.hp || 0) >= 2000).sort((a, b) => b.maxHp - a.maxHp)[0] || null;
+  };
+  // k: the tester's habits (the eight pretend players, tools/battle-testers.mjs, pass these)
+  const FOX_HABITS = { careless: { random: true }, sensible: { decoy: false, quilt2: false }, expert: { decoy: true, decoyLow: 0.3, quilt2: true } };
+  const foxPolicy = (B, s, rand, style, k) => {
+    k = k || FOX_HABITS[style] || FOX_HABITS.sensible;
+    const o = (id) => s.options.find((x) => x.id === id && x.ok), u = s.unit, foes = B.living('foe'), J = B.hero('jester');
+    if (k.random) {
+      const w = [['fangs', 3], ['stitch', 1.2], ['needles', 0.8], ['cloth', 0.4], ['quilt', 0.4], ['decoy', 0.4]].filter(([id]) => o(id));
+      let r = rand() * w.reduce((a, b) => a + b[1], 0), id = w[0][0];
+      for (const [x, n] of w) { r -= n; if (r <= 0) { id = x; break; } }
+      const t = o(id).targets; return [id, t.length ? t[Math.floor(rand() * t.length)] : null];
+    }
+    const small = foes.filter((f) => !f.def.boss && !f.def.alone && !(f.lost > 0) && (f.def.hp || 0) < 9000);
+    const c = o('cloth') && clothFoe(B, o('cloth'));
+    if (c && (c.charging || c.def.boss || c.def.alone || foes.length >= 2)) return ['cloth', c.key];
+    if (k.decoy && o('decoy') && J && B.alive(J) && J.hp < J.maxHp * (k.decoyLow || 0.3)) return ['decoy'];
+    if (o('quilt') && small.length >= 3) return ['quilt'];
+    if (k.quilt2 && o('quilt') && small.length >= 2) return ['quilt'];
+    if (foes.length >= 3 && o('needles')) return ['needles'];
+    if (o('stitch') && u.mp >= 16 + (k.reserve || 0)) return ['stitch', focusFoe(B).key];
+    return ['fangs', focusFoe(B).key];
+  };
+  const rangerPolicy = (B, s, rand, style) => {
+    const o = (id) => s.options.find((x) => x.id === id && x.ok), foes = B.living('foe');
+    if (style === 'careless') { const t = foes[Math.floor(rand() * foes.length)].key; return [o('gem') && rand() < 0.5 ? 'gem' : 'bow', t]; }
+    const t = (style === 'sensible' ? foes[0] : focusFoe(B)).key;
+    return [o('gem') ? 'gem' : 'bow', t];
+  };
+  for (const k of Object.keys(POLICIES)) {
+    const f = POLICIES[k];
+    POLICIES[k] = (B, s, rand) => (s.unit.id === 'jester' ? jesterPolicy(B, s, rand, k) : s.unit.id === 'fox' ? foxPolicy(B, s, rand, k) : s.unit.id === 'ranger' ? rangerPolicy(B, s, rand, k) : f(B, s, rand));
+  }
+  G.BattleSim = { setFleeLow: (x) => { FLEE_LOW = x; }, setParty: (ids) => { PARTY_IDS = ids || null; }, foxPolicy, rangerPolicy, jesterPolicy, focusFoe, FIGHTS, POLICIES, BAND_PACKS, BRAMBLE_FORMS, COLOSSUS, wildPack, formOf, BAND_LEVELS, wildLevel, BAGS, TARGETS, check, economy, playOne, run, bandOf, THINK };
 })(typeof globalThis !== 'undefined' ? globalThis : window);

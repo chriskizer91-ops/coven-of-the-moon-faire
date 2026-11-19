@@ -35,7 +35,7 @@
     const B = {
       t: 0, gaugeT: 0, turns: 0, units: [], heroes: [], foes: [], queue: [], over: null, cur: null, log: [],
       herbs: Object.assign({}, setup.herbs || {}), carried: setup.carried ? Object.assign({}, setup.carried) : null, flags: Object.assign({}, setup.flags || {}), ends: setup.ends || {},
-      lunara: 0, envoi: 0, guardian: 0, taunt: 0, ward: false, frost: 0, frostLen: 0, frostLate: null, kestrelUsed: false, might: 0, act: 0, rand, tune,
+      lunara: 0, envoi: 0, guardian: 0, taunt: 0, decoy: 0, ward: false, frost: 0, frostLen: 0, frostLate: null, kestrelUsed: false, might: 0, act: 0, rand, tune,
       stats: { dealt: 0, taken: 0, healed: 0, low: 1, downs: 0, herbsUsed: 0, summons: [] },
     };
     const solo = setup.party.length === 1;
@@ -49,11 +49,19 @@
         tranceMul: s.tranceMul || 1, herbMul: s.herbMul || 1, regen: s.regen || 0, sunderPlus: s.sunderPlus || 0, stoopMul: s.stoopMul || 1, warnedMul: s.warnedMul || 1, frostCut: s.frostCut || 0,
         atb: s.atb || 0, heat: s.heat || 0, trance: s.trance || 0, tranceReady: false, inTrance: false, tranceLeft: 0, heatBefore: 0,
         defending: false, guarding: false, severed: false, moonNext: false, hovering: null, lured: null, charmed: null, charm: 1,
+        rest: {}, // Coven: Europa's and Callisto's moves that need turns of rest (Same Cloth, Crazy Quilt, the Gem)
       };
       u.hp = s.hp != null ? Math.min(s.hp, u.maxHp) : u.maxHp;
       u.mp = s.mp != null ? Math.min(s.mp, u.maxMp) : u.maxMp;
       B.units.push(u); B.heroes.push(u);
     });
+    // Coven: against a party of more than two, every foe has more HP and hits harder (rules.js PARTY_FOES)
+    // (a great foe, rules.js FATE.bigHp, by its own numbers); and its blows on one of them and on all of them by theirs
+    // (a great foe, rules.js FATE.bigHp, by its own numbers); and its blows on one of them and on all of them by theirs.
+    // A foe may have numbers of its own (PARTY_FOES[n].foes)
+    const PF = (RL.PARTY_FOES || {})[setup.party.length] || null;
+    const bigFoe = (d) => !!(d.boss || d.alone || (d.hp || 0) >= (FA.bigHp || 9000));
+    const partyOf = (id, d) => (PF ? Object.assign({ hp: bigFoe(d) ? PF.hpBig : PF.hp, one: PF.one, all: PF.all }, (PF.foes || {})[id]) : { hp: 1, one: 1, all: 1 });
     const count = {};
     setup.foes.forEach((s) => { count[s.id] = (count[s.id] || 0) + 1; });
     const seen = {};
@@ -61,7 +69,7 @@
       const d = RL.FOES[s.id], L = d.fixedLevel || s.level, k = RL.scale(L);
       seen[s.id] = (seen[s.id] || 0) + 1;
       const alone = solo && setup.foes.length === 1;
-      const hpMul = (tune.foeHp && tune.foeHp[s.id]) || 1;
+      const pp = partyOf(s.id, d), hpMul = ((tune.foeHp && tune.foeHp[s.id]) || 1) * pp.hp;
       const u = {
         side: 'foe', id: s.id, key: count[s.id] > 1 ? s.id + seen[s.id] : s.id, name: d.name + (count[s.id] > 1 ? ' ' + 'ABC'[seen[s.id] - 1] : ''),
         def: d, level: L, fill: d.atb * ((tune.foeAtb && tune.foeAtb[s.id]) || 1), solo: alone,
@@ -69,7 +77,7 @@
         // a Low Ambush bramble strikes before the party can act
         atb: s.atb != null ? s.atb : d.ambush ? 1 : rand() * 0.25, last: [], used: {}, cd: {},
         bound: false, sunder: 0, evade: 0, vow: 0, charging: null, chargeAt: null, stagger: false, lastAttacker: null,
-        dmgMul: (s.dmgMul || 1) * (d.dmg || 1), rage: s.rage != null ? s.rage : d.rage || 0, acted: 0, canes: d.canes || 0, scorchAt: -1,
+        dmgMul: (s.dmgMul || 1) * (d.dmg || 1), lost: 0, cloth: false, pOne: pp.one, pAll: pp.all, rage: s.rage != null ? s.rage : d.rage || 0, acted: 0, canes: d.canes || 0, scorchAt: -1,
         // the Bramble Colossus: its bud open (its heart bare, every blow on it doubled), and its Wrath come
         open: false, wrath: false,
       };
@@ -148,7 +156,7 @@
       // a foe who retreats (Halcyon in the ambush) never falls: she leaves first
       if (f.hp <= 0 && B.ends.retreat && B.ends.retreat.foe === f.id) f.hp = 1;
       emit(weak ? { t: 'hit', from: a.key, to: f.key, n, el: el || null, weak: true } : { t: 'hit', from: a.key, to: f.key, n, el: el || null });
-      if (a.side === 'hero' && !a.inTrance && !a.tranceReady) a.trance = Math.min(0.99, a.trance + TR.dealt * a.tranceMul);
+      if (a.side === 'hero' && !a.inTrance && !a.tranceReady && !a.def.noTrance) a.trance = Math.min(0.99, a.trance + TR.dealt * a.tranceMul);
       sealCheck(f);
       if (f.hp <= 0) down(f);
       // the Bramble Horror fears fire: once an action, flame makes it recoil (its gauge drops) or breaks its Lure
@@ -168,6 +176,20 @@
     function hitHero(f, h, base, o) {
       o = o || {};
       let to = h, take = 1;
+      // Coven: Europa's Same Cloth: the foe's next blow on one of the party lands on the foe itself, at double, with Fate
+      if (o.single && f.cloth && !o.counter && f.side === 'foe') {
+        f.cloth = false;
+        const n = Math.max(1, Math.round(base * RL.scale(f.level) * swing() * (o.mul || 1) * f.dmgMul * ((f.solo && f.def.dmgSolo) || 1) * (1 + f.rage * f.acted) * ((tune.foeDmg && tune.foeDmg[f.id]) || 1) * caneMul(f) * f.pOne * (HE.fox.moves.cloth.cloth || 2)));
+        f.hp = Math.max(0, f.hp - n); B.stats.dealt += n;
+        emit({ t: 'hit', from: f.key, to: f.key, n, cloth: true });
+        if (f.hp <= 0) down(f); else addFate(f, perBlow(f) * (o.warned ? FA.markedMult : 1), 'Same Cloth');
+        return { to: h, n: 0, turned: true };
+      }
+      // Coven: Europa's Borrowed Face: her ghost eats the next blows aimed at one of the party, before Kore can catch them
+      if (o.single && B.decoy > 0 && !o.counter && hero('fox') && alive(hero('fox'))) {
+        B.decoy--; emit({ t: 'decoy', who: hero('fox').key, from: f.key, to: h.key, left: B.decoy });
+        return { to: h, n: 0, turned: true };
+      }
       const s = hero('sol');
       // the Jester's taunt: she catches the next single-target blows aimed at anyone else
       const J = hero('jester');
@@ -176,7 +198,7 @@
         if (s.guarding) { to = s; emit({ t: 'cover', who: s.key, from: h.key }); }
         else if (h.hp < h.maxHp * HE.sol.oath.below) { to = s; take = HE.sol.oath.take; emit({ t: 'oath', who: s.key, from: h.key }); }
       }
-      let n = base * RL.scale(f.level) * swing() * take * (o.mul || 1) * f.dmgMul * ((f.solo && f.def.dmgSolo) || 1) * (1 + f.rage * f.acted) * ((tune.foeDmg && tune.foeDmg[f.id]) || 1) * caneMul(f);
+      let n = base * RL.scale(f.level) * swing() * take * (o.mul || 1) * f.dmgMul * (f.side === 'foe' ? (o.single ? f.pOne : f.pAll) : 1) * ((f.solo && f.def.dmgSolo) || 1) * (1 + f.rage * f.acted) * ((tune.foeDmg && tune.foeDmg[f.id]) || 1) * caneMul(f);
       if (to.defending || to.guarding) n *= ST.defend;
       if (B.lunara === 1) n *= SU.lunara.cut;
       if (o.warned) n *= to.warnedMul; // her keepsake
@@ -185,7 +207,7 @@
       to.hp = Math.max(0, to.hp - n); B.stats.taken += n;
       emit(o.wave != null ? { t: 'hit', from: f.key, to: to.key, n, guard: !!(to.defending || to.guarding), wave: o.wave } : { t: 'hit', from: f.key, to: to.key, n, guard: !!(to.defending || to.guarding) });
       if (to.id === 'sol' && !to.inTrance) to.heat = Math.min(HE.sol.heat.max, to.heat + HE.sol.heat.perHit);
-      if (to.hp > 0 && !to.inTrance && !to.tranceReady) {
+      if (to.hp > 0 && !to.inTrance && !to.tranceReady && !to.def.noTrance) {
         to.trance = Math.min(1, to.trance + n / to.maxHp * TR.taken * to.tranceMul);
         if (to.trance >= 1) { to.tranceReady = true; emit({ t: 'tranceReady', who: to.key }); }
       }
@@ -359,6 +381,7 @@
         const tgt = m.target === 'random' ? pool[Math.floor(rand() * pool.length)] : m.prey && took ? took : (first && alive(first) ? first : targetFor(f, m));
         const r = hitHero(f, tgt, base, { single: !m.prey, warned });
         if (!first) first = tgt;
+        if (r.turned) continue; // Coven: Same Cloth or Borrowed Face took it
         if (!took) took = r.to; // whoever the blow actually landed on (Sol's Guard can take it for Io)
         if (m.drain && alive(f)) { f.hp = Math.min(f.maxHp, f.hp + r.n); emit({ t: 'heal', from: f.key, to: f.key, n: r.n }); }
         if (m.sap && alive(r.to)) {
@@ -384,6 +407,24 @@
       if (f.open && !f.charging) { f.open = false; emit({ t: 'shut', who: f.key }); }
       if (f.stagger) { f.stagger = false; emit({ t: 'stagger', who: f.key }); }
       else if (f.charging) { const id = f.charging; f.charging = null; useFoeMove(f, id, true); }
+      else if (f.lost > 0) {
+        // Coven: lost in Europa's Crazy Quilt: its blow falls on the biggest other foe, or nowhere if it is alone
+        f.lost--;
+        const id = pickFoeMove(f), m = f.def.moves[id];
+        if (m.target === 'self') useFoeMove(f, id);
+        else {
+          emit({ t: 'move', who: f.key, move: id, name: m.name, lost: true }); B.t += m.time || 2;
+          const others = living('foe').filter((u) => u !== f), o2 = others.sort((a, b) => b.hp - a.hp)[0];
+          const hits = (f.solo && m.hitsSolo) || m.hits || [];
+          if (!o2) emit({ t: 'lost', who: f.key, to: null, n: 0 });
+          else {
+            const n = Math.max(1, Math.round(hits.reduce((a, b) => a + b, 0) * RL.scale(f.level) * swing() * f.dmgMul));
+            o2.hp = Math.max(0, o2.hp - n); B.stats.dealt += n;
+            emit({ t: 'lost', who: f.key, to: o2.key, n }); emit({ t: 'hit', from: f.key, to: o2.key, n, lost: true });
+            if (o2.hp <= 0) down(o2); else sealCheck(o2);
+          }
+        }
+      }
       else {
         const id = pickFoeMove(f), m = f.def.moves[id];
         if (m.charge) {
@@ -406,6 +447,9 @@
     }
 
     // ---------- the heroes ----------
+    // Coven: who Crazy Quilt fools: a small foe (a wisp) for two moves, a middling one (a wraith) for one; the great ones not at all
+    const quiltable = (f) => alive(f) && !f.def.boss && !f.def.alone && (f.def.hp || 0) < (FA.bigHp || 9000);
+    const quiltMoves = (f, d) => ((f.def.hp || 0) < 2000 ? d.small : d.middling);
     const knows = (h, id) => { const d = h.def.moves[id]; return !!d && (!d.need || !!B.flags[d.need]); };
     function cost(h, d) { return d.mp ? (h.inTrance && h.id === 'io' && d.kind === 'moonlore' ? Math.ceil(d.mp / 2) : d.mp) : 0; }
     // every command the hero has right now, with whether it can be used and what it can target
@@ -441,6 +485,21 @@
         { const d = h.def.moves.hheal, c = cost(h, d); add('hheal', { mp: c, ok: h.mp >= c, why: h.mp >= c ? '' : 'MP' }); }
         { const ts = living('foe').filter(sealed).map((u) => u.key); add(ts.length && ts.length === living('foe').length && ts.length === 1 ? 'curtain' : 'seal', { ok: ts.length > 0, why: ts.length ? '' : 'No foe is sealed yet', targets: ts }); }
         if (B.ends.canFlee) add('flee', {});
+      } else if (h.id === 'fox') {
+        // Coven: Europa, the Fox (Moon Faire's moves)
+        const M = h.def.moves, mpOk = (id) => { const c = cost(h, M[id]); return { mp: c, ok: h.mp >= c, why: h.mp >= c ? '' : 'MP' }; };
+        add('fangs', { targets: foes });
+        add('stitch', Object.assign(mpOk('stitch'), { targets: foes }));
+        add('needles', mpOk('needles'));
+        { const o = mpOk('cloth'), ts = living('foe').filter((f) => !f.cloth).map((u) => u.key); if (h.rest.cloth > 0) { o.ok = false; o.why = 'resting ' + h.rest.cloth; } else if (!ts.length) { o.ok = false; o.why = 'already cut'; } o.targets = ts; add('cloth', o); }
+        { const o = mpOk('quilt'), any = living('foe').some((f) => quiltable(f)); if (h.rest.quilt > 0) { o.ok = false; o.why = 'resting ' + h.rest.quilt; } else if (!any) { o.ok = false; o.why = 'they are not fooled'; } add('quilt', o); }
+        { const o = mpOk('decoy'); if (B.decoy > 0) { o.ok = false; o.why = 'her ghost is out'; } add('decoy', o); }
+        if (B.ends.canFlee) add('flee', {});
+      } else if (h.id === 'ranger') {
+        // Coven: Callisto, the Ranger (Moon Faire's moves)
+        add('bow', { targets: foes });
+        add('gem', { ok: !(h.rest.gem > 0), why: h.rest.gem > 0 ? 'lit in ' + h.rest.gem : '', targets: foes });
+        if (B.ends.canFlee) add('flee', {});
       } else if (h.id === 'sol') {
         if (h.inTrance) { add('highNoon', { targets: foes }); add('daybreak', { targets: foes }); }
         else add('attack', { targets: foes });
@@ -467,7 +526,7 @@
           continue;
         }
         const d = RL.HERBS[id];
-        let t = d.target === 'ally' || d.target === 'allies' ? allies : d.target === 'fallen' ? fallen : d.target === 'io' ? allies.filter((k) => k === 'io') : allies.filter((k) => k === 'sol');
+        let t = d.target === 'ally' || d.target === 'allies' ? allies : d.target === 'fallen' ? fallen : d.target === 'io' ? allies.filter((k) => k === 'io' || k === 'fox') : allies.filter((k) => k === 'sol');
         if (d.target === 'allies' || d.target === 'party') t = [];
         const ok = d.target === 'fallen' ? fallen.length > 0 : d.target === 'party' ? !B.might : d.target === 'allies' || t.length > 0;
         // the count is what the party carries when the game says (setup.carried), though the fight may use only its bag
@@ -545,6 +604,18 @@
         case 'revive': if (tgt && !alive(tgt)) revive(tgt, d.revive); break;
         case 'cradle': h.defending = true; h.thorns = d.thorns; emit({ t: 'cradle', who: h.key }); break;
         case 'guardian': B.guardian = 1; B.stats.summons.push('guardian'); strike(h, tgt, d); B.guardian = 2; break;
+        // ---- Coven: Europa and Callisto (Moon Faire's moves) ----
+        case 'fangs': case 'stitch': case 'bow': strike(h, tgt, d); break;
+        case 'needles': for (const f of living('foe')) strike(h, f, d); break;
+        case 'cloth': if (alive(tgt)) { tgt.cloth = true; emit({ t: 'cloth', who: h.key, to: tgt.key }); } h.rest.cloth = d.rest + 1; break;
+        case 'quilt': for (const f of living('foe')) if (quiltable(f)) { f.lost = Math.max(f.lost, quiltMoves(f, d)); emit({ t: 'quilt', who: h.key, to: f.key, n: f.lost }); } h.rest.quilt = d.rest + 1; break;
+        case 'decoy': B.decoy = d.decoy; emit({ t: 'decoy', who: h.key, left: B.decoy, made: true }); break;
+        case 'gem': {
+          strike(h, tgt, d, [d.hits[0]]);
+          const f2 = alive(tgt) ? tgt : living('foe').reduce((a, b) => (!a || b.hp < a.hp ? b : a), null);
+          if (f2) strike(h, f2, d, [d.hits[1]]);
+          h.rest.gem = d.gem + 1; break;
+        }
         // ---- the Jester (Moon Faire's rules) ----
         case 'rebuke': strike(h, tgt, d); jesterAfter(h); break;
         case 'jab': strike(h, tgt, d); B.taunt = FA.catches; emit({ t: 'taunt', who: h.key, n: B.taunt }); jesterAfter(h); break;
@@ -616,6 +687,7 @@
     }
     function heroTurnStart(h) {
       h.atb = 0; h.defending = false; h.guarding = false; h.severed = false; h.thorns = 0;
+      for (const k in h.rest) if (h.rest[k] > 0) h.rest[k]--; // Coven: a turn of rest for Europa's and Callisto's moves
       emit({ t: 'turn', who: h.key });
       // her keepsake (regen): a little HP back as her turn starts
       if (h.regen && h.hp < h.maxHp) healPct(h, h, h.regen);

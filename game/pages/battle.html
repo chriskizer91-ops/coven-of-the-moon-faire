@@ -34,8 +34,8 @@
 .pbtns .go small{display:block;font-size:11px;font-weight:400;opacity:.8}
 .plast{margin:0;font-size:12.5px;color:var(--dim);min-height:1em}
 /* Coven: the frame rate the fight is drawn at, always on (CLAUDE.md: every build shows its own frame rate) */
-#rate{margin:0 auto 0 10px;font-size:12.5px;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
-#rate b{color:var(--wt);font-size:14px}
+#rate{margin:0 auto 0 10px;font-size:12.5px;color:var(--ink);opacity:.75;font-variant-numeric:tabular-nums;white-space:nowrap}
+#rate b{color:var(--ink);font-size:14px}
 #sharp span{min-width:5.3em;text-align:left}
 /* on a phone held upright the header's four buttons take two rows rather than run off the screen */
 .hbtns{flex-wrap:wrap;justify-content:flex-end;row-gap:6px}
@@ -59,8 +59,8 @@
   <main id="stage" aria-label="Battle"></main>
   <div id="pick" class="overlay">
     <div class="pcard win">
-      <h2>Io and Kore, in Envoi’s places</h2>
-      <p class="lead">Moon Faire’s Io and Kore, the Jester, at their lightest, in Envoi’s fights and arenas at any level. Kore plays by Moon Faire’s Fate rules: her taunts draw blows onto her, every blow on her writes Fate on its striker, and a foe whose Fate meets its Life is sealed for her Sealed Fate. Io has all of Envoi Io’s spells, her own Herbcraft, Lunara, Envoi and the Elderwood Guardian. Flipbook (up top) draws the whole fight as one pixel picture.</p>
+      <h2>The coven, in Envoi’s places</h2>
+      <p class="lead">All four witches of the coven at their lightest, in Envoi’s fights and arenas at any level: Io, Kore the Jester, Europa the Fox and Callisto the Ranger. Kore plays by Moon Faire’s Fate rules: her taunts draw blows onto her, every blow on her writes Fate on its striker, and a foe whose Fate meets its Life is sealed for her Sealed Fate. Europa cuts a foe’s blow from the same cloth, loses foes in her Crazy Quilt and sends a ghost to take blows. Callisto’s bow, and her Gem’s two arrows. The first fight is Io’s alone. Flipbook (up top) draws the whole fight as one pixel picture.</p>
       <div class="pbody">
         <div class="plist" id="plist" role="radiogroup" aria-label="Which fight"></div>
         <div class="popts">
@@ -112,6 +112,12 @@
 <script src="../witches/io/witch_levels.js"></script>
 <script src="../witches/io/moon-io.js"></script>
 <script src="../witches/kore/moon-jester.js"></script>
+<script src="../witches/europa/fox_tex.js"></script>
+<script src="../witches/europa/fox_lod.js"></script>
+<script src="../witches/europa/moon-fox.js"></script>
+<script src="../witches/callisto/ranger_tex.js"></script>
+<script src="../witches/callisto/ranger_lod.js"></script>
+<script src="../witches/callisto/moon-ranger.js"></script>
 <script src="../battle/witch-look.js"></script>
 <script src="../battle/trance.js"></script>
 <script src="../look/flipbook.js"></script>
@@ -123,6 +129,7 @@
 <script src="../battle/song-bed.js"></script>
 <script src="../battle/screen.js"></script>
 <script src="../battle/fights.js"></script>
+<script src="../battle/start.js"></script>
 <script>
 // Chris's song under everything, with its knob in the menu row beside Sound (November 17)
 SongBed.place('battle'); document.getElementById('snd').after(SongBed.button('hbtn')); SongBed.follow(() => !!(window.__battleSND && window.__battleSND.muted));

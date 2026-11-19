@@ -135,3 +135,7 @@ game/art/arena/13-northern-crossroads.avif,envoi-on-the-longest-night,main,d450c
 game/art/arena/14-dead-moonwell.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/14-dead-moonwell.avif,"Chris's battle painting: 14-dead-moonwell",2026-11-18
 game/art/backdrops/night-square.avif,envoi-on-the-longest-night,main,d450c3f,art/backdrops/night-square.avif,"Chris's painting of the Night square, behind the first fight",2026-11-18
 tools/battle-balance.mjs,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/tools/balance.mjs,"Envoi's balance check: every fight played thousands of times against the 51 targets",2026-11-18
+game/witches/europa/fox_lod.js,moon-faire,main,6371714,game/fight/witches/fox_lod.js,"Europa's light models (the Fox: Light, Lightest)",2026-11-18
+game/witches/europa/fox_tex.js,moon-faire,main,6371714,game/fight/witches/fox_tex.js,"Europa's painted textures",2026-11-18
+game/witches/callisto/ranger_lod.js,moon-faire,main,6371714,game/fight/witches/ranger_lod.js,"Callisto's light models (the Ranger: Light, Lightest)",2026-11-18
+game/witches/callisto/ranger_tex.js,moon-faire,main,6371714,game/fight/witches/ranger_tex.js,"Callisto's painted textures",2026-11-18

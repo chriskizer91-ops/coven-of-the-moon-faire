@@ -532,16 +532,17 @@
       const rows = {};
       function buildWindows() {
         for (const k in rows) delete rows[k];
-        const st = $('status'); st.textContent = ''; st.classList.toggle('solo', heroes.length === 1);
+        const st = $('status'); st.textContent = ''; st.classList.toggle('solo', heroes.length === 1); st.classList.toggle('four', heroes.length > 2); // Coven: four witches, two by two
         for (const h of heroes) {
           const u = E.unit(h.key), r = el('div', { class: 'hero' }, st);
           const nm = el('div', { class: 'name' }, r); el('span', null, nm, u.name); const lv = el('small', null, nm, 'Level ' + u.level); const tg = el('span', { class: 'ttag' }, nm, 'Trance');
           const line = el('div', { class: 'stat' }, r);
           el('span', { class: 'lbl' }, line, 'HP'); const hp = el('span', { class: 'v' }, line); const hpm = el('span', { class: 'm' }, line);
-          const second = el('span', { class: 'sec' }, line); el('span', { class: 'lbl' }, second, h.key === 'sol' ? 'Heat' : 'MP'); const sv = el('span', { class: 'sv' }, second);
+          const second = el('span', { class: 'sec' }, line); el('span', { class: 'lbl' }, second, h.key === 'sol' ? 'Heat' : h.key === 'ranger' ? 'Gem' : 'MP'); const sv = el('span', { class: 'sv' }, second);
           const gs = el('div', { class: 'gs' }, r);
           const ga = el('div', { class: 'gw' }, gs); el('span', null, ga, 'Turn'); const atb = el('div', { class: 'gauge atb' }, ga); el('i', null, atb);
           const gb = el('div', { class: 'gw' }, gs); el('span', null, gb, 'Trance'); const tr = el('div', { class: 'gauge tr' }, gb); el('i', null, tr);
+          if (u.def.noTrance) gb.style.visibility = 'hidden'; // Coven: Europa and Callisto have no trance yet
           rows[h.key] = { r, lv, tg, hp, hpm, sv, atb, tr, last: {} };
         }
         const en = $('enemy'); en.textContent = '';
@@ -565,6 +566,7 @@
           set(R, 'hp', d.hp, (v) => { R.hp.textContent = nf(v); R.hp.classList.toggle('low', v < u.maxHp * 0.5 && v >= u.maxHp * 0.25); R.hp.classList.toggle('crit', v < u.maxHp * 0.25); R.r.classList.toggle('down', v <= 0); });
           set(R, 'hpm', u.maxHp, (v) => { R.hpm.textContent = '/' + nf(v); });
           if (h.key === 'sol') set(R, 'heat', d.heat + (d.inTrance ? 1000 : 0), () => { R.sv.textContent = d.heat; R.sv.classList.toggle('burn', d.heat >= 70 || d.inTrance); });
+          else if (h.key === 'ranger') set(R, 'gem', (u.rest && u.rest.gem) || 0, (v) => { R.sv.textContent = v > 0 ? 'in ' + v : 'lit'; }); // Coven
           else set(R, 'mp', d.mp, (v) => { R.sv.textContent = v; });
           set(R, 'lv', u.level, (v) => { R.lv.textContent = 'Level ' + v; });
           const atb = S.state !== 'battle' || d.hp <= 0 ? 0 : (S.choosing === h.key ? 1 : Math.min(1, u.atb));
@@ -765,6 +767,11 @@
       else if (e.t === 'taunt') { word(who, 'Taunt ×' + e.n, 'heat'); }
       else if (e.t === 'buff') { word(to, e.name, 'heat'); }
       else if (e.t === 'cradle') { word(who, 'Bramble Cradle'); }
+      // ---- Coven: Europa's chaos ----
+      else if (e.t === 'cloth') { /* her move shows it */ }
+      else if (e.t === 'quilt') { if (to) word(to, 'Lost in the quilt', 'heat'); }
+      else if (e.t === 'lost') { if (who) word(who, e.to ? 'Lost: it strikes its own' : 'Lost: it strikes nothing'); }
+      else if (e.t === 'decoy') { if (e.made) { word(who, 'Borrowed Face ×' + e.left, 'heat'); if (!S.decoyTip) { S.decoyTip = true; UI.note('A ghost of Europa will take the next blows aimed at one of the party.', 2.4); } } else { word(F[e.to] || who, 'The ghost takes it', 'heat'); } }
       else if (e.t === 'curtain') { /* her Curtain Call plays it */ }
       else if (e.t === 'open') { who.openShown = true; }
       else if (e.t === 'shut') { who.openShown = false; }
@@ -1064,6 +1071,65 @@
       hheal: (h, t, ev) => jesterCast(h, h, ev, 'taunt_heal', { sfx: 'jesterHeal' }),
       seal: (h, t, ev) => sealedFate(h, t, ev, false),
       curtain: (h, t, ev) => sealedFate(h, t, ev, true),
+      flee: (h, t, ev) => flee(h, t, ev),
+    };
+
+    // ---------- Coven: Europa, the Fox, and Callisto, the Ranger (Moon Faire's moves, on their own models) ----------
+    // Europa turns her casting side to her target as Kore does (her model was made from Kore's), and plays each move of
+    // Moon Faire's engine with the move of hers Moon Faire's fight uses (game/fight/actors.js). Two have no move of their own
+    // there yet and borrow one, as there: Stitch plays Blue Mischief, Pins and Needles plays the Moon's Little Lie.
+    // Their sounds are the battle's own, borrowed (none was made for them): Chris's to change.
+    const blowFx = (tg, big, color) => { strikeFx(tg, big, color); };
+    async function foxCast(h, t, ev, anim, o) {
+      o = o || {};
+      const m = h.m;
+      if (o.near && t && t !== h) { await runUp(h, t, o.near, 3.4); await wait(0.1); }
+      if (t && t !== h) jAim(h, t); else { m.targetDist = 0; const f = firstFoe(); if (f) jAim(h, f); }
+      await wait(0.2);
+      if (o.field) shotField(2.5); else if (t && t !== h) shotBoth(h.pos, t.pos, 1.1, 2.5); else shotAt(h.pos, 1.6, 2.5);
+      const A = m.ACTIONS[anim]; m.play(anim, true); if (o.sfx) SND.sfx[o.sfx]();
+      const hits = A.hits.length ? A.hits : [0.55];
+      for (let k = 0; k < hits.length; k++) {
+        await untilP(m, hits[k]);
+        if (o.all) { while (ev.peek() && ev.peek().t === 'hit') { const tg = F[ev.peek().to]; if (tg) blowFx(tg, false, o.color); ev.show(); } continue; }
+        if (!ev.has()) continue;
+        if (ev.peek().t === 'miss' || ev.peek().t === 'heal') { ev.show(); continue; }
+        const tg = F[ev.peek().to] || t; blowFx(tg, o.big, o.color); if (o.hitSfx) SND.sfx[o.hitSfx](1); ev.show({ big: o.big });
+      }
+      await until(() => !m.busy); ev.rest(); h.tyaw = h.home.yaw;
+      if (o.near) await goHome(h);
+    }
+    const FOX_MOVES = {
+      fangs: (h, t, ev) => foxCast(h, t, ev, 'hemline_fangs', { near: 2.3, sfx: 'swing', hitSfx: 'thornHit', color: 0xbfe8ff }),
+      stitch: (h, t, ev) => foxCast(h, t, ev, 'blue_mischief', { sfx: 'witchfire', hitSfx: 'witchfireBurst', color: 0x7fb8ff, big: true }),
+      needles: (h, t, ev) => foxCast(h, null, ev, 'moons_little_lie', { field: true, sfx: 'moonBlades', color: 0xd8e4ff, all: true }),
+      async cloth(h, t, ev) { await foxCast(h, t, ev, 'same_cloth', { sfx: 'moonsteel' }); if (t) word(t, 'Same Cloth', 'heat'); },
+      async quilt(h, t, ev) { await foxCast(h, null, ev, 'crazy_quilt', { field: true, sfx: 'harvestMoon' }); },
+      async decoy(h, t, ev) { await foxCast(h, h, ev, 'borrowed_face', { sfx: 'blessCast' }); },
+      async flee(h, t, ev) { h.m.play('slip_stitch', true); await flee(h, t, ev); },
+    };
+    // Callisto draws from her back and looses at her left (screen right), as on her own page: she turns her left side to
+    // the target. Her own arrow flies a set way from her model; a bolt of light carries it the rest of the way to its foe
+    const rAim = (h, t) => { const dx = t.pos.x - h.pos.x, dz = t.pos.z - h.pos.z; h.tyaw = Math.atan2(-dz, dx); };
+    async function rangerShot(h, t, ev, anim) {
+      const m = h.m, A = m.ACTIONS[anim];
+      if (t) rAim(h, t); await wait(0.25);
+      if (t) shotBoth(h.pos, t.pos, 1.05, 2.5);
+      m.play(anim, true); SND.sfx.swing(h.key);
+      for (let k = 0; k < A.hits.length; k++) {
+        await untilP(m, A.hits[k] - 0.26 / A.dur);                       // her arrow leaves her bow about a quarter of a second before it lands
+        const e = ev.peek(), tg = (e && F[e.to]) || t;
+        if (tg) { FX.projectile({ from: m.anchor('handL', V()), to: () => chest(tg), dur: 0.26, arc: 0.15, color: 0xffffff, halo: 0xbfd8ff, size: 0.1, trail: [0.8, 0.88, 1] }); SND.sfx.moonBladeFly(); }
+        await untilP(m, A.hits[k]);
+        if (!ev.has()) continue;
+        if (ev.peek().t === 'miss') { ev.show(); continue; }
+        const tg2 = F[ev.peek().to] || t; blowFx(tg2, k === A.hits.length - 1 && A.hits.length > 1, 0xdfe8ff); SND.sfx.moonBladeHit(); ev.show({ big: A.hits.length > 1 });
+      }
+      await until(() => !m.busy); ev.rest(); h.tyaw = h.home.yaw;
+    }
+    const RANGER_MOVES = {
+      bow: (h, t, ev) => rangerShot(h, t, ev, 'draw'),
+      gem: (h, t, ev) => rangerShot(h, t, ev, 'shots'),
       flee: (h, t, ev) => flee(h, t, ev),
     };
 
@@ -2003,7 +2069,7 @@
           const f = F[hd.who], u = E.unit(hd.who), t = hd.target ? F[hd.target] : null;
           if (u.side === 'hero') {
             D[u.key].mp = u.mp;
-            const fn = ({ sol: SOL_MOVES, jester: JESTER_MOVES }[f.key] || IO_MOVES)[hd.move];
+            const fn = ({ sol: SOL_MOVES, jester: JESTER_MOVES, fox: FOX_MOVES, ranger: RANGER_MOVES }[f.key] || IO_MOVES)[hd.move];
             if (!OWN_BANNER[hd.move]) UI.banner(hd.name, hd.move === 'moonlight' || hd.move === 'highNoon' ? 2.2 : 1.4);
             if (!S.guard[f.key] && f.m.guard && hd.move !== 'defend' && hd.move !== 'cradle') { /* a guard ends when she acts */ }
             if (fn) await fn(f, t || firstFoe(), ev); else { await wait(0.8); ev.rest(); }
@@ -2037,6 +2103,12 @@
         if (sf && sf.ok) list.push({ id: sf.id, label: sf.name, hot: true });
         list.push({ id: 'rebuke', label: 'Gilded Rebuke' }, { id: 'taunts', label: 'Taunts' });
         if (sf && !sf.ok) list.push({ id: sf.id, label: sf.name, disabled: true });
+      } else if (h.id === 'fox') {
+        // Coven: Europa: her cut, and her Chaos
+        list.push({ id: 'fangs', label: 'Hemline Fangs' }, { id: 'chaos', label: 'Chaos' });
+      } else if (h.id === 'ranger') {
+        // Coven: Callisto: her bow, and the Gem when it is lit
+        const gm = has('gem'); list.push({ id: 'bow', label: 'Moonsteel Draw' }); if (gm) list.push({ id: 'gem', label: 'The Gem', tag: gm.ok ? '' : gm.why, disabled: !gm.ok, hot: gm.ok });
       } else {
         // Kestrel, once Sol knows the knight
         if (has('kestrel') && has('kestrel').ok) list.push({ id: 'kestrel', label: 'Kestrel', tag: 'Once', hot: true });
@@ -2045,8 +2117,8 @@
         list.push({ id: 'arts', label: 'Sword Arts' });
       }
       if (s.options.some((o) => o.herb)) list.push({ id: 'item', label: 'Item', disabled: !s.options.some((o) => o.herb && o.ok) });
-      if (h.id === 'io') list.push({ id: 'defend', label: 'Defend' }); else if (h.id !== 'jester') list.push({ id: 'guard', label: 'Guard' });
-      if (has('flee')) list.push({ id: 'flee', label: 'Flee' });
+      if (h.id === 'io') list.push({ id: 'defend', label: 'Defend' }); else if (h.id === 'sol') list.push({ id: 'guard', label: 'Guard' });
+      if (has('flee')) list.push({ id: 'flee', label: has('flee').name || 'Flee' });
       return list;
     }
     const tagOf = (o) => (o.mp ? o.mp + ' MP' : o.heat ? (o.id === 'solarCrest' ? 'All' : '−' + o.heat) + ' Heat' : '');
@@ -2057,12 +2129,13 @@
       if (which === 'moonlore') return ['mend', 'waxing', 'moonsteel', 'harvest'].map(item).filter(Boolean).concat([back]);
       if (which === 'herbcraft') return ['thorn', 'salve', 'garden', 'revive', 'cradle'].map(item).filter(Boolean).concat([back]);
       if (which === 'taunts') return ['jab', 'hheal'].map(item).filter(Boolean).concat([back]);
+      if (which === 'chaos') return ['stitch', 'needles', 'cloth', 'quilt', 'decoy'].map((id) => { const it = item(id), o = s.options.find((x) => x.id === id); if (it && o && !o.ok && o.why && o.why !== 'MP') it.tag = o.why; return it; }).filter(Boolean).concat([back]);
       if (which === 'summon') return ['lunara', 'envoi', 'guardian'].map((id) => { const o = s.options.find((x) => x.id === id); return o ? { id, label: o.name, tag: o.ok ? 'Once' : o.why, disabled: !o.ok } : null; }).filter(Boolean).concat([back]);
       if (which === 'arts') return ['flareCut', 'sunder', 'emberRush', 'solarCrest', 'stoopRise'].map(item).filter(Boolean).concat([back]);
       if (which === 'item') return s.options.filter((o) => o.herb).map((o) => ({ id: o.id, label: o.name, tag: o.ok ? '' : o.why, disabled: !o.ok })).concat([back]);
       return menuMain(s);
     }
-    const SUB = { witchcraft: 'Witchcraft', moonlore: 'Moonlore', herbcraft: 'Herbcraft', taunts: 'Taunts', summon: 'Summon', arts: 'Sword Arts', item: 'Item' };
+    const SUB = { witchcraft: 'Witchcraft', moonlore: 'Moonlore', herbcraft: 'Herbcraft', taunts: 'Taunts', chaos: 'Chaos', summon: 'Summon', arts: 'Sword Arts', item: 'Item' };
     // the target list: foes with how hurt they are, or allies with their HP; an arrow marks the one pointed at
     function targetMenu(s, o, done, backTo) {
       const ts = o.targets.map((k) => F[k]).filter(Boolean);
@@ -2685,7 +2758,7 @@
       }
       // the Moon Faire witches: their own look, their glows (Io silver-green, the Jester purple), and the Flipbook look
       if (window.makeWitchLook) { WLOOK = makeWitchLook(renderer); for (const h of heroes) if (h.m.witch) WLOOK.add(h.m.root); }
-      if (window.makeTrance) for (const h of heroes) if (h.m.witch) TRANCE_FX[h.key] = makeTrance(scene, h, h.key === 'jester' ? { color: 0xa64dff, colors: [0xb05cff, 0x7a2cff, 0xe0a8ff, 0xff6ad5, 0xffffff] } : { color: 0x9fe8c0, colors: [0xbfffe0, 0x9fe8c0, 0xe8f0ff, 0xffe9a8, 0xffffff] });
+      if (window.makeTrance) for (const h of heroes) if (h.m.witch && !RL.HEROES[h.key].noTrance) TRANCE_FX[h.key] = makeTrance(scene, h, h.key === 'jester' ? { color: 0xa64dff, colors: [0xb05cff, 0x7a2cff, 0xe0a8ff, 0xff6ad5, 0xffffff] } : { color: 0x9fe8c0, colors: [0xbfffe0, 0x9fe8c0, 0xe8f0ff, 0xffe9a8, 0xffffff] });
       if (window.makeFlipbook) { FLIP = makeFlipbook(renderer, { rows: cfg.flipRows || 220 }); let fv = !!cfg.flipbook; try { const v = localStorage.getItem('mfw.flipbook'); if (v !== null) fv = v === '1'; } catch (e) { /* kept while the page is open */ } FLIP.on = fv; }
       for (const h of heroes) { if (h.m.camera !== undefined || h.key === 'jester') h.m.camera = camera; }
       LU = fighter('lunara', addModel(cfg.makeLunara()), { kind: 'lunara', tall: 4.3 }, { x: LUN.x, z: LUN.z, yaw: 0.3 }); LU.on = false;

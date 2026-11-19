@@ -78,6 +78,48 @@
         flee: { name: 'Flee', kind: 'flee', target: 'self', time: 1.5 },
       },
     },
+    // ---- Coven: Europa, the Fox, and Callisto, the Ranger (fights job, step 2) ----
+    // Their moves and numbers are Moon Faire's approved engine's (moon-faire game/sim/blob-battle-engine.js, Chris, November 13),
+    // set on this battle's scale the way Io's and Kore's were. Moon Faire: Fox 380 HP, 100 MP, a turn every 9; Ranger 480 HP, no MP,
+    // a turn every 8; Io 420 HP, 120 MP, a turn every 10. Here Io stands at 1400 HP with a turn every 2.4 s, so each new witch's HP
+    // is her Moon Faire HP times Io's 3.33, and her turn comes as much quicker than Io's as it does there. Her blows are set against
+    // Io's: Moon Faire's plain blows (40 to 50) are Io's Harvest Crescent here (265), and its spells (150 to 200) about Io's
+    // Thornwake (340), so a Moon Faire number n is about 265 x (n / 40)^0.166 here. MP costs are about twice Moon Faire's, as Io's
+    // are. The first numbers came from that; the balance check then moved them (see docs/slips/fights.md).
+    fox: {
+      name: 'Europa', hp: 1270, mp: 100, atb: 2.16, noTrance: true, // her trance is Chris's to make: none yet
+      moves: {
+        // her shears split into two daggers: one quick cut (Moon Faire 50)
+        fangs: { name: 'Hemline Fangs', kind: 'attack', hits: [275], physical: true, target: 'foe', time: 2.6 },
+        // a single stitch of blue fire through one foe (Moon Faire 160 for 8 MP)
+        stitch: { name: 'Stitch', kind: 'chaos', mp: 16, hits: [340], target: 'foe', time: 2.8 },
+        // pins rain on every foe (Moon Faire 80 to each for 12 MP)
+        needles: { name: 'Pins and Needles', kind: 'chaos', mp: 24, hits: [175], target: 'foes', time: 3.0 },
+        // Same Cloth: she cuts the foe's next blow from the same cloth as the foe. Its next blow on one of the party lands on
+        // the foe itself, at double, and gives it Fate as a blow on Kore would (twice for a blow it warned of). Then two of
+        // her turns before she can cut again (Moon Faire: 18 MP, double, 500 Fate, two turns' rest)
+        cloth: { name: 'Same Cloth', kind: 'chaos', mp: 36, cloth: 2, rest: 2, target: 'foe', time: 3.4 },
+        // Crazy Quilt: every foe is lost in the quilt: a small one (a wisp) loses its next two moves, a middling one (a wraith)
+        // its next one, and their blows fall on the biggest other foe. The great ones are not fooled. Then three turns' rest
+        quilt: { name: 'Crazy Quilt', kind: 'chaos', mp: 40, small: 2, middling: 1, rest: 3, target: 'foes', time: 4.0 },
+        // Borrowed Face: a ghost of her eats the next two blows aimed at one of the party, before Kore can catch them. A blow
+        // the ghost eats writes no Fate (Moon Faire 10 MP)
+        decoy: { name: 'Borrowed Face', kind: 'chaos', mp: 20, decoy: 2, target: 'self', time: 2.8 },
+        // Slip Stitch: in the wilds the party can run, as with Flee
+        flee: { name: 'Slip Stitch', kind: 'flee', target: 'self', time: 1.8 },
+      },
+    },
+    ranger: {
+      name: 'Callisto', hp: 1600, mp: 0, atb: 1.92, noTrance: true, // the same
+      moves: {
+        // Moonsteel Draw: one arrow (Moon Faire 150)
+        bow: { name: 'Moonsteel Draw', kind: 'attack', hits: [330], physical: true, target: 'foe', time: 5.5 },
+        // the gem: she touches the gem on her bow, then looses two arrows, each at a foe (Moon Faire two of 200). Then two of
+        // her turns before the gem is lit again. Here both go at the foe chosen; if it falls, the second finds the weakest
+        gem: { name: 'The Gem', kind: 'attack', hits: [345, 345], gem: 2, physical: true, target: 'foe', time: 9.6 },
+        flee: { name: 'Flee', kind: 'flee', target: 'self', time: 1.5 },
+      },
+    },
     sol: {
       name: 'Sol', hp: 1800, mp: 0, atb: 2.2,
       moves: {
@@ -345,5 +387,20 @@
   // a big blow: a single hit this strong at level 1 (or stronger) on the Colossus's bare heart breaks its Siren Bloom
   const BIG_BLOW = 450;
 
-  G.BattleRules = { CURVE, SWING, MAX_LEVEL, scale, mpScale, HEROES, SUMMONS, FOES, STATUS, TRANCE, FATE, HERBS, CARRY, START_HERBS, BATTLE_USE, xpNeed, grows, herbPrice, MAGPIE, WILD_REWARD, BIG_BLOW };
+  // Coven: the party of four (Chris, November 18: all four witches are in the party from the start). The foes are Envoi's,
+  // set for a party of two. Against a bigger party each foe has more HP and hits harder, by these, so a fight of four plays
+  // like Envoi's fight of two (set with the balance check, tools/battle-balance.mjs). By how many witches are in the fight
+  // hp: a foe's HP; hpBig: a great foe's (a boss, a Bramble Horror, the Colossus); one: its blows on one witch; all: its
+  // blows on the whole party (which already land on every one of them)
+  const PARTY_FOES = { 4: { hp: 1.2, hpBig: 2, one: 2, all: 1.1, foes: {
+    colossus: { hp: 2.0, one: 1.6, all: 1.7 },
+    bramble: { hp: 2.2, one: 2, all: 1.1 }, brambleAmbush: { hp: 2.2, one: 2, all: 1.1 }, brambleTowering: { hp: 2.2, one: 2, all: 1.1 },
+    brambleAncient: { hp: 2.0, one: 2, all: 1.4 },
+    halcyon: { hp: 1.7, one: 1.6, all: 0.8 },
+    noctara: { hp: 1.8, one: 1.6, all: 0.8 },
+  } } };
+  // the party as the game has it: who fights, in the order they stand and take the menu
+  const PARTY = ['io', 'jester', 'fox', 'ranger'];
+
+  G.BattleRules = { CURVE, SWING, MAX_LEVEL, scale, mpScale, HEROES, SUMMONS, FOES, STATUS, TRANCE, FATE, HERBS, CARRY, START_HERBS, BATTLE_USE, xpNeed, grows, herbPrice, MAGPIE, WILD_REWARD, BIG_BLOW, PARTY_FOES, PARTY };
 })(typeof globalThis !== 'undefined' ? globalThis : window);

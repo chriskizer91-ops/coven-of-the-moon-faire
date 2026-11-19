@@ -27,7 +27,19 @@
   // facing the foes, and the foes face them (Chris, November 16), as in Moon Faire's fights
   const hero = (id, at) => (id === 'io'
     ? { id: 'io', make: () => { const m = makeMoonIo({ weight: 'lightest' }); m.walkRun = true; return m; }, home: at, yawBias: 0, shadow: 0.55, tall: 2.0, kind: 'io' }
+    // Coven: Europa (the Fox) and Callisto (the Ranger), at their lightest
+    : id === 'fox' ? { id: 'fox', make: () => makeMoonFox({ weight: 'lightest' }), home: at, yawBias: 0, shadow: 0.5, tall: 1.8, kind: 'fox', stop: 0.9 }
+    : id === 'ranger' ? { id: 'ranger', make: () => makeMoonRanger({ weight: 'lightest' }), home: at, yawBias: 0, shadow: 0.5, tall: 1.85, kind: 'ranger' }
     : { id: 'jester', make: () => makeMoonJester({ weight: 'lightest' }), home: at, yawBias: 0, shadow: 0.5, tall: 1.9, kind: 'jester', stop: 0.9 });
+  // Coven: where Europa and Callisto stand: a step behind Io and Kore, nearer the camera and a little to the left, so all
+  // four face the foes. In an arena (metres) and on a painting (its pixels)
+  const BEHIND = { arena: [-1.5, 1.7], paint: [-80, 60] };
+  function placeFour(c) {
+    const [dx, dz] = c.arena ? BEHIND.arena : BEHIND.paint, at = (h) => [h.home[0] + dx, h.home[1] + dz];
+    const io = c.heroes.find((h) => h.id === 'io'), j = c.heroes.find((h) => h.id === 'jester');
+    for (const h of c.heroes) { if (h.id === 'fox' && io) h.home = at(io); if (h.id === 'ranger' && j) h.home = at(j); }
+    return c;
+  }
   const VARIANT = { bramble: 'classic', brambleAmbush: 'ambush', brambleTowering: 'towering', brambleAncient: 'ancient' };
   const bram = (tall, reach, shadow, halfW) => ({ kind: 'bramble', tall, reach, shadow, halfW, yawBias: 0, glow: [shadow * 1.1, 0xff3d8a], appearColor: [0.95, 0.35, 0.5] });
   const FOE_LOOK = {
@@ -91,15 +103,20 @@
   // the party as the engine takes it: each hero's level, HP and MP as they stand, and what the keepsakes she wears add
   // (keepsakes.js; the balance never counts on them)
   const K = () => window.Keepsakes;
+  // Coven: P.hp and P.mp may give each witch's own (P.mp a number is Io's alone, as in Envoi)
+  const mpOf = (P, id) => (P.mp == null ? null : typeof P.mp === 'number' ? (id === 'io' ? P.mp : null) : P.mp[id]);
   function partyOf(P, solo) {
     const p = [{ id: 'io', level: P.level }];
     if (P.hp && P.hp.io != null) p[0].hp = P.hp.io;
-    if (P.mp != null) p[0].mp = P.mp;
+    if (mpOf(P, 'io') != null) p[0].mp = mpOf(P, 'io');
     if (K()) wearing(p[0], K().gear(P, 'io'));
     if (!solo && P.flags && P.flags.party) {
       const s = { id: 'jester', level: P.level }; if (P.hp && P.hp.jester != null) s.hp = P.hp.jester;
+      if (mpOf(P, 'jester') != null) s.mp = mpOf(P, 'jester');
       if (K()) wearing(s, K().gear(P, 'sol'));
       p.push(s);
+      // Coven: Europa and Callisto, with all four from the start (Chris, November 18)
+      for (const id of ['fox', 'ranger']) { const w = { id, level: P.level }; if (P.hp && P.hp[id] != null) w.hp = P.hp[id]; if (mpOf(P, id) != null) w.mp = mpOf(P, id); p.push(w); }
     }
     return p;
   }
@@ -124,7 +141,7 @@
   const fleeOf = (P) => (K() && K().party(P).flee) || undefined;
   const base = (scene, P, solo) => {
     const at = PLACES[scene] || PLACES['gloamwood-road'];
-    const heroes = [hero('io', at.io)]; if (!solo && P.flags.party) heroes.push(hero('jester', at.sol));
+    const heroes = [hero('io', at.io)]; if (!solo && P.flags.party) heroes.push(hero('jester', at.sol), hero('fox', at.io), hero('ranger', at.sol));
     return {
       scene, level: P.level, xp: P.xp || 0, heroes, slots: at.slots, foeLook: FOE_LOOK, makeFoe,
       makeLunara: () => makeLunara({}), makeEnvoi: P.flags.envoi ? () => makeEnvoi({}) : undefined,
@@ -138,7 +155,8 @@
     return { herbs, carried: Object.assign({}, have) };
   };
 
-  function config(kind, P, opts) {
+  function config(kind, P, opts) { return placeFour(config0(kind, P, opts)); }
+  function config0(kind, P, opts) {
     opts = opts || {};
     const S = SIM();
     // in an arena (the switch above, or opts.arena from the arena demo)
@@ -147,13 +165,16 @@
       // opts.seen: how many of the band's wild fights the party has had (the Colossus never comes in the first few)
       const band = opts.band || 1, rand = Math.random;
       const pack = opts.pack || S.wildPack(band, rand, opts.seen);
-      const foes = pack.map((id) => ({ id: S.formOf(id, band, rand), level: S.wildLevel(band, rand) }));
+      // Coven: opts.foeLevel (a level, or [lowest, highest]) in place of the band's range, and opts.place (an arena) in
+      // place of the band's (the land's start() asks for both)
+      const FL = opts.foeLevel, lvl = () => (FL == null ? S.wildLevel(band, rand) : Array.isArray(FL) ? FL[0] + Math.floor(rand() * (FL[1] - FL[0] + 1)) : FL);
+      const foes = pack.map((id) => ({ id: S.formOf(id, band, rand), level: lvl() }));
       if (foes[0].id === 'colossus') return colossus(P, foes, opts);
       const scene = opts.scene || 'gloamwood-road';
       const c = base(scene, P);
       const lone = foes[0].id.startsWith('bramble');
       if (lone) { const at = PLACES[scene]; c.heroes[0].home = [at.io[0] + 40, at.io[1] - 50]; if (c.heroes[1]) c.heroes[1].home = [at.sol[0] + 40, at.sol[1] - 50]; c.slots = [at.slots[0]]; }
-      if (arena) inArena(c, ARENA_OF.wild[band], lone ? ARENA_AT.lone : ARENA_AT.pack, wilds);
+      if (arena) inArena(c, opts.place || ARENA_OF.wild[band], lone ? ARENA_AT.lone : ARENA_AT.pack, wilds);
       return Object.assign(c, {
         fight: () => ({ party: partyOf(P), foes, flags: flagsOf(P), ...bagOf(P), ends: { canFlee: true }, flee: fleeOf(P), reward: window.BattleRules.WILD_REWARD }),
         introMsg: lone ? (fs) => (fs[0].id === 'brambleAmbush' ? 'A low blackberry thicket grows over the road, heavy with fruit.' : 'A blackberry thicket stands by the road, lusher than it should be, and heavy with fruit.') : undefined,
@@ -277,7 +298,7 @@
   function colossus(P, foes, opts) {
     const scene = COLOSSUS_AT[opts.scene] ? opts.scene : 'frozen-road', at = COLOSSUS_AT[scene], c = base(scene, P);
     c.heroes[0].home = at.io; if (c.heroes[1]) c.heroes[1].home = at.sol; c.slots = [at.slot];
-    if (opts.arena != null ? opts.arena : ARENA) inArena(c, ARENA_OF.colossus, ARENA_AT.colossus, Object.assign({ wilds: true }, opts));
+    if (opts.arena != null ? opts.arena : ARENA) inArena(c, opts.place || ARENA_OF.colossus, ARENA_AT.colossus, Object.assign({ wilds: true }, opts));
     return Object.assign(c, {
       fight: () => ({ party: partyOf(P), foes, flags: flagsOf(P), ...bagOf(P), ends: { canFlee: true }, flee: fleeOf(P), reward: window.BattleRules.WILD_REWARD }),
       introMsg: 'Beside the frozen road stands a thicket as big as a house, green where nothing else is. The snow round it has melted.',
