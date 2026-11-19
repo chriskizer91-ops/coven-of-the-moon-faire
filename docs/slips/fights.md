@@ -1,6 +1,6 @@
 # fights: the new Envoi's battle, here, then grown to four witches
 
-Branch: job/fights      Last commit: see the branch      Updated: November 19, 2026, early morning
+Branch: job/fights      Last commit: see the branch      Updated: November 19, 2026, morning (step 3)
 
 ## What it built
 
@@ -93,7 +93,63 @@ New files at step 2:
 | `tools/battle-testers.mjs` | Moon Faire's eight pretend players, on this battle (new) |
 | `tools/battle-start-test.py` | checks the call for the land (new) |
 
-Where the code is (both steps):
+### Step 3: fights on the land (done)
+
+The zone-1 page, **`game/pages/zone-1.html`**, now has the fights joined on. Build it with
+`python3 tools/build.py game/pages/zone-1.html`: **83.5 MB, 2.0 MB more than main's 81.5 MB** (the witches' models were
+already in; the battle's code, foes, arenas and sound are what was added).
+
+- **The party** (`game/party/party.js`): the four witches' level, experience, HP and MP, the shards and the herbs, in
+  one object kept in the browser under one key (`coven.party`), so closing the page loses nothing. Top level 20. A new
+  party is level 1, everyone whole, no shards, three of each of the battle's five herbs (as Envoi's game began).
+- **Meetings in the wild** (`game/encounters/meetings.js`, numbers in `game/encounters/zone-1.js`): unseen; as she walks
+  the wilds a fight sometimes begins, in the nearest arena (Wickhollow's river glade, or Bogmire's boardwalk). Never in a
+  town or place, in the camp, or within 25 m of one; never within 70 m of the last fight.
+- **The join** (`game/encounters/land-fights.js`): the land pauses, the fight plays over it in its own layer, and the
+  answer is carried back: experience and levels, each witch's HP and MP, herbs used, shards. Won or run from: she walks
+  on from where she stood. Lost: the coven wakes at the Moon Faire's camp, healed (job's call, as the hub suggested).
+- **The herbs Io picks on the land** go into the party's herbs and are used in fights beside the rest (Chris's word).
+- **Rest at the camp:** in the camp's meadow, a **Rest** button shows beside the party's button while anyone is hurt.
+  Tap it: everyone whole.
+- **On the screen:** one small button, bottom right: "Level 3" and one bar for the party's health. Tap it for the four
+  witches (HP and MP), the experience to the next level, the shards, the herbs, Rest, and Start afresh (two taps).
+- **The gate** (a proposal, no story): the great wraith waits 20 m up the road out of Bogmire's north gate, toward the
+  fen's dark heart. At level 5 a button there offers the fight, in Bogmire's arena; won once, it is not offered again.
+  Below level 5 a line says something waits there, too strong yet.
+- The fight shows its own frame rate, small in its top right corner.
+
+How often, and how strong (all in `game/encounters/zone-1.js`, easy to change):
+
+| Where she is | One meeting every (on average) | Foes' levels | Mostly |
+|---|---|---|---|
+| The woods round Wickhollow (within 420 m) | 260 m | 1 to 3 | two wisps |
+| The thorn country | 170 m | 2 to 4 | a wraith, a wisp and a wraith |
+| The fen | 160 m | 3 to 5 | three wisps, a wisp and a wraith |
+| The long road | 220 m | 3 to 5 | a wisp and a wraith |
+| The rest of the wilds | 200 m | 2 to 5 | a mix |
+
+A foe is never more than one level above the party. Where these numbers come from (job's calls):
+
+- **45 fights in zone 1.** A first time through walks about 9 km of wilds: one way, the camp to Wickhollow, the jetty and
+  back, the cottage and back, to the Thornwood, on to Bogmire, to the fen's heart and back, is about 4.2 km outside the
+  places; back to the camp to rest and out again to the gate is 4.6 km more. 45 in 9 km is one every 200 m.
+- **What a fight is worth.** In Envoi's battle the party goes from level 1 to 5 in about 12 wild fights. For about 45,
+  a fight in zone 1 gives 0.27 of the experience and shards it gives in Envoi's battle (`reward`). The levels job should
+  look at this with the whole game's plan.
+
+What the land's check counted (`tools/encounter-test.py`):
+
+| Ground | Walked | Meetings | One every |
+|---|---|---|---|
+| woods round Wickhollow | 20 km | 84 | 239 m (data: 260) |
+| the wilds | 20 km | 106 | 189 m (data: 200) |
+| thorn country | 20 km | 113 | 177 m (data: 170) |
+| the fen | 20 km | 125 | 160 m (data: 160) |
+| the long road | 20 km | 86 | 235 m (data: 220) |
+
+**Fights from level 1 to 5:** about **46** (8.5, 10.5, 11.8 and 15.0 for each level, the battle's own attentive player).
+
+Where the code is (all three steps):
 
 | Folder | What it is |
 |---|---|
@@ -105,13 +161,20 @@ Where the code is (both steps):
 | `game/witches/kore/` | Kore's model, textures, light weights, and the face the battle uses |
 | `game/witches/io/` | Io: used as it was, not copied again |
 | `game/art/arena/`, `game/art/backdrops/` | Chris's eight battle paintings, and the Night square's painting |
+| `game/party/` | the party (`party.js`) and its button on the land (`party-view.js`) |
+| `game/encounters/` | zone 1's meetings (`zone-1.js`, numbers only), when they come (`meetings.js`), the join (`land-fights.js`) |
+| `game/battle/screen-layer.css` | the battle's look for its layer on the land: made by `tools/battle-scope-css.py` from `screen.css` |
+| `tools/encounter-test.py` | the land's fights, checked with no screen |
 | `tools/battle-test.py` | plays fights to their end with no screen and checks them |
 | `tools/battle-look.py` | pictures of the battle with no screen |
 | `tools/battle-balance.mjs` | Envoi's balance check (its 51 targets) on the battle here |
 
 ## What Chris said here
 
-- Nothing yet in this conversation.
+- November 19, morning: steps 1 and 2 are good; step 3 is fights on the land (milestone 3), in this order: the party
+  kept when the page is closed; unseen meetings in the wild, in the nearest arena, zone 1 at levels 1 to 5, about 45
+  fights in zone 1; the join (the land pauses, the fight plays over it, the result comes back); rest at the Moon Faire's
+  camp; a small party display that keeps the phone screen clear. (With the hub's starter text on the board.)
 
 ## What was copied in
 
@@ -154,6 +217,12 @@ Changed after copying (each change marked "Coven" in the file):
     Moonsteel Draw, The Gem), their words on the field, the window two by two, the Gem's state in place of MP.
   - `game/battle/fights.js`: where they stand; each witch's HP and MP coming in; an arena and a foe level asked for
     (for the land's call).
+- Step 3, for the land:
+  - `game/battle/screen.js`: it looks for its own elements inside its own stage first. On the land its layer sits on the
+    land's page, which has ids of its own (`fps`, `nums`); before this, the battle took the land's frame-rate line for
+    its own button and stopped.
+  - `game/battle/start.js` (new at step 2): the party's experience for the end card, what a fight is worth (`reward`),
+    the herbs used in the answer, and the frame rate in the layer's corner.
 
 ## What was checked, and how
 
@@ -208,6 +277,27 @@ What the eight players found that Moon Faire's did not (reported by the check, n
   this is already so against the Colossus. Moon Faire found bold simply weaker, and planned to rework the two styles
   around herbs. Changing the foes' numbers did not undo it, so it is a question of how healing should pay, for Chris.
 
+Step 3:
+
+```
+python3 tools/build.py game/pages/zone-1.html
+python3 tools/encounter-test.py builds/zone-1.html
+python3 tools/zone-test.py builds/zone-1.html
+```
+
+| Check | Result |
+|---|---|
+| The fights on the land (`encounter-test.py`) | **every check passed** (27 checks), 0 page errors; the page starts in 12 s |
+| The land's own check (`zone-test.py`) | **all passed**, with the fights joined on |
+| The battle page still builds and plays | yes: 17.5 MB; the first fight and band 1 to their end, 0 page errors |
+| Envoi's 51 targets, Moon Faire's eight players | unchanged: **49 of 51**; every check passed |
+
+**How it was checked:** a meeting was forced in the woods east of Wickhollow and played by the battle itself (sped up):
+the land was walking, then paused, then walking again; the fight's layer came and went; the experience, shards, each
+witch's HP and the count of fights were carried back and kept in the browser. A lost fight (the party sent in at 1 HP)
+woke the coven at the camp, healed. A herb picked went into the party's herbs. Rest showed only at the camp and made
+everyone whole. The gate's button showed only at level 5. After closing and opening the page, the party was the same.
+
 **How the fights were played:** each plays itself (Envoi's expert player), sped up 40 times and drawn small (320 by 180)
 at half sharpness, because with no graphics card a fight draws two or three frames a second. Each took two to four
 minutes. The Play mode (you pick every move) is the same battle with the menus open; it was not driven by the check.
@@ -220,6 +310,19 @@ minutes. The Play mode (you pick every move) is the same battle with the menus o
 - Touch on a real phone.
 
 ## Unfinished, and known rough spots
+
+Step 3:
+
+- **Not checked by playing:** a meeting coming by itself while walking with a thumb or keys (the check counts the
+  ground by numbers, and forces the fights it plays); the tap targets on a real phone; the frame rate in a fight over the
+  land (the land stops drawing while the fight is up, so it should be the battle page's own).
+- **A meeting begins at once,** with no warning on the land; the battle's own short opening then plays.
+- **The party's panel, when open, covers the two round buttons in the top right** on a phone held sideways. Tap the
+  party's button again to close it.
+- **Where she stands after a lost fight** is a few metres south of the camp's well; not where she stood.
+- **The gate fight** is a spot and a button, nothing more: no sign on the land, no words. Chris's to place and dress.
+- **Chris's song is not on the land** (it was off anyway); the battle page keeps it.
+- **The party is not tied to a save of where she is:** after closing the page, she starts at the camp, with her party.
 
 - **Europa and Callisto have no sounds of their own.** Their moves borrow the battle's (a swing and a thorn's snap for
   Hemline Fangs, witch-fire for Stitch, moon blades for the pins and for Callisto's arrows). Chris's to change.
@@ -252,5 +355,14 @@ minutes. The Play mode (you pick every move) is the same battle with the menus o
   gives back the land's own `#stage`, if it has one, afterwards.
 - **The levels job:** the four witches' experience is Envoi's, per fight. Chris wants about 180 fights to level 20;
   Envoi's plan is about 79 wild fights from 2 to 20 plus the gates.
+- **Step 3, for the hub:**
+  - The land's checks (`?test`) get no meetings unless a check asks (job's call), so `zone-test.py` is never interrupted.
+  - After a fight, the party's herbs and the land's bag are the same count; the job then redraws the page's herb line in
+    the top left (`#bag`) the same way the page does. A hook from the page for this would be cleaner.
+  - The page's `#nums` button and the battle's damage numbers share an id; `screen-layer.css` undoes the button's look
+    inside the battle's layer. Renaming one of them some day would be tidier (the battle's is the job's to rename if
+    the hub prefers).
+  - Every arena and foe model is on the land (2 MB), so `CovenBattle.start()` can be used for zones 2 to 4 as they come.
+  - What a fight is worth on the land (`reward: 0.27` in `game/encounters/zone-1.js`) is the levels job's to settle.
 - Chris's say wanted (for `docs/questions.md`): the two borrowed moves and the borrowed sounds; whether Europa and
   Callisto get trances; whether bold play should beat careful play against a great foe alone.
