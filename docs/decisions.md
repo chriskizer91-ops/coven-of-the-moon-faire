@@ -13,6 +13,26 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 18, 2026, late: Chris's word, and hub's calls made putting zone 1 on the map
+
+- **Chris: a mini map,** to see where he is as the full map is wired in. Then: have an Opus 5.5 sub-agent build a
+  better one than the first plain one. (It is the job `minimap`.)
+- **Chris: the order.** Who walks (all four), then zone 1's hills and shores from the 3D map, then the fen's own
+  ground round Bogmire, then the long road toward zone 2.
+- **Hub's call.** *How zone 1 lies on the 3D map.* On the map zone 1's places are up to 8 km apart; in the game they
+  are within 1 km (Chris's size for a zone). So each place is pinned to its own spot on the map and the land between
+  is stretched to fit: round a place the land is the map shrunk 6 times. The map's heights are divided by 8.
+- **Hub's call.** *The long road is the map at its true size:* 6.07 km from the zone's west edge to where zone 2's
+  first place will be, over a forested hill about 165 m high. It leaves from the jetty road.
+- **Hub's call.** *Running speeds stay the place engine's:* a walk 1.3 m a second, a jog 3.0, a sprint 5.2. Four
+  zones and three long roads are then about 80 minutes at a sprint and over two hours at a jog. (The earlier note
+  said 4.4 m a second, which was Moon Faire's.) If the crossing should be an hour and a half at a jog, the long
+  roads should be about 3.5 km: Chris's call.
+- **Hub's call.** *Bogmire and the fen's dark heart stand in the fen's water,* and a road crosses water on a raised
+  bank of earth until there are bridges.
+- **Hub's call.** *The three other witches' light models are copied in by the hub* (Kore's from the new Envoi,
+  Europa's and Callisto's from Moon Faire), so the `fights` job uses them and does not copy them again.
+
 ## November 18, 2026, night: hub's calls made while pitching the Moon Faire's camp
 
 The reasons are in `docs/slips/zone-1.md`.

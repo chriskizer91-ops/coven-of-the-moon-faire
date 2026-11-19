@@ -21,7 +21,7 @@ zones by Skies of Aethermoor, and walking far is far on purpose.
 ## The order Chris set
 
 1. **The first test** (the Thornwood with Wickhollow). **Done.**
-2. The rest of zone 1. **Most of it built: six places joined, the camp pitched.**
+2. The rest of zone 1. **Built, bar the people: six places, the camp, four witches to walk as, the map's hills and fen, the long road.**
 3. The fights joined on.
 4. The people.
 5. Zones 2 to 4.
@@ -58,13 +58,15 @@ What the checks say (no screen, no graphics card):
 
 ## What is left of milestone 2 (job `zone-1`)
 
-1. **A choice of who walks**: Kore beside Io first (her light model is in the new Envoi), then Europa and Callisto.
-   If `fights` is running, it copies in the three witches' models (`game/witches/kore/` and so on): use those, do not
-   copy them twice.
-2. **Zone 1's broad shape from the 3D map** of Aethermoor, so the land's hills and shores are the map's.
-3. **The fen's own ground and reeds** on the land round Bogmire, and the two lakes joined up.
-4. **The long wild road** out of zone 1 toward zone 2 (about 6 km), as rules only.
-5. **The camp's rough spots**: the camera can pass inside a tent; nobody is there yet (that is the `people` piece).
+Done on November 18 (late): any of the four witches walks; a map in the corner; zone 1 lies on the 3D map of
+Aethermoor (its hills, water and fen); the long road toward zone 2 (6.07 km). The details and numbers are in
+`docs/slips/zone-1.md`.
+
+1. **The better map**, being made by a sub-agent on `job/minimap` (`docs/slips/minimap.md`). The hub checks it and
+   merges it.
+2. **Chris's frame rates** with the new land (the fen's water, the long road's forest), on his laptop and phone.
+3. **Rough spots**: the camera can pass inside a tent; a road crosses water on a plain bank of earth; the long road
+   is bare and ends at a hedge; the two lakes are still two.
 
 Then milestone 2 goes to Chris as one HTML file.
 
@@ -113,15 +115,16 @@ The hub's plan. Names and order may change.
 | Job | What it does | Branch | Slip | State |
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
-| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places joined; the camp pitched. Who walks, the map's shape and the long road are left |
+| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places, the camp, four witches to walk as, the 3D map's hills and fen, the long road. The better map and the rough spots are left |
+| `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Running.** Its only files: `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html` |
 | `fights` | The new Envoi's battle copied in and running here as its own page, then grown to four witches | `job/fights` | `docs/slips/fights.md` | **Ready for a second conversation.** Chris has the starter text (also below). No branch yet |
 
 **Who owns which files, so two conversations never write the same one:**
 
 | Job | Its own folders and files | Must not change |
 |---|---|---|
-| `zone-1` (the hub) | `game/engine/`, `game/places/`, `game/fair/`, `game/data/`, `game/pages/zone-1.html`, `game/pages/first-test.html`, `tools/build.py`, `tools/look.py`, `tools/walk-test.py`, `tools/zone-test.py` | anything of `fights` |
-| `fights` | `game/battle/`, `game/sound/`, `game/witches/kore/`, `game/witches/europa/`, `game/witches/callisto/`, `game/pages/battle.html`, `tools/battle-*`, `docs/slips/fights.md` | everything in the row above, and `game/witches/io/` (read it, use it, ask the hub for a change in the slip) |
+| `zone-1` (the hub) | `game/engine/`, `game/places/`, `game/fair/`, `game/data/`, `game/pages/zone-1.html`, `game/pages/first-test.html`, `game/witches/`, `game/art/world/`, `tools/build.py`, `tools/look.py`, `tools/walk-test.py`, `tools/zone-test.py` | anything of `fights` |
+| `fights` | `game/battle/`, `game/sound/`, `game/pages/battle.html`, `tools/battle-*`, `docs/slips/fights.md` | everything in the row above, and all of `game/witches/` (read it, use it, ask the hub for a change in the slip). **The hub has already copied in Kore's, Europa's and Callisto's light models** (`game/witches/kore/`, `europa/`, `callisto/`, with their lines in `assets/INDEX.csv`): use those, do not copy them again. A fight needs more of a witch (her moves, her full model): copy those into `game/battle/` |
 
 Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join when it merges).
 
