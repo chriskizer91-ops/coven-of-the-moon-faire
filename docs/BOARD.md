@@ -53,8 +53,9 @@ What the checks say (no screen, no graphics card):
 
 | Who | What |
 |---|---|
-| Chris | Trying the camp; starting a second conversation on `fights` if he wants (starter text below) |
-| The hub | The rest of milestone 2 (below) |
+| Chris | Trying the rebuilt zone 1 on his laptop and phone; giving the `fights` conversation its step 3 (text below) |
+| The `fights` conversation | Step 3: fights on the land (milestone 3) |
+| The hub | The Flipbook stutter on the phone; then the people in the camp, and zone 2's land |
 
 ## What is left of milestone 2 (job `zone-1`)
 
@@ -124,14 +125,14 @@ The hub's plan. Names and order may change.
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
 | `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places, the camp, four witches to walk as, the 3D map's hills and fen, the long road. The better map and the rough spots are left |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
-| `fights` | The new Envoi's battle copied in and running here as its own page, then grown to four witches | `job/fights` | `docs/slips/fights.md` | **Ready for a second conversation.** Chris has the starter text (also below). No branch yet |
+| `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1 and 2 done and in `main`** (November 19): `game/pages/battle.html`, all four witches in every fight but the first, 49 of Envoi's 51 balance targets, `CovenBattle.start()` for the land. **Step 3 handed out:** fights on the land (text below) |
 
 **Who owns which files, so two conversations never write the same one:**
 
 | Job | Its own folders and files | Must not change |
 |---|---|---|
 | `zone-1` (the hub) | `game/engine/`, `game/places/`, `game/fair/`, `game/data/`, `game/pages/zone-1.html`, `game/pages/first-test.html`, `game/witches/`, `game/art/world/`, `tools/build.py`, `tools/look.py`, `tools/walk-test.py`, `tools/zone-test.py` | anything of `fights` |
-| `fights` | `game/battle/`, `game/sound/`, `game/pages/battle.html`, `tools/battle-*`, `docs/slips/fights.md` | everything in the row above, and all of `game/witches/` (read it, use it, ask the hub for a change in the slip). **The hub has already copied in Kore's, Europa's and Callisto's light models** (`game/witches/kore/`, `europa/`, `callisto/`, with their lines in `assets/INDEX.csv`): use those, do not copy them again. A fight needs more of a witch (her moves, her full model): copy those into `game/battle/` |
+| `fights` | `game/battle/`, `game/sound/`, `game/party/`, `game/encounters/`, `game/art/arena/`, `game/art/backdrops/`, `game/pages/battle.html`, `tools/battle-*`, `tools/encounter-*`, `docs/slips/fights.md`, the faces the battle uses in `game/witches/*/moon-*.js`, and **the two marked slots in `game/pages/zone-1.html`** ("fights job: ..." to "fights job: end") | everything in the row above (read it, use it, ask the hub for a change in the slip) |
 
 Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join when it merges).
 
@@ -142,6 +143,61 @@ Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join whe
 3. Tell the hub when the job says a step is ready. The hub brings it into `main` and updates this board.
 
 ## Starter texts
+
+### `fights`, step 3 (paste this into the fights conversation)
+
+```
+Step 3 for the fights job: fights on the land. Steps 1 and 2 are in main. Thank you: they are good.
+
+First: git fetch, then merge origin/main into job/fights. Main has moved a long way. The hub joined the two asset
+lists and dropped 7 doubled lines (the witches' light models were copied by both of us), so take main's
+assets/INDEX.csv as it is. Then read docs/BOARD.md, the top of docs/decisions.md, and docs/slips/zone-1.md
+("Rebuilt on November 18, night").
+
+What is new on the land (game/pages/zone-1.html, built with python3 tools/build.py game/pages/zone-1.html):
+- The land is Chris's map of Aethermoor at one third size, every place where the map has it. Zone 1 is 2.5 km by
+  3.2 km: Wickhollow, the Moon Faire's camp (the game starts there), Io's cottage, the jetty, the Thornwood, Bogmire,
+  the fen's dark heart, joined by roads, and a 2.6 km road toward zone 2.
+- Any of the four witches walks (W.who, W.setWho(id)). There is a map in the corner.
+- For you: W.pause(true) stops the land (no walking, no drawing) and W.pause(false) starts it again.
+  W.io has her place (W.P.M.x(W.io.px), W.P.M.z(W.io.py) give metres east and south). W.P.land is the land:
+  region() names where she stands; mapData().kind(x, z) says what a spot is (water, fen, thorn, open, pine, rim);
+  rects are the places' own ground; mapData().flats is the camp; mapData().roads the roads; bag is the herbs she has
+  picked (moonpetal and lavender, by count); W3D.landEvents.herb and .region are called when she picks one or
+  crosses into a new region (the page sets them: wrap them, do not replace them).
+- In game/pages/zone-1.html you may write only between the two pairs of marked lines: "fights job: its script tags"
+  to "fights job: end", and "fights job: its start-up" to "fights job: end". Nothing else in that page.
+
+Build, in this order, each ending with something Chris can open:
+
+1. The party (game/party/): one object that holds the four witches' level, experience, HP and MP, the shards and the
+   herbs; kept in the browser (localStorage, one key) so closing the page does not lose it; top level 20. Io's wild
+   herbs from the land's bag are used in a fight beside the shop herbs (Chris's word). A way to start afresh.
+2. Meetings in the wild (game/encounters/): as she walks the wild, a fight sometimes begins. Chris's word: the
+   meetings are unseen (no foes walking the land), the fight is in the nearest arena, and zone 1 is band 1
+   (levels 1 to 5), with the great wraith at Bogmire as the gate at level 5. About 180 fights carry the party from
+   level 1 to 20 over the four zones, so about 45 belong to zone 1: set how often a meeting comes from that and from
+   how far there is to walk, and say the numbers. No meeting in a town or place, in the camp, or just after one.
+   Which foes, how strong, and how often, by where she is (woods, thorn country, fen, the long road): in a data
+   file, easy to change. The gate fight needs a spot and a way to begin it: propose it, do not write story for it.
+3. The join: when a meeting comes, the land pauses, CovenBattle.start() plays the fight over it, and the answer is
+   carried back: experience and levels, each witch's HP and MP, herbs spent, shards. Won: she walks on. Fled: she
+   walks on. Lost: your call (the hub suggests she wakes at the Moon Faire's camp, healed), marked as a call.
+4. Rest: a way to heal at the Moon Faire's camp. Small and plain.
+5. On the land's screen, as little as possible: Chris wants uncluttered phone screens. The party's level and health
+   in one small place, large enough for a thumb if it can be tapped, nothing over the middle.
+
+Check it with no screen: a check (tools/encounter-test.py) that forces a meeting, plays it, comes back, and shows
+the party carried on, the land paused and started again, and no page errors; and numbers a person can check (how
+many meetings in a kilometre of woods, how many fights to level 5). Say what could not be checked. Both pages must
+still build, and tools/zone-test.py and your own battle checks must still pass. The zone-1 page will grow by about
+the battle's size; say by how much.
+
+Small calls are yours: write each in your slip as a job's call. Stop and ask Chris only for something that cannot
+be undone or a big change to the story. The opening of the story (Envoi's first fight, Io alone on the bridge) is
+not settled: leave the first fight out of the land for now. Push to job/fights often, and tell Chris when a step
+is ready.
+```
 
 ### `fights` (paste this into a new conversation)
 

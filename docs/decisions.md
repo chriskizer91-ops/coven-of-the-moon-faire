@@ -13,6 +13,21 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 19, 2026, morning: Chris tries the rebuilt land; the fights job's steps 1 and 2 are in
+
+- **Chris: the rebuilt land looks "so very beautiful"** and he wants to continue. The frame rate is the same as
+  before on the laptop and the phone.
+- **Chris: the Flipbook look on the phone** falls from 45-50 frames a second to 20-35 for the second it takes to
+  cross from a town into the woods. Only on the phone, only in that look.
+- **Chris: battle steps 1 and 2 are done.** The hub brought `job/fights` into `main`. The second conversation is
+  ready for more work.
+- **Hub's call.** *The second conversation's next work is step 3, fights on the land* (milestone 3): the party, unseen
+  meetings in the wild, the join, rest at the camp. Its text is on the board.
+- **Hub's call.** *A first try at the Flipbook stutter, not measured* (only the phone can show it): leaving a town,
+  the fog draws back and a ring of new land was wanted all at once; now that ring is made over a few seconds, and
+  when frames are already under about 54 a second the land makes less each frame. The numbers panel now shows how
+  many pieces of land are waiting, so Chris can say whether the stutter comes with a high number.
+
 ## November 18, 2026, 21:04: the land you walk is the map of Aethermoor
 
 - **Chris: the 3D world the player explores is built and mapped to match the 3D world map of all of Aethermoor.** It
