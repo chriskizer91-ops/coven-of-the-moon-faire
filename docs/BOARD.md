@@ -115,16 +115,63 @@ The hub's plan. Names and order may change.
 | Job | What it does | Branch | Slip | State |
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
-| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Part done, in `main`.** Six places joined. The camp and the rest are left |
+| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Part done, in `main`.** Six places joined. The hub is building the Moon Faire's camp now |
+| `fights` | The new Envoi's battle copied in and running here as its own page, then grown to four witches | `job/fights` | `docs/slips/fights.md` | **Ready for a second conversation.** Starter text below |
+
+**Who owns which files, so two conversations never write the same one:**
+
+| Job | Its own folders and files | Must not change |
+|---|---|---|
+| `zone-1` (the hub) | `game/engine/`, `game/places/`, `game/fair/`, `game/data/`, `game/pages/zone-1.html`, `game/pages/first-test.html`, `tools/build.py`, `tools/look.py`, `tools/walk-test.py`, `tools/zone-test.py` | anything of `fights` |
+| `fights` | `game/battle/`, `game/sound/`, `game/witches/kore/`, `game/witches/europa/`, `game/witches/callisto/`, `game/pages/battle.html`, `tools/battle-*`, `docs/slips/fights.md` | everything in the row above, and `game/witches/io/` (read it, use it, ask the hub for a change in the slip) |
+
+Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join when it merges).
 
 ## How to start a job (for Chris)
 
-The hub is building the pieces itself for now, in the order above. If a second conversation should take a piece:
-
-1. Open a new conversation and paste the job's starter text (the hub writes it here when a job is ready to hand out).
+1. Open a new conversation and paste the job's starter text from below.
 2. The job works on its own branch and sends you one HTML file to open on your laptop and phone.
-3. Tell the hub when the job says it is ready. The hub brings it into `main` and updates this board.
+3. Tell the hub when the job says a step is ready. The hub brings it into `main` and updates this board.
 
 ## Starter texts
 
-None handed out yet.
+### `fights` (paste this into a new conversation)
+
+```
+You are a job conversation for Coven of the Moon Faire. Your job is `fights`.
+
+Repo: chriskizer91-ops/coven-of-the-moon-faire (add it with push access). Read CLAUDE.md, docs/BOARD.md and
+docs/decisions.md on main first, then docs/slips/first-test.md to see how a piece is copied in, built and checked.
+Sources, read-only, on their main branch, never pushed to: chriskizer91-ops/envoi-on-the-longest-night and
+chriskizer91-ops/moon-faire.
+
+Work on your own branch job/fights, made from main. Write only your own slip, docs/slips/fights.md, under docs/.
+The board has a table of which files are yours and which you must not change. If you need one of the hub's files
+changed (tools/build.py, anything in game/engine/ or game/witches/io/), say so in your slip under "For the hub".
+
+What to build, in two steps. Send Chris one HTML file at the end of each.
+
+Step 1. The new Envoi's battle, running here. It is in the Envoi repo under moon-faire-witches/ (battle/battle.html,
+src/battle/, src/kit.js, src/moon-jester.js, src/trance.js, witches/jester_lod.js and the files they load, plus
+the first Envoi's models, arenas and effects in src/models/, src/stage/, src/fx/, art/arena/ that the battle uses).
+Copy in only what the battle loads, each with a line in assets/INDEX.csv. Make game/pages/battle.html and build it
+with `python3 tools/build.py game/pages/battle.html` into one file that fetches nothing from outside itself.
+Io's files are already in game/witches/io/: use them, do not copy them again. Keep the 155 sounds and the six music
+pieces. It passes when every fight the Envoi battle has can be started and played to its end here with no page
+errors, and Envoi's own balance check gives the same result here as there (44 of 51 targets on Envoi's main).
+
+Step 2. Four witches. Chris decided all four are in the party from the start. Fit Europa (the Fox) and Callisto
+(the Ranger) to this battle the way Io and Kore were fitted: their light models are in the Moon Faire repo
+(game/fight/witches/fox_lod.js, ranger_lod.js and their textures), and their moves and numbers are in Moon
+Faire's approved engine (game/sim/blob-battle-engine.js). Then rebalance for a party of four with both checks:
+Envoi's 51 targets and Moon Faire's eight pretend players (game/plan/testers/testers.js).
+
+Also give the battle one call the land can make to start a fight and get the result back, shaped like Moon
+Faire's: start({ arena, foes, partyLevel, foeLevel, party }) -> won, lost or fled, the experience, and each
+witch's HP and MP after. Do not join it to the land yourself: the hub does that.
+
+Chris's rules: plain words, pictures and simple numbers; say what you could not check (no session can measure a
+frame rate or hear a sound); small calls are yours, written in your slip as "job's call"; stop and ask only for
+something that cannot be undone or a big change to the story. Push to job/fights often. Tell Chris when a step is
+ready, and he will tell the hub.
+```
