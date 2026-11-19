@@ -232,6 +232,8 @@ minutes. The Play mode (you pick every move) is the same battle with the menus o
   bar, which this battle does not have). Both job's calls.
 - **Fights with four take longer:** a wild pack is 0.8 to 2.2 minutes for the attentive player (Envoi's two: 0.6 to 1.4),
   inside Envoi's target of 0.6 to 2.2 (2.5 on entering a band). Four witches take four turns a round.
+- **Crazy Quilt's quilt falls in front of Europa,** not over the foes (it is her model's own spell, built to land a set way
+  in front of her). Seen in a still; not fixed.
 - The camera was not changed for four; in the stills they stand in a slanting line, all in view.
 
 ## For the hub
