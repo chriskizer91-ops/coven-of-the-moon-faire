@@ -55,6 +55,33 @@ COMPARE = {
 }
 
 
+JS_PLAY = r"""
+(function(){
+  var now=null;
+  function stop(){ if(now){ now.audio.pause(); now.audio.currentTime=0; now.button.textContent='▶ Play'; now.button.classList.remove('on'); now=null; } }
+  document.querySelectorAll('.line').forEach(function(card){
+    var audio=card.querySelector('audio.native'), button=card.querySelector('.play'), cant=card.querySelector('.cant');
+    if(!audio||!button) return;
+    // a blob: address plays in more places than a long data: address
+    try {
+      var src=audio.getAttribute('src'), raw=atob(src.slice(src.indexOf(',')+1)), bytes=new Uint8Array(raw.length);
+      for(var i=0;i<raw.length;i++) bytes[i]=raw.charCodeAt(i);
+      audio.src=URL.createObjectURL(new Blob([bytes],{type:'audio/mpeg'}));
+    } catch(e) {}
+    audio.controls=false; audio.hidden=true; button.hidden=false;
+    var me={audio:audio,button:button};
+    button.addEventListener('click',function(){
+      if(now===me){ stop(); return; }
+      stop(); now=me; button.textContent='■ Stop'; button.classList.add('on'); cant.hidden=true;
+      var p=audio.play(); if(p&&p.catch) p.catch(function(err){ if(err&&err.name!=='AbortError'){ cant.hidden=false; stop(); } });
+    });
+    audio.addEventListener('ended',function(){ if(now===me) stop(); });
+    audio.addEventListener('error',function(){ cant.hidden=false; if(now===me) stop(); });
+  });
+})();
+"""
+
+
 def probe(path):
     p = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', str(path)],
                                   capture_output=True, text=True).stdout)
@@ -139,7 +166,10 @@ def main():
                 f'<span class="kind">{html.escape(label or k)}</span></div>'
                 f'<p class="words">{html.escape(l["text"])}</p>'
                 f'<p class="why">{html.escape(why)}</p>'
-                f'<audio controls preload="none" src="{b64(files[k])}"></audio>'
+                f'<div class="clip"><button type="button" class="play" hidden>\u25b6 Play</button>'
+                f'<span class="len">{r["dur"]:.1f} seconds</span></div>'
+                f'<audio class="native" controls preload="metadata" src="{b64(files[k])}"></audio>'
+                f'<p class="cant" hidden>This view cannot play sound. Open the page in Safari or Chrome.</p>'
                 f'<p class="tone">Asked for: {html.escape(l["tone"])}' + (f' Said with the cue {html.escape(re.findall(r"\[[^\]]*\]", l["say"])[0])}.' if '[' in l['say'] else '') +
                 f'</p><div class="meta"><span>{r["dur"]:.1f} s (expected about {tc.estimate(l):.1f})</span>'
                 f'<span>pitch {r["pitch"] or "none found"}{" Hz" if r["pitch"] else ""}</span><span class="id">{k}</span></div></div>')
@@ -170,6 +200,11 @@ def main():
 <style>{tp.CSS}
 .why{{font:15px/1.5 system-ui,sans-serif;color:#f0c27c;margin:0 0 8px}}
 audio{{width:100%;height:44px;margin:4px 0 8px;color-scheme:dark}}
+.clip{{display:flex;align-items:center;gap:12px;margin:4px 0 10px}}
+.play{{font:700 17px/1 system-ui,sans-serif;color:#10192c;background:var(--lamp);border:0;border-radius:12px;padding:0 20px;min-height:52px;min-width:120px}}
+.play.on{{background:#f6dca8}}
+.len{{font:15px/1.3 system-ui,sans-serif;color:var(--dim)}}
+.cant{{font:14px/1.4 system-ui,sans-serif;color:#f0c27c;margin:0 0 8px}}
 .pass li{{margin:0 0 10px}}
 .big{{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0}}
 .big div{{background:#16223b;border:1px solid var(--line);border-radius:10px;padding:10px 12px}}
@@ -197,7 +232,7 @@ measured, and the few lines worth a listen.</p>
 </div>
 <h2>Worth your ear: {len(LISTEN)} lines</h2>
 <p>Nothing here is broken. These are the lines where the numbers suggest the reading might not be what the note asked for.
-Tap play on each. If one sounds wrong, tell me and I will write the redo request.</p>
+Tap the yellow button on each. If one sounds wrong, tell me and I will write the redo request.</p>
 {''.join(card(k, why) for k, why in LISTEN.items())}
 <h2>Two voices to compare with their notes</h2>
 {''.join(card(k, why, label='one line to hear') for _, (k, why) in COMPARE.items())}
@@ -214,7 +249,9 @@ id. Their real lengths are in <code>game/talk/recording/z1-lengths.csv</code> an
 <code>game/talk/zone-1.js</code>. The hub can take them from there into the game.</p>
 <footer><p>Made by <code>tools/talk-voices.py</code>, which measures <code>game/talk/audio/z1/</code> with ffmpeg. Run it
 again after any redo.</p></footer>
-</main></body></html>
+</main>
+<script>{JS_PLAY}</script>
+</body></html>
 """
     (ROOT / 'docs/lore/story-voices.html').write_text(page)
     print(f'wrote docs/lore/story-voices.html ({len(page) // 1024} KB)')
