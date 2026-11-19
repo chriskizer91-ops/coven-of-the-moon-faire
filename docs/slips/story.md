@@ -1,10 +1,17 @@
 # story: the story's dialogue, written to be spoken aloud
 
-Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, late morning
+Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, evening
 
 ## What it built
 
-**Step 2 is done: all of zone 1's spoken lines, as data the game reads.** Step 3 waits for Chris's notes.
+**Step 2 is done: all of zone 1's spoken lines, as data the game reads. The recordings came back the same day and
+are checked and on the branch.** Step 3 waits for Chris's notes.
+
+- `game/talk/audio/z1/`: **all 236 recordings**, one MP3 a line, named `<id>.mp3`, taken byte for byte from the
+  listening page Chris sent (8.5 MB). `game/talk/recording/z1-lengths.csv`: each one's real length. Every line's
+  `secs` in `zone-1.js` is now its real length (17 minutes 23 seconds in all).
+- `tools/talk-voices.py` measures the recordings against the order; `docs/lore/story-voices.html` is its page for
+  Chris: what passed, and ten lines worth his ear, each playable on the page.
 
 - `game/talk/zone-1.js`: **all 236 lines** (`window.COVEN_TALK_Z1`). Each has its id (also its sound file's name), who
   says it, the words shown, the words to say with any cue in square brackets, a plain tone note, when it can be said,
@@ -26,6 +33,8 @@ Branch: job/story      Last commit: (see the branch)      Updated: November 19, 
 ## What Chris said here
 
 - November 19, 08:42: go (start step 1).
+- **November 19, 16:20: "Here are the voices"**: a listening page with all 236 recordings (made by ChatGPT with
+  ElevenLabs from the recording order).
 - **November 19, 09:25: "Yes to all. Please continue."** On `docs/lore/story-page.md` and the 24-line sample, so:
   - The story in ten lines, as the story page has it (with its six changes), and the witches' threads.
   - The voice of the 24 sample lines.
@@ -41,10 +50,23 @@ Branch: job/story      Last commit: (see the branch)      Updated: November 19, 
 
 ## What was copied in
 
-- Nothing.
+- Nothing from the old repos. The recordings are new, made for this game, so they need no line in
+  `assets/INDEX.csv`.
 
 ## What was checked, and how
 
+- **The recordings** (`python3 tools/talk-voices.py`, ffmpeg): all 236 present, each once, named exactly as ordered,
+  nothing extra; the words beside each on Chris's page match ours word for word. All MP3, one channel, 44.1 kHz,
+  64 kbps. Loudness -18.9 to -16.7 LUFS (asked about -18); highest peak -1.1 dBFS (asked no higher than -1).
+  Silence at the start at most 0.09 s; at the end, four files run 0.21 to 0.32 s (asked 0.2): not worth redoing.
+  Each voice's pitch stays in its own range (no line in a wrong voice that pitch can show). Lengths against the
+  estimates: the median line is 93% of its estimate; none looks cut short or padded. **Not checked: the words by ear**
+  (no speech-to-text here) and the feeling of each reading. Ten lines are flagged for Chris to hear: Io's two soft
+  lines (z1.io.05, z1.io.14: pitch far above her usual, may be thin), Kore's whispered "Since tonight" (z1.kore.09),
+  three cued lines where a cue might have been spoken (z1.kore.07, z1.europa.01, z1.kore.01), z1.captain.28 and
+  z1.tully.06 (pitch far above their usual), and z1.captain.12 and z1.captain.08 (said fast for his slow note). Two
+  voices to compare with their notes: the Grey Hat (faster and higher than his note) and Old Wenna (higher than her
+  note).
 - `python3 tools/talk-check.py`: **ALL GOOD.** 236 lines, 2,758 words, about 18.5 minutes of speech. Every person has
   the brief's count. Longest line 18 words, average 11.7. No dashes, semicolons, trailing dots, digits, banned words or
   spell names. Only approved names are said (Io 18 times, Kore 5, Nettie 5, Old Wenna 5, Europa 2, Callisto, Odile,
@@ -96,8 +118,9 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
 
 ## Unfinished
 
+- Chris's listen to the ten flagged lines; any redo goes back through ChatGPT with the same file names, and
+  `tools/talk-voices.py` is run again.
 - Step 3: Chris's notes on the 236 lines worked in; then the cast and beats for zones 2 to 4, as an outline only.
-- The real lengths of the lines, when the recordings come back (the hub can take them from each zip's list).
 
 ## For the hub
 
@@ -117,8 +140,10 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
    be true; more keys means more particular, chosen first; a line is said once before any repeats; `kind: 'call'` lines
    are said as the coven walks past, not in a talk. The brief's green and steady are not defined in numbers: the
    file's comment suggests green for levels 1 to 2 and steady for 3 to 5.
-5. **The sound**: each line's file is `<id>.mp3` (for example `z1.odile.03.mp3`), in `z1-<speaker>.zip` with a list
-   of real lengths inside. `people.js`'s `voice(id)` can look them up by id as it is.
+5. **The sound is here**: `game/talk/audio/z1/<id>.mp3` (for example `z1.odile.03.mp3`), all 236, MP3 mono 64 kbps,
+   8.5 MB; real lengths in `game/talk/recording/z1-lengths.csv` and in each line's `secs`. `people.js`'s `voice(id)`
+   can look them up by id as it is. Whether to keep them as MP3 or re-encode (the battle music is AAC) is the hub's
+   call; the file names should stay the ids.
 6. **After the great wraith, the pale moth must be seen on the land**, not only in the fight: Kore says "Watch the
    moth" and Europa "It's flying west. Toward the moon". It flies west, toward the low moon, the opposite way to the
    lean.
@@ -126,3 +151,5 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
    Odile's lamp stall by the camp's well (two pointers say "by the well"); Old Wenna's stall by Bogmire's boardwalk.
 8. **For `docs/decisions.md`**: Chris's yes of 09:25, as listed above.
 9. So far the brief's shape (section 5) has not got in the way of a better line.
+10. The board lists my files as `docs/lore/story-*.md`; the prompt said `story-*`. I keep three pages there as HTML
+   (`story-sample.html`, `story-zone-1.html`, `story-voices.html`). Move them if you would rather.

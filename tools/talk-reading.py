@@ -315,7 +315,7 @@ The rest are mine, for you to read. Change any word before it is recorded.</p>
 <div class="big">
 <div><b>{n}</b><span>lines, as the brief’s table has them</span></div>
 <div><b>{len(cast)}</b><span>speakers, each with a voice note</span></div>
-<div><b>{secs / 60:.1f} min</b><span>of speech ({words:,} words, about 12 a line)</span></div>
+<div><b>{secs / 60:.1f} min</b><span>of speech, as recorded ({words:,} words, about 12 a line)</span></div>
 <div><b>{mb:.1f} MB</b><span>as MP3 at 64 kbps (about {mb * 4 / 3:.1f} MB inside the one-file game)</span></div>
 </div>
 <div class="ask"><h2>What to do with it</h2><ol>
@@ -354,9 +354,9 @@ semicolons, trailing dots, numbers in digits, banned words or spell names. Only 
 roaster’s never is. Every person has something to say at every stage after the first talk, and every ordinary
 person points the coven to the lamp-seller, the Grey Hat, Nettie or Old Wenna by a place. Every story talk is in order,
 six lines at most, two of them a witch’s at most. Every id is used once. All 24 approved sample lines are here.</p>
-<p><strong>Not checked.</strong> How the lines sound in real voices. The seconds are worked out from the words (about 2.8
-a second), so they are a guess until the recordings come back with their real lengths. How Eleven v4 takes each cue
-has not been tried.</p>
+<p><strong>The seconds</strong> are the recordings\u2019 real lengths (they came back on November 19; all 236 lines,
+checked in <code>docs/lore/story-voices.html</code>). A line with no recording yet would show an estimate (about 2.8
+words a second).</p>
 <p>Made by <code>tools/talk-reading.py</code> from <code>game/talk/zone-1.js</code> and <code>game/talk/cast.js</code>,
 on the branch <code>job/story</code>.</p>
 </footer>

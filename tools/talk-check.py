@@ -4,6 +4,7 @@
     python3 tools/talk-check.py                         # checks game/talk/zone-1.js
     python3 tools/talk-check.py game/talk/sample.js     # the approved sample
     python3 tools/talk-check.py --fill                  # also writes each line's seconds into zone-1.js
+                                                        # (the real length once recorded: recording/z1-lengths.csv)
 
 For every line:
   - one breath: no more than 24 words (and it lists lines over 18, to read again)
@@ -83,7 +84,27 @@ def words(t):
     return [w for w in re.split(r"[\s]+", re.sub(r"[^\w'\- ]", ' ', plain(t))) if w]
 
 
+_recorded = None
+
+
+def recorded():
+    """The real lengths of recorded lines (game/talk/recording/<zone>-lengths.csv), by line id."""
+    global _recorded
+    if _recorded is None:
+        _recorded = {}
+        for f in (ROOT / 'game/talk/recording').glob('*-lengths.csv'):
+            for row in f.read_text().splitlines()[1:]:
+                name, secs = row.split(',')
+                _recorded[name.removesuffix('.mp3')] = float(secs)
+    return _recorded
+
+
 def seconds(line):
+    """The line's length: its recording's real length if it has been recorded, otherwise the estimate."""
+    return round(recorded()[line['id']], 1) if line['id'] in recorded() else estimate(line)
+
+
+def estimate(line):
     t = line['text']
     n = len(words(t))
     stops = max(0, len(re.findall(r'[.?!,]', t)) - 1)        # each stop inside the line is a small breath
@@ -256,6 +277,8 @@ def main():
     longest = max(data['lines'], key=lambda l: len(words(l['text'])))
     print(f'  longest line: {longest["id"]}, {len(words(longest["text"]))} words; '
           f'average {tw / len(data["lines"]):.1f} words')
+    rec = sum(l['id'] in recorded() for l in data['lines'])
+    print(f'  seconds: {rec} of {len(data["lines"])} lines are real recorded lengths, the rest estimates')
     cues = sum(len(re.findall(r'\[[^\]]*\]', l['say'])) for l in data['lines'])
     print(f'  delivery cues: {cues} in {len(data["lines"])} lines')
     print('names said aloud: ' + (', '.join(f'{k} ({len(v)})' for k, v in sorted(said.items())) or 'none'))

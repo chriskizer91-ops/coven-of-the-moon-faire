@@ -1,6 +1,6 @@
 COVEN OF THE MOON FAIRE
 VOICE RECORDING ORDER: ZONE 1
-Made November 19, 2026. 236 lines, 23 speakers, about 18.5 minutes of speech.
+Made November 19, 2026. 236 lines, 23 speakers, about 17.4 minutes of speech.
 
 WHAT THIS IS
 These are the spoken lines for the first part ("zone 1") of a small fantasy video game. Every person in the game speaks aloud. Each line below is recorded as its own sound file, in the voice of the person who says it. The game finds each sound by its file name, so the names must be exactly as written here. The lines are British English.
@@ -37,7 +37,7 @@ If a name comes out wrong, Eleven v4 reads the International Phonetic Alphabet w
 
 ==============================================================================
 SPEAKER: io   Io, the Herbal Witch
-ZIP: z1-io.zip   (14 lines, about 44 seconds)
+ZIP: z1-io.zip   (14 lines, about 41 seconds)
 VOICE: Woman, about thirty. From: a faint trace of Wickhollow’s soft West Country, worn down by years on the road. Pitch: low-middle. Pace: unhurried. Texture: warm and gentle, with steel under the softness.
 AUDITION LINE (to choose the voice, not a file): Hold still. This will sting, and then it won’t.
 ------------------------------------------------------------------------------
@@ -99,7 +99,7 @@ z1.io.14.mp3
 
 ==============================================================================
 SPEAKER: kore   Kore, the Jester
-ZIP: z1-kore.zip   (12 lines, about 38 seconds)
+ZIP: z1-kore.zip   (12 lines, about 43 seconds)
 VOICE: Woman, about thirty. From: clear stage speech, from nowhere in particular. Pitch: middle, bright. Pace: quick, and can stop dead. Texture: a trained performer’s voice that can drop to a hush, laughter always close under the words.
 AUDITION LINE (to choose the voice, not a file): Everyone laughs at the fool. That’s how she gets close enough to tell the truth.
 ------------------------------------------------------------------------------
@@ -153,7 +153,7 @@ z1.kore.12.mp3
 
 ==============================================================================
 SPEAKER: europa   Europa, the Fox
-ZIP: z1-europa.zip   (10 lines, about 41 seconds)
+ZIP: z1-europa.zip   (10 lines, about 47 seconds)
 VOICE: Woman, late twenties. From: a slight Irish lilt. Pitch: middle-high. Pace: quick. Texture: light and playful, a smile in it.
 AUDITION LINE (to choose the voice, not a file): Snip, there. Oh, don’t sulk. It’s a better shape now.
 ------------------------------------------------------------------------------
@@ -199,7 +199,7 @@ z1.europa.10.mp3
 
 ==============================================================================
 SPEAKER: callisto   Callisto, the Ranger
-ZIP: z1-callisto.zip   (10 lines, about 33 seconds)
+ZIP: z1-callisto.zip   (10 lines, about 29 seconds)
 VOICE: Woman, mid twenties. From: a faint accent nobody else in the game has (a light Scandinavian lilt). Pitch: low. Pace: slow and measured. Texture: calm and spare, every word meant.
 AUDITION LINE (to choose the voice, not a file): Wait. There. Now.
 ------------------------------------------------------------------------------
@@ -245,7 +245,7 @@ z1.callisto.10.mp3
 
 ==============================================================================
 SPEAKER: odile   Odile, the lamp-seller
-ZIP: z1-odile.zip   (24 lines, about 128 seconds)
+ZIP: z1-odile.zip   (24 lines, about 115 seconds)
 VOICE: Woman, about sixty-five. From: a light French accent, softened by years on the road. Pitch: low-middle. Pace: even, unhurried. Texture: dry, precise, a little husky, fond underneath.
 AUDITION LINE (to choose the voice, not a file): Hold it still. There. See how it sits? That’s a good wick.
 ------------------------------------------------------------------------------
@@ -347,7 +347,7 @@ z1.odile.24.mp3
 
 ==============================================================================
 SPEAKER: tully   Tully, the gate keeper
-ZIP: z1-tully.zip   (6 lines, about 33 seconds)
+ZIP: z1-tully.zip   (6 lines, about 28 seconds)
 VOICE: Woman (the lines never say; the body is a woman’s), mid fifties. From: a careful Dutch accent. Pitch: low. Pace: slow, sparing. Texture: flat and dry, each word counted out like a coin; warmth arrives late and small.
 AUDITION LINE (to choose the voice, not a file): Name. Coin. In you go. Next.
 ------------------------------------------------------------------------------
@@ -377,7 +377,7 @@ z1.tully.06.mp3
 
 ==============================================================================
 SPEAKER: bashir   Bashir, the ribbon-dyer
-ZIP: z1-bashir.zip   (6 lines, about 30 seconds)
+ZIP: z1-bashir.zip   (6 lines, about 27 seconds)
 VOICE: Man, about seventy. From: a soft Levantine accent. Pitch: low. Pace: slow, with pauses before he answers. Texture: quiet and husky, short sideways answers.
 AUDITION LINE (to choose the voice, not a file): Red is easy. Anyone can make red. Ask me about grey.
 ------------------------------------------------------------------------------
@@ -407,7 +407,7 @@ z1.bashir.06.mp3
 
 ==============================================================================
 SPEAKER: zofia   Zofia, the fortune-teller
-ZIP: z1-zofia.zip   (8 lines, about 43 seconds)
+ZIP: z1-zofia.zip   (8 lines, about 41 seconds)
 VOICE: Woman, about fifty. From: a Polish accent. Pitch: middle. Pace: measured, theatrical. Texture: a little grand, a professional’s polish with something unsettled under it.
 AUDITION LINE (to choose the voice, not a file): Cross my palm, darling. The future is expensive and the past is free.
 ------------------------------------------------------------------------------
@@ -445,7 +445,7 @@ z1.zofia.08.mp3
 
 ==============================================================================
 SPEAKER: linnet   Linnet, the ballad-singer
-ZIP: z1-linnet.zip   (6 lines, about 28 seconds)
+ZIP: z1-linnet.zip   (6 lines, about 27 seconds)
 VOICE: Woman, about twenty-two. From: a Welsh lilt. Pitch: middle-high, musical. Pace: quick, tumbling. Texture: warm and lively, a little breathless around the four.
 AUDITION LINE (to choose the voice, not a file): Every good song has a sad verse. That’s how you know it’s good.
 ------------------------------------------------------------------------------
@@ -475,7 +475,7 @@ z1.linnet.06.mp3
 
 ==============================================================================
 SPEAKER: otto   Otto, the baker
-ZIP: z1-otto.zip   (6 lines, about 28 seconds)
+ZIP: z1-otto.zip   (6 lines, about 27 seconds)
 VOICE: Man, about fifty. From: a German accent. Pitch: low. Pace: hearty, a little quick. Texture: round and cheerful, a laugh never far off.
 AUDITION LINE (to choose the voice, not a file): Bread first. Then trouble. Never the other way round.
 ------------------------------------------------------------------------------
@@ -505,7 +505,7 @@ z1.otto.06.mp3
 
 ==============================================================================
 SPEAKER: corwin   Corwin, the night watchman
-ZIP: z1-corwin.zip   (6 lines, about 32 seconds)
+ZIP: z1-corwin.zip   (6 lines, about 31 seconds)
 VOICE: Man, about sixty-eight. From: Yorkshire. Pitch: low. Pace: slow and steady. Texture: gravelly and gruff, kind underneath.
 AUDITION LINE (to choose the voice, not a file): Lamps lit, shutters fast, and nobody where they shouldn’t be.
 ------------------------------------------------------------------------------
@@ -535,7 +535,7 @@ z1.corwin.06.mp3
 
 ==============================================================================
 SPEAKER: ros   Ros, the pie-seller
-ZIP: z1-ros.zip   (6 lines, about 26 seconds)
+ZIP: z1-ros.zip   (6 lines, about 27 seconds)
 VOICE: Woman, late forties. From: a London market trader. Pitch: middle. Pace: quick, loud. Texture: brassy and warm, a trader to her boots.
 AUDITION LINE (to choose the voice, not a file): Two for one, and I’m robbing myself. Go on.
 ------------------------------------------------------------------------------
@@ -565,7 +565,7 @@ z1.ros.06.mp3
 
 ==============================================================================
 SPEAKER: kofi   Kofi, the chestnut roaster
-ZIP: z1-kofi.zip   (6 lines, about 27 seconds)
+ZIP: z1-kofi.zip   (6 lines, about 29 seconds)
 VOICE: Man, mid forties. From: a Ghanaian accent. Pitch: middle. Pace: quick. Texture: cheerful and bright, a storyteller who laughs at his own stories.
 AUDITION LINE (to choose the voice, not a file): Sit, sit. I have a story, and the chestnuts are nearly ready.
 ------------------------------------------------------------------------------
@@ -595,7 +595,7 @@ z1.kofi.06.mp3
 
 ==============================================================================
 SPEAKER: bridie   Old Bridie, the lamplighter
-ZIP: z1-bridie.zip   (6 lines, about 31 seconds)
+ZIP: z1-bridie.zip   (6 lines, about 28 seconds)
 VOICE: Woman, about seventy-eight. From: the soft rural west of Ireland. Pitch: middle, thin with age. Pace: slow. Texture: plain and stubborn, tender about lamps.
 AUDITION LINE (to choose the voice, not a file): You don’t blow a lamp out. You tell it goodnight.
 ------------------------------------------------------------------------------
@@ -655,7 +655,7 @@ z1.jory.06.mp3
 
 ==============================================================================
 SPEAKER: captain   The Grey Hat, the captain
-ZIP: z1-captain.zip   (28 lines, about 145 seconds)
+ZIP: z1-captain.zip   (28 lines, about 125 seconds)
 VOICE: Man, about forty-five. From: a faint east-coast Scots burr. Pitch: low. Pace: slow, clipped. Texture: a little weathered, deadpan, says less than he means.
 AUDITION LINE (to choose the voice, not a file): Rope’s wet. Sky’s clear. Nobody touches the wheel but me.
 ------------------------------------------------------------------------------
@@ -773,7 +773,7 @@ z1.captain.28.mp3
 
 ==============================================================================
 SPEAKER: quill   Quill, the sailor
-ZIP: z1-quill.zip   (6 lines, about 27 seconds)
+ZIP: z1-quill.zip   (6 lines, about 28 seconds)
 VOICE: Man, about sixty. From: soft West Country (Wickhollow), a sailor’s roughness on it. Pitch: low-middle. Pace: easy. Texture: salty and friendly, a teller of half-true stories.
 AUDITION LINE (to choose the voice, not a file): A good knot holds. A better knot comes undone when you want it to.
 ------------------------------------------------------------------------------
@@ -803,7 +803,7 @@ z1.quill.06.mp3
 
 ==============================================================================
 SPEAKER: nettie   Nettie, the herb-seller
-ZIP: z1-nettie.zip   (24 lines, about 118 seconds)
+ZIP: z1-nettie.zip   (24 lines, about 112 seconds)
 VOICE: Woman, about sixty. From: soft West Country (Wickhollow). Pitch: middle. Pace: quick and warm. Texture: a scold that melts, motherly, quick to laugh and quicker to fuss.
 AUDITION LINE (to choose the voice, not a file): Mint for your belly, sage for your throat, and a talking-to for free.
 ------------------------------------------------------------------------------
@@ -905,7 +905,7 @@ z1.nettie.24.mp3
 
 ==============================================================================
 SPEAKER: gretch   Mayor Gretch, the mayor
-ZIP: z1-gretch.zip   (8 lines, about 41 seconds)
+ZIP: z1-gretch.zip   (8 lines, about 38 seconds)
 VOICE: Man, about sixty-five. From: soft West Country (Wickhollow). Pitch: low-middle. Pace: plain and steady. Texture: blunt and tired, a decent man out of his depth.
 AUDITION LINE (to choose the voice, not a file): I’ll say it plain, because I don’t know any other way.
 ------------------------------------------------------------------------------
@@ -943,7 +943,7 @@ z1.gretch.08.mp3
 
 ==============================================================================
 SPEAKER: hilde   Hilde, the smith
-ZIP: z1-hilde.zip   (6 lines, about 25 seconds)
+ZIP: z1-hilde.zip   (6 lines, about 23 seconds)
 VOICE: Woman, about forty-five. From: soft West Country (Wickhollow). Pitch: low. Pace: firm. Texture: strong and dry, proud of her fire.
 AUDITION LINE (to choose the voice, not a file): Good steel remembers the fire. Bad steel only remembers the hammer.
 ------------------------------------------------------------------------------
@@ -973,7 +973,7 @@ z1.hilde.06.mp3
 
 ==============================================================================
 SPEAKER: wenna   Old Wenna, the herb-seller
-ZIP: z1-wenna.zip   (20 lines, about 109 seconds)
+ZIP: z1-wenna.zip   (20 lines, about 101 seconds)
 VOICE: Woman, about eighty. From: broad East Anglian fen country (Bogmire). Pitch: low, cracked with age. Pace: slow. Texture: dry and unafraid, a listener who notices sounds and smells.
 AUDITION LINE (to choose the voice, not a file): Don’t tell me what it is. Let me smell it. There. Feverfew, and old.
 ------------------------------------------------------------------------------
@@ -1059,7 +1059,7 @@ z1.wenna.20.mp3
 
 ==============================================================================
 SPEAKER: tobb   Tobb, the innkeeper
-ZIP: z1-tobb.zip   (6 lines, about 29 seconds)
+ZIP: z1-tobb.zip   (6 lines, about 24 seconds)
 VOICE: Man, about fifty-five. From: broad East Anglian fen country (Bogmire). Pitch: low. Pace: easy. Texture: big and gentle, a host’s welcome.
 AUDITION LINE (to choose the voice, not a file): Boots off, feet up, and nobody asks you anything till morning.
 ------------------------------------------------------------------------------
