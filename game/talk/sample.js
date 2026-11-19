@@ -1,5 +1,6 @@
-// sample.js (talk): the story job's sample of zone 1's spoken lines, for Chris's yes (Coven of the Moon Faire,
-// November 19, 2026). A PROPOSAL, not approved: nothing here is recorded until Chris says yes.
+// sample.js (talk): the story job's sample of zone 1's spoken lines (Coven of the Moon Faire, November 19, 2026).
+// APPROVED by Chris on November 19, 09:25 ("Yes to all"). KEPT AS THE RECORD of what he approved; the game reads
+// game/talk/zone-1.js, which has all 24 of these word for word under new ids. Do not record from this file.
 // It is in the shape game/talk/zone-1.js will have, so the hub can see it early. The ids are provisional: they are
 // renumbered in step 2, when every line of zone 1 is written. Each id will also be its sound file's name.
 //

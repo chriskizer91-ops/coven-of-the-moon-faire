@@ -1,7 +1,8 @@
 # The story page
 
-**Status: a proposal by the story job (Claude), November 19, 2026. Not approved.** It grows from the hub's brief
-(`story-brief.md`). Nothing here is lore until Chris says so. Where this page and Chris disagree, Chris wins.
+**Status: approved by Chris, November 19, 2026, 09:25 ("Yes to all").** Written by the story job (Claude) from the
+hub's brief (`story-brief.md`). His yes covers the ten lines, the threads and every call below, as picked. Where this
+page and Chris's later word disagree, Chris wins.
 
 ## The story in ten lines
 

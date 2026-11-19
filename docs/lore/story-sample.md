@@ -1,6 +1,6 @@
 # The sample: 24 lines to hear the voice
 
-**Status: a proposal by the story job (Claude), November 19, 2026. Not approved.** Made by `tools/talk-page.py` from `game/talk/sample.js`; change the lines there, not here. The ids are provisional.
+**Status: approved by Chris, November 19, 2026, 09:25. Kept as the record; the game reads `game/talk/zone-1.js`.** Made by `tools/talk-page.py` from `game/talk/sample.js`; change the lines there, not here. The ids are provisional.
 
 ## The opening
 

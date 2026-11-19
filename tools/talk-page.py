@@ -156,7 +156,7 @@ def sample_html(data):
 def sample_md(data):
     by = {l['id']: l for l in data['lines']}
     out = ['# The sample: 24 lines to hear the voice', '',
-           '**Status: a proposal by the story job (Claude), November 19, 2026. Not approved.** Made by '
+           '**Status: approved by Chris, November 19, 2026, 09:25. Kept as the record; the game reads `game/talk/zone-1.js`.** Made by '
            '`tools/talk-page.py` from `game/talk/sample.js`; change the lines there, not here. The ids are provisional.',
            '']
     for title, note, ids in GROUPS:
@@ -261,7 +261,7 @@ JS = r"""
 def main():
     story = (ROOT / 'docs/lore/story-page.md').read_text()
     data = tc.load(ROOT / 'game/talk/sample.js')
-    errors, notes, said = tc.check(data)
+    errors, notes, said = tc.check_lines(data)
     if errors:
         print('\n'.join(errors)); sys.exit('the sample has problems: fix them first (python3 tools/talk-check.py)')
     per = tc.summary(data)

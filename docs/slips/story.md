@@ -1,24 +1,43 @@
 # story: the story's dialogue, written to be spoken aloud
 
-Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, morning
+Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, late morning
 
 ## What it built
 
-Step 1 (the story page and a sample, for Chris's yes). **Stopped here for Chris.**
+**Step 2 is done: all of zone 1's spoken lines, as data the game reads.** Step 3 waits for Chris's notes.
 
-- `docs/lore/story-page.md`: the story page, a proposal. The story in ten lines (the brief's, with six changes, each
-  with its reason), each witch's thread, the four people the story is told through, Chris's calls with a pick for
-  each (the brief's nine and two new ones), the fair folk's names, and where the old games' lore fights with this.
-- `game/talk/sample.js`: 24 sample lines, in the shape `game/talk/zone-1.js` will have. Odile 4, Tully's full six,
-  the Grey Hat 4, Nettie 4, Io 2, Kore 2, Europa 1, Callisto 1. Also a first casting note for these eight voices.
-- `docs/lore/story-sample.html`: **the page for Chris** (open on a phone). The story page and the sample together.
-  Tapping a line asks the phone's own voice to read it, only to hear its length.
-- `docs/lore/story-sample.md`: the sample as plain text, made from `sample.js`.
-- `tools/talk-check.py`: the line checks (step 2 grows it). `tools/talk-page.py`: makes the page.
+- `game/talk/zone-1.js`: **all 236 lines** (`window.COVEN_TALK_Z1`). Each has its id (also its sound file's name), who
+  says it, the words shown, the words to say with any cue in square brackets, a plain tone note, when it can be said,
+  what kind of line it is, its place in a story talk, who a pointer sends the coven to, and about how many seconds it
+  takes. The counts are the brief's table exactly. The 24 approved sample lines are in it word for word.
+- `game/talk/cast.js`: **all 23 speakers** (`window.COVEN_CAST`): name, trade, where they stand, a voice note for
+  casting (age, sex, where they sound from, pitch, pace, texture, a line to audition with), and every small fact the
+  lines invent about their own life.
+- `docs/lore/story-zone-1.html`: **the reading page** (one HTML file, phone first). Every line by person and by stage,
+  with seconds and totals, each person's voice note and invented facts, and the recording order in its own tab.
+- `game/talk/recording/z1-recording-order.txt` and `.csv`: **the recording order**, to hand to ChatGPT whole. It
+  stands on its own: what the lines are, how to name, cut, level and zip the files, how to say the names (with IPA,
+  which Eleven v4 reads), then each speaker's voice note and lines.
+- `tools/talk-check.py` (grown for a whole zone; `--fill` writes the seconds in), `tools/talk-reading.py` (makes the
+  reading page and the recording order), `tools/talk-page.py` (step 1's page, kept).
+- Step 1, kept as the record of what Chris approved: `docs/lore/story-page.md` (now marked approved),
+  `game/talk/sample.js`, `docs/lore/story-sample.html` and `.md`.
 
 ## What Chris said here
 
-- November 19, 08:42: go (start step 1). No lore decisions yet.
+- November 19, 08:42: go (start step 1).
+- **November 19, 09:25: "Yes to all. Please continue."** On `docs/lore/story-page.md` and the 24-line sample, so:
+  - The story in ten lines, as the story page has it (with its six changes), and the witches' threads.
+  - The voice of the 24 sample lines.
+  - His calls, each as picked: 1 these are the last moonlit years and the moon sets at the end; 2 Halcyon is Io's
+    older sister and the fire is hers; 3 Kore died on stage mid-show and was offered a bargain below (walk the lost
+    home, and you may take your bow); 4 Callisto is a princess of a land the moon left long ago, never named; 5 no
+    Moonwell in Wickhollow in zone 1's lines; 6 the fair folk's names as the brief has them, Kofi's name not said
+    aloud, Tully voiced as a woman; 7 nobody says the Grey Hat's name in zone 1; 8 the witches speak at set moments,
+    about 46 lines; 9 a released soul's pale moth flies up to the moon (in zone 1, west, the opposite way to the
+    lean); 10 Halcyon lives, she is the knight of light, Io gives her the oldest letter by hand, and the kept flame is
+    the one Halcyon carried from home; 11 the names are said as the story page has them (Io EYE-oh, Kore KOR-ee,
+    Europa yoo-ROH-pah, Callisto kah-LISS-toh, Halcyon HAL-see-on, Odile oh-DEEL, Bashir bah-SHEER, Zofia ZOF-yah).
 
 ## What was copied in
 
@@ -26,61 +45,84 @@ Step 1 (the story page and a sample, for Chris's yes). **Stopped here for Chris.
 
 ## What was checked, and how
 
-- `python3 tools/talk-check.py`: ALL GOOD. 24 lines, 289 words, about 2.0 minutes of speech. Longest line 18 words,
-  average 12. No dashes, semicolons, trailing dots, digits, banned words or spell names. Every name said is approved
-  (Io, Kore, Old Wenna; places Bogmire, the Thornwood). The words to say match the words shown on every line. Every
-  "you" read by eye: each means the four, or a witch named in the same line (Europa's means the flames). No line
-  shares more than an ordinary phrase with the old games' 1,498 lines (checked four words at a time).
-- The page at a phone's width (390 px) in headless Chrome: 0 page errors, fetches nothing from outside, nothing wider
-  than the screen. Looked at in screenshots.
-- Not checked: the lines in real voices; the seconds (worked out at about 2.8 words a second, so a guess); the
-  read-aloud tap on a real phone; how ElevenLabs reads the cues (looked up in its own guides: Eleven v4, the
-  recommended model since September 28, 2026, takes cues in square brackets placed just before the words they change,
-  and follows them better than v3; not tried).
+- `python3 tools/talk-check.py`: **ALL GOOD.** 236 lines, 2,758 words, about 18.5 minutes of speech. Every person has
+  the brief's count. Longest line 18 words, average 11.7. No dashes, semicolons, trailing dots, digits, banned words or
+  spell names. Only approved names are said (Io 18 times, Kore 5, Nettie 5, Old Wenna 5, Europa 2, Callisto, Odile,
+  Hilde, Quill and Pell once each; places Bogmire, the Thornwood, Wickhollow); Kofi's name never. The words to say match
+  the words shown on every line. Every person has something to say at every stage after the first talk, a first hello
+  and (if ordinary) a call and one line pointing to one of the four by a place. Every story talk is in order, six lines
+  at most, two of them a witch's at most. 14 delivery cues in 236 lines. All 24 approved lines are present.
+- Every "you" read by eye: each means the four, or a witch named in the same line.
+- The step 1 sample still checks ALL GOOD on its own.
+- The reading page at a phone's width (390 px) in headless Chrome: 0 page errors, fetches nothing from outside, nothing
+  wider than the screen, all 236 lines shown, the three tabs work. Looked at in screenshots.
+- Not checked: the lines in real voices; the seconds (worked out at about 2.8 words a second, by each speaker's pace,
+  so a guess until the recordings come back with real lengths); the read-aloud tap and the copy button on a real phone;
+  how Eleven v4 takes each cue (looked up in ElevenLabs' own guides, not tried).
 
 ## Job's calls
 
-- **Io went off with the Faire seven years ago**, a year after her sister went north (so Nettie has a number to say).
-  In the ten lines, marked.
-- **Tully is cast as a woman.** The lines never say, but a voice must be one, and the body the game uses (Moon Faire's
-  painted gate keeper) is a woman's.
-- **Odile measures the lean in fingers' widths**, as a running gauge across the stages.
-- **Coven lines carry `when.moment`** (opening, cottage, after-wraith, and in step 2 the Thornwood's edge, the first
-  sight of the fen, before the wraith, the leaving), since they are not talks with a person.
-- **The sample's ids are provisional** (`z1.odile.01` and so on). They are renumbered in step 2. Nothing is recorded
-  before then.
-- **A first casting note for the eight speakers in the sample**, so Chris can hear the lines in his head. The full
-  notes for every speaker come in step 2.
-- **The page's copy is kept on the branch** as `docs/lore/story-sample.html` (inside the `story-` files I may write).
+- **Zone 1 is 2,758 words, about 18.5 minutes**, a little over the brief's guess of 2,600 words and 17 minutes. Two
+  trimming passes took it down from 2,958 by shortening about seventy-five lines. Cutting further would cut the lines that work. As
+  MP3 at 64 kbps that is about 8.7 MB, about 11.6 MB inside the one-file build. (If the size matters more, 48 kbps mono
+  is still clear for speech and saves a quarter: ElevenLabs offers `mp3_24000_48`. The recording order asks for 64.)
+- **The recording order asks for** Eleven v4; MP3, mono, 44.1 kHz, 64 kbps (`mp3_44100_64`); at most 0.2 s of silence
+  at each end; every file normalised to about -18 LUFS, peaks at most -1 dBFS; one zip per speaker
+  (`z1-<speaker>.zip`) with a list inside (`z1-<speaker>-list.csv`: file, seconds).
+- **Hilde is said HIL-duh.** Her name was not in call 11's list; it is said once (by Nettie). Easy to change.
+- **Halcyon's name is not said in zone 1.** Io and Nettie say "her" and "your sister". Her name waits for zone 3.
+- **Io went off with the Faire seven years ago**, a year after her sister went north. In the approved ten lines.
+- **Odile measures the lean in fingers' widths**: two at dusk, three when the captain has asked, four once the
+  cottage is seen, and at the end "a finger less than at dusk".
+- **Voices** (all in `cast.js`, all Chris's to change): the Faire is from everywhere (Odile French, Bashir Levantine,
+  Zofia Polish, Linnet Welsh, Otto German, Corwin Yorkshire, Ros London, Tully Dutch, the chestnut roaster Ghanaian,
+  Old Bridie west of Ireland, Jory Geordie, the Grey Hat a faint east-coast Scots); Wickhollow is soft West Country
+  (Nettie, Mayor Gretch, Hilde, Quill, and a trace of it in Io); Bogmire is broad East Anglian fen country (Old Wenna,
+  Tobb, Pell). Kore clear stage speech, Europa a slight Irish lilt, Callisto a faint accent like nobody else's.
+  Mayor Gretch is cast as a man and Pell as a girl; the lines never say.
+- **Where a line's condition is a stage range**, the hub's picker can use it as written. Lines that need two things at
+  once (for example the Grey Hat's "flew dark once": stages 1 to 3 and some lamps home) say both.
+- **The sample's ids changed** in zone 1 (they were provisional). `sample.js` is kept only as the record; nothing is
+  recorded from it.
 
-## What each person's sample lines invent about their own life
+## What each person's lines invent about their own life
 
-- Odile: she reads the lean in fingers' widths; she puts her shutters up rather than sell a lamp she cannot promise.
-- Tully: keeps the gate open past closing for the coven, and would rather the watchman did not know.
-- The Grey Hat: flew dark once, when he was young.
-- Nettie: has watered Io's garden for seven summers; sold Io's sister heartsease the morning she went north (rests on
-  call 2).
-- Io: her sister's boots are still by the cottage door (rests on call 2).
+The full lists are in `game/talk/cast.js` (`invented`) and on the reading page under each person. In short: Odile's
+finger gauge, her shutters, that she never sees a land's lamps lit, and that she sold the Grey Hat his lamps; the Grey
+Hat's twenty years with the Faire and the night he flew dark; Nettie's seven summers of watering, the heartsease, "home
+before the frost", the marigolds; Old Wenna's lamp taken off her sill and her bad handwriting; Bridie lighting the
+cottage gate lamp every night it stood empty; Tobb's unlit candle; Pell waving at the great wraith; and one small thing
+each for the rest. Io wrote Nettie letters she never sent; Callisto grew up where the dark lasted her whole life.
 
 ## Unfinished
 
-- Step 2 (all 236 lines of zone 1, the cast, the reading page, the recording order) waits for Chris's yes.
-- Step 3 (his notes, then the outline for zones 2 to 4).
+- Step 3: Chris's notes on the 236 lines worked in; then the cast and beats for zones 2 to 4, as an outline only.
+- The real lengths of the lines, when the recordings come back (the hub can take them from each zip's list).
 
 ## For the hub
 
 1. **The talk box shows the person's name over every line** (`game/people/people.js`, `who.textContent = p.name`). A
-   story talk with a witch's line in it needs the speaker per line. Every line in `sample.js` has its own `who`.
-2. **The coven's lines are said at set moments, not by tapping Talk.** Each moment needs something that starts it: the
-   opening, the cottage, the Thornwood's edge, the first sight of the fen, before and after the great wraith, the
-   leaving. The sample uses `when.moment` for this.
-3. **After the great wraith, the pale moth must be seen on the land**, not only in the fight: Kore's line is "Watch
-   the moth." If Chris says yes to call 9, it flies toward the low moon in the west, the opposite way to the lean.
-4. **Europa sews the twelve flames at the jetty** (a story talk, after the great wraith, all twelve lamps home). It is
-   why the Grey Hat can fly on while the flames still lean.
-5. **What a line can depend on**, as the sample uses it: `stage`, `first`, `lamps`, `moment`. The four people with
-   many lines may also use the extras the brief allows; none of the sample's do. `lines(person, n)` in
-   `people.js` will need the stage and the lamps home to choose.
-6. **For `docs/questions.md`** (if Chris does not answer them here): call 10, what becomes of Halcyon; call 11, how
-   the names are said aloud; that Kofi and Kore sound alike spoken; and Tully's voice.
-7. So far the brief's shape (section 5) has not got in the way of a better line.
+   story talk with a witch's line in it needs the speaker per line: every line has its own `who`, and `COVEN_CAST`
+   has each speaker's `name`.
+2. **The coven's 46 lines are said at set moments, not by tapping Talk**: `when.moment` is one of opening, cottage,
+   thornwood (the Thornwood's edge), fen (the first sight of Bogmire), before-wraith (at the fen's dark heart),
+   after-wraith, leaving (the ship lifting). `COVEN_TALK_Z1.moments` gives each one's stage. Each needs something on
+   the land that starts it, once.
+3. **Story talks** (`talk: [id, n]`) are said in order as one talk: z1.captain.ask (his first talk), z1.captain.dark,
+   z1.captain.sew (stage 4, all twelve lamps: Europa sews the flames, then he says "Get aboard"; the leaving follows),
+   z1.nettie.hello, z1.nettie.heartsease, z1.odile.hello, z1.wenna.hello, z1.wenna.wraith (this one is "Old Wenna has
+   told of the great wraith", the start of stage 3's pointing to the fen's dark heart).
+4. **What a line can depend on**: `stage`, `first`, `lamps`, `moment`; and for Odile, the Grey Hat, Nettie and Old
+   Wenna also `met` (a person's id), `just` ('won' or 'lost'), `look` ('green' or 'steady'). Every key a line has must
+   be true; more keys means more particular, chosen first; a line is said once before any repeats; `kind: 'call'` lines
+   are said as the coven walks past, not in a talk. The brief's green and steady are not defined in numbers: the
+   file's comment suggests green for levels 1 to 2 and steady for 3 to 5.
+5. **The sound**: each line's file is `<id>.mp3` (for example `z1.odile.03.mp3`), in `z1-<speaker>.zip` with a list
+   of real lengths inside. `people.js`'s `voice(id)` can look them up by id as it is.
+6. **After the great wraith, the pale moth must be seen on the land**, not only in the fight: Kore says "Watch the
+   moth" and Europa "It's flying west. Toward the moon". It flies west, toward the low moon, the opposite way to the
+   lean.
+7. **Small things the lines expect to see**: the gate lamp at Io's cottage, lit (Callisto, Bridie, Io at the leaving);
+   Odile's lamp stall by the camp's well (two pointers say "by the well"); Old Wenna's stall by Bogmire's boardwalk.
+8. **For `docs/decisions.md`**: Chris's yes of 09:25, as listed above.
+9. So far the brief's shape (section 5) has not got in the way of a better line.
