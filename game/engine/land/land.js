@@ -508,8 +508,8 @@
     // (and the reeds: pale stalks with dark heads, painted here)
     if (AT) { const c = document.createElement('canvas'); c.width = c.height = 128; const g = c.getContext('2d'); g.lineCap = 'round';
       for (let i = 0; i < 17; i++) { const x0 = 14 + i * 6.2 + (h2(i, 1, 31) - 0.5) * 5, top = 14 + h2(i, 2, 31) * 60, lean = (h2(i, 3, 31) - 0.5) * 34;
-        g.strokeStyle = i % 3 ? '#7f9a7c' : '#a3b58e'; g.lineWidth = 2.2 + h2(i, 4, 31) * 1.6; g.beginPath(); g.moveTo(x0, 128); g.quadraticCurveTo(x0 + lean * 0.2, 70, x0 + lean, top); g.stroke();
-        if (i % 2 === 0) { g.strokeStyle = '#5a4634'; g.lineWidth = 5; g.beginPath(); g.moveTo(x0 + lean * 0.86, top + 16); g.lineTo(x0 + lean, top + 2); g.stroke(); } }
+        g.strokeStyle = i % 3 ? '#465c4a' : '#5f7355'; g.lineWidth = 2.2 + h2(i, 4, 31) * 1.6; g.beginPath(); g.moveTo(x0, 128); g.quadraticCurveTo(x0 + lean * 0.2, 70, x0 + lean, top); g.stroke();
+        if (i % 2 === 0) { g.strokeStyle = '#33271d'; g.lineWidth = 5; g.beginPath(); g.moveTo(x0 + lean * 0.86, top + 16); g.lineTo(x0 + lean, top + 2); g.stroke(); } }
       herbMats.reed = W3D.mat(U, { map: W3D.canvasTex(c, false), alphaTest: 0.4, side: THREE.DoubleSide, noflip: true, lit: 0.09, glow: 0, shade: 0 }); }
     const picked = new Set(), bag = {};
     function herbMeshes(q) {
