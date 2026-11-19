@@ -103,6 +103,8 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../places/jetty.js"></script>
 <script src="../places/jetty-trees.js"></script>
 <script src="../places/zone-1.js"></script>
+<!-- fights job: its script tags go between these two lines (the battle, the party, the foes on the land) -->
+<!-- fights job: end -->
 <script>
 // Zone 1 (Coven of the Moon Faire): the zone's places stand on one open land, and Io walks from one to the next with
 // no fade. The places are the place engine's (engine/place/); the land between, and the joining, the land engine's
@@ -148,7 +150,7 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
       onStats: (n) => {
         $('fps').textContent = n.fps;
         const l = window.__land ? window.__land.numbers() : null;
-        $('more').textContent = Math.round(n.triangles / 1000) + ' thousand triangles · ' + n.calls + ' draw calls' + (l ? ' · ' + l.squares + ' squares of land · ' + l.trees + ' trees on the land' : '') + ' · ' + (W3D.quality === 'high' ? 'laptop settings' : 'phone settings');
+        $('more').textContent = Math.round(n.triangles / 1000) + ' thousand triangles · ' + n.calls + ' draw calls' + (l ? ' · ' + l.squares + ' squares of land · ' + l.trees + ' trees on the land · ' + window.__land.waiting() + ' pieces of land waiting to be made' : '') + ' · ' + (W3D.quality === 'high' ? 'laptop settings' : 'phone settings');
       },
     });
     // the map in the corner
@@ -162,6 +164,8 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
     $('nums').addEventListener('click', () => { const on = $('numbers').classList.toggle('more'); $('nums').classList.toggle('on', on); });
     $('load').style.opacity = 0; setTimeout(() => { $('load').style.display = 'none'; }, 700);
     setTimeout(() => toast(W3D.quality === 'high' ? 'W A S D or the arrows walk · tap a direction twice to run · Shift sprints · drag to look' : 'Drag on the left to walk · drag on the right to look'), 900);
+    // fights job: its start-up goes between these two lines. It has W (the walker: W.io, W.P, W.pause(on), W.who), W.P.land (the land) and toast(text)
+    // fights job: end
     window.__ready = true;
   } catch (e) { console.error(e); $('loadmsg').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }
 })();

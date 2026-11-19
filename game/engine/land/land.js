@@ -613,7 +613,7 @@
     // ---- each frame: the squares, trees and herbs round her; the sky and hills round the camera; the fog ----
     const squares = new Map();   // key -> { ci, cj, lv, mesh, trees, herbs }
     const TIMES = {};   // how long each kind of piece takes to make: { kind: [thousandths of a second in all, how many] }
-    let queue = [], made = 0, region = null, regionWant = null, regionT = 0;
+    let queue = [], made = 0, region = null, regionWant = null, regionT = 0, farMake = 0, lastT = 0, frameMs = 10, frameN = 0;
     const SKY0 = [0.62, 0.6, 0.7], MOON0 = [0.42, 0.43, 0.56];   // the place engine's own sky and moon
     const NW = L.night.woods, NT = L.night.thorn, NF = L.night.fen || null, col = new THREE.Color();
     const mix3 = (a, b, t) => [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
@@ -644,7 +644,11 @@
       // the far hills sink out of sight where the fog is heavy
       hills.position.set(cam.position.x, -110 * (1 - ss(62, 95, fogFar)) + (AT ? height(io.x, io.z) - L.level : 0), cam.position.z);   // (they rise and fall with the ground she stands on)
       // which squares are wanted, and at what detail
-      const R = fogFar + 46, RT = fogFar + 14, RH = Math.min(fogFar, 70);
+      // (how far out land is made follows the fog, but when the fog draws back quickly, as on leaving a town for the woods,
+      // it grows only 10 m a second: the new ring of land is made over a few seconds, not all in one)
+      const nowT = performance.now(), fms = lastT ? Math.min(100, nowT - lastT) : 16; lastT = nowT; frameMs = frameMs * 0.9 + fms * 0.1; frameN++;
+      farMake = TEST || !farMake || fogFar <= farMake ? fogFar : Math.min(fogFar, farMake + 10 * fms / 1000);
+      const R = farMake + 46, RT = farMake + 14, RH = Math.min(farMake, 70);
       const c0 = Math.floor((io.x - R) / SIZE), c1 = Math.floor((io.x + R) / SIZE), r0 = Math.floor((io.z - R) / SIZE), r1 = Math.floor((io.z + R) / SIZE);
       const want = [];
       for (let cj = r0; cj <= r1; cj++) for (let ci = c0; ci <= c1; ci++) {
@@ -661,8 +665,11 @@
       for (const [key, s] of squares) { const d = nearestD(s.ci, s.cj, io.x, io.z); if (d > R + 40) { drop(s); squares.delete(key); } else if (s.mesh) s.mesh.visible = d < fogFar + 8 || guideOn; }
       want.sort((a, b) => a.d - b.d); queue = want;
       // make what is wanted, nearest first, for a few thousandths of a second a frame (so walking never stutters)
-      const t0 = performance.now(), budget = TEST ? 400 : made < 12 ? 30 : 5;
-      while (queue.length && performance.now() - t0 < budget) {
+      // (when frames are already slow, under about 54 a second, as in the Flipbook look on a phone: less is made a
+      // frame, and only on one frame in three, unless the piece wanted is bare ground close by)
+      const slow = frameMs > 18.5 && !TEST && made >= 12, rest = slow && frameN % 3 !== 0 && !(queue.length && queue[0].job === 'ground' && !queue[0].s.mesh && queue[0].d < 60);
+      const t0 = performance.now(), budget = TEST ? 400 : made < 12 ? 30 : slow ? 2 : 5;
+      while (queue.length && !rest && performance.now() - t0 < budget) {
         const w = queue.shift(), s = w.s, t1 = performance.now();
         if (w.job === 'ground') {
           const mesh = makeSquare(s.ci, s.cj, w.lv);
@@ -712,6 +719,7 @@
       addGlow(a) { a.mat = makeGroundMat(a); GLOWS.push(a); }, addBlockers(list) { for (const b of list) BLOCK.push(b); },
       // the nearest herb still on the ground to a spot, among the squares made so far (for the checks)
       nearestHerb(x, z) { let best = null, bd = 1e9; for (const sq of squares.values()) { if (!sq.herbs) continue; for (const h of listFor(sq.ci, sq.cj).herbs) { const d = Math.hypot(h.x - x, h.z - z); if (!picked.has(h.id) && d < bd) { bd = d; best = h; } } } return best; },
+      waiting: () => queue.length,
       numbers() { let g = 0, t = 0, h = 0, tr = 0; for (const s of squares.values()) { if (s.mesh) g++; if (s.trees) { t++; tr += listFor(s.ci, s.cj).trees.length; } if (s.herbs && s.herbs.length) h += listFor(s.ci, s.cj).herbs.filter((q) => !picked.has(q.id)).length; } return { squares: g, treeSquares: t, trees: tr, herbs: h, fogFar: Math.round(U.uFogFar.value) }; },
     };
     return Z;
