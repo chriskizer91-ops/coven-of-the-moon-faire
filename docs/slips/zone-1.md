@@ -54,10 +54,48 @@ Where the new code is:
 | `game/data/maps-*.js` | Each place's walking areas |
 | `tools/zone-test.py` | New. Walks between the places and checks it by numbers |
 
+## Added on November 18, late: who walks, the map, the 3D map's land, the long road
+
+- **Any of the four witches can walk.** A hat button, top right, lists Io, Kore, Europa and Callisto. Kore's light
+  model is the new Envoi's; Europa's and Callisto's are Moon Faire's. `game/witches/walkers.js` gives the walker any of
+  them (`W3D.witch(id)`), and the walker gained `setWho(id)`.
+- **A map in the corner** (`game/engine/land/minimap.js`), with her mark; tap it for a big one with names. The first
+  one is plain. A better one is being made on its own branch, `job/minimap`, by a sub-agent (Chris's idea).
+- **Zone 1 lies on the 3D map of Aethermoor.** The map's two data pictures (how high each spot is, what kind of
+  ground it is) are copied in, and `game/engine/land/atlas.js` reads them. Each place is pinned to its own spot on the
+  map. Round a place the land is the map shrunk 6 times; between places it stretches to fit. From the map the land
+  takes: its **hills** (heights divided by 8, between 6 m down and 14 m up); its **water** (lakes, rivers and the
+  fen's pools and channels); its **fen** (the fen's own ground, reeds, bare trees, a low green-grey mist); its **open
+  grass** (fewer trees) and **pine forest** (firs).
+- **Bogmire and the fen's dark heart stand in the fen's water**, which now comes right up to their own.
+- **A road crosses water on a raised bank of earth.**
+- **The long road toward zone 2: 6.07 km.** It leaves the jetty road, goes west to a gate at the zone's edge, then
+  north-north-west to where zone 2's Warm Roads camp will be. Along it the land is the map at its **true size**: it
+  climbs about 165 m over a forested hill and comes down again. She can walk 70 m either side of it. It ends at a
+  hedge for now ("The end of the road, for now").
+- **Numbers.** The zone's ground now stands between 6 m below and 18 m above Wickhollow's square. 79% of spots on
+  the zone's land can be stood on (it was 89%: the rest is the new water). 546 of 550 spots along and beside the
+  long road can be stood on. A near piece of ground takes 6.2 thousandths of a second to make (it was 4.4).
+- **Checked** (`tools/zone-test.py`, all passed, 0 page errors): the seven walks between places; the gate road; three
+  stretches of the long road at a sprint (the first 600 m, over the highest hill, the last 300 m), her height never
+  jumping more than 5 cm in a thirtieth of a second; no spot in water can be stood on. The first test still passes.
+- **Not checked:** the frame rate with any of this (only Chris's laptop and phone can show it); the whole 6 km walked
+  in one go; how the three other witches look from every side while walking.
+
 ## Hub's calls made here
 
 (Also in `docs/decisions.md`.)
 
+- **How the zone lies on the map.** Envoi's 3D map has zone 1's places up to 8 km apart; here they are within 1 km,
+  as Chris asked. So the zone cannot be the map at one size. Each place is pinned to its spot and the land between
+  is stretched. The map's heights are divided by 8 so the hills can be walked. The numbers are in
+  `game/places/zone-1.js` (`atlas`), easy to change.
+- **The long road is the map at true size**, straight from the zone's west gate to zone 2's first place: 5.98 km on
+  the map, 6.07 km with its bends. It leaves from the jetty road because Wickhollow's west side is the lake.
+- **How long it takes.** She walks at 1.3 m a second, jogs at 3.0, sprints at 5.2 (Shift on the laptop). The long
+  road is about 20 minutes at a sprint and 34 at a jog.
+- **Water by hand wins over the map's.** Within 55 m of Wickhollow's river and lake, and near the camp and the towns
+  that do not stand in water, the map's water is left out.
 - **Every place is built when the page opens, and kept.** Chris's laptop and phone ran the first test at their screens'
   top speed (144 and 60 frames a second), so there is room. It keeps walking free of stalls. The cost is a longer wait
   at the start and a bigger file.
@@ -119,8 +157,12 @@ python3 tools/look.py builds/zone-1.html <a folder> --plan <plan.json>
 - **Nobody is in the camp yet**: no fair folk, no captain.
 - The camera can pass inside a tent or a stall (the kit's pieces do not thin away as walls and trees do).
 - The tents cannot be entered.
-- **Only Io walks.**
-- **The land's shape is still rules, not the 3D map's.**
+- **The fen's ground is one texture** (Bogmire's bank grass). No mud, no lily pads on the land's own pools.
+- **A road crosses water on a plain bank of earth**, not a bridge or a boardwalk.
+- **The long road is bare**: no camps, no people, no fights, no signposts, and a hedge at its end.
+- **The map's rivers are drawn in level squares**, so a river running downhill out on the long road would step down
+  like small weirs. (None crosses the road itself.)
+- **The lake by Wickhollow and the jetty's lake are still two lakes.**
 - The land round Bogmire wears Wickhollow's grass and woods, not the fen's own ground and reeds.
 - Wickhollow's lake and the jetty's lake are two lakes with woods between.
 - The cottage's stream ends at a bank inside the cottage's ground.
