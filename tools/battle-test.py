@@ -3,10 +3,10 @@
 
     python3 tools/battle-test.py builds/battle.html                  # every fight on the list, at its own level
     python3 tools/battle-test.py builds/battle.html --every          # and every pack of foes and every Horror form
-    python3 tools/battle-test.py builds/battle.html --fights band1,gate5 --level 12 --turbo 16 --size 640x360
+    python3 tools/battle-test.py builds/battle.html --fights band1,gate5 --level 12 --turbo 40 --size 320x180
 
-With no screen the battle draws only a few frames a second, so it is sped up (turbo 16) and drawn small and at half
-sharpness, or one fight would take ten minutes.
+With no screen the battle draws only a few frames a second, so it is sped up (turbo 40) and drawn small (320 by 180) and at half
+sharpness, or one fight would take ten minutes. Here a fight takes two to four minutes.
 
 Each fight plays itself (the expert play style), sped up (turbo), with the sound made but silent. For each it checks:
   1. the fight starts, reaches its end and shows its end card;
@@ -22,9 +22,9 @@ page_file = os.path.abspath(args[0])
 opt = lambda k, d: args[args.index(k) + 1] if k in args else d
 EVERY = '--every' in args
 LEVEL = int(opt('--level', 0))
-TURBO = float(opt('--turbo', 16))
+TURBO = float(opt('--turbo', 40))
 ONLY = opt('--fights', '')
-SIZE = [int(x) for x in opt('--size', '640x360').split('x')]
+SIZE = [int(x) for x in opt('--size', '320x180').split('x')]
 
 WRAP = """() => {
   const real = window.makeBattleSound; window.__snd = { made: [], calls: {} };
