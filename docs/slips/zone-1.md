@@ -54,7 +54,68 @@ Where the new code is:
 | `game/data/maps-*.js` | Each place's walking areas |
 | `tools/zone-test.py` | New. Walks between the places and checks it by numbers |
 
-## Added on November 18, late: who walks, the map, the 3D map's land, the long road
+## Rebuilt on November 18, night: the land is the map of Aethermoor at one third size
+
+Chris, 21:04: the world the player walks must be built and mapped to match the 3D world map of all of Aethermoor,
+the map of all his stories. He chose one third size. So the squeezed zone described in the next section is gone.
+What stands now:
+
+- **One size everywhere.** A metre here is three metres on the map, across and in height. Wickhollow's spot on the
+  map is this land's middle. No stretching, no pins.
+- **Where the places are now** (metres east and south of Wickhollow's square, and how high):
+
+  | Place | East | South | Height | By road from |
+  |---|---|---|---|---|
+  | Wickhollow | 0 | 0 | 0 | |
+  | The Moon Faire's camp | -70 | 128 | about 4 | Wickhollow's south road, as before |
+  | Io's cottage | 13 | 367 | 35 up | Wickhollow, 280 m, uphill |
+  | The jetty | 327 | -107 | 26 down | Wickhollow, 390 m, down to the lake |
+  | The Thornwood | 607 | 1073 | 33 up | Wickhollow, 1.23 km |
+  | The fen's dark heart | 1507 | 1823 | 33 down | Bogmire, 450 m |
+  | Bogmire | 1347 | 2247 | 34 down | the Thornwood, 1.5 km |
+
+- **The land walked** is the map from atlas pixel (1215, 1700) to (1960, 2650): 2.5 km by 3.2 km here. The ground
+  stands between 41 m below and 121 m above Wickhollow's square.
+- **Each place stands at the map's height** for its spot (`engine/land/zone.js`). A place with water of its own that
+  the map also has (the jetty's lake, the fen) is set so the two waters are level.
+- **The map's water is the water:** the lake north-east of Wickhollow with the jetty on it, a small lake to the west,
+  the fen's pools and channels, the sea to the south. Each lies at the map's height for it, level right up its
+  banks. The lake and rivers drawn by hand round Wickhollow are gone. Where a place's own water reaches the edge of
+  its ground (Wickhollow's river and lake, the Thornwood's stream), the land carries it on for 26 to 40 m.
+- **Roads find their own way** over the map's hills between the gates given (the easiest way by slope, keeping off
+  water), are **graded** (never steeper than 18 m in 100 between their points: they cut through a rise and bank
+  over a dip), and have their sharp corners rounded.
+- **The road toward zone 2** now leaves Io's cottage by its west gate and is simply the map between there and
+  where the Warm Roads camp will be: 2.6 km.
+- **The thorn country** is the land within about 250 m of the Thornwood.
+- **Checked** (`tools/zone-test.py`, all passed, 0 page errors): every named road walked at a sprint (the short ones
+  whole, the long ones' first and last 220 m), ending on the ground of the place it leads to; on the land her height
+  never changed more than 6 cm in a thirtieth of a second; 387 of 390 spots along the long road can be stood on; no
+  spot in water can be stood on; 82% of spots on the land can be stood on. The first test still passes.
+- **Not checked:** the frame rate; the middle stretches of the long roads walked by the check (their heights and
+  whether they can be stood on were measured along their whole length, but she did not walk them).
+- **Chris saw** (before this rebuild) the Flipbook look fall to 17 frames a second for a moment on his phone while
+  moving from one area to another. Not looked into yet.
+
+### Rough spots of the rebuild
+
+- **The jetty stands on its own ground in the map's lake** and its gate is on its north side, under the cliffs of
+  the lake's north shore. So its road comes down to the south shore and runs round its west side. Its own lake and
+  the map's lake are at one level but do not join.
+- **Wickhollow's river and lake stop 26 to 40 m past the town's edge.** The map has no river there at this size.
+- **The map's heights were guessed from a painting**, and at one third size some are abrupt: a 26 m drop from
+  Wickhollow to its lake, cliffs on the lake's north shore, crags east of the Thornwood.
+- **A road beside a steep hillside has a steep bank on one side** (up to about 30 m near the crags).
+- **Rivers are drawn in level squares**, so one running downhill steps down like small weirs.
+- **A road crosses water on a plain bank of earth**, not a bridge.
+- **The cottage's south gate and the Thornwood's stream lead nowhere yet.**
+
+## Before the rebuild (replaced): who walks, the map, the squeezed zone, the 6 km road
+
+Still true from this section: any of the four witches walks; the map in the corner (now the sub-agent's better
+one); the fen's ground, reeds and mist; Bogmire and the fen's dark heart standing in the fen's water. No longer
+true: the pins and stretching, the heights divided by 8, the 6.07 km road at true size.
+
 
 - **Any of the four witches can walk.** A hat button, top right, lists Io, Kore, Europa and Callisto. Kore's light
   model is the new Envoi's; Europa's and Callisto's are Moon Faire's. `game/witches/walkers.js` gives the walker any of
