@@ -20,7 +20,11 @@
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
   const rnd = (a, b) => a + Math.random() * (b - a);
   const faceYaw = (from, to) => Math.atan2(to.x - from.x, to.z - from.z);
-  const $ = (id) => document.getElementById(id);
+  // Coven: an element of the battle's, by its id: looked for inside the battle's own stage first. On the land the battle is a
+  // layer over the land's page, whose own ids (its frame rate, its numbers button) must not be taken for the battle's;
+  // there, nothing outside the layer is the battle's
+  let SCOPE = null;
+  const $ = (id) => (SCOPE && (SCOPE.id === id ? SCOPE : SCOPE.querySelector('#' + id))) || (SCOPE && SCOPE.closest('.coven-battle') ? null : document.getElementById(id));
   const nf = (n) => Math.round(n).toLocaleString('en-US');
   function el(tag, attrs, parent, text) { const e = document.createElement(tag); if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]); if (text !== undefined) e.textContent = text; if (parent) parent.appendChild(e); return e; }
 
@@ -73,6 +77,7 @@
     try { const v = localStorage.getItem('envoi.fps'); if (v !== null) PACE.cap = +v || 0; } catch (e) { /* storage blocked: 30 */ }
     const REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     const coarse = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    SCOPE = null; SCOPE = $('stage'); // Coven: see $ above
     const stage = $('stage'), paintCv = $('paint'), paintCtx = paintCv.getContext('2d'), glCanvas = $('gl');
     const paintImg = new Image();
     const PICK = { level: cfg.level || 1, pack: cfg.pack || 0 }; // the fight chosen on the start card (the party page)

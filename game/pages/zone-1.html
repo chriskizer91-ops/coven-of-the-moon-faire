@@ -104,6 +104,46 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../places/jetty-trees.js"></script>
 <script src="../places/zone-1.js"></script>
 <!-- fights job: its script tags go between these two lines (the battle, the party, the foes on the land) -->
+<!-- the battle (as game/pages/battle.html loads it, less what this page already has, the first fight's square and Chris's song) -->
+<link rel="stylesheet" href="../battle/screen-layer.css">
+<script src="../battle/stage/arena-river-glade.js"></script>
+<script src="../battle/stage/arena-warm-roads-moor.js"></script>
+<script src="../battle/stage/arena-eldergrove.js"></script>
+<script src="../battle/stage/arena-frostmere.js"></script>
+<script src="../battle/stage/arena-bogmire.js"></script>
+<script src="../battle/stage/arena-dawnroost.js"></script>
+<script src="../battle/stage/arena-crossroads.js"></script>
+<script src="../battle/stage/arena-dead-moonwell.js"></script>
+<script src="../battle/models/wraith.js"></script>
+<script src="../battle/models/wisp.js"></script>
+<script src="../battle/models/bramble.js"></script>
+<script src="../battle/models/colossus.js"></script>
+<script src="../battle/models/halcyon.js"></script>
+<script src="../battle/models/noctara.js"></script>
+<script src="../battle/models/lunara.js"></script>
+<script src="../battle/models/envoi.js"></script>
+<script src="../battle/fx/battle-fx.js"></script>
+<script src="../battle/fx/battlefield.js"></script>
+<script src="../battle/fx/arena.js"></script>
+<script src="../battle/fx/io-spells.js"></script>
+<script src="../witches/kore/moon-jester.js"></script>
+<script src="../witches/europa/moon-fox.js"></script>
+<script src="../witches/callisto/moon-ranger.js"></script>
+<script src="../battle/witch-look.js"></script>
+<script src="../battle/trance.js"></script>
+<script src="../battle/rules.js"></script>
+<script src="../battle/engine.js"></script>
+<script src="../battle/sim.js"></script>
+<script src="../sound/sound.js"></script>
+<script src="../battle/screen.js"></script>
+<script src="../battle/fights.js"></script>
+<script src="../battle/start.js"></script>
+<!-- the party, and the meetings in the wild -->
+<script src="../party/party.js"></script>
+<script src="../party/party-view.js"></script>
+<script src="../encounters/zone-1.js"></script>
+<script src="../encounters/meetings.js"></script>
+<script src="../encounters/land-fights.js"></script>
 <!-- fights job: end -->
 <script>
 // Zone 1 (Coven of the Moon Faire): the zone's places stand on one open land, and Io walks from one to the next with
@@ -165,6 +205,8 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
     $('load').style.opacity = 0; setTimeout(() => { $('load').style.display = 'none'; }, 700);
     setTimeout(() => toast(W3D.quality === 'high' ? 'W A S D or the arrows walk · tap a direction twice to run · Shift sprints · drag to look' : 'Drag on the left to walk · drag on the right to look'), 900);
     // fights job: its start-up goes between these two lines. It has W (the walker: W.io, W.P, W.pause(on), W.who), W.P.land (the land) and toast(text)
+    // the fights on the land: the party, meetings in the wild, the battle over the land, rest at the camp (game/encounters/land-fights.js)
+    try { window.__fights = CovenLandFights.start({ W, root: $('world'), toast, zone: 'zone-1' }); } catch (e) { console.error(e); window.__fightsErr = String(e && e.stack || e); }
     // fights job: end
     window.__ready = true;
   } catch (e) { console.error(e); $('loadmsg').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }

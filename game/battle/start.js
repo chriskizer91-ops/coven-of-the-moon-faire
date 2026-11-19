@@ -4,7 +4,7 @@
 //     const r = await CovenBattle.start({ arena: 'river-glade', foes: ['wisp', 'wraith'], partyLevel: 3, foeLevel: 4,
 //                                         party: { io: { hp, mp }, jester: { hp, mp }, fox: { hp, mp }, ranger: { hp } } });
 //     r = { result: 'won' | 'lost' | 'fled', won, xp, shards, party: { io: { hp, max, mp, mpMax }, jester, fox, ranger },
-//           arena, foes, tag }
+//           herbsSpent: { moonpetal: 1, ... }, arena, foes, tag }
 //
 // What it can be told (all but foes may be left out):
 //   arena       where the fight is: 'river-glade', 'warm-roads-moor', 'eldergrove', 'frostmere', 'bogmire', 'dawnroost',
@@ -23,6 +23,8 @@
 //   auto        'careless', 'sensible' or 'expert': the battle's own players choose every move (for tests)
 //   flipbook    start with the Flipbook look
 //   kind        'wild' (the default), or a story fight: 'greatWraith' (gate 5) or 'dawnroost' (gate 10), which bring their own foes
+//   xp          the party's experience toward its next level (for the end card's bar and its level-up)
+//   reward      what the fight's experience and shards are worth, against the battle's own (1: as they are)
 //   tag         anything, handed back unchanged
 // The fight covers the page (a layer of its own, over everything) and answers when the player leaves its end card.
 // While it runs, the page that called it should stop drawing its own picture. Needs, loaded before it, everything
@@ -43,13 +45,16 @@
     const hp = {}, mp = {}, pp = o.party || {};
     for (const id of RL.PARTY) { if (pp[id] && pp[id].hp != null) hp[id] = pp[id].hp; if (pp[id] && pp[id].mp != null) mp[id] = pp[id].mp; }
     const flags = Object.assign({ party: true, magpie: true, lights: L > 5, refit: L > 5, envoi: L > 10, charge: L > 10, stoop: L > 15, shipyard: L > 15, upgrade2: L > 15 }, o.flags || {});
-    const P = { level: L, xp: 0, hp, mp, herbs: Object.assign({}, o.herbs || {}), flags, keepsakes: {} };
+    const P = { level: L, xp: o.xp || 0, hp, mp, herbs: Object.assign({}, o.herbs || {}), flags, keepsakes: {} };
     let pack = o.foes === 'roll' || !o.foes ? null : o.foes.slice();
     const opts = { arena: true, band, place: o.arena || undefined, foeLevel: o.foeLevel, weather: o.weather };
     if (pack) opts.pack = pack;
     // kind: a wild fight (the default), or one of the story's fights: 'greatWraith' (gate 5), 'dawnroost' (gate 10)
     const cfg = window.GameFights.config(o.kind || 'wild', P, opts);
     if (o.canFlee === false) { const f0 = cfg.fight; cfg.fight = () => Object.assign(f0(), { ends: {} }); }
+    // reward: what the fight's experience and shards are worth here, against the battle's own (the land's zones set it)
+    if (o.reward != null) { const f1 = cfg.fight; cfg.fight = () => { const f = f1(); f.reward = (f.reward || 1) * o.reward; return f; }; }
+    let bag = null; { const f2 = cfg.fight; cfg.fight = () => { const f = f2(); bag = Object.assign({}, f.herbs || {}); return f; }; }
     // its own layer, with the stage the battle screen draws on
     const layer = document.createElement('div');
     layer.className = 'coven-battle';
@@ -57,7 +62,12 @@
     const stage = document.createElement('main'); stage.id = 'stage'; stage.setAttribute('aria-label', 'Battle');
     stage.style.cssText = 'flex:1 1 auto;min-height:0';
     const old = document.getElementById('stage'); if (old) old.id = 'stage-before-battle';
-    layer.appendChild(stage); document.body.appendChild(layer);
+    // the frame rate the fight is really drawn at, small in the top right corner (CLAUDE.md: every build shows its own)
+    const rate = document.createElement('div');
+    rate.style.cssText = 'position:absolute;top:calc(8px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:20;pointer-events:none;font:12px system-ui,sans-serif;color:rgba(232,230,255,.75);text-shadow:0 1px 2px #000';
+    layer.appendChild(stage); layer.appendChild(rate); document.body.appendChild(layer);
+    let lastF = null, lastT = 0;
+    const rateT = setInterval(() => { const B = window.__battle, f = B && B.drawn ? B.drawn.frame : null, now = performance.now(); if (f != null && lastF != null && f >= lastF) rate.textContent = Math.round((f - lastF) * 1000 / (now - lastT)) + ' frames a second'; lastF = f; lastT = now; }, 1000);
     stage.innerHTML = window.BattleScreen.markup();
     SND = SND || window.makeBattleSound(); window.__battleSND = SND; cfg.sound = SND;
     cfg.flipbook = !!o.flipbook; if (o.auto) cfg.auto = o.auto;
@@ -65,12 +75,14 @@
       let ctl = null;
       const done = (r, err) => {
         if (ctl) { ctl.stop(); ctl = null; }
-        layer.remove(); if (old) old.id = 'stage'; running = null;
+        clearInterval(rateT); layer.remove(); if (old) old.id = 'stage'; running = null;
         if (err) { reject(err); return; }
         const out = r.outcome === 'win' || r.outcome === 'retreat' ? 'won' : r.outcome === 'fled' ? 'fled' : 'lost';
         const party = {};
         for (const h of r.heroes || []) party[h.id] = { hp: h.hp, max: h.maxHp, mp: h.mp, mpMax: h.maxMp };
-        resolve({ result: out, won: out === 'won', xp: r.xp || 0, shards: r.shards || 0, party, arena: cfg.arena || null, foes: (r.foes || []).map((f) => f.key), tag: o.tag });
+        // the herbs used: what the fight was given to use, less what it had left
+        const herbsSpent = {}; for (const id in bag || {}) { const n = bag[id] - ((r.herbs || {})[id] || 0); if (n > 0) herbsSpent[id] = n; }
+        resolve({ result: out, won: out === 'won', xp: r.xp || 0, shards: r.shards || 0, party, herbsSpent, arena: cfg.arena || null, foes: (r.foes || []).map((f) => f.key), tag: o.tag });
       };
       cfg.game = { onEnd: (r) => done(r || { outcome: 'lost', heroes: [] }), onError: (e) => done(null, e || new Error('the battle could not start (it needs WebGL)')) };
       running = { stop: () => done({ outcome: 'fled', heroes: [] }) };
