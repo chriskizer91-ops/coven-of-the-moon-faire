@@ -48,6 +48,13 @@
     const M = W3D.map({ w: 1536, h: 1024 });
     master = night0(M, zone.night || {});
     const scene = new THREE.Scene(), parts = [];
+    // a land that lies on the map of Aethermoor (zone.land.atlas.map): the map is read first, and each place is set
+    // down at the height the map has for its spot (a place with water of its own, `waterY`: so that its water lies
+    // level with the map's there)
+    const ZA = zone.land && zone.land.atlas, AM = ZA && ZA.map && W3D.atlas ? ZA.map : null, AO = {};
+    if (AM) { say('Reading the map of Aethermoor…'); await W3D.atlas.load(ZA.height, ZA.kinds); }
+    const H0 = AM ? W3D.atlas.at(AM.origin[0], AM.origin[1], AO).h : 0;
+    const mapY = (x, z, water) => { const a = W3D.atlas.at(AM.origin[0] + x / AM.k, AM.origin[1] + z / AM.k, AO); return ((water ? a.hw : a.h) - H0) * AM.vk; };
     let sky = null;
     {
       for (const e of zone.places) {
@@ -58,15 +65,16 @@
         pl.night = Object.assign({}, pl.night, { hills: false });
         await new Promise((r) => setTimeout(r, 0));   // let the page show the words before the work starts
         const P = await buildPlace(pl, renderer, opts), ox = e.at[0], oz = e.at[1];
+        const oy = e.y != null ? e.y : !AM || !parts.length ? 0 : e.waterY != null ? ZA.waterY + mapY(ox, oz, true) - e.waterY : mapY(ox, oz, false);
         // the place's own scene becomes one branch of the zone's, set down at its spot
-        P.scene.position.set(ox, 0, oz); scene.add(P.scene);
+        P.scene.position.set(ox, oy, oz); scene.add(P.scene);
         const s = P.scene.children.find((o) => o.name === 'sky');
         if (s) { P.scene.remove(s); if (!sky) { sky = s; scene.add(s); } else s.geometry.dispose(); }
         // its lamplight and shade are painted in its own painting's pixels: tell them where the painting now lies
         const k = P.U.uMapK.value; k.z -= ox * k.x; k.w -= oz * k.y;
         const [a, b, c, d] = P.walkRect, PM = P.M, px = (x) => PM.px(x - ox), py = (z) => PM.py(z - oz);
-        parts.push({ id: e.id, name: pl.name, P, ox, oz, x0: ox + PM.x(a), z0: oz + PM.z(b), x1: ox + PM.x(c), z1: oz + PM.z(d), night: nightOf(pl), autoWater: !!e.autoWater, moat: !!e.moat, waterY: e.waterY,
-          walkable: (x, z) => P.walkable(px(x), py(z)), walkH: (x, z) => P.walkH(px(x), py(z)), terrain: (x, z) => P.terrain(px(x), py(z)) });
+        parts.push({ id: e.id, name: pl.name, P, ox, oy, oz, x0: ox + PM.x(a), z0: oz + PM.z(b), x1: ox + PM.x(c), z1: oz + PM.z(d), night: nightOf(pl), autoWater: !!e.autoWater, moat: !!e.moat, waterY: e.waterY,
+          walkable: (x, z) => P.walkable(px(x), py(z)), walkH: (x, z) => P.walkH(px(x), py(z)) + oy, terrain: (x, z) => P.terrain(px(x), py(z)) + oy });
       }
     }
     scene.updateMatrixWorld(true);
@@ -77,8 +85,8 @@
     // what the camera must not sit inside, and the lamps that light her: every place's, moved to where the place stands
     const camSolids = [], lamps = [];
     for (const p of parts) {
-      for (const s of p.P.camSolids || []) camSolids.push({ p: s.p.map(([x, z]) => [x + p.ox, z + p.oz]), b: [s.b[0] + p.ox, s.b[1] + p.oz, s.b[2] + p.ox, s.b[3] + p.oz], y0: s.y0, y1: s.y1, thin: s.thin });
-      for (const l of p.P.lamps || []) lamps.push({ x: l.x + p.ox, y: l.y, z: l.z + p.oz, c: l.c, k: l.k });
+      for (const s of p.P.camSolids || []) camSolids.push({ p: s.p.map(([x, z]) => [x + p.ox, z + p.oz]), b: [s.b[0] + p.ox, s.b[1] + p.oz, s.b[2] + p.ox, s.b[3] + p.oz], y0: s.y0 + p.oy, y1: s.y1 + p.oy, thin: s.thin });
+      for (const l of p.P.lamps || []) lamps.push({ x: l.x + p.ox, y: l.y + p.oy, z: l.z + p.oz, c: l.c, k: l.k });
     }
     const local = { position: new THREE.Vector3() }, lio = new THREE.Vector3(), wcam = new THREE.Vector3(), wio = new THREE.Vector3();
     const stats = { triangles: 0, meshes: 0, trees: 0, lamps: lamps.length, halos: 0, solids: 0 };
@@ -99,7 +107,7 @@
             const d = Math.hypot(Math.max(p.x0 - wcam.x, 0, wcam.x - p.x1), Math.max(p.z0 - wcam.z, 0, wcam.z - p.z1));
             // (the first place is never hidden whole: the land's trees are planted in its branch of the scene)
             p.P.scene.visible = p === parts[0] || d < far; if (!p.P.scene.visible) continue;
-            local.position.set(wcam.x - p.ox, wcam.y, wcam.z - p.oz); lio.set(wio.x - p.ox, wio.y, wio.z - p.oz);
+            local.position.set(wcam.x - p.ox, wcam.y - p.oy, wcam.z - p.oz); lio.set(wio.x - p.ox, wio.y - p.oy, wio.z - p.oz);
             p.P.update(t, local, lio);
           } else p.P.update(t);
         }
@@ -111,7 +119,7 @@
         let t = 1;
         for (const p of parts) {
           if (!p.P.sight || Math.max(ax, bx) < p.x0 - 1 || Math.min(ax, bx) > p.x1 + 1 || Math.max(az, bz) < p.z0 - 1 || Math.min(az, bz) > p.z1 + 1) continue;
-          const h = p.P.sight.hit(ax - p.ox, ay, az - p.oz, bx - p.ox, by, bz - p.oz); if (h < t) t = h;
+          const h = p.P.sight.hit(ax - p.ox, ay - p.oy, az - p.oz, bx - p.ox, by - p.oy, bz - p.oz); if (h < t) t = h;
         }
         return t;
       } },
