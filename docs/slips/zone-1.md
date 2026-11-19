@@ -54,6 +54,31 @@ Where the new code is:
 | `game/data/maps-*.js` | Each place's walking areas |
 | `tools/zone-test.py` | New. Walks between the places and checks it by numbers |
 
+## Added on November 19: the people of the Moon Faire, and talking to them
+
+- **Eleven people stand in the land,** on Moon Faire's painted bodies (`game/people/folk/`, copied from the new
+  Envoi's copy; about 2,500 to 2,900 triangles each). Nine are in the camp at their stalls: Odile the lamp-seller,
+  Bashir the ribbon-dyer, Zofia the fortune-teller, Linnet the ballad-singer, Otto the baker, Corwin the night
+  watchman, Ros the pie-seller, Tully the gate keeper, Kofi the chestnut roaster. Old Bridie the lamplighter is on
+  the south road, two thirds of the way to the cottage. Jory the farm lad is by the lake on the jetty road.
+  Who stands where is data: `game/people/zone-1.js`.
+- **Talking** (`game/people/people.js`): within 3.4 m of a person a Talk button shows at the foot of the screen
+  ("Talk to Odile"; E or Enter on a laptop). The person turns to her, greets her the first time, and their words
+  show over the button. The talk ends by itself, or when she walks 6.5 m off.
+- **The words are stand-ins,** one or two each, until the story job's lines come (`docs/lore/story-brief.md`).
+- **A recorded line plays when there is one:** the talk looks for the line's sound by its id. None is in yet.
+- **A person is built only when she first comes within 75 m,** one at a time; drawn within 58 m; moves within 42 m.
+  Building one took about 0.6 s in the headless browser, which has no graphics card. On a real laptop or phone it
+  should be much quicker, but it has not been measured there.
+- **Checked** (`tools/people-test.py`, all passed, 0 page errors): each of the eleven is there, stands on the ground,
+  in the open, more than 1.2 m from anyone else; walking up shows the button with their name; a talk shows their
+  words and ends by itself. `tools/zone-test.py` still passes. The page is 85.7 MB (it was 83.5).
+- **Not checked:** the frame rate with nine people in view in the camp; whether making a person causes a hitch on
+  a real device; the Talk button under a thumb on a phone.
+- **Rough or not done:** the people stand still (no walking about, sitting, or talking to each other: Moon Faire's
+  minds are not brought over yet); nobody is seen past 58 m; the Grey Hat is not at the jetty yet; the townsfolk
+  are not in Wickhollow or Bogmire yet; Old Bridie has no lantern post and Jory no fire.
+
 ## Rebuilt on November 18, night: the land is the map of Aethermoor at one third size
 
 Chris, 21:04: the world the player walks must be built and mapped to match the 3D world map of all of Aethermoor,

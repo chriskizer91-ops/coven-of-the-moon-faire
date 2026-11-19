@@ -154,3 +154,9 @@ game/art/arena/13-northern-crossroads.avif,envoi-on-the-longest-night,main,d450c
 game/art/arena/14-dead-moonwell.avif,envoi-on-the-longest-night,main,d450c3f,art/arena/14-dead-moonwell.avif,"Chris's battle painting: 14-dead-moonwell",2026-11-18
 game/art/backdrops/night-square.avif,envoi-on-the-longest-night,main,d450c3f,art/backdrops/night-square.avif,"Chris's painting of the Night square, behind the first fight",2026-11-18
 tools/battle-balance.mjs,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/tools/balance.mjs,"Envoi's balance check: every fight played thousands of times against the 51 targets",2026-11-18
+game/people/folk/emotes.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/emotes.js,"The fair folk's moves: three ways of talking, fourteen emotes, fidgets",2026-11-19
+game/people/folk/face_plain.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/face_plain.js,"The plain face the fair folk's own faces are painted over",2026-11-19
+game/people/folk/npc.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/npc.js,"A painted person ready for the game: stands, blinks, turns to face you, talks, emotes, walks, sits",2026-11-19
+game/people/folk/npc_tex.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/npc_tex.js,"The eleven fair folk's painted skins and faces",2026-11-19
+game/people/folk/npcs.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/npcs.js,"The eleven fair folk: their shapes, sizes and ways",2026-11-19
+game/people/folk/person-kit.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/person-kit.js,"The kit that builds a person on the Jester's template",2026-11-19
