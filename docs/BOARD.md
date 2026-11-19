@@ -176,27 +176,39 @@ WHAT TO MAKE, IN THREE STEPS. STOP AFTER STEP 1 AND WAIT FOR CHRIS.
 
 Step 1: the story page and a sample, for his yes.
 - docs/lore/story-page.md: one page. The story in ten lines (start from the brief's; make it better where you can and
-  say what you changed and why). Each witch's thread. The calls that are his, each with your pick. A table of
-  proposed names for the eleven fair folk. Anything in the two old games' lore that fights with this, and your way
-  through it.
+  say what you changed and why). Each witch's thread. The calls that are his, each with your pick. The fair folk's
+  names from the brief, so he can change any before it is recorded. Anything in the two old games' lore that fights
+  with this, and your way through it.
 - A sample of about 24 lines so he can hear the voice before the rest is written: the lamp-seller, the Grey Hat,
   Nettie, one ordinary person's full six, and a line or two from each witch.
 - Send him both as one HTML page he can read on his phone. Then stop. He will say yes, or mark it up.
 
 Step 2: all of zone 1's lines (about 236, as the brief's table has them), as data the game reads.
-- game/talk/cast.js: every speaker: an id, the name shown, where they stand, and a voice note for casting (age, sex,
-  where they sound like they are from, pitch, pace, texture, and one line to audition with).
+- game/talk/cast.js: every speaker: the id and the name shown from the brief's tables, where they stand, and a voice
+  note for casting (age, sex, where they sound like they are from, pitch, pace, texture, and one line to audition
+  with).
 - game/talk/zone-1.js: every line: an id that will also be its sound file's name (for example z1.captain.03); who
-  says it; the words shown on the screen; the same words with any delivery cues in square brackets, in a field of
-  their own; when it can be said (the stage, first talk or later, lamps home; for the four people with many lines
+  says it; the words shown on the screen; a plain note of the tone and inflection to say it in ("dry, fond, half
+  to herself"); the same words with any delivery cues in square brackets, in a field of their own; when it can be
+  said (the stage, first talk or later, lamps home; for the four people with many lines
   also the few extra things the brief allows); what kind of line it is (hello, stage, pointer, call, story, coven);
   for a story talk, the order of its lines; and about how many seconds it takes to say.
 - For each person, a short list of every fact you invented about their own life, so Chris can see it.
 - tools/talk-check.py: counts the lines for each person against the brief's table; no line over 24 words; the minutes
   of speech in all and for each person; no banned word; no name Chris has not approved; every person has something
   to say at every stage; every id used once.
-- A reading page, one HTML file: every line by person and by stage, with the seconds and the totals; and for each
-  speaker a plain script of their lines, ready to paste into ElevenLabs.
+- A reading page, one HTML file: every line by person and by stage, with the seconds and the totals.
+- The recording order, as one file Chris can hand over whole. Chris gives the lines to ChatGPT, which uses
+  ElevenLabs to record them and hands back zip files labelled for the game. So the order must stand on its own, for
+  a reader who knows nothing of this game:
+  - first, how to name and pack: one sound file for each line, named by the line's id (z1.odile.03.mp3); MP3, one
+    channel; no more than a fifth of a second of silence at either end; the same loudness throughout; one zip for
+    each speaker, named for the zone and the speaker (z1-odile.zip), each with a small list inside of every file and
+    its length in seconds;
+  - then, for each speaker: the voice note for casting, so one voice is chosen and kept for all that speaker's lines;
+  - then each of that speaker's lines: the file name, the words to say exactly, and the tone and inflection.
+  Make it in a form that is easy to hand over and to check against (a plain text or CSV file, as well as on the
+  reading page).
 - Tell Chris. He tells the hub.
 
 Step 3: his notes worked in. Then the cast and the beats for zones 2 to 4 (Dawnroost and the Warm Roads; the northern
@@ -226,6 +238,8 @@ This is the part that matters most.
 - Leave room for the voice: write the line that has the feeling under it, not the line that states the feeling.
 - A lamp-and-candle world. No modern words. Never the words level, HP, MP, experience, quest, player, game, zone,
   or a spell's name. Say "the moon" unless a line truly needs "Auros".
+- Names: the fair folk have names now (the brief, section 4). Use them where they add warmth, and otherwise speak
+  of a person by trade. Invent no other name that is spoken.
 - The same recording plays whichever witch the player walks as, and all four are always there. So "you" always
   means the coven. A witch may be spoken to by name.
 - Invent nothing bigger than a person's own life. What the world is, is Chris's.

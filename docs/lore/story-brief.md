@@ -115,10 +115,10 @@ and whether the coven looks green or steady. Nothing else.
 
 | Where | Who | Lines | What they are for |
 |---|---|---|---|
-| The camp | **The lamp-seller** | 24 | The first guide. She reads flames. She sends the coven to the Grey Hat. |
-| The camp | The fortune-teller | 8 | For once the cards mean it. One card for each witch. |
-| The camp | The ribbon-dyer, the ballad-singer, the baker, the night watchman, the pie-seller, the gate keeper, the chestnut roaster | 6 each | The Faire's life. Each has a guess about the wisps, from their own trade. |
-| Out on the land | The old lamplighter (at the last lantern on the south road), the farm lad (by the lake) | 6 each | Company on the road. |
+| The camp | **Odile, the lamp-seller** | 24 | The first guide. She reads flames. She sends the coven to the Grey Hat. |
+| The camp | Zofia, the fortune-teller | 8 | For once the cards mean it. One card for each witch. |
+| The camp | Bashir the ribbon-dyer, Linnet the ballad-singer, Otto the baker, Corwin the night watchman, Ros the pie-seller, Tully the gate keeper, Kofi the chestnut roaster | 6 each | The Faire's life. Each has a guess about the wisps, from their own trade. |
+| Out on the land | Old Bridie, the lamplighter (at the last lantern on the south road); Jory, the farm lad (by the lake) | 6 each | Company on the road. |
 | The jetty | **The Grey Hat** | 28 | He asks for the lamps. He is the way on. Short sentences, a sailor's eye. |
 | The jetty | Quill | 6 | A sailor with a stall. |
 | Wickhollow | **Nettie** | 24 | The herb-seller. She has kept an eye on the cottage. She knew both sisters. |
@@ -127,6 +127,27 @@ and whether the coven looks green or steady. Nothing else.
 | Bogmire | **Old Wenna** | 20 | She tells what took the fen's lamps, and where it sits. |
 | Bogmire | Tobb, Pell | 6 each | An innkeeper, and a child who is not afraid. |
 | The coven | Io 14, Kore 12, Europa 10, Callisto 10 | 46 | Said at set moments: the opening, the cottage, the Thornwood's edge, the first sight of the fen, before and after the great wraith, the leaving. |
+
+**The fair folk's names** (the hub's, November 19, at Chris's asking; his to change before anything is recorded).
+The ids are the ones the game and the sound files use.
+
+| id | Name shown | Who (from Moon Faire's talk sheet) |
+|---|---|---|
+| `odile` | Odile, the lamp-seller | A small woman in an ochre kerchief. Calm, precise, fond, dry. Notices flames before faces. Counts things. |
+| `bashir` | Bashir, the ribbon-dyer | An old, quiet man at a steaming dye pot. Short, sideways answers. Sees colour and what holds fast. Sold Europa all his blue. |
+| `zofia` | Zofia, the fortune-teller | Tall, thin, a little grand, quick to name a price. A professional, unsettled because tonight the cards mean it. |
+| `linnet` | Linnet, the ballad-singer | A young woman, warm and lively, a little stage-struck round the four. Her oldest song has no last verse. |
+| `otto` | Otto, the baker | A stout, cheerful man at an oven cart. Feeds everyone. Threatens the dark with his bread peel. |
+| `corwin` | Corwin, the night watchman | An old man, gruff and steady, forty years of fairs. Shutters first, then lamps. Kind underneath. |
+| `ros` | Ros, the pie-seller | A sturdy woman, loud and quick, a trader to her boots. Mothers the captain. |
+| `tully` | Tully, the gate keeper | Stern and tidy, at the coin table. Counts everyone in and out. Few words. Thaws slowly. Others say "Tully" or "the gate keeper", never he or she. |
+| `kofi` | Kofi, the chestnut roaster | A cheerful man at a brazier. Gives chestnuts away. The Faire's gossip. |
+| `bridie` | Old Bridie, the lamplighter | An elderly woman in a red dress and headscarf. Stubborn, plain, tender about lamps. Out at the last lantern. |
+| `jory` | Jory, the farm lad | A cheerful young farmhand who cuts rushes for the ponies. Talks fast, frightened and trying not to show it. |
+| `captain` | The Grey Hat | The airship captain. His own name is not said. |
+
+The townsfolk keep the new Envoi's names and ids: `nettie`, `hilde`, `gretch` (Mayor Gretch), `quill`, `wenna` (Old
+Wenna), `tobb`, `pell`. The witches are `io`, `kore`, `europa`, `callisto`.
 
 An ordinary person's six: a first hello; a line for early, for the middle and for late; one line that points to
 one of the four people in bold; and one short call as the coven passes.
@@ -151,8 +172,12 @@ one of the four people in bold; and one short call as the coven passes.
   alike; Bogmire sounds alike, and different from Wickhollow.
 - ElevenLabs' newer models (Eleven v3 and v4) take delivery cues in square brackets, such as `[whispers]`,
   `[sighs]`, `[laughs]`. Keep them in their own field, apart from the words shown on the screen, and use few.
-- **A name costs a new recording to change.** No line says a name Chris has not approved. Other people speak of the
-  fair folk by trade ("the lamp-seller"). The Grey Hat is "the captain" or "the Grey Hat".
+- **A name costs a new recording to change.** The names in section 4 can be used. Even so, say a name aloud only
+  where it adds warmth, and otherwise speak of the fair folk by trade ("the lamp-seller"), so a changed name means
+  few new recordings. No other new name is spoken. The Grey Hat is "the captain" or "the Grey Hat".
+- **How the sound is made** (Chris, November 19): he gives the finished lines to ChatGPT, which uses ElevenLabs to
+  record them and hands back zip files, labelled for the game. So every line carries, beside its words, a plain
+  note of the tone and inflection to say it in, and its sound file's exact name.
 
 ## 7. The calls that are Chris's (the hub's pick first)
 
@@ -163,7 +188,8 @@ one of the four people in bold; and one short call as the coven passes.
    she was offered a bargain: walk the lost home, and you may take your bow.
 4. **Callisto is a princess of a land the moon left long ago.** Pick: yes; which land is never named.
 5. **Wickhollow has a Moonwell that Io's family kept.** Pick: leave it out of zone 1's lines until Chris decides.
-6. **Names for the eleven fair folk.** Pick: the story job proposes one each in a table; none is spoken until approved.
+6. **Names for the eleven fair folk.** Pick: the names in section 4 (Odile, Bashir, Zofia, Linnet, Otto, Corwin, Ros,
+   Tully, Kofi, Old Bridie, Jory).
 7. **The Grey Hat's name.** Pick: nobody says it in zone 1.
 8. **The four witches speak aloud at set moments.** Pick: yes, about 46 lines in zone 1.
 9. **Where a released soul goes.** Pick: the pale moth flies up to Auros.

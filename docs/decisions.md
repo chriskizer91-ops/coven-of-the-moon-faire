@@ -30,8 +30,15 @@ The full older record stays in the old repos and is not copied here:
   lamp-seller, the Grey Hat, Nettie, Old Wenna), fifteen with 6 to 8, and 46 for the four witches. About 11 MB
   inside the one-file build at MP3 64 kbps. The whole game should stay near an hour of speech.
 - **Hub's call.** *The Grey Hat stands at the jetty,* where his ship is moored, not in the camp.
-- **Hub's call.** *No line says a name Chris has not approved,* because a spoken name costs a new recording to
-  change.
+- **Chris, 08:30: the names can be made up now** (by the hub or the story job), so the people can be placed by name
+  while the lines are written. **And how the sound is made:** he gives the finished lines to ChatGPT, which uses
+  ElevenLabs to record them and hands back zip files labelled for the game.
+- **Hub's call.** *The fair folk's names:* Odile the lamp-seller, Bashir the ribbon-dyer, Zofia the fortune-teller,
+  Linnet the ballad-singer, Otto the baker, Corwin the night watchman, Ros the pie-seller, Tully the gate keeper,
+  Kofi the chestnut roaster, Old Bridie the lamplighter, Jory the farm lad. The Grey Hat's own name is not said.
+  Chris's to change before anything is recorded.
+- **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
+  (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
 
 ## November 19, 2026, morning: Chris tries the rebuilt land; the fights job's steps 1 and 2 are in
 
