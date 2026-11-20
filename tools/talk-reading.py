@@ -357,7 +357,7 @@ def main():
                   'Change any word before it is recorded.')
     table_word = 'the brief’s table' if N == 1 else 'the outline'
     sample_note = ' All 24 approved sample lines are here.' if N == 1 else ''
-    secs_note = ('The seconds are the recordings\u2019 real lengths, checked in <code>docs/lore/story-voices.html</code>.'
+    secs_note = ('The seconds are the recordings\u2019 real lengths, checked in <code>docs/lore/story-voices' + ('' if N == 1 else f'-{Z}') + '.html</code>.'
                  if recorded else 'The seconds are worked out from the words (about 2.8 a second), so they are a guess '
                  'until the recordings come back with their real lengths.')
 

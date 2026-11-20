@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """talk-voices.py: checks the recorded lines against the recording order (Coven of the Moon Faire, November 19, 2026).
 
-    python3 tools/talk-voices.py        # measures game/talk/audio/z1/ and writes docs/lore/story-voices.html
+    python3 tools/talk-voices.py        # zone 1: measures game/talk/audio/z1/, writes docs/lore/story-voices.html
+    python3 tools/talk-voices.py 2      # zone 2: game/talk/audio/z2/, docs/lore/story-voices-z2.html (and so on)
 
-For every line in game/talk/zone-1.js it looks for game/talk/audio/z1/<id>.mp3 and measures, with ffmpeg:
+For every line in game/talk/zone-<n>.js it looks for game/talk/audio/z<n>/<id>.mp3 and measures, with ffmpeg:
   - the format (MP3, one channel, 44.1 kHz, 64 kbps), and the length
   - the silence at the start and the end (the order asks for no more than 0.2 s)
   - the loudness (the order asks for about -18 LUFS, peaks no higher than -1 dBFS)
   - the voice's pitch (the middle of its range), to catch a line said in the wrong voice
   - how long the line is against its estimate, to catch a cue spoken aloud or a line cut short
-It writes the real lengths to game/talk/recording/z1-lengths.csv, and a page for Chris with the lines worth a listen.
+It writes the real lengths to game/talk/recording/z<n>-lengths.csv, and a page for Chris with the lines worth a listen.
+For a voice that came back from an earlier zone it also measures that zone's recordings, to show it is the same voice.
 It cannot hear the words: there is no speech-to-text here. Chris's ears are the last check.
 """
 import base64, concurrent.futures as cf, csv, html, importlib.util, json, re, statistics as st, subprocess, sys
@@ -29,6 +31,7 @@ def mod(name, file):
 tc = mod('talkcheck', 'tools/talk-check.py')
 tp = mod('talkpage', 'tools/talk-page.py')
 tr = mod('talkreading', 'tools/talk-reading.py')
+Z = 'z1'
 AUDIO = ROOT / 'game/talk/audio/z1'
 
 # The lines worth Chris's ear, and why (read from the measurements below, November 19).
@@ -47,6 +50,7 @@ LISTEN = {
     'z1.captain.08': 'Also fast for him. The joke needs his slow, dry timing.',
 }
 # Voices worth comparing with their notes, with one line to hear each.
+COMPARE_TITLE = 'Two voices to compare with their notes'
 COMPARE = {
     'captain': ('z1.captain.01', 'The Grey Hat speaks faster than the other slow voices, and higher than most of the men, '
                 'where his note says low, slow and clipped. If he sounds right to you, keep him.'),
@@ -80,6 +84,26 @@ JS_PLAY = r"""
   });
 })();
 """
+
+
+# Zone 2 (read from the measurements, November 20).
+LISTEN_Z2 = {
+    'z2.kore.01': 'Sixty per cent longer than expected, with a [laughs] cue at the start. Check it is a real laugh, not '
+                  'the word, and that the shiver turns into a joke.',
+    'z2.europa.06': 'Europa reads zone 2 slower than zone 1 (about 2.1 words a second against 2.4). Here the note asks for '
+                    'her to be moved, so slow may be right. Does it still sound like her, or does it drag?',
+    'z2.marta.21': 'A shouted call, far above Marta\u2019s usual pitch (about 340 against 196). Meant to be sharp. Is it '
+                   'still her?',
+}
+COMPARE_Z2_TITLE = 'Three new voices to hear'
+COMPARE_Z2 = {
+    'marta': ('z2.marta.01', 'Marta has the most lines in zone 2 (22) and its saddest ones. Her note: about sixty-eight, '
+              'warm Lancashire, quick, motherly and bossy. Is this her?'),
+    'roadwarden': ('z2.roadwarden.01', 'His note says about seventy, slow, rough and kind. He speaks at about 2.8 words a '
+                   'second, as fast as Marta, whose note says quick. If he sounds old and slow enough to you, keep him.'),
+    'tamsin': ('z2.tamsin.01', 'Tamsin is about nine. Her pitch (about 240 Hz) is lower than most children\u2019s. If she '
+               'sounds like a girl, not a woman playing one, keep her.'),
+}
 
 
 def probe(path):
@@ -129,14 +153,22 @@ def b64(path):
 
 
 def main():
-    data = tc.load(ROOT / 'game/talk/zone-1.js')
+    global Z, AUDIO, LISTEN, COMPARE, COMPARE_TITLE
+    n_zone = int(sys.argv[1]) if len(sys.argv) > 1 else 1
+    Z, AUDIO = f'z{n_zone}', ROOT / f'game/talk/audio/z{n_zone}'
+    if n_zone == 2:
+        LISTEN, COMPARE, COMPARE_TITLE = LISTEN_Z2, COMPARE_Z2, COMPARE_Z2_TITLE
+    elif n_zone > 2:
+        LISTEN, COMPARE = {}, {}
+    data = tc.load(ROOT / f'game/talk/zone-{n_zone}.js')
+    tr.setup(data)
     cast = tc.cast()
     lines = {l['id']: l for l in data['lines']}
     files = {p.stem: p for p in AUDIO.glob('*.mp3')}
     missing = sorted(set(lines) - set(files)); extra = sorted(set(files) - set(lines))
     with cf.ThreadPoolExecutor(8) as ex:
         m = dict(zip(sorted(files), ex.map(probe, [files[k] for k in sorted(files)])))
-    with open(ROOT / 'game/talk/recording/z1-lengths.csv', 'w', newline='') as f:
+    with open(ROOT / f'game/talk/recording/{Z}-lengths.csv', 'w', newline='') as f:
         w = csv.writer(f); w.writerow(['file', 'seconds'])
         for k in sorted(m):
             w.writerow([k + '.mp3', f'{m[k]["dur"]:.2f}'])
@@ -155,8 +187,23 @@ def main():
         ps = [r['pitch'] for _, r in ks if r['pitch']]
         words = sum(len(tc.words(lines[k]['text'])) for k, _ in ks)
         speech = sum(r['dur'] - r['lead'] - r['trail'] for _, r in ks)
-        rows.append((who, len(ks), sum(r['dur'] for _, r in ks), words / speech if speech else 0, st.median(ps) if ps else 0))
-    print(f'{len(m)} recordings, {len(missing)} missing, {len(extra)} not in zone-1.js; {total / 60:.2f} minutes; '
+        rows.append([who, len(ks), sum(r['dur'] for _, r in ks), words / speech if speech else 0, st.median(ps) if ps else 0, None])
+    # a voice that came back from an earlier zone: its usual pitch there, to show it is the same voice
+    before = {}         # speaker: (the first zone they were recorded for, its files)
+    for k in range(1, n_zone):
+        for l in tc.load(ROOT / f'game/talk/zone-{k}.js')['lines']:
+            f = ROOT / f'game/talk/audio/z{k}/{l["id"]}.mp3'
+            if l['who'] in per and f.exists() and before.setdefault(l['who'], (k, []))[0] == k:
+                before[l['who']][1].append(f)
+    if before:
+        with cf.ThreadPoolExecutor(8) as ex:
+            for who, (k, fs) in before.items():
+                ps = [p for p in ex.map(pitch, fs) if p]
+                for row in rows:
+                    if row[0] == who and ps:
+                        row[5] = (k, st.median(ps))
+    est_total = sum(tc.estimate(l) for l in data['lines'])
+    print(f'{len(m)} recordings, {len(missing)} missing, {len(extra)} not in zone-{n_zone}.js; {total / 60:.2f} minutes; '
           f'format right on {len(ok_format)}; loudness {min(lufs)} to {max(lufs)} LUFS; highest peak {max(peaks)} dBFS; '
           f'{len(long_ends)} with more than 0.2 s of silence at an end')
 
@@ -181,22 +228,28 @@ def main():
         f'<b>The loudness is even</b>: {min(lufs)} to {max(lufs)} LUFS against the asked-for \u221218, and no peak above '
         f'\u22121 dBFS (the highest is {max(peaks)}).',
         f'<b>The silence at the start</b> is never more than {max(r["lead"] for r in m.values()):.2f} s. At the end, '
-        f'{len(long_ends)} files run a hair over the asked-for 0.2 s (' + ', '.join(f'{k.replace("z1.", "")} {v:.2f} s' for k, v in long_ends) +
+        f'{len(long_ends)} files run a hair over the asked-for 0.2 s (' + ', '.join(f'{k.replace(Z + ".", "")} {v:.2f} s' for k, v in long_ends) +
         '). Not worth redoing.',
         '<b>No line is in the wrong voice</b>, as far as pitch can tell: every speaker\u2019s lines sit in their own '
         'range. The lines that stray are mostly meant to: shouted calls, excited hellos, quiet asides.',
         '<b>No line looks cut short or padded</b> with extra words. The longest against their estimates are lines with a '
-        'cue or a slow tone; the shortest are quick calls and the Grey Hat (below).',
+        'cue or a slow tone; the shortest are quick calls.',
         f'<b>All {len(lines)} together are {int(total // 60)} minutes {int(total % 60)} seconds</b>, about '
-        f'{total * 64 / 8 / 1024:.1f} MB, a little under my estimate of 18\u00bd minutes.',
+        f'{total * 64 / 8 / 1024:.1f} MB (my estimate was {est_total / 60:.1f} minutes).',
     ]
+    back = [(cast[w]['name'].replace('The ', 'the '), k, p0, p) for w, n, d, wps, p, b in rows if b for k, p0 in [b]]
+    if back:
+        passed.append('<b>The returning voices are the same voices</b>: ' + '; '.join(
+            f'{html.escape(nm)} {p:.0f} Hz here, {p0:.0f} in zone {k}' for nm, k, p0, p in back) +
+            '. Within a few per cent, which is as close as one voice gets from day to day.')
     table = ''.join(f'<tr><td data-label="">{html.escape(cast[w]["name"])}</td><td data-label="Lines">{n}</td>'
                     f'<td data-label="Length">{d:.0f} s</td><td data-label="Words a second">{wps:.1f}</td>'
-                    f'<td data-label="Pitch">{p:.0f}</td></tr>' for w, n, d, wps, p in rows)
+                    f'<td data-label="Pitch">{p:.0f}</td><td data-label="Before">{f"{b[1]:.0f}" if b else "new"}</td></tr>'
+                    for w, n, d, wps, p, b in rows)
     page = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>The voices, checked: Coven of the Moon Faire</title>
+<title>Zone {n_zone}\u2019s voices, checked: Coven of the Moon Faire</title>
 <style>{tp.CSS}
 .why{{font:15px/1.5 system-ui,sans-serif;color:#f0c27c;margin:0 0 8px}}
 audio{{width:100%;height:44px;margin:4px 0 8px;color-scheme:dark}}
@@ -220,8 +273,8 @@ audio{{width:100%;height:44px;margin:4px 0 8px;color-scheme:dark}}
 </style></head>
 <body><main>
 <p class="kicker">Coven of the Moon Faire \u00b7 the story job \u00b7 the voices</p>
-<h1>The voices, checked</h1>
-<p class="status">I measured all 236 recordings against the recording order. I cannot hear them, and there is no
+<h1>Zone {n_zone}\u2019s voices, checked</h1>
+<p class="status">I measured all {len(m)} recordings against the recording order. I cannot hear them, and there is no
 speech-to-text here, so I could not check the words by ear. Your ears are the last check. Here is everything that could be
 measured, and the few lines worth a listen.</p>
 <div class="big">
@@ -234,27 +287,29 @@ measured, and the few lines worth a listen.</p>
 <p>Nothing here is broken. These are the lines where the numbers suggest the reading might not be what the note asked for.
 Tap the yellow button on each. If one sounds wrong, tell me and I will write the redo request.</p>
 {''.join(card(k, why) for k, why in LISTEN.items())}
-<h2>Two voices to compare with their notes</h2>
+<h2>{COMPARE_TITLE}</h2>
 {''.join(card(k, why, label='one line to hear') for _, (k, why) in COMPARE.items())}
 <h2>What passed</h2>
 <ul class="pass">{''.join(f'<li>{p}</li>' for p in passed)}</ul>
 <h2>Each voice, measured</h2>
-<p class="small">Words a second is how quickly each speaks, without the silence at the ends. Usual pitch is the middle
-of their voice, in Hz: lower for the men, higher for the women and Pell.</p>
-<div class="table keep"><table><thead><tr><th></th><th>Lines</th><th>Length</th><th>Words a second</th><th>Pitch</th></tr></thead>
+<p class="small">Pace is how quickly each speaks, in words a second, without the silence at the ends. Usual pitch is the middle
+of their voice, in Hz: lower for the men, higher for the women and children. Before is the same voice\u2019s pitch in
+the zone it was first recorded for.</p>
+<div class="table keep"><table><thead><tr><th></th><th>Lines</th><th>Length</th><th>Pace</th><th>Pitch</th><th>Before</th></tr></thead>
 <tbody>{table}</tbody></table></div>
 <h2>Where the recordings are now</h2>
-<p>All 236 are on the branch <code>job/story</code> in <code>game/talk/audio/z1/</code>, one file a line, named by its
-id. Their real lengths are in <code>game/talk/recording/z1-lengths.csv</code> and in each line\u2019s seconds in
-<code>game/talk/zone-1.js</code>. The hub can take them from there into the game.</p>
-<footer><p>Made by <code>tools/talk-voices.py</code>, which measures <code>game/talk/audio/z1/</code> with ffmpeg. Run it
+<p>All {len(m)} are on the branch <code>job/story</code> in <code>game/talk/audio/{Z}/</code>, one file a line, named by its
+id. Their real lengths are in <code>game/talk/recording/{Z}-lengths.csv</code> and in each line\u2019s seconds in
+<code>game/talk/zone-{n_zone}.js</code>. The hub can take them from there into the game.</p>
+<footer><p>Made by <code>tools/talk-voices.py</code>, which measures <code>game/talk/audio/{Z}/</code> with ffmpeg. Run it
 again after any redo.</p></footer>
 </main>
 <script>{JS_PLAY}</script>
 </body></html>
 """
-    (ROOT / 'docs/lore/story-voices.html').write_text(page)
-    print(f'wrote docs/lore/story-voices.html ({len(page) // 1024} KB)')
+    out = 'docs/lore/story-voices.html' if n_zone == 1 else f'docs/lore/story-voices-{Z}.html'
+    (ROOT / out).write_text(page)
+    print(f'wrote {out} ({len(page) // 1024} KB)')
     if missing or extra:
         print('missing:', missing, 'extra:', extra); sys.exit(1)
 

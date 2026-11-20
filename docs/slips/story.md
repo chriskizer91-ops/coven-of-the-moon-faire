@@ -1,12 +1,19 @@
 # story: the story's dialogue, written to be spoken aloud
 
-Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, night (zones 2 to 4 written)
+Branch: job/story      Last commit: (see the branch)      Updated: November 20, 2026, morning (zone 2 recorded)
 
 ## What it built
 
 **Every spoken line of the game is written: zone 1 (236, recorded and approved), and zones 2 to 4 (120, 124 and 144,
 from the outline Chris approved at 19:13, with the ending at the Faire). Zones 2 to 4 have their recording orders for
-ChatGPT; their recordings have not come back yet.**
+ChatGPT. Zone 2's recordings came back on November 20 and are checked and on the branch; zones 3 and 4 are being
+recorded.**
+
+- `game/talk/audio/z2/`: **zone 2's 120 recordings**, taken byte for byte from the listening page Chris sent (3.8 MB).
+  `game/talk/recording/z2-lengths.csv` has each one's real length, and every line's `secs` in `zone-2.js` is now that
+  length (7 minutes 36 seconds in all). `docs/lore/story-voices-z2.html` is the page for Chris: what passed, three lines
+  worth his ear and three new voices to hear. `tools/talk-voices.py` now checks any zone (`python3 tools/talk-voices.py
+  2`), and for a returning voice measures its earlier zone too. Zone 2's recording order was left as handed over.
 
 - `game/talk/zone-2.js` (`COVEN_TALK_Z2`, the Warm Roads and Dawnroost), `zone-3.js` (`COVEN_TALK_Z3`, the northern
   wilds and the shipyard), `zone-4.js` (`COVEN_TALK_Z4`, the frozen pass, Misthollow and the dead Moonwell, and the
@@ -52,6 +59,7 @@ ChatGPT; their recordings have not come back yet.**
 
 ## What Chris said here
 
+- November 20, 08:10: "Here is zone 2 and I am starting zone 3 now" (the zone 2 listening page, made by ChatGPT).
 - **November 19, 19:13**, after ChatGPT asked for zone 2's order: **"Yes to all seven"** (calls 12 to 18, each as
   picked: 12 the game ends at the Faire's camp; 13 Kore is offered her bow and says "Not yet"; 14 forty Wardens are
   held in Misthollow and walk home; 15 the knight says only "Go home", and the shipmaster names her; 16 the new people
@@ -83,6 +91,14 @@ ChatGPT; their recordings have not come back yet.**
 
 ## What was checked, and how
 
+- **Zone 2's recordings** (`python3 tools/talk-voices.py 2`): all 120 present, each once, named right, nothing extra;
+  the words on Chris's page match the newest zone 2 text word for word (the four lines changed on November 19
+  included). All MP3, one channel, 44.1 kHz, 64 to 67 kbps. Loudness -18.7 to -17.1 LUFS; highest peak -1.2 dBFS.
+  Silence at the start at most 0.06 s; six files end with 0.21 to 0.33 s (asked 0.2): not worth redoing. The five
+  returning voices sit within about 6% of their zone 1 pitch. Lengths 7.6 minutes against an estimate of 8.1. **Not
+  checked: the words by ear.** Flagged for Chris: z2.kore.01 (laugh cue, 60% longer than expected), z2.europa.06
+  (Europa is slower all through zone 2), z2.marta.21 (a shout, far above her usual pitch); and three new voices
+  against their notes: Marta, the roadwarden (quick for his slow note), Tamsin (low for a child).
 - **Zones 2 to 4** (`python3 tools/talk-check.py game/talk/zone-<n>.js`): **ALL GOOD** for each, and zone 1 still ALL
   GOOD. Every person has the outline's count. Longest lines 18, 19 and 17 words; averages 10.0, 10.3, 9.8. Only
   approved names said; Kofi's never. Every ordinary person has a hello, a call, something at every stage, and a pointer
@@ -181,8 +197,10 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
 ## Unfinished
 
 - Chris's read of zones 2 to 4 (any word can change before it is recorded).
-- The recordings of zones 2 to 4 from ChatGPT. When they come back: `tools/talk-voices.py` needs to learn zones 2 to
-  4 (it knows zone 1 only), then the real lengths go into each line's `secs`.
+- Chris's ear on zone 2's flagged lines and new voices.
+- Zones 3 and 4's recordings. When each comes back: take the files out of the page, run `tools/talk-voices.py <n>` (it
+  needs its lines worth a listen written in, as zone 2's are), then `tools/talk-check.py game/talk/zone-<n>.js
+  --fill`.
 - If a recorded line is ever redone, it goes back through ChatGPT with the same file name, and `tools/talk-voices.py`
   is run again.
 
@@ -204,7 +222,7 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
    be true; more keys means more particular, chosen first; a line is said once before any repeats; `kind: 'call'` lines
    are said as the coven walks past, not in a talk. The brief's green and steady are not defined in numbers: the
    file's comment suggests green for levels 1 to 2 and steady for 3 to 5.
-5. **The sound is here**: `game/talk/audio/z1/<id>.mp3` (for example `z1.odile.03.mp3`), all 236, MP3 mono 64 kbps,
+5. **The sound is here** (zone 2's the same way, in `game/talk/audio/z2/`): `game/talk/audio/z1/<id>.mp3` (for example `z1.odile.03.mp3`), all 236, MP3 mono 64 kbps,
    8.5 MB; real lengths in `game/talk/recording/z1-lengths.csv` and in each line's `secs`. `people.js`'s `voice(id)`
    can look them up by id as it is. Whether to keep them as MP3 or re-encode (the battle music is AAC) is the hub's
    call; the file names should stay the ids.
