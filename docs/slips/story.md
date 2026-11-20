@@ -1,12 +1,12 @@
 # story: the story's dialogue, written to be spoken aloud
 
-Branch: job/story      Last commit: (see the branch)      Updated: November 20, 2026, morning (zone 2 recorded)
+Branch: job/story      Last commit: (see the branch)      Updated: November 20, 2026, afternoon (zone 2 recorded and approved)
 
 ## What it built
 
 **Every spoken line of the game is written: zone 1 (236, recorded and approved), and zones 2 to 4 (120, 124 and 144,
 from the outline Chris approved at 19:13, with the ending at the Faire). Zones 2 to 4 have their recording orders for
-ChatGPT. Zone 2's recordings came back on November 20 and are checked and on the branch; zones 3 and 4 are being
+ChatGPT. Zone 2's recordings came back on November 20, are checked, approved by Chris, and on the branch; zones 3 and 4 are being
 recorded.**
 
 - `game/talk/audio/z2/`: **zone 2's 120 recordings**, taken byte for byte from the listening page Chris sent (3.8 MB).
@@ -59,6 +59,7 @@ recorded.**
 
 ## What Chris said here
 
+- November 20, 13:47, after the zone 2 voices page: **"Those are all good."** Zone 2's flagged lines and its three new voices are approved; no redos.
 - November 20, 08:10: "Here is zone 2 and I am starting zone 3 now" (the zone 2 listening page, made by ChatGPT).
 - **November 19, 19:13**, after ChatGPT asked for zone 2's order: **"Yes to all seven"** (calls 12 to 18, each as
   picked: 12 the game ends at the Faire's camp; 13 Kore is offered her bow and says "Not yet"; 14 forty Wardens are
@@ -197,7 +198,6 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
 ## Unfinished
 
 - Chris's read of zones 2 to 4 (any word can change before it is recorded).
-- Chris's ear on zone 2's flagged lines and new voices.
 - Zones 3 and 4's recordings. When each comes back: take the files out of the page, run `tools/talk-voices.py <n>` (it
   needs its lines worth a listen written in, as zone 2's are), then `tools/talk-check.py game/talk/zone-<n>.js
   --fill`.
