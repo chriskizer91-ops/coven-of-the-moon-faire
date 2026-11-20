@@ -1,11 +1,25 @@
 # story: the story's dialogue, written to be spoken aloud
 
-Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, evening (step 3)
+Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, night (zones 2 to 4 written)
 
 ## What it built
 
-**Step 2 is done: all of zone 1's spoken lines, as data the game reads. The recordings came back the same day, are
-checked, approved by Chris, and on the branch. Step 3's outline for zones 2 to 4 is written and waits for his yes.**
+**Every spoken line of the game is written: zone 1 (236, recorded and approved), and zones 2 to 4 (120, 124 and 144,
+from the outline Chris approved at 19:13, with the ending at the Faire). Zones 2 to 4 have their recording orders for
+ChatGPT; their recordings have not come back yet.**
+
+- `game/talk/zone-2.js` (`COVEN_TALK_Z2`, the Warm Roads and Dawnroost), `zone-3.js` (`COVEN_TALK_Z3`, the northern
+  wilds and the shipyard), `zone-4.js` (`COVEN_TALK_Z4`, the frozen pass, Misthollow and the dead Moonwell, and the
+  ending at the Faire): **388 lines**, zone 1's shape. Each file also carries its title, its stages with a line of help
+  each, its moments with plain names, its people with many lines (`bold`) and how its people group by place.
+- `game/talk/cast.js`: **40 speakers** now. The 17 new ones each have a voice note and their invented facts; the
+  returning ones have their zones 2 to 4 facts added, each marked with its zone.
+- `game/talk/recording/z2-`, `z3-` and `z4-recording-order.txt` and `.csv`: the recording orders. Voices recorded for
+  an earlier zone are marked RETURNING ("use the same voice as before", with the zip it was in); new voices have their
+  casting note and audition line. Each order lists only the names its lines say, with IPA.
+- `docs/lore/story-zone-2.html`, `-3.html`, `-4.html`: the reading pages, as zone 1's.
+- `tools/talk-reading.py` now makes any zone's page and order (`python3 tools/talk-reading.py 3`). `tools/talk-check.py`
+  knows each zone's counts and new keys. Zone 1's page and order were not remade, so they stay exactly as handed over.
 
 - `docs/lore/story-zones-2-4.md` (and `.html`, made by `tools/talk-outline.py`): **the outline for zones 2 to 4**, a
   proposal. For each zone: what it is for, its five stages and where the story points at each, who speaks and how
@@ -38,6 +52,12 @@ checked, approved by Chris, and on the branch. Step 3's outline for zones 2 to 4
 
 ## What Chris said here
 
+- **November 19, 19:13**, after ChatGPT asked for zone 2's order: **"Yes to all seven"** (calls 12 to 18, each as
+  picked: 12 the game ends at the Faire's camp; 13 Kore is offered her bow and says "Not yet"; 14 forty Wardens are
+  held in Misthollow and walk home; 15 the knight says only "Go home", and the shipmaster names her; 16 the new people
+  are known by trade only; 17 the Grey Hat cannot fly to Misthollow, and flies dark under the stars at the end; 18
+  what the brambles are is never said) and **"Go straight on"**: write zone 2 and send its order first, then zones 3
+  and 4 in the same session.
 - November 19, 08:42: go (start step 1).
 - **November 19, 17:55: "It's all good"**, after the voices page was fixed: the voices are approved as recorded, no
   redos (taken that way; he can still flag any).
@@ -63,6 +83,21 @@ checked, approved by Chris, and on the branch. Step 3's outline for zones 2 to 4
 
 ## What was checked, and how
 
+- **Zones 2 to 4** (`python3 tools/talk-check.py game/talk/zone-<n>.js`): **ALL GOOD** for each, and zone 1 still ALL
+  GOOD. Every person has the outline's count. Longest lines 18, 19 and 17 words; averages 10.0, 10.3, 9.8. Only
+  approved names said; Kofi's never. Every ordinary person has a hello, a call, something at every stage, and a pointer
+  to one of the zone's people with many lines by a place. Every talk six lines at most. 3, 1 and 4 delivery cues.
+  About 8.1, 8.5 and 9.7 minutes (estimates), 3,887 words; with zone 1, about 44 minutes for the game.
+- **Against the old games**: every line's runs of four and five words searched in the old repos' story notes, scripts
+  and line files. Seven lines that shared a phrase were reworded (three of them after zones 2 and 3 were first sent:
+  z2.roadwarden.03, z3.passenger.06, z3.kore.01). Kept on purpose: "Little Io" and "She has no ending" come from the
+  new Envoi's story notes, and the outline Chris approved names them.
+- Read through all three zones in one sitting for one hand: repeated phrases counted (the town refrains, "by the
+  window", "at the bottom of the street", are on purpose). Three zone 2 lines about the letters were made clearer
+  (z2.callisto.09, z2.io.12, z2.kore.11: "it" became "them", the letters).
+- The three reading pages at 390 px in headless Chrome: 0 page errors, nothing wider than the screen, every line shown.
+  The by-stage tab now keeps a set moment's lines together in the order spoken, whoever says them.
+- Not checked: the lines in real voices; the seconds (estimates until the recordings come back).
 - **The recordings** (`python3 tools/talk-voices.py`, ffmpeg): all 236 present, each once, named exactly as ordered,
   nothing extra; the words beside each on Chris's page match ours word for word. All MP3, one channel, 44.1 kHz,
   64 kbps. Loudness -18.9 to -16.7 LUFS (asked about -18); highest peak -1.1 dBFS (asked no higher than -1).
@@ -92,6 +127,22 @@ checked, approved by Chris, and on the branch. Step 3's outline for zones 2 to 4
 
 ## Job's calls
 
+- **Zones 2 to 4, in short** (all proposals by the story job, Chris's to change): the roadwarden's three dark road
+  stones (the game counts them as `nodes`, 0 to 3); Marta's forty beds and the end bed by the window; Io's letters fold
+  into wings for the first time after Dawnroost's node; the shipmaster refuses to talk about the north until the four
+  have been, then says "Halcyon", one word; the last passenger gives her ticket away; the knight's two "Go home"s; at
+  the foot of the pass the Grey Hat lights a spare lamp because Io says five will come down, and says "Good thing I lit
+  the spare" when they do; Misthollow is always morning and nobody has cried in eight years; on the stair the letter is
+  handed over, and the fire's light leaves Halcyon ("It's cold. Why is it so cold?"); at the end Io's "Go home" echoes
+  the knight's; Io offers to let Kore go, and Kore stays ("I want to see what Io does next"); Callisto tells Halcyon
+  the dark is a season; the Grey Hat puts out all twelve lamps and flies dark by choice; the game's last word is Io's
+  "Yes".
+- **The Faire ending is a walk, not one long scene**: each Faire person's talk (`z4.faire.<who>`) plays when the coven
+  reaches them, and `z4.faire.farewell` plays last.
+- **New names' sounds** (in the orders, all guesses): Marta MAR-tuh, Brann BRAN, Tamsin TAM-zin, Dawnroost DAWN-roost,
+  Ysmera iz-MEER-ah, Gil with a hard g, Tock, Pim, Eldergrove EL-der-grove, Misthollow MIST-hollow, Moonwell, Sorrel
+  SORR-ul, Ede EED; and from zone 1's people, Tully TULL-ee, Linnet LIN-it.
+- **Ysmera gives no moon-glass in a line.** The outline mentioned one as a gift; the lines leave it to the game.
 - **"It's all good" is read as: no redos.** Every recording stays as it came back.
 - **The step 1 page keeps its estimated seconds** (its old ids belong to other lines now), and `talk-check.py` uses the
   real lengths only for a zone's file.
@@ -129,7 +180,9 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
 
 ## Unfinished
 
-- Chris's yes (or marks) on the zones 2 to 4 outline and calls 12 to 18. Then each zone's lines, when the hub asks.
+- Chris's read of zones 2 to 4 (any word can change before it is recorded).
+- The recordings of zones 2 to 4 from ChatGPT. When they come back: `tools/talk-voices.py` needs to learn zones 2 to
+  4 (it knows zone 1 only), then the real lengths go into each line's `secs`.
 - If a recorded line is ever redone, it goes back through ChatGPT with the same file name, and `tools/talk-voices.py`
   is run again.
 
@@ -170,3 +223,19 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
    `docs/questions.md` until he answers.
 11. The board lists my files as `docs/lore/story-*.md`; the prompt said `story-*`. I keep three pages there as HTML
    (`story-sample.html`, `story-zone-1.html`, `story-voices.html`). Move them if you would rather.
+12. **Zones 2 to 4 for the game** (the shape is zone 1's; what is new):
+   - `when.nodes` [from, to] in zone 2: how many of the three dark road stones are lit again.
+   - Moments `flight` and `flight-after` (zones 2 and 3) and `flight` (zone 4): raiders on the flight in.
+   - Zone 4's `special`: the held Warden says nothing until the fire ends (her two lines are stage 4 only).
+   - Zone 4's `faire` moment: one talk per person (`z4.faire.<who>`), each played when the coven reaches them;
+     `z4.faire.farewell` last. The game ends on its last line, Io's "Yes".
+   - The people with many lines are, per zone: the roadwarden, Marta and the Grey Hat (zone 2); the shipmaster and the
+     Grey Hat (zone 3); the watchwoman, the Grey Hat and Halcyon (zone 4).
+13. **Small things the lines expect to see**, zones 2 to 4: the three road stones (by the bridge, in the standing
+   stones to the west, up on the rise); the Wardens' hall with forty made beds and the end one by the window; the
+   living node up the hill behind the hall; Io's letters folding into wings; the shipmaster's tall house with a glass
+   roof; Tock's scaffolds on the slip; brambles taller than a person; Eldergrove's leaves turning when Io speaks; the
+   pass-keeper's hut and stove; the watchwoman at the bottom of Misthollow's one street, by a dead lamp; forty Wardens
+   standing still with badly mended cloaks; the Moonwell's stair; moths in their thousands; the stars; the Grey Hat's
+   lamps going out; Wickhollow and the camp lit up; the cottage gate lamp lit.
+14. **For `docs/decisions.md`**: Chris's yes of 19:13 to calls 12 to 18, and "go straight on".

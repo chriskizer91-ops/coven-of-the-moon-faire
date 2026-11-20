@@ -55,7 +55,9 @@ SAY_NAMES += [('Marta', 'MAR-tuh', '/\u02c8m\u0251\u02d0t\u0259/'), ('Brann', 'B
               ('Tock', 'TOCK', '/t\u0252k/'), ('Pim', 'PIM', '/p\u026am/'),
               ('Eldergrove', 'EL-der-grove', '/\u02c8\u025bld\u0259r\u0261ro\u028av/'), ('Misthollow', 'MIST-hollow', '/\u02c8m\u026asth\u0252lo\u028a/'),
               ('Moonwell', 'MOON-well', '/\u02c8mu\u02d0nw\u025bl/'), ('Sorrel', 'SORR-ul', '/\u02c8s\u0252r\u0259l/'),
-              ('Ede', 'EED', '/i\u02d0d/')]
+              ('Ede', 'EED', '/i\u02d0d/'), ('Bashir', 'bah-SHEER', '/b\u0259\u02c8\u0283\u026a\u0259r/'),
+              ('Zofia', 'ZOF-yah', '/\u02c8z\u0252fj\u0259/'), ('Tully', 'TULL-ee', '/\u02c8t\u028cli/'),
+              ('Linnet', 'LIN-it', '/\u02c8l\u026an\u026at/')]
 
 
 def setup(data):
@@ -169,16 +171,18 @@ def by_stage(data):
         out.append(f'<details class="stage"><summary><span class="pname">{st}. {STAGE_NAMES[st]}</span>'
                    f'<span class="ptrade">{html.escape(STAGE_HELP[STAGE_NAMES[st]])}</span>'
                    f'<span class="pnums">{len(here)} lines · {secs:.0f} s</span></summary>')
-        coven = [l for l in here if l['kind'] == 'coven']
+        coven = [l for l in here if 'moment' in l['when']]     # set moments: every speaker, in the order spoken
         if coven:
             moments = []
             for l in coven:
                 if l['when']['moment'] not in moments:
                     moments.append(l['when']['moment'])
             for m in moments:
-                out.append(f'<h4>The coven, {html.escape(MOMENTS[m])}</h4>' + ''.join(card(l) for l in coven if l['when']['moment'] == m))
+                who_m = {l['who'] for l in coven if l['when']['moment'] == m}
+                label = 'The coven' if who_m <= tc.WITCHES else 'A set moment'
+                out.append(f'<h4>{label}, {html.escape(MOMENTS[m])}</h4>' + ''.join(card(l) for l in coven if l['when']['moment'] == m))
         for who in ORDER:
-            ls = [l for l in here if l['who'] == who and l['kind'] != 'coven']
+            ls = [l for l in here if l['who'] == who and 'moment' not in l['when']]
             if ls:
                 out.append(f'<h4>{html.escape(short(who))}</h4>' + ''.join(card(l) for l in ls))
         out.append('</details>')

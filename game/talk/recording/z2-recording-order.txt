@@ -79,7 +79,7 @@ z2.io.11.mp3
   Tone: Astonished, a little frightened.
 
 z2.io.12.mp3
-  Say:  I never asked it to come.
+  Say:  I never meant them to fly.
   Tone: Small and bewildered.
 
 z2.io.13.mp3
@@ -136,7 +136,7 @@ z2.kore.10.mp3
   Tone: Gentle wonder, watching them.
 
 z2.kore.11.mp3
-  Say:  [softly] You did. You just never sent it.
+  Say:  [softly] You did. You just never sent them.
   Tone: Tender. The truest thing she says in this zone.
 
 z2.kore.12.mp3
@@ -190,7 +190,7 @@ z2.europa.10.mp3
 
 ==============================================================================
 SPEAKER: callisto   Callisto, the Ranger
-ZIP: z2-callisto.zip   (10 lines, about 25 seconds)
+ZIP: z2-callisto.zip   (10 lines, about 28 seconds)
 VOICE: RETURNING. Use the same voice as before (z1-callisto.zip). For reference: Woman, mid twenties. From: a faint accent nobody else in the game has (a light Scandinavian lilt). Pitch: low. Pace: slow and measured. Texture: calm and spare, every word meant.
 ------------------------------------------------------------------------------
 z2.callisto.01.mp3
@@ -226,7 +226,7 @@ z2.callisto.08.mp3
   Tone: One word, exactly on time. The moment.
 
 z2.callisto.09.mp3
-  Say:  It’s waiting for you, Io.
+  Say:  That one’s waiting, Io. For you to let it go.
   Tone: Quiet, almost reverent.
 
 z2.callisto.10.mp3
@@ -317,7 +317,7 @@ z2.roadwarden.02.mp3
   Tone: Plain. A request he hates having to make.
 
 z2.roadwarden.03.mp3
-  Say:  The warmth is draining out of the road. North. Like a tide going out.
+  Say:  The warmth is leaving the road. I can feel it running north under my hand.
   Tone: Slow, feeling it under his palm. What he feels, not what he knows.
 
 z2.roadwarden.04.mp3

@@ -99,7 +99,7 @@ ZIP: z3-kore.zip   (13 lines, about 34 seconds)
 VOICE: RETURNING. Use the same voice as before (z1-kore.zip). For reference: Woman, about thirty. From: clear stage speech, from nowhere in particular. Pitch: middle, bright. Pace: quick, and can stop dead. Texture: a trained performer’s voice that can drop to a hush, laughter always close under the words.
 ------------------------------------------------------------------------------
 z3.kore.01.mp3
-  Say:  Everything’s leaning the same way. Even the trees. Rude.
+  Say:  Everything leans north-east up here. Even the trees. Rude.
   Tone: Mock offended, to keep everyone light.
 
 z3.kore.02.mp3
@@ -511,7 +511,7 @@ z3.pim.06.mp3
 
 ==============================================================================
 SPEAKER: passenger   The last passenger, the passenger
-ZIP: z3-passenger.zip   (8 lines, about 43 seconds)
+ZIP: z3-passenger.zip   (8 lines, about 42 seconds)
 VOICE: NEW. Woman, about forty. From: soft Scottish Borders (she is from up the north road). Pitch: middle. Pace: slow. Texture: wistful, a little wry.
 AUDITION LINE (to choose the voice, not a file): I’ve packed this bag four times. It keeps unpacking itself.
 ------------------------------------------------------------------------------
@@ -536,7 +536,7 @@ z3.passenger.05.mp3
   Tone: Rueful, a joke at her own expense.
 
 z3.passenger.06.mp3
-  Say:  My house is up the north road. I left the door open. I keep thinking about the door.
+  Say:  My house is past the crossroads. I left the door open. I keep thinking about the door.
   Tone: Quiet, haunted by a small thing.
 
 z3.passenger.07.mp3
