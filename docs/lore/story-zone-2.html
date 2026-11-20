@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zone 2, every spoken line: Coven of the Moon Faire</title>
+<style>
+:root{--ink:#0d1524;--ink2:#14203a;--paper:#efe6d2;--dim:#b7ad98;--lamp:#e8a64b;--line:#2a3a5c}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:radial-gradient(120% 60% at 50% 0%,#1d2b49 0%,var(--ink) 60%) fixed,var(--ink);color:var(--paper);
+ font:17px/1.55 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+main{max-width:700px;margin:0 auto;padding:22px 18px 70px}
+.kicker{font:600 12px/1.3 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--lamp);margin:8px 0 6px}
+h1{font-size:32px;line-height:1.15;margin:0 0 12px;font-weight:600}
+h2{font-size:24px;margin:46px 0 10px;padding-top:14px;border-top:1px solid var(--line);font-weight:600}
+h3{font-size:19px;margin:28px 0 6px;color:var(--lamp);font-weight:600}
+h4{font-size:17px;margin:22px 0 4px}
+p,li{margin:0 0 12px}
+ul,ol{padding-left:22px;margin:0 0 14px}
+strong{color:#fff4dc}
+code{font:14px/1 ui-monospace,Menlo,monospace;color:var(--dim)}
+.status{background:var(--ink2);border-left:3px solid var(--lamp);padding:12px 14px;border-radius:6px;color:var(--dim);font-size:15px}
+.ask{background:#1a2742;border:1px solid #33496f;border-radius:10px;padding:14px 16px;margin:18px 0}
+.ask h2{border:0;margin:0 0 6px;padding:0;font-size:19px;color:var(--lamp)}
+.ask ol{margin:0}.ask li{margin:0 0 8px}
+.small,.gnote{font:14px/1.5 system-ui,sans-serif;color:var(--dim)}
+.legend{font:14px/1.5 system-ui,sans-serif;color:var(--dim);background:var(--ink2);border-radius:8px;padding:10px 12px;margin:10px 0 4px}
+.legend b{color:var(--paper);font-weight:600}
+.group{margin:8px 0 0}
+.line{background:linear-gradient(180deg,#172440,#121c33);border:1px solid var(--line);border-radius:12px;padding:12px 14px 10px;margin:10px 0;
+ border-left:4px solid var(--c,var(--lamp))}
+.who{font:700 13px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--c,var(--lamp));display:flex;gap:8px;align-items:baseline}
+.kind{font-weight:500;letter-spacing:.02em;text-transform:none;color:var(--dim)}
+.words{font-size:21px;line-height:1.4;margin:6px 0 6px;color:#fff8ea;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.words.saying{color:var(--lamp)}
+.tone{font-style:italic;color:var(--dim);font-size:15.5px;margin:0 0 6px}
+.cue{font:13px/1.4 system-ui,sans-serif;color:var(--dim);margin:0 0 6px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font:12.5px/1 system-ui,sans-serif;color:var(--dim)}
+.meta span{background:#0f182b;border:1px solid var(--line);border-radius:20px;padding:5px 9px}
+.meta .rests{border-color:#7a5a2c;color:#f0c27c}
+.meta .id{border:0;background:none;padding:5px 2px;opacity:.7;font-family:ui-monospace,Menlo,monospace}
+.line[data-who=odile],.line[data-who=tully]{--c:#e8a64b}
+.line[data-who=captain]{--c:#c9c2b4}
+.line[data-who=nettie]{--c:#a9c79a}
+.line[data-who=io]{--c:#e07a86}
+.line[data-who=kore]{--c:#c39cf0}
+.line[data-who=europa]{--c:#78d0ea}
+.line[data-who=callisto]{--c:#9fb8e8}
+details{margin:18px 0;background:var(--ink2);border-radius:10px;padding:10px 14px}
+summary{cursor:pointer;color:var(--lamp);font:600 15px/1.4 system-ui,sans-serif;padding:4px 0}
+.voices li{font-size:15.5px}
+.table{overflow-x:auto;margin:0 0 16px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:8px 8px;border-bottom:1px solid var(--line)}
+th{font:600 12.5px/1.3 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+@media (max-width:620px){
+ body{font-size:16.5px}
+ h1{font-size:28px}
+ thead{display:none}
+ table,tbody,tr,td{display:block;width:100%}
+ tr{background:var(--ink2);border-radius:10px;padding:8px 12px;margin:0 0 10px;border:1px solid var(--line)}
+ td{border:0;padding:4px 0}
+ td::before{content:attr(data-label);display:block;font:600 11.5px/1.4 system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+ td[data-label=""]::before{display:none}
+ td[data-label=""]{font:700 13px/1 system-ui,sans-serif;color:var(--lamp)}
+}
+.totals{font:14px/1.5 system-ui,sans-serif;color:var(--dim);margin:14px 0 0}
+footer{margin-top:50px;padding-top:14px;border-top:1px solid var(--line);font:14px/1.55 system-ui,sans-serif;color:var(--dim)}
+
+.tabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;padding:10px 0;margin:10px 0 6px;background:var(--ink);box-shadow:0 8px 10px -6px rgba(0,0,0,.6)}
+.tabs button{flex:1;font:600 15px/1 system-ui,sans-serif;color:var(--paper);background:#16223b;border:1px solid var(--line);border-radius:10px;padding:13px 6px;min-height:46px}
+.tabs button[aria-selected=true]{background:#2a3c63;border-color:#4a6496;color:#fff}
+.view{display:none}.view.on{display:block}
+h3.place{margin:28px 0 8px}
+details.person,details.stage{background:#111b30;border:1px solid var(--line);border-radius:12px;margin:10px 0;padding:0 12px}
+details.person>summary,details.stage>summary{list-style:none;cursor:pointer;padding:13px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+details>summary::-webkit-details-marker{display:none}
+.pname{font:700 18px/1.2 "Iowan Old Style",Georgia,serif;color:#fff4dc}
+.ptrade{font:14px/1.3 system-ui,sans-serif;color:var(--dim);flex:1}
+.pnums{font:13px/1 system-ui,sans-serif;color:var(--lamp)}
+.pinfo{border-top:1px solid var(--line);padding-top:10px}
+.pinfo ul{margin-top:-6px}
+h4{font:700 13px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--lamp);margin:18px 0 4px}
+.line{padding:10px 12px 8px}
+.words{font-size:19px}
+.meta .to{border-color:#3d6a4a;color:#a9d7b4}
+.big{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0}
+.big div{background:#16223b;border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.big b{display:block;font:700 24px/1.1 "Iowan Old Style",Georgia,serif;color:#fff4dc}
+.big span{font:13px/1.3 system-ui,sans-serif;color:var(--dim)}
+pre.order{white-space:pre-wrap;word-break:break-word;font:12.5px/1.45 ui-monospace,Menlo,monospace;background:#0b1220;border:1px solid var(--line);border-radius:10px;padding:12px;max-height:70vh;overflow:auto;color:#d9d2c0}
+.copy{font:600 15px/1 system-ui,sans-serif;color:#10192c;background:var(--lamp);border:0;border-radius:10px;padding:13px 18px;min-height:46px;margin:6px 0 10px}
+.line[data-who=bashir],.line[data-who=zofia],.line[data-who=linnet],.line[data-who=otto],.line[data-who=corwin],.line[data-who=ros],.line[data-who=kofi],.line[data-who=bridie],.line[data-who=jory]{--c:#e8a64b}
+.line[data-who=quill],.line[data-who=gretch],.line[data-who=hilde]{--c:#a9c79a}
+.line[data-who=wenna],.line[data-who=tobb],.line[data-who=pell]{--c:#d7b98a}
+</style></head>
+<body><main>
+<p class="kicker">Coven of the Moon Faire · the story job · zone 2, the Warm Roads and Dawnroost</p>
+<h1>Zone 2: every spoken line</h1>
+<p class="status">Written from the outline for zones 2 to 4 that you approved on November 19, with its calls 12 to 18. Change any word before it is recorded.</p>
+<div class="big">
+<div><b>120</b><span>lines, as the outline has them</span></div>
+<div><b>10</b><span>speakers, each with a voice note</span></div>
+<div><b>8.1 min</b><span>of speech, estimated (1,200 words, about 10 a line)</span></div>
+<div><b>3.8 MB</b><span>as MP3 at 64 kbps (about 5.1 MB inside the one-file game)</span></div>
+</div>
+<div class="ask"><h2>What to do with it</h2><ol>
+<li><strong>Read the lines</strong>, by person or by stage. Tap any line to hear your phone read it.</li>
+<li><strong>Mark up anything</strong>: a word, a line, a voice. Each person also shows what their lines make up about
+their own life.</li>
+<li><strong>When you are happy, hand the recording order to ChatGPT</strong>: the file
+<code>z2-recording-order.txt</code> (sent with this page, and in the third tab). It says how to name, cut, level and
+zip every file, so it stands on its own.</li>
+</ol></div>
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" data-view="v-person">By person</button>
+<button role="tab" aria-selected="false" data-view="v-stage">By stage</button>
+<button role="tab" aria-selected="false" data-view="v-order">Recording order</button>
+</div>
+<section class="view on" id="v-person">
+<p class="small">Tap a person to open their lines. Under each line: how to say it, when it can be said, and about how
+long it takes. A green tag says who a line points the coven to.</p>
+<h3 class="place">The coven</h3>
+<details class="person" data-who="io"><summary><span class="pname">Io</span><span class="ptrade">the Herbal Witch</span><span class="pnums">14 lines · 37 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> with the coven. 90 words, about 0.6 minutes.</p><p class="small"><b>Voice:</b> Woman, about thirty. From: a faint trace of Wickhollow’s soft West Country, worn down by years on the road. Pitch: low-middle. Pace: unhurried. Texture: warm and gentle, with steel under the softness. <em>To audition with:</em> “Hold still. This will sting, and then it won’t.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>She wrote Nettie letters too, and never sent them.</li><li>Her sister used to say Io had no heartsease (no peace of heart).</li></ul></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">The road’s gone cold, Kore. Roads don’t do that.</p><p class="tone">Troubled, her hand flat on the ground.</p><div class="meta"><span>the landing</span><span>3.7 s</span><span>landing, line 4</span><span class="id">z2.io.01</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Show us the first one.</p><p class="tone">Kind and practical, already rolling up her sleeves.</p><div class="meta"><span>first talk</span><span>2.0 s</span><span>roadwarden.ask, line 3</span><span class="id">z2.io.02</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">I’ll light it with something small. Something I can tend.</p><p class="tone">Careful and gentle, cupping a flame.</p><div class="meta"><span>at the first dark road stone</span><span>3.9 s</span><span>first-node, line 2</span><span class="id">z2.io.03</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">There. Feel it? Warm.</p><p class="tone">Soft and pleased, her hands around the warmth.</p><div class="meta"><span>the first road stone lit</span><span>1.9 s</span><span>node-lit, line 1</span><span class="id">z2.io.04</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">It’s not the same as holding on, Kore.</p><p class="tone">Gentle, a little defensive. She has heard the question.</p><div class="meta"><span>the first road stone lit</span><span>3.2 s</span><span>node-lit, line 3</span><span class="id">z2.io.05</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">I came here as a girl. It was louder.</p><p class="tone">Wistful, a small smile at the memory.</p><div class="meta"><span>the first sight of Dawnroost</span><span>3.6 s</span><span>dawnroost, line 3</span><span class="id">z2.io.06</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Hello, Marta.</p><p class="tone">Soft. A girl again for a moment.</p><div class="meta"><span>first talk</span><span>1.1 s</span><span>marta.hello, line 2</span><span class="id">z2.io.07</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Keep them made, Marta.</p><p class="tone">Gentle and firm. She cannot let go either.</p><div class="meta"><span>node</span><span>a later talk</span><span>1.8 s</span><span>marta.beds, line 2</span><span class="id">z2.io.09</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Her bed’s by the window. It always was.</p><p class="tone">Soft, standing very still.</p><div class="meta"><span>the forty beds</span><span>3.2 s</span><span>forty-beds, line 4</span><span class="rests">call 2</span><span class="id">z2.io.08</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">You keep saying that.</p><p class="tone">Half teasing, half touched.</p><div class="meta"><span>before the living node</span><span>1.6 s</span><span>before-node, line 4</span><span class="id">z2.io.10</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">My letters. Kore, they’re folding themselves.</p><p class="tone">Astonished, a little frightened.</p><div class="meta"><span>after the living node</span><span>2.6 s</span><span>after-node, line 1</span><span class="id">z2.io.11</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">I never asked it to come.</p><p class="tone">Small and bewildered.</p><div class="meta"><span>after the living node</span><span>2.3 s</span><span>after-node, line 5</span><span class="id">z2.io.12</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Marta’s still at the window.</p><p class="tone">Looking back, soft.</p><div class="meta"><span>the leaving</span><span>2.0 s</span><span>leaving, line 1</span><span class="id">z2.io.13</span></div></div><div class="line" data-who="io"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">I’ll write to her. And this time I’ll send it.</p><p class="tone">A small promise to herself, surprised by it.</p><div class="meta"><span>the leaving</span><span>3.9 s</span><span>leaving, line 4</span><span class="id">z2.io.14</span></div></div></details>
+<details class="person" data-who="kore"><summary><span class="pname">Kore</span><span class="ptrade">the Jester</span><span class="pnums">12 lines · 30 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> with the coven. 77 words, about 0.5 minutes.</p><p class="small"><b>Voice:</b> Woman, about thirty. From: clear stage speech, from nowhere in particular. Pitch: middle, bright. Pace: quick, and can stop dead. Texture: a trained performer’s voice that can drop to a hush, laughter always close under the words. <em>To audition with:</em> “Everyone laughs at the fool. That’s how she gets close enough to tell the truth.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>Nothing new.</li></ul></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Cold. I hate the cold. It’s so final.</p><p class="tone">A shiver turned into a joke. She knows more about final than anyone.</p><p class="cue">Cue: [laughs]</p><div class="meta"><span>the landing</span><span>3.2 s</span><span>landing, line 3</span><span class="id">z2.kore.01</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Then something’s making it.</p><p class="tone">Quiet, the joke gone out of her.</p><div class="meta"><span>the landing</span><span>1.5 s</span><span>landing, line 5</span><span class="id">z2.kore.02</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Small is good. Small doesn’t get ideas.</p><p class="tone">Wry. A true thing dressed as a joke.</p><div class="meta"><span>at the first dark road stone</span><span>2.7 s</span><span>first-node, line 3</span><span class="id">z2.kore.03</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">You’re good at that. Keeping things lit.</p><p class="tone">Fond, with a question hidden in it.</p><div class="meta"><span>the first road stone lit</span><span>2.7 s</span><span>node-lit, line 2</span><span class="id">z2.kore.04</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Isn’t it?</p><p class="tone">Very light. Not an argument. Leave it hanging.</p><div class="meta"><span>the first road stone lit</span><span>0.9 s</span><span>node-lit, line 4</span><span class="id">z2.kore.05</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Then tonight, we hold it.</p><p class="tone">Light and certain. Defending, without a laugh.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>2.0 s</span><span>marta.node, line 3</span><span class="id">z2.kore.07</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">I can’t see how one of them ends. Not one.</p><p class="tone">Almost to herself. Puzzled, and starting to be afraid.</p><div class="meta"><span>the forty beds</span><span>3.7 s</span><span>forty-beds, line 3</span><span class="rests">call 14</span><span class="id">z2.kore.06</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Io, stay by the node. I’ll stand in front.</p><p class="tone">Easy words, steel under them.</p><div class="meta"><span>before the living node</span><span>3.5 s</span><span>before-node, line 3</span><span class="id">z2.kore.08</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">I keep meaning it.</p><p class="tone">Quiet and plain. No laugh.</p><div class="meta"><span>before the living node</span><span>1.5 s</span><span>before-node, line 5</span><span class="id">z2.kore.09</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">They’ve wanted to go somewhere for years.</p><p class="tone">Gentle wonder, watching them.</p><div class="meta"><span>after the living node</span><span>2.5 s</span><span>after-node, line 2</span><span class="id">z2.kore.10</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">You did. You just never sent it.</p><p class="tone">Tender. The truest thing she says in this zone.</p><p class="cue">Cue: [softly]</p><div class="meta"><span>after the living node</span><span>2.7 s</span><span>after-node, line 6</span><span class="id">z2.kore.11</span></div></div><div class="line" data-who="kore"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">She’ll make the beds tonight. And tomorrow.</p><p class="tone">Fond and a little sad. Not a criticism.</p><div class="meta"><span>the leaving</span><span>2.7 s</span><span>leaving, line 2</span><span class="id">z2.kore.12</span></div></div></details>
+<details class="person" data-who="europa"><summary><span class="pname">Europa</span><span class="ptrade">the Fox</span><span class="pnums">10 lines · 29 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> with the coven. 76 words, about 0.5 minutes.</p><p class="small"><b>Voice:</b> Woman, late twenties. From: a slight Irish lilt. Pitch: middle-high. Pace: quick. Texture: light and playful, a smile in it. <em>To audition with:</em> “Snip, there. Oh, don’t sulk. It’s a better shape now.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>Nothing new.</li></ul></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">The threads are thicker here. Like rope.</p><p class="tone">Fascinated, and less playful than usual.</p><div class="meta"><span>the landing</span><span>2.6 s</span><span>landing, line 2</span><span class="id">z2.europa.01</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">My stitches are holding, captain. Look.</p><p class="tone">Proud, showing off her work on his lamps.</p><div class="meta"><span>first talk</span><span>2.4 s</span><span>captain.landing, line 3</span><span class="id">z2.europa.02</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Look. The warmth is leaving on a thread. North, like everything.</p><p class="tone">Pointing, half fascinated and half annoyed.</p><div class="meta"><span>at the first dark road stone</span><span>4.2 s</span><span>first-node, line 1</span><span class="id">z2.europa.03</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">There. Sewn shut. Pull all you like.</p><p class="tone">Triumphant and teasing, to whatever is pulling.</p><p class="cue">Cue: [playfully]</p><div class="meta"><span>at the first dark road stone</span><span>2.8 s</span><span>first-node, line 5</span><span class="id">z2.europa.04</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Warden blue on every door. Faded.</p><p class="tone">Softer than usual. She notices colour first, and this one is sad.</p><div class="meta"><span>the first sight of Dawnroost</span><span>2.3 s</span><span>dawnroost, line 2</span><span class="id">z2.europa.05</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Someone irons these. Every night, someone irons these.</p><p class="tone">A craftswoman’s respect, and it moves her.</p><div class="meta"><span>the forty beds</span><span>3.1 s</span><span>forty-beds, line 2</span><span class="id">z2.europa.06</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Nobody’s slept in them. Not a dent.</p><p class="tone">Gentle, smoothing a blanket that needs no smoothing.</p><div class="meta"><span>the forty beds</span><span>2.6 s</span><span>forty-beds, line 5</span><span class="id">z2.europa.07</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Their threads run back north. Somebody’s sending them.</p><p class="tone">Sharp, worried.</p><div class="meta"><span>before the living node</span><span>3.0 s</span><span>before-node, line 2</span><span class="id">z2.europa.08</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Paper wings. Oh, that’s good work.</p><p class="tone">Delighted, a craftswoman admiring the folding.</p><div class="meta"><span>after the living node</span><span>2.4 s</span><span>after-node, line 3</span><span class="id">z2.europa.09</span></div></div><div class="line" data-who="europa"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">The road’s glowing all the way back. Like a hem.</p><p class="tone">Pleased, leaning over the rail.</p><div class="meta"><span>the leaving</span><span>3.6 s</span><span>leaving, line 3</span><span class="id">z2.europa.10</span></div></div></details>
+<details class="person" data-who="callisto"><summary><span class="pname">Callisto</span><span class="ptrade">the Ranger</span><span class="pnums">10 lines · 25 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> with the coven. 55 words, about 0.4 minutes.</p><p class="small"><b>Voice:</b> Woman, mid twenties. From: a faint accent nobody else in the game has (a light Scandinavian lilt). Pitch: low. Pace: slow and measured. Texture: calm and spare, every word meant. <em>To audition with:</em> “Wait. There. Now.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>Where she grew up, the dark lasted her whole life (call 4).</li></ul></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Frost on the rail. And it isn’t winter.</p><p class="tone">Quiet, noticing first, a little wary.</p><div class="meta"><span>the landing</span><span>3.5 s</span><span>landing, line 1</span><span class="id">z2.callisto.01</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">No birds. Not one.</p><p class="tone">Low and flat. She has been listening.</p><div class="meta"><span>the landing</span><span>2.0 s</span><span>landing, line 6</span><span class="id">z2.callisto.02</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Quick. Something’s watching from the trees.</p><p class="tone">Low and fast, a hand on her bow.</p><div class="meta"><span>at the first dark road stone</span><span>2.7 s</span><span>first-node, line 4</span><span class="id">z2.callisto.03</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Two more. The road’s waiting.</p><p class="tone">Calm, moving them on.</p><div class="meta"><span>the first road stone lit</span><span>2.3 s</span><span>node-lit, line 5</span><span class="id">z2.callisto.04</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Every chimney lit, and half the windows dark.</p><p class="tone">Quiet observation, taking in the town.</p><div class="meta"><span>the first sight of Dawnroost</span><span>3.5 s</span><span>dawnroost, line 1</span><span class="id">z2.callisto.05</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Forty beds. Every one turned down.</p><p class="tone">Quiet, taking it in.</p><div class="meta"><span>the forty beds</span><span>2.7 s</span><span>forty-beds, line 1</span><span class="id">z2.callisto.06</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Three of them, coming up the hill. Slow.</p><p class="tone">Low and level, counting them.</p><div class="meta"><span>before the living node</span><span>3.7 s</span><span>before-node, line 1</span><span class="id">z2.callisto.07</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">Now.</p><p class="tone">One word, exactly on time. The moment.</p><div class="meta"><span>before the living node</span><span>0.6 s</span><span>before-node, line 6</span><span class="id">z2.callisto.08</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">It’s waiting for you, Io.</p><p class="tone">Quiet, almost reverent.</p><div class="meta"><span>after the living node</span><span>2.3 s</span><span>after-node, line 4</span><span class="id">z2.callisto.09</span></div></div><div class="line" data-who="callisto"><div class="who"><span class="kind" style="margin:0">the coven</span></div><p class="words" tabindex="0">North-east. The lean’s stronger.</p><p class="tone">Calm, eyes ahead.</p><div class="meta"><span>the leaving</span><span>2.0 s</span><span>leaving, line 5</span><span class="id">z2.callisto.10</span></div></div></details>
+<h3 class="place">The ship</h3>
+<details class="person" data-who="captain"><summary><span class="pname">The Grey Hat</span><span class="ptrade">the captain</span><span class="pnums">16 lines · 71 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> the jetty, by his ship. 163 words, about 1.2 minutes.</p><p class="small">His own name is not said (call 7).</p><p class="small"><b>Voice:</b> Man, about forty-five. From: a faint east-coast Scots burr. Pitch: low. Pace: slow, clipped. Texture: a little weathered, deadpan, says less than he means. <em>To audition with:</em> “Rope’s wet. Sky’s clear. Nobody touches the wheel but me.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>He has flown for the Faire twenty years and never lost a lamp before tonight.</li><li>He flew dark once, when he was young and sure of himself.</li><li>He bought his twelve lamps from the lamp-seller when he was young.</li><li>He hangs every lamp himself.</li></ul></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Raiders. Low on the left. Hold on to something that isn’t me.</p><p class="tone">Clipped and calm under fire. A dry joke at the end.</p><div class="meta"><span>on the flight in, raiders</span><span>5.2 s</span><span class="id">z2.captain.01</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">That’s them seen off. Nobody touch the lamps.</p><p class="tone">Breathing out, straight back to business.</p><div class="meta"><span>the raiders seen off</span><span>3.5 s</span><span class="id">z2.captain.02</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">hello</span></div><p class="words" tabindex="0">Sunstone’s sulking in this cold. We set down here till the roads warm.</p><p class="tone">Flat, cross with the weather, not with them.</p><div class="meta"><span>first talk</span><span>5.4 s</span><span>captain.landing, line 1</span><span class="id">z2.captain.03</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">points the way</span></div><p class="words" tabindex="0">There’s an old Warden by the fire who knows the road. Ask him.</p><p class="tone">Short, pointing with his chin.</p><div class="meta"><span>first talk</span><span>5.4 s</span><span>captain.landing, line 2</span><span class="to">points to The roadwarden</span><span class="id">z2.captain.04</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">She won’t lift on cold stone. Neither would I.</p><p class="tone">Dry, patting the rail.</p><div class="meta"><span>nodes</span><span>a later talk</span><span>3.8 s</span><span class="id">z2.captain.05</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Feel that? One stone lit, and she’s humming.</p><p class="tone">Pleased in spite of himself.</p><div class="meta"><span>a later talk</span><span>3.6 s</span><span class="id">z2.captain.06</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">All three lit and she’s warm to the hand. Go and see Dawnroost. I’ll wait.</p><p class="tone">Satisfied, waving them on.</p><div class="meta"><span>a later talk</span><span>6.3 s</span><span class="id">z2.captain.07</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Dawnroost was a proud town. Still is. It just hasn’t noticed it’s empty.</p><p class="tone">Quiet and respectful, a little sad.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.6 s</span><span class="id">z2.captain.08</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Wraiths at night, they say. Don’t be heroes. Be back.</p><p class="tone">Gruff care, kept short.</p><div class="meta"><span>node</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.captain.09</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Warm stone under her. We can fly. North-east, where they lean.</p><p class="tone">Decided. A captain giving the course.</p><div class="meta"><span>after</span><span>4.9 s</span><span class="id">z2.captain.10</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The flames lean harder here than at the lake. We’re closer.</p><p class="tone">Uneasy, reading the sky.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.captain.11</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Marta fed you. I can tell. You’re walking slower.</p><p class="tone">Deadpan teasing.</p><div class="meta"><span>after talking to Marta</span><span>a later talk</span><span>4.0 s</span><span class="id">z2.captain.12</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Won again. You’ll be wanting a medal. I haven’t got one.</p><p class="tone">Dry and fond.</p><div class="meta"><span>just won a fight</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.captain.13</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Bad night. There’s blankets in the hold.</p><p class="tone">Gruff kindness, no fuss.</p><div class="meta"><span>just lost a fight</span><span>a later talk</span><span>3.1 s</span><span class="id">z2.captain.14</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">called in passing</span></div><p class="words" tabindex="0">Back by morning.</p><p class="tone">Called after them, half an order.</p><div class="meta"><span>as the coven passes</span><span>1.4 s</span><span class="id">z2.captain.15</span></div></div><div class="line" data-who="captain"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Cold like this isn’t weather. Weather moves. This just sits.</p><p class="tone">Low. A sailor’s unease.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>4.4 s</span><span class="id">z2.captain.16</span></div></div></details>
+<h3 class="place">The Warm Roads</h3>
+<details class="person" data-who="roadwarden"><summary><span class="pname">The roadwarden</span><span class="ptrade">the roadwarden</span><span class="pnums">16 lines · 86 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> zone 2: the Warm Roads camp, by the fire. 201 words, about 1.4 minutes.</p><p class="small"><b>Voice:</b> Man, about seventy. From: warm Lancashire (the Warm Roads and Dawnroost). Pitch: low. Pace: slow. Texture: rough and kind, an old soldier who talks to stones. <em>To audition with:</em> “Stone remembers. Put your hand on it and it’ll tell you what it’s had.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>An old Ember Warden who stayed when the forty went north, because he was afraid.</li><li>He has kept the Warm Roads alone for eight years.</li><li>He puts his hand flat on every stone to feel its warmth.</li></ul></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">hello</span></div><p class="words" tabindex="0">Put your hand flat on the road. Feel that? It’s never once been cold.</p><p class="tone">Gruff and urgent, an old man showing strangers a wound.</p><div class="meta"><span>first talk</span><span>5.9 s</span><span>roadwarden.ask, line 1</span><span class="id">z2.roadwarden.01</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Three of the road stones have gone dark between here and Dawnroost. Light them again.</p><p class="tone">Plain. A request he hates having to make.</p><div class="meta"><span>first talk</span><span>6.2 s</span><span>roadwarden.ask, line 2</span><span class="id">z2.roadwarden.02</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The warmth is draining out of the road. North. Like a tide going out.</p><p class="tone">Slow, feeling it under his palm. What he feels, not what he knows.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>5.9 s</span><span class="id">z2.roadwarden.03</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">One by the bridge. One in the standing stones, off to the west. One up on the rise.</p><p class="tone">Directions counted off on his fingers, clear and slow.</p><div class="meta"><span>nodes</span><span>a later talk</span><span>7.6 s</span><span class="id">z2.roadwarden.04</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">That’s one lit. I felt it come on, from here.</p><p class="tone">Wonder he tries to hide. A hand pressed to the ground.</p><div class="meta"><span>a later talk</span><span>4.4 s</span><span class="id">z2.roadwarden.05</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">points the way</span></div><p class="words" tabindex="0">All three lit. Go on to Dawnroost. Marta will want to feed you.</p><p class="tone">Relieved and gruffly proud, sending them off.</p><div class="meta"><span>a later talk</span><span>5.6 s</span><span class="to">points to Marta</span><span class="id">z2.roadwarden.06</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">I should have gone north with them. The forty.</p><p class="tone">Low. It costs him to say it.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>3.8 s</span><span>roadwarden.stayed, line 1</span><span class="rests">call 14</span><span class="id">z2.roadwarden.07</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">I was afraid. So I kept the road instead. Eight years, on my own.</p><p class="tone">Plain, no excuse in it. A small breath before the last words.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>6.1 s</span><span>roadwarden.stayed, line 2</span><span class="id">z2.roadwarden.08</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Dawnroost’s node is the last one that burns by itself. The rest feed off it.</p><p class="tone">Grave. A Warden explaining a duty.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.2 s</span><span class="id">z2.roadwarden.09</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Warm. Feel it. Not like it was, but warm.</p><p class="tone">Quiet joy, his hand flat on the stone. Let the last word glow.</p><div class="meta"><span>after</span><span>4.2 s</span><span class="id">z2.roadwarden.10</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">I’ll keep it through the dark. A road wants keeping, moon or no moon.</p><p class="tone">Settled and steady. A man who has found his work again.</p><div class="meta"><span>after</span><span>a later talk</span><span>5.9 s</span><span class="id">z2.roadwarden.11</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Marta still makes up their beds, I hear. Forty. I can’t go and look.</p><p class="tone">Ashamed and tender.</p><div class="meta"><span>after talking to Marta</span><span>a later talk</span><span>6.1 s</span><span class="rests">call 14</span><span class="id">z2.roadwarden.12</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Hot hands, all four. You’ve been fighting. Lend the road some.</p><p class="tone">Dry humour, a little admiring.</p><div class="meta"><span>just won a fight</span><span>a later talk</span><span>4.9 s</span><span class="id">z2.roadwarden.13</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Sit by the fire. Not the stone, the fire. The stone’s got nothing to give yet.</p><p class="tone">Gentle, fussing in his gruff way.</p><div class="meta"><span>just lost a fight</span><span>a later talk</span><span>6.9 s</span><span class="id">z2.roadwarden.14</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">You four walk like Wardens now. I don’t say that lightly.</p><p class="tone">Solemn praise.</p><div class="meta"><span>the four look steady</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.roadwarden.15</span></div></div><div class="line" data-who="roadwarden"><div class="who"><span class="kind" style="margin:0">called in passing</span></div><p class="words" tabindex="0">Keep to the stones.</p><p class="tone">Called after them. An old habit of command.</p><div class="meta"><span>as the coven passes</span><span>1.8 s</span><span class="id">z2.roadwarden.16</span></div></div></details>
+<details class="person" data-who="carter"><summary><span class="pname">The carter</span><span class="ptrade">the carter</span><span class="pnums">6 lines · 31 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> zone 2: the Ember Line road. 79 words, about 0.5 minutes.</p><p class="small"><b>Voice:</b> Man, about forty. From: warm Lancashire. Pitch: middle. Pace: easy. Texture: a cheerful grumbler. <em>To audition with:</em> “A cart’s only as good as its axle and its driver, and I’m not sure about either.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>He hauls sunstone, and his whole load went dim and cold on the road.</li><li>He will take the load south, where it will be needed.</li></ul></div><div class="line" data-who="carter"><div class="who"><span class="kind" style="margin:0">hello</span></div><p class="words" tabindex="0">Sunstone. A whole cart of it, and not one would warm a teacup.</p><p class="tone">Comic despair, slapping the cart.</p><div class="meta"><span>first talk</span><span>5.1 s</span><span class="id">z2.carter.01</span></div></div><div class="line" data-who="carter"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Sunstone sulks when something else is hungrier for the warm. Up north, I reckon.</p><p class="tone">A trader’s hunch, half to himself.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>5.5 s</span><span class="id">z2.carter.02</span></div></div><div class="line" data-who="carter"><div class="who"><span class="kind" style="margin:0">points the way</span></div><p class="words" tabindex="0">The old Warden at the camp knows these stones. Back down the road, by the fire.</p><p class="tone">Helpful, pointing with his whip.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.2 s</span><span class="to">points to The roadwarden</span><span class="id">z2.carter.03</span></div></div><div class="line" data-who="carter"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The stones are lit and my cart’s glowing. I’ll stay till morning, just to be warm.</p><p class="tone">Content, a little lazy.</p><div class="meta"><span>hall or node</span><span>6.2 s</span><span class="id">z2.carter.04</span></div></div><div class="line" data-who="carter"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">I’ll take this load south, where they’ll need it. It’s going to be a long dark.</p><p class="tone">Practical, then quieter on the last sentence.</p><div class="meta"><span>after</span><span>6.2 s</span><span class="id">z2.carter.05</span></div></div><div class="line" data-who="carter"><div class="who"><span class="kind" style="margin:0">called in passing</span></div><p class="words" tabindex="0">Keep warm, you four.</p><p class="tone">Called after them, friendly.</p><div class="meta"><span>as the coven passes</span><span>1.8 s</span><span class="id">z2.carter.06</span></div></div></details>
+<h3 class="place">Dawnroost</h3>
+<details class="person" data-who="marta"><summary><span class="pname">Marta</span><span class="ptrade">the keeper of the Wardens’ hall</span><span class="pnums">22 lines · 108 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> zone 2: Dawnroost, the Wardens’ hall. 282 words, about 1.8 minutes.</p><p class="small"><b>Voice:</b> Woman, about sixty-eight. From: warm Lancashire. Pitch: middle. Pace: quick. Texture: motherly and bossy, a voice like a clean apron. <em>To audition with:</em> “Boots off, hands washed, and nobody sits down till I say.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>She makes up forty bunks with fresh linen every night.</li><li>She knew Io and Halcyon as girls; they raced up the hall stairs and Halcyon let Io win.</li><li>Halcyon slept in the end bunk, by the window.</li></ul></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">hello</span></div><p class="words" tabindex="0">Io? Little Io? Look at you. You’ve got her walk.</p><p class="tone">Astonished joy, then a catch on the last words.</p><div class="meta"><span>first talk</span><span>4.1 s</span><span>marta.hello, line 1</span><span class="rests">call 2</span><span class="id">z2.marta.01</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">hello</span></div><p class="words" tabindex="0">The beds are made up. Forty of them. Sleep in any you like.</p><p class="tone">Brisk to cover tears. A hostess at once.</p><div class="meta"><span>first talk</span><span>5.0 s</span><span>marta.hello, line 3</span><span class="id">z2.marta.02</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">I make them every night. Forty bunks, fresh linen. Somebody has to.</p><p class="tone">Matter-of-fact and proud, a little stubborn.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.marta.03</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Halcyon slept by the window. Always cold, always wanted the window. The end one’s hers.</p><p class="tone">Fond, remembering, smiling.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.04</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The cold lights come in at night and look at the beds. Like they’re hoping one’s theirs.</p><p class="tone">Low and puzzled, more sad than frightened. Her guess.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.3 s</span><span class="id">z2.marta.05</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Every night something comes up the hill for the node behind the hall. Wraiths.</p><p class="tone">Plain and grim, then flat on the last word.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.2 s</span><span>marta.node, line 1</span><span class="id">z2.marta.06</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">We’ve held it with buckets of coals and prayers. We’re running out of both.</p><p class="tone">Dry and tired. A joke to stay standing.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.2 s</span><span>marta.node, line 2</span><span class="id">z2.marta.07</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Up the hill behind the hall. You’ll see it burning. It’s the only thing that is.</p><p class="tone">Clear directions, a hand pointing up the hill.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.1 s</span><span>marta.node, line 4</span><span class="id">z2.marta.08</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">story</span></div><p class="words" tabindex="0">Io. Should I stop making the beds? Tell me and I’ll stop.</p><p class="tone">Quiet, almost hoping to be told.</p><div class="meta"><span>node</span><span>a later talk</span><span>4.7 s</span><span>marta.beds, line 1</span><span class="id">z2.marta.09</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">I’ll keep making them. Until somebody tells me different.</p><p class="tone">Stubborn and warm, a small smile.</p><div class="meta"><span>after</span><span>3.5 s</span><span class="id">z2.marta.10</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The road’s warm again. I’ve aired every bed.</p><p class="tone">Bright and busy, pleased.</p><div class="meta"><span>after</span><span>a later talk</span><span>3.1 s</span><span class="id">z2.marta.11</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Io, you two raced up these stairs. She always let you win. You never noticed.</p><p class="tone">Tender and teasing, a story she has told herself many times.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.12</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Forty went north with her. Forty good boots on that floor. I can still hear them.</p><p class="tone">Hushed. Hearing it.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.1 s</span><span class="rests">call 14</span><span class="id">z2.marta.13</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">So the old fool’s still keeping the road. Tell him he can come up for his supper.</p><p class="tone">Exasperated affection.</p><div class="meta"><span>after talking to the roadwarden</span><span>a later talk</span><span>6.3 s</span><span class="id">z2.marta.14</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Tamsin wants to be a Warden. I haven’t the heart to tell her there aren’t any.</p><p class="tone">Soft, a sigh in it.</p><div class="meta"><span>after talking to Tamsin</span><span>a later talk</span><span>5.9 s</span><span class="id">z2.marta.15</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Brann counts the stores twice a day. As if they’ll grow.</p><p class="tone">Dry and fond.</p><div class="meta"><span>after talking to Brann</span><span>a later talk</span><span>4.2 s</span><span class="id">z2.marta.16</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">You’re bleeding on my floor. Sit. No, not on the clean bed.</p><p class="tone">Bossy and quick, not unkind.</p><div class="meta"><span>just won a fight</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.marta.17</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Into a bed, all four. Any one. They’re made.</p><p class="tone">Firm and tender. Her beds have a use at last.</p><div class="meta"><span>just lost a fight</span><span>a later talk</span><span>3.8 s</span><span class="id">z2.marta.18</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">You look like the new ones always looked. Too thin and too sure.</p><p class="tone">Wry, remembering.</p><div class="meta"><span>the four look green</span><span>a later talk</span><span>4.9 s</span><span class="id">z2.marta.19</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">You’ve the look of the forty now. I don’t know if that’s good.</p><p class="tone">Proud and uneasy at once.</p><div class="meta"><span>the four look steady</span><span>a later talk</span><span>4.9 s</span><span class="id">z2.marta.20</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">called in passing</span></div><p class="words" tabindex="0">Wipe your feet!</p><p class="tone">Called after them, sharp. A habit.</p><div class="meta"><span>as the coven passes</span><span>1.2 s</span><span class="id">z2.marta.21</span></div></div><div class="line" data-who="marta"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">You held it. All night. The forty couldn’t have done better. Don’t tell them I said so.</p><p class="tone">Glowing, then a conspirator’s whisper on the last sentence.</p><div class="meta"><span>after</span><span>a later talk</span><span>6.6 s</span><span class="id">z2.marta.22</span></div></div></details>
+<details class="person" data-who="brann"><summary><span class="pname">Brann</span><span class="ptrade">the storekeeper</span><span class="pnums">8 lines · 43 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> zone 2: Dawnroost, the Wardens’ stores. 107 words, about 0.7 minutes.</p><p class="small"><b>Voice:</b> Man, about fifty. From: warm Lancashire. Pitch: low. Pace: steady. Texture: blunt and careful, a counter of things. <em>To audition with:</em> “Twelve casks, nine full, and I want to know who’s been at the tenth.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>He counts the stores twice a day and oils forty sets of buckles nobody wears.</li><li>He wrote down the day each road stone went dark.</li><li>He is saving a cask, and Marta must not know which.</li></ul></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">hello</span></div><p class="words" tabindex="0">Stores are for Wardens. You’re not Wardens. Take what you need anyway.</p><p class="tone">Blunt, then giving way.</p><div class="meta"><span>first talk</span><span>4.9 s</span><span class="id">z2.brann.01</span></div></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Cold lights in the stores last night, poking at the lamp oil. Thirsty, I’d say.</p><p class="tone">A storekeeper’s suspicion. His guess.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.1 s</span><span class="id">z2.brann.02</span></div></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The road stones went dark one by one. I wrote down the days. Nobody’s asked to see.</p><p class="tone">Gruff, a little hurt.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.7 s</span><span class="id">z2.brann.03</span></div></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. Big door, smoke from every chimney. She’ll want to feed you.</p><p class="tone">Plain directions.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>6.1 s</span><span class="to">points to Marta</span><span class="id">z2.brann.04</span></div></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Forty sets of everything, and nobody to wear them. I oil the buckles anyway.</p><p class="tone">Quiet and steady, sad underneath.</p><div class="meta"><span>hall or node</span><span>5.6 s</span><span class="id">z2.brann.05</span></div></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The rule was nobody goes north without spare socks. They all took socks. I counted.</p><p class="tone">Deadpan, with grief under the joke.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.0 s</span><span class="id">z2.brann.06</span></div></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">Node’s held. I’ve opened a cask I was saving. Don’t tell Marta which one.</p><p class="tone">Gruff glee.</p><div class="meta"><span>after</span><span>5.6 s</span><span class="id">z2.brann.07</span></div></div><div class="line" data-who="brann"><div class="who"><span class="kind" style="margin:0">called in passing</span></div><p class="words" tabindex="0">Bring back what you borrow.</p><p class="tone">Called after them, half serious.</p><div class="meta"><span>as the coven passes</span><span>2.0 s</span><span class="id">z2.brann.08</span></div></div></details>
+<details class="person" data-who="tamsin"><summary><span class="pname">Tamsin</span><span class="ptrade">the child</span><span class="pnums">6 lines · 26 s</span></summary><div class="pinfo"><p class="small"><b>Where:</b> zone 2: Dawnroost. 70 words, about 0.4 minutes.</p><p class="small"><b>Voice:</b> Girl, about nine. From: warm Lancashire. Pitch: high. Pace: quick. Texture: bossy and earnest. <em>To audition with:</em> “Halt! State your business! No, wait, I’ve forgotten the next bit.”</p><p class="small"><b>What the lines make up about this person’s life:</b></p><ul class="small"><li>She plays at being a Warden.</li><li>She sleeps in the end bunk by the window when Marta is not looking.</li></ul></div><div class="line" data-who="tamsin"><div class="who"><span class="kind" style="margin:0">hello</span></div><p class="words" tabindex="0">Halt! Who goes there? I’m a Warden. Nearly.</p><p class="tone">Fierce, then honest.</p><div class="meta"><span>first talk</span><span>3.3 s</span><span class="id">z2.tamsin.01</span></div></div><div class="line" data-who="tamsin"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">The cold lights are Wardens who forgot their way home. That’s what I think.</p><p class="tone">Certain, the way children are.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>5.1 s</span><span class="id">z2.tamsin.02</span></div></div><div class="line" data-who="tamsin"><div class="who"><span class="kind" style="margin:0">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. She’ll make you eat. Everybody has to.</p><p class="tone">Matter-of-fact, a little put upon.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.2 s</span><span class="to">points to Marta</span><span class="id">z2.tamsin.03</span></div></div><div class="line" data-who="tamsin"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">I sleep in the end bed when Marta isn’t looking. It’s the best one. It’s by the window.</p><p class="tone">Conspiratorial, proud of her secret.</p><div class="meta"><span>hall or node</span><span>6.6 s</span><span class="id">z2.tamsin.04</span></div></div><div class="line" data-who="tamsin"><div class="who"><span class="kind" style="margin:0">the night as it goes</span></div><p class="words" tabindex="0">I saw you hold the node. I’m going to be a Warden. A real one.</p><p class="tone">Breathless and decided.</p><div class="meta"><span>after</span><span>5.6 s</span><span class="id">z2.tamsin.05</span></div></div><div class="line" data-who="tamsin"><div class="who"><span class="kind" style="margin:0">called in passing</span></div><p class="words" tabindex="0">I’m guarding this bit!</p><p class="tone">Shouted after them, very serious.</p><div class="meta"><span>as the coven passes</span><span>1.5 s</span><span class="id">z2.tamsin.06</span></div></div></details>
+</section>
+<section class="view" id="v-stage">
+<div class="legend"><b>The five stages:</b> <b>landing</b>, the ship sets down at the Warm Roads camp; the roads are cold; <b>nodes</b>, the roadwarden has asked: three road stones have gone dark; <b>hall</b>, the three are lit, and Dawnroost is reached; <b>node</b>, Marta has told what comes at night for the last living node; <b>after</b>, the node holds (the gate fight); the roads warm a little.
+A line that can be said at more than one stage is shown under each of them.</div>
+<details class="stage"><summary><span class="pname">0. landing</span><span class="ptrade">the ship sets down at the Warm Roads camp; the roads are cold</span><span class="pnums">23 lines · 109 s</span></summary>
+<h4>The coven, the landing</h4><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">Frost on the rail. And it isn’t winter.</p><p class="tone">Quiet, noticing first, a little wary.</p><div class="meta"><span>the landing</span><span>3.5 s</span><span>landing, line 1</span><span class="id">z2.callisto.01</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">The threads are thicker here. Like rope.</p><p class="tone">Fascinated, and less playful than usual.</p><div class="meta"><span>the landing</span><span>2.6 s</span><span>landing, line 2</span><span class="id">z2.europa.01</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">Cold. I hate the cold. It’s so final.</p><p class="tone">A shiver turned into a joke. She knows more about final than anyone.</p><p class="cue">Cue: [laughs]</p><div class="meta"><span>the landing</span><span>3.2 s</span><span>landing, line 3</span><span class="id">z2.kore.01</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">The road’s gone cold, Kore. Roads don’t do that.</p><p class="tone">Troubled, her hand flat on the ground.</p><div class="meta"><span>the landing</span><span>3.7 s</span><span>landing, line 4</span><span class="id">z2.io.01</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">Then something’s making it.</p><p class="tone">Quiet, the joke gone out of her.</p><div class="meta"><span>the landing</span><span>1.5 s</span><span>landing, line 5</span><span class="id">z2.kore.02</span></div></div><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">No birds. Not one.</p><p class="tone">Low and flat. She has been listening.</p><div class="meta"><span>the landing</span><span>2.0 s</span><span>landing, line 6</span><span class="id">z2.callisto.02</span></div></div>
+<h4>The Grey Hat</h4><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">story</span></div><p class="words" tabindex="0">Raiders. Low on the left. Hold on to something that isn’t me.</p><p class="tone">Clipped and calm under fire. A dry joke at the end.</p><div class="meta"><span>on the flight in, raiders</span><span>5.2 s</span><span class="id">z2.captain.01</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">story</span></div><p class="words" tabindex="0">That’s them seen off. Nobody touch the lamps.</p><p class="tone">Breathing out, straight back to business.</p><div class="meta"><span>the raiders seen off</span><span>3.5 s</span><span class="id">z2.captain.02</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The flames lean harder here than at the lake. We’re closer.</p><p class="tone">Uneasy, reading the sky.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.captain.11</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Cold like this isn’t weather. Weather moves. This just sits.</p><p class="tone">Low. A sailor’s unease.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>4.4 s</span><span class="id">z2.captain.16</span></div></div>
+<h4>The roadwarden</h4><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The warmth is draining out of the road. North. Like a tide going out.</p><p class="tone">Slow, feeling it under his palm. What he feels, not what he knows.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>5.9 s</span><span class="id">z2.roadwarden.03</span></div></div>
+<h4>The carter</h4><div class="line" data-who="carter"><div class="who">The carter<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Sunstone sulks when something else is hungrier for the warm. Up north, I reckon.</p><p class="tone">A trader’s hunch, half to himself.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>5.5 s</span><span class="id">z2.carter.02</span></div></div><div class="line" data-who="carter"><div class="who">The carter<span class="kind">points the way</span></div><p class="words" tabindex="0">The old Warden at the camp knows these stones. Back down the road, by the fire.</p><p class="tone">Helpful, pointing with his whip.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.2 s</span><span class="to">points to The roadwarden</span><span class="id">z2.carter.03</span></div></div>
+<h4>Marta</h4><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I make them every night. Forty bunks, fresh linen. Somebody has to.</p><p class="tone">Matter-of-fact and proud, a little stubborn.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.marta.03</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Halcyon slept by the window. Always cold, always wanted the window. The end one’s hers.</p><p class="tone">Fond, remembering, smiling.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.04</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The cold lights come in at night and look at the beds. Like they’re hoping one’s theirs.</p><p class="tone">Low and puzzled, more sad than frightened. Her guess.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.3 s</span><span class="id">z2.marta.05</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Io, you two raced up these stairs. She always let you win. You never noticed.</p><p class="tone">Tender and teasing, a story she has told herself many times.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.12</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Forty went north with her. Forty good boots on that floor. I can still hear them.</p><p class="tone">Hushed. Hearing it.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.1 s</span><span class="rests">call 14</span><span class="id">z2.marta.13</span></div></div>
+<h4>Brann</h4><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Cold lights in the stores last night, poking at the lamp oil. Thirsty, I’d say.</p><p class="tone">A storekeeper’s suspicion. His guess.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.1 s</span><span class="id">z2.brann.02</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The road stones went dark one by one. I wrote down the days. Nobody’s asked to see.</p><p class="tone">Gruff, a little hurt.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.7 s</span><span class="id">z2.brann.03</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. Big door, smoke from every chimney. She’ll want to feed you.</p><p class="tone">Plain directions.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>6.1 s</span><span class="to">points to Marta</span><span class="id">z2.brann.04</span></div></div>
+<h4>Tamsin</h4><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The cold lights are Wardens who forgot their way home. That’s what I think.</p><p class="tone">Certain, the way children are.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>5.1 s</span><span class="id">z2.tamsin.02</span></div></div><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. She’ll make you eat. Everybody has to.</p><p class="tone">Matter-of-fact, a little put upon.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.2 s</span><span class="to">points to Marta</span><span class="id">z2.tamsin.03</span></div></div>
+</details>
+<details class="stage"><summary><span class="pname">1. nodes</span><span class="ptrade">the roadwarden has asked: three road stones have gone dark</span><span class="pnums">29 lines · 132 s</span></summary>
+<h4>The coven, at the first dark road stone</h4><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">Look. The warmth is leaving on a thread. North, like everything.</p><p class="tone">Pointing, half fascinated and half annoyed.</p><div class="meta"><span>at the first dark road stone</span><span>4.2 s</span><span>first-node, line 1</span><span class="id">z2.europa.03</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">I’ll light it with something small. Something I can tend.</p><p class="tone">Careful and gentle, cupping a flame.</p><div class="meta"><span>at the first dark road stone</span><span>3.9 s</span><span>first-node, line 2</span><span class="id">z2.io.03</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">Small is good. Small doesn’t get ideas.</p><p class="tone">Wry. A true thing dressed as a joke.</p><div class="meta"><span>at the first dark road stone</span><span>2.7 s</span><span>first-node, line 3</span><span class="id">z2.kore.03</span></div></div><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">Quick. Something’s watching from the trees.</p><p class="tone">Low and fast, a hand on her bow.</p><div class="meta"><span>at the first dark road stone</span><span>2.7 s</span><span>first-node, line 4</span><span class="id">z2.callisto.03</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">There. Sewn shut. Pull all you like.</p><p class="tone">Triumphant and teasing, to whatever is pulling.</p><p class="cue">Cue: [playfully]</p><div class="meta"><span>at the first dark road stone</span><span>2.8 s</span><span>first-node, line 5</span><span class="id">z2.europa.04</span></div></div>
+<h4>The coven, the first road stone lit</h4><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">There. Feel it? Warm.</p><p class="tone">Soft and pleased, her hands around the warmth.</p><div class="meta"><span>the first road stone lit</span><span>1.9 s</span><span>node-lit, line 1</span><span class="id">z2.io.04</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">You’re good at that. Keeping things lit.</p><p class="tone">Fond, with a question hidden in it.</p><div class="meta"><span>the first road stone lit</span><span>2.7 s</span><span>node-lit, line 2</span><span class="id">z2.kore.04</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">It’s not the same as holding on, Kore.</p><p class="tone">Gentle, a little defensive. She has heard the question.</p><div class="meta"><span>the first road stone lit</span><span>3.2 s</span><span>node-lit, line 3</span><span class="id">z2.io.05</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">Isn’t it?</p><p class="tone">Very light. Not an argument. Leave it hanging.</p><div class="meta"><span>the first road stone lit</span><span>0.9 s</span><span>node-lit, line 4</span><span class="id">z2.kore.05</span></div></div><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">Two more. The road’s waiting.</p><p class="tone">Calm, moving them on.</p><div class="meta"><span>the first road stone lit</span><span>2.3 s</span><span>node-lit, line 5</span><span class="id">z2.callisto.04</span></div></div>
+<h4>The Grey Hat</h4><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">She won’t lift on cold stone. Neither would I.</p><p class="tone">Dry, patting the rail.</p><div class="meta"><span>nodes</span><span>a later talk</span><span>3.8 s</span><span class="id">z2.captain.05</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The flames lean harder here than at the lake. We’re closer.</p><p class="tone">Uneasy, reading the sky.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.captain.11</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Cold like this isn’t weather. Weather moves. This just sits.</p><p class="tone">Low. A sailor’s unease.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>4.4 s</span><span class="id">z2.captain.16</span></div></div>
+<h4>The roadwarden</h4><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The warmth is draining out of the road. North. Like a tide going out.</p><p class="tone">Slow, feeling it under his palm. What he feels, not what he knows.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>5.9 s</span><span class="id">z2.roadwarden.03</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">One by the bridge. One in the standing stones, off to the west. One up on the rise.</p><p class="tone">Directions counted off on his fingers, clear and slow.</p><div class="meta"><span>nodes</span><span>a later talk</span><span>7.6 s</span><span class="id">z2.roadwarden.04</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">story</span></div><p class="words" tabindex="0">I should have gone north with them. The forty.</p><p class="tone">Low. It costs him to say it.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>3.8 s</span><span>roadwarden.stayed, line 1</span><span class="rests">call 14</span><span class="id">z2.roadwarden.07</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">story</span></div><p class="words" tabindex="0">I was afraid. So I kept the road instead. Eight years, on my own.</p><p class="tone">Plain, no excuse in it. A small breath before the last words.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>6.1 s</span><span>roadwarden.stayed, line 2</span><span class="id">z2.roadwarden.08</span></div></div>
+<h4>The carter</h4><div class="line" data-who="carter"><div class="who">The carter<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Sunstone sulks when something else is hungrier for the warm. Up north, I reckon.</p><p class="tone">A trader’s hunch, half to himself.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>5.5 s</span><span class="id">z2.carter.02</span></div></div><div class="line" data-who="carter"><div class="who">The carter<span class="kind">points the way</span></div><p class="words" tabindex="0">The old Warden at the camp knows these stones. Back down the road, by the fire.</p><p class="tone">Helpful, pointing with his whip.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.2 s</span><span class="to">points to The roadwarden</span><span class="id">z2.carter.03</span></div></div>
+<h4>Marta</h4><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I make them every night. Forty bunks, fresh linen. Somebody has to.</p><p class="tone">Matter-of-fact and proud, a little stubborn.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.marta.03</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Halcyon slept by the window. Always cold, always wanted the window. The end one’s hers.</p><p class="tone">Fond, remembering, smiling.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.04</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The cold lights come in at night and look at the beds. Like they’re hoping one’s theirs.</p><p class="tone">Low and puzzled, more sad than frightened. Her guess.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.3 s</span><span class="id">z2.marta.05</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Io, you two raced up these stairs. She always let you win. You never noticed.</p><p class="tone">Tender and teasing, a story she has told herself many times.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.12</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Forty went north with her. Forty good boots on that floor. I can still hear them.</p><p class="tone">Hushed. Hearing it.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.1 s</span><span class="rests">call 14</span><span class="id">z2.marta.13</span></div></div>
+<h4>Brann</h4><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Cold lights in the stores last night, poking at the lamp oil. Thirsty, I’d say.</p><p class="tone">A storekeeper’s suspicion. His guess.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.1 s</span><span class="id">z2.brann.02</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The road stones went dark one by one. I wrote down the days. Nobody’s asked to see.</p><p class="tone">Gruff, a little hurt.</p><div class="meta"><span>landing or nodes</span><span>a later talk</span><span>6.7 s</span><span class="id">z2.brann.03</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. Big door, smoke from every chimney. She’ll want to feed you.</p><p class="tone">Plain directions.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>6.1 s</span><span class="to">points to Marta</span><span class="id">z2.brann.04</span></div></div>
+<h4>Tamsin</h4><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The cold lights are Wardens who forgot their way home. That’s what I think.</p><p class="tone">Certain, the way children are.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>5.1 s</span><span class="id">z2.tamsin.02</span></div></div><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. She’ll make you eat. Everybody has to.</p><p class="tone">Matter-of-fact, a little put upon.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.2 s</span><span class="to">points to Marta</span><span class="id">z2.tamsin.03</span></div></div>
+</details>
+<details class="stage"><summary><span class="pname">2. hall</span><span class="ptrade">the three are lit, and Dawnroost is reached</span><span class="pnums">29 lines · 138 s</span></summary>
+<h4>The coven, the first sight of Dawnroost</h4><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">Every chimney lit, and half the windows dark.</p><p class="tone">Quiet observation, taking in the town.</p><div class="meta"><span>the first sight of Dawnroost</span><span>3.5 s</span><span>dawnroost, line 1</span><span class="id">z2.callisto.05</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">Warden blue on every door. Faded.</p><p class="tone">Softer than usual. She notices colour first, and this one is sad.</p><div class="meta"><span>the first sight of Dawnroost</span><span>2.3 s</span><span>dawnroost, line 2</span><span class="id">z2.europa.05</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">I came here as a girl. It was louder.</p><p class="tone">Wistful, a small smile at the memory.</p><div class="meta"><span>the first sight of Dawnroost</span><span>3.6 s</span><span>dawnroost, line 3</span><span class="id">z2.io.06</span></div></div>
+<h4>The coven, the forty beds</h4><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">Forty beds. Every one turned down.</p><p class="tone">Quiet, taking it in.</p><div class="meta"><span>the forty beds</span><span>2.7 s</span><span>forty-beds, line 1</span><span class="id">z2.callisto.06</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">Someone irons these. Every night, someone irons these.</p><p class="tone">A craftswoman’s respect, and it moves her.</p><div class="meta"><span>the forty beds</span><span>3.1 s</span><span>forty-beds, line 2</span><span class="id">z2.europa.06</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">I can’t see how one of them ends. Not one.</p><p class="tone">Almost to herself. Puzzled, and starting to be afraid.</p><div class="meta"><span>the forty beds</span><span>3.7 s</span><span>forty-beds, line 3</span><span class="rests">call 14</span><span class="id">z2.kore.06</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">Her bed’s by the window. It always was.</p><p class="tone">Soft, standing very still.</p><div class="meta"><span>the forty beds</span><span>3.2 s</span><span>forty-beds, line 4</span><span class="rests">call 2</span><span class="id">z2.io.08</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">Nobody’s slept in them. Not a dent.</p><p class="tone">Gentle, smoothing a blanket that needs no smoothing.</p><div class="meta"><span>the forty beds</span><span>2.6 s</span><span>forty-beds, line 5</span><span class="id">z2.europa.07</span></div></div>
+<h4>Kore</h4><div class="line" data-who="kore"><div class="who">Kore<span class="kind">story</span></div><p class="words" tabindex="0">Then tonight, we hold it.</p><p class="tone">Light and certain. Defending, without a laugh.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>2.0 s</span><span>marta.node, line 3</span><span class="id">z2.kore.07</span></div></div>
+<h4>The Grey Hat</h4><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Dawnroost was a proud town. Still is. It just hasn’t noticed it’s empty.</p><p class="tone">Quiet and respectful, a little sad.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.6 s</span><span class="id">z2.captain.08</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The flames lean harder here than at the lake. We’re closer.</p><p class="tone">Uneasy, reading the sky.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.captain.11</span></div></div>
+<h4>The roadwarden</h4><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">story</span></div><p class="words" tabindex="0">I should have gone north with them. The forty.</p><p class="tone">Low. It costs him to say it.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>3.8 s</span><span>roadwarden.stayed, line 1</span><span class="rests">call 14</span><span class="id">z2.roadwarden.07</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">story</span></div><p class="words" tabindex="0">I was afraid. So I kept the road instead. Eight years, on my own.</p><p class="tone">Plain, no excuse in it. A small breath before the last words.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>6.1 s</span><span>roadwarden.stayed, line 2</span><span class="id">z2.roadwarden.08</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Dawnroost’s node is the last one that burns by itself. The rest feed off it.</p><p class="tone">Grave. A Warden explaining a duty.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.2 s</span><span class="id">z2.roadwarden.09</span></div></div>
+<h4>The carter</h4><div class="line" data-who="carter"><div class="who">The carter<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The stones are lit and my cart’s glowing. I’ll stay till morning, just to be warm.</p><p class="tone">Content, a little lazy.</p><div class="meta"><span>hall or node</span><span>6.2 s</span><span class="id">z2.carter.04</span></div></div>
+<h4>Marta</h4><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I make them every night. Forty bunks, fresh linen. Somebody has to.</p><p class="tone">Matter-of-fact and proud, a little stubborn.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.marta.03</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Halcyon slept by the window. Always cold, always wanted the window. The end one’s hers.</p><p class="tone">Fond, remembering, smiling.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.04</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The cold lights come in at night and look at the beds. Like they’re hoping one’s theirs.</p><p class="tone">Low and puzzled, more sad than frightened. Her guess.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.3 s</span><span class="id">z2.marta.05</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">story</span></div><p class="words" tabindex="0">Every night something comes up the hill for the node behind the hall. Wraiths.</p><p class="tone">Plain and grim, then flat on the last word.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.2 s</span><span>marta.node, line 1</span><span class="id">z2.marta.06</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">story</span></div><p class="words" tabindex="0">We’ve held it with buckets of coals and prayers. We’re running out of both.</p><p class="tone">Dry and tired. A joke to stay standing.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.2 s</span><span>marta.node, line 2</span><span class="id">z2.marta.07</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">story</span></div><p class="words" tabindex="0">Up the hill behind the hall. You’ll see it burning. It’s the only thing that is.</p><p class="tone">Clear directions, a hand pointing up the hill.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.1 s</span><span>marta.node, line 4</span><span class="id">z2.marta.08</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Io, you two raced up these stairs. She always let you win. You never noticed.</p><p class="tone">Tender and teasing, a story she has told herself many times.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.12</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Forty went north with her. Forty good boots on that floor. I can still hear them.</p><p class="tone">Hushed. Hearing it.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.1 s</span><span class="rests">call 14</span><span class="id">z2.marta.13</span></div></div>
+<h4>Brann</h4><div class="line" data-who="brann"><div class="who">Brann<span class="kind">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. Big door, smoke from every chimney. She’ll want to feed you.</p><p class="tone">Plain directions.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>6.1 s</span><span class="to">points to Marta</span><span class="id">z2.brann.04</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Forty sets of everything, and nobody to wear them. I oil the buckles anyway.</p><p class="tone">Quiet and steady, sad underneath.</p><div class="meta"><span>hall or node</span><span>5.6 s</span><span class="id">z2.brann.05</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The rule was nobody goes north without spare socks. They all took socks. I counted.</p><p class="tone">Deadpan, with grief under the joke.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.0 s</span><span class="id">z2.brann.06</span></div></div>
+<h4>Tamsin</h4><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The cold lights are Wardens who forgot their way home. That’s what I think.</p><p class="tone">Certain, the way children are.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>5.1 s</span><span class="id">z2.tamsin.02</span></div></div><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">points the way</span></div><p class="words" tabindex="0">Marta’s in the hall. She’ll make you eat. Everybody has to.</p><p class="tone">Matter-of-fact, a little put upon.</p><div class="meta"><span>landing to hall</span><span>a later talk</span><span>4.2 s</span><span class="to">points to Marta</span><span class="id">z2.tamsin.03</span></div></div><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I sleep in the end bed when Marta isn’t looking. It’s the best one. It’s by the window.</p><p class="tone">Conspiratorial, proud of her secret.</p><div class="meta"><span>hall or node</span><span>6.6 s</span><span class="id">z2.tamsin.04</span></div></div>
+</details>
+<details class="stage"><summary><span class="pname">3. node</span><span class="ptrade">Marta has told what comes at night for the last living node</span><span class="pnums">26 lines · 119 s</span></summary>
+<h4>The coven, before the living node</h4><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">Three of them, coming up the hill. Slow.</p><p class="tone">Low and level, counting them.</p><div class="meta"><span>before the living node</span><span>3.7 s</span><span>before-node, line 1</span><span class="id">z2.callisto.07</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">Their threads run back north. Somebody’s sending them.</p><p class="tone">Sharp, worried.</p><div class="meta"><span>before the living node</span><span>3.0 s</span><span>before-node, line 2</span><span class="id">z2.europa.08</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">Io, stay by the node. I’ll stand in front.</p><p class="tone">Easy words, steel under them.</p><div class="meta"><span>before the living node</span><span>3.5 s</span><span>before-node, line 3</span><span class="id">z2.kore.08</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">You keep saying that.</p><p class="tone">Half teasing, half touched.</p><div class="meta"><span>before the living node</span><span>1.6 s</span><span>before-node, line 4</span><span class="id">z2.io.10</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">I keep meaning it.</p><p class="tone">Quiet and plain. No laugh.</p><div class="meta"><span>before the living node</span><span>1.5 s</span><span>before-node, line 5</span><span class="id">z2.kore.09</span></div></div><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">Now.</p><p class="tone">One word, exactly on time. The moment.</p><div class="meta"><span>before the living node</span><span>0.6 s</span><span>before-node, line 6</span><span class="id">z2.callisto.08</span></div></div>
+<h4>Io</h4><div class="line" data-who="io"><div class="who">Io<span class="kind">story</span></div><p class="words" tabindex="0">Keep them made, Marta.</p><p class="tone">Gentle and firm. She cannot let go either.</p><div class="meta"><span>node</span><span>a later talk</span><span>1.8 s</span><span>marta.beds, line 2</span><span class="id">z2.io.09</span></div></div>
+<h4>Kore</h4><div class="line" data-who="kore"><div class="who">Kore<span class="kind">story</span></div><p class="words" tabindex="0">Then tonight, we hold it.</p><p class="tone">Light and certain. Defending, without a laugh.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>2.0 s</span><span>marta.node, line 3</span><span class="id">z2.kore.07</span></div></div>
+<h4>The Grey Hat</h4><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Dawnroost was a proud town. Still is. It just hasn’t noticed it’s empty.</p><p class="tone">Quiet and respectful, a little sad.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.6 s</span><span class="id">z2.captain.08</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Wraiths at night, they say. Don’t be heroes. Be back.</p><p class="tone">Gruff care, kept short.</p><div class="meta"><span>node</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.captain.09</span></div></div>
+<h4>The roadwarden</h4><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">story</span></div><p class="words" tabindex="0">I should have gone north with them. The forty.</p><p class="tone">Low. It costs him to say it.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>3.8 s</span><span>roadwarden.stayed, line 1</span><span class="rests">call 14</span><span class="id">z2.roadwarden.07</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">story</span></div><p class="words" tabindex="0">I was afraid. So I kept the road instead. Eight years, on my own.</p><p class="tone">Plain, no excuse in it. A small breath before the last words.</p><div class="meta"><span>nodes to node</span><span>a later talk</span><span>6.1 s</span><span>roadwarden.stayed, line 2</span><span class="id">z2.roadwarden.08</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Dawnroost’s node is the last one that burns by itself. The rest feed off it.</p><p class="tone">Grave. A Warden explaining a duty.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.2 s</span><span class="id">z2.roadwarden.09</span></div></div>
+<h4>The carter</h4><div class="line" data-who="carter"><div class="who">The carter<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The stones are lit and my cart’s glowing. I’ll stay till morning, just to be warm.</p><p class="tone">Content, a little lazy.</p><div class="meta"><span>hall or node</span><span>6.2 s</span><span class="id">z2.carter.04</span></div></div>
+<h4>Marta</h4><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I make them every night. Forty bunks, fresh linen. Somebody has to.</p><p class="tone">Matter-of-fact and proud, a little stubborn.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.marta.03</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Halcyon slept by the window. Always cold, always wanted the window. The end one’s hers.</p><p class="tone">Fond, remembering, smiling.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.04</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The cold lights come in at night and look at the beds. Like they’re hoping one’s theirs.</p><p class="tone">Low and puzzled, more sad than frightened. Her guess.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.3 s</span><span class="id">z2.marta.05</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">story</span></div><p class="words" tabindex="0">Every night something comes up the hill for the node behind the hall. Wraiths.</p><p class="tone">Plain and grim, then flat on the last word.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.2 s</span><span>marta.node, line 1</span><span class="id">z2.marta.06</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">story</span></div><p class="words" tabindex="0">We’ve held it with buckets of coals and prayers. We’re running out of both.</p><p class="tone">Dry and tired. A joke to stay standing.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>5.2 s</span><span>marta.node, line 2</span><span class="id">z2.marta.07</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">story</span></div><p class="words" tabindex="0">Up the hill behind the hall. You’ll see it burning. It’s the only thing that is.</p><p class="tone">Clear directions, a hand pointing up the hill.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.1 s</span><span>marta.node, line 4</span><span class="id">z2.marta.08</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">story</span></div><p class="words" tabindex="0">Io. Should I stop making the beds? Tell me and I’ll stop.</p><p class="tone">Quiet, almost hoping to be told.</p><div class="meta"><span>node</span><span>a later talk</span><span>4.7 s</span><span>marta.beds, line 1</span><span class="id">z2.marta.09</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Io, you two raced up these stairs. She always let you win. You never noticed.</p><p class="tone">Tender and teasing, a story she has told herself many times.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>5.9 s</span><span class="rests">call 2</span><span class="id">z2.marta.12</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Forty went north with her. Forty good boots on that floor. I can still hear them.</p><p class="tone">Hushed. Hearing it.</p><div class="meta"><span>landing to node</span><span>a later talk</span><span>6.1 s</span><span class="rests">call 14</span><span class="id">z2.marta.13</span></div></div>
+<h4>Brann</h4><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Forty sets of everything, and nobody to wear them. I oil the buckles anyway.</p><p class="tone">Quiet and steady, sad underneath.</p><div class="meta"><span>hall or node</span><span>5.6 s</span><span class="id">z2.brann.05</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The rule was nobody goes north without spare socks. They all took socks. I counted.</p><p class="tone">Deadpan, with grief under the joke.</p><div class="meta"><span>hall or node</span><span>a later talk</span><span>6.0 s</span><span class="id">z2.brann.06</span></div></div>
+<h4>Tamsin</h4><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I sleep in the end bed when Marta isn’t looking. It’s the best one. It’s by the window.</p><p class="tone">Conspiratorial, proud of her secret.</p><div class="meta"><span>hall or node</span><span>6.6 s</span><span class="id">z2.tamsin.04</span></div></div>
+</details>
+<details class="stage"><summary><span class="pname">4. after</span><span class="ptrade">the node holds (the gate fight); the roads warm a little</span><span class="pnums">20 lines · 75 s</span></summary>
+<h4>The coven, after the living node</h4><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">My letters. Kore, they’re folding themselves.</p><p class="tone">Astonished, a little frightened.</p><div class="meta"><span>after the living node</span><span>2.6 s</span><span>after-node, line 1</span><span class="id">z2.io.11</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">They’ve wanted to go somewhere for years.</p><p class="tone">Gentle wonder, watching them.</p><div class="meta"><span>after the living node</span><span>2.5 s</span><span>after-node, line 2</span><span class="id">z2.kore.10</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">Paper wings. Oh, that’s good work.</p><p class="tone">Delighted, a craftswoman admiring the folding.</p><div class="meta"><span>after the living node</span><span>2.4 s</span><span>after-node, line 3</span><span class="id">z2.europa.09</span></div></div><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">It’s waiting for you, Io.</p><p class="tone">Quiet, almost reverent.</p><div class="meta"><span>after the living node</span><span>2.3 s</span><span>after-node, line 4</span><span class="id">z2.callisto.09</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">I never asked it to come.</p><p class="tone">Small and bewildered.</p><div class="meta"><span>after the living node</span><span>2.3 s</span><span>after-node, line 5</span><span class="id">z2.io.12</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">You did. You just never sent it.</p><p class="tone">Tender. The truest thing she says in this zone.</p><p class="cue">Cue: [softly]</p><div class="meta"><span>after the living node</span><span>2.7 s</span><span>after-node, line 6</span><span class="id">z2.kore.11</span></div></div>
+<h4>The coven, the leaving</h4><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">Marta’s still at the window.</p><p class="tone">Looking back, soft.</p><div class="meta"><span>the leaving</span><span>2.0 s</span><span>leaving, line 1</span><span class="id">z2.io.13</span></div></div><div class="line" data-who="kore"><div class="who">Kore<span class="kind">the coven</span></div><p class="words" tabindex="0">She’ll make the beds tonight. And tomorrow.</p><p class="tone">Fond and a little sad. Not a criticism.</p><div class="meta"><span>the leaving</span><span>2.7 s</span><span>leaving, line 2</span><span class="id">z2.kore.12</span></div></div><div class="line" data-who="europa"><div class="who">Europa<span class="kind">the coven</span></div><p class="words" tabindex="0">The road’s glowing all the way back. Like a hem.</p><p class="tone">Pleased, leaning over the rail.</p><div class="meta"><span>the leaving</span><span>3.6 s</span><span>leaving, line 3</span><span class="id">z2.europa.10</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">the coven</span></div><p class="words" tabindex="0">I’ll write to her. And this time I’ll send it.</p><p class="tone">A small promise to herself, surprised by it.</p><div class="meta"><span>the leaving</span><span>3.9 s</span><span>leaving, line 4</span><span class="id">z2.io.14</span></div></div><div class="line" data-who="callisto"><div class="who">Callisto<span class="kind">the coven</span></div><p class="words" tabindex="0">North-east. The lean’s stronger.</p><p class="tone">Calm, eyes ahead.</p><div class="meta"><span>the leaving</span><span>2.0 s</span><span>leaving, line 5</span><span class="id">z2.callisto.10</span></div></div>
+<h4>The Grey Hat</h4><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Warm stone under her. We can fly. North-east, where they lean.</p><p class="tone">Decided. A captain giving the course.</p><div class="meta"><span>after</span><span>4.9 s</span><span class="id">z2.captain.10</span></div></div>
+<h4>The roadwarden</h4><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Warm. Feel it. Not like it was, but warm.</p><p class="tone">Quiet joy, his hand flat on the stone. Let the last word glow.</p><div class="meta"><span>after</span><span>4.2 s</span><span class="id">z2.roadwarden.10</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I’ll keep it through the dark. A road wants keeping, moon or no moon.</p><p class="tone">Settled and steady. A man who has found his work again.</p><div class="meta"><span>after</span><span>a later talk</span><span>5.9 s</span><span class="id">z2.roadwarden.11</span></div></div>
+<h4>The carter</h4><div class="line" data-who="carter"><div class="who">The carter<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I’ll take this load south, where they’ll need it. It’s going to be a long dark.</p><p class="tone">Practical, then quieter on the last sentence.</p><div class="meta"><span>after</span><span>6.2 s</span><span class="id">z2.carter.05</span></div></div>
+<h4>Marta</h4><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I’ll keep making them. Until somebody tells me different.</p><p class="tone">Stubborn and warm, a small smile.</p><div class="meta"><span>after</span><span>3.5 s</span><span class="id">z2.marta.10</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">The road’s warm again. I’ve aired every bed.</p><p class="tone">Bright and busy, pleased.</p><div class="meta"><span>after</span><span>a later talk</span><span>3.1 s</span><span class="id">z2.marta.11</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">You held it. All night. The forty couldn’t have done better. Don’t tell them I said so.</p><p class="tone">Glowing, then a conspirator’s whisper on the last sentence.</p><div class="meta"><span>after</span><span>a later talk</span><span>6.6 s</span><span class="id">z2.marta.22</span></div></div>
+<h4>Brann</h4><div class="line" data-who="brann"><div class="who">Brann<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Node’s held. I’ve opened a cask I was saving. Don’t tell Marta which one.</p><p class="tone">Gruff glee.</p><div class="meta"><span>after</span><span>5.6 s</span><span class="id">z2.brann.07</span></div></div>
+<h4>Tamsin</h4><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">I saw you hold the node. I’m going to be a Warden. A real one.</p><p class="tone">Breathless and decided.</p><div class="meta"><span>after</span><span>5.6 s</span><span class="id">z2.tamsin.05</span></div></div>
+</details>
+<details class="stage"><summary><span class="pname">Any stage</span><span class="ptrade">first hellos, calls, and lines that wait for something else (lamps, a fight, who has been talked to)</span><span class="pnums">36 lines · 150 s</span></summary>
+<h4>Io</h4><div class="line" data-who="io"><div class="who">Io<span class="kind">story</span></div><p class="words" tabindex="0">Show us the first one.</p><p class="tone">Kind and practical, already rolling up her sleeves.</p><div class="meta"><span>first talk</span><span>2.0 s</span><span>roadwarden.ask, line 3</span><span class="id">z2.io.02</span></div></div><div class="line" data-who="io"><div class="who">Io<span class="kind">story</span></div><p class="words" tabindex="0">Hello, Marta.</p><p class="tone">Soft. A girl again for a moment.</p><div class="meta"><span>first talk</span><span>1.1 s</span><span>marta.hello, line 2</span><span class="id">z2.io.07</span></div></div>
+<h4>Europa</h4><div class="line" data-who="europa"><div class="who">Europa<span class="kind">story</span></div><p class="words" tabindex="0">My stitches are holding, captain. Look.</p><p class="tone">Proud, showing off her work on his lamps.</p><div class="meta"><span>first talk</span><span>2.4 s</span><span>captain.landing, line 3</span><span class="id">z2.europa.02</span></div></div>
+<h4>The Grey Hat</h4><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">hello</span></div><p class="words" tabindex="0">Sunstone’s sulking in this cold. We set down here till the roads warm.</p><p class="tone">Flat, cross with the weather, not with them.</p><div class="meta"><span>first talk</span><span>5.4 s</span><span>captain.landing, line 1</span><span class="id">z2.captain.03</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">points the way</span></div><p class="words" tabindex="0">There’s an old Warden by the fire who knows the road. Ask him.</p><p class="tone">Short, pointing with his chin.</p><div class="meta"><span>first talk</span><span>5.4 s</span><span>captain.landing, line 2</span><span class="to">points to The roadwarden</span><span class="id">z2.captain.04</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Feel that? One stone lit, and she’s humming.</p><p class="tone">Pleased in spite of himself.</p><div class="meta"><span>a later talk</span><span>3.6 s</span><span class="id">z2.captain.06</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">All three lit and she’s warm to the hand. Go and see Dawnroost. I’ll wait.</p><p class="tone">Satisfied, waving them on.</p><div class="meta"><span>a later talk</span><span>6.3 s</span><span class="id">z2.captain.07</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Marta fed you. I can tell. You’re walking slower.</p><p class="tone">Deadpan teasing.</p><div class="meta"><span>after talking to Marta</span><span>a later talk</span><span>4.0 s</span><span class="id">z2.captain.12</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Won again. You’ll be wanting a medal. I haven’t got one.</p><p class="tone">Dry and fond.</p><div class="meta"><span>just won a fight</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.captain.13</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Bad night. There’s blankets in the hold.</p><p class="tone">Gruff kindness, no fuss.</p><div class="meta"><span>just lost a fight</span><span>a later talk</span><span>3.1 s</span><span class="id">z2.captain.14</span></div></div><div class="line" data-who="captain"><div class="who">The Grey Hat<span class="kind">called in passing</span></div><p class="words" tabindex="0">Back by morning.</p><p class="tone">Called after them, half an order.</p><div class="meta"><span>as the coven passes</span><span>1.4 s</span><span class="id">z2.captain.15</span></div></div>
+<h4>The roadwarden</h4><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">hello</span></div><p class="words" tabindex="0">Put your hand flat on the road. Feel that? It’s never once been cold.</p><p class="tone">Gruff and urgent, an old man showing strangers a wound.</p><div class="meta"><span>first talk</span><span>5.9 s</span><span>roadwarden.ask, line 1</span><span class="id">z2.roadwarden.01</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">story</span></div><p class="words" tabindex="0">Three of the road stones have gone dark between here and Dawnroost. Light them again.</p><p class="tone">Plain. A request he hates having to make.</p><div class="meta"><span>first talk</span><span>6.2 s</span><span>roadwarden.ask, line 2</span><span class="id">z2.roadwarden.02</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">That’s one lit. I felt it come on, from here.</p><p class="tone">Wonder he tries to hide. A hand pressed to the ground.</p><div class="meta"><span>a later talk</span><span>4.4 s</span><span class="id">z2.roadwarden.05</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">points the way</span></div><p class="words" tabindex="0">All three lit. Go on to Dawnroost. Marta will want to feed you.</p><p class="tone">Relieved and gruffly proud, sending them off.</p><div class="meta"><span>a later talk</span><span>5.6 s</span><span class="to">points to Marta</span><span class="id">z2.roadwarden.06</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Marta still makes up their beds, I hear. Forty. I can’t go and look.</p><p class="tone">Ashamed and tender.</p><div class="meta"><span>after talking to Marta</span><span>a later talk</span><span>6.1 s</span><span class="rests">call 14</span><span class="id">z2.roadwarden.12</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Hot hands, all four. You’ve been fighting. Lend the road some.</p><p class="tone">Dry humour, a little admiring.</p><div class="meta"><span>just won a fight</span><span>a later talk</span><span>4.9 s</span><span class="id">z2.roadwarden.13</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Sit by the fire. Not the stone, the fire. The stone’s got nothing to give yet.</p><p class="tone">Gentle, fussing in his gruff way.</p><div class="meta"><span>just lost a fight</span><span>a later talk</span><span>6.9 s</span><span class="id">z2.roadwarden.14</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">You four walk like Wardens now. I don’t say that lightly.</p><p class="tone">Solemn praise.</p><div class="meta"><span>the four look steady</span><span>a later talk</span><span>4.6 s</span><span class="id">z2.roadwarden.15</span></div></div><div class="line" data-who="roadwarden"><div class="who">The roadwarden<span class="kind">called in passing</span></div><p class="words" tabindex="0">Keep to the stones.</p><p class="tone">Called after them. An old habit of command.</p><div class="meta"><span>as the coven passes</span><span>1.8 s</span><span class="id">z2.roadwarden.16</span></div></div>
+<h4>The carter</h4><div class="line" data-who="carter"><div class="who">The carter<span class="kind">hello</span></div><p class="words" tabindex="0">Sunstone. A whole cart of it, and not one would warm a teacup.</p><p class="tone">Comic despair, slapping the cart.</p><div class="meta"><span>first talk</span><span>5.1 s</span><span class="id">z2.carter.01</span></div></div><div class="line" data-who="carter"><div class="who">The carter<span class="kind">called in passing</span></div><p class="words" tabindex="0">Keep warm, you four.</p><p class="tone">Called after them, friendly.</p><div class="meta"><span>as the coven passes</span><span>1.8 s</span><span class="id">z2.carter.06</span></div></div>
+<h4>Marta</h4><div class="line" data-who="marta"><div class="who">Marta<span class="kind">hello</span></div><p class="words" tabindex="0">Io? Little Io? Look at you. You’ve got her walk.</p><p class="tone">Astonished joy, then a catch on the last words.</p><div class="meta"><span>first talk</span><span>4.1 s</span><span>marta.hello, line 1</span><span class="rests">call 2</span><span class="id">z2.marta.01</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">hello</span></div><p class="words" tabindex="0">The beds are made up. Forty of them. Sleep in any you like.</p><p class="tone">Brisk to cover tears. A hostess at once.</p><div class="meta"><span>first talk</span><span>5.0 s</span><span>marta.hello, line 3</span><span class="id">z2.marta.02</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">So the old fool’s still keeping the road. Tell him he can come up for his supper.</p><p class="tone">Exasperated affection.</p><div class="meta"><span>after talking to the roadwarden</span><span>a later talk</span><span>6.3 s</span><span class="id">z2.marta.14</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Tamsin wants to be a Warden. I haven’t the heart to tell her there aren’t any.</p><p class="tone">Soft, a sigh in it.</p><div class="meta"><span>after talking to Tamsin</span><span>a later talk</span><span>5.9 s</span><span class="id">z2.marta.15</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Brann counts the stores twice a day. As if they’ll grow.</p><p class="tone">Dry and fond.</p><div class="meta"><span>after talking to Brann</span><span>a later talk</span><span>4.2 s</span><span class="id">z2.marta.16</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">You’re bleeding on my floor. Sit. No, not on the clean bed.</p><p class="tone">Bossy and quick, not unkind.</p><div class="meta"><span>just won a fight</span><span>a later talk</span><span>4.8 s</span><span class="id">z2.marta.17</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">Into a bed, all four. Any one. They’re made.</p><p class="tone">Firm and tender. Her beds have a use at last.</p><div class="meta"><span>just lost a fight</span><span>a later talk</span><span>3.8 s</span><span class="id">z2.marta.18</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">You look like the new ones always looked. Too thin and too sure.</p><p class="tone">Wry, remembering.</p><div class="meta"><span>the four look green</span><span>a later talk</span><span>4.9 s</span><span class="id">z2.marta.19</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">the night as it goes</span></div><p class="words" tabindex="0">You’ve the look of the forty now. I don’t know if that’s good.</p><p class="tone">Proud and uneasy at once.</p><div class="meta"><span>the four look steady</span><span>a later talk</span><span>4.9 s</span><span class="id">z2.marta.20</span></div></div><div class="line" data-who="marta"><div class="who">Marta<span class="kind">called in passing</span></div><p class="words" tabindex="0">Wipe your feet!</p><p class="tone">Called after them, sharp. A habit.</p><div class="meta"><span>as the coven passes</span><span>1.2 s</span><span class="id">z2.marta.21</span></div></div>
+<h4>Brann</h4><div class="line" data-who="brann"><div class="who">Brann<span class="kind">hello</span></div><p class="words" tabindex="0">Stores are for Wardens. You’re not Wardens. Take what you need anyway.</p><p class="tone">Blunt, then giving way.</p><div class="meta"><span>first talk</span><span>4.9 s</span><span class="id">z2.brann.01</span></div></div><div class="line" data-who="brann"><div class="who">Brann<span class="kind">called in passing</span></div><p class="words" tabindex="0">Bring back what you borrow.</p><p class="tone">Called after them, half serious.</p><div class="meta"><span>as the coven passes</span><span>2.0 s</span><span class="id">z2.brann.08</span></div></div>
+<h4>Tamsin</h4><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">hello</span></div><p class="words" tabindex="0">Halt! Who goes there? I’m a Warden. Nearly.</p><p class="tone">Fierce, then honest.</p><div class="meta"><span>first talk</span><span>3.3 s</span><span class="id">z2.tamsin.01</span></div></div><div class="line" data-who="tamsin"><div class="who">Tamsin<span class="kind">called in passing</span></div><p class="words" tabindex="0">I’m guarding this bit!</p><p class="tone">Shouted after them, very serious.</p><div class="meta"><span>as the coven passes</span><span>1.5 s</span><span class="id">z2.tamsin.06</span></div></div>
+</details>
+</section>
+<section class="view" id="v-order">
+<p>The whole order, as it goes to ChatGPT. It is also sent as a plain text file and as a spreadsheet file
+(<code>z2-recording-order.csv</code>, one row a line) to check the zips against.</p>
+<button class="copy" id="copyorder">Copy the whole order</button>
+<pre class="order" id="ordertext">COVEN OF THE MOON FAIRE
+VOICE RECORDING ORDER: ZONE 2 (THE WARM ROADS AND DAWNROOST)
+Made November 19, 2026. 120 lines, 10 speakers, about 8.1 minutes of speech.
+
+WHAT THIS IS
+These are the spoken lines for part 2 (&quot;zone 2&quot;) of a small fantasy video game. Every person in the game speaks aloud. Each line below is recorded as its own sound file, in the voice of the person who says it. The game finds each sound by its file name, so the names must be exactly as written here. The lines are British English.
+
+HOW TO MAKE THE FILES
+ 1. Model: ElevenLabs Eleven v4 (model id eleven_v4).
+ 2. Returning voices: Io, Kore, Europa, Callisto, the Grey Hat were recorded for an earlier zone. Use the very same voice and settings as before, so each sounds like the same person.
+ 3. One voice for each speaker. Choose it from the voice note under the speaker’s name, test it with the audition line (do not save the audition as a file), then use that same voice, with the same settings, for every one of that speaker’s lines.
+ 4. Say exactly the words after &quot;Say:&quot;. Do not add, drop or change a word.
+ 5. Words in [square brackets] are delivery cues (Eleven v4 audio tags), not words to speak. If a cue is spoken aloud by mistake, make the line again without the cue.
+ 6. &quot;Tone:&quot; says how the line should sound. It is never spoken. If a line comes out in the wrong tone, make it again; you may put a short cue from the tone note in square brackets at its start, such as [dryly] or [gently].
+ 7. One sound file for each line, named by its file name exactly, for example z2.captain.01.mp3 (lower case, with the dots as shown).
+ 8. MP3, one channel (mono), 44.1 kHz, 64 kbps (ElevenLabs output format mp3_44100_64). If a file comes out with two channels, mix it down to one.
+ 9. Silence: no more than a fifth of a second (0.2 s) of silence at the start and at the end of each file. Trim any longer silence.
+10. Loudness: the same for every file and every speaker. Normalise each file to about -18 LUFS (integrated), with peaks no higher than -1 dBFS.
+11. Packing: one zip for each speaker, named as shown under the speaker (for example z2-io.zip). Inside it: that speaker’s sound files, and a list named like z2-io-list.csv with two columns, file and seconds: each file’s name and its length in seconds, to one decimal place.
+12. Check before handing back: 120 files in 10 zips, every file name below present once, and nothing else.
+
+HOW TO SAY THE NAMES
+If a name comes out wrong, Eleven v4 reads the International Phonetic Alphabet written between slashes in the text, for example /ˈaɪ.oʊ/ for Io.
+  Io          EYE-oh                 /ˈaɪ.oʊ/
+  Kore        KOR-ee                 /ˈkɔːri/
+  Marta       MAR-tuh                /ˈmɑːtə/
+  Brann       BRAN                   /bræn/
+  Tamsin      TAM-zin                /ˈtæmzɪn/
+  Dawnroost   DAWN-roost             /ˈdɔːnruːst/
+  Halcyon     HAL-see-on             /ˈhælsiən/
+
+==============================================================================
+SPEAKER: io   Io, the Herbal Witch
+ZIP: z2-io.zip   (14 lines, about 37 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-io.zip). For reference: Woman, about thirty. From: a faint trace of Wickhollow’s soft West Country, worn down by years on the road. Pitch: low-middle. Pace: unhurried. Texture: warm and gentle, with steel under the softness.
+------------------------------------------------------------------------------
+z2.io.01.mp3
+  Say:  The road’s gone cold, Kore. Roads don’t do that.
+  Tone: Troubled, her hand flat on the ground.
+
+z2.io.02.mp3
+  Say:  Show us the first one.
+  Tone: Kind and practical, already rolling up her sleeves.
+
+z2.io.03.mp3
+  Say:  I’ll light it with something small. Something I can tend.
+  Tone: Careful and gentle, cupping a flame.
+
+z2.io.04.mp3
+  Say:  There. Feel it? Warm.
+  Tone: Soft and pleased, her hands around the warmth.
+
+z2.io.05.mp3
+  Say:  It’s not the same as holding on, Kore.
+  Tone: Gentle, a little defensive. She has heard the question.
+
+z2.io.06.mp3
+  Say:  I came here as a girl. It was louder.
+  Tone: Wistful, a small smile at the memory.
+
+z2.io.07.mp3
+  Say:  Hello, Marta.
+  Tone: Soft. A girl again for a moment.
+
+z2.io.08.mp3
+  Say:  Her bed’s by the window. It always was.
+  Tone: Soft, standing very still.
+
+z2.io.09.mp3
+  Say:  Keep them made, Marta.
+  Tone: Gentle and firm. She cannot let go either.
+
+z2.io.10.mp3
+  Say:  You keep saying that.
+  Tone: Half teasing, half touched.
+
+z2.io.11.mp3
+  Say:  My letters. Kore, they’re folding themselves.
+  Tone: Astonished, a little frightened.
+
+z2.io.12.mp3
+  Say:  I never asked it to come.
+  Tone: Small and bewildered.
+
+z2.io.13.mp3
+  Say:  Marta’s still at the window.
+  Tone: Looking back, soft.
+
+z2.io.14.mp3
+  Say:  I’ll write to her. And this time I’ll send it.
+  Tone: A small promise to herself, surprised by it.
+
+==============================================================================
+SPEAKER: kore   Kore, the Jester
+ZIP: z2-kore.zip   (12 lines, about 30 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-kore.zip). For reference: Woman, about thirty. From: clear stage speech, from nowhere in particular. Pitch: middle, bright. Pace: quick, and can stop dead. Texture: a trained performer’s voice that can drop to a hush, laughter always close under the words.
+------------------------------------------------------------------------------
+z2.kore.01.mp3
+  Say:  [laughs] Cold. I hate the cold. It’s so final.
+  Tone: A shiver turned into a joke. She knows more about final than anyone.
+
+z2.kore.02.mp3
+  Say:  Then something’s making it.
+  Tone: Quiet, the joke gone out of her.
+
+z2.kore.03.mp3
+  Say:  Small is good. Small doesn’t get ideas.
+  Tone: Wry. A true thing dressed as a joke.
+
+z2.kore.04.mp3
+  Say:  You’re good at that. Keeping things lit.
+  Tone: Fond, with a question hidden in it.
+
+z2.kore.05.mp3
+  Say:  Isn’t it?
+  Tone: Very light. Not an argument. Leave it hanging.
+
+z2.kore.06.mp3
+  Say:  I can’t see how one of them ends. Not one.
+  Tone: Almost to herself. Puzzled, and starting to be afraid.
+
+z2.kore.07.mp3
+  Say:  Then tonight, we hold it.
+  Tone: Light and certain. Defending, without a laugh.
+
+z2.kore.08.mp3
+  Say:  Io, stay by the node. I’ll stand in front.
+  Tone: Easy words, steel under them.
+
+z2.kore.09.mp3
+  Say:  I keep meaning it.
+  Tone: Quiet and plain. No laugh.
+
+z2.kore.10.mp3
+  Say:  They’ve wanted to go somewhere for years.
+  Tone: Gentle wonder, watching them.
+
+z2.kore.11.mp3
+  Say:  [softly] You did. You just never sent it.
+  Tone: Tender. The truest thing she says in this zone.
+
+z2.kore.12.mp3
+  Say:  She’ll make the beds tonight. And tomorrow.
+  Tone: Fond and a little sad. Not a criticism.
+
+==============================================================================
+SPEAKER: europa   Europa, the Fox
+ZIP: z2-europa.zip   (10 lines, about 29 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-europa.zip). For reference: Woman, late twenties. From: a slight Irish lilt. Pitch: middle-high. Pace: quick. Texture: light and playful, a smile in it.
+------------------------------------------------------------------------------
+z2.europa.01.mp3
+  Say:  The threads are thicker here. Like rope.
+  Tone: Fascinated, and less playful than usual.
+
+z2.europa.02.mp3
+  Say:  My stitches are holding, captain. Look.
+  Tone: Proud, showing off her work on his lamps.
+
+z2.europa.03.mp3
+  Say:  Look. The warmth is leaving on a thread. North, like everything.
+  Tone: Pointing, half fascinated and half annoyed.
+
+z2.europa.04.mp3
+  Say:  [playfully] There. Sewn shut. Pull all you like.
+  Tone: Triumphant and teasing, to whatever is pulling.
+
+z2.europa.05.mp3
+  Say:  Warden blue on every door. Faded.
+  Tone: Softer than usual. She notices colour first, and this one is sad.
+
+z2.europa.06.mp3
+  Say:  Someone irons these. Every night, someone irons these.
+  Tone: A craftswoman’s respect, and it moves her.
+
+z2.europa.07.mp3
+  Say:  Nobody’s slept in them. Not a dent.
+  Tone: Gentle, smoothing a blanket that needs no smoothing.
+
+z2.europa.08.mp3
+  Say:  Their threads run back north. Somebody’s sending them.
+  Tone: Sharp, worried.
+
+z2.europa.09.mp3
+  Say:  Paper wings. Oh, that’s good work.
+  Tone: Delighted, a craftswoman admiring the folding.
+
+z2.europa.10.mp3
+  Say:  The road’s glowing all the way back. Like a hem.
+  Tone: Pleased, leaning over the rail.
+
+==============================================================================
+SPEAKER: callisto   Callisto, the Ranger
+ZIP: z2-callisto.zip   (10 lines, about 25 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-callisto.zip). For reference: Woman, mid twenties. From: a faint accent nobody else in the game has (a light Scandinavian lilt). Pitch: low. Pace: slow and measured. Texture: calm and spare, every word meant.
+------------------------------------------------------------------------------
+z2.callisto.01.mp3
+  Say:  Frost on the rail. And it isn’t winter.
+  Tone: Quiet, noticing first, a little wary.
+
+z2.callisto.02.mp3
+  Say:  No birds. Not one.
+  Tone: Low and flat. She has been listening.
+
+z2.callisto.03.mp3
+  Say:  Quick. Something’s watching from the trees.
+  Tone: Low and fast, a hand on her bow.
+
+z2.callisto.04.mp3
+  Say:  Two more. The road’s waiting.
+  Tone: Calm, moving them on.
+
+z2.callisto.05.mp3
+  Say:  Every chimney lit, and half the windows dark.
+  Tone: Quiet observation, taking in the town.
+
+z2.callisto.06.mp3
+  Say:  Forty beds. Every one turned down.
+  Tone: Quiet, taking it in.
+
+z2.callisto.07.mp3
+  Say:  Three of them, coming up the hill. Slow.
+  Tone: Low and level, counting them.
+
+z2.callisto.08.mp3
+  Say:  Now.
+  Tone: One word, exactly on time. The moment.
+
+z2.callisto.09.mp3
+  Say:  It’s waiting for you, Io.
+  Tone: Quiet, almost reverent.
+
+z2.callisto.10.mp3
+  Say:  North-east. The lean’s stronger.
+  Tone: Calm, eyes ahead.
+
+==============================================================================
+SPEAKER: captain   The Grey Hat, the captain
+ZIP: z2-captain.zip   (16 lines, about 71 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-captain.zip). For reference: Man, about forty-five. From: a faint east-coast Scots burr. Pitch: low. Pace: slow, clipped. Texture: a little weathered, deadpan, says less than he means.
+------------------------------------------------------------------------------
+z2.captain.01.mp3
+  Say:  Raiders. Low on the left. Hold on to something that isn’t me.
+  Tone: Clipped and calm under fire. A dry joke at the end.
+
+z2.captain.02.mp3
+  Say:  That’s them seen off. Nobody touch the lamps.
+  Tone: Breathing out, straight back to business.
+
+z2.captain.03.mp3
+  Say:  Sunstone’s sulking in this cold. We set down here till the roads warm.
+  Tone: Flat, cross with the weather, not with them.
+
+z2.captain.04.mp3
+  Say:  There’s an old Warden by the fire who knows the road. Ask him.
+  Tone: Short, pointing with his chin.
+
+z2.captain.05.mp3
+  Say:  She won’t lift on cold stone. Neither would I.
+  Tone: Dry, patting the rail.
+
+z2.captain.06.mp3
+  Say:  Feel that? One stone lit, and she’s humming.
+  Tone: Pleased in spite of himself.
+
+z2.captain.07.mp3
+  Say:  All three lit and she’s warm to the hand. Go and see Dawnroost. I’ll wait.
+  Tone: Satisfied, waving them on.
+
+z2.captain.08.mp3
+  Say:  Dawnroost was a proud town. Still is. It just hasn’t noticed it’s empty.
+  Tone: Quiet and respectful, a little sad.
+
+z2.captain.09.mp3
+  Say:  Wraiths at night, they say. Don’t be heroes. Be back.
+  Tone: Gruff care, kept short.
+
+z2.captain.10.mp3
+  Say:  Warm stone under her. We can fly. North-east, where they lean.
+  Tone: Decided. A captain giving the course.
+
+z2.captain.11.mp3
+  Say:  The flames lean harder here than at the lake. We’re closer.
+  Tone: Uneasy, reading the sky.
+
+z2.captain.12.mp3
+  Say:  Marta fed you. I can tell. You’re walking slower.
+  Tone: Deadpan teasing.
+
+z2.captain.13.mp3
+  Say:  Won again. You’ll be wanting a medal. I haven’t got one.
+  Tone: Dry and fond.
+
+z2.captain.14.mp3
+  Say:  Bad night. There’s blankets in the hold.
+  Tone: Gruff kindness, no fuss.
+
+z2.captain.15.mp3
+  Say:  Back by morning.
+  Tone: Called after them, half an order.
+
+z2.captain.16.mp3
+  Say:  Cold like this isn’t weather. Weather moves. This just sits.
+  Tone: Low. A sailor’s unease.
+
+==============================================================================
+SPEAKER: roadwarden   The roadwarden, the roadwarden
+ZIP: z2-roadwarden.zip   (16 lines, about 86 seconds)
+VOICE: NEW. Man, about seventy. From: warm Lancashire (the Warm Roads and Dawnroost). Pitch: low. Pace: slow. Texture: rough and kind, an old soldier who talks to stones.
+AUDITION LINE (to choose the voice, not a file): Stone remembers. Put your hand on it and it’ll tell you what it’s had.
+------------------------------------------------------------------------------
+z2.roadwarden.01.mp3
+  Say:  Put your hand flat on the road. Feel that? It’s never once been cold.
+  Tone: Gruff and urgent, an old man showing strangers a wound.
+
+z2.roadwarden.02.mp3
+  Say:  Three of the road stones have gone dark between here and Dawnroost. Light them again.
+  Tone: Plain. A request he hates having to make.
+
+z2.roadwarden.03.mp3
+  Say:  The warmth is draining out of the road. North. Like a tide going out.
+  Tone: Slow, feeling it under his palm. What he feels, not what he knows.
+
+z2.roadwarden.04.mp3
+  Say:  One by the bridge. One in the standing stones, off to the west. One up on the rise.
+  Tone: Directions counted off on his fingers, clear and slow.
+
+z2.roadwarden.05.mp3
+  Say:  That’s one lit. I felt it come on, from here.
+  Tone: Wonder he tries to hide. A hand pressed to the ground.
+
+z2.roadwarden.06.mp3
+  Say:  All three lit. Go on to Dawnroost. Marta will want to feed you.
+  Tone: Relieved and gruffly proud, sending them off.
+
+z2.roadwarden.07.mp3
+  Say:  I should have gone north with them. The forty.
+  Tone: Low. It costs him to say it.
+
+z2.roadwarden.08.mp3
+  Say:  I was afraid. So I kept the road instead. Eight years, on my own.
+  Tone: Plain, no excuse in it. A small breath before the last words.
+
+z2.roadwarden.09.mp3
+  Say:  Dawnroost’s node is the last one that burns by itself. The rest feed off it.
+  Tone: Grave. A Warden explaining a duty.
+
+z2.roadwarden.10.mp3
+  Say:  Warm. Feel it. Not like it was, but warm.
+  Tone: Quiet joy, his hand flat on the stone. Let the last word glow.
+
+z2.roadwarden.11.mp3
+  Say:  I’ll keep it through the dark. A road wants keeping, moon or no moon.
+  Tone: Settled and steady. A man who has found his work again.
+
+z2.roadwarden.12.mp3
+  Say:  Marta still makes up their beds, I hear. Forty. I can’t go and look.
+  Tone: Ashamed and tender.
+
+z2.roadwarden.13.mp3
+  Say:  Hot hands, all four. You’ve been fighting. Lend the road some.
+  Tone: Dry humour, a little admiring.
+
+z2.roadwarden.14.mp3
+  Say:  Sit by the fire. Not the stone, the fire. The stone’s got nothing to give yet.
+  Tone: Gentle, fussing in his gruff way.
+
+z2.roadwarden.15.mp3
+  Say:  You four walk like Wardens now. I don’t say that lightly.
+  Tone: Solemn praise.
+
+z2.roadwarden.16.mp3
+  Say:  Keep to the stones.
+  Tone: Called after them. An old habit of command.
+
+==============================================================================
+SPEAKER: carter   The carter, the carter
+ZIP: z2-carter.zip   (6 lines, about 31 seconds)
+VOICE: NEW. Man, about forty. From: warm Lancashire. Pitch: middle. Pace: easy. Texture: a cheerful grumbler.
+AUDITION LINE (to choose the voice, not a file): A cart’s only as good as its axle and its driver, and I’m not sure about either.
+------------------------------------------------------------------------------
+z2.carter.01.mp3
+  Say:  Sunstone. A whole cart of it, and not one would warm a teacup.
+  Tone: Comic despair, slapping the cart.
+
+z2.carter.02.mp3
+  Say:  Sunstone sulks when something else is hungrier for the warm. Up north, I reckon.
+  Tone: A trader’s hunch, half to himself.
+
+z2.carter.03.mp3
+  Say:  The old Warden at the camp knows these stones. Back down the road, by the fire.
+  Tone: Helpful, pointing with his whip.
+
+z2.carter.04.mp3
+  Say:  The stones are lit and my cart’s glowing. I’ll stay till morning, just to be warm.
+  Tone: Content, a little lazy.
+
+z2.carter.05.mp3
+  Say:  I’ll take this load south, where they’ll need it. It’s going to be a long dark.
+  Tone: Practical, then quieter on the last sentence.
+
+z2.carter.06.mp3
+  Say:  Keep warm, you four.
+  Tone: Called after them, friendly.
+
+==============================================================================
+SPEAKER: marta   Marta, the keeper of the Wardens’ hall
+ZIP: z2-marta.zip   (22 lines, about 108 seconds)
+VOICE: NEW. Woman, about sixty-eight. From: warm Lancashire. Pitch: middle. Pace: quick. Texture: motherly and bossy, a voice like a clean apron.
+AUDITION LINE (to choose the voice, not a file): Boots off, hands washed, and nobody sits down till I say.
+------------------------------------------------------------------------------
+z2.marta.01.mp3
+  Say:  Io? Little Io? Look at you. You’ve got her walk.
+  Tone: Astonished joy, then a catch on the last words.
+
+z2.marta.02.mp3
+  Say:  The beds are made up. Forty of them. Sleep in any you like.
+  Tone: Brisk to cover tears. A hostess at once.
+
+z2.marta.03.mp3
+  Say:  I make them every night. Forty bunks, fresh linen. Somebody has to.
+  Tone: Matter-of-fact and proud, a little stubborn.
+
+z2.marta.04.mp3
+  Say:  Halcyon slept by the window. Always cold, always wanted the window. The end one’s hers.
+  Tone: Fond, remembering, smiling.
+
+z2.marta.05.mp3
+  Say:  The cold lights come in at night and look at the beds. Like they’re hoping one’s theirs.
+  Tone: Low and puzzled, more sad than frightened. Her guess.
+
+z2.marta.06.mp3
+  Say:  Every night something comes up the hill for the node behind the hall. Wraiths.
+  Tone: Plain and grim, then flat on the last word.
+
+z2.marta.07.mp3
+  Say:  We’ve held it with buckets of coals and prayers. We’re running out of both.
+  Tone: Dry and tired. A joke to stay standing.
+
+z2.marta.08.mp3
+  Say:  Up the hill behind the hall. You’ll see it burning. It’s the only thing that is.
+  Tone: Clear directions, a hand pointing up the hill.
+
+z2.marta.09.mp3
+  Say:  Io. Should I stop making the beds? Tell me and I’ll stop.
+  Tone: Quiet, almost hoping to be told.
+
+z2.marta.10.mp3
+  Say:  I’ll keep making them. Until somebody tells me different.
+  Tone: Stubborn and warm, a small smile.
+
+z2.marta.11.mp3
+  Say:  The road’s warm again. I’ve aired every bed.
+  Tone: Bright and busy, pleased.
+
+z2.marta.12.mp3
+  Say:  Io, you two raced up these stairs. She always let you win. You never noticed.
+  Tone: Tender and teasing, a story she has told herself many times.
+
+z2.marta.13.mp3
+  Say:  Forty went north with her. Forty good boots on that floor. I can still hear them.
+  Tone: Hushed. Hearing it.
+
+z2.marta.14.mp3
+  Say:  So the old fool’s still keeping the road. Tell him he can come up for his supper.
+  Tone: Exasperated affection.
+
+z2.marta.15.mp3
+  Say:  Tamsin wants to be a Warden. I haven’t the heart to tell her there aren’t any.
+  Tone: Soft, a sigh in it.
+
+z2.marta.16.mp3
+  Say:  Brann counts the stores twice a day. As if they’ll grow.
+  Tone: Dry and fond.
+
+z2.marta.17.mp3
+  Say:  You’re bleeding on my floor. Sit. No, not on the clean bed.
+  Tone: Bossy and quick, not unkind.
+
+z2.marta.18.mp3
+  Say:  Into a bed, all four. Any one. They’re made.
+  Tone: Firm and tender. Her beds have a use at last.
+
+z2.marta.19.mp3
+  Say:  You look like the new ones always looked. Too thin and too sure.
+  Tone: Wry, remembering.
+
+z2.marta.20.mp3
+  Say:  You’ve the look of the forty now. I don’t know if that’s good.
+  Tone: Proud and uneasy at once.
+
+z2.marta.21.mp3
+  Say:  Wipe your feet!
+  Tone: Called after them, sharp. A habit.
+
+z2.marta.22.mp3
+  Say:  You held it. All night. The forty couldn’t have done better. Don’t tell them I said so.
+  Tone: Glowing, then a conspirator’s whisper on the last sentence.
+
+==============================================================================
+SPEAKER: brann   Brann, the storekeeper
+ZIP: z2-brann.zip   (8 lines, about 43 seconds)
+VOICE: NEW. Man, about fifty. From: warm Lancashire. Pitch: low. Pace: steady. Texture: blunt and careful, a counter of things.
+AUDITION LINE (to choose the voice, not a file): Twelve casks, nine full, and I want to know who’s been at the tenth.
+------------------------------------------------------------------------------
+z2.brann.01.mp3
+  Say:  Stores are for Wardens. You’re not Wardens. Take what you need anyway.
+  Tone: Blunt, then giving way.
+
+z2.brann.02.mp3
+  Say:  Cold lights in the stores last night, poking at the lamp oil. Thirsty, I’d say.
+  Tone: A storekeeper’s suspicion. His guess.
+
+z2.brann.03.mp3
+  Say:  The road stones went dark one by one. I wrote down the days. Nobody’s asked to see.
+  Tone: Gruff, a little hurt.
+
+z2.brann.04.mp3
+  Say:  Marta’s in the hall. Big door, smoke from every chimney. She’ll want to feed you.
+  Tone: Plain directions.
+
+z2.brann.05.mp3
+  Say:  Forty sets of everything, and nobody to wear them. I oil the buckles anyway.
+  Tone: Quiet and steady, sad underneath.
+
+z2.brann.06.mp3
+  Say:  The rule was nobody goes north without spare socks. They all took socks. I counted.
+  Tone: Deadpan, with grief under the joke.
+
+z2.brann.07.mp3
+  Say:  Node’s held. I’ve opened a cask I was saving. Don’t tell Marta which one.
+  Tone: Gruff glee.
+
+z2.brann.08.mp3
+  Say:  Bring back what you borrow.
+  Tone: Called after them, half serious.
+
+==============================================================================
+SPEAKER: tamsin   Tamsin, the child
+ZIP: z2-tamsin.zip   (6 lines, about 26 seconds)
+VOICE: NEW. Girl, about nine. From: warm Lancashire. Pitch: high. Pace: quick. Texture: bossy and earnest.
+AUDITION LINE (to choose the voice, not a file): Halt! State your business! No, wait, I’ve forgotten the next bit.
+------------------------------------------------------------------------------
+z2.tamsin.01.mp3
+  Say:  Halt! Who goes there? I’m a Warden. Nearly.
+  Tone: Fierce, then honest.
+
+z2.tamsin.02.mp3
+  Say:  The cold lights are Wardens who forgot their way home. That’s what I think.
+  Tone: Certain, the way children are.
+
+z2.tamsin.03.mp3
+  Say:  Marta’s in the hall. She’ll make you eat. Everybody has to.
+  Tone: Matter-of-fact, a little put upon.
+
+z2.tamsin.04.mp3
+  Say:  I sleep in the end bed when Marta isn’t looking. It’s the best one. It’s by the window.
+  Tone: Conspiratorial, proud of her secret.
+
+z2.tamsin.05.mp3
+  Say:  I saw you hold the node. I’m going to be a Warden. A real one.
+  Tone: Breathless and decided.
+
+z2.tamsin.06.mp3
+  Say:  I’m guarding this bit!
+  Tone: Shouted after them, very serious.
+
+==============================================================================
+END OF ZONE 2
+</pre>
+</section>
+<footer>
+<p><strong>What was checked</strong> (<code>tools/talk-check.py</code>: all good). Every person has the brief’s count of
+lines. No line is over 24 words (the longest is 18). No dashes,
+semicolons, trailing dots, numbers in digits, banned words or spell names. Only approved names are said, and the chestnut
+roaster’s never is. Every person has something to say at every stage after the first talk, and every ordinary
+person points the coven to one of the people with many lines by a place. Every story talk is in order, six lines at most,
+two of them a witch’s at most. Every id is used once.</p>
+<p><strong>Not checked:</strong> how the lines sound in real voices. The seconds are worked out from the words (about 2.8 a second), so they are a guess until the recordings come back with their real lengths.</p>
+<p>Made by <code>tools/talk-reading.py</code> from <code>game/talk/zone-2.js</code> and <code>game/talk/cast.js</code>,
+on the branch <code>job/story</code>.</p>
+</footer>
+</main>
+<script>
+(function(){
+  var S=window.speechSynthesis, now=null;
+  function stop(){ if(now){ now.classList.remove('saying'); now=null; } }
+  function say(el){
+    if(!S){ return; }
+    if(now===el){ S.cancel(); stop(); return; }
+    S.cancel(); stop();
+    var u=new SpeechSynthesisUtterance(el.textContent); u.rate=0.95; u.lang='en-GB';
+    u.onend=u.onerror=function(){ if(now===el) stop(); };
+    now=el; el.classList.add('saying'); S.speak(u);
+  }
+  document.querySelectorAll('.words').forEach(function(el){
+    el.addEventListener('click',function(){ say(el); });
+    el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); say(el); } });
+  });
+  if(!S){ var n=document.getElementById('tapnote'); if(n) n.textContent='(This browser cannot read aloud, so tapping does nothing here.)'; }
+})();
+
+(function(){
+  var tabs=document.querySelectorAll('.tabs button');
+  tabs.forEach(function(b){ b.addEventListener('click',function(){
+    tabs.forEach(function(x){ x.setAttribute('aria-selected', x===b ? 'true':'false'); });
+    document.querySelectorAll('.view').forEach(function(v){ v.classList.toggle('on', v.id===b.dataset.view); });
+  }); });
+  var c=document.getElementById('copyorder');
+  if(c) c.addEventListener('click',function(){
+    var t=document.getElementById('ordertext').textContent;
+    function done(){ c.textContent='Copied'; setTimeout(function(){ c.textContent='Copy the whole order'; },2000); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done,function(){}); }
+  });
+})();
+</script>
+</body></html>

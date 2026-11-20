@@ -33,15 +33,15 @@ NAMES = {
     'Io', 'Kore', 'Europa', 'Callisto',
     'Odile', 'Bashir', 'Zofia', 'Linnet', 'Otto', 'Corwin', 'Ros', 'Tully', 'Bridie', 'Jory',
     'Nettie', 'Hilde', 'Gretch', 'Quill', 'Wenna', 'Tobb', 'Pell', 'Halcyon',
-    'Wickhollow', 'Thornwood', 'Bogmire', 'Misthollow', 'Dawnroost', 'Aethermoor', 'Faire', 'Grey', 'Hat',
-    'Warm', 'Roads', 'Old', 'Mayor', 'Moon', 'Ember', 'Wardens',
+    'Marta', 'Brann', 'Tamsin', 'Ysmera', 'Gil', 'Tock', 'Pim', 'Sorrel', 'Ede',
+    'Wickhollow', 'Thornwood', 'Bogmire', 'Misthollow', 'Dawnroost', 'Eldergrove', 'Aethermoor', 'Faire', 'Grey', 'Hat',
+    'Warm', 'Roads', 'Old', 'Mayor', 'Moon', 'Ember', 'Warden', 'Wardens', 'Moonwell',
 }
-WORLD_WORDS = {'Old', 'Mayor', 'Moon', 'Warm', 'Roads', 'Grey', 'Hat', 'Faire', 'Ember', 'Wardens'}  # not counted as names
-NEVER = {'Kofi': 'Kofi’s name is never said aloud (it sounds like Kore): Chris, November 19',
-         'Moonwell': 'call 5: no Moonwell in Wickhollow in zone 1'}
+WORLD_WORDS = {'Old', 'Mayor', 'Moon', 'Warm', 'Roads', 'Grey', 'Hat', 'Faire', 'Ember', 'Warden', 'Wardens'}  # not counted as names
+NEVER = {'Kofi': 'Kofi’s name is never said aloud (it sounds like Kore): Chris, November 19'}
+NEVER_IN = {'z1': {'Moonwell': 'call 5: no Moonwell in Wickhollow in zone 1'}}
 CAREFUL = {'Auros': 'say "the moon" unless the line truly needs Auros',
-           'Halcyon': 'her name: is it needed here?',
-           'Thareia': 'the world’s name: nobody in zone 1 needs it'}
+           'Thareia': 'the world’s name: nobody needs it'}
 BANNED = ['level', 'levels', 'hp', 'mp', 'experience', 'quest', 'quests', 'player', 'players', 'game', 'games',
           'zone', 'zones']
 SPELLS = ['sealed fate', 'curtain call', 'same cloth', 'crazy quilt', 'slip stitch', 'borrowed face', 'thornwake',
@@ -50,11 +50,23 @@ SPELLS = ['sealed fate', 'curtain call', 'same cloth', 'crazy quilt', 'slip stit
           'crescent blades', 'doom dance', 'gilded rebuke', 'attack taunt', 'heal taunt', 'silver requiem',
           'folding ward', 'elderwood guardian', 'lunara', 'envoi']
 WITCHES = {'io', 'kore', 'europa', 'callisto'}
-BOLD = {'odile', 'captain', 'nettie', 'wenna'}
+BOLD = {'odile', 'captain', 'nettie', 'wenna'}   # zone 1's; a zone file names its own in `bold`
 # The brief's table: how many lines each person has in zone 1.
 TARGET_Z1 = {'odile': 24, 'zofia': 8, 'bashir': 6, 'linnet': 6, 'otto': 6, 'corwin': 6, 'ros': 6, 'tully': 6,
              'kofi': 6, 'bridie': 6, 'jory': 6, 'captain': 28, 'quill': 6, 'nettie': 24, 'gretch': 8, 'hilde': 6,
              'wenna': 20, 'tobb': 6, 'pell': 6, 'io': 14, 'kore': 12, 'europa': 10, 'callisto': 10}
+# Zones 2 to 4: the outline Chris approved on November 19 (docs/lore/story-zones-2-4.md).
+TARGETS = {
+    'z1': TARGET_Z1,
+    'z2': {'roadwarden': 16, 'marta': 22, 'brann': 8, 'tamsin': 6, 'carter': 6, 'captain': 16,
+           'io': 14, 'kore': 12, 'europa': 10, 'callisto': 10},
+    'z3': {'ysmera': 22, 'gil': 8, 'tock': 6, 'pim': 6, 'passenger': 8, 'cutter': 6, 'halcyon': 2, 'captain': 16,
+           'io': 15, 'kore': 13, 'europa': 11, 'callisto': 11},
+    'z4': {'passkeeper': 8, 'sorrel': 8, 'ede': 8, 'watch': 10, 'warden': 2, 'halcyon': 12, 'captain': 12,
+           'io': 18, 'kore': 16, 'europa': 13, 'callisto': 13,
+           'nettie': 4, 'odile': 3, 'tully': 2, 'linnet': 2, 'zofia': 2, 'bridie': 2, 'bashir': 1, 'otto': 1,
+           'corwin': 1, 'ros': 1, 'kofi': 1, 'jory': 1, 'gretch': 1, 'hilde': 1, 'quill': 1},
+}
 _cast = None
 
 
@@ -122,13 +134,15 @@ def allows(when, stage):
 
 def check_lines(data):
     errors, notes, said = [], [], {}
+    never = {**NEVER, **NEVER_IN.get(data.get('zone', ''), {})}
     seen = set()
     for l in data['lines']:
         i, t = l['id'], l['text']
         if i in seen:
             errors.append(f'{i}: the id is used twice')
         seen.add(i)
-        if not re.fullmatch(r'z\d\.[a-z]+\.\d\d', i) or i.split('.')[1] != l['who']:
+        if (not re.fullmatch(r'z\d\.[a-z]+\.\d\d', i) or i.split('.')[1] != l['who']
+                or i.split('.')[0] != data.get('zone', i.split('.')[0])):
             errors.append(f'{i}: the id should be z<zone>.<speaker>.<two digits>, with the speaker who says it')
         if l['who'] not in cast():
             errors.append(f'{i}: "{l["who"]}" is not in game/talk/cast.js')
@@ -160,8 +174,8 @@ def check_lines(data):
         for m in re.finditer(r"\b([A-Z][a-z]+)", plain(t)):
             w, before = m.group(1), plain(t)[:m.start()].rstrip()
             first = before == '' or before[-1] in '.?!"'
-            if w in NEVER:
-                errors.append(f'{i}: "{w}": {NEVER[w]}')
+            if w in never:
+                errors.append(f'{i}: "{w}": {never[w]}')
             elif w in CAREFUL:
                 notes.append(f'{i}: "{w}": {CAREFUL[w]}')
             elif w not in NAMES and not first and w != 'I':
@@ -179,6 +193,9 @@ def check_lines(data):
 def check_zone(data, target):
     errors, notes = [], []
     lines = data['lines']
+    bold = set(data.get('bold', BOLD))
+    special = data.get('special', {})          # speakers outside the usual shape, with the reason
+    moments = data.get('moments', {})
     per = {}
     for l in lines:
         per.setdefault(l['who'], []).append(l)
@@ -191,22 +208,26 @@ def check_zone(data, target):
             errors.append(f'{who}: speaks, but is not in the brief’s table')
     # every person (not the witches) has something for a later talk at every stage
     for who, ls in per.items():
-        if who in WITCHES:
+        if who in WITCHES or who in special or all('moment' in l['when'] for l in ls):
             continue
         for st in range(5):
             if not any(allows(l['when'], st) and l['when'].get('first') is not True and l['kind'] != 'call'
-                       and not ({'met', 'just', 'look', 'lamps'} & set(l['when'])) for l in ls):
+                       and not ({'met', 'just', 'look', 'lamps', 'nodes', 'moment'} & set(l['when'])) for l in ls):
                 errors.append(f'{who}: nothing to say at stage {st} ({data["stages"][st]}) after the first talk')
         if not any(l['when'].get('first') is True for l in ls):
             errors.append(f'{who}: no first hello')
-        if who not in BOLD and not any(l['kind'] == 'pointer' and l.get('to') in BOLD for l in ls):
-            errors.append(f'{who}: no line that points to one of the four (Odile, the Grey Hat, Nettie, Old Wenna)')
-        if who not in BOLD and not any(l['kind'] == 'call' for l in ls):
+        if who not in bold and not any(l['kind'] == 'pointer' and l.get('to') in bold for l in ls):
+            errors.append(f'{who}: no line that points to one of the people with many lines ({", ".join(sorted(bold))})')
+        if who not in bold and not any(l['kind'] == 'call' for l in ls):
             errors.append(f'{who}: no call as the coven passes')
     # extras only for the four
     for l in lines:
-        if l['who'] not in BOLD and ({'met', 'just', 'look'} & set(l['when'])):
-            errors.append(f'{l["id"]}: met, just and look are only for the four people with many lines')
+        if l['who'] not in bold and ({'met', 'just', 'look'} & set(l['when'])):
+            errors.append(f'{l["id"]}: met, just and look are only for the people with many lines')
+        if 'moment' in l['when'] and moments and l['when']['moment'] not in moments:
+            errors.append(f'{l["id"]}: the moment "{l["when"]["moment"]}" is not in this zone\u2019s list')
+        if l.get('to') and l['to'] not in cast():
+            errors.append(f'{l["id"]}: points to "{l["to"]}", who is not in the cast')
         if l['kind'] == 'coven' and 'moment' not in l['when']:
             errors.append(f'{l["id"]}: a coven line needs its moment')
         if l['who'] in WITCHES and l['kind'] not in ('coven', 'story'):
@@ -223,13 +244,14 @@ def check_zone(data, target):
         if len(ls) > 6:
             errors.append(f'{tid}: {len(ls)} lines; a talk has no more than six')
         people = {l['who'] for l in ls} - WITCHES
-        if people and sum(l['who'] in WITCHES for l in ls) > 2:
+        in_moment = all('moment' in l['when'] for l in ls)
+        if people and not in_moment and sum(l['who'] in WITCHES for l in ls) > 2:
             errors.append(f'{tid}: more than two witch lines in a talk with a person')
-        if len(people) > 1:
+        if len(people) > 1 and not in_moment:
             errors.append(f'{tid}: more than one person (not a witch) in one talk')
     # the approved sample, word for word
     sample = ROOT / 'game/talk/sample.js'
-    if sample.exists():
+    if sample.exists() and data.get('zone') == 'z1':
         texts = {l['text'] for l in lines}
         for l in load(sample)['lines']:
             if l['text'] not in texts:
@@ -268,11 +290,11 @@ def main():
     global USE_RECORDED
     USE_RECORDED = is_zone
     if is_zone:
-        e2, n2, talks = check_zone(data, TARGET_Z1)
+        e2, n2, talks = check_zone(data, TARGETS[data['zone']])
         errors += e2; notes += n2
     per = summary(data)
     print(f'{path.name}: {len(data["lines"])} lines')
-    order = list(TARGET_Z1) if is_zone else list(per)
+    order = list(TARGETS[data['zone']]) if is_zone else list(per)
     for who in order:
         if who in per:
             p = per[who]
