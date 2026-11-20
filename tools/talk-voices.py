@@ -105,6 +105,29 @@ COMPARE_Z2 = {
                'sounds like a girl, not a woman playing one, keep her.'),
 }
 
+# Zone 3 (read from the measurements, November 20).
+LISTEN_Z3 = {
+    'z3.ysmera.11': 'The first time anyone says the knight\u2019s name. It comes back many times in zone 4, so check it is '
+                    'said the way you want (I asked for HAL-see-on), and that it lands gently.',
+    'z3.io.11': 'Asked for barely a breath, but it sits far above Io\u2019s usual pitch (about 281 against 188). Is it a '
+                'whisper of a question, or too bright?',
+    'z3.callisto.10': 'Quick for its words (1.4 seconds against about 2.6 expected). Asked for simple and certain. Does it '
+                      'sound certain, or rushed?',
+    'z3.halcyon.02': 'The knight\u2019s second \u201cGo home\u201d, asked to be quieter than the first, almost a plea. '
+                     'The two take the same time. Does this one sound softer to you?',
+}
+COMPARE_Z3_TITLE = 'Three new voices to hear'
+COMPARE_Z3 = {
+    'halcyon': ('z3.halcyon.01', 'Halcyon only says \u201cGo home\u201d here, but she has twelve lines in zone 4 as '
+                'herself, warm and tired, so her voice matters most. Her note: about forty, low-middle, measured, a '
+                'soldier\u2019s steadiness, a West Country voice like Io\u2019s but firmer. Her pitch (about 147 Hz) is '
+                'low for a woman, as asked. Could this be Io\u2019s big sister?'),
+    'ysmera': ('z3.ysmera.01', 'The shipmaster has the most lines in zone 3 (22). Her note: about fifty, a cool, exact, '
+               'very elegant moon-folk English, silk over steel. Is this her?'),
+    'pim': ('z3.pim.01', 'Pim\u2019s note says quick and chirpy, but she is the slowest new voice in zone 3 (about 2.4 '
+            'words a second). If she sounds bright enough to you, keep her.'),
+}
+
 
 def probe(path):
     p = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', str(path)],
@@ -158,7 +181,9 @@ def main():
     Z, AUDIO = f'z{n_zone}', ROOT / f'game/talk/audio/z{n_zone}'
     if n_zone == 2:
         LISTEN, COMPARE, COMPARE_TITLE = LISTEN_Z2, COMPARE_Z2, COMPARE_Z2_TITLE
-    elif n_zone > 2:
+    elif n_zone == 3:
+        LISTEN, COMPARE, COMPARE_TITLE = LISTEN_Z3, COMPARE_Z3, COMPARE_Z3_TITLE
+    elif n_zone > 3:
         LISTEN, COMPARE = {}, {}
     data = tc.load(ROOT / f'game/talk/zone-{n_zone}.js')
     tr.setup(data)

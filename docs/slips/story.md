@@ -1,19 +1,21 @@
 # story: the story's dialogue, written to be spoken aloud
 
-Branch: job/story      Last commit: (see the branch)      Updated: November 20, 2026, afternoon (zone 2 recorded and approved)
+Branch: job/story      Last commit: (see the branch)      Updated: November 20, 2026, afternoon (zone 3 recorded)
 
 ## What it built
 
 **Every spoken line of the game is written: zone 1 (236, recorded and approved), and zones 2 to 4 (120, 124 and 144,
 from the outline Chris approved at 19:13, with the ending at the Faire). Zones 2 to 4 have their recording orders for
-ChatGPT. Zone 2's recordings came back on November 20, are checked, approved by Chris, and on the branch; zones 3 and 4 are being
-recorded.**
+ChatGPT. Zone 2's recordings came back on November 20, are checked, approved by Chris, and on the branch. Zone 3's came back
+the same afternoon and are checked and on the branch; zone 4 is being recorded.**
 
 - `game/talk/audio/z2/`: **zone 2's 120 recordings**, taken byte for byte from the listening page Chris sent (3.8 MB).
   `game/talk/recording/z2-lengths.csv` has each one's real length, and every line's `secs` in `zone-2.js` is now that
   length (7 minutes 36 seconds in all). `docs/lore/story-voices-z2.html` is the page for Chris: what passed, three lines
   worth his ear and three new voices to hear. `tools/talk-voices.py` now checks any zone (`python3 tools/talk-voices.py
   2`), and for a returning voice measures its earlier zone too. Zone 2's recording order was left as handed over.
+- `game/talk/audio/z3/`: **zone 3's 124 recordings** (4.1 MB), the same way: `z3-lengths.csv`, real `secs` in
+  `zone-3.js` (8 minutes 14 seconds), and `docs/lore/story-voices-z3.html` for Chris.
 
 - `game/talk/zone-2.js` (`COVEN_TALK_Z2`, the Warm Roads and Dawnroost), `zone-3.js` (`COVEN_TALK_Z3`, the northern
   wilds and the shipyard), `zone-4.js` (`COVEN_TALK_Z4`, the frozen pass, Misthollow and the dead Moonwell, and the
@@ -59,6 +61,8 @@ recorded.**
 
 ## What Chris said here
 
+- November 20, 14:10: "Here is zone 3. We're saving all of these to the repo as we go correct" (yes: on `job/story`,
+  for the hub to bring into `main`).
 - November 20, 13:47, after the zone 2 voices page: **"Those are all good."** Zone 2's flagged lines and its three new voices are approved; no redos.
 - November 20, 08:10: "Here is zone 2 and I am starting zone 3 now" (the zone 2 listening page, made by ChatGPT).
 - **November 19, 19:13**, after ChatGPT asked for zone 2's order: **"Yes to all seven"** (calls 12 to 18, each as
@@ -92,6 +96,13 @@ recorded.**
 
 ## What was checked, and how
 
+- **Zone 3's recordings** (`python3 tools/talk-voices.py 3`): all 124 present, named right, nothing extra; words match
+  the newest text (the two lines changed on November 19 included). Format right on all; loudness -18.8 to -16.8 LUFS;
+  highest peak -1.2 dBFS; start silence at most 0.08 s; two files end with 0.21 and 0.23 s. The five returning voices
+  within about 6% of their zone 1 pitch. 8.2 minutes against an estimate of 8.5. Not checked: the words by ear.
+  Flagged for Chris: z3.ysmera.11 (how "Halcyon" is said), z3.io.11 (high for "barely a breath"), z3.callisto.10
+  (quick), z3.halcyon.02 (is the second "Go home" softer); and three new voices: Halcyon (twelve lines in zone 4),
+  the shipmaster, Pim (slow for her quick note).
 - **Zone 2's recordings** (`python3 tools/talk-voices.py 2`): all 120 present, each once, named right, nothing extra;
   the words on Chris's page match the newest zone 2 text word for word (the four lines changed on November 19
   included). All MP3, one channel, 44.1 kHz, 64 to 67 kbps. Loudness -18.7 to -17.1 LUFS; highest peak -1.2 dBFS.
@@ -198,7 +209,8 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
 ## Unfinished
 
 - Chris's read of zones 2 to 4 (any word can change before it is recorded).
-- Zones 3 and 4's recordings. When each comes back: take the files out of the page, run `tools/talk-voices.py <n>` (it
+- Chris's ear on zone 3's flagged lines and new voices, Halcyon's above all.
+- Zone 4's recordings. When they come back: take the files out of the page, run `tools/talk-voices.py <n>` (it
   needs its lines worth a listen written in, as zone 2's are), then `tools/talk-check.py game/talk/zone-<n>.js
   --fill`.
 - If a recorded line is ever redone, it goes back through ChatGPT with the same file name, and `tools/talk-voices.py`
