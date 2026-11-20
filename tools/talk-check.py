@@ -99,9 +99,12 @@ def recorded():
     return _recorded
 
 
+USE_RECORDED = True   # off for files that are not a zone (their ids are not the recordings' ids)
+
+
 def seconds(line):
     """The line's length: its recording's real length if it has been recorded, otherwise the estimate."""
-    return round(recorded()[line['id']], 1) if line['id'] in recorded() else estimate(line)
+    return round(recorded()[line['id']], 1) if USE_RECORDED and line['id'] in recorded() else estimate(line)
 
 
 def estimate(line):
@@ -262,6 +265,8 @@ def main():
     data = load(path)
     errors, notes, said = check_lines(data)
     is_zone = 'stages' in data and path.name.startswith('zone-')
+    global USE_RECORDED
+    USE_RECORDED = is_zone
     if is_zone:
         e2, n2, talks = check_zone(data, TARGET_Z1)
         errors += e2; notes += n2
@@ -277,7 +282,7 @@ def main():
     longest = max(data['lines'], key=lambda l: len(words(l['text'])))
     print(f'  longest line: {longest["id"]}, {len(words(longest["text"]))} words; '
           f'average {tw / len(data["lines"]):.1f} words')
-    rec = sum(l['id'] in recorded() for l in data['lines'])
+    rec = sum(USE_RECORDED and l['id'] in recorded() for l in data['lines'])
     print(f'  seconds: {rec} of {len(data["lines"])} lines are real recorded lengths, the rest estimates')
     cues = sum(len(re.findall(r'\[[^\]]*\]', l['say'])) for l in data['lines'])
     print(f'  delivery cues: {cues} in {len(data["lines"])} lines')

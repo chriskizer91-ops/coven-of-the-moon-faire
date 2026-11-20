@@ -51,14 +51,16 @@ def inline(t):
 
 def md(text):
     out, para, items, kind, rows = [], [], [], None, []
+    start = 1
 
     def flush():
-        nonlocal para, items, kind, rows
+        nonlocal para, items, kind, rows, start
         if para:
             out.append('<p>' + inline(' '.join(para)) + '</p>')
         if items:
             tag = 'ol' if kind == 'ol' else 'ul'
-            out.append(f'<{tag}>' + ''.join('<li>' + inline(i) + '</li>' for i in items) + f'</{tag}>')
+            first = f' start="{start}"' if tag == 'ol' and start != 1 else ''
+            out.append(f'<{tag}{first}>' + ''.join('<li>' + inline(i) + '</li>' for i in items) + f'</{tag}>')
         if rows:
             head = [c.strip() for c in rows[0].strip('|').split('|')]
             body = [[c.strip() for c in r.strip('|').split('|')] for r in rows[2:]]
@@ -84,6 +86,8 @@ def md(text):
             if para or rows:
                 flush()
             kind = 'ol' if m.group(1)[0].isdigit() else 'ul'
+            if not items and kind == 'ol':
+                start = int(m.group(1).rstrip('. '))
             items.append(m.group(2)); continue
         if items and line.startswith('  '):
             items[-1] += ' ' + line.strip(); continue
@@ -123,7 +127,7 @@ def when_words(l):
 def card(l):
     cues = re.findall(r'\[([^\]]*)\]', l['say'])
     meta = ''.join(f'<span>{html.escape(b)}</span>' for b in when_words(l))
-    meta += f'<span>{tc.seconds(l):.1f} s</span>'
+    meta += f'<span>{tc.estimate(l):.1f} s</span>'
     if l.get('talk'):
         meta += f'<span>talk line {l["talk"][1]}</span>'
     for r in l.get('rests', []):
@@ -163,7 +167,7 @@ def sample_md(data):
         out += [f'## {title}', '', note, '']
         for i in ids:
             l = by[i]
-            out.append(f'- **{SHORT[l["who"]]}** ({", ".join(when_words(l))}; {tc.seconds(l):.1f} s; `{i}`): '
+            out.append(f'- **{SHORT[l["who"]]}** ({", ".join(when_words(l))}; {tc.estimate(l):.1f} s; `{i}`): '
                        f'“{l["text"]}” *{l["tone"]}*' + (f' Said as: `{l["say"]}`' if l['say'] != l['text'] else '')
                        + (''.join(f' Rests on call {r}.' for r in l.get('rests', []))))
         out.append('')
@@ -264,7 +268,10 @@ def main():
     errors, notes, said = tc.check_lines(data)
     if errors:
         print('\n'.join(errors)); sys.exit('the sample has problems: fix them first (python3 tools/talk-check.py)')
-    per = tc.summary(data)
+    per = {}
+    for l in data['lines']:
+        q = per.setdefault(l['who'], {'lines': 0, 'words': 0, 'secs': 0.0})
+        q['lines'] += 1; q['words'] += len(tc.words(l['text'])); q['secs'] += tc.estimate(l)
     words = sum(p['words'] for p in per.values()); secs = sum(p['secs'] for p in per.values())
     longest = max(len(tc.words(l['text'])) for l in data['lines'])
 

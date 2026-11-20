@@ -1,11 +1,17 @@
 # story: the story's dialogue, written to be spoken aloud
 
-Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, evening
+Branch: job/story      Last commit: (see the branch)      Updated: November 19, 2026, evening (step 3)
 
 ## What it built
 
-**Step 2 is done: all of zone 1's spoken lines, as data the game reads. The recordings came back the same day and
-are checked and on the branch.** Step 3 waits for Chris's notes.
+**Step 2 is done: all of zone 1's spoken lines, as data the game reads. The recordings came back the same day, are
+checked, approved by Chris, and on the branch. Step 3's outline for zones 2 to 4 is written and waits for his yes.**
+
+- `docs/lore/story-zones-2-4.md` (and `.html`, made by `tools/talk-outline.py`): **the outline for zones 2 to 4**, a
+  proposal. For each zone: what it is for, its five stages and where the story points at each, who speaks and how
+  many lines (zone 2 about 120, zone 3 about 124, zone 4 about 145 with the ending at the Faire), the coven's set
+  moments, the small stories, and each witch's thread. Seven new calls for Chris (12 to 18). About 625 lines and 46
+  minutes for the whole game. No line written yet.
 
 - `game/talk/audio/z1/`: **all 236 recordings**, one MP3 a line, named `<id>.mp3`, taken byte for byte from the
   listening page Chris sent (8.5 MB). `game/talk/recording/z1-lengths.csv`: each one's real length. Every line's
@@ -33,6 +39,8 @@ are checked and on the branch.** Step 3 waits for Chris's notes.
 ## What Chris said here
 
 - November 19, 08:42: go (start step 1).
+- **November 19, 17:55: "It's all good"**, after the voices page was fixed: the voices are approved as recorded, no
+  redos (taken that way; he can still flag any).
 - **November 19, 16:20: "Here are the voices"**: a listening page with all 236 recordings (made by ChatGPT with
   ElevenLabs from the recording order).
 - **November 19, 09:25: "Yes to all. Please continue."** On `docs/lore/story-page.md` and the 24-line sample, so:
@@ -84,6 +92,9 @@ are checked and on the branch.** Step 3 waits for Chris's notes.
 
 ## Job's calls
 
+- **"It's all good" is read as: no redos.** Every recording stays as it came back.
+- **The step 1 page keeps its estimated seconds** (its old ids belong to other lines now), and `talk-check.py` uses the
+  real lengths only for a zone's file.
 - **Zone 1 is 2,758 words, about 18.5 minutes**, a little over the brief's guess of 2,600 words and 17 minutes. Two
   trimming passes took it down from 2,958 by shortening about seventy-five lines. Cutting further would cut the lines that work. As
   MP3 at 64 kbps that is about 8.7 MB, about 11.6 MB inside the one-file build. (If the size matters more, 48 kbps mono
@@ -118,9 +129,9 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
 
 ## Unfinished
 
-- Chris's listen to the ten flagged lines; any redo goes back through ChatGPT with the same file names, and
-  `tools/talk-voices.py` is run again.
-- Step 3: Chris's notes on the 236 lines worked in; then the cast and beats for zones 2 to 4, as an outline only.
+- Chris's yes (or marks) on the zones 2 to 4 outline and calls 12 to 18. Then each zone's lines, when the hub asks.
+- If a recorded line is ever redone, it goes back through ChatGPT with the same file name, and `tools/talk-voices.py`
+  is run again.
 
 ## For the hub
 
@@ -151,5 +162,11 @@ each for the rest. Io wrote Nettie letters she never sent; Callisto grew up wher
    Odile's lamp stall by the camp's well (two pointers say "by the well"); Old Wenna's stall by Bogmire's boardwalk.
 8. **For `docs/decisions.md`**: Chris's yes of 09:25, as listed above.
 9. So far the brief's shape (section 5) has not got in the way of a better line.
-10. The board lists my files as `docs/lore/story-*.md`; the prompt said `story-*`. I keep three pages there as HTML
+10. **Zones 2 to 4, for the hub's planning** (all proposals until Chris says yes): new people known by trade only (the
+   roadwarden, the carter, the bramble-cutter, the last passenger, the pass-keeper, a held Warden); the Grey Hat
+   waits at the foot of the frozen pass, lamps lit, because no flame stays lit in Misthollow; forty Wardens stand held
+   in Misthollow's street (a few dolls with covered faces could play them) and walk home at the end; the game would
+   end back at the Faire's camp by night, after one last flight (call 12). Calls 12 to 18 belong in
+   `docs/questions.md` until he answers.
+11. The board lists my files as `docs/lore/story-*.md`; the prompt said `story-*`. I keep three pages there as HTML
    (`story-sample.html`, `story-zone-1.html`, `story-voices.html`). Move them if you would rather.
