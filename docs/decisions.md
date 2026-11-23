@@ -13,6 +13,16 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 13:15: the hub moves to a new conversation
+
+- **Chris: the hub is moving to a new session.** The board gets a "Hub handoff" section: where things stand, what is
+  in progress and on which branch, what is waiting on him, and the next steps in order. His decisions from this
+  conversation go here.
+- **Checked for this:** every word of Chris's in this hub's conversation is in the sections below, from
+  November 18, 21:04 (the land is the map of Aethermoor, at one third size) to November 23, 12:13.
+- **Hub's call.** *The hub's own helper tools are now in the repo* (`tools/hub/`): the place copier used for zones
+  2 and 3, and three small ones for measuring and picture sheets. They were only in the old hub's workspace.
+
 ## November 23, 2026, 12:13: the narrator's recordings; the narrator should sound like a storybook
 
 - **Chris: the narrator's lines that are still good are handed over** (three packets, 48 files). He is having the

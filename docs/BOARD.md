@@ -1,12 +1,109 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 18, 2026, night, by the hub.
+Last updated: November 23, 2026, 13:15, by the hub, for the handoff to a new hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
 
 **A new hub picking up:** read `CLAUDE.md`, this board, `docs/decisions.md` (newest first), then the newest slip in
 `docs/slips/`. Build the newest page (`game/README.md` says how) and open it before changing anything.
+
+## Hub handoff (November 23, 2026, 13:15)
+
+Chris is moving the hub to a new conversation. This section is the newest and truest part of the board. Where an
+older section below says something different, this section is right.
+
+### Where things stand
+
+- **Everything is in `main`.** No branch holds work that `main` lacks, and nothing was left unsaved.
+- **Three zones can be walked and their stories played**, each as its own page:
+
+  | Page | What is in it | Size |
+  |---|---|---|
+  | `game/pages/zone-1.html` | Wickhollow, the Thornwood, Bogmire and its heart, Io's cottage, the jetty, the Moon Faire's camp; 19 people; fights in the wild and the great wraith; the story from dusk to the leaving | 100.2 MB |
+  | `game/pages/zone-2.html` | The Warm Roads camp to Dawnroost's living node, 2.5 km; 6 people; three road stones to light; the story from the landing to the leaving | 90.2 MB |
+  | `game/pages/zone-3.html` | The northern camp to the shipyard, 3.6 km, ending on a causeway over the sea; 7 people; the knight's light; the story from the landing to the leaving | 87.4 MB |
+
+- **Voices:** all 480 of the people's and the coven's lines for zones 1 to 3 are recorded and in. The narrator has
+  43 of 48 lines in, as recorded.
+- **Fights** are in zone 1 only (the fights job's steps 1 to 3). In zones 2 and 3 the two big fights are stood in
+  for: walking up to them counts as the fight met.
+- **Not built yet:** the flight between zones, zone 4, one title and one save for the whole game.
+- **The checks all pass** on what is in `main`: `tools/zone-test.py` on the three zones, `tools/people-test.py` on
+  zone 1, `tools/story-test.py` on zones 2 and 3. None of them can hear a line or measure a frame rate.
+- **What Chris has last been sent** (November 23, 12:22): `listen-narrator.html`, and the three zone pages with the
+  narrator speaking.
+
+### What is in progress, and on which branch
+
+| Who | What | Branch | State |
+|---|---|---|---|
+| The hub | Zones 1 to 3, the people, the story engine, the narrator | `job/zone-1` (the hub's working branch) | All of it merged into `main`. Nothing half done |
+| The `fights` conversation | Step 4: two slots for a new creature in each zone, the whole game's levels, the checks at three settings. Its starter text is under "Starter texts" | `job/fights` | Handed out November 23, 10:36. **Not merged: Chris has not said it is ready.** The branch holds nothing new yet |
+| The `story` conversation | Zone 4's recordings (its 144 lines are written and in `main`) | `job/story` | Merged up to its last commit. Zone 4's sound is still to come |
+| Chris, with ChatGPT and ElevenLabs | The narrator's five changed lines, made again | none | See "Waiting on Chris" |
+| Chris, in another conversation | Creature models for another game on the same continent | not this repo | That repo is off limits until he adds it as a source |
+
+`job/minimap` and `job/first-test` are finished and merged.
+
+### Waiting on Chris
+
+1. **The narrator's sound.** A, B, C or D on `listen-narrator.html`, or what is wrong with the nearest. He wants the
+   narrator to sound like a storybook, and different in direction from the people's voices.
+2. **The narrator's five changed lines, recorded again:** `z2.narrator.04`, `z3.narrator.09`, `.10`, `.12`, `.13`.
+   The words are in `game/people/recording/narration-recording-order.txt`.
+3. **Which other voices need editing,** and what is wrong with each, in plain words. He judges by ear.
+4. **Frame rates** on his laptop and phone for all three zone pages, and whether the phone opens files of 87 to 100 MB.
+   Still open from November 19: the Flipbook look dropping to 20 to 35 frames a second for a moment on the phone,
+   when crossing from a town into the woods.
+5. **The shipyard's spot:** in the bay, 280 m south of its pin (a hub's call). Back on the pin, or leave it?
+6. **Zone 3's order:** the shipyard first, the knight on the way back up to the crossroads (a hub's call).
+7. **When the fights job's step 4 is ready** to bring in.
+8. Smaller calls, none of which blocks anything: Tully's body is a man's and the voice a woman's; whether a person
+   already met still says a short word when the coven walks right up; whether the coven speaks too much; the jetty's
+   pin; any names he wants changed; what he makes of the camp.
+
+### Next steps, in order
+
+1. **When Chris picks the narrator's sound:** `python3 tools/narrator-sound.py render C` (his letter), then
+   `python3 tools/voice-list.py z1` (and `z2`, `z3`), build the three pages, run the checks, send them.
+2. **When the five new narrator lines come:** unpack them into a new empty folder with `z2/` and `z3/` inside,
+   `python3 tools/narrator-sound.py take <folder>`, then step 1 again with the letter he picked (A if none yet).
+3. **Any voices Chris names for editing.** Fix what can be measured. For a matter of taste, make a few versions on a
+   page like `game/pages/listen-narrator.html` for him to pick from.
+4. **When Chris says the fights job's step 4 is ready:** bring `job/fights` into `main` (expect a clash in
+   `assets/INDEX.csv`: keep both sides' lines). Then join the fights to zones 2 and 3 ("For the fights job, when it
+   reaches zones 2 and 3", below), and wire the narrator's three unwired lines in zone 1 (`first-wisp`, `rest`,
+   `not-ready`) to the fights' own events.
+5. **The small things zone 1's lines expect to see:** the pale moth on the land after the great wraith, flying west;
+   the lit gate lamp at Io's cottage; Old Bridie's lantern; the Grey Hat's ship at the jetty.
+6. **The flight between zones.** Skies of Aethermoor is a read-only source already; copy only what the game uses.
+   The pages call each other; the flight lines (`flight`, `flight-after`) get heard; a ship stands at each landing.
+7. **Zone 4:** its land, people and story, the same way as zones 2 and 3. Its places and pins on the map:
+   frozen-camp (2760, 1105), frostmere-shore (3180, 1125), frozen-pass (3270, 980), misthollow (3500, 735),
+   moonwell (3522, 645). Its lines are in `game/talk/zone-4.js`; the plan is `docs/lore/story-zones-2-4.md`; it
+   ends with a `faire` moment back at the camp.
+8. **One game:** a title, one save, a pause menu, everything joined.
+
+### How the hub works here (what a new hub needs to know)
+
+- **Two copies of the repo are handy:** one on `job/zone-1` to build in, one on `main` to merge in
+  (`git merge --no-ff`) and to edit the board and decisions. A plain `git fetch` may not show the job branches:
+  fetch each by name (`git fetch origin job/fights:refs/remotes/origin/job/fights`). `git ls-remote origin` shows
+  what GitHub really has.
+- **Build and check:** `python3 tools/build.py game/pages/zone-2.html`, then `tools/zone-test.py`,
+  `tools/story-test.py` (zones 2 and 3) or `tools/people-test.py` (zone 1) on the built page, then pictures with
+  `tools/look.py` and `tools/hub/sheet.py`. Each check takes 3 to 8 minutes with no graphics card. `tools/look.py`
+  counts some harmless warnings as page errors once people are in a page; the checks' own count is the true one.
+- **Adding a zone:** copy each place with `tools/hub/copy-place.py`; write `game/places/zone-N.js` (each place's
+  pin, the gates opened, the roads named with `route: true`) and `game/people/zone-N.js` (who stands where, the
+  story's rules, the things on the land); make the page from `game/pages/zone-3.html`. Zone 3's files are the
+  newest pattern. `tools/hub/probe.py` runs a piece of script in a built page, for measuring the land.
+- **The slip for all of the hub's building** is `docs/slips/zone-1.md`: newest part first, with every hub's call,
+  what was checked and how, and the rough spots.
+- **Things that tripped this hub:** the map's coasts are steep at one third size (zone 3's shore is 67 m below its
+  camp), so check heights before trusting a road; a place that stands in the map's own sea needs `sea: true`; a
+  narrator line must match the land as built, so read them against the map before they are recorded.
 
 ## What this game is
 
@@ -33,7 +130,7 @@ One HTML file to Chris at each milestone.
 **Milestone 1, the first test: done.** Chris ran it at his screens' top speed (144 frames a second on the laptop, 60 on
 the phone).
 
-**Milestone 2, zone 1: most of it built.** `builds/zone-1.html` (from `game/pages/zone-1.html`, 71 MB):
+**Milestone 2, zone 1: built** (as it stood on November 18; it has grown since, see the handoff above). `builds/zone-1.html` (from `game/pages/zone-1.html`, then 71 MB):
 
 - All six of the zone's places on one land of 955 m by 675 m, joined by roads, walked between with no fade.
 - **The game starts in the Moon Faire's camp**: 43 pieces of Moon Faire's fair kit in a meadow off the south road,
@@ -66,7 +163,7 @@ What the checks say (no screen, no graphics card):
 
 | Who | What |
 |---|---|
-| Chris | Taking the narrator's recording order (`game/people/recording/narration-recording-order.txt`, 48 lines) to be recorded; building creature models in another conversation |
+| Chris | Having the narrator's five changed lines made again; choosing the narrator's sound by ear; building creature models in another conversation |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. **Step 4 handed out** (November 23): two slots for a new creature in each zone (A on, B off), the whole game's levels, the checks at three settings (text below) |
 | The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3 are built and speak, in `main`** (November 23). **The narrator speaks: 43 of 48 lines are in** (the five changed ones are being made again). Next: the narrator's sound once Chris has picked by ear; the pale moth; the flight between zones; zone 4's land; the narrator's recordings when they come; the pale moth; the flight between zones |
@@ -132,7 +229,7 @@ The hub's plan. Names and order may change.
 - **Five narrator lines changed** before recording (`z2.narrator.04`, `z3.narrator.09`, `.10`, `.12`, `.13`). If the
   narrator has been recorded already, those five need making again from the new recording order.
 
-**A big story call, so the hub will ask before building on it:**
+**A big story call (settled: Chris approved the story page on November 19; kept here for the record):**
 
 - The opening lore. He said some has to be made up: the game starts at the Moon Faire, all four are already together,
   and Io's cottage may be her family's. The hub will write a short proposal for him to mark up before any lines are
