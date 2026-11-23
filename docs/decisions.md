@@ -40,6 +40,26 @@ The full older record stays in the old repos and is not copied here:
 - **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
   (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
 
+## November 23, 2026, 10:15: the hub writes the narration; the first three zones; a note on balance
+
+- **Chris: the hub writes the narration for zones 1, 2 and 3,** as a text document he takes to the ChatGPT
+  conversation that made the other voices. Done: 48 lines (18, 15, 15), about 4.6 minutes, in
+  `game/people/narration.js`, with the recording order in `game/people/recording/`. A proposal: his to change.
+- **Chris: he wants the first three zones situated.** Next for the hub: zones 2 and 3's land, places and people.
+- **Chris, a minor note: the leveling balance may have to be redone.** He has found a way to make strange creatures
+  in 3D and is building models for another game on the same continent at another time; some look very good. See
+  the board's note. That other repo is not a source yet.
+- **Hub's call.** *What the narrator is:* a calm storyteller who sets the scene (where the coven is, what has just
+  happened, what is in front of them) and never explains the story or says what anyone feels. One voice for all
+  zones, not a voice already used for a person. The voice note suggests a woman of about sixty; Chris casts it.
+- **Hub's call.** *When the narrator speaks in zone 1:* first at each of the coven's seven set moments; and when the
+  Grey Hat has asked for his lamps, the first wisp is released, a lamp comes home, eleven are home, the coven wakes
+  after a lost fight, and the first time the coven comes to Wickhollow and to the jetty. Three more lines are
+  written and not yet wired (the first wisp appearing, resting at the camp, coming to the great wraith too soon):
+  they need a hook in the fights job's code.
+- **Hub's call.** *The narrator's sound files go beside the others,* `game/talk/audio/z1/z1.narrator.01.mp3` and so
+  on, in zips `z1-narrator.zip`, `z2-narrator.zip`, `z3-narrator.zip`.
+
 ## November 23, 2026, 09:40: Chris hears zone 1
 
 - **Chris: a person speaks only when the coven walks right up to them,** to arm's length. The first time, they speak

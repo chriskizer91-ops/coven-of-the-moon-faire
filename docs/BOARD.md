@@ -53,10 +53,19 @@ What the checks say (no screen, no graphics card):
 
 | Who | What |
 |---|---|
-| Chris | Has heard zone 1 (November 23). Giving the `story` conversation the hub's note about a narrator (text below) |
+| Chris | Taking the narrator's recording order (`game/people/recording/narration-recording-order.txt`, 48 lines) to be recorded; building creature models in another conversation |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. Free for more work |
-| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). Next: the narrator's lines when they come; the pale moth on the land; the flight to zone 2 and zone 2's land |
+| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. Next: **zones 2 and 3's land, places and people on the map** (Chris: get the first three zones situated); the narrator's recordings when they come; the pale moth; the flight between zones |
+
+## A note for later: the fights' balance may be redone
+
+Chris, November 23: he has found a way to make strange creatures in 3D, and is building models for another game set
+on the same continent at another time. Some look very good and may come into this game as foes. If they do, the
+levels and the fights' balance (the fights job's 49 of 51 targets, the 180 fights to level 20, each zone's foes)
+may have to be worked out again. Nothing to do yet. When it happens: the foes and their numbers are data
+(`game/encounters/`, `game/battle/`), a new repo of Chris's has to be added as a source in `docs/decisions.md`
+before anything is copied from it, and the balance check is `tools/battle-*`.
 
 ## What is left of milestone 2 (job `zone-1`)
 
@@ -147,7 +156,7 @@ Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join whe
 
 ## Starter texts
 
-### `story`: the hub's note about a narrator (paste this into the story conversation)
+### `story`: the hub's note about a narrator (NOT NEEDED FOR THE NARRATION NOW: Chris had the hub write it, November 23, 10:15. Still useful for its questions 2 to 5: whether the party speaks too much, the short calls at arm's length, a shout from far off)
 
 ```
 A note for the story job, from the hub (November 23). Chris has now heard zone 1 in the game.
