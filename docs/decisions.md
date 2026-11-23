@@ -13,6 +13,37 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 14:57 to 15:45: the new hub; the four small things zone 1's lines speak of
+
+- **Chris, 14:57: the new conversation is the hub.** He gave it this repo to write to and the two old repos to read,
+  on `main`, and said to read the handoff and carry on from the next step.
+- **Hub's call.** *Steps 1 to 4 of the handoff each wait on Chris* (the narrator's sound, its five new lines, the
+  voices to edit, the fights job's step 4), *so the hub went on to step 5.*
+- **Not done, and why:** the hub did not read Skies of Aethermoor. It is a source by the rules (November 18), but
+  this conversation was given three repos and not that one, and adding it was refused. Chris adds it when he wants
+  the flight and the real ship worked on.
+- **Hub's call, for Chris to overrule.** *A stand-in ship at the end of the jetty's pier,* made new here, nothing
+  copied: a plain hull 15 m long with a cabin, a mast, a tail fin, a dim amber sunstone and twelve iron lamp hooks,
+  six a side. It is marked as a stand-in in its file and on the board. Which of his ships the Grey Hat flies is
+  still Chris's call, and this does not settle it.
+- **Hub's call.** *Each of the captain's lamps hangs lit on a hook from the moment it comes home,* the pier's side
+  first. The count is the one already decided (one for every four fights won, the twelfth with the great wraith).
+- **Hub's call.** *The cottage's lines are said at its gate:* within 15 m of the lane's two pillars, 12 m of the
+  garden gate, or 9 m of the door. **This replaces** "coming within 34 m of Io's cottage" (November 23, below): at
+  34 m a rise hides the lane, and the lamp and the gate the lines speak of could not be seen.
+- **Hub's call.** *The jetty's line is said down on the quay,* where the ship can be seen, not at the top of the
+  lane. **This replaces** "the first time the coven comes to the jetty" as it was built (10 m outside its ground).
+- **Hub's call.** *"The gate lamp" is the cottage's own four gate lanterns:* the lane's two and the garden gate's
+  two. They were there and lit already; each now has a wide warm glow.
+- **Hub's call.** *Old Bridie's lantern is one of the Faire's own lantern posts,* beside her, its arm toward the
+  road. She is the Faire's lamplighter.
+- **Hub's call.** *The moth rises where the camera is looking, 6.5 m from the coven,* so it is seen; circles up for
+  twelve seconds; then flies west and somewhat north, toward the moon, and is gone into the fog within two minutes.
+  Once only. It is a pale shape in a soft light, about 0.9 m across, so it can be followed in the dark.
+- **For Chris.** *The great wraith's spot is not where the lines say.* The lines he approved, and the narrator's,
+  put it in the fen's dark heart where the boardwalk ends; the fight is offered 20 m out of Bogmire's north gate.
+  The hub suggests the heart's square. Placing it is his call (the fights job said so), so nothing was moved.
+
 ## November 23, 2026, 13:15: the hub moves to a new conversation
 
 - **Chris: the hub is moving to a new session.** The board gets a "Hub handoff" section: where things stand, what is

@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 13:15, by the hub, for the handoff to a new hub.
+Last updated: November 23, 2026, 15:45, by the hub (a new conversation since the handoff of 13:15).
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -8,10 +8,14 @@ branch `job/<name>`. The rules are in `CLAUDE.md`.
 **A new hub picking up:** read `CLAUDE.md`, this board, `docs/decisions.md` (newest first), then the newest slip in
 `docs/slips/`. Build the newest page (`game/README.md` says how) and open it before changing anything.
 
-## Hub handoff (November 23, 2026, 13:15)
+## Hub handoff (November 23, 2026, 13:15; brought up to date at 15:45)
 
-Chris is moving the hub to a new conversation. This section is the newest and truest part of the board. Where an
+Chris moved the hub to a new conversation. This section is the newest and truest part of the board. Where an
 older section below says something different, this section is right.
+
+**The new hub picked up at 14:57** with this repo to write to and the two old repos to read. Steps 1 to 4 of the
+list below wait on Chris, so it did **step 5, the four small things zone 1's lines speak of. Done, checked, in
+`main`.** What it found and built is in `docs/slips/zone-1.md` (the newest part, at the top).
 
 ### Where things stand
 
@@ -20,7 +24,7 @@ older section below says something different, this section is right.
 
   | Page | What is in it | Size |
   |---|---|---|
-  | `game/pages/zone-1.html` | Wickhollow, the Thornwood, Bogmire and its heart, Io's cottage, the jetty, the Moon Faire's camp; 19 people; fights in the wild and the great wraith; the story from dusk to the leaving | 100.2 MB |
+  | `game/pages/zone-1.html` | Wickhollow, the Thornwood, Bogmire and its heart, Io's cottage, the jetty, the Moon Faire's camp; 19 people; fights in the wild and the great wraith; the story from dusk to the leaving. **New (15:45):** the cottage's gate lamps glow; Old Bridie's lantern; a stand-in ship at the pier with twelve lamp hooks, a lamp on each as it comes home; the pale moth after the great wraith | 100.3 MB |
   | `game/pages/zone-2.html` | The Warm Roads camp to Dawnroost's living node, 2.5 km; 6 people; three road stones to light; the story from the landing to the leaving | 90.2 MB |
   | `game/pages/zone-3.html` | The northern camp to the shipyard, 3.6 km, ending on a causeway over the sea; 7 people; the knight's light; the story from the landing to the leaving | 87.4 MB |
 
@@ -29,16 +33,20 @@ older section below says something different, this section is right.
 - **Fights** are in zone 1 only (the fights job's steps 1 to 3). In zones 2 and 3 the two big fights are stood in
   for: walking up to them counts as the fight met.
 - **Not built yet:** the flight between zones, zone 4, one title and one save for the whole game.
-- **The checks all pass** on what is in `main`: `tools/zone-test.py` on the three zones, `tools/people-test.py` on
-  zone 1, `tools/story-test.py` on zones 2 and 3. None of them can hear a line or measure a frame rate.
-- **What Chris has last been sent** (November 23, 12:22): `listen-narrator.html`, and the three zone pages with the
-  narrator speaking.
+- **The checks all pass** on what is in `main` (run again at 15:35): `tools/zone-test.py` on the three zones,
+  `tools/people-test.py`, `tools/things-test.py` (new) and `tools/encounter-test.py --quick` on zone 1,
+  `tools/story-test.py` on zones 2 and 3. None of them can hear a line, see a motion or measure a frame rate.
+- **What Chris has last been sent:** November 23, 12:22: `listen-narrator.html`, and the three zone pages with the
+  narrator speaking. November 23, 15:45: `zone-1.html` with the four small things, and four sheets of before and
+  after pictures.
+- **The ship at the jetty is a stand-in, made here.** The real one is to come from Skies of Aethermoor. The new
+  hub's conversation was not given that repo, so it has read nothing of it (see "Waiting on Chris", 1).
 
 ### What is in progress, and on which branch
 
 | Who | What | Branch | State |
 |---|---|---|---|
-| The hub | Zones 1 to 3, the people, the story engine, the narrator | `job/zone-1` (the hub's working branch) | All of it merged into `main`. Nothing half done |
+| The hub | Zones 1 to 3, the people, the story engine, the narrator; zone 1's four small things (15:45) | `job/zone-1` (the hub's working branch) | All of it merged into `main`. Nothing half done |
 | The `fights` conversation | Step 4: two slots for a new creature in each zone, the whole game's levels, the checks at three settings. Its starter text is under "Starter texts" | `job/fights` | Handed out November 23, 10:36. **Not merged: Chris has not said it is ready.** The branch holds nothing new yet |
 | The `story` conversation | Zone 4's recordings (its 144 lines are written and in `main`) | `job/story` | Merged up to its last commit. Zone 4's sound is still to come |
 | Chris, with ChatGPT and ElevenLabs | The narrator's five changed lines, made again | none | See "Waiting on Chris" |
@@ -47,6 +55,23 @@ older section below says something different, this section is right.
 `job/minimap` and `job/first-test` are finished and merged.
 
 ### Waiting on Chris
+
+New at 15:45, the first two because the next steps need them:
+
+1. **Skies of Aethermoor, for the hub.** The flight between zones (step 6) and the Grey Hat's real ship both come
+   from `chriskizer91-ops/airship-game-in-aethermoor-`. It is a source by the rules, but the hub's new conversation
+   was given three repos and not that one, and may not add it by itself. Chris adds it to the hub's conversation,
+   to read only. Until then the hub can go on with zone 4's land (step 7).
+2. **Where the great wraith waits.** Old Wenna says "It sits in the fen's dark heart. Up the north road, where the
+   boardwalk ends", and the narrator "The fen's dark heart. The boardwalk ends here". But the fight is offered on
+   the road 20 m out of Bogmire's north gate, 390 m short of the heart (the fights job's own proposal, marked as
+   Chris's to place). The hub's suggestion: move it into the heart's square, before the drowned hall's steps, where
+   the old Envoi's great wraith sat. It is one line of the fights job's. If he says yes, the text for the fights
+   conversation is under "Starter texts".
+3. **What he makes of the four small things:** the stand-in ship (a plain hull, to be replaced), the moth (a pale
+   shape in a soft light; it rises the way the camera looks), Bridie's lantern, the gate lamps' glow.
+
+From the handoff of 13:15, still open:
 
 1. **The narrator's sound.** A, B, C or D on `listen-narrator.html`, or what is wrong with the nearest. He wants the
    narrator to sound like a storybook, and different in direction from the people's voices.
@@ -75,10 +100,19 @@ older section below says something different, this section is right.
    `assets/INDEX.csv`: keep both sides' lines). Then join the fights to zones 2 and 3 ("For the fights job, when it
    reaches zones 2 and 3", below), and wire the narrator's three unwired lines in zone 1 (`first-wisp`, `rest`,
    `not-ready`) to the fights' own events.
-5. **The small things zone 1's lines expect to see:** the pale moth on the land after the great wraith, flying west;
-   the lit gate lamp at Io's cottage; Old Bridie's lantern; the Grey Hat's ship at the jetty.
-6. **The flight between zones.** Skies of Aethermoor is a read-only source already; copy only what the game uses.
+5. **DONE (November 23, 15:45).** The small things zone 1's lines expect to see: the pale moth on the land after
+   the great wraith, flying west; the lit gate lamps at Io's cottage; Old Bridie's lantern; the Grey Hat's ship at
+   the jetty (a stand-in). Left over from it, small, none blocks anything:
+   - No flame leans anywhere, though the lines say every flame leans north. A thing for the whole game: the camp's
+     lanterns, Bridie's lamp (which should stand almost straight after the great wraith), the towns' lamps.
+   - Quill has no lantern "tied to its post with three hitches". Odile's stall is 20 m from the well, and two
+     pointers say "by the well". Old Wenna's stall "by the boardwalk" was not looked at.
+   - The moth could rise on the great wraith's own spot once that spot is settled ("Waiting on Chris", 2).
+6. **The flight between zones. NEEDS the Skies of Aethermoor repo added to the hub's conversation** ("Waiting on
+   Chris", 1). Skies of Aethermoor is a read-only source by the rules; copy only what the game uses.
    The pages call each other; the flight lines (`flight`, `flight-after`) get heard; a ship stands at each landing.
+   The real ship takes the place of the stand-in at the jetty: one file, `game/places/jetty-ship.js`. Keep
+   `W3D_PLACES.jetty.ship.hooks` (where the twelve lamps hang) and the lamps follow.
 7. **Zone 4:** its land, people and story, the same way as zones 2 and 3. Its places and pins on the map:
    frozen-camp (2760, 1105), frostmere-shore (3180, 1125), frozen-pass (3270, 980), misthollow (3500, 735),
    moonwell (3522, 645). Its lines are in `game/talk/zone-4.js`; the plan is `docs/lore/story-zones-2-4.md`; it
@@ -101,6 +135,13 @@ older section below says something different, this section is right.
   newest pattern. `tools/hub/probe.py` runs a piece of script in a built page, for measuring the land.
 - **The slip for all of the hub's building** is `docs/slips/zone-1.md`: newest part first, with every hub's call,
   what was checked and how, and the rough spots.
+- **Zone 1 now has "things on the land" too** (`game/people/things.js`, `W3D.THINGS['zone-1']` in
+  `game/people/zone-1.js`): its check is `tools/things-test.py builds/zone-1.html`, about 35 seconds. A thing can
+  stand anywhere on the land, make a light that faces the camera (`halo`) or lies on the ground (`pool`), and is
+  told the game's clock, so a check can step it. `W3D.fair.piece` stands one piece of the fair kit anywhere.
+- **Look from where a line is said before trusting it.** Two of zone 1's set points were said where the thing they
+  speak of could not be seen (the cottage's gate lamp, the ship at the pier). `tools/look.py` takes a plan of shots;
+  a shot's `js` runs before its camera is set, so set the walker inside the `js` if it needs her place.
 - **Things that tripped this hub:** the map's coasts are steep at one third size (zone 3's shore is 67 m below its
   camp), so check heights before trusting a road; a place that stands in the map's own sea needs `sea: true`; a
   narrator line must match the land as built, so read them against the map before they are recorded.
@@ -166,7 +207,7 @@ What the checks say (no screen, no graphics card):
 | Chris | Having the narrator's five changed lines made again; choosing the narrator's sound by ear; building creature models in another conversation |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. **Step 4 handed out** (November 23): two slots for a new creature in each zone (A on, B off), the whole game's levels, the checks at three settings (text below) |
-| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3 are built and speak, in `main`** (November 23). **The narrator speaks: 43 of 48 lines are in** (the five changed ones are being made again). Next: the narrator's sound once Chris has picked by ear; the pale moth; the flight between zones; zone 4's land; the narrator's recordings when they come; the pale moth; the flight between zones |
+| The hub | **Zone 1's four small things are in (November 23, 15:45): gate lamps, Bridie's lantern, a stand-in ship and its twelve lamps, the pale moth.** Before that: **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3 are built and speak, in `main`** (November 23). **The narrator speaks: 43 of 48 lines are in** (the five changed ones are being made again). Next: the narrator's sound once Chris has picked by ear; the pale moth; the flight between zones; zone 4's land; the narrator's recordings when they come; the pale moth; the flight between zones |
 
 ## A note for later: the fights' balance may be redone
 
@@ -249,6 +290,11 @@ The hub's plan. Names and order may change.
 
 ## For the fights job, when it reaches zones 2 and 3
 
+- **Zone 1's gate spot, if Chris says yes** ("Waiting on Chris", 2): the lines put the great wraith in the fen's dark
+  heart, where the boardwalk ends. The middle of the heart's square is (1506.7, 1818.7) in zone 1's metres (the
+  place `bogmire-heart`, its painting's pixel 768, 420). The story's moments and the hub's moth read the spot from
+  `window.__fights.gate.at`, so nothing of the hub's has to change when it moves.
+
 - The story looks for the zone's big fight as `window.__fights.gate` (`{ id, at: [x, z] }`) and counts it won when
   `party.gates[id]` is true, as in zone 1. The hub's names for them: `nodeNight` (zone 2, at Dawnroost's living
   node) and `knightOfLight` (zone 3, on the crossroads' east road). Any other id works: the story uses the gate's own.
@@ -262,7 +308,7 @@ The hub's plan. Names and order may change.
 | Job | What it does | Branch | Slip | State |
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
-| `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places, the camp, four witches to walk as, the 3D map's hills and fen, the long road. The better map and the rough spots are left |
+| `zone-1` | All of zone 1 on one land; and all of the hub's own building since (zones 2 and 3, the people, the narrator, the small things) | `job/zone-1` | `docs/slips/zone-1.md` | **In `main`**, up to zone 1's four small things (November 23, 15:45). The rough spots are in the slip |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
 | `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1, 2 and 3 done and in `main`** (November 19): the battle page; `CovenBattle.start()`; the party kept in the browser; unseen meetings in zone 1's wilds (about 46 fights to level 5); the fight over the land and back; rest at the camp; the gate's spot (a proposal). Zone 1's page is 83.5 MB |
 | `story` | The story's dialogue, written to be spoken aloud (every person has a voice) | `job/story` | `docs/slips/story.md` | **In `main`** (November 23): the story page Chris approved; every line of zones 1 to 4 (`game/talk/zone-*.js`, `cast.js`); the recordings for zones 1 to 3 (`game/talk/audio/`, 480 files, 16 MB). Its notes for the hub are at the end of its slip: the moth, the gate lamp, and what zones 2 to 4 need |
@@ -349,6 +395,25 @@ Small calls are yours: write each in your slip as a job's call. The creatures' n
 story are Chris's. The other game's repo is not a source for this one yet: copy nothing from it until the hub adds
 it in docs/decisions.md. Both pages must still build, and tools/zone-test.py, tools/people-test.py and your own
 checks must still pass. Push to job/fights often, and tell Chris when a step is ready.
+```
+
+### `fights`: one more thing for step 4 (paste this into the fights conversation ONLY IF Chris says yes to moving the great wraith)
+
+```
+One more thing for step 4, from the hub (November 23). Chris has said yes to this.
+
+The great wraith's spot in zone 1 should be in the fen's dark heart, not on the road out of Bogmire. Two recorded
+lines say so. Old Wenna: "It sits in the fen's dark heart. Up the north road, where the boardwalk ends." The
+narrator, when the coven comes near: "The fen's dark heart. The boardwalk ends here."
+
+In game/encounters/zone-1.js, gate.at is [1348, 2180] now: the road 20 m out of Bogmire's north gate. The middle of
+the heart's square, before the drowned hall's steps, is [1506.7, 1818.7] (the place bogmire-heart, its painting's
+pixel 768, 420; the old Envoi's great wraith sat at the top of those steps). Move it there, keep r and the rest, and
+check that the button still shows at level 5 and that no wild meeting comes inside the heart's own ground.
+
+Nothing of the hub's has to change: the story's moments and the moth read the spot from window.__fights.gate.at.
+git fetch and merge origin/main first: main has zone 1's small things now (a stand-in ship at the jetty, Old
+Bridie's lantern, the moth, game/people/things.js on zone 1's page).
 ```
 
 ### `story`: the hub's note about a narrator (NOT NEEDED FOR THE NARRATION NOW: Chris had the hub write it, November 23, 10:15. Still useful for its questions 2 to 5: whether the party speaks too much, the short calls at arm's length, a shout from far off)
