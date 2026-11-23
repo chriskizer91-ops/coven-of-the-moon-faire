@@ -40,6 +40,25 @@ The full older record stays in the old repos and is not copied here:
 - **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
   (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
 
+## November 23, 2026, 09:40: Chris hears zone 1
+
+- **Chris: a person speaks only when the coven walks right up to them,** to arm's length. The first time, they speak
+  by themselves and the words show; then the player taps to carry on a longer talk.
+- **Chris: no spoken word from anyone at a distance,** unless the story wants someone shouting from far off, which
+  would be its own circumstance.
+- **Chris: a narration voice for the story's set points.** ("Maybe we should make a narration voice for narrative
+  points that happen in specific situations.")
+- **Chris: the opening did not make sense:** the whole party speaking, and townsfolk too, with nothing to say what
+  is happening.
+- **Chris, unsure: the party may speak too much.** "I don't know. Maybe not less." Not changed. Put to the story job.
+- **Hub's call.** *Arm's length is 1.5 m; the Talk button shows within 2.3 m.*
+- **Hub's call.** *A start screen with one button,* so nothing speaks before the player is ready (and so a phone
+  will play the sound).
+- **Hub's call.** *Someone already met says their short call when the coven walks right up to them again.* Chris
+  did not ask for this; it uses the calls already recorded and is easy to take out.
+- **Hub's call.** *Stand-in narration, in words only,* before the coven speaks at five of the set moments, until
+  the story job's narrator lines are written and recorded.
+
 ## November 23, 2026: the story job's work is in; zone 1 speaks
 
 - **From the story job's slip (Chris's words there, November 19 and 20):** he approved the story page and its calls,

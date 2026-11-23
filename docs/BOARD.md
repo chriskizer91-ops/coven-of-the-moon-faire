@@ -53,10 +53,10 @@ What the checks say (no screen, no graphics card):
 
 | Who | What |
 |---|---|
-| Chris | Listening to zone 1 in the game on his laptop and phone (the voices have not been heard in the game yet) |
+| Chris | Has heard zone 1 (November 23). Giving the `story` conversation the hub's note about a narrator (text below) |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. Free for more work |
-| The hub | **Zone 1's nineteen people speak aloud in the game** (November 23). Next: what Chris hears; the pale moth on the land; the flight to zone 2 and zone 2's land |
+| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). Next: the narrator's lines when they come; the pale moth on the land; the flight to zone 2 and zone 2's land |
 
 ## What is left of milestone 2 (job `zone-1`)
 
@@ -146,6 +146,54 @@ Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join whe
 3. Tell the hub when the job says a step is ready. The hub brings it into `main` and updates this board.
 
 ## Starter texts
+
+### `story`: the hub's note about a narrator (paste this into the story conversation)
+
+```
+A note for the story job, from the hub (November 23). Chris has now heard zone 1 in the game.
+
+First: git fetch, and merge origin/main into job/story. Your work is all in main. The hub's side is in
+game/people/ (people.js, story.js, zone-1.js): read story.js's top comment for how your lines are chosen.
+
+WHAT CHRIS SAID (his words, shortened)
+- The opening did not make sense to him. When the game opens "you hear the whole party say something" and townsfolk
+  too, and it is not clear what is happening or where she is when the talking happens.
+- "Maybe we should make a narration voice for narrative points that happen in specific situations."
+- "I think the party should be speaking maybe less than they are. I don't know. Maybe not less."
+- A person should speak only when the coven walks right up to them, to arm's length. The first time, they speak by
+  themselves and the words show; then the player taps to carry on a longer talk.
+- No spoken word from anyone at a distance, unless the story wants someone shouting from far off, "and that would be
+  a different circumstance".
+
+WHAT THE HUB HAS ALREADY CHANGED IN THE GAME
+- Nobody speaks from a distance. Walking right up to a person (1.5 m) the first time starts their first talk. The Talk
+  button is for more. Your `call` lines are now said when the coven walks right up to someone already met.
+- A start screen with one button. Nothing speaks before it is tapped.
+- The talk box can show narration: a line whose `who` is `narrator` (or whose `kind` is `narration`) is shown with no
+  name, set apart. Before the coven speaks at a set moment the hub now shows a stand-in line of narration, in words
+  only, with no voice (game/people/zone-1.js, PEOPLE_NARRATION_STANDIN). They are stand-ins: replace them.
+
+WHAT IS ASKED OF YOU
+1. A narrator. A speaker `narrator` in cast.js with a voice note for casting (Chris chooses the voice). Then narration
+   lines, `kind: 'narration'`, `who: 'narrator'`, ids like z1.narrator.01, as the first line of each set moment's talk
+   (so `talk: ['z1.opening', 0]` comes before the coven's lines), for every moment in zones 1 to 4. One line, two at
+   most, each one breath. It sets the scene: where the coven is, what has just happened, what is in front of them.
+   It never explains the story or says what anyone feels. If you think some moments are better with no narration,
+   say which and why.
+2. The opening above all. With the narrator setting the scene, say whether the coven's six lines there still earn
+   their place, or should be fewer. Chris was unsure. Propose, with your reason; he decides.
+3. The party's other moments: the same question, moment by moment. Propose cuts if any; change nothing that is
+   recorded without his yes.
+4. Your calls, now said at arm's length to someone already met: read them again in that light. Mark any that no
+   longer read right ("Don't brush my glass going by" still works; a line shouted across the camp would not).
+5. A shout from far off: if the story truly wants one anywhere in the four zones, propose it as `kind: 'shout'`, with
+   where the speaker stands and how far the coven is. If it wants none, say so.
+6. The recording order for the new lines only (the narrator's, and any changed line), in the same form as before, so
+   Chris can hand it over.
+
+As before: show Chris the proposal first (one page he can open), and write nothing into the recorded set until he
+says yes.
+```
 
 ### `story` (paste this into a new conversation, with `docs/lore/story-brief.md` pasted under it)
 
