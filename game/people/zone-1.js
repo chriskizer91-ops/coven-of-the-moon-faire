@@ -33,16 +33,6 @@
       { id: 'pell', name: 'Pell', trade: 'the child', body: 'farm-lad', size: 0.72, place: ['bogmire', 744, 354], look: [744, 300] },
     ],
   };
-  // ---- stand-in narration, in words only, said before the coven speaks at a set moment. NOT the story's: Chris asked on
-  // November 23 for a narrator's voice at such points; the story job is to write and record these, and its lines replace
-  // every one here. Each only says what the approved story page already says. ----
-  W3D.PEOPLE_NARRATION_STANDIN = {
-    opening: 'Dusk at the Moon Faire, in the fields outside Wickhollow. A moment ago the Grey Hat\u2019s twelve ship\u2019s lamps tore loose and flew north-east.',
-    cottage: 'Io\u2019s cottage, on the hill south of Wickhollow.',
-    thornwood: 'The edge of the Thornwood.',
-    fen: 'Bogmire, in the fen. Not a lamp is lit.',
-    'before-wraith': 'The fen\u2019s dark heart.',
-  };
   // ---- stand-in words, one or two each, so the talk can be tried. NOT the story's lines: those are being written by the
   // story job (docs/lore/story-brief.md) and replace every one of these. Several lean on Moon Faire's own stand-ins. ----
   W3D.PEOPLE_STANDIN = {
