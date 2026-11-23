@@ -40,6 +40,26 @@ The full older record stays in the old repos and is not copied here:
 - **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
   (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
 
+## November 23, 2026: the story job's work is in; zone 1 speaks
+
+- **From the story job's slip (Chris's words there, November 19 and 20):** he approved the story page and its calls,
+  the fair folk's names, zone 1's lines and voices, calls 12 to 18 for zones 2 to 4 ("go straight on"), and zone 2's
+  voices. The details are in `docs/slips/story.md` ("What Chris said here") and `docs/lore/story-page.md`.
+- **The hub brought `job/story` into `main`** on Chris's "continue with the next step", since the next step was
+  taking in the recorded lines and they were already there.
+- **Hub's call.** *How the stage of zone 1's story moves on:* 1 when the Grey Hat's first talk is said through; 2
+  when Nettie's first talk is; 3 when Old Wenna has told of the great wraith; 4 when the great wraith is released.
+- **Hub's call.** *Lamps home:* one for every four fights won in the wilds, up to eleven; the twelfth with the great
+  wraith.
+- **Hub's call.** *What starts each of the coven's set moments:* the opening when the game begins; then coming within
+  34 m of Io's cottage, 30 m of the Thornwood, 60 m of Bogmire, 40 m of the great wraith's spot; after the great
+  wraith is released; and the leaving after Europa sews the flames.
+- **Hub's call.** *The recordings stay as the MP3 files they came as* (64 kbps, one channel). Zone 1's add 11 MB to
+  the one-file build, which is now 97 MB.
+- **Hub's call.** *The townsfolk wear the fair folk's other shapes for now,* and Pell is the farm lad's body made
+  small. The Grey Hat wears his own.
+- **For Chris:** Tully's body is a man's and Tully's voice is a woman's. One of them should change.
+
 ## November 19, 2026, later in the morning: hub's calls made placing the people
 
 - **Hub's call.** *Where each of the fair folk stands:* nine in the camp at their own stall, cart, booth, fire or

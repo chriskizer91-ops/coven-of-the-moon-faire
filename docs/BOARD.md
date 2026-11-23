@@ -53,10 +53,10 @@ What the checks say (no screen, no graphics card):
 
 | Who | What |
 |---|---|
-| Chris | Starting a fresh conversation on `story` (text below); trying the fights on the land |
-| The `story` conversation (to be started) | The story page and a sample of lines for Chris's yes; then zone 1's 236 spoken lines |
+| Chris | Listening to zone 1 in the game on his laptop and phone (the voices have not been heard in the game yet) |
+| The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. Free for more work |
-| The hub | **The eleven fair folk stand in the land and can be talked to** (stand-in words). Next: the Grey Hat at the jetty; the townsfolk in Wickhollow and Bogmire; taking in the recorded lines when the zips come (`<line id>.mp3`); the stages of zone 1's story; the people moving about |
+| The hub | **Zone 1's nineteen people speak aloud in the game** (November 23). Next: what Chris hears; the pale moth on the land; the flight to zone 2 and zone 2's land |
 
 ## What is left of milestone 2 (job `zone-1`)
 
@@ -127,7 +127,7 @@ The hub's plan. Names and order may change.
 | `zone-1` | All of zone 1 on one land | `job/zone-1` | `docs/slips/zone-1.md` | **Most of it done, in `main`.** Six places, the camp, four witches to walk as, the 3D map's hills and fen, the long road. The better map and the rough spots are left |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
 | `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1, 2 and 3 done and in `main`** (November 19): the battle page; `CovenBattle.start()`; the party kept in the browser; unseen meetings in zone 1's wilds (about 46 fights to level 5); the fight over the land and back; rest at the camp; the gate's spot (a proposal). Zone 1's page is 83.5 MB |
-| `story` | The story's dialogue, written to be spoken aloud (every person has a voice) | `job/story` | `docs/slips/story.md` | **Ready for a fresh conversation** (Opus 5.5, extra high). The hub's brief is `docs/lore/story-brief.md` (a proposal). Step 1 stops for Chris's yes |
+| `story` | The story's dialogue, written to be spoken aloud (every person has a voice) | `job/story` | `docs/slips/story.md` | **In `main`** (November 23): the story page Chris approved; every line of zones 1 to 4 (`game/talk/zone-*.js`, `cast.js`); the recordings for zones 1 to 3 (`game/talk/audio/`, 480 files, 16 MB). Its notes for the hub are at the end of its slip: the moth, the gate lamp, and what zones 2 to 4 need |
 
 **Who owns which files, so two conversations never write the same one:**
 
