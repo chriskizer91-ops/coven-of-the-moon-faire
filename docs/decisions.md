@@ -13,6 +13,28 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, afternoon: hub's calls made giving zones 2 and 3 their people and story
+
+No new word from Chris here. Every line below is a **Hub's call**, made under his "let's continue on with the plan".
+
+- **Hub's call, for Chris to overrule.** *Zone 3's story runs in the order the map gives.* The lines were written as
+  if the shipyard were near the camp. On the map it is at the far end: camp, Eldergrove's edge, the cold moor, the
+  crossroads, the shipyard. So the coven walks through to the shipyard first, hears the shipmaster and the Grey Hat,
+  and meets the knight when it goes back up to the crossroads. Then back to the shipmaster for the name. No line was
+  changed; a few are heard at a different point than the story job planned.
+- **Hub's call.** *The knight stands on the crossroads' east road,* the way toward the mountains, as a tall pale
+  light. She has no body on the land yet.
+- **Hub's call.** *Zone 2's three dark road stones are the three old stones the Ember Line road already has,* and
+  Io lights each by walking up and pressing "Light the road stone". No fight guards them yet.
+- **Hub's call.** *Until the fights job reaches zones 2 and 3, the two big fights are stood in for:* walking up to
+  Dawnroost's living node, or to the knight, counts as the fight met. The words before and after are all said.
+- **Hub's call.** *Five of the narrator's lines were changed to fit the map,* before any was recorded:
+  `z2.narrator.04`, `z3.narrator.09`, `z3.narrator.10`, `z3.narrator.12`, `z3.narrator.13`. The recording order in
+  `game/people/recording/` has the new words.
+- **Hub's call.** *Where each person stands, and which of the fair folk's shapes each wears for now.* In Dawnroost
+  and the shipyard they stand where the new Envoi stood them, except the shipmaster (by her tall house) and the
+  Grey Hat (by the slip).
+
 ## November 23, 2026, midday: hub's calls made putting zones 2 and 3 on the map
 
 Chris's word for this (10:15 and 10:36): "I really want to get those first three zones situated", and "let's continue on

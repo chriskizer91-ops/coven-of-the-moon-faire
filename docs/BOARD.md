@@ -56,8 +56,11 @@ What the checks say (no screen, no graphics card):
 - **Zone 3, the northern wilds and the shipyard:** five places, 3.6 km from the northern camp to the shipyard. The
   last 330 m is a stone causeway over the sea. The shipyard stands 280 m south of its pin (a hub's call, in
   `docs/decisions.md`).
-- They are land to walk only: no people, voices, story, narrator or fights in them yet. All three zones pass
-  `tools/zone-test.py`. Nobody has seen their frame rates.
+- **Both now have their people, voices and story** (November 23, afternoon): six people in zone 2, seven in zone 3,
+  244 recorded lines, and each zone's story plays from the landing to the leaving (`tools/story-test.py`). The
+  pages are 89.3 MB and 86.7 MB.
+- Not in them yet: fights (the two big ones are stood in for), the narrator's voice (words only), the flight.
+- All three zones pass `tools/zone-test.py`. Nobody has seen their frame rates.
 
 ## What is being worked on now
 
@@ -66,7 +69,7 @@ What the checks say (no screen, no graphics card):
 | Chris | Taking the narrator's recording order (`game/people/recording/narration-recording-order.txt`, 48 lines) to be recorded; building creature models in another conversation |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. **Step 4 handed out** (November 23): two slots for a new creature in each zone (A on, B off), the whole game's levels, the checks at three settings (text below) |
-| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3's land is built and in `main`** (November 23). Next: **zones 2 and 3's people, voices, story and narrator** (their lines and recordings are in `main` already); the narrator's recordings when they come; the pale moth; the flight between zones |
+| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3 are built and speak, in `main`** (November 23). Next: the narrator's recordings when they come; the pale moth; the flight between zones; zone 4's land; the narrator's recordings when they come; the pale moth; the flight between zones |
 
 ## A note for later: the fights' balance may be redone
 
@@ -122,6 +125,10 @@ The hub's plan. Names and order may change.
 - **The shipyard's spot.** The hub stood it in the bay, 280 m south of its pin, because the pin is on a headland 25 m
   above the sea. Say if it should go back on the pin, or somewhere else.
 - The frame rate on `zone-2.html` and `zone-3.html`, laptop and phone.
+- **Zone 3's order.** The hub made the story follow the map: the shipyard first, the knight on the way back up to
+  the crossroads. Say if it should go another way.
+- **Five narrator lines changed** before recording (`z2.narrator.04`, `z3.narrator.09`, `.10`, `.12`, `.13`). If the
+  narrator has been recorded already, those five need making again from the new recording order.
 
 **A big story call, so the hub will ask before building on it:**
 
@@ -140,6 +147,16 @@ The hub's plan. Names and order may change.
 - The Moon Faire brambles: he has not looked at them yet.
 - The names of the three stars and the four other planets.
 - His songs: where each plays.
+
+## For the fights job, when it reaches zones 2 and 3
+
+- The story looks for the zone's big fight as `window.__fights.gate` (`{ id, at: [x, z] }`) and counts it won when
+  `party.gates[id]` is true, as in zone 1. The hub's names for them: `nodeNight` (zone 2, at Dawnroost's living
+  node) and `knightOfLight` (zone 3, on the crossroads' east road). Any other id works: the story uses the gate's own.
+- Until there is a gate, the story stands in for it. Once `__fights.gate` exists on a zone's page the stand-in
+  stops by itself.
+- Zone 2's three road stones are lit by a button now (`game/people/zone-2.js`, `W3D.THINGS`). A fight by each stone
+  can be added by making `can` wait for it.
 
 ## Jobs
 
