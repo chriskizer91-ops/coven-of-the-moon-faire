@@ -69,7 +69,7 @@ What the checks say (no screen, no graphics card):
 | Chris | Taking the narrator's recording order (`game/people/recording/narration-recording-order.txt`, 48 lines) to be recorded; building creature models in another conversation |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. **Step 4 handed out** (November 23): two slots for a new creature in each zone (A on, B off), the whole game's levels, the checks at three settings (text below) |
-| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3 are built and speak, in `main`** (November 23). Next: the narrator's recordings when they come; the pale moth; the flight between zones; zone 4's land; the narrator's recordings when they come; the pale moth; the flight between zones |
+| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3 are built and speak, in `main`** (November 23). **The narrator speaks: 43 of 48 lines are in** (the five changed ones are being made again). Next: the narrator's sound once Chris has picked by ear; the pale moth; the flight between zones; zone 4's land; the narrator's recordings when they come; the pale moth; the flight between zones |
 
 ## A note for later: the fights' balance may be redone
 
@@ -127,6 +127,8 @@ The hub's plan. Names and order may change.
 - The frame rate on `zone-2.html` and `zone-3.html`, laptop and phone.
 - **Zone 3's order.** The hub made the story follow the map: the shipyard first, the knight on the way back up to
   the crossroads. Say if it should go another way.
+- **Which way the narrator should sound:** A, B, C or D on `listen-narrator.html` (sent November 23, 12:13), or what
+  is wrong with the nearest. And which other voices need editing, and what is wrong with each.
 - **Five narrator lines changed** before recording (`z2.narrator.04`, `z3.narrator.09`, `.10`, `.12`, `.13`). If the
   narrator has been recorded already, those five need making again from the new recording order.
 

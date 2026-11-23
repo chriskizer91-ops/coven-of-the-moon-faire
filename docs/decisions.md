@@ -13,6 +13,20 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 12:13: the narrator's recordings; the narrator should sound like a storybook
+
+- **Chris: the narrator's lines that are still good are handed over** (three packets, 48 files). He is having the
+  five changed lines made again.
+- **Chris: the narrator's voice should sound like a storybook. Not off in the distance, but different in direction
+  from the people's and the coven's voices.**
+- **Chris: some of the voices will need sound editing, and he has to judge it by ear,** because the hub cannot hear.
+- **Hub's call.** *43 of the 48 go in as recorded now;* the five whose words changed (`z2.narrator.04`,
+  `z3.narrator.09`, `.10`, `.12`, `.13`) wait for the new recordings.
+- **Hub's proposal, for his ear.** *The people stay one voice in the middle. The narrator is made close, warm and
+  wide,* by changing the narrator's files themselves, so the game plays them the way his phone already plays the
+  rest. Four ways to try on `listen-narrator.html`: A as recorded, B close and warm, C by the fire, D all round
+  you. He picks a letter; the hub makes all the narrator's lines that way.
+
 ## November 23, 2026, afternoon: hub's calls made giving zones 2 and 3 their people and story
 
 No new word from Chris here. Every line below is a **Hub's call**, made under his "let's continue on with the plan".
