@@ -15,7 +15,8 @@
 //   moments  [[name, when(c), then(c)]]: the coven's set moments, each once, the first that is due
 //   changed(c, stage, was)   what else happens when the stage moves          each(c)   looked at twice a second (someone goes elsewhere)
 // `c` is what a rule may ask: c.stage, c.heard(talk or line, without the zone's "z2."), c.won() (the gate fight),
-// c.near(place id, metres), c.spot(place id, x, y, metres) (a spot in a place's painting), c.nodes, c.played(moment),
+// c.near(place id, metres), c.spot(place id, x, y, metres) (a spot in a place's painting), c.nodes, c.lamps (how many of
+// the Grey Hat's lamps are home), c.played(moment),
 // c.flag(name, value), c.fights (are there fights on this land), c.people, c.tell(narrator's line).
 // What it keeps: the stage, which lines have been heard, who has been talked to, which moments have been played,
 // how many road stones are lit (zone 2's `nodes`), and small flags.
@@ -77,7 +78,7 @@
       const parts = {}; for (const p of Z.parts) parts[p.id] = p;
       const dRect = (p, x, z) => (p ? Math.hypot(Math.max(p.x0 - x, 0, x - p.x1), Math.max(p.z0 - z, 0, z - p.z1)) : 1e9);
       let me = people.me();
-      const C = { get stage() { return stage(); }, get nodes() { return S.nodes || 0; }, get fights() { return !!G.__fights; }, get gate() { return (G.__fights && G.__fights.gate) || null; }, people,
+      const C = { get stage() { return stage(); }, get nodes() { return S.nodes || 0; }, get lamps() { return lamps(); }, get fights() { return !!G.__fights; }, get gate() { return (G.__fights && G.__fights.gate) || null; }, people,
         heard: (id) => heardTalk(zone + '.' + id) || !!S.heard[zone + '.' + id], won: () => gateWon(), played: (m) => !!S.moments[m],
         near: (id, d) => dRect(parts[id], me.x, me.z) < d,
         spot: (id, px, py, d) => { const p = parts[id]; return !!p && Math.hypot(p.ox + p.P.M.x(px) - me.x, p.oz + p.P.M.z(py) - me.z) < d; },

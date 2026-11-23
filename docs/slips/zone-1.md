@@ -1,12 +1,102 @@
 # zone-1: all of zone 1 on one land
 
-Branch: job/zone-1      Built by: the hub      Updated: November 18, 2026, night
+Branch: job/zone-1      Built by: the hub      Updated: November 23, 2026, late afternoon (newest part first)
 
 **State: part done.** All six places stand on one land and are joined by roads, and the game starts in the Moon
 Faire's camp. Still to come before this is milestone 2: a choice of who walks, the zone's shape taken from the 3D map,
 the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
+
+## Added on November 23, late afternoon: the four small things zone 1's lines speak of
+
+Built by the new hub (the hub moved to a new conversation at 13:15). This is step 5 of the handoff's list.
+
+**What was found first, by looking:**
+
+- **The cottage's gate lamps were there already, and lit,** but nobody could tell. Each of its four gate pillars (two
+  where the lane comes in from Wickhollow, two at the garden gate to the south) has a lantern, lit from the start.
+  Each was a light the size of a hand.
+- **The cottage's lines were said where nothing could be seen.** They began 34 m short of the cottage's ground, on
+  the road in the woods, where a rise hides the lane. Callisto said "The lamp by the gate is lit" with no lamp in
+  sight, and the narrator "She has not stood at this gate in seven years" with no gate.
+- **The jetty's line was the same:** "An airship rides at the end of the pier" was said at the top of the lane,
+  under the cliffs, 75 m from the pier's end.
+- **Nothing stood at the end of the pier,** and Old Bridie stood by nothing.
+
+**What was built:**
+
+- **The gate lamps glow.** Each of the four lanterns now has a warm glow 3 m wide, so a kept lamp reads as one from
+  the road (`game/people/zone-1.js`, the thing `gate-lamps`).
+- **The cottage's lines are said at its gate** (hub's call): within 15 m of the lane's two pillars, or 12 m of the
+  garden gate, or 9 m of the door, whichever the coven comes to first.
+- **Old Bridie's lantern.** One of the Faire's own lantern posts (the same piece as the camp's fourteen) stands
+  1.2 m from her and 2.9 m from the middle of the road, its arm toward the road, lit. Its light lies on the road and
+  lights whoever stands by it. It cannot be walked through. `W3D.fair.piece` (new, `game/fair/fair.js`) stands one
+  piece of the fair kit anywhere on the land, with lamplight of its own.
+- **The Grey Hat's ship at the jetty: a STAND-IN** (`game/places/jetty-ship.js`, made new here, nothing copied).
+  A hull 15 m long and 4.4 m wide in the jetty's own wood, a cabin, a mast with its sail furled, a tall tail fin, a
+  dim amber sunstone on the cabin roof, a gangway and two lines to the pier's bollards. Twelve iron lamp hooks, six
+  a side. She lies across the end of the pier, bow to the west, 1.6 m off it. She cannot be boarded.
+  **She is not one of Chris's ships.** The real one comes from Skies of Aethermoor with the flight between zones.
+  This conversation was given three repos and not that one, so nothing of it was read. When the real ship comes it
+  takes that one file's place; the lamps only need to know where its twelve hooks are.
+- **The twelve lamps come home to her hooks** (the thing `ship-lamps`). The count is the story's own, unchanged: one
+  for every four fights won in the wilds, the twelfth with the great wraith. Each hangs lit on its hook from then on,
+  the pier's side first, from the gangway outward. Until then the hooks are bare, as the narrator says.
+- **The jetty's line waits until the ship can be seen** (hub's call): it is said when the coven is down on the quay.
+- **The pale moth** (the thing `moth`). When the great wraith is let go and the narrator begins "Where it stood, one
+  pale moth rises", a pale moth appears 6.5 m from the coven, the way the camera is looking. It circles upward for
+  twelve seconds to 4.5 m, then flies west and somewhat north, toward the moon, climbing. At thirty seconds it is
+  24 m west, 14 m north and 7 m up, and plain to see; at a minute it is 69 m west and faint; by two minutes the fog
+  has it. Once only: if the page is opened after the great wraith was let go, no moth rises.
+- **`game/people/things.js` grew** (it was zones 2 and 3's): a thing can now stand anywhere on the land, not only in
+  a place; it can make a light that always faces the camera (`halo`), a light lying on the ground over its rises and
+  dips (`pool`), ask how much the fog leaves of a light (`fade`), and is told the game's clock. Zones 2 and 3 use
+  the same file: their things are unchanged.
+- **`game/people/story.js`:** a rule may now ask how many lamps are home (`c.lamps`).
+
+**What it costs to draw** (the headless browser's own count, at the foot of the pier): the ship adds 998 triangles
+and 3 draw calls (240 to 243). With all twelve lamps home it is 1,454 triangles and 17 draw calls more (240 to 257).
+The page is 100.3 MB (it was 100.2).
+
+**Checked:**
+
+- `tools/things-test.py` (new): 37 checks, all passed, 0 page errors. Each glow sits on one of the cottage's own
+  lanterns; the lantern post is by Bridie, off the road, solid, lit; twelve hooks, six a side, over the water; with
+  0, 1, 4, 11 and 12 lamps home that many hang lit; the cottage's lines are not said 34 m off and are said at either
+  gate; the jetty's line is not said at the top of the lane and is said on the quay; the moth is not there before,
+  is there at once when the great wraith is marked won in the party's own record, rises, goes west and north, fades,
+  is gone, and does not rise again.
+- `tools/zone-test.py`, `tools/people-test.py` and `tools/encounter-test.py --quick` still pass on zone 1.
+  `tools/story-test.py` and `tools/zone-test.py` still pass on zones 2 and 3 (they share `things.js` and `story.js`).
+- 57 pictures were taken (12 before, 45 after) and nearly all looked at: the cottage from 34 m, from its edge and
+  at both gates; Bridie from four sides; the ship from the quay, the pier, the west corner and the east arm, with 0,
+  3, 5 and 12 lamps; the moth at 1, 2, 5, 6, 10, 17, 18, 27, 44 and 70 seconds.
+- Opened as a player would (not as a check): the Begin button, then the narrator and Kore, 0 page errors.
+
+**Not checked:**
+
+- Anything moving: the moth's wings and its path as a motion, the lamps' flicker. Stills only.
+- The frame rate, as ever. And how the glows look on a real screen.
+- The moth after a real fight with the great wraith. The check marks the fight won in the party's record, which is
+  what a won fight does, but it does not play the fight.
+
+**Rough or not done:**
+
+- The ship is a plain stand-in, and she never leaves: nothing happens after the leaving yet.
+- **No flame leans anywhere,** though the lines say every flame leans north. So Old Bridie's lamp does not "stand
+  almost straight" at the end either: it never leaned. That is a thing for the whole game, not for one lamp.
+- **The great wraith's spot is not where the lines say it is.** Old Wenna says "It sits in the fen's dark heart. Up
+  the north road, where the boardwalk ends", and the narrator "The fen's dark heart. The boardwalk ends here". But
+  the fights job's spot (its own proposal, marked as Chris's to place) is on the road 20 m out of Bogmire's north
+  gate, 390 m short of the heart. So the narrator speaks of the heart on a causeway outside Bogmire. The spot is
+  one line of the fights job's (`game/encounters/zone-1.js`, `gate.at`). The old Envoi's great wraith sat before the
+  drowned hall's steps: the middle of the heart's square is (1506.7, 1818.7) in this land's metres. The moth follows
+  the spot wherever it goes.
+- The moth is a pale shape and a glow, not a painted moth. It rises where the camera looks, not on a fixed spot.
+- Not looked at: Quill's lantern "tied to its post with three hitches" (he has none); whether Odile's stall is "by
+  the well" as two pointers say (it is 20 m from it); Old Wenna's stall "by the boardwalk".
 
 ## Added on November 23, 12:13: the narrator's recordings, and four ways it could sound
 
