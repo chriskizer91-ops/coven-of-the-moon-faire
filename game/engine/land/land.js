@@ -73,11 +73,11 @@
     // and the camp. Found on a grid of 16 m squares, then smoothed. (The points given stay: the gates and the lead-ins.) ----
     if (L.atlas && L.atlas.map && W3D.atlas && W3D.atlas.ready) {
       const AMr = L.atlas.map, O = {}, C = 16, parts = Z.parts, flats = L.flats || [];
-      const route = (a, b) => {
+      const route = (a, b, wet) => {   // wet: what a step over water costs beside one over land (10; a road with `wet` of its own, say 1.3, will cross a bay on a causeway)
         const x0 = Math.min(a[0], b[0]) - 320, z0 = Math.min(a[1], b[1]) - 320, nx = Math.ceil((Math.max(a[0], b[0]) + 320 - x0) / C) + 1, nz = Math.ceil((Math.max(a[1], b[1]) + 320 - z0) / C) + 1, N = nx * nz;
         const H = new Float32Array(N), K = new Float32Array(N), g = new Float32Array(N).fill(1e30), from = new Int32Array(N).fill(-1), done = new Uint8Array(N);
         for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) { const x = x0 + i * C, z = z0 + j * C, q = W3D.atlas.at(AMr.origin[0] + x / AMr.k, AMr.origin[1] + z / AMr.k, O); H[j * nx + i] = q.h * AMr.vk;
-          K[j * nx + i] = parts.some((p) => x > p.x0 - 14 && x < p.x1 + 14 && z > p.z0 - 14 && z < p.z1 + 14) || flats.some((f) => Math.hypot(x - f.x, z - f.z) < f.r + 8) ? 1e9 : q.water > 0.4 ? 10 : 1; }
+          K[j * nx + i] = parts.some((p) => x > p.x0 - 14 && x < p.x1 + 14 && z > p.z0 - 14 && z < p.z1 + 14) || flats.some((f) => Math.hypot(x - f.x, z - f.z) < f.r + 8) ? 1e9 : q.water > 0.4 ? (wet || 10) : 1; }
         const id = (p) => clamp(Math.round((p[1] - z0) / C), 0, nz - 1) * nx + clamp(Math.round((p[0] - x0) / C), 0, nx - 1), s = id(a), e = id(b), ei = e % nx, ej = (e - ei) / nx;
         // (the two ends may lie against a place: the squares right by them are let through)
         for (const n of [s, e]) for (let dj = -2; dj <= 2; dj++) for (let di = -2; di <= 2; di++) { const k = n + dj * nx + di; if (k >= 0 && k < N && K[k] > 1e8) K[k] = 1; }
@@ -94,7 +94,7 @@
         return pts.map((p) => [+p[0].toFixed(1), +p[1].toFixed(1)]);
       };
       for (const r of (L.roads || []).concat(L.longRoad ? [L.longRoad] : [])) { if (!r.route) continue; let pts = [r.pts[0]];
-        for (let i = 1; i < r.pts.length; i++) { const a = r.pts[i - 1], b = r.pts[i]; pts = pts.concat(Math.hypot(b[0] - a[0], b[1] - a[1]) > 150 ? route(a, b).slice(1) : [b]); }
+        for (let i = 1; i < r.pts.length; i++) { const a = r.pts[i - 1], b = r.pts[i]; pts = pts.concat(Math.hypot(b[0] - a[0], b[1] - a[1]) > 150 ? route(a, b, r.wet).slice(1) : [b]); }
         r.pts = pts; }
       // every sharp corner is rounded off (cut 12 m back each way, or a third of the stretch), twice
       for (const r of (L.roads || []).concat(L.longRoad ? [L.longRoad] : [])) for (let pass = 0; pass < 2; pass++) { const q = r.pts, out = [q[0]];
@@ -104,7 +104,7 @@
         out.push(q[q.length - 1]); r.pts = out; }
     }
     // (a long road is kept in short runs, each with its own box, so finding the nearest run is quick)
-    const ROADS = []; let ROADS_SRC = -1; for (const r of L.roads || []) { ROADS_SRC++; const n = r.pts.length; for (let i = 0; ; i += 8) { const pts = r.pts.slice(i, i + 9), last = i + 9 >= n; ROADS.push({ src: ROADS_SRC, i0: i, hs: null, pts, w: r.w || 3.4, stone: i === 0 ? r.stone || null : null, from: r.pts[0], stoneTo: last ? r.stoneTo || null : null, to: r.pts[n - 1], b: box(pts, 14) }); if (last) break; } }
+    const ROADS = []; let ROADS_SRC = -1; for (const r of L.roads || []) { ROADS_SRC++; const n = r.pts.length; for (let i = 0; ; i += 8) { const pts = r.pts.slice(i, i + 9), last = i + 9 >= n; ROADS.push({ src: ROADS_SRC, i0: i, hs: null, pts, w: r.w || 3.4, stone: i === 0 || r.stoneAll ? r.stone || null : null, all: !!r.stoneAll, from: r.pts[0], stoneTo: last ? r.stoneTo || null : null, to: r.pts[n - 1], b: box(pts, 14) }); if (last) break; } }
     const RIVERS = (L.rivers || []).map((r) => ({ pts: r.pts, level: r.level, bed: r.bed, tex: r.tex, rep: r.rep, flow: r.flow, b: box(r.pts, 26) }));
     const LAKES = (L.lakes || []).map((l) => ({ poly: l.poly, level: l.level, bed: l.bed, tex: l.tex, rep: l.rep, flow: l.flow, b: box(l.poly, 16), bb: box(l.poly, 0) }));
     // flats: round stretches of ground levelled and trampled to earth, with no trees (the Moon Faire's camp). Each may
@@ -257,7 +257,7 @@
       // camp, and of the places that do not stand in it
       let wk = 0;
       if (q) {
-        wk = Math.max(q.wm * ss(24, 44, d), q.force) * ss(1.2, 4.0, re) * ss(25, 55, sd) * (1 - flatK);
+        wk = Math.max(q.wm * (NR && NR.part.sea ? 1 : ss(24, 44, d)), q.force) * ss(1.2, 4.0, re) * ss(25, 55, sd) * (1 - flatK);   // (a place that stands in the map's own water, `sea`, has it right up to its edge)
         const fl = q.wl + 0.3; if (h < fl) h = lerp(h, fl, ss(2, 10, sd) * ss(0.05, 0.3, q.wk));   // (only where there is water near: a road's cutting stays cut)
         h = lerp(h, fl, ss(0.15, 0.45, wk)) - 1.4 * ss(0.47, 0.7, wk);
       }
@@ -268,7 +268,7 @@
         F.road = Math.max(rw, flatK * (0.5 + 0.5 * ss(0.3, 0.6, vnoise(x / 6.3 + 1.1, z / 6.3 + 7.7))));
         // a road out of town keeps the town's stone underfoot for its first steps, then wears down to earth
         F.cob = 0; F.pave = 0;
-        if (stone) for (const [kind, at] of [[stone.stone, stone.from], [stone.stoneTo, stone.to]]) { if (!kind) continue; const sk = rw * (1 - ss(3, 24, Math.hypot(x - at[0], z - at[1]))); if (kind === 'cob') F.cob = Math.max(F.cob, sk); else F.pave = Math.max(F.pave, sk); }
+        if (stone) for (const [kind, at] of [[stone.stone, stone.from], [stone.stoneTo, stone.to]]) { if (!kind) continue; const sk = stone.all ? rw : rw * (1 - ss(3, 24, Math.hypot(x - at[0], z - at[1]))); /* (`stoneAll`: a road of stone from end to end, a causeway) */ if (kind === 'cob') F.cob = Math.max(F.cob, sk); else F.pave = Math.max(F.pave, sk); }
         F.thorn = tk;
         F.moss = tk * ss(0.52, 0.7, vnoise(x / 23 + 9.9, z / 23 + 4.4)) * (1 - rw);
         F.wet = Math.max(1 - ss(0, 5, Math.max(sd, 0)), ss(0.12, 0.5, wk));
@@ -296,10 +296,11 @@
     }
     // the ground a square is drawn with: inside the place's own ground it follows the place's, a finger lower at the edge
     // and a hand lower from a little way in, so the place's ground always lies on top there and the two never flicker
+    const UNDER = -9000;   // the mark for "under a place, never seen" (far below any land: the map's own hills and shores go from -70 to 100 m and more)
     function drawnY(x, z) {
       const r = rectAt(x, z); if (!r) return height(x, z);
       const dIn = Math.min(x - r.x0, r.x1 - x, z - r.z0, r.z1 - z);
-      return dIn > 4 ? -60 : r.terr(x, z) - 0.05 - 0.6 * ss(0.3, 2.0, dIn);
+      return dIn > 4 ? UNDER : r.terr(x, z) - 0.05 - 0.6 * ss(0.3, 2.0, dIn);
     }
 
     // ---- the ground's look: the place engine's own lighting, four of Chris's ground textures laid by the rules ----
@@ -390,18 +391,18 @@
       for (let j = -1; j <= n + 1; j++) for (let i = -1; i <= n + 1; i++) {
         const x = x0 + i * cell, z = z0 + j * cell, inner = i >= 0 && j >= 0 && i <= n && j <= n;
         let y;
-        if (nearRect && inRectM(x, z)) { y = drawnY(x, z); if (inner) { if (y < -50) deep[j * N1 + i] = 1; const k = (j * N1 + i) * 4; wt[k] = 0; wt[k + 1] = 0; wt[k + 2] = 0; wt[k + 3] = 0; } }
+        if (nearRect && inRectM(x, z)) { y = drawnY(x, z); if (inner) { if (y < UNDER + 10) deep[j * N1 + i] = 1; const k = (j * N1 + i) * 4; wt[k] = 0; wt[k + 1] = 0; wt[k + 2] = 0; wt[k + 3] = 0; } }
         else if (inner) { const f = field(x, z, true); y = f.h; const k = (j * N1 + i) * 4; wt[k] = f.road; wt[k + 1] = f.thorn; wt[k + 2] = f.moss; wt[k + 3] = f.wet; const s3 = (j * N1 + i) * 3; st[s3] = f.cob; st[s3 + 1] = f.pave; st[s3 + 2] = f.fen; if (f.aw > 0.47) { wetN++; if (f.wl < hsMin) hsMin = f.wl; } }
         else y = height(x, z);
         Hh[(j + 1) * HP + i + 1] = y;
-        if (inner && y > -50) { if (y < lo) lo = y; if (y > hi) hi = y; }
+        if (inner && y > UNDER + 10) { if (y < lo) lo = y; if (y > hi) hi = y; }
       }
       if (lo > hi) return null;   // wholly under the place
       for (let j = 0; j <= n; j++) for (let i = 0; i <= n; i++) {
         const k = (j * N1 + i) * 3, c = (j + 1) * HP + i + 1;
         pos[k] = x0 + i * cell; pos[k + 1] = Hh[c]; pos[k + 2] = z0 + j * cell;
         let a = Hh[c - 1], b = Hh[c + 1], d = Hh[c - HP], e = Hh[c + HP];
-        if (a < -50) a = Hh[c]; if (b < -50) b = Hh[c]; if (d < -50) d = Hh[c]; if (e < -50) e = Hh[c];
+        if (a < UNDER + 10) a = Hh[c]; if (b < UNDER + 10) b = Hh[c]; if (d < UNDER + 10) d = Hh[c]; if (e < UNDER + 10) e = Hh[c];
         const nx = -(b - a) / (2 * cell), nz = -(e - d) / (2 * cell), l = Math.hypot(nx, 1, nz);
         nrm[k] = nx / l; nrm[k + 1] = 1 / l; nrm[k + 2] = nz / l;
       }

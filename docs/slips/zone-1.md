@@ -8,6 +8,36 @@ the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
 
+## Added on November 23: zones 2 and 3, on the map
+
+The same hub that does zone 1 does these (so they are written up here).
+
+- **Zone 2, the Warm Roads and Dawnroost** (`game/places/zone-2.js`, `game/pages/zone-2.html`). Five of the new
+  Envoi's places, as they are, each on its own pin on the map at one third size: the Warm Roads camp (where she
+  starts), the Ember Line road 700 m to the east-north-east, the forest road, Dawnroost, and Dawnroost's living node
+  north of the town. Four roads join them (565 m, 896 m, 740 m and 292 m). The camp to the node is 2.5 km of walking.
+- **Zone 3, the northern wilds and the shipyard** (`game/places/zone-3.js`, `game/pages/zone-3.html`). Five places:
+  the northern camp (the start), Eldergrove's edge, the cold moor, the northern crossroads on its hill, and the
+  shipyard. Roads of 661 m, 849 m and 852 m join the first four. From the crossroads the road goes 870 m down the
+  hill to a shelf above the shore, then **a stone causeway 330 m long slopes down over the sea** to the shipyard's
+  own bridge. The camp to the shipyard is 3.6 km of walking, and the land falls from 83 m up at the crossroads to
+  the sea 67 m below the camp.
+- **Each wild place is opened at its gates.** These places end in a ring of thicket with a marked way out. The zone
+  file adds a strip of walking ground from each way out to the place's edge, and takes away the trees standing on it.
+- **Three changes to the land engine** (`game/engine/land/land.js`, `zone.js`), all needed by zone 3:
+  - The land was not drawn anywhere lower than 50 m below the start (that number marked "under a place"). Zone 3's
+    shore is 67 m below. The mark is now 9,000 m down.
+  - A road can be given `wet` (how dear a step over water is when it finds its way) and `stoneAll` (stone underfoot
+    from end to end, for a causeway).
+  - A place can be marked `sea`: it stands in the map's own water, so that water comes right up to its edge.
+- **Checked:** `tools/zone-test.py` passes on all three zones after these changes (every road walked at a sprint,
+  no jump in her height, she ends on the next place's ground, 4,000 spots obey the rules, no page errors). Fourteen
+  pictures of zone 3 and ten of zone 2 were looked at.
+- **Not checked:** the frame rate on either page (only Chris's laptop and phone can show it). Zone 3's shipyard road
+  is steep: 13 to 18 m in every 100.
+- **Not in these two pages yet:** people, voices, the story, the narrator, fights. They are land to walk only.
+- **Sizes:** zone 2 is 81.8 MB, zone 3 is 78.9 MB.
+
 ## What it built
 
 One page: **`game/pages/zone-1.html`**. Build it with `python3 tools/build.py game/pages/zone-1.html`; the file to
@@ -226,6 +256,14 @@ true: the pins and stretching, the heights divided by 8, the 6.07 km road at tru
 
 ## Hub's calls made here
 
+- **Nov 23, zone 3: the shipyard stands 280 m south of its pin.** Its pin on the map, (2097, 599), is on a headland
+  25 m above the sea. The place itself is a rock in the sea at the end of a long bridge from the south. So it stands
+  in the bay just off that headland, at (2097, 684), with the map's sea all round it. One number to change back.
+- **Nov 23, zone 3: the way to the shipyard is a causeway over the bay.** The coast there is steep all round. The
+  other way, round the head of the inlet, was 1.9 km with cuttings 34 m deep.
+- **Nov 23, zones 2 and 3: the crossroads' two ways out to "the world" (east and south) stay closed,** and so do any
+  ways out that lead off the zone.
+
 (Also in `docs/decisions.md`.)
 
 - **How the zone lies on the map.** Envoi's 3D map has zone 1's places up to 8 km apart; here they are within 1 km,
@@ -295,6 +333,11 @@ python3 tools/look.py builds/zone-1.html <a folder> --plan <plan.json>
 **Not checked:** the frame rate with the camp in; anything in motion (the lanterns' flicker, the camera near a tent).
 
 ## Unfinished, and known rough spots
+
+- Zone 3's causeway is a plain bank with stone on top and sheer sides. It is not a built bridge with arches, and it
+  has no parapet: she cannot walk off it into the sea, but it looks as if she could.
+- Zone 3's ground is the same frosted grass everywhere. The map's snow line is not drawn on the land yet.
+- Every page now carries the frosted fir pictures (about 2 MB), used or not: the tree engine names them.
 
 - **Nobody is in the camp yet**: no fair folk, no captain.
 - The camera can pass inside a tent or a stall (the kit's pieces do not thin away as walls and trees do).

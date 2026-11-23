@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Coven of the Moon Faire: zone 3</title>
+<style>
+/* Zone 1: its places on one open land. Few things on the screen, all at its edges. */
+html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#world{position:fixed;inset:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#world canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+/* the thumb's ring (phones): where it went down, and where it is */
+#ring{position:absolute;display:none;width:116px;height:116px;margin:-58px 0 0 -58px;border-radius:50%;border:2px solid rgba(230,226,255,.42);background:rgba(20,18,44,.18);pointer-events:none;z-index:3}
+#dot{position:absolute;left:50%;top:50%;width:40px;height:40px;border-radius:50%;background:rgba(240,236,255,.5);transform:translate(-50%,-50%);pointer-events:none}
+/* top right: the numbers button (the look's button, made by the walker, sits left of it) */
+#nums{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:4;appearance:none;width:46px;height:46px;border-radius:23px;border:1px solid rgba(214,222,255,.45);background:rgba(14,14,36,.62);display:grid;place-items:center;padding:0;cursor:pointer}
+#nums svg{width:22px;height:22px}
+#nums.on{background:rgba(70,60,130,.8);border-color:rgba(200,190,255,.75)}
+/* top right, left of the look's button: who walks, and the four to choose from */
+#who{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(68px + env(safe-area-inset-right,0px));z-index:4;appearance:none;width:46px;height:46px;border-radius:23px;border:1px solid rgba(214,222,255,.45);background:rgba(14,14,36,.62);display:grid;place-items:center;padding:0;cursor:pointer}
+#who svg{width:22px;height:22px}
+#whoPanel{position:absolute;top:calc(66px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:5;display:none;flex-direction:column;gap:6px;padding:8px;border-radius:16px;background:rgba(14,12,34,.86);border:1px solid rgba(214,222,255,.3)}
+#whoPanel button{appearance:none;border:1px solid rgba(214,222,255,.25);border-radius:12px;background:rgba(40,36,80,.5);color:#f0ecff;font:15px system-ui,sans-serif;padding:10px 14px;text-align:left;min-width:190px;cursor:pointer}
+#whoPanel button small{display:block;color:#b8b4e0;font-size:12px}
+#whoPanel button.on{background:rgba(96,80,170,.8);border-color:rgba(220,210,255,.8)}
+/* top left: the map. Tap it for the big one */
+#world canvas.mini{position:absolute;inset:auto;left:calc(12px + env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));z-index:4;width:clamp(124px,22vmin,150px);height:clamp(124px,22vmin,150px);touch-action:manipulation;border-radius:13px;box-shadow:0 2px 12px rgba(0,0,0,.55);cursor:pointer}
+/* the big map: its size is set by minimap.js, to fit the screen either way up */
+#world canvas.bigmap{position:absolute;inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);z-index:8;width:auto;height:auto;touch-action:manipulation;border-radius:14px;box-shadow:0 6px 40px rgba(0,0,0,.75);cursor:pointer}
+/* the foot of the screen, in the middle: the Talk button, and over it the words a person says */
+.talkbtn{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:6;appearance:none;min-height:48px;min-width:150px;padding:10px 22px;border-radius:24px;border:1px solid rgba(255,226,160,.7);background:rgba(34,26,60,.86);color:#ffe9b8;font:600 16px Georgia,serif;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.45)}
+.talkbox{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:6;width:min(560px,calc(100% - 28px));padding:10px 16px 12px;border-radius:14px;background:rgba(14,12,34,.84);border:1px solid rgba(214,222,255,.28);pointer-events:none}
+.talkbox.narr{background:rgba(8,8,22,.78);border-color:rgba(255,226,160,.3);text-align:center}
+.talkbox.narr .talksaid{font-style:italic;color:#ffeccc}
+.talkbox.narr .talkwho{display:none}
+/* the start: one button. It also lets a phone play sound, which it will only do after a tap */
+#begin{position:absolute;inset:0;z-index:20;display:none;place-items:center;background:radial-gradient(ellipse at 50% 60%,rgba(10,8,30,.55),rgba(6,5,18,.92));text-align:center}
+#begin h1{font:600 clamp(26px,5.2vw,46px)/1.15 Georgia,serif;color:#ffe9b8;margin:0 16px 8px;letter-spacing:.02em}
+#begin p{font:15px Georgia,serif;color:#cfc8ee;margin:0 20px 26px}
+#begin button{appearance:none;min-width:190px;min-height:56px;border-radius:28px;border:1px solid rgba(255,226,160,.8);background:rgba(52,40,96,.9);color:#ffe9b8;font:600 19px Georgia,serif;cursor:pointer}
+.talkwho{color:#ffd98a;font:600 13px Georgia,serif;letter-spacing:.03em;margin-bottom:3px}
+.talksaid{color:#f4f0ff;font:17px/1.35 Georgia,serif}
+/* bottom left: how fast it is drawing */
+#numbers{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:4;padding:6px 12px;border-radius:14px;background:rgba(10,10,28,.6);color:#e8e6ff;font-size:13px;line-height:1.35;pointer-events:none}
+#numbers b{font-size:15px}
+#numbers small{display:none;color:#b8b4e0;font-size:12px}
+#numbers.more small{display:block}
+/* top left: the herbs in Io's bag, once she has one */
+#bag{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));top:calc(clamp(124px,22vmin,150px) + 22px + env(safe-area-inset-top,0px));z-index:4;display:none;gap:10px;padding:7px 12px;border-radius:16px;background:rgba(14,12,34,.66);border:1px solid rgba(214,222,255,.3);color:#f0ecff;font-size:14px;pointer-events:none}
+#bag span{display:inline-flex;align-items:center;gap:6px}
+#bag i{width:11px;height:11px;border-radius:50%;display:inline-block;box-shadow:0 0 7px currentColor}
+/* top middle: where she is, and what she found */
+#toast{position:absolute;left:50%;top:calc(16px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:4;max-width:calc(100% - 190px);padding:8px 16px;border-radius:16px;background:rgba(14,12,34,.72);color:#f4f0ff;font-size:15px;line-height:1.3;text-align:center;opacity:0;transition:opacity .5s;pointer-events:none}
+@media (max-width:720px){#toast{top:calc(clamp(124px,22vmin,150px) + 66px + env(safe-area-inset-top,0px));max-width:calc(100% - 40px)}}
+#toast.name{font:400 22px/1.2 Georgia,"Times New Roman",serif;letter-spacing:.03em;color:#ffe6a8;background:rgba(14,12,34,.55)}
+#load{position:fixed;inset:0;z-index:9;display:grid;place-content:center;text-align:center;background:#0a0b18;color:#e8e4ff;font-family:Georgia,"Times New Roman",serif;transition:opacity .6s;padding:0 24px}
+#load h1{margin:0 0 6px;font-weight:400;font-size:32px;letter-spacing:.02em}
+#load h2{margin:0 0 14px;font-weight:400;font-size:17px;color:#cfc8f2}
+#load p{margin:0;font:15px system-ui,sans-serif;color:#b8b4e0}
+</style>
+</head>
+<body>
+<div id="world"><canvas id="cv"></canvas><div id="ring"><div id="dot"></div></div>
+  <button id="nums" aria-label="Show or hide the numbers"><svg viewBox="0 0 24 24" fill="none" stroke="#eee8ff" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-5"/></svg></button>
+  <button id="who" aria-label="Choose who walks"><svg viewBox="0 0 24 24" fill="none" stroke="#eee8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3.2 6.4H8.8L12 3zM6 9.4h12M12 12.5a3 3 0 100 6 3 3 0 000-6zM6.5 21c.8-2.2 3-3.2 5.5-3.2s4.700 1 5.500 3.200"/></svg></button>
+  <div id="whoPanel"></div>
+  <div id="bag"></div><div id="toast"></div>
+  <div id="begin"><div><h1>Coven of the Moon Faire</h1><p>Dusk, outside Wickhollow</p><button>Begin</button></div></div>
+  <div id="numbers"><b id="fps">…</b> frames a second<small id="more"></small></div></div>
+<div id="load"><div><h1>Coven of the Moon Faire</h1><h2>Zone 3: the northern wilds and the shipyard</h2><p id="loadmsg">Loading…</p></div></div>
+<script src="../lib/three.r128.min.js"></script>
+<script src="../witches/io/meshopt_simplifier.js"></script>
+<script src="../witches/io/palette.js"></script>
+<script src="../witches/io/io_tex.js"></script>
+<script src="../witches/io/io_plus.js"></script>
+<script src="../witches/kore/jester_tex.js"></script>
+<script src="../witches/kore/jester_kit.js"></script>
+<script src="../witches/kore/lod.js"></script>
+<script src="../witches/europa/fox_tex.js"></script>
+<script src="../witches/europa/fox_lod.js"></script>
+<script src="../witches/callisto/ranger_tex.js"></script>
+<script src="../witches/callisto/ranger_lod.js"></script>
+<script src="../witches/io/witch_levels.js"></script>
+<script src="../witches/io/moon-io.js"></script>
+<script src="../look/flipbook.js"></script>
+<script src="../data/maps-northern-camp.js"></script>
+<script src="../data/maps-eldergrove-edge.js"></script>
+<script src="../data/maps-cold-moor.js"></script>
+<script src="../data/maps-crossroads.js"></script>
+<script src="../data/maps-shipyard.js"></script>
+<script src="../engine/place/core.js"></script>
+<script src="../engine/place/cutouts.js"></script>
+<script src="../engine/place/extras.js"></script>
+<script src="../engine/place/paint.js"></script>
+<script src="../engine/place/world.js"></script>
+<script src="../engine/place/walker.js"></script>
+<script src="../witches/walkers.js"></script>
+<script src="../engine/land/atlas.js"></script>
+<script src="../engine/land/land.js"></script>
+<script src="../engine/land/zone.js"></script>
+<script src="../engine/land/minimap.js"></script>
+<script src="../places/northern-camp.js"></script>
+<script src="../places/northern-camp-trees.js"></script>
+<script src="../places/eldergrove-edge.js"></script>
+<script src="../places/eldergrove-edge-trees.js"></script>
+<script src="../places/cold-moor.js"></script>
+<script src="../places/cold-moor-trees.js"></script>
+<script src="../places/crossroads.js"></script>
+<script src="../places/crossroads-trees.js"></script>
+<script src="../places/shipyard.js"></script>
+<script src="../places/shipyard-trees.js"></script>
+<script src="../places/zone-3.js"></script>
+<!-- (the people, the story and the fights of zone 3 come next) -->
+
+<script>
+// Zone 3 (Coven of the Moon Faire): the zone's places stand on one open land, and Io walks from one to the next with
+// no fade. The places are the place engine's (engine/place/); the land between, and the joining, the land engine's
+// (engine/land/land.js, zone.js). Which places, and where: places/zone-3.js. Made from pages/zone-1.html; the people, story and fights of zone 3 are not in yet.
+(async function () {
+  const $ = (id) => document.getElementById(id);
+  const place = window.W3D_PLACES['zone-3'], LAND = place.zone.land, town = window.W3D_PLACES['northern-camp'];
+  // The Flipbook look takes its colours from a picture. The town's painting alone has no pale violet in it, so the
+  // Thornwood's fog came out peach. So the picture it is given is the town's painting with a band of the land's own
+  // night colours beside it: its fog from dark ground up to the sky, in the woods and in the thorns.
+  place.paintingSrc = await new Promise((done) => {
+    const im = new Image();
+    im.onload = () => {
+      try {
+        const c = document.createElement('canvas'); c.width = 640; c.height = 300; const g = c.getContext('2d');
+        g.drawImage(im, 0, 0, 430, 300);
+        const show = (v) => Math.round(255 * Math.sqrt(Math.max(0, Math.min(1, v))));   // as the night's shader shows a colour
+        const N = LAND.night, bands = [[N.thorn.fog, 0, 105], [N.woods.fog, 105, 70]];
+        for (const [fog, x, w] of bands) { const gr = g.createLinearGradient(0, 0, 0, 300); gr.addColorStop(0, 'rgb(' + fog.map((v) => show(v * 2.1)).join(',') + ')'); gr.addColorStop(0.45, 'rgb(' + fog.map(show).join(',') + ')'); gr.addColorStop(1, 'rgb(' + fog.map((v) => show(v * 0.12)).join(',') + ')'); g.fillStyle = gr; g.fillRect(430 + x, 0, w, 300); }
+        LAND.herbs.kinds.forEach((k, i) => { g.fillStyle = k.petal; g.fillRect(605, i * 150, 35, 150); });
+        done(c.toDataURL('image/png'));
+      } catch (e) { done(town.painting); }
+    };
+    im.onerror = () => done(town.painting); im.src = town.painting;
+  });
+  let toastT = 0;
+  const toast = (s, name) => { const t = $('toast'); t.textContent = s; t.classList.toggle('name', !!name); t.style.opacity = 1; clearTimeout(toastT); toastT = setTimeout(() => { t.style.opacity = 0; }, name ? 3200 : 2600); };
+  // what the land tells the page: where she is now, and a herb picked
+  W3D.landEvents = {
+    region(now, was) { if (was !== null) toast(now, true); },
+    herb(kind, n, bag) {
+      toast(kind.name + ' picked. ' + n + ' in Io’s bag.');
+      const kinds = LAND.herbs.kinds.filter((k) => bag[k.id]);
+      $('bag').innerHTML = kinds.map((k) => '<span style="color:' + k.petal + '"><i style="background:' + k.petal + '"></i><span style="color:#f0ecff">' + k.name + ' ' + bag[k.id] + '</span></span>').join('');
+      $('bag').style.display = 'flex';
+    },
+  };
+  W3D.zoneSay = (s) => { $('loadmsg').textContent = s; };
+  try {
+    const W = await W3D.walk({
+      place, root: $('world'), canvas: $('cv'), ring: $('ring'), dot: $('dot'), toast,
+      say: (s) => { $('loadmsg').textContent = s; },
+      onStats: (n) => {
+        $('fps').textContent = n.fps;
+        const l = window.__land ? window.__land.numbers() : null;
+        $('more').textContent = Math.round(n.triangles / 1000) + ' thousand triangles · ' + n.calls + ' draw calls' + (l ? ' · ' + l.squares + ' squares of land · ' + l.trees + ' trees on the land · ' + window.__land.waiting() + ' pieces of land waiting to be made' : '') + ' · ' + (W3D.quality === 'high' ? 'laptop settings' : 'phone settings');
+      },
+    });
+    // the map in the corner
+    window.__map = W3D.miniMap({ root: $('world'), land: W.P.land, walker: W });
+    // who walks: the four witches, any of them from the start
+    const panel = $('whoPanel');
+    const showWho = () => { panel.innerHTML = ''; for (const w of W3D.WITCHES) { const b = document.createElement('button'); b.innerHTML = w.name + '<small>' + w.is + '</small>'; b.classList.toggle('on', W.who === w.id);
+      b.addEventListener('click', () => { panel.style.display = 'none'; if (W.who === w.id) return; toast('Walking as ' + w.name + '…'); setTimeout(() => { try { W.setWho(w.id); toast('Walking as ' + w.name + ', ' + w.is + '.'); } catch (e) { console.error(e); toast('Something went wrong bringing ' + w.name + '.'); } }, 60); });
+      panel.appendChild(b); } };
+    $('who').addEventListener('click', () => { const on = panel.style.display !== 'flex'; if (on) showWho(); panel.style.display = on ? 'flex' : 'none'; });
+    $('nums').addEventListener('click', () => { const on = $('numbers').classList.toggle('more'); $('nums').classList.toggle('on', on); });
+    $('load').style.opacity = 0; setTimeout(() => { $('load').style.display = 'none'; }, 700);
+    setTimeout(() => toast(W3D.quality === 'high' ? 'W A S D or the arrows walk · tap a direction twice to run · Shift sprints · drag to look' : 'Drag on the left to walk · drag on the right to look'), 900);
+    window.__ready = true;
+  } catch (e) { console.error(e); $('loadmsg').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }
+})();
+</script>
+</body>
+</html>
