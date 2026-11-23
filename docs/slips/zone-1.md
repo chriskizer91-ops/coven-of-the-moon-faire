@@ -8,6 +8,41 @@ the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
 
+## Added on November 23, afternoon: zones 2 and 3 speak
+
+- **Six people stand in zone 2 and seven in zone 3,** with the story job's recorded lines (120 and 124, every one
+  with its sound in the page). Zone 2: the Grey Hat and the roadwarden at the Warm Roads camp, the carter by the
+  broken cart on the road east, Marta, Brann and Tamsin in Dawnroost. Zone 3: the Grey Hat at the northern camp,
+  the bramble-cutter at Eldergrove's edge, and Ysmera, Old Gil, Tock, Pim and the last passenger in the shipyard.
+  Who stands where is in `game/people/zone-2.js` and `zone-3.js`.
+- **The story engine now reads each zone's rules from data** (`game/people/story.js`; the rules sit in each zone's
+  people file as `W3D.STORY['zone-N']`). Zone 1's rules moved into `game/people/zone-1.js` unchanged.
+- **Zone 2 plays through:** the landing; the Grey Hat sends the coven to the roadwarden; he asks; the three dark road
+  stones on the Ember Line road each get a button, "Light the road stone", and glow amber once lit; with three lit,
+  coming into Dawnroost moves the story on; Marta; the forty beds; the living node; the leaving.
+- **Zone 3 plays through, in the order the map gives:** the landing; brambles on the road; Eldergrove's edge; a small
+  fire at its east end; the first sight of the shipyard from the causeway; the shipmaster and the Grey Hat at the
+  slip; back up to the crossroads, where a tall pale light stands on the east road; the knight; back to the
+  shipmaster for the name; the leaving. The Grey Hat goes from the camp to the shipyard once his first talk is
+  heard, when the coven is too far off to see him go.
+- **New: things on the land** (`game/people/things.js`): something the coven can walk up to and use with the same
+  button as talking, or that shows what the story has done. Zone 2's road stones and zone 3's knight's light.
+- **A person's next line** now puts a line that belongs to the present stage alone before the general ones, so the
+  Grey Hat says "We can fly" first once the node holds.
+- **Five of the narrator's lines changed to fit the map** (none was recorded yet): `z2.narrator.04`, `z3.narrator.09`,
+  `.10`, `.12`, `.13`. The recording order was written again (`game/people/recording/`).
+- **Checked:** `tools/story-test.py` (new) builds every person and plays each zone's story from the landing to the
+  leaving: all passed, 0 page errors. `tools/people-test.py` still passes on zone 1, and `tools/zone-test.py` on
+  zones 2 and 3. Sixteen pictures of the people, the stones and the light were looked at.
+- **Not checked:** the sound itself, the frame rate with people in, and the pages' size on the phone (89.3 MB and
+  86.7 MB). Only Chris can.
+- **Stand-ins, until the fights job reaches these zones:** there are no fights in zones 2 or 3. The night at the
+  living node and the knight at the crossroads are "met" by walking up to them: the coven speaks before, the
+  narrator and the coven after. Lines that wait on a fight just won or lost, or on the coven's level, are not heard.
+- **Rough or not done:** everyone wears one of the fair folk's shapes (Tamsin is the farm lad made small; the two
+  gnomes are the baker and the pie-seller made small). The knight has no body, only a light. The ship is nowhere to
+  be seen at either camp or on the slip. No flight in or out, so the two flight lines each are not heard.
+
 ## Added on November 23: zones 2 and 3, on the map
 
 The same hub that does zone 1 does these (so they are written up here).
@@ -257,6 +292,15 @@ true: the pins and stretching, the heights divided by 8, the 6.07 km road at tru
   in one go; how the three other witches look from every side while walking.
 
 ## Hub's calls made here
+
+- **Nov 23, zone 3: the story's order follows the map.** The story job wrote the shipyard as near the camp and the
+  crossroads as beyond Eldergrove. On the map the road runs camp, Eldergrove's edge, cold moor, crossroads,
+  shipyard. So the coven reaches the shipyard first (nothing is at the crossroads yet), and the knight comes when
+  they go back up. Stage 1 is stepping onto the shipyard's bridge; stage 2 is having heard both the shipmaster and
+  the Grey Hat at the slip. The knight stands on the crossroads' east road, toward the mountains.
+- **Nov 23, zone 2: the three dark road stones are the Ember Line road's own three nodes,** lit by walking up and
+  pressing a button. The fights job may set a fight by each later.
+- **Nov 23: where people stand** in zones 2 and 3, and which of the fair folk's shapes each wears.
 
 - **Nov 23, zone 3: the shipyard stands 280 m south of its pin.** Its pin on the map, (2097, 599), is on a headland
   25 m above the sea. The place itself is a rock in the sea at the end of a long bridge from the south. So it stands

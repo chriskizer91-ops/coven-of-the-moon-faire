@@ -65,7 +65,7 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
   <button id="who" aria-label="Choose who walks"><svg viewBox="0 0 24 24" fill="none" stroke="#eee8ff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3.2 6.4H8.8L12 3zM6 9.4h12M12 12.5a3 3 0 100 6 3 3 0 000-6zM6.5 21c.8-2.2 3-3.2 5.5-3.2s4.700 1 5.500 3.200"/></svg></button>
   <div id="whoPanel"></div>
   <div id="bag"></div><div id="toast"></div>
-  <div id="begin"><div><h1>Coven of the Moon Faire</h1><p>Dusk, outside Wickhollow</p><button>Begin</button></div></div>
+  <div id="begin"><div><h1>Coven of the Moon Faire</h1><p>Night, at the northern camp</p><button>Begin</button></div></div>
   <div id="numbers"><b id="fps">…</b> frames a second<small id="more"></small></div></div>
 <div id="load"><div><h1>Coven of the Moon Faire</h1><h2>Zone 3: the northern wilds and the shipyard</h2><p id="loadmsg">Loading…</p></div></div>
 <script src="../lib/three.r128.min.js"></script>
@@ -112,6 +112,23 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../places/zone-3.js"></script>
 <!-- (the people, the story and the fights of zone 3 come next) -->
 
+<!-- the people: the fair folk's painted bodies, who stands where, and the talk -->
+<script src="../people/folk/face_plain.js"></script>
+<script src="../people/folk/person-kit.js"></script>
+<script src="../people/folk/emotes.js"></script>
+<script src="../people/folk/npcs.js"></script>
+<script src="../people/folk/npc_tex.js"></script>
+<script src="../people/folk/greyhat_npc.js"></script>
+<script src="../people/folk/npc.js"></script>
+<script src="../people/zone-3.js"></script>
+<script src="../people/people.js"></script>
+<script src="../people/things.js"></script>
+<!-- the story's lines (the story job's), their recordings, and which line comes next -->
+<script src="../talk/cast.js"></script>
+<script src="../talk/zone-3.js"></script>
+<script src="../people/voice-z3.js"></script>
+<script src="../people/narration.js"></script>
+<script src="../people/story.js"></script>
 <script>
 // Zone 3 (Coven of the Moon Faire): the zone's places stand on one open land, and Io walks from one to the next with
 // no fade. The places are the place engine's (engine/place/); the land between, and the joining, the land engine's
@@ -171,6 +188,12 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
     $('nums').addEventListener('click', () => { const on = $('numbers').classList.toggle('more'); $('nums').classList.toggle('on', on); });
     $('load').style.opacity = 0; setTimeout(() => { $('load').style.display = 'none'; }, 700);
     setTimeout(() => toast(W3D.quality === 'high' ? 'W A S D or the arrows walk · tap a direction twice to run · Shift sprints · drag to look' : 'Drag on the left to walk · drag on the right to look'), 900);
+    // the people who stand in the land, talking to them, and the things the coven can do something to
+    let story = null;
+    try { const people = await W3D.people.start({ W, root: $('world'), zone: 'zone-3' }); story = W3D.story.start({ W, people, zone: 'zone-3', waitBegin: true }); W3D.things.start({ W, root: $('world'), people, story, zone: 'zone-3' }); } catch (e) { console.error(e); window.__peopleErr = String(e && e.stack || e); }
+    // the start: the land waits behind one button (a phone only plays sound after a tap)
+    if (!/[?&]test\b/.test(location.search)) { const b = $('begin'), again = story && story.state().moments.landing; b.querySelector('button').textContent = again ? 'Carry on' : 'Begin'; b.style.display = 'grid'; W.pause(true);
+      b.querySelector('button').addEventListener('click', () => { b.style.display = 'none'; W.pause(false); if (story) setTimeout(() => story.begin(), 900); }, { once: true }); }
     window.__ready = true;
   } catch (e) { console.error(e); $('loadmsg').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }
 })();
