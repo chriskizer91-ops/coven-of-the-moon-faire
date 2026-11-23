@@ -40,6 +40,20 @@ The full older record stays in the old repos and is not copied here:
 - **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
   (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
 
+## November 23, 2026, 10:36: room for new creatures
+
+- **Chris: a placeholder for one or two extra creatures in each zone.** The game is balanced so that it works as long
+  as one of them is added, and is easy to rebalance if two come in for each zone. Otherwise, carry on with the plan.
+- **Hub's proposal.** *Two slots in each zone, A and B.* A is on and the game is balanced with it in; B is off, and
+  turning it on is one switch and one run of the checks. Each slot has a job in a fight that the foes already there
+  do not have (zone 1: a heavy one, a swarm; zone 2: a cold-bringer, a pair; zone 3: an armoured one, a leaper;
+  zone 4: a light-thief, a big one). Until Chris's models come, each is a plain dark shape with two pale eyes, shown
+  as "a strange creature". What each is in the story, and its name, are Chris's.
+- **Hub's call.** *The rule that keeps the balance steady:* a new creature is worth, in experience and in danger,
+  the same as the fights it takes the place of. Slot A takes about one fight in five in its zone.
+- **Hub's call.** *The fights job builds it* (its step 4), with the whole game's levels as one plan and the
+  meetings for zones 2 to 4 written ahead of their land.
+
 ## November 23, 2026, 10:15: the hub writes the narration; the first three zones; a note on balance
 
 - **Chris: the hub writes the narration for zones 1, 2 and 3,** as a text document he takes to the ChatGPT

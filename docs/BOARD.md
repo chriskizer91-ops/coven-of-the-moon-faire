@@ -55,7 +55,7 @@ What the checks say (no screen, no graphics card):
 |---|---|
 | Chris | Taking the narrator's recording order (`game/people/recording/narration-recording-order.txt`, 48 lines) to be recorded; building creature models in another conversation |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
-| The `fights` conversation | Step 3 done and in `main`. Free for more work |
+| The `fights` conversation | Step 3 done and in `main`. **Step 4 handed out** (November 23): two slots for a new creature in each zone (A on, B off), the whole game's levels, the checks at three settings (text below) |
 | The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. Next: **zones 2 and 3's land, places and people on the map** (Chris: get the first three zones situated); the narrator's recordings when they come; the pale moth; the flight between zones |
 
 ## A note for later: the fights' balance may be redone
@@ -63,7 +63,7 @@ What the checks say (no screen, no graphics card):
 Chris, November 23: he has found a way to make strange creatures in 3D, and is building models for another game set
 on the same continent at another time. Some look very good and may come into this game as foes. If they do, the
 levels and the fights' balance (the fights job's 49 of 51 targets, the 180 fights to level 20, each zone's foes)
-may have to be worked out again. Nothing to do yet. When it happens: the foes and their numbers are data
+may have to be worked out again. **Chris, 10:36: make a placeholder for one or two extra creatures in each zone, and balance the game so it works as long as one is added, and is easy to rebalance if two are.** That is the fights job's step 4 (text below). When a real creature comes: the foes and their numbers are data
 (`game/encounters/`, `game/battle/`), a new repo of Chris's has to be added as a source in `docs/decisions.md`
 before anything is copied from it, and the balance check is `tools/battle-*`.
 
@@ -155,6 +155,72 @@ Both add lines to `assets/INDEX.csv` (at the end; the hub sorts out the join whe
 3. Tell the hub when the job says a step is ready. The hub brings it into `main` and updates this board.
 
 ## Starter texts
+
+### `fights`, step 4 (paste this into the fights conversation)
+
+```
+Step 4 for the fights job: room for new creatures, and the whole game's levels. Step 3 is in main. Thank you.
+
+First: git fetch, then merge origin/main into job/fights. Read the top of docs/decisions.md, docs/BOARD.md (the
+note "the fights' balance may be redone"), docs/slips/zone-1.md (the two sections of November 23) and
+docs/slips/story.md ("For the hub"). What is new on the land: nineteen people stand in zone 1 and speak aloud with
+recorded voices; the story has stages; the land is paused behind a Begin button until the player taps it.
+
+WHAT CHRIS SAID (November 23)
+He has found a way to make strange creatures in 3D, and is building models for another game set on the same
+continent at another time. Some look very good, and he may bring them into this game as foes. His words: "come up
+with a placeholder for an extra creature or two extra creatures in each zone, and we balance the game so that as
+long as one of those creatures gets added everything works out, and it's easy to rebalance if two additional
+creatures come in for each zone."
+
+THE PLACEHOLDERS (the hub's proposal; the names and what each does are stand-ins for Chris to replace)
+Every zone gets two slots for a new creature, A and B. Slot A is ON: the game is balanced with it in. Slot B is OFF,
+and turning it on is one switch and one run of the checks. Until Chris's models come, each slot is a stand-in that
+can be fought: a plain dark shape with two pale eyes, sized for its kind, shown as "a strange creature".
+
+  Zone 1 (levels 1 to 5)    A  the heavy one: slow and tough, with one big blow that can be seen coming.
+                               Met in the thorn country and the fen, from level 2.
+                            B  the swarm: three small quick ones, each down in a blow or two. Met in the open wilds.
+  Zone 2 (levels 5 to 10)   A  the cold-bringer: does little harm itself, but slows and weakens the four.
+                               Met along the cold roads.
+                            B  the pair: two that are much stronger while both stand. Met in the hills off the road.
+  Zone 3 (levels 10 to 15)  A  the armoured one: blades slide off it, magic does not. Met in the brambles.
+                            B  the leaper: goes past the front for whoever stands at the back. Met in the wilds.
+  Zone 4 (levels 15 to 20)  A  the light-thief: drains the four's magic rather than their health. Met on the pass.
+                            B  the big one: rare, a long fight, worth three ordinary ones. Met near Misthollow.
+
+If one of these does not fit how the battle works, change what it does and say so in your slip. What matters is
+that each slot has a clear job in a fight that the foes already there do not have.
+
+WHAT TO BUILD
+1. The slots as data: one file that says, for each zone and slot, whether it is on, its name, its levels, where it
+   is met, how often, what it does in a fight, and which model draws it. Swapping the stand-in for a real model must
+   be a change to that file and one new model file, with no change to the rules.
+2. The rule that keeps the balance steady: a new creature is worth, in experience and in danger, the same as the
+   fights it takes the place of at that level. So turning a slot on or off changes what the fights are like, not how
+   many fights it takes to reach the next level, and not how often the careful and careless players lose.
+   Slot A takes about one fight in five in its zone. With B on as well, each takes about one in six.
+3. The whole game's levels, all four zones, as one plan: zone 1 levels 1 to 5, zone 2 to 10, zone 3 to 15, zone 4 to
+   20; about 45 fights in each; the gates at 5, 10, 15 and 20 as they are. Zone 1's meetings exist. Write the
+   meetings data for zones 2, 3 and 4 now in the same form, by the kind of ground (road, open, pine, fen, thorn,
+   and "far from any place"), so they work when the hub's land for each zone arrives. Leave each zone's gate spot
+   and arenas easy to move: the hub will give the real places when each zone's land is built.
+4. The checks, with your pretend players, at three settings: A on (the game as shipped), A and B on, and neither.
+   For each: how many fights to each gate's level, and how often each kind of player loses. A on must meet your
+   targets. The other two must stay close, and you say how close. One command runs all three.
+5. A short page of plain steps, game/encounters/ADDING-A-CREATURE.md: what Chris or a later conversation does when
+   a real creature arrives (put its model here, set these lines, run this check, read these numbers).
+6. Three small things the land's narrator needs from the fights. Send a page event for each, so the hub's code can
+   listen without touching yours: window.dispatchEvent(new CustomEvent('coven-fights', { detail: { what: ... } }))
+   with what = 'first-meeting' (just before the very first fight begins: wait up to 6 seconds for the hub to call
+   detail.done(), so a line can be said first), 'rest' (the party has rested at the camp), 'not-ready' (the party
+   has come to a gate's spot too soon; when the hub answers detail.told(), do not show your own words for it).
+
+Small calls are yours: write each in your slip as a job's call. The creatures' names and what they are in the
+story are Chris's. The other game's repo is not a source for this one yet: copy nothing from it until the hub adds
+it in docs/decisions.md. Both pages must still build, and tools/zone-test.py, tools/people-test.py and your own
+checks must still pass. Push to job/fights often, and tell Chris when a step is ready.
+```
 
 ### `story`: the hub's note about a narrator (NOT NEEDED FOR THE NARRATION NOW: Chris had the hub write it, November 23, 10:15. Still useful for its questions 2 to 5: whether the party speaks too much, the short calls at arm's length, a shout from far off)
 
