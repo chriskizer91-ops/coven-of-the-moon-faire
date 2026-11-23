@@ -335,7 +335,7 @@ python3 tools/look.py builds/zone-1.html <a folder> --plan <plan.json>
 ## Unfinished, and known rough spots
 
 - Zone 3's causeway is a plain bank with stone on top and sheer sides. It is not a built bridge with arches, and it
-  has no parapet: she cannot walk off it into the sea, but it looks as if she could.
+  has no parapet. She is kept to its top (half a metre past the stones each side), but it looks as if she could fall.
 - Zone 3's ground is the same frosted grass everywhere. The map's snow line is not drawn on the land yet.
 - Every page now carries the frosted fir pictures (about 2 MB), used or not: the tree engine names them.
 
