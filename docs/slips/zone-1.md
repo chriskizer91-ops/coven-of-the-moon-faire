@@ -54,6 +54,27 @@ Where the new code is:
 | `game/data/maps-*.js` | Each place's walking areas |
 | `tools/zone-test.py` | New. Walks between the places and checks it by numbers |
 
+## Changed on November 23, after Chris first heard it: nobody speaks from a distance
+
+Chris heard the first build with voices. The opening made no sense to him: several witches spoke at once, with
+nothing to set the scene, and people of the camp called out over them. His word, and what was done:
+
+- **A person speaks only when the coven walks right up to them.** To arm's length, 1.5 m. The first time, they say
+  their first talk by themselves and the words show. After that the Talk button (within 2.3 m) is for more.
+  The calls "as the coven walks past" are gone. A person already met says their short call when she walks right up
+  to them again (hub's call: Chris did not ask for it; easy to take out).
+- **A shout from far off, for the story's sake,** would be its own thing. None is made yet.
+- **A narrator's voice for the story's set points.** The talk box can now show narration: no name, set apart.
+  Before the coven speaks at a set moment there is a line of narration. For now these are stand-ins in words only,
+  with no voice (`game/people/zone-1.js`); the story job is asked to write and record the real ones.
+- **A start screen with one button, "Begin".** Nothing speaks until it is tapped. (A phone also only plays sound
+  after a tap.) It says "Carry on" when the opening has been heard before.
+- **Chris wondered whether the party speaks too much.** Not changed: he was not sure. It is put to the story job.
+- **Checked** (`tools/people-test.py`, all passed): at 3 m nobody speaks; at 1.3 m Kofi's first talk begins by
+  itself; walking up again later he says his short call. The start screen and the narration were looked at in the
+  headless browser, opened as a player would.
+- **Not checked:** the sound, as before.
+
 ## Added on November 23: the story's lines and voices are in, and nineteen people stand in zone 1
 
 - **Every person in zone 1 speaks aloud.** The story job's 236 lines for zone 1 (`game/talk/zone-1.js`) and their 236
