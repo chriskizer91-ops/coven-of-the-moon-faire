@@ -161,3 +161,35 @@ game/people/folk/npc_tex.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-w
 game/people/folk/npcs.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/npcs.js,"The eleven fair folk: their shapes, sizes and ways",2026-11-19
 game/people/folk/person-kit.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/witches/folk/person-kit.js,"The kit that builds a person on the Jester's template",2026-11-19
 game/people/folk/greyhat_npc.js,moon-faire,main,6371714,models/grey-hat-3d/npc/greyhat_npc.js,"The Grey Hat, the airship captain, as one of the painted fair folk (his light version)",2026-11-23
+game/places/warm-roads-camp.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/warm-roads-camp.js,The Warm Roads camp as a 3D place,2026-11-23
+game/places/warm-roads-camp-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/warm-roads-camp-trees.js,where The Warm Roads camp's trees stand,2026-11-23
+game/texture-packs/made-web/shared_bark_birch.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_bark_birch.webp,"Chris's made texture, web copy: shared_bark_birch",2026-11-23
+game/texture-packs/made-web/shared_bough_birch.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_bough_birch.webp,"Chris's made texture, web copy: shared_bough_birch",2026-11-23
+game/texture-packs/made-web/shared_warm_road.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_warm_road.webp,"Chris's made texture, web copy: shared_warm_road",2026-11-23
+game/texture-packs/made-web/wilds_birch_leaves.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_birch_leaves.webp,"Chris's made texture, web copy: wilds_birch_leaves",2026-11-23
+game/texture-packs/made-web/wilds_boulder_stone.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_boulder_stone.webp,"Chris's made texture, web copy: wilds_boulder_stone",2026-11-23
+game/texture-packs/made-web/wilds_heath_ground.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_heath_ground.webp,"Chris's made texture, web copy: wilds_heath_ground",2026-11-23
+game/data/maps-warm-roads-camp.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The Warm Roads camp's walking map: only its walk and block areas, as plain numbers",2026-11-23
+game/places/ember-line-road.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/ember-line-road.js,The Ember Line road as a 3D place,2026-11-23
+game/places/ember-line-road-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/ember-line-road-trees.js,where The Ember Line road's trees stand,2026-11-23
+game/texture-packs/made-web/ember_bridge_stone.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/ember_bridge_stone.webp,"Chris's made texture, web copy: ember_bridge_stone",2026-11-23
+game/data/maps-ember-line-road.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The Ember Line road's walking map: only its walk and block areas, as plain numbers",2026-11-23
+game/places/dawnroost-road.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/dawnroost-road.js,The forest road to Dawnroost as a 3D place,2026-11-23
+game/places/dawnroost-road-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/dawnroost-road-trees.js,where The forest road to Dawnroost's trees stand,2026-11-23
+game/texture-packs/made-web/dawnroost_mossy_road.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/dawnroost_mossy_road.webp,"Chris's made texture, web copy: dawnroost_mossy_road",2026-11-23
+game/texture-packs/made-web/wilds_mossy_log.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/wilds_mossy_log.webp,"Chris's made texture, web copy: wilds_mossy_log",2026-11-23
+game/data/maps-dawnroost-road.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The forest road to Dawnroost's walking map: only its walk and block areas, as plain numbers",2026-11-23
+game/places/dawnroost.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/dawnroost.js,Dawnroost as a 3D place,2026-11-23
+game/places/dawnroost-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/dawnroost-trees.js,where Dawnroost's trees stand,2026-11-23
+game/texture-packs/made-web/dawn_grass_flowers.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/dawn_grass_flowers.webp,"Chris's made texture, web copy: dawn_grass_flowers",2026-11-23
+game/texture-packs/made-web/shared_rock_cliff.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_rock_cliff.webp,"Chris's made texture, web copy: shared_rock_cliff",2026-11-23
+game/texture-packs/made-web/shared_wall_castle.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_wall_castle.webp,"Chris's made texture, web copy: shared_wall_castle",2026-11-23
+game/texture-packs/made-web/stable_straw.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/stable_straw.webp,"Chris's made texture, web copy: stable_straw",2026-11-23
+game/data/maps-dawnroost.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Dawnroost's walking map: only its walk and block areas, as plain numbers",2026-11-23
+game/places/dawnroost-node.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/dawnroost-node.js,Dawnroost's living node as a 3D place,2026-11-23
+game/places/dawnroost-node-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/dawnroost-node-trees.js,where Dawnroost's living node's trees stand,2026-11-23
+game/texture-packs/made-web/node_cobbles_veined.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/node_cobbles_veined.webp,"Chris's made texture, web copy: node_cobbles_veined",2026-11-23
+game/texture-packs/made-web/node_court_cobbles.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/node_court_cobbles.webp,"Chris's made texture, web copy: node_court_cobbles",2026-11-23
+game/texture-packs/made-web/node_dais_stone.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/node_dais_stone.webp,"Chris's made texture, web copy: node_dais_stone",2026-11-23
+game/data/maps-dawnroost-node.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Dawnroost's living node's walking map: only its walk and block areas, as plain numbers",2026-11-23
+game/art/walk/walk-warm-roads-camp.avif,envoi-on-the-longest-night,main,d450c3f,art/walk/walk-warm-roads-camp.avif,"The Warm Roads camp's walking painting (the Flipbook look's colours in zone 2)",2026-11-23
