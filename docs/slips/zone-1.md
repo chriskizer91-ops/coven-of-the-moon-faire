@@ -8,6 +8,23 @@ the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
 
+## Added on November 23, 12:13: the narrator's recordings, and four ways it could sound
+
+- **43 of the narrator's 48 lines are in,** as recorded (zone 1: 18, zone 2: 14, zone 3: 11). The five whose words
+  changed were left out; Chris is having them made again. Until then those five show in words only.
+- **Kept twice:** as they came in `game/people/recording/narrator-raw/`, and for the game in `game/talk/audio/zN/`
+  beside the people's lines. So the game's copies can be made again another way without losing the first.
+- **Measured (not heard):** the narrator is as loud as the people's voices (both -18 LUFS, a measure of loudness),
+  one channel, the same kind of file. No line stands out as loud or quiet. Each line's real length is now in
+  `game/people/narration.js`.
+- **`tools/narrator-sound.py`** takes recordings in and makes them one of four ways: A as recorded; B close and
+  warm; C by the fire (B in a small warm room, a little different in each ear); D all round you (C spread wide).
+  Each is brought to the same loudness as the people's voices. C and D are two-channel files, half as big again.
+- **`game/pages/listen-narrator.html`** (builds to 1 MB): a page to choose by ear. Two narrator lines, each of the
+  four ways, each followed by two of the coven as they are now. Checked at a phone's width: plays through, nothing
+  wider than the screen, 0 page errors, fetches nothing.
+- **Not checked: how any of it sounds.** Nobody here can hear. The choice is Chris's.
+
 ## Added on November 23, afternoon: zones 2 and 3 speak
 
 - **Six people stand in zone 2 and seven in zone 3,** with the story job's recorded lines (120 and 124, every one
