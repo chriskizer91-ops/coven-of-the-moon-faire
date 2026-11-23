@@ -1,9 +1,8 @@
 // zone-1.js (people): who stands where in zone 1 (Coven of the Moon Faire, November 19, 2026).
 // The Moon Faire's eleven fair folk, as themselves (Chris, November 18). Their names are the hub's, of November 19, at
 // Chris's asking, and his to change. `body` is the painted person in game/people/folk/npcs.js.
-// A spot is either `camp: [east, south]` in metres from the camp's well, or `road: [the road's name, how far along it
-// (0 to 1), metres to its side]`. `faces: 'well'` looks at the well until the coven comes near.
-// Still to come: the Grey Hat at the jetty, and the townsfolk in Wickhollow and Bogmire.
+// A spot is `camp: [east, south]` in metres from the camp's well; or `road: [the road's name, how far along it (0 to 1),
+// metres to its side]`; or `place: [the place's id, x, y]` in that place's painting, with `look` the spot they face. `faces: 'well'` looks at the well until the coven comes near.
 (function (G) {
   'use strict';
   const W3D = G.W3D; W3D.PEOPLE = W3D.PEOPLE || {};
@@ -21,6 +20,17 @@
       { id: 'kofi', name: 'Kofi', trade: 'the chestnut roaster', body: 'chestnut-roaster', camp: [8.6, 10.4] },         // at the south brazier
       { id: 'bridie', name: 'Old Bridie', trade: 'the lamplighter', body: 'old-lamplighter', road: ['Wickhollow to Io’s cottage', 0.66, 2.6] },   // on the south road, two thirds of the way to the cottage
       { id: 'jory', name: 'Jory', trade: 'the farm lad', body: 'farm-lad', road: ['Wickhollow to the jetty', 0.36, -3.2] },                           // by the lake, on the jetty road
+      // the Grey Hat, on the jetty's pier where his ship moors (his own painted body)
+      { id: 'captain', name: 'The Grey Hat', trade: 'the captain', body: 'grey-hat-captain', place: ['jetty', 790, 600], look: [768, 470] },
+      // the townsfolk, where the new Envoi stands them in each place's painting. Their bodies are the fair folk's other
+      // shapes for now (hub's call), so some look like a person of the Faire until they are painted anew.
+      { id: 'quill', name: 'Quill', trade: 'the sailor', body: 'chestnut-roaster-opus', place: ['jetty', 1150, 385], look: [1050, 470] },
+      { id: 'nettie', name: 'Nettie', trade: 'the herb-seller', body: 'old-lamplighter-opus', place: ['wickhollow', 568, 426], look: [640, 520] },
+      { id: 'hilde', name: 'Hilde', trade: 'the smith', body: 'pie-seller', place: ['wickhollow', 1015, 364], look: [960, 460] },
+      { id: 'gretch', name: 'Mayor Gretch', trade: 'the mayor', body: 'old-night-watchman-opus', place: ['wickhollow', 705, 594], look: [800, 594] },
+      { id: 'wenna', name: 'Old Wenna', trade: 'the herb-seller', body: 'fortune-teller-opus', place: ['bogmire', 652, 470], look: [700, 560] },
+      { id: 'tobb', name: 'Tobb', trade: 'the innkeeper', body: 'fair-baker-opus', place: ['bogmire', 1184, 296], look: [1260, 330] },
+      { id: 'pell', name: 'Pell', trade: 'the child', body: 'farm-lad', size: 0.72, place: ['bogmire', 744, 354], look: [744, 300] },
     ],
   };
   // ---- stand-in words, one or two each, so the talk can be tried. NOT the story's lines: those are being written by the

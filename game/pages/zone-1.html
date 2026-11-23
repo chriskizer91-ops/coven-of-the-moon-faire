@@ -114,9 +114,15 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../people/folk/emotes.js"></script>
 <script src="../people/folk/npcs.js"></script>
 <script src="../people/folk/npc_tex.js"></script>
+<script src="../people/folk/greyhat_npc.js"></script>
 <script src="../people/folk/npc.js"></script>
 <script src="../people/zone-1.js"></script>
 <script src="../people/people.js"></script>
+<!-- the story's lines (the story job's), their recordings, and which line comes next -->
+<script src="../talk/cast.js"></script>
+<script src="../talk/zone-1.js"></script>
+<script src="../people/voice-z1.js"></script>
+<script src="../people/story.js"></script>
 <!-- fights job: its script tags go between these two lines (the battle, the party, the foes on the land) -->
 <!-- the battle (as game/pages/battle.html loads it, less what this page already has, the first fight's square and Chris's song) -->
 <link rel="stylesheet" href="../battle/screen-layer.css">
@@ -219,7 +225,7 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
     $('load').style.opacity = 0; setTimeout(() => { $('load').style.display = 'none'; }, 700);
     setTimeout(() => toast(W3D.quality === 'high' ? 'W A S D or the arrows walk · tap a direction twice to run · Shift sprints · drag to look' : 'Drag on the left to walk · drag on the right to look'), 900);
     // the people who stand in the land, and talking to them
-    try { await W3D.people.start({ W, root: $('world'), zone: 'zone-1' }); } catch (e) { console.error(e); }
+    try { const people = await W3D.people.start({ W, root: $('world'), zone: 'zone-1' }); W3D.story.start({ W, people }); } catch (e) { console.error(e); }
     // fights job: its start-up goes between these two lines. It has W (the walker: W.io, W.P, W.pause(on), W.who), W.P.land (the land) and toast(text)
     // the fights on the land: the party, meetings in the wild, the battle over the land, rest at the camp (game/encounters/land-fights.js)
     try { window.__fights = CovenLandFights.start({ W, root: $('world'), toast, zone: 'zone-1' }); } catch (e) { console.error(e); window.__fightsErr = String(e && e.stack || e); }

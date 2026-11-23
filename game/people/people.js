@@ -1,65 +1,91 @@
-// people.js: the people who stand in the land, and talking to them (Coven of the Moon Faire, November 19, 2026).
+// people.js: the people who stand in the land, and talking to them (Coven of the Moon Faire, November 19 to 23, 2026).
 // The bodies are Moon Faire's painted fair folk (game/people/folk/, MF_NPC). Who stands where is data
-// (game/people/zone-1.js). What they say is data too: the story job's lines when they come; until then the stand-ins.
-//   const people = await W3D.people.start({ W, root, zone: 'zone-1', lines, voice })
+// (game/people/zone-1.js). What they say is data too: the story job's lines (game/talk/), chosen by game/people/story.js.
+//   const people = await W3D.people.start({ W, root, zone: 'zone-1' })
 //     W: the walker (W3D.walk's). root: the element the button and the words go in.
-//     lines(person, n): the lines of that person's n-th talk, as [{ id, text }] (left out: the stand-ins, in turn).
-//     voice(id): the sound for a line, as something an <audio> can play, or nothing (left out: window.COVEN_VOICE[id]).
+//   people.lines = (person) => [{ id, who, text, secs }]   the lines of that person's next talk (left unset: stand-ins)
+//   people.call = (person) => a line or nothing             what they call out as the coven walks past
+//   people.heard = (person or null, lines)                   told when a talk has been said through
+//   people.play(lines, person or null, then)                 say these lines now (a talk, or the coven at a set moment)
+//   people.voice = (id) => the sound for a line, as something an <audio> can play (left unset: window.COVEN_VOICE[id])
 // A person is only built when the coven first comes within 75 m (one at a time), is only drawn within 58 m, and only
 // moves within 42 m. Near one (3.4 m), a Talk button shows at the foot of the screen; E or Enter does the same.
-// For checks: window.__people = { list, near(), talk(id), say, saying }.
+// The words show just over the button, with the speaker's name: each line has its own speaker (`who`).
+// For checks: window.__people = { list, near(), talk(id), say(), tick(), ready() }.
 (function (G) {
   'use strict';
   const W3D = G.W3D, TEST = /[?&]test\b/.test(location.search);
   W3D.people = {
     async start(o) {
       const W = o.W, Z = W.P, L = Z.land, M = Z.M, D = W3D.PEOPLE[o.zone], scene = Z.scene, root = o.root;
-      const standIn = W3D.PEOPLE_STANDIN || {};
-      const lines = o.lines || ((p, n) => { const s = standIn[p.id] || ['...']; return [{ id: 'standin.' + p.id + '.' + (n % s.length), text: s[n % s.length] }]; });
-      const voice = o.voice || ((id) => (G.COVEN_VOICE && G.COVEN_VOICE[id]) || null);
+      const standIn = W3D.PEOPLE_STANDIN || {}, cast = G.COVEN_CAST || {};
       const ground = (x, z) => Z.walkH(M.px(x), M.py(z));
       // ---- where each stands ----
-      const list = D.people.map((d) => { const p = Object.assign({ npc: null, making: false, talks: 0, d: 1e9 }, d);
+      const list = D.people.map((d) => { const p = Object.assign({ npc: null, making: false, d: 1e9, far: true, standN: 0 }, d);
         if (d.camp) { p.x = D.camp[0] + d.camp[0]; p.z = D.camp[1] + d.camp[1]; p.lookX = D.camp[0]; p.lookZ = D.camp[1]; }
         else if (d.road) { const r = L.roadList.find((q) => q.name === d.road[0]), q = r.pts; let len = 0; for (let i = 1; i < q.length; i++) len += Math.hypot(q[i][0] - q[i - 1][0], q[i][1] - q[i - 1][1]);
           let want = len * d.road[1]; for (let i = 1; i < q.length; i++) { const s = Math.hypot(q[i][0] - q[i - 1][0], q[i][1] - q[i - 1][1]); if (want <= s || i === q.length - 1) { const t = Math.min(1, want / s), ux = (q[i][0] - q[i - 1][0]) / s, uz = (q[i][1] - q[i - 1][1]) / s, cx = q[i - 1][0] + ux * s * t, cz = q[i - 1][1] + uz * s * t; p.x = cx - uz * d.road[2]; p.z = cz + ux * d.road[2]; p.lookX = cx; p.lookZ = cz; break; } want -= s; } }
+        else if (d.place) { const part = Z.parts.find((q) => q.id === d.place[0]), PM = part.P.M; p.x = part.ox + PM.x(d.place[1]); p.z = part.oz + PM.z(d.place[2]);
+          // (a spot that cannot be stood on: the nearest that can)
+          if (!Z.walkable(M.px(p.x), M.py(p.z))) { const f = W.nearestFit(M.px(p.x), M.py(p.z)); p.x = M.x(f[0]); p.z = M.z(f[1]); p.moved = true; }
+          p.lookX = d.look ? part.ox + PM.x(d.look[0]) : p.x; p.lookZ = d.look ? part.oz + PM.z(d.look[1]) : p.z + 1; }
         else { p.x = d.at[0]; p.z = d.at[1]; p.lookX = p.x; p.lookZ = p.z + 1; }
         return p; });
       L.addBlockers(list.map((p) => ({ x: p.x, z: p.z, r: 0.42 })));
+      const nameOf = (id) => { const p = list.find((q) => q.id === id); return p ? p.name : cast[id] ? cast[id].name : ''; };
       // ---- the Talk button and the words, at the foot of the screen ----
       const el = (tag, cls, parent) => { const e = document.createElement(tag); e.className = cls; parent.appendChild(e); return e; };
       const btn = el('button', 'talkbtn', root), box = el('div', 'talkbox', root), who = el('div', 'talkwho', box), said = el('div', 'talksaid', box);
-      btn.style.display = 'none'; box.style.display = 'none'; btn.setAttribute('aria-live', 'polite');
+      btn.style.display = 'none'; box.style.display = 'none';
       for (const ev of ['pointerdown', 'touchstart', 'mousedown']) btn.addEventListener(ev, (e) => e.stopPropagation());
-      let near = null, saying = null, sayT = 0, audio = null, queue = [], lastT = 0, makeBusy = false, tickN = 0;
+      // cur: what is being said now: { p: the person (or null: the coven at a set moment), queue, done: the lines said, then, call, line }
+      let near = null, cur = null, sayT = 0, audio = null, lastT = 0, makeBusy = false, tickN = 0, lastCall = -1e9;
       const io = () => ({ x: M.x(W.io.px), z: M.z(W.io.py) });
-      const endLine = () => { if (audio) { try { audio.pause(); } catch (e) {} audio = null; } if (queue.length) return sayNext(); const p = saying; saying = null; box.style.display = 'none'; if (p && p.npc) p.npc.talk(false); };
-      function sayNext() { const p = saying, l = queue.shift(); who.textContent = p.name; said.textContent = l.text; box.style.display = 'block'; saying.line = l;
-        const words = l.text.split(/\s+/).length; sayT = l.sec || Math.max(2.4, 0.9 + words * 0.4);
-        const src = voice(l.id); if (src && !TEST) { try { audio = new Audio(src); audio.onended = () => { if (saying === p && saying.line === l) endLine(); }; sayT = 60; audio.play().catch(() => { sayT = Math.max(2.4, 0.9 + words * 0.4); }); } catch (e) { audio = null; } } }
-      function talk(p) { if (!p || !p.npc) return false; if (saying) { endLine(); if (saying || near !== p) return true; }
-        const me = io(); p.npc.face(me.x, me.z); if (p.talks === 0) p.npc.greet(); p.npc.talk(true);
-        queue = lines(p, p.talks).slice(); p.talks++; saying = p; sayNext(); if (o.onTalk) o.onTalk(p); return true; }
-      btn.addEventListener('click', () => talk(near || saying));
-      G.addEventListener('keydown', (e) => { if ((e.key === 'e' || e.key === 'E' || e.key === 'Enter') && (near || saying) && !W.paused) { talk(near || saying); e.preventDefault(); } });
+      const api = { list, lines: null, call: null, heard: null, voice: null };
+      const voice = (id) => (api.voice ? api.voice(id) : (G.COVEN_VOICE && G.COVEN_VOICE[id]) || null);
+      const guess = (l) => Math.max(2.2, 0.8 + l.text.split(/\s+/).length * 0.4);
+      function stop(all) { if (audio) { try { audio.onended = null; audio.pause(); } catch (e) {} audio = null; }
+        const c = cur; if (!c) return; if (!all && c.queue.length) return sayNext();
+        cur = null; box.style.display = 'none'; if (c.p && c.p.npc) c.p.npc.talk(false);
+        if (!all && !c.call && api.heard) try { api.heard(c.p, c.done); } catch (e) { console.error(e); }
+        if (!all && c.call && api.heard) try { api.heard(null, c.done); } catch (e) { console.error(e); }
+        if (!all && c.then) c.then(); }
+      function sayNext() { const c = cur, l = c.queue.shift(); c.line = l; c.done.push(l);
+        who.textContent = nameOf(l.who) || (c.p ? c.p.name : ''); said.textContent = l.text; box.style.display = 'block';
+        if (c.p && c.p.npc) c.p.npc.talk(!l.who || l.who === c.p.id);
+        sayT = TEST ? 0.3 : (l.secs || guess(l)) + 0.5;
+        const src = TEST ? null : voice(l.id);
+        if (src) { try { const a = audio = new Audio(src); sayT = (l.secs || guess(l)) + 2.5; a.onended = () => { if (audio === a) { audio = null; sayT = Math.min(sayT, 0.35); } }; a.play().catch(() => { if (audio === a) audio = null; }); } catch (e) { audio = null; } } }
+      function play(lines, p, then, call) { if (!lines || !lines.length) return false; if (cur) stop(true); cur = { p: p || null, queue: lines.slice(), done: [], then: then || null, call: !!call }; sayNext(); return true; }
+      function talk(p) { if (cur && !cur.call) { stop(false); return true; } if (!p || !p.npc) return false;
+        const me = io(); p.npc.face(me.x, me.z); if (!p.greeted) { p.greeted = true; p.npc.greet(); }
+        const ls = api.lines ? api.lines(p) : null, s = standIn[p.id] || ['...'];
+        return play(ls && ls.length ? ls : [{ id: 'standin.' + p.id, who: p.id, text: s[p.standN++ % s.length] }], p); }
+      btn.addEventListener('click', () => talk(near));
+      G.addEventListener('keydown', (e) => { if ((e.key === 'e' || e.key === 'E' || e.key === 'Enter') && (near || cur) && !W.paused) { talk(near); e.preventDefault(); } });
       // ---- each frame (it rides on the land's own update) ----
-      async function make(p) { p.making = makeBusy = true; try { const n = await G.MF_NPC.make(p.body); n.root.position.set(p.x, ground(p.x, p.z), p.z); n.root.rotation.y = Math.atan2(p.lookX - p.x, p.lookZ - p.z); scene.add(n.root); n.update(0.016); p.npc = n; } catch (e) { console.error(e); p.failed = String(e); } makeBusy = false; }
+      async function make(p) { p.making = makeBusy = true; try { const n = await G.MF_NPC.make(p.body); if (p.size) n.root.scale.multiplyScalar(p.size); n.root.position.set(p.x, ground(p.x, p.z), p.z); n.root.rotation.y = Math.atan2(p.lookX - p.x, p.lookZ - p.z); scene.add(n.root); n.update(0.016); p.npc = n; } catch (e) { console.error(e); p.failed = String(e); } makeBusy = false; }
       function tick() {
         const now = performance.now(), dt = TEST ? 1 / 30 : lastT ? Math.min(0.05, (now - lastT) / 1000) : 0.016; lastT = now; tickN++;   // (a check steps the clock itself)
         const me = io(); let best = null, bd = 3.4;
         for (const p of list) { const d = p.d = Math.hypot(p.x - me.x, p.z - me.z);
+          if (d > 14) p.far = true;
           if (!p.npc) { if (d < 75 && !p.making && !p.failed && !makeBusy) make(p); continue; }
           const show = d < 58; if (p.npc.root.visible !== show) p.npc.root.visible = show; if (!show) continue;
-          if (d < 42 || TEST) { if (tickN % 20 === 0 && !p.npc.moving) { if (d < 7 || saying === p) p.npc.face(me.x, me.z); else p.npc.face(p.lookX, p.lookZ); } p.npc.update(dt); }
-          if (d < bd) { bd = d; best = p; } }
-        if (saying) { sayT -= dt; if (sayT <= 0 || saying.d > 6.5) { if (saying.d > 6.5) queue = []; endLine(); } }
-        if (best !== near) { near = best; }
-        const label = saying ? (queue.length ? 'Go on' : 'Thank ' + saying.name.replace(/^Old /, '')) : near ? 'Talk to ' + near.name : '';
+          if (d < 42 || TEST) { if (tickN % 20 === 0 && !p.npc.moving) { if (d < 7 || (cur && cur.p === p)) p.npc.face(me.x, me.z); else p.npc.face(p.lookX, p.lookZ); } p.npc.update(dt); }
+          if (d < bd) { bd = d; best = p; }
+          // a call as the coven walks past: once each time she comes near from far off, and not one on top of another
+          if (p.far && d < 8 && !cur && api.call && !TEST && now - lastCall > 20000) { p.far = false; const l = api.call(p); if (l) { lastCall = now; play([l], p, null, true); } } }
+        if (cur) { sayT -= dt; if (cur.p && cur.p.d > 6.5 && !cur.call) stop(true); else if (sayT <= 0) stop(false); }
+        near = best;
+        const label = cur && !cur.call ? (cur.queue.length ? 'Go on' : cur.p ? 'Thank ' + cur.p.name.replace(/^(Old|Mayor) /, '').replace(/^The /, 'the ') : 'Go on') : near ? 'Talk to ' + near.name.replace(/^The /, 'the ') : '';
         if (btn.textContent !== label) { btn.textContent = label; btn.style.display = label ? 'block' : 'none'; }
       }
       const u0 = Z.update; Z.update = function () { const r = u0.apply(this, arguments); try { tick(); } catch (e) { console.error(e); } return r; };
-      const api = { list, near: () => near, talk: (id) => talk(list.find((p) => p.id === id)), say: () => (saying ? { who: saying.id, text: said.textContent, left: queue.length } : null), tick,
-        ready: async () => { for (const p of list) if (!p.npc && !p.failed) await make(p); return list.filter((p) => p.npc).length; } };
+      Object.assign(api, { near: () => near, me: io, play, busy: () => !!cur, stop: () => stop(true), nameOf, tick,
+        talk: (id) => talk(list.find((p) => p.id === id)),
+        say: () => (cur ? { who: cur.line.who || (cur.p && cur.p.id), name: who.textContent, id: cur.line.id, text: said.textContent, left: cur.queue.length, person: cur.p ? cur.p.id : null } : null),
+        ready: async () => { for (const p of list) if (!p.npc && !p.failed) await make(p); return list.filter((p) => p.npc).length; } });
       G.__people = api; return api;
     },
   };

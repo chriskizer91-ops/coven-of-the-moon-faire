@@ -19,9 +19,9 @@ import base64, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GAME = os.path.join(ROOT, 'game')
-MIME = {'webp': 'image/webp', 'png': 'image/png', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'avif': 'image/avif',
+MIME = {'mp3': 'audio/mpeg', 'webp': 'image/webp', 'png': 'image/png', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'avif': 'image/avif',
         'webm': 'audio/webm', 'm4a': 'audio/mp4', 'woff2': 'font/woff2'}
-PIC = re.compile(r'"((?:art/|\./)[^"\n]+\.(webp|png|jpe?g|avif|webm|m4a))"')
+PIC = re.compile(r'"((?:art/|\./)[^"\n]+\.(webp|png|jpe?g|avif|webm|m4a|mp3))"')
 
 
 def make_io():
