@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zones 2 to 4, the outline: Coven of the Moon Faire</title>
+<style>
+:root{--ink:#0d1524;--ink2:#14203a;--paper:#efe6d2;--dim:#b7ad98;--lamp:#e8a64b;--line:#2a3a5c}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:radial-gradient(120% 60% at 50% 0%,#1d2b49 0%,var(--ink) 60%) fixed,var(--ink);color:var(--paper);
+ font:17px/1.55 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+main{max-width:700px;margin:0 auto;padding:22px 18px 70px}
+.kicker{font:600 12px/1.3 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--lamp);margin:8px 0 6px}
+h1{font-size:32px;line-height:1.15;margin:0 0 12px;font-weight:600}
+h2{font-size:24px;margin:46px 0 10px;padding-top:14px;border-top:1px solid var(--line);font-weight:600}
+h3{font-size:19px;margin:28px 0 6px;color:var(--lamp);font-weight:600}
+h4{font-size:17px;margin:22px 0 4px}
+p,li{margin:0 0 12px}
+ul,ol{padding-left:22px;margin:0 0 14px}
+strong{color:#fff4dc}
+code{font:14px/1 ui-monospace,Menlo,monospace;color:var(--dim)}
+.status{background:var(--ink2);border-left:3px solid var(--lamp);padding:12px 14px;border-radius:6px;color:var(--dim);font-size:15px}
+.ask{background:#1a2742;border:1px solid #33496f;border-radius:10px;padding:14px 16px;margin:18px 0}
+.ask h2{border:0;margin:0 0 6px;padding:0;font-size:19px;color:var(--lamp)}
+.ask ol{margin:0}.ask li{margin:0 0 8px}
+.small,.gnote{font:14px/1.5 system-ui,sans-serif;color:var(--dim)}
+.legend{font:14px/1.5 system-ui,sans-serif;color:var(--dim);background:var(--ink2);border-radius:8px;padding:10px 12px;margin:10px 0 4px}
+.legend b{color:var(--paper);font-weight:600}
+.group{margin:8px 0 0}
+.line{background:linear-gradient(180deg,#172440,#121c33);border:1px solid var(--line);border-radius:12px;padding:12px 14px 10px;margin:10px 0;
+ border-left:4px solid var(--c,var(--lamp))}
+.who{font:700 13px/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--c,var(--lamp));display:flex;gap:8px;align-items:baseline}
+.kind{font-weight:500;letter-spacing:.02em;text-transform:none;color:var(--dim)}
+.words{font-size:21px;line-height:1.4;margin:6px 0 6px;color:#fff8ea;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.words.saying{color:var(--lamp)}
+.tone{font-style:italic;color:var(--dim);font-size:15.5px;margin:0 0 6px}
+.cue{font:13px/1.4 system-ui,sans-serif;color:var(--dim);margin:0 0 6px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;font:12.5px/1 system-ui,sans-serif;color:var(--dim)}
+.meta span{background:#0f182b;border:1px solid var(--line);border-radius:20px;padding:5px 9px}
+.meta .rests{border-color:#7a5a2c;color:#f0c27c}
+.meta .id{border:0;background:none;padding:5px 2px;opacity:.7;font-family:ui-monospace,Menlo,monospace}
+.line[data-who=odile],.line[data-who=tully]{--c:#e8a64b}
+.line[data-who=captain]{--c:#c9c2b4}
+.line[data-who=nettie]{--c:#a9c79a}
+.line[data-who=io]{--c:#e07a86}
+.line[data-who=kore]{--c:#c39cf0}
+.line[data-who=europa]{--c:#78d0ea}
+.line[data-who=callisto]{--c:#9fb8e8}
+details{margin:18px 0;background:var(--ink2);border-radius:10px;padding:10px 14px}
+summary{cursor:pointer;color:var(--lamp);font:600 15px/1.4 system-ui,sans-serif;padding:4px 0}
+.voices li{font-size:15.5px}
+.table{overflow-x:auto;margin:0 0 16px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:8px 8px;border-bottom:1px solid var(--line)}
+th{font:600 12.5px/1.3 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+@media (max-width:620px){
+ body{font-size:16.5px}
+ h1{font-size:28px}
+ thead{display:none}
+ table,tbody,tr,td{display:block;width:100%}
+ tr{background:var(--ink2);border-radius:10px;padding:8px 12px;margin:0 0 10px;border:1px solid var(--line)}
+ td{border:0;padding:4px 0}
+ td::before{content:attr(data-label);display:block;font:600 11.5px/1.4 system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+ td[data-label=""]::before{display:none}
+ td[data-label=""]{font:700 13px/1 system-ui,sans-serif;color:var(--lamp)}
+}
+.totals{font:14px/1.5 system-ui,sans-serif;color:var(--dim);margin:14px 0 0}
+footer{margin-top:50px;padding-top:14px;border-top:1px solid var(--line);font:14px/1.55 system-ui,sans-serif;color:var(--dim)}
+
+h2{margin-top:40px}
+h3{color:#fff4dc;font-size:18px;margin:22px 0 6px}
+p strong:first-child{color:var(--lamp)}
+</style></head>
+<body><main>
+<p class="kicker">Coven of the Moon Faire · the story job · step 3</p>
+<h1>Zones 2 to 4: who speaks, and what for</h1>
+<p class="status">Status: a proposal by the story job (Claude), November 19, 2026. Not approved. An outline only, from the story
+page Chris approved (<code>story-page.md</code>). No line here is written yet. Lines are written when the hub asks, zone by zone,
+in the same shape as zone 1 (<code>game/talk/zone-1.js</code>). Where this outline and Chris disagree, Chris wins.</p>
+<div class="ask"><h2>What I need from you</h2><ol>
+<li><strong>The shape of each zone</strong>: its stages, its people, and how many lines each. Yes, or mark it up.</li>
+<li><strong>Seven new calls</strong>, at the bottom, each with my pick. The biggest are where the game ends (call 12)
+and Kore’s bargain (call 13).</li>
+</ol><p class="small" style="margin:8px 0 0">No line is written yet. Each zone’s lines are written when the hub
+asks for them.</p></div>
+<h3>What the three zones are for</h3>
+<ul><li><strong>Zone 2, the Warm Roads and Dawnroost (levels 5 to 10).</strong> The cold. The fire drinks the warmth out of the roads, and Io learns that a tended flame is not a held one. At Dawnroost, the Wardens' hall still makes up forty beds for the Wardens who went north with her sister.</li><li><strong>Zone 3, the northern wilds and the shipyard (levels 10 to 15).</strong> The knight. A knight of light comes down the north road and fights with Io's own spells. At the shipyard the shipmaster remembers her, and says her name. Io learns her sister is alive.</li><li><strong>Zone 4, the frozen pass, Misthollow and the dead Moonwell (levels 15 to 20).</strong> The letting go. Misthollow is never dark and never warm, and nobody there has grieved in eight years. On the Moonwell stair, Io gives her sister the oldest letter by hand. The fire ends, the moon sets, and the game ends back at the Faire.</li></ul>
+<p>Every zone keeps zone 1's shape: five stages the game keeps, people who point the coven on by places it can find, a few people with many lines whose small stories the zone is told through, and the four witches at set moments.</p>
+<h3>Zone 2: the Warm Roads and Dawnroost</h3>
+<p><strong>The stages</strong></p>
+<div class="table"><table><thead><tr><th>Stage</th><th>What has happened</th><th>Where the story points</th></tr></thead><tbody><tr><td data-label="Stage">0 landing</td><td data-label="What has happened">The ship sets down at the Warm Roads camp. The roads are cold. The flames lean harder than at Wickhollow</td><td data-label="Where the story points">The roadwarden</td></tr><tr><td data-label="Stage">1 nodes</td><td data-label="What has happened">The roadwarden has asked: three Ember Line nodes on the road have gone dark</td><td data-label="Where the story points">The Ember Line road</td></tr><tr><td data-label="Stage">2 hall</td><td data-label="What has happened">The three are lit. Dawnroost is reached</td><td data-label="Where the story points">Marta, in the Wardens' hall</td></tr><tr><td data-label="Stage">3 node</td><td data-label="What has happened">Marta has told what comes at night for Dawnroost's last living node</td><td data-label="Where the story points">The living node</td></tr><tr><td data-label="Stage">4 after</td><td data-label="What has happened">The node holds (the gate fight, level 10). The roads warm a little. The flames still lean</td><td data-label="Where the story points">The Grey Hat, to fly on</td></tr></tbody></table></div>
+<p><strong>Who speaks</strong> (about 120 lines, about 9 minutes)</p>
+<div class="table"><table><thead><tr><th>Who</th><th>Where</th><th>Lines</th><th>What for</th></tr></thead><tbody><tr><td data-label="Who"><strong>The roadwarden</strong> (new, by trade)</td><td data-label="Where">The Warm Roads camp</td><td data-label="Lines">16</td><td data-label="What for">The first guide. An old Ember Warden who stayed when the forty went north. Notices warmth: puts a hand flat on every stone. Sends the coven to the dark nodes</td></tr><tr><td data-label="Who"><strong>Marta</strong></td><td data-label="Where">Dawnroost: the Wardens' hall</td><td data-label="Lines">22</td><td data-label="What for">Keeps the hall. Knew both sisters as girls. Makes up forty bunks every night</td></tr><tr><td data-label="Who">Brann</td><td data-label="Where">Dawnroost: the stores</td><td data-label="Lines">8</td><td data-label="What for">Keeps the Wardens' stores, by Warden's rule</td></tr><tr><td data-label="Who">Tamsin</td><td data-label="Where">Dawnroost</td><td data-label="Lines">6</td><td data-label="What for">A child who has never seen a real Warden, and plays at being one</td></tr><tr><td data-label="Who">The carter (new, by trade)</td><td data-label="Where">The Ember Line road</td><td data-label="Lines">6</td><td data-label="What for">Company on the road, with a cart of sunstone gone dim and cold</td></tr><tr><td data-label="Who"><strong>The Grey Hat</strong></td><td data-label="Where">The landing; the ship</td><td data-label="Lines">16</td><td data-label="What for">The cold drinks his sunstone, so he flies low. The raiders on the flight. The send-off</td></tr><tr><td data-label="Who">The coven</td><td data-label="Where">Set moments</td><td data-label="Lines">46</td><td data-label="What for">Io 14, Kore 12, Europa 10, Callisto 10</td></tr></tbody></table></div>
+<p><strong>The coven's moments:</strong> the landing; the first dark node; the first node lit again; the forty beds; before the node; after the node (Io folds her letters for the first time, and they take wing); the leaving.</p>
+<p><strong>The small stories</strong></p>
+<ul><li>*The roadwarden.* Begins: puts a hand on the cold road stones and asks the four to light the nodes. Turns: admits he stayed behind because he was afraid, and has kept the road alone eight years. Ends: the road warm under his hand again; he will keep it, through the dark.</li><li>*Marta.* Begins: "Little Io," and the forty bunks, made up every night. Turns: she asks Io whether she should stop. Io, who holds on, cannot tell her to. Ends: she keeps making them, "until somebody tells me different". (It pays off at the very end, if call 14 is yes: the forty walk home.)</li><li>*The Grey Hat.* The cold eats his sunstone. He flies low and hates it. He does not complain. Much.</li></ul>
+<p><strong>The threads in zone 2:</strong> Io relights the nodes with small flames she tends, and learns a kept fire is not a bad fire (tending is not holding). Kore looks at Marta's forty bunks and cannot see one of the forty's endings, and does not say so. Europa sees the warmth itself going north along the threads, and sews the nodes shut against the pull. Callisto walks the cold road like someone who has done it before.</p>
+<h3>Zone 3: the northern wilds and the shipyard</h3>
+<p><strong>The stages</strong></p>
+<div class="table"><table><thead><tr><th>Stage</th><th>What has happened</th><th>Where the story points</th></tr></thead><tbody><tr><td data-label="Stage">0 landing</td><td data-label="What has happened">The ship sets down at the northern camp. Colder. The brambles are bigger</td><td data-label="Where the story points">The shipyard</td></tr><tr><td data-label="Stage">1 refit</td><td data-label="What has happened">The ship is in Tock's hands at the shipyard. The moon-folk are selling the last passages out</td><td data-label="Where the story points">Eldergrove's edge, and the north road</td></tr><tr><td data-label="Stage">2 grove</td><td data-label="What has happened">Eldergrove's edge is reached</td><td data-label="Where the story points">The northern crossroads</td></tr><tr><td data-label="Stage">3 crossroads</td><td data-label="What has happened">The knight of light comes down the north road (the gate fight, level 15). She fights with Io's spells, stops when Io answers with the same spell, and walks back north</td><td data-label="Where the story points">The shipyard</td></tr><tr><td data-label="Stage">4 after</td><td data-label="What has happened">Ysmera names the knight. Io learns her sister is alive</td><td data-label="Where the story points">The Grey Hat, to fly north-east</td></tr></tbody></table></div>
+<p><strong>Who speaks</strong> (about 124 lines, about 9 minutes)</p>
+<div class="table"><table><thead><tr><th>Who</th><th>Where</th><th>Lines</th><th>What for</th></tr></thead><tbody><tr><td data-label="Who"><strong>Ysmera Brightkeel</strong></td><td data-label="Where">The shipyard</td><td data-label="Lines">22</td><td data-label="What for">The shipmaster, one of the moon-folk. Sells the last passages out, briskly. Eight years ago a paladin with forty Wardens came through her yard and paid in Warden's silver. She remembers her name</td></tr><tr><td data-label="Who">Old Gil</td><td data-label="Where">The shipyard: the inn</td><td data-label="Lines">8</td><td data-label="What for">Bunks for the yard hands, and two to spare</td></tr><tr><td data-label="Who">Tock</td><td data-label="Where">The shipyard</td><td data-label="Lines">6</td><td data-label="What for">The shipwright who refits the Grey Hat's ship. Rude about it</td></tr><tr><td data-label="Who">Pim</td><td data-label="Where">The shipyard</td><td data-label="Lines">6</td><td data-label="What for">Sells herbs "from the moon. Well, from people who've been"</td></tr><tr><td data-label="Who">The last passenger (new, by trade)</td><td data-label="Where">The shipyard</td><td data-label="Lines">8</td><td data-label="What for">Has bought a passage out and cannot make herself go</td></tr><tr><td data-label="Who">The bramble-cutter (new, by trade)</td><td data-label="Where">Eldergrove's edge</td><td data-label="Lines">6</td><td data-label="What for">Cuts back brambles that are taller every morning</td></tr><tr><td data-label="Who"><strong>Halcyon</strong></td><td data-label="Where">The northern crossroads</td><td data-label="Lines">2</td><td data-label="What for">The knight. Two words when the fight starts and nothing that gives her name. She walks away when Io answers her spell</td></tr><tr><td data-label="Who"><strong>The Grey Hat</strong></td><td data-label="Where">The landing; the shipyard; the ship</td><td data-label="Lines">16</td><td data-label="What for">The refit. The moon-folk offer to buy his ship; she is not for sale. The raiders. The send-off</td></tr><tr><td data-label="Who">The coven</td><td data-label="Where">Set moments</td><td data-label="Lines">50</td><td data-label="What for">Io 15, Kore 13, Europa 11, Callisto 11</td></tr></tbody></table></div>
+<p><strong>The coven's moments:</strong> the landing; the shipyard; Eldergrove's edge; before the knight; after the knight (Kore: she has no ending); the name; the leaving.</p>
+<p><strong>The small stories</strong></p>
+<ul><li>*Ysmera.* Begins: passages sold by the berth, no sentiment. Turns: the four ask about the north, and she goes quiet. Ends: she remembers the paladin who came through her yard, and says the name. She gives the four something of the moon's for the road (a moon-glass, as in the new Envoi).</li><li>*The last passenger.* She has her passage. Each time the four come back she has not gone. At the end she gives it to someone else.</li><li>*The Grey Hat.* The moon-folk offer him a great deal of money for his ship. He does not take it, and will not say why.</li></ul>
+<p><strong>The threads in zone 3:</strong> Io meets her own spells in a stranger's hands, then learns whose. Her hope is now the thing she holds hardest. Kore, at the crossroads, cannot seal the knight, and says the line the zone is built round: "She has no ending." She understands what the fire does, and is frightened for Io. Europa sees every thread in the north run to one knot, and the knight tied into it. Callisto sees the knight first, coming down the road, and is the one who says to wait.</p>
+<h3>Zone 4: the frozen pass, Misthollow and the dead Moonwell</h3>
+<p><strong>The stages</strong></p>
+<div class="table"><table><thead><tr><th>Stage</th><th>What has happened</th><th>Where the story points</th></tr></thead><tbody><tr><td data-label="Stage">0 landing</td><td data-label="What has happened">The ship sets down at the foot of the frozen pass. The Grey Hat can fly no higher: no flame stays lit up there, and he does not fly dark</td><td data-label="Where the story points">The pass-keeper</td></tr><tr><td data-label="Stage">1 pass</td><td data-label="What has happened">The great bramble bars the frozen road (a big fight)</td><td data-label="Where the story points">The frozen road</td></tr><tr><td data-label="Stage">2 town</td><td data-label="What has happened">Misthollow: never dark, never warm. No flame stays lit. Wardens stand in the street, held</td><td data-label="Where the story points">The watchwoman, and the street up to the Moonwell</td></tr><tr><td data-label="Stage">3 stair</td><td data-label="What has happened">On the Moonwell stair, Halcyon. Io gives her the oldest letter by hand. The light over her face goes out</td><td data-label="Where the story points">The dead Moonwell</td></tr><tr><td data-label="Stage">4 after</td><td data-label="What has happened">The finale (level 20, the fire in two forms). The souls go home. One small flame is kept. The moon sets</td><td data-label="Where the story points">The Faire</td></tr></tbody></table></div>
+<p><strong>Who speaks</strong> (about 145 lines with the ending, about 11 minutes)</p>
+<div class="table"><table><thead><tr><th>Who</th><th>Where</th><th>Lines</th><th>What for</th></tr></thead><tbody><tr><td data-label="Who">The pass-keeper (new, by trade)</td><td data-label="Where">The foot of the frozen pass</td><td data-label="Lines">8</td><td data-label="What for">Keeps the hut at the foot of the pass. Has watched people go up for eight years</td></tr><tr><td data-label="Who">Sorrel</td><td data-label="Where">Misthollow</td><td data-label="Lines">8</td><td data-label="What for">Herbs gone pale in the cold. They still work. Mostly</td></tr><tr><td data-label="Who">Ede</td><td data-label="Where">Misthollow: the inn</td><td data-label="Lines">8</td><td data-label="What for">Tries to light the inn fire every night, out of spite</td></tr><tr><td data-label="Who"><strong>The watchwoman</strong></td><td data-label="Where">Misthollow: the street</td><td data-label="Lines">10</td><td data-label="What for">Watches the street up to the Moonwell. Nobody who went up has come down</td></tr><tr><td data-label="Who">A held Warden (new, by trade)</td><td data-label="Where">Misthollow's street</td><td data-label="Lines">2</td><td data-label="What for">Silent until the fire ends. Then: is it morning?</td></tr><tr><td data-label="Who"><strong>Halcyon</strong></td><td data-label="Where">The Moonwell stair; after</td><td data-label="Lines">12</td><td data-label="What for">The sister. The letter (a story talk with Io and Kore). After the fire: the kept flame, and going home</td></tr><tr><td data-label="Who"><strong>The Grey Hat</strong></td><td data-label="Where">The foot of the pass; the last flight</td><td data-label="Lines">12</td><td data-label="What for">He waits below with every lamp lit, so the four can find the way down. At the end, under the stars, he flies dark for the second time in his life</td></tr><tr><td data-label="Who">The coven</td><td data-label="Where">Set moments</td><td data-label="Lines">60</td><td data-label="What for">Io 18, Kore 16, Europa 13, Callisto 13. The finale needs the most</td></tr><tr><td data-label="Who"><strong>The ending, at the Faire</strong></td><td data-label="Where">The camp outside Wickhollow</td><td data-label="Lines">25</td><td data-label="What for">Goodbyes. Nettie meets Halcyon (4). Odile: the flames stand straight (3). Linnet finds her last verse (2). Zofia turns the blank card (2). Tully counts four back in (2). Old Bridie and the gate lamp (2). One each from the rest (10)</td></tr></tbody></table></div>
+<p><strong>The coven's moments:</strong> the landing (the Grey Hat stays); the frozen road; Misthollow; the stair; the finale (before, between the two forms, after); the moon setting; the ending at the Faire.</p>
+<p><strong>The finale, beat by beat</strong> (from the approved ten lines): Callisto holds the one moment. Europa, who sewed the flames down, cuts the threads that hold each light. Kore draws the fire's hunger onto herself and gives it its ending. Io sends her letters at last, and each held soul follows its own name home. Eight years of moths go up at once. One small flame is left, the one Halcyon carried from home, and it is kept.</p>
+<p><strong>The threads in zone 4:</strong> Io lets go: the letter by hand, the rest sent, and home left again, saying goodbye this time. Kore defends: she takes everything the fire has, so Io does not have to. Her bargain comes due (call 13). Europa learns some cloth has to be cut. Callisto says it aloud, to Halcyon: it is a season.</p>
+<h3>Size</h3>
+<div class="table"><table><thead><tr><th>Zone</th><th>Lines</th><th>Minutes (at zone 1's real pace)</th></tr></thead><tbody><tr><td data-label="Zone">1, recorded</td><td data-label="Lines">236</td><td data-label="Minutes (at zone 1&#x27;s real pace)">17.4</td></tr><tr><td data-label="Zone">2</td><td data-label="Lines">about 120</td><td data-label="Minutes (at zone 1&#x27;s real pace)">about 9</td></tr><tr><td data-label="Zone">3</td><td data-label="Lines">about 124</td><td data-label="Minutes (at zone 1&#x27;s real pace)">about 9</td></tr><tr><td data-label="Zone">4, with the ending</td><td data-label="Lines">about 145</td><td data-label="Minutes (at zone 1&#x27;s real pace)">about 11</td></tr><tr><td data-label="Zone">All</td><td data-label="Lines">about 625</td><td data-label="Minutes (at zone 1&#x27;s real pace)">about 46</td></tr></tbody></table></div>
+<p>The brief asked to stay near an hour. This is under it, with room to grow if a zone needs more.</p>
+<h3>New calls for Chris (my pick first)</h3>
+<ol start="12"><li><strong>Where the game ends.</strong> Pick: back at the Faire's camp outside Wickhollow, the night the moon sets. The Grey Hat flies the four home with Halcyon; the fair folk say goodbye; the Faire moves on, and the four with it. (The hub would need one last flight and the camp by night.)</li><li><strong>Kore's bargain comes due.</strong> She was told below: walk the lost home, and you may take your bow. At the finale the lost go home. Pick: she is offered her bow, and does not take it. "Not yet." The one who always let go chooses to stay, for Io.</li><li><strong>The forty Wardens.</strong> Pick: forty Ember Wardens went north with Halcyon. The fire holds them, standing, in Misthollow. They walk home at the end, and Marta's forty bunks are for them.</li><li><strong>What the knight says at the crossroads.</strong> Pick: two words, "Go home", and nothing that gives her name. Ysmera names her afterwards, from her own memory of her yard.</li><li><strong>New people, known by their trades only:</strong> the roadwarden and the carter (zone 2), the bramble-cutter and the last passenger (zone 3), the pass-keeper and a held Warden (zone 4). No new name is spoken. Pick: yes.</li><li><strong>The Grey Hat cannot fly to Misthollow</strong>, because no flame stays lit there and he does not fly dark. At the very end, under the first stars, he flies dark again. Pick: yes.</li><li><strong>What the brambles are</strong> is never said in a line. People guess, as they do about the wisps. Pick: yes.</li></ol>
+<p>The ship's name stays unsaid (call 7).</p>
+<footer><p>Made by <code>tools/talk-outline.py</code> from <code>docs/lore/story-zones-2-4.md</code>, on the branch
+<code>job/story</code>.</p></footer>
+</main></body></html>

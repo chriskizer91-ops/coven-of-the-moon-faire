@@ -1,0 +1,595 @@
+COVEN OF THE MOON FAIRE
+VOICE RECORDING ORDER: ZONE 3 (THE NORTHERN WILDS AND THE SHIPYARD)
+Made November 19, 2026. 124 lines, 12 speakers, about 8.5 minutes of speech.
+
+WHAT THIS IS
+These are the spoken lines for part 3 ("zone 3") of a small fantasy video game. Every person in the game speaks aloud. Each line below is recorded as its own sound file, in the voice of the person who says it. The game finds each sound by its file name, so the names must be exactly as written here. The lines are British English.
+
+HOW TO MAKE THE FILES
+ 1. Model: ElevenLabs Eleven v4 (model id eleven_v4).
+ 2. Returning voices: Io, Kore, Europa, Callisto, the Grey Hat were recorded for an earlier zone. Use the very same voice and settings as before, so each sounds like the same person.
+ 3. One voice for each speaker. Choose it from the voice note under the speaker’s name, test it with the audition line (do not save the audition as a file), then use that same voice, with the same settings, for every one of that speaker’s lines.
+ 4. Say exactly the words after "Say:". Do not add, drop or change a word.
+ 5. Words in [square brackets] are delivery cues (Eleven v4 audio tags), not words to speak. If a cue is spoken aloud by mistake, make the line again without the cue.
+ 6. "Tone:" says how the line should sound. It is never spoken. If a line comes out in the wrong tone, make it again; you may put a short cue from the tone note in square brackets at its start, such as [dryly] or [gently].
+ 7. One sound file for each line, named by its file name exactly, for example z3.captain.01.mp3 (lower case, with the dots as shown).
+ 8. MP3, one channel (mono), 44.1 kHz, 64 kbps (ElevenLabs output format mp3_44100_64). If a file comes out with two channels, mix it down to one.
+ 9. Silence: no more than a fifth of a second (0.2 s) of silence at the start and at the end of each file. Trim any longer silence.
+10. Loudness: the same for every file and every speaker. Normalise each file to about -18 LUFS (integrated), with peaks no higher than -1 dBFS.
+11. Packing: one zip for each speaker, named as shown under the speaker (for example z3-io.zip). Inside it: that speaker’s sound files, and a list named like z3-io-list.csv with two columns, file and seconds: each file’s name and its length in seconds, to one decimal place.
+12. Check before handing back: 124 files in 12 zips, every file name below present once, and nothing else.
+
+HOW TO SAY THE NAMES
+If a name comes out wrong, Eleven v4 reads the International Phonetic Alphabet written between slashes in the text, for example /ˈaɪ.oʊ/ for Io.
+  Io          EYE-oh                 /ˈaɪ.oʊ/
+  Kore        KOR-ee                 /ˈkɔːri/
+  Callisto    kah-LISS-toh           /kəˈlɪstoʊ/
+  Halcyon     HAL-see-on             /ˈhælsiən/
+  Tock        TOCK                   /tɒk/
+  Eldergrove  EL-der-grove           /ˈɛldərɡroʊv/
+
+==============================================================================
+SPEAKER: io   Io, the Herbal Witch
+ZIP: z3-io.zip   (15 lines, about 44 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-io.zip). For reference: Woman, about thirty. From: a faint trace of Wickhollow’s soft West Country, worn down by years on the road. Pitch: low-middle. Pace: unhurried. Texture: warm and gentle, with steel under the softness.
+------------------------------------------------------------------------------
+z3.io.01.mp3
+  Say:  We’re closer, Kore. I can feel it pulling.
+  Tone: Low, a hand on her chest. Not quite afraid.
+
+z3.io.02.mp3
+  Say:  Then we’re going the wrong way.
+  Tone: A small smile. She knows, and goes anyway.
+
+z3.io.03.mp3
+  Say:  Nobody’s tended these. You can tell.
+  Tone: A gardener’s pity.
+
+z3.io.04.mp3
+  Say:  Eldergrove. I used to pray to it, from home.
+  Tone: Hushed and glad, a child seeing a church she only knew by name.
+
+z3.io.05.mp3
+  Say:  It still answers me. Even here.
+  Tone: Moved, very quiet.
+
+z3.io.06.mp3
+  Say:  The oldest letter I carry is to my sister. I’ve never read it back.
+  Tone: Low, by the fire. She has never said this aloud.
+
+z3.io.07.mp3
+  Say:  No. It’s for her.
+  Tone: Soft but certain.
+
+z3.io.08.mp3
+  Say:  Kore, she’s wearing Warden steel.
+  Tone: Shocked, a whisper.
+
+z3.io.09.mp3
+  Say:  She used my prayers. Every one. And she stopped when I answered.
+  Tone: Shaken, working it out as she speaks.
+
+z3.io.10.mp3
+  Say:  Kore. She walks the way I walk.
+  Tone: Barely a whisper. She does not dare finish the thought.
+
+z3.io.11.mp3
+  Say:  What was her name?
+  Tone: Barely a breath. She already knows.
+
+z3.io.12.mp3
+  Say:  Alive. Kore, she’s alive.
+  Tone: Joy breaking through shock, trembling.
+
+z3.io.13.mp3
+  Say:  It’s enough. It’s more than I had.
+  Tone: Fierce and soft at once. Holding on with both hands.
+
+z3.io.14.mp3
+  Say:  Eight years I wrote to her. She was just up the road.
+  Tone: Rueful, almost a laugh, almost not.
+
+z3.io.15.mp3
+  Say:  I’m bringing her home, Kore.
+  Tone: A vow, quiet and fierce.
+
+==============================================================================
+SPEAKER: kore   Kore, the Jester
+ZIP: z3-kore.zip   (13 lines, about 34 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-kore.zip). For reference: Woman, about thirty. From: clear stage speech, from nowhere in particular. Pitch: middle, bright. Pace: quick, and can stop dead. Texture: a trained performer’s voice that can drop to a hush, laughter always close under the words.
+------------------------------------------------------------------------------
+z3.kore.01.mp3
+  Say:  Everything leans north-east up here. Even the trees. Rude.
+  Tone: Mock offended, to keep everyone light.
+
+z3.kore.02.mp3
+  Say:  Then hold on to something. Not it.
+  Tone: Quick and serious, taking her hand.
+
+z3.kore.03.mp3
+  Say:  Everyone here is buying a way out. Nobody’s buying a way in.
+  Tone: Light, with a true thing in it.
+
+z3.kore.04.mp3
+  Say:  We usually are, Io.
+  Tone: Fond, a shrug in the voice.
+
+z3.kore.05.mp3
+  Say:  Then let’s tend them. Briskly.
+  Tone: Cheerful menace.
+
+z3.kore.06.mp3
+  Say:  Good. Somewhere that hasn’t been asked.
+  Tone: Quiet satisfaction.
+
+z3.kore.07.mp3
+  Say:  Read it to me.
+  Tone: Gentle, an open hand.
+
+z3.kore.08.mp3
+  Say:  Then keep it safe. I’ll keep you safe.
+  Tone: Light words, a vow under them.
+
+z3.kore.09.mp3
+  Say:  Behind me, Io. Now.
+  Tone: No joke at all. Fast.
+
+z3.kore.10.mp3
+  Say:  She has no ending, Io. I tried. There’s nothing there to seal.
+  Tone: Frightened, for the first time. Quiet.
+
+z3.kore.11.mp3
+  Say:  [quietly] She’s held, Io. That isn’t the same.
+  Tone: Gentle. It hurts her to say it.
+
+z3.kore.12.mp3
+  Say:  And I go first.
+  Tone: Light and absolutely final.
+
+z3.kore.13.mp3
+  Say:  You couldn’t have known, Io.
+  Tone: Warm and steady.
+
+==============================================================================
+SPEAKER: europa   Europa, the Fox
+ZIP: z3-europa.zip   (11 lines, about 34 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-europa.zip). For reference: Woman, late twenties. From: a slight Irish lilt. Pitch: middle-high. Pace: quick. Texture: light and playful, a smile in it.
+------------------------------------------------------------------------------
+z3.europa.01.mp3
+  Say:  The threads up here hum when you touch them.
+  Tone: Fascinated, a fingertip held out.
+
+z3.europa.02.mp3
+  Say:  Your sails are a disgrace, captain. I’ll mend them for nothing.
+  Tone: Teasing and sincere at once.
+
+z3.europa.03.mp3
+  Say:  Moon-silk sails. I want to touch every one.
+  Tone: Breathless greed, the happy kind.
+
+z3.europa.04.mp3
+  Say:  No thread on it. Nothing’s pulling. It just grew.
+  Tone: Puzzled, peering at it.
+
+z3.europa.05.mp3
+  Say:  Every thread here is green. Not one goes north.
+  Tone: Relief, almost laughing.
+
+z3.europa.06.mp3
+  Say:  It knows you, Io. Look, the leaves turn when you speak.
+  Tone: Delighted, pointing.
+
+z3.europa.07.mp3
+  Say:  Hold still, Callisto. Your cloak’s torn again.
+  Tone: Fond scolding, needle already threaded.
+
+z3.europa.08.mp3
+  Say:  Her threads all run north. She’s sewn in.
+  Tone: Grim, for once with no play in it.
+
+z3.europa.09.mp3
+  Say:  Whoever she is, someone tied her very tight.
+  Tone: Angry on her behalf.
+
+z3.europa.10.mp3
+  Say:  And I’m bringing my scissors.
+  Tone: Playful again, with an edge.
+
+z3.europa.11.mp3
+  Say:  The shipmaster’s waving. The moon-folk don’t wave.
+  Tone: Surprised and touched, waving back.
+
+==============================================================================
+SPEAKER: callisto   Callisto, the Ranger
+ZIP: z3-callisto.zip   (11 lines, about 27 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-callisto.zip). For reference: Woman, mid twenties. From: a faint accent nobody else in the game has (a light Scandinavian lilt). Pitch: low. Pace: slow and measured. Texture: calm and spare, every word meant.
+------------------------------------------------------------------------------
+z3.callisto.01.mp3
+  Say:  Ice on the brambles. And the brambles are taller than me.
+  Tone: Quiet, measuring them with her eye.
+
+z3.callisto.02.mp3
+  Say:  Ships leaving. None coming.
+  Tone: Flat and exact.
+
+z3.callisto.03.mp3
+  Say:  That bramble moved.
+  Tone: Very calm, which is worse.
+
+z3.callisto.04.mp3
+  Say:  Something big moved in the trees. It’s watching Io.
+  Tone: Low, alert, not afraid.
+
+z3.callisto.05.mp3
+  Say:  It tore itself.
+  Tone: Deadpan. The nearest she comes to a joke.
+
+z3.callisto.06.mp3
+  Say:  Sleep. I’ll watch.
+  Tone: Calm, settling her bow across her knees.
+
+z3.callisto.07.mp3
+  Say:  Wait. Something on the road. All light.
+  Tone: Sharp and low, the first to see.
+
+z3.callisto.08.mp3
+  Say:  She looked back. Once.
+  Tone: Plain, watching the empty road.
+
+z3.callisto.09.mp3
+  Say:  Thank you.
+  Tone: Quiet and formal. A princess thanking a stranger for a hard gift.
+
+z3.callisto.10.mp3
+  Say:  Then we go and get her.
+  Tone: Simple and certain.
+
+z3.callisto.11.mp3
+  Say:  Peaks ahead. Snow on all of them.
+  Tone: Calm, eyes ahead.
+
+==============================================================================
+SPEAKER: captain   The Grey Hat, the captain
+ZIP: z3-captain.zip   (16 lines, about 88 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-captain.zip). For reference: Man, about forty-five. From: a faint east-coast Scots burr. Pitch: low. Pace: slow, clipped. Texture: a little weathered, deadpan, says less than he means.
+------------------------------------------------------------------------------
+z3.captain.01.mp3
+  Say:  Raiders again. Bigger ship this time. Hold on.
+  Tone: Clipped and tense, steady at the wheel.
+
+z3.captain.02.mp3
+  Say:  Seen off. My hands are shaking. That’s the cold.
+  Tone: Dry. It is not the cold.
+
+z3.captain.03.mp3
+  Say:  Northern camp. Colder than a creditor. She needs work before she’ll go further.
+  Tone: Gruff, stamping his feet.
+
+z3.captain.04.mp3
+  Say:  There’s a shipyard down the coast. The moon-folk run it. They’ll fleece me.
+  Tone: Resigned, pointing down the coast.
+
+z3.captain.05.mp3
+  Say:  Tock says she needs new ribs. I said she needs nothing. We’re both right.
+  Tone: Stubborn humour.
+
+z3.captain.06.mp3
+  Say:  The shipmaster offered to buy her. A great deal of money. No.
+  Tone: Flat. The no is final.
+
+z3.captain.07.mp3
+  Say:  She’s offered four times. I keep saying no. Don’t ask me why.
+  Tone: Gruff, a little embarrassed.
+
+z3.captain.08.mp3
+  Say:  The north road goes past Eldergrove to the crossroads. Nobody uses it after dark.
+  Tone: Low, giving directions he does not like.
+
+z3.captain.09.mp3
+  Say:  I saw the light from here. Whatever met you on that road, it lit the clouds.
+  Tone: Shaken, trying not to show it.
+
+z3.captain.10.mp3
+  Say:  Refit’s done. She’ll fly higher. Not high enough for where you’re going, I think.
+  Tone: Proud, then honest.
+
+z3.captain.11.mp3
+  Say:  North-east, then. Into the peaks. I’ll take you as far as a flame will burn.
+  Tone: Steady. A promise with a limit in it.
+
+z3.captain.12.mp3
+  Say:  Won, by the look. Tock will want to know if you need patching. Tell him no.
+  Tone: Dry and fond.
+
+z3.captain.13.mp3
+  Say:  You look like my hull did. Sit. Tock can’t mend people, more’s the pity.
+  Tone: Gruff sympathy.
+
+z3.captain.14.mp3
+  Say:  Mind the slipway. It’s greasy.
+  Tone: Called after them, dry.
+
+z3.captain.15.mp3
+  Say:  The lean’s worse up here. Pennant’s nearly flat out. North-east, always.
+  Tone: Uneasy, squinting up at the mast.
+
+z3.captain.16.mp3
+  Say:  So now you know whose light it is. I’m sorry, Io. Or I’m glad. I can’t tell.
+  Tone: Awkward, kind and honest.
+
+==============================================================================
+SPEAKER: ysmera   Ysmera Brightkeel, the shipmaster
+ZIP: z3-ysmera.zip   (22 lines, about 116 seconds)
+VOICE: NEW. Woman, about fifty. From: moon-folk: a cool, exact, very elegant English with a faint lilt nobody on the land has. Pitch: middle. Pace: measured. Texture: silk over steel, a dry wit.
+AUDITION LINE (to choose the voice, not a file): Everything has a price. The art is knowing when to refuse it.
+------------------------------------------------------------------------------
+z3.ysmera.01.mp3
+  Say:  Passage south, by the berth, paid before boarding. The north is not for sale.
+  Tone: Brisk and cool. A shopkeeper who has said it a thousand times.
+
+z3.ysmera.02.mp3
+  Say:  My people have watched a great many lands go dark. We are very good at leaving.
+  Tone: Dry and elegant, with a sadness she would never admit.
+
+z3.ysmera.03.mp3
+  Say:  Your captain’s at the slip with Tock, arguing. Down by the water.
+  Tone: Mildly amused, a hand toward the water.
+
+z3.ysmera.04.mp3
+  Say:  The cold lights look late for something. My people are never late. It’s rather rude.
+  Tone: Disdainful and puzzled. Held as a guess.
+
+z3.ysmera.05.mp3
+  Say:  The last berths go for a fortune. Grief pays well. I wish it didn’t.
+  Tone: Cool, then a crack on the last sentence.
+
+z3.ysmera.06.mp3
+  Say:  You want to know about the north. Everyone who asks that has stopped buying passage.
+  Tone: Sharp, watching them closely.
+
+z3.ysmera.07.mp3
+  Say:  No. I won’t talk about the north. Ask me again when you’ve been.
+  Tone: Closed. A door shut gently.
+
+z3.ysmera.08.mp3
+  Say:  Something walks the north road at night, all light. My sailors won’t go past the crossroads.
+  Tone: Low and unwilling. She says more than she meant to.
+
+z3.ysmera.09.mp3
+  Say:  Eight years ago a paladin came through my yard with forty Wardens behind her.
+  Tone: Slow, remembering, choosing each word.
+
+z3.ysmera.10.mp3
+  Say:  She paid in Warden’s silver and asked for nothing back. Not even a passage home.
+  Tone: Respect, and an old unease.
+
+z3.ysmera.11.mp3
+  Say:  Halcyon.
+  Tone: One word, gently. Let it land.
+
+z3.ysmera.12.mp3
+  Say:  There’s a berth on my last ship with your names on it. In case.
+  Tone: Offhand, as if it cost nothing. It costs a great deal.
+
+z3.ysmera.13.mp3
+  Say:  Go north, then. My people never go back for anything. I find I’d like you to.
+  Tone: Elegant, and for once not quite steady.
+
+z3.ysmera.14.mp3
+  Say:  I’ve sold every berth but one. I find I don’t want it. I’m staying.
+  Tone: Surprised at herself, quietly decided.
+
+z3.ysmera.15.mp3
+  Say:  Your captain refused my offer for his ship. Four times. I made the last one generous.
+  Tone: Amused, and a little impressed.
+
+z3.ysmera.16.mp3
+  Say:  The woman by the dock has bought her passage three times. She keeps not going.
+  Tone: Puzzled, with a trace of fondness.
+
+z3.ysmera.17.mp3
+  Say:  Tock says your ship has a good keel and a terrible captain. That’s praise, from Tock.
+  Tone: Dry amusement.
+
+z3.ysmera.18.mp3
+  Say:  You’ve been fighting. Your boots say so. Clean them before you walk on my deck.
+  Tone: Fastidious, with a flicker of approval.
+
+z3.ysmera.19.mp3
+  Say:  Sit down before you fall down. My people find falling undignified.
+  Tone: Cool concern, dressed up as manners.
+
+z3.ysmera.20.mp3
+  Say:  You look expensive to replace, all four. Be careful.
+  Tone: A merchant’s compliment, sincerely meant.
+
+z3.ysmera.21.mp3
+  Say:  You’ve the look of people who won’t need passage. I’ve seen it once before.
+  Tone: Quiet, a memory behind it.
+
+z3.ysmera.22.mp3
+  Say:  Passage south, should you want it!
+  Tone: Called after them, crisp.
+
+==============================================================================
+SPEAKER: gil   Old Gil, the innkeeper
+ZIP: z3-gil.zip   (8 lines, about 44 seconds)
+VOICE: NEW. Man, about seventy-five. From: Liverpool (the shipyard). Pitch: low. Pace: easy. Texture: wheezy and cheerful.
+AUDITION LINE (to choose the voice, not a file): Tar, fish and a fire. That’s the whole menu, and I’m proud of it.
+------------------------------------------------------------------------------
+z3.gil.01.mp3
+  Say:  I’ve beds that smell of tar and a fire that smells of fish. Best in the yard.
+  Tone: Wheezy pride, a showman of small things.
+
+z3.gil.02.mp3
+  Say:  The cold lights wait on the slipway at night. Like passengers with no ticket.
+  Tone: Thoughtful. An old man’s guess.
+
+z3.gil.03.mp3
+  Say:  The shipmaster’s in the tall house with the glass roof. She’ll sell you anything but the north.
+  Tone: Helpful, with a wry edge.
+
+z3.gil.04.mp3
+  Say:  It’s colder every week. My knees know before the frost does.
+  Tone: Grumbling, rubbing a knee.
+
+z3.gil.05.mp3
+  Say:  Fifty years I’ve kept this inn. Never had a moon-woman stay the night. Still haven’t.
+  Tone: Comic indignation.
+
+z3.gil.06.mp3
+  Say:  Yard hands won’t walk the north road now. They say it hums at night.
+  Tone: Voice lowered, a tale told by the fire.
+
+z3.gil.07.mp3
+  Say:  She’s stopped selling. The shipmaster. Sat in my inn and drank tea like the rest of us.
+  Tone: Amazed and delighted, a little proud.
+
+z3.gil.08.mp3
+  Say:  Door’s on the latch!
+  Tone: Called after them, cheerful.
+
+==============================================================================
+SPEAKER: tock   Tock, the shipwright
+ZIP: z3-tock.zip   (6 lines, about 26 seconds)
+VOICE: NEW. Man (a gnome), middle years. From: Liverpool. Pitch: middle-high. Pace: quick. Texture: gruff, and fond of ships more than people.
+AUDITION LINE (to choose the voice, not a file): Don’t tell me what’s wrong with her. I’ll tell you. Then I’ll tell you again.
+------------------------------------------------------------------------------
+z3.tock.01.mp3
+  Say:  That skiff is held together by stubbornness and blue thread. I respect it.
+  Tone: Gruff admiration, arms folded.
+
+z3.tock.02.mp3
+  Say:  Lights that don’t hang straight have lost their hook, I say.
+  Tone: A shipwright’s certainty, brief. His guess.
+
+z3.tock.03.mp3
+  Say:  Your captain’s at the slip, guarding his lamps from my apprentices. Down by the water.
+  Tone: Exasperated, pointing with a mallet.
+
+z3.tock.04.mp3
+  Say:  New ribs, new keelson, same old ship. Don’t tell her. She’s proud.
+  Tone: Fond and conspiratorial, about a ship.
+
+z3.tock.05.mp3
+  Say:  She’ll fly higher now. Not all the way. Nothing lit gets all the way up there.
+  Tone: Proud, then sober.
+
+z3.tock.06.mp3
+  Say:  Don’t touch the scaffolds!
+  Tone: Shouted after them.
+
+==============================================================================
+SPEAKER: pim   Pim, the herb-seller
+ZIP: z3-pim.zip   (6 lines, about 28 seconds)
+VOICE: NEW. Woman (a gnome), young. From: Liverpool. Pitch: high. Pace: quick. Texture: a chirpy saleswoman.
+AUDITION LINE (to choose the voice, not a file): Fresh, dried or mysterious? I’ve all three, and the third’s on special.
+------------------------------------------------------------------------------
+z3.pim.01.mp3
+  Say:  Moonwort! Real moonwort, from the moon. Nearly from the moon. From very high up.
+  Tone: Bright sales patter, backing down as she goes.
+
+z3.pim.02.mp3
+  Say:  Herbs go pale when they miss the sun. Those cold lights look like they miss something worse.
+  Tone: Sweet and a little sad. Her guess.
+
+z3.pim.03.mp3
+  Say:  The shipmaster buys my moonwort for her tea. Tall house, glass roof. She tips badly.
+  Tone: Gossipy and cheerful.
+
+z3.pim.04.mp3
+  Say:  Everything in my baskets has turned to face north-east. Even the dried ones. That’s new.
+  Tone: Puzzled, poking a basket.
+
+z3.pim.05.mp3
+  Say:  My baskets have stopped turning. Mostly. I’m calling that a win.
+  Tone: Chirpy and satisfied.
+
+z3.pim.06.mp3
+  Say:  Something green for the road?
+  Tone: Called after them, hopeful.
+
+==============================================================================
+SPEAKER: passenger   The last passenger, the passenger
+ZIP: z3-passenger.zip   (8 lines, about 42 seconds)
+VOICE: NEW. Woman, about forty. From: soft Scottish Borders (she is from up the north road). Pitch: middle. Pace: slow. Texture: wistful, a little wry.
+AUDITION LINE (to choose the voice, not a file): I’ve packed this bag four times. It keeps unpacking itself.
+------------------------------------------------------------------------------
+z3.passenger.01.mp3
+  Say:  I’ve a ticket south. That ship leaves at dawn. I said that yesterday.
+  Tone: Wry, a little ashamed.
+
+z3.passenger.02.mp3
+  Say:  The cold lights came down from the north, like me. I think they’re going home.
+  Tone: Wistful. A guess she wishes were hers to make.
+
+z3.passenger.03.mp3
+  Say:  The shipmaster sold me this. She’ll sell you one. Tall house, glass roof.
+  Tone: Flat, holding up the ticket.
+
+z3.passenger.04.mp3
+  Say:  Everyone’s going south. I’m the only one at this dock going nowhere.
+  Tone: Dry and lonely.
+
+z3.passenger.05.mp3
+  Say:  Another ship gone. I waved it off. I’m good at waving.
+  Tone: Rueful, a joke at her own expense.
+
+z3.passenger.06.mp3
+  Say:  My house is past the crossroads. I left the door open. I keep thinking about the door.
+  Tone: Quiet, haunted by a small thing.
+
+z3.passenger.07.mp3
+  Say:  I gave my ticket to a family with a baby. I’m going home. The door’s still open.
+  Tone: Light, freed, decided.
+
+z3.passenger.08.mp3
+  Say:  Safe road, if there is one.
+  Tone: Called after them, half a blessing.
+
+==============================================================================
+SPEAKER: cutter   The bramble-cutter, the bramble-cutter
+ZIP: z3-cutter.zip   (6 lines, about 27 seconds)
+VOICE: NEW. Man, about forty-five. From: soft Scottish Borders. Pitch: low. Pace: steady. Texture: tired and strong.
+AUDITION LINE (to choose the voice, not a file): Cut it back, it comes back. That’s the job, and somebody’s got to have it.
+------------------------------------------------------------------------------
+z3.cutter.01.mp3
+  Say:  Mind the thorns. They were knee-high yesterday.
+  Tone: A weary warning. He keeps cutting.
+
+z3.cutter.02.mp3
+  Say:  Nobody planted these, and nobody tends them. They grow like something forgotten.
+  Tone: Slow and wondering. His guess.
+
+z3.cutter.03.mp3
+  Say:  There’s a moon-woman at the shipyard who knows the north. Ask her. She won’t answer.
+  Tone: Dry humour.
+
+z3.cutter.04.mp3
+  Say:  The thorns lean north-east too. Plants aren’t meant to know where anything is.
+  Tone: Uneasy, eyeing the hedge.
+
+z3.cutter.05.mp3
+  Say:  Something walked back north last night, all light. The thorns leaned after it like dogs.
+  Tone: Hushed, telling it to himself.
+
+z3.cutter.06.mp3
+  Say:  Watch your sleeves.
+  Tone: Called after them, plain.
+
+==============================================================================
+SPEAKER: halcyon   Halcyon, the knight of light
+ZIP: z3-halcyon.zip   (2 lines, about 2 seconds)
+VOICE: NEW. Woman, about forty. From: Wickhollow’s soft West Country, like Io’s but firmer. Pitch: low-middle. Pace: measured. Texture: a soldier’s steadiness. Under the fire: calm and far away. After it: warm, tired, and herself.
+AUDITION LINE (to choose the voice, not a file): Shields up, eyes front, and nobody dies today.
+------------------------------------------------------------------------------
+z3.halcyon.01.mp3
+  Say:  Go home.
+  Tone: A command from inside a light. Calm, far away, not cruel.
+
+z3.halcyon.02.mp3
+  Say:  Go home.
+  Tone: The same words, quieter. Almost a plea.
+
+==============================================================================
+END OF ZONE 3

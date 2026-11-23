@@ -1,0 +1,568 @@
+COVEN OF THE MOON FAIRE
+VOICE RECORDING ORDER: ZONE 2 (THE WARM ROADS AND DAWNROOST)
+Made November 19, 2026. 120 lines, 10 speakers, about 8.1 minutes of speech.
+
+WHAT THIS IS
+These are the spoken lines for part 2 ("zone 2") of a small fantasy video game. Every person in the game speaks aloud. Each line below is recorded as its own sound file, in the voice of the person who says it. The game finds each sound by its file name, so the names must be exactly as written here. The lines are British English.
+
+HOW TO MAKE THE FILES
+ 1. Model: ElevenLabs Eleven v4 (model id eleven_v4).
+ 2. Returning voices: Io, Kore, Europa, Callisto, the Grey Hat were recorded for an earlier zone. Use the very same voice and settings as before, so each sounds like the same person.
+ 3. One voice for each speaker. Choose it from the voice note under the speaker’s name, test it with the audition line (do not save the audition as a file), then use that same voice, with the same settings, for every one of that speaker’s lines.
+ 4. Say exactly the words after "Say:". Do not add, drop or change a word.
+ 5. Words in [square brackets] are delivery cues (Eleven v4 audio tags), not words to speak. If a cue is spoken aloud by mistake, make the line again without the cue.
+ 6. "Tone:" says how the line should sound. It is never spoken. If a line comes out in the wrong tone, make it again; you may put a short cue from the tone note in square brackets at its start, such as [dryly] or [gently].
+ 7. One sound file for each line, named by its file name exactly, for example z2.captain.01.mp3 (lower case, with the dots as shown).
+ 8. MP3, one channel (mono), 44.1 kHz, 64 kbps (ElevenLabs output format mp3_44100_64). If a file comes out with two channels, mix it down to one.
+ 9. Silence: no more than a fifth of a second (0.2 s) of silence at the start and at the end of each file. Trim any longer silence.
+10. Loudness: the same for every file and every speaker. Normalise each file to about -18 LUFS (integrated), with peaks no higher than -1 dBFS.
+11. Packing: one zip for each speaker, named as shown under the speaker (for example z2-io.zip). Inside it: that speaker’s sound files, and a list named like z2-io-list.csv with two columns, file and seconds: each file’s name and its length in seconds, to one decimal place.
+12. Check before handing back: 120 files in 10 zips, every file name below present once, and nothing else.
+
+HOW TO SAY THE NAMES
+If a name comes out wrong, Eleven v4 reads the International Phonetic Alphabet written between slashes in the text, for example /ˈaɪ.oʊ/ for Io.
+  Io          EYE-oh                 /ˈaɪ.oʊ/
+  Kore        KOR-ee                 /ˈkɔːri/
+  Marta       MAR-tuh                /ˈmɑːtə/
+  Brann       BRAN                   /bræn/
+  Tamsin      TAM-zin                /ˈtæmzɪn/
+  Dawnroost   DAWN-roost             /ˈdɔːnruːst/
+  Halcyon     HAL-see-on             /ˈhælsiən/
+
+==============================================================================
+SPEAKER: io   Io, the Herbal Witch
+ZIP: z2-io.zip   (14 lines, about 37 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-io.zip). For reference: Woman, about thirty. From: a faint trace of Wickhollow’s soft West Country, worn down by years on the road. Pitch: low-middle. Pace: unhurried. Texture: warm and gentle, with steel under the softness.
+------------------------------------------------------------------------------
+z2.io.01.mp3
+  Say:  The road’s gone cold, Kore. Roads don’t do that.
+  Tone: Troubled, her hand flat on the ground.
+
+z2.io.02.mp3
+  Say:  Show us the first one.
+  Tone: Kind and practical, already rolling up her sleeves.
+
+z2.io.03.mp3
+  Say:  I’ll light it with something small. Something I can tend.
+  Tone: Careful and gentle, cupping a flame.
+
+z2.io.04.mp3
+  Say:  There. Feel it? Warm.
+  Tone: Soft and pleased, her hands around the warmth.
+
+z2.io.05.mp3
+  Say:  It’s not the same as holding on, Kore.
+  Tone: Gentle, a little defensive. She has heard the question.
+
+z2.io.06.mp3
+  Say:  I came here as a girl. It was louder.
+  Tone: Wistful, a small smile at the memory.
+
+z2.io.07.mp3
+  Say:  Hello, Marta.
+  Tone: Soft. A girl again for a moment.
+
+z2.io.08.mp3
+  Say:  Her bed’s by the window. It always was.
+  Tone: Soft, standing very still.
+
+z2.io.09.mp3
+  Say:  Keep them made, Marta.
+  Tone: Gentle and firm. She cannot let go either.
+
+z2.io.10.mp3
+  Say:  You keep saying that.
+  Tone: Half teasing, half touched.
+
+z2.io.11.mp3
+  Say:  My letters. Kore, they’re folding themselves.
+  Tone: Astonished, a little frightened.
+
+z2.io.12.mp3
+  Say:  I never meant them to fly.
+  Tone: Small and bewildered.
+
+z2.io.13.mp3
+  Say:  Marta’s still at the window.
+  Tone: Looking back, soft.
+
+z2.io.14.mp3
+  Say:  I’ll write to her. And this time I’ll send it.
+  Tone: A small promise to herself, surprised by it.
+
+==============================================================================
+SPEAKER: kore   Kore, the Jester
+ZIP: z2-kore.zip   (12 lines, about 30 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-kore.zip). For reference: Woman, about thirty. From: clear stage speech, from nowhere in particular. Pitch: middle, bright. Pace: quick, and can stop dead. Texture: a trained performer’s voice that can drop to a hush, laughter always close under the words.
+------------------------------------------------------------------------------
+z2.kore.01.mp3
+  Say:  [laughs] Cold. I hate the cold. It’s so final.
+  Tone: A shiver turned into a joke. She knows more about final than anyone.
+
+z2.kore.02.mp3
+  Say:  Then something’s making it.
+  Tone: Quiet, the joke gone out of her.
+
+z2.kore.03.mp3
+  Say:  Small is good. Small doesn’t get ideas.
+  Tone: Wry. A true thing dressed as a joke.
+
+z2.kore.04.mp3
+  Say:  You’re good at that. Keeping things lit.
+  Tone: Fond, with a question hidden in it.
+
+z2.kore.05.mp3
+  Say:  Isn’t it?
+  Tone: Very light. Not an argument. Leave it hanging.
+
+z2.kore.06.mp3
+  Say:  I can’t see how one of them ends. Not one.
+  Tone: Almost to herself. Puzzled, and starting to be afraid.
+
+z2.kore.07.mp3
+  Say:  Then tonight, we hold it.
+  Tone: Light and certain. Defending, without a laugh.
+
+z2.kore.08.mp3
+  Say:  Io, stay by the node. I’ll stand in front.
+  Tone: Easy words, steel under them.
+
+z2.kore.09.mp3
+  Say:  I keep meaning it.
+  Tone: Quiet and plain. No laugh.
+
+z2.kore.10.mp3
+  Say:  They’ve wanted to go somewhere for years.
+  Tone: Gentle wonder, watching them.
+
+z2.kore.11.mp3
+  Say:  [softly] You did. You just never sent them.
+  Tone: Tender. The truest thing she says in this zone.
+
+z2.kore.12.mp3
+  Say:  She’ll make the beds tonight. And tomorrow.
+  Tone: Fond and a little sad. Not a criticism.
+
+==============================================================================
+SPEAKER: europa   Europa, the Fox
+ZIP: z2-europa.zip   (10 lines, about 29 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-europa.zip). For reference: Woman, late twenties. From: a slight Irish lilt. Pitch: middle-high. Pace: quick. Texture: light and playful, a smile in it.
+------------------------------------------------------------------------------
+z2.europa.01.mp3
+  Say:  The threads are thicker here. Like rope.
+  Tone: Fascinated, and less playful than usual.
+
+z2.europa.02.mp3
+  Say:  My stitches are holding, captain. Look.
+  Tone: Proud, showing off her work on his lamps.
+
+z2.europa.03.mp3
+  Say:  Look. The warmth is leaving on a thread. North, like everything.
+  Tone: Pointing, half fascinated and half annoyed.
+
+z2.europa.04.mp3
+  Say:  [playfully] There. Sewn shut. Pull all you like.
+  Tone: Triumphant and teasing, to whatever is pulling.
+
+z2.europa.05.mp3
+  Say:  Warden blue on every door. Faded.
+  Tone: Softer than usual. She notices colour first, and this one is sad.
+
+z2.europa.06.mp3
+  Say:  Someone irons these. Every night, someone irons these.
+  Tone: A craftswoman’s respect, and it moves her.
+
+z2.europa.07.mp3
+  Say:  Nobody’s slept in them. Not a dent.
+  Tone: Gentle, smoothing a blanket that needs no smoothing.
+
+z2.europa.08.mp3
+  Say:  Their threads run back north. Somebody’s sending them.
+  Tone: Sharp, worried.
+
+z2.europa.09.mp3
+  Say:  Paper wings. Oh, that’s good work.
+  Tone: Delighted, a craftswoman admiring the folding.
+
+z2.europa.10.mp3
+  Say:  The road’s glowing all the way back. Like a hem.
+  Tone: Pleased, leaning over the rail.
+
+==============================================================================
+SPEAKER: callisto   Callisto, the Ranger
+ZIP: z2-callisto.zip   (10 lines, about 28 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-callisto.zip). For reference: Woman, mid twenties. From: a faint accent nobody else in the game has (a light Scandinavian lilt). Pitch: low. Pace: slow and measured. Texture: calm and spare, every word meant.
+------------------------------------------------------------------------------
+z2.callisto.01.mp3
+  Say:  Frost on the rail. And it isn’t winter.
+  Tone: Quiet, noticing first, a little wary.
+
+z2.callisto.02.mp3
+  Say:  No birds. Not one.
+  Tone: Low and flat. She has been listening.
+
+z2.callisto.03.mp3
+  Say:  Quick. Something’s watching from the trees.
+  Tone: Low and fast, a hand on her bow.
+
+z2.callisto.04.mp3
+  Say:  Two more. The road’s waiting.
+  Tone: Calm, moving them on.
+
+z2.callisto.05.mp3
+  Say:  Every chimney lit, and half the windows dark.
+  Tone: Quiet observation, taking in the town.
+
+z2.callisto.06.mp3
+  Say:  Forty beds. Every one turned down.
+  Tone: Quiet, taking it in.
+
+z2.callisto.07.mp3
+  Say:  Three of them, coming up the hill. Slow.
+  Tone: Low and level, counting them.
+
+z2.callisto.08.mp3
+  Say:  Now.
+  Tone: One word, exactly on time. The moment.
+
+z2.callisto.09.mp3
+  Say:  That one’s waiting, Io. For you to let it go.
+  Tone: Quiet, almost reverent.
+
+z2.callisto.10.mp3
+  Say:  North-east. The lean’s stronger.
+  Tone: Calm, eyes ahead.
+
+==============================================================================
+SPEAKER: captain   The Grey Hat, the captain
+ZIP: z2-captain.zip   (16 lines, about 71 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-captain.zip). For reference: Man, about forty-five. From: a faint east-coast Scots burr. Pitch: low. Pace: slow, clipped. Texture: a little weathered, deadpan, says less than he means.
+------------------------------------------------------------------------------
+z2.captain.01.mp3
+  Say:  Raiders. Low on the left. Hold on to something that isn’t me.
+  Tone: Clipped and calm under fire. A dry joke at the end.
+
+z2.captain.02.mp3
+  Say:  That’s them seen off. Nobody touch the lamps.
+  Tone: Breathing out, straight back to business.
+
+z2.captain.03.mp3
+  Say:  Sunstone’s sulking in this cold. We set down here till the roads warm.
+  Tone: Flat, cross with the weather, not with them.
+
+z2.captain.04.mp3
+  Say:  There’s an old Warden by the fire who knows the road. Ask him.
+  Tone: Short, pointing with his chin.
+
+z2.captain.05.mp3
+  Say:  She won’t lift on cold stone. Neither would I.
+  Tone: Dry, patting the rail.
+
+z2.captain.06.mp3
+  Say:  Feel that? One stone lit, and she’s humming.
+  Tone: Pleased in spite of himself.
+
+z2.captain.07.mp3
+  Say:  All three lit and she’s warm to the hand. Go and see Dawnroost. I’ll wait.
+  Tone: Satisfied, waving them on.
+
+z2.captain.08.mp3
+  Say:  Dawnroost was a proud town. Still is. It just hasn’t noticed it’s empty.
+  Tone: Quiet and respectful, a little sad.
+
+z2.captain.09.mp3
+  Say:  Wraiths at night, they say. Don’t be heroes. Be back.
+  Tone: Gruff care, kept short.
+
+z2.captain.10.mp3
+  Say:  Warm stone under her. We can fly. North-east, where they lean.
+  Tone: Decided. A captain giving the course.
+
+z2.captain.11.mp3
+  Say:  The flames lean harder here than at the lake. We’re closer.
+  Tone: Uneasy, reading the sky.
+
+z2.captain.12.mp3
+  Say:  Marta fed you. I can tell. You’re walking slower.
+  Tone: Deadpan teasing.
+
+z2.captain.13.mp3
+  Say:  Won again. You’ll be wanting a medal. I haven’t got one.
+  Tone: Dry and fond.
+
+z2.captain.14.mp3
+  Say:  Bad night. There’s blankets in the hold.
+  Tone: Gruff kindness, no fuss.
+
+z2.captain.15.mp3
+  Say:  Back by morning.
+  Tone: Called after them, half an order.
+
+z2.captain.16.mp3
+  Say:  Cold like this isn’t weather. Weather moves. This just sits.
+  Tone: Low. A sailor’s unease.
+
+==============================================================================
+SPEAKER: roadwarden   The roadwarden, the roadwarden
+ZIP: z2-roadwarden.zip   (16 lines, about 86 seconds)
+VOICE: NEW. Man, about seventy. From: warm Lancashire (the Warm Roads and Dawnroost). Pitch: low. Pace: slow. Texture: rough and kind, an old soldier who talks to stones.
+AUDITION LINE (to choose the voice, not a file): Stone remembers. Put your hand on it and it’ll tell you what it’s had.
+------------------------------------------------------------------------------
+z2.roadwarden.01.mp3
+  Say:  Put your hand flat on the road. Feel that? It’s never once been cold.
+  Tone: Gruff and urgent, an old man showing strangers a wound.
+
+z2.roadwarden.02.mp3
+  Say:  Three of the road stones have gone dark between here and Dawnroost. Light them again.
+  Tone: Plain. A request he hates having to make.
+
+z2.roadwarden.03.mp3
+  Say:  The warmth is leaving the road. I can feel it running north under my hand.
+  Tone: Slow, feeling it under his palm. What he feels, not what he knows.
+
+z2.roadwarden.04.mp3
+  Say:  One by the bridge. One in the standing stones, off to the west. One up on the rise.
+  Tone: Directions counted off on his fingers, clear and slow.
+
+z2.roadwarden.05.mp3
+  Say:  That’s one lit. I felt it come on, from here.
+  Tone: Wonder he tries to hide. A hand pressed to the ground.
+
+z2.roadwarden.06.mp3
+  Say:  All three lit. Go on to Dawnroost. Marta will want to feed you.
+  Tone: Relieved and gruffly proud, sending them off.
+
+z2.roadwarden.07.mp3
+  Say:  I should have gone north with them. The forty.
+  Tone: Low. It costs him to say it.
+
+z2.roadwarden.08.mp3
+  Say:  I was afraid. So I kept the road instead. Eight years, on my own.
+  Tone: Plain, no excuse in it. A small breath before the last words.
+
+z2.roadwarden.09.mp3
+  Say:  Dawnroost’s node is the last one that burns by itself. The rest feed off it.
+  Tone: Grave. A Warden explaining a duty.
+
+z2.roadwarden.10.mp3
+  Say:  Warm. Feel it. Not like it was, but warm.
+  Tone: Quiet joy, his hand flat on the stone. Let the last word glow.
+
+z2.roadwarden.11.mp3
+  Say:  I’ll keep it through the dark. A road wants keeping, moon or no moon.
+  Tone: Settled and steady. A man who has found his work again.
+
+z2.roadwarden.12.mp3
+  Say:  Marta still makes up their beds, I hear. Forty. I can’t go and look.
+  Tone: Ashamed and tender.
+
+z2.roadwarden.13.mp3
+  Say:  Hot hands, all four. You’ve been fighting. Lend the road some.
+  Tone: Dry humour, a little admiring.
+
+z2.roadwarden.14.mp3
+  Say:  Sit by the fire. Not the stone, the fire. The stone’s got nothing to give yet.
+  Tone: Gentle, fussing in his gruff way.
+
+z2.roadwarden.15.mp3
+  Say:  You four walk like Wardens now. I don’t say that lightly.
+  Tone: Solemn praise.
+
+z2.roadwarden.16.mp3
+  Say:  Keep to the stones.
+  Tone: Called after them. An old habit of command.
+
+==============================================================================
+SPEAKER: carter   The carter, the carter
+ZIP: z2-carter.zip   (6 lines, about 31 seconds)
+VOICE: NEW. Man, about forty. From: warm Lancashire. Pitch: middle. Pace: easy. Texture: a cheerful grumbler.
+AUDITION LINE (to choose the voice, not a file): A cart’s only as good as its axle and its driver, and I’m not sure about either.
+------------------------------------------------------------------------------
+z2.carter.01.mp3
+  Say:  Sunstone. A whole cart of it, and not one would warm a teacup.
+  Tone: Comic despair, slapping the cart.
+
+z2.carter.02.mp3
+  Say:  Sunstone sulks when something else is hungrier for the warm. Up north, I reckon.
+  Tone: A trader’s hunch, half to himself.
+
+z2.carter.03.mp3
+  Say:  The old Warden at the camp knows these stones. Back down the road, by the fire.
+  Tone: Helpful, pointing with his whip.
+
+z2.carter.04.mp3
+  Say:  The stones are lit and my cart’s glowing. I’ll stay till morning, just to be warm.
+  Tone: Content, a little lazy.
+
+z2.carter.05.mp3
+  Say:  I’ll take this load south, where they’ll need it. It’s going to be a long dark.
+  Tone: Practical, then quieter on the last sentence.
+
+z2.carter.06.mp3
+  Say:  Keep warm, you four.
+  Tone: Called after them, friendly.
+
+==============================================================================
+SPEAKER: marta   Marta, the keeper of the Wardens’ hall
+ZIP: z2-marta.zip   (22 lines, about 108 seconds)
+VOICE: NEW. Woman, about sixty-eight. From: warm Lancashire. Pitch: middle. Pace: quick. Texture: motherly and bossy, a voice like a clean apron.
+AUDITION LINE (to choose the voice, not a file): Boots off, hands washed, and nobody sits down till I say.
+------------------------------------------------------------------------------
+z2.marta.01.mp3
+  Say:  Io? Little Io? Look at you. You’ve got her walk.
+  Tone: Astonished joy, then a catch on the last words.
+
+z2.marta.02.mp3
+  Say:  The beds are made up. Forty of them. Sleep in any you like.
+  Tone: Brisk to cover tears. A hostess at once.
+
+z2.marta.03.mp3
+  Say:  I make them every night. Forty bunks, fresh linen. Somebody has to.
+  Tone: Matter-of-fact and proud, a little stubborn.
+
+z2.marta.04.mp3
+  Say:  Halcyon slept by the window. Always cold, always wanted the window. The end one’s hers.
+  Tone: Fond, remembering, smiling.
+
+z2.marta.05.mp3
+  Say:  The cold lights come in at night and look at the beds. Like they’re hoping one’s theirs.
+  Tone: Low and puzzled, more sad than frightened. Her guess.
+
+z2.marta.06.mp3
+  Say:  Every night something comes up the hill for the node behind the hall. Wraiths.
+  Tone: Plain and grim, then flat on the last word.
+
+z2.marta.07.mp3
+  Say:  We’ve held it with buckets of coals and prayers. We’re running out of both.
+  Tone: Dry and tired. A joke to stay standing.
+
+z2.marta.08.mp3
+  Say:  Up the hill behind the hall. You’ll see it burning. It’s the only thing that is.
+  Tone: Clear directions, a hand pointing up the hill.
+
+z2.marta.09.mp3
+  Say:  Io. Should I stop making the beds? Tell me and I’ll stop.
+  Tone: Quiet, almost hoping to be told.
+
+z2.marta.10.mp3
+  Say:  I’ll keep making them. Until somebody tells me different.
+  Tone: Stubborn and warm, a small smile.
+
+z2.marta.11.mp3
+  Say:  The road’s warm again. I’ve aired every bed.
+  Tone: Bright and busy, pleased.
+
+z2.marta.12.mp3
+  Say:  Io, you two raced up these stairs. She always let you win. You never noticed.
+  Tone: Tender and teasing, a story she has told herself many times.
+
+z2.marta.13.mp3
+  Say:  Forty went north with her. Forty good boots on that floor. I can still hear them.
+  Tone: Hushed. Hearing it.
+
+z2.marta.14.mp3
+  Say:  So the old fool’s still keeping the road. Tell him he can come up for his supper.
+  Tone: Exasperated affection.
+
+z2.marta.15.mp3
+  Say:  Tamsin wants to be a Warden. I haven’t the heart to tell her there aren’t any.
+  Tone: Soft, a sigh in it.
+
+z2.marta.16.mp3
+  Say:  Brann counts the stores twice a day. As if they’ll grow.
+  Tone: Dry and fond.
+
+z2.marta.17.mp3
+  Say:  You’re bleeding on my floor. Sit. No, not on the clean bed.
+  Tone: Bossy and quick, not unkind.
+
+z2.marta.18.mp3
+  Say:  Into a bed, all four. Any one. They’re made.
+  Tone: Firm and tender. Her beds have a use at last.
+
+z2.marta.19.mp3
+  Say:  You look like the new ones always looked. Too thin and too sure.
+  Tone: Wry, remembering.
+
+z2.marta.20.mp3
+  Say:  You’ve the look of the forty now. I don’t know if that’s good.
+  Tone: Proud and uneasy at once.
+
+z2.marta.21.mp3
+  Say:  Wipe your feet!
+  Tone: Called after them, sharp. A habit.
+
+z2.marta.22.mp3
+  Say:  You held it. All night. The forty couldn’t have done better. Don’t tell them I said so.
+  Tone: Glowing, then a conspirator’s whisper on the last sentence.
+
+==============================================================================
+SPEAKER: brann   Brann, the storekeeper
+ZIP: z2-brann.zip   (8 lines, about 43 seconds)
+VOICE: NEW. Man, about fifty. From: warm Lancashire. Pitch: low. Pace: steady. Texture: blunt and careful, a counter of things.
+AUDITION LINE (to choose the voice, not a file): Twelve casks, nine full, and I want to know who’s been at the tenth.
+------------------------------------------------------------------------------
+z2.brann.01.mp3
+  Say:  Stores are for Wardens. You’re not Wardens. Take what you need anyway.
+  Tone: Blunt, then giving way.
+
+z2.brann.02.mp3
+  Say:  Cold lights in the stores last night, poking at the lamp oil. Thirsty, I’d say.
+  Tone: A storekeeper’s suspicion. His guess.
+
+z2.brann.03.mp3
+  Say:  The road stones went dark one by one. I wrote down the days. Nobody’s asked to see.
+  Tone: Gruff, a little hurt.
+
+z2.brann.04.mp3
+  Say:  Marta’s in the hall. Big door, smoke from every chimney. She’ll want to feed you.
+  Tone: Plain directions.
+
+z2.brann.05.mp3
+  Say:  Forty sets of everything, and nobody to wear them. I oil the buckles anyway.
+  Tone: Quiet and steady, sad underneath.
+
+z2.brann.06.mp3
+  Say:  The rule was nobody goes north without spare socks. They all took socks. I counted.
+  Tone: Deadpan, with grief under the joke.
+
+z2.brann.07.mp3
+  Say:  Node’s held. I’ve opened a cask I was saving. Don’t tell Marta which one.
+  Tone: Gruff glee.
+
+z2.brann.08.mp3
+  Say:  Bring back what you borrow.
+  Tone: Called after them, half serious.
+
+==============================================================================
+SPEAKER: tamsin   Tamsin, the child
+ZIP: z2-tamsin.zip   (6 lines, about 26 seconds)
+VOICE: NEW. Girl, about nine. From: warm Lancashire. Pitch: high. Pace: quick. Texture: bossy and earnest.
+AUDITION LINE (to choose the voice, not a file): Halt! State your business! No, wait, I’ve forgotten the next bit.
+------------------------------------------------------------------------------
+z2.tamsin.01.mp3
+  Say:  Halt! Who goes there? I’m a Warden. Nearly.
+  Tone: Fierce, then honest.
+
+z2.tamsin.02.mp3
+  Say:  The cold lights are Wardens who forgot their way home. That’s what I think.
+  Tone: Certain, the way children are.
+
+z2.tamsin.03.mp3
+  Say:  Marta’s in the hall. She’ll make you eat. Everybody has to.
+  Tone: Matter-of-fact, a little put upon.
+
+z2.tamsin.04.mp3
+  Say:  I sleep in the end bed when Marta isn’t looking. It’s the best one. It’s by the window.
+  Tone: Conspiratorial, proud of her secret.
+
+z2.tamsin.05.mp3
+  Say:  I saw you hold the node. I’m going to be a Warden. A real one.
+  Tone: Breathless and decided.
+
+z2.tamsin.06.mp3
+  Say:  I’m guarding this bit!
+  Tone: Shouted after them, very serious.
+
+==============================================================================
+END OF ZONE 2

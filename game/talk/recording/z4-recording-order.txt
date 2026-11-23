@@ -1,0 +1,751 @@
+COVEN OF THE MOON FAIRE
+VOICE RECORDING ORDER: ZONE 4 (THE FROZEN PASS, MISTHOLLOW AND THE DEAD MOONWELL)
+Made November 19, 2026. 144 lines, 26 speakers, about 9.7 minutes of speech.
+
+WHAT THIS IS
+These are the spoken lines for part 4 ("zone 4") of a small fantasy video game. Every person in the game speaks aloud. Each line below is recorded as its own sound file, in the voice of the person who says it. The game finds each sound by its file name, so the names must be exactly as written here. The lines are British English.
+
+HOW TO MAKE THE FILES
+ 1. Model: ElevenLabs Eleven v4 (model id eleven_v4).
+ 2. Returning voices: Io, Kore, Europa, Callisto, the Grey Hat, Halcyon, Nettie, Odile, Tully, Linnet, Zofia, Old Bridie, Bashir, Otto, Corwin, Ros, Kofi, Jory, Mayor Gretch, Hilde, Quill were recorded for an earlier zone. Use the very same voice and settings as before, so each sounds like the same person.
+ 3. One voice for each speaker. Choose it from the voice note under the speaker’s name, test it with the audition line (do not save the audition as a file), then use that same voice, with the same settings, for every one of that speaker’s lines.
+ 4. Say exactly the words after "Say:". Do not add, drop or change a word.
+ 5. Words in [square brackets] are delivery cues (Eleven v4 audio tags), not words to speak. If a cue is spoken aloud by mistake, make the line again without the cue.
+ 6. "Tone:" says how the line should sound. It is never spoken. If a line comes out in the wrong tone, make it again; you may put a short cue from the tone note in square brackets at its start, such as [dryly] or [gently].
+ 7. One sound file for each line, named by its file name exactly, for example z4.captain.01.mp3 (lower case, with the dots as shown).
+ 8. MP3, one channel (mono), 44.1 kHz, 64 kbps (ElevenLabs output format mp3_44100_64). If a file comes out with two channels, mix it down to one.
+ 9. Silence: no more than a fifth of a second (0.2 s) of silence at the start and at the end of each file. Trim any longer silence.
+10. Loudness: the same for every file and every speaker. Normalise each file to about -18 LUFS (integrated), with peaks no higher than -1 dBFS.
+11. Packing: one zip for each speaker, named as shown under the speaker (for example z4-io.zip). Inside it: that speaker’s sound files, and a list named like z4-io-list.csv with two columns, file and seconds: each file’s name and its length in seconds, to one decimal place.
+12. Check before handing back: 144 files in 26 zips, every file name below present once, and nothing else.
+
+HOW TO SAY THE NAMES
+If a name comes out wrong, Eleven v4 reads the International Phonetic Alphabet written between slashes in the text, for example /ˈaɪ.oʊ/ for Io.
+  Io          EYE-oh                 /ˈaɪ.oʊ/
+  Kore        KOR-ee                 /ˈkɔːri/
+  Nettie      NET-ee                 /ˈnɛti/
+  Wickhollow  WICK-hollow            /ˈwɪkhɒloʊ/
+  Faire       the same as "fair"     /fɛər/
+  Marta       MAR-tuh                /ˈmɑːtə/
+  Halcyon     HAL-see-on             /ˈhælsiən/
+  Misthollow  MIST-hollow            /ˈmɪsthɒloʊ/
+  Moonwell    MOON-well              /ˈmuːnwɛl/
+  Ede         EED                    /iːd/
+  Bashir      bah-SHEER              /bəˈʃɪər/
+  Zofia       ZOF-yah                /ˈzɒfjə/
+  Tully       TULL-ee                /ˈtʌli/
+  Linnet      LIN-it                 /ˈlɪnɪt/
+
+==============================================================================
+SPEAKER: io   Io, the Herbal Witch
+ZIP: z4-io.zip   (18 lines, about 52 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-io.zip). For reference: Woman, about thirty. From: a faint trace of Wickhollow’s soft West Country, worn down by years on the road. Pitch: low-middle. Pace: unhurried. Texture: warm and gentle, with steel under the softness.
+------------------------------------------------------------------------------
+z4.io.01.mp3
+  Say:  She’s up there, Kore. At the top.
+  Tone: Quiet certainty, and fear under it.
+
+z4.io.02.mp3
+  Say:  Keep them lit, captain. There’ll be five of us coming down.
+  Tone: Hope held very tight. She dares to count her sister.
+
+z4.io.03.mp3
+  Say:  Brambles grow where nobody’s tending. Someone stopped tending this.
+  Tone: A gardener’s sadness. A guess, gently said.
+
+z4.io.04.mp3
+  Say:  Forty-one went up. Forty are here.
+  Tone: Counting, very quiet. She knows who the one is.
+
+z4.io.05.mp3
+  Say:  Halcyon. It’s me.
+  Tone: Barely a breath. A little sister.
+
+z4.io.06.mp3
+  Say:  I know what it cost me. Here. The first letter I wrote you.
+  Tone: Steady at first, then very soft, holding it out.
+
+z4.io.07.mp3
+  Say:  This one doesn’t need to. You’re right here.
+  Tone: Tender and simple, pressing it into her hand.
+
+z4.io.08.mp3
+  Say:  Kore, you can’t take all of it.
+  Tone: Frightened for her.
+
+z4.io.09.mp3
+  Say:  Kore. Don’t you dare leave.
+  Tone: Fierce and terrified. Holding on.
+
+z4.io.10.mp3
+  Say:  Go on, then. All of you. Go home.
+  Tone: Letting go, through tears. Kind, not a command.
+
+z4.io.11.mp3
+  Say:  I sent them, Kore. I finally sent them.
+  Tone: Laughing and crying. Light as a feather.
+
+z4.io.12.mp3
+  Say:  Then take it, Kore. If you want it.
+  Tone: Breaking, and meaning it. Io, letting go.
+
+z4.io.13.mp3
+  Say:  Then keep that one. Keep it lit.
+  Tone: Gentle. A gardener: tend it, don’t clutch it.
+
+z4.io.14.mp3
+  Say:  There’s Wickhollow. Every window lit.
+  Tone: Warm, leaning over the rail.
+
+z4.io.15.mp3
+  Say:  Nettie. This is my sister.
+  Tone: Shy and proud, like a girl bringing someone home.
+
+z4.io.16.mp3
+  Say:  I’ll write. I said I would.
+  Tone: A small smile. A promise kept.
+
+z4.io.17.mp3
+  Say:  Goodbye, Halcyon. I never said it, last time.
+  Tone: Tender and steady. Saying it properly.
+
+z4.io.18.mp3
+  Say:  Yes.
+  Tone: Simple and glad. The last word of the game.
+
+==============================================================================
+SPEAKER: kore   Kore, the Jester
+ZIP: z4-kore.zip   (16 lines, about 52 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-kore.zip). For reference: Woman, about thirty. From: clear stage speech, from nowhere in particular. Pitch: middle, bright. Pace: quick, and can stop dead. Texture: a trained performer’s voice that can drop to a hush, laughter always close under the words.
+------------------------------------------------------------------------------
+z4.kore.01.mp3
+  Say:  Nothing up there has ended in eight years. I can feel it.
+  Tone: Low, uneasy. No joke this time.
+
+z4.kore.02.mp3
+  Say:  Then that’s where we’re going.
+  Tone: Light and certain, taking the first step.
+
+z4.kore.03.mp3
+  Say:  Or keeping us out. I take that personally.
+  Tone: Cheerful menace, rolling her shoulders.
+
+z4.kore.04.mp3
+  Say:  They’re standing so still, Io. Like they’re waiting to be told.
+  Tone: Hushed, almost tender.
+
+z4.kore.05.mp3
+  Say:  Io, she has no ending. Don’t let it take yours.
+  Tone: Urgent and low, at Io’s shoulder.
+
+z4.kore.06.mp3
+  Say:  Stay behind me, Io. This time I mean all of it.
+  Tone: Easy words, iron underneath.
+
+z4.kore.07.mp3
+  Say:  [laughs] Watch me.
+  Tone: A performer stepping into the light.
+
+z4.kore.08.mp3
+  Say:  Nothing hurts it. It won’t let anything end.
+  Tone: Breathless, frightened, thinking fast.
+
+z4.kore.09.mp3
+  Say:  Then I’ll give it an ending. I know how.
+  Tone: Calm all at once. She has decided.
+
+z4.kore.10.mp3
+  Say:  I’m not leaving, Io. I’m finishing.
+  Tone: Warm and sure. A smile in it.
+
+z4.kore.11.mp3
+  Say:  [softly] Every one of them knows its name.
+  Tone: Tender and tired. She can see their endings, and they are good.
+
+z4.kore.12.mp3
+  Say:  Listen. Applause. That was the bargain. Walk them home, and take my bow.
+  Tone: Wonder, a performer hearing the house. Then very quiet.
+
+z4.kore.13.mp3
+  Say:  [laughs softly] Not yet. I want to see what Io does next.
+  Tone: Warm and sure. The one who always let go, choosing to stay.
+
+z4.kore.14.mp3
+  Say:  I can see endings again. All of them. They’re lovely.
+  Tone: Relief and joy, looking round at everyone.
+
+z4.kore.15.mp3
+  Say:  Tully, count us. Go on.
+  Tone: Teasing, arms spread wide.
+
+z4.kore.16.mp3
+  Say:  We’re going on with the Faire, Io. Coming?
+  Tone: Light and hopeful, holding out a hand.
+
+==============================================================================
+SPEAKER: europa   Europa, the Fox
+ZIP: z4-europa.zip   (13 lines, about 42 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-europa.zip). For reference: Woman, late twenties. From: a slight Irish lilt. Pitch: middle-high. Pace: quick. Texture: light and playful, a smile in it.
+------------------------------------------------------------------------------
+z4.europa.01.mp3
+  Say:  Every thread in the north ends up there. One knot.
+  Tone: Looking up the pass, awed and grim.
+
+z4.europa.02.mp3
+  Say:  It’s grown right over the path. Like it’s keeping something in.
+  Tone: Uneasy, tracing it with her eyes.
+
+z4.europa.03.mp3
+  Say:  Someone mended their cloaks. Badly. The same hand as the curtain.
+  Tone: Soft, recognising a friend’s work.
+
+z4.europa.04.mp3
+  Say:  Their threads all run up the stair. Every one.
+  Tone: Grave, looking up the street.
+
+z4.europa.05.mp3
+  Say:  Her threads, Io. They’re coming loose.
+  Tone: Hushed wonder, then alarm. Something is waking up behind her.
+
+z4.europa.06.mp3
+  Say:  My scissors are out. I never take my scissors out.
+  Tone: Shaky and brave. A mender about to cut.
+
+z4.europa.07.mp3
+  Say:  Snip. And snip. I’m sorry. I’m so sorry.
+  Tone: Crying as she cuts. Each snip is a thread let go.
+
+z4.europa.08.mp3
+  Say:  Good. I’d have had to mend the hole you left.
+  Tone: Teary and teasing at once.
+
+z4.europa.09.mp3
+  Say:  I’ll stitch it a little lantern. Blue, of course.
+  Tone: Bright again, mending something at last.
+
+z4.europa.10.mp3
+  Say:  Look at that dark. Real velvet. I’ve always wanted velvet.
+  Tone: Delighted, a hand held up to the sky.
+
+z4.europa.11.mp3
+  Say:  Captain. Your lamps aren’t leaning.
+  Tone: Soft surprise, then pride in her cut threads.
+
+z4.europa.12.mp3
+  Say:  Then sing it, Linnet. Go on.
+  Tone: Eager, clapping.
+
+z4.europa.13.mp3
+  Say:  Bashir! More blue, please. Every skein you’ve got.
+  Tone: Breathless and cheerful.
+
+==============================================================================
+SPEAKER: callisto   Callisto, the Ranger
+ZIP: z4-callisto.zip   (13 lines, about 39 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-callisto.zip). For reference: Woman, mid twenties. From: a faint accent nobody else in the game has (a light Scandinavian lilt). Pitch: low. Pace: slow and measured. Texture: calm and spare, every word meant.
+------------------------------------------------------------------------------
+z4.callisto.01.mp3
+  Say:  Snow that doesn’t melt on your hand. Look.
+  Tone: Quiet, holding out a palm.
+
+z4.callisto.02.mp3
+  Say:  The road’s gone. There’s only bramble.
+  Tone: Flat and calm, sizing it up.
+
+z4.callisto.03.mp3
+  Say:  Never dark. Never warm. And no birds again.
+  Tone: Low, taking it all in.
+
+z4.callisto.04.mp3
+  Say:  She’s there. On the top step.
+  Tone: Very quiet, the first to see.
+
+z4.callisto.05.mp3
+  Say:  It’s waking. Wait for my word.
+  Tone: Perfectly calm. Everyone listens.
+
+z4.callisto.06.mp3
+  Say:  Hold. Not yet. Not yet.
+  Tone: Steady as a heartbeat, holding them all.
+
+z4.callisto.07.mp3
+  Say:  Now.
+  Tone: One word, the exact moment.
+
+z4.callisto.08.mp3
+  Say:  Look. Moths. Hundreds. Thousands.
+  Tone: Awe. The quietest she has ever been.
+
+z4.callisto.09.mp3
+  Say:  You walked them home. You’ve earned it.
+  Tone: Grave and kind. She honours the choice either way.
+
+z4.callisto.10.mp3
+  Say:  The moon’s setting, Halcyon. Let it.
+  Tone: Calm and kind. She has seen this before.
+
+z4.callisto.11.mp3
+  Say:  Where I come from, the moon left long ago. We lived. It’s a season.
+  Tone: Simple and certain. The most she has ever said about home.
+
+z4.callisto.12.mp3
+  Say:  And the camp. They’ve lit the whole camp for us.
+  Tone: Touched, smiling for once.
+
+z4.callisto.13.mp3
+  Say:  What’s on it, Zofia?
+  Tone: Curious, leaning in.
+
+==============================================================================
+SPEAKER: captain   The Grey Hat, the captain
+ZIP: z4-captain.zip   (12 lines, about 57 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-captain.zip). For reference: Man, about forty-five. From: a faint east-coast Scots burr. Pitch: low. Pace: slow, clipped. Texture: a little weathered, deadpan, says less than he means.
+------------------------------------------------------------------------------
+z4.captain.01.mp3
+  Say:  Raiders. The last of them, I hope. They look as cold as we are.
+  Tone: Weary and steady. Almost sorry for them.
+
+z4.captain.02.mp3
+  Say:  This is as high as she goes. Up there, no flame stays lit.
+  Tone: Plain and heavy. He hates saying it.
+
+z4.captain.03.mp3
+  Say:  I don’t fly dark. You know that. I’ll wait here with every lamp lit.
+  Tone: Firm, and kinder than it sounds.
+
+z4.captain.04.mp3
+  Say:  Five, then. I’ll light a spare.
+  Tone: Gruff and gentle. He does not argue with hope.
+
+z4.captain.05.mp3
+  Say:  Twelve lamps lit and a spare. I’ll keep them burning till you’re down.
+  Tone: Steady. A promise.
+
+z4.captain.06.mp3
+  Say:  It’s been dawn up there for eight years, they say. Never noon. Never night.
+  Tone: Low, a sailor’s unease at a sky that will not turn.
+
+z4.captain.07.mp3
+  Say:  You came down. Five of you. Good thing I lit the spare.
+  Tone: Gruff, and his voice nearly goes.
+
+z4.captain.08.mp3
+  Say:  Won, have you. Come by the lamps and get warm.
+  Tone: Dry and fond.
+
+z4.captain.09.mp3
+  Say:  Sit by the lamps. All of them. They’re lit for you.
+  Tone: Quiet kindness, no fuss.
+
+z4.captain.10.mp3
+  Say:  Lamps are lit!
+  Tone: Called up the pass after them.
+
+z4.captain.11.mp3
+  Say:  Stars. Look at them. I’ve never seen so many.
+  Tone: Quiet awe from a hard man.
+
+z4.captain.12.mp3
+  Say:  Lamps out, all twelve. I’ll fly dark tonight. The stars will do.
+  Tone: Decided and at peace. The second time in his life, and this time by choice.
+
+==============================================================================
+SPEAKER: passkeeper   The pass-keeper, the pass-keeper
+ZIP: z4-passkeeper.zip   (8 lines, about 45 seconds)
+VOICE: NEW. Woman, about sixty. From: soft Highland Scots (Misthollow and its pass). Pitch: low. Pace: slow. Texture: patient and plain.
+AUDITION LINE (to choose the voice, not a file): Snow tells you everything. Who came, who stopped, who turned back.
+------------------------------------------------------------------------------
+z4.passkeeper.01.mp3
+  Say:  Forty-one went up this pass, eight winters back. I’ve watched for footprints coming down.
+  Tone: Weathered and plain, looking past them up the snow.
+
+z4.passkeeper.02.mp3
+  Say:  The cold lights never stop at my stove. Too far gone to feel the cold, I’d say.
+  Tone: Thoughtful, a little hurt on their behalf. Her guess.
+
+z4.passkeeper.03.mp3
+  Say:  There’s a watchwoman at the bottom of Misthollow’s one street. Up the pass, past the bramble.
+  Tone: Clear directions, a mittened hand pointing up.
+
+z4.passkeeper.04.mp3
+  Say:  The great bramble came down the pass this winter. It grows when nobody’s looking.
+  Tone: Wary, half a joke.
+
+z4.passkeeper.05.mp3
+  Say:  Nobody comes down from the town for stores. They don’t need them, they say. I’ve stopped asking.
+  Tone: Flat, uneasy.
+
+z4.passkeeper.06.mp3
+  Say:  I keep the stove lit for anyone coming down. Nobody ever has. It’s lit.
+  Tone: Stubborn and steady. The last two words are her whole life.
+
+z4.passkeeper.07.mp3
+  Say:  Footprints. Coming down. Forty pairs, and boots I know.
+  Tone: Barely able to speak, then joy breaking through.
+
+z4.passkeeper.08.mp3
+  Say:  Stove’s lit, if you need it.
+  Tone: Called after them, plain and warm.
+
+==============================================================================
+SPEAKER: watch   The watchwoman, the watchwoman
+ZIP: z4-watch.zip   (10 lines, about 57 seconds)
+VOICE: NEW. Woman, about fifty. From: soft Highland Scots. Pitch: low. Pace: steady. Texture: plain and unshakeable.
+AUDITION LINE (to choose the voice, not a file): Up the street, down the street. I watch both ways. Mostly the one.
+------------------------------------------------------------------------------
+z4.watch.01.mp3
+  Say:  Good morning. It’s always morning here. It never gets any later.
+  Tone: Bright and brittle. Cheerful from long habit.
+
+z4.watch.02.mp3
+  Say:  Forty Wardens stand in the street. I say good morning to every one. Every day.
+  Tone: Matter-of-fact, with care in it.
+
+z4.watch.03.mp3
+  Say:  The cold lights go up the street to the Moonwell. Like everyone. Nobody comes back down.
+  Tone: Low. She has counted. Her guess.
+
+z4.watch.04.mp3
+  Say:  The Moonwell’s up there, where the street ends. Someone stands on its stair. She doesn’t speak.
+  Tone: Pointing up the street, quieter on the last words.
+
+z4.watch.05.mp3
+  Say:  The light on the stair’s gone out. First time in eight years. What did you do?
+  Tone: Startled, half afraid, half hoping.
+
+z4.watch.06.mp3
+  Say:  Down. They’re all coming down. Look at them. Look at them come down.
+  Tone: Overwhelmed, laughing and crying at once.
+
+z4.watch.07.mp3
+  Say:  Ede still lights that fire every night. I’ve never told him to stop. I’d miss it.
+  Tone: Fond, a small smile.
+
+z4.watch.08.mp3
+  Say:  You’re warm. Nobody’s been warm here in years. Stand by me a minute.
+  Tone: Wondering, a little shy.
+
+z4.watch.09.mp3
+  Say:  Sit on my step. I’ll watch for you. It’s what I do.
+  Tone: Gentle and practical.
+
+z4.watch.10.mp3
+  Say:  Nothing left to watch. I think I’ll sleep.
+  Tone: Peaceful, almost a yawn. Eight years let go.
+
+==============================================================================
+SPEAKER: sorrel   Sorrel, the herb-seller
+ZIP: z4-sorrel.zip   (8 lines, about 36 seconds)
+VOICE: NEW. Woman, about thirty-five. From: soft Highland Scots. Pitch: middle. Pace: brisk. Texture: dry, with grief under it.
+AUDITION LINE (to choose the voice, not a file): White sage, white mint, white thyme. I’d give anything for something green.
+------------------------------------------------------------------------------
+z4.sorrel.01.mp3
+  Say:  White sage, white thyme, white everything. It still works. Mostly.
+  Tone: A seller’s cheer, worn thin and honest.
+
+z4.sorrel.02.mp3
+  Say:  The cold lights go up the street like seedlings to a window. A cold window.
+  Tone: Puzzled and sad. Her guess.
+
+z4.sorrel.03.mp3
+  Say:  Ask the watchwoman, at the bottom of the street. She sees everyone go up.
+  Tone: Helpful, pointing down the street.
+
+z4.sorrel.04.mp3
+  Say:  Nobody here has cried in eight years. Not at a funeral. Not once.
+  Tone: Plain and strange, as if only now hearing it.
+
+z4.sorrel.05.mp3
+  Say:  My mother died the winter the light came. I couldn’t cry for her. I still can’t.
+  Tone: Quiet and dry-eyed. That is the sorrow.
+
+z4.sorrel.06.mp3
+  Say:  I cried all night. For my mother. It was wonderful.
+  Tone: Raw-voiced and glowing. She means every word.
+
+z4.sorrel.07.mp3
+  Say:  Look. Green. A green leaf, on my white sage.
+  Tone: Delight, holding it up.
+
+z4.sorrel.08.mp3
+  Say:  White sage for the road?
+  Tone: Called after them, hopeful.
+
+==============================================================================
+SPEAKER: ede   Ede, the innkeeper
+ZIP: z4-ede.zip   (8 lines, about 44 seconds)
+VOICE: NEW. Man, about seventy-five. From: soft Highland Scots. Pitch: low. Pace: slow. Texture: cantankerous, slow to smile.
+AUDITION LINE (to choose the voice, not a file): Pine, oak, apple, peat. I’ve tried them all. I’ll try them again.
+------------------------------------------------------------------------------
+z4.ede.01.mp3
+  Say:  Come in. There’s no fire. There’s never a fire. Come in anyway.
+  Tone: Gruff welcome, a host without the means.
+
+z4.ede.02.mp3
+  Say:  The cold lights come in and sit by my hearth. Waiting for a fire, same as me.
+  Tone: Dry, a little fellow feeling. His guess.
+
+z4.ede.03.mp3
+  Say:  The watchwoman’s at the bottom of the street, by the dead lamp. She knows who’s up there.
+  Tone: Plain directions.
+
+z4.ede.04.mp3
+  Say:  I light the hearth every night. It never catches. I do it out of spite.
+  Tone: Grim satisfaction. Spite is keeping him going.
+
+z4.ede.05.mp3
+  Say:  I take soup out to the Wardens in the street. Every night. They never touch it.
+  Tone: Quiet, stubborn kindness.
+
+z4.ede.06.mp3
+  Say:  I’d sell this inn for one honest dark.
+  Tone: Heartfelt, almost a prayer.
+
+z4.ede.07.mp3
+  Say:  It caught. My fire caught. Look at it. Look at it burn.
+  Tone: Disbelief turning to fierce joy.
+
+z4.ede.08.mp3
+  Say:  Shut the door, you’re letting the light in!
+  Tone: Called after them, a grumble that is nearly a joke.
+
+==============================================================================
+SPEAKER: warden   A Warden, a Warden of Dawnroost
+ZIP: z4-warden.zip   (2 lines, about 7 seconds)
+VOICE: NEW. Man, about thirty. From: warm Lancashire (one of Dawnroost’s forty). Pitch: middle. Pace: slow. Texture: dazed, as if just waking.
+AUDITION LINE (to choose the voice, not a file): Report at dawn, kit checked, and somebody find me my left boot.
+------------------------------------------------------------------------------
+z4.warden.01.mp3
+  Say:  Is it morning? It feels like morning.
+  Tone: Waking, puzzled and gentle. She has no idea how long it has been.
+
+z4.warden.02.mp3
+  Say:  Marta will have our beds made. She always does.
+  Tone: Warm and easy, a little homesick. She thinks it was last night.
+
+==============================================================================
+SPEAKER: halcyon   Halcyon, the knight of light
+ZIP: z4-halcyon.zip   (12 lines, about 40 seconds)
+VOICE: RETURNING. Use the same voice as before (z3-halcyon.zip). For reference: Woman, about forty. From: Wickhollow’s soft West Country, like Io’s but firmer. Pitch: low-middle. Pace: measured. Texture: a soldier’s steadiness. Under the fire: calm and far away. After it: warm, tired, and herself.
+------------------------------------------------------------------------------
+z4.halcyon.01.mp3
+  Say:  Go home. I told you once.
+  Tone: Under the fire: calm and far away. Tired more than stern.
+
+z4.halcyon.02.mp3
+  Say:  I know who you are. That’s why you have to go.
+  Tone: Still far away, but something cracks on the last words.
+
+z4.halcyon.03.mp3
+  Say:  I kept the dark away for eight years. Do you know what that costs?
+  Tone: Weary pride, and a plea hidden in it.
+
+z4.halcyon.04.mp3
+  Say:  Letters can’t reach me here. Nothing can.
+  Tone: Gentle, certain, sad.
+
+z4.halcyon.05.mp3
+  Say:  [softly] Little Io.
+  Tone: Herself, for the first time. Warm, and breaking.
+
+z4.halcyon.06.mp3
+  Say:  It’s cold. Why is it so cold?
+  Tone: Bewildered, waking. She can feel again.
+
+z4.halcyon.07.mp3
+  Say:  Io. Let it go. All of it. I’m here.
+  Tone: An older sister’s voice. Warm, steady, and herself.
+
+z4.halcyon.08.mp3
+  Say:  I carried this from home. It’s the only flame I didn’t give it.
+  Tone: Quiet, cupping a tiny light. Almost ashamed of it.
+
+z4.halcyon.09.mp3
+  Say:  I’d forgotten the stars.
+  Tone: Wonder, looking up. Eight years of dawn falling off her.
+
+z4.halcyon.10.mp3
+  Say:  I know. I’m sorry, Nettie.
+  Tone: Plain and humble. No excuses.
+
+z4.halcyon.11.mp3
+  Say:  Someone should write to Marta. Forty are walking home.
+  Tone: Warm, with a look at Io.
+
+z4.halcyon.12.mp3
+  Say:  Go on, Io. I’ll keep the gate lamp lit.
+  Tone: An older sister letting her go, gladly.
+
+==============================================================================
+SPEAKER: nettie   Nettie, the herb-seller
+ZIP: z4-nettie.zip   (4 lines, about 14 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-nettie.zip). For reference: Woman, about sixty. From: soft West Country (Wickhollow). Pitch: middle. Pace: quick and warm. Texture: a scold that melts, motherly, quick to laugh and quicker to fuss.
+------------------------------------------------------------------------------
+z4.nettie.01.mp3
+  Say:  I know who she is. Eight frosts, Halcyon.
+  Tone: Gruff, holding her ground. Not quite a scolding.
+
+z4.nettie.02.mp3
+  Say:  Well. The garden’s kept. Get inside before you catch your death.
+  Tone: Forgiving her the only way she knows: bossily.
+
+z4.nettie.03.mp3
+  Say:  Look at the two of you. Same walk.
+  Tone: Soft, despite herself.
+
+z4.nettie.04.mp3
+  Say:  Off you go, Io. And write. And send it.
+  Tone: Brisk, to hide that she will miss her.
+
+==============================================================================
+SPEAKER: odile   Odile, the lamp-seller
+ZIP: z4-odile.zip   (3 lines, about 16 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-odile.zip). For reference: Woman, about sixty-five. From: a light French accent, softened by years on the road. Pitch: low-middle. Pace: even, unhurried. Texture: dry, precise, a little husky, fond underneath.
+------------------------------------------------------------------------------
+z4.odile.01.mp3
+  Say:  Look at my stall. Every flame standing straight. Not a finger’s lean.
+  Tone: Quiet triumph, measuring out of habit.
+
+z4.odile.02.mp3
+  Say:  My last lamp in this land, sold. Tonight I’m staying to see it lit.
+  Tone: Wistful and glad. The first time she has ever stayed.
+
+z4.odile.03.mp3
+  Say:  The dark’s here. It’s not so bad, with a lamp in it.
+  Tone: At peace, looking out at it.
+
+==============================================================================
+SPEAKER: tully   Tully, the gate keeper
+ZIP: z4-tully.zip   (2 lines, about 6 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-tully.zip). For reference: Woman (the lines never say; the body is a woman’s), mid fifties. From: a careful Dutch accent. Pitch: low. Pace: slow, sparing. Texture: flat and dry, each word counted out like a coin; warmth arrives late and small.
+------------------------------------------------------------------------------
+z4.tully.01.mp3
+  Say:  Four out. Four back.
+  Tone: Ticking them off, deeply satisfied.
+
+z4.tully.02.mp3
+  Say:  And one more besides. I’ll write her in.
+  Tone: Pleased, licking a pencil.
+
+==============================================================================
+SPEAKER: linnet   Linnet, the ballad-singer
+ZIP: z4-linnet.zip   (2 lines, about 8 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-linnet.zip). For reference: Woman, about twenty-two. From: a Welsh lilt. Pitch: middle-high, musical. Pace: quick, tumbling. Texture: warm and lively, a little breathless around the four.
+------------------------------------------------------------------------------
+z4.linnet.01.mp3
+  Say:  I know the last verse now. It’s the one where everybody comes home.
+  Tone: Glowing, a singer who has found her ending.
+
+z4.linnet.02.mp3
+  Say:  No. Not till you’ve gone. It’s that kind of verse.
+  Tone: Gentle and a little sad, keeping her secret.
+
+==============================================================================
+SPEAKER: zofia   Zofia, the fortune-teller
+ZIP: z4-zofia.zip   (2 lines, about 9 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-zofia.zip). For reference: Woman, about fifty. From: a Polish accent. Pitch: middle. Pace: measured, theatrical. Texture: a little grand, a professional’s polish with something unsettled under it.
+------------------------------------------------------------------------------
+z4.zofia.01.mp3
+  Say:  I turned up the blank card again. It has a picture on it now.
+  Tone: Hushed and delighted, holding the card close.
+
+z4.zofia.02.mp3
+  Say:  It’s Kore, laughing. I’ll not charge for that one.
+  Tone: Warm, turning the card round.
+
+==============================================================================
+SPEAKER: bridie   Old Bridie, the lamplighter
+ZIP: z4-bridie.zip   (2 lines, about 9 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-bridie.zip). For reference: Woman, about seventy-eight. From: the soft rural west of Ireland. Pitch: middle, thin with age. Pace: slow. Texture: plain and stubborn, tender about lamps.
+------------------------------------------------------------------------------
+z4.bridie.01.mp3
+  Say:  Someone’s lit the cottage gate lamp. Not me. I’m to have the night off, she says.
+  Tone: Pleased and put out at once.
+
+z4.bridie.02.mp3
+  Say:  I’ll light it tomorrow anyway. Habit.
+  Tone: Stubborn and fond.
+
+==============================================================================
+SPEAKER: bashir   Bashir, the ribbon-dyer
+ZIP: z4-bashir.zip   (1 lines, about 5 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-bashir.zip). For reference: Man, about seventy. From: a soft Levantine accent. Pitch: low. Pace: slow, with pauses before he answers. Texture: quiet and husky, short sideways answers.
+------------------------------------------------------------------------------
+z4.bashir.01.mp3
+  Say:  There’s no blue left in the land. I’d say it went somewhere good.
+  Tone: Mock despair, then a warm smile.
+
+==============================================================================
+SPEAKER: otto   Otto, the baker
+ZIP: z4-otto.zip   (1 lines, about 5 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-otto.zip). For reference: Man, about fifty. From: a German accent. Pitch: low. Pace: hearty, a little quick. Texture: round and cheerful, a laugh never far off.
+------------------------------------------------------------------------------
+z4.otto.01.mp3
+  Say:  Every loaf came out straight tonight. I could weep. Bakers don’t weep.
+  Tone: Emotional and trying hard not to be.
+
+==============================================================================
+SPEAKER: corwin   Corwin, the night watchman
+ZIP: z4-corwin.zip   (1 lines, about 6 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-corwin.zip). For reference: Man, about sixty-eight. From: Yorkshire. Pitch: low. Pace: slow and steady. Texture: gravelly and gruff, kind underneath.
+------------------------------------------------------------------------------
+z4.corwin.01.mp3
+  Say:  Shutters, then lamps. The right way round again. I could dance. I won’t.
+  Tone: Gruff relief, a man whose world is in order.
+
+==============================================================================
+SPEAKER: ros   Ros, the pie-seller
+ZIP: z4-ros.zip   (1 lines, about 4 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-ros.zip). For reference: Woman, late forties. From: a London market trader. Pitch: middle. Pace: quick, loud. Texture: brassy and warm, a trader to her boots.
+------------------------------------------------------------------------------
+z4.ros.01.mp3
+  Say:  Happy folk buy fewer pies. I find I don’t mind.
+  Tone: Dry, surprised at herself.
+
+==============================================================================
+SPEAKER: kofi   Kofi, the chestnut roaster
+ZIP: z4-kofi.zip   (1 lines, about 5 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-kofi.zip). For reference: Man, mid forties. From: a Ghanaian accent. Pitch: middle. Pace: quick. Texture: cheerful and bright, a storyteller who laughs at his own stories.
+------------------------------------------------------------------------------
+z4.kofi.01.mp3
+  Say:  A free chestnut for something nobody else knows. Go on. I’d say you’ve plenty.
+  Tone: Sly and warm, holding out the bag.
+
+==============================================================================
+SPEAKER: jory   Jory, the farm lad
+ZIP: z4-jory.zip   (1 lines, about 5 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-jory.zip). For reference: Man, about seventeen. From: Geordie (Newcastle). Pitch: middle, a young voice. Pace: fast. Texture: cheerful and quick, frightened and trying not to show it.
+------------------------------------------------------------------------------
+z4.jory.01.mp3
+  Say:  I saw the lights go home. I wasn’t scared. I was a bit scared.
+  Tone: Boastful, then honest.
+
+==============================================================================
+SPEAKER: gretch   Mayor Gretch, the mayor
+ZIP: z4-gretch.zip   (1 lines, about 6 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-gretch.zip). For reference: Man, about sixty-five. From: soft West Country (Wickhollow). Pitch: low-middle. Pace: plain and steady. Texture: blunt and tired, a decent man out of his depth.
+------------------------------------------------------------------------------
+z4.gretch.01.mp3
+  Say:  A hundred lamps in Wickhollow, and every one standing straight. I feel a speech coming.
+  Tone: Pompous and delighted.
+
+==============================================================================
+SPEAKER: hilde   Hilde, the smith
+ZIP: z4-hilde.zip   (1 lines, about 5 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-hilde.zip). For reference: Woman, about forty-five. From: soft West Country (Wickhollow). Pitch: low. Pace: firm. Texture: strong and dry, proud of her fire.
+------------------------------------------------------------------------------
+z4.hilde.01.mp3
+  Say:  My forge does as it’s told again. I almost miss the argument.
+  Tone: Dry, a smith’s grudging humour.
+
+==============================================================================
+SPEAKER: quill   Quill, the sailor
+ZIP: z4-quill.zip   (1 lines, about 5 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-quill.zip). For reference: Man, about sixty. From: soft West Country (Wickhollow), a sailor’s roughness on it. Pitch: low-middle. Pace: easy. Texture: salty and friendly, a teller of half-true stories.
+------------------------------------------------------------------------------
+z4.quill.01.mp3
+  Say:  I’ve untied my lantern. All three hitches. Didn’t need them after all.
+  Tone: Content, coiling the rope.
+
+==============================================================================
+END OF ZONE 4
