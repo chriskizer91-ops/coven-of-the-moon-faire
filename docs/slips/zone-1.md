@@ -29,10 +29,12 @@ The same hub that does zone 1 does these (so they are written up here).
     shore is 67 m below. The mark is now 9,000 m down.
   - A road can be given `wet` (how dear a step over water is when it finds its way) and `stoneAll` (stone underfoot
     from end to end, for a causeway).
+  - A land can have no leafy trees (`noLeaf`: firs and bare thorns only, for the north).
+  - On a causeway over water she is kept to its top.
   - A place can be marked `sea`: it stands in the map's own water, so that water comes right up to its edge.
 - **Checked:** `tools/zone-test.py` passes on all three zones after these changes (every road walked at a sprint,
-  no jump in her height, she ends on the next place's ground, 4,000 spots obey the rules, no page errors). Fourteen
-  pictures of zone 3 and ten of zone 2 were looked at.
+  no jump in her height, she ends on the next place's ground, 4,000 spots obey the rules, no page errors). Twelve
+  pictures of zone 3 and eight of zone 2 were looked at.
 - **Not checked:** the frame rate on either page (only Chris's laptop and phone can show it). Zone 3's shipyard road
   is steep: 13 to 18 m in every 100.
 - **Not in these two pages yet:** people, voices, the story, the narrator, fights. They are land to walk only.
