@@ -4,7 +4,8 @@
 //   - every key a line's `when` has must be true; a line with more keys is more particular and is chosen first;
 //   - a line is said once before any repeats;
 //   - a story talk (`talk: [id, n]`) is said in order as one talk;
-//   - a `call` is said as the coven walks past, not in a talk;
+//   - a `call` is a short word, said by itself when the coven walks right up to someone already met (Chris, November 23:
+//     nobody speaks from a distance; the first time the coven walks up to a person, they say their first talk);
 //   - the coven's own lines are said once each, at set moments.
 // What it keeps (in the browser, under 'coven.story.v1'): the stage (0 dusk, 1 asked, 2 home, 3 fen, 4 after), which
 // lines have been heard, who has been talked to, and which moments have been played.
@@ -35,7 +36,7 @@
       const gateWon = () => { const p = party(); return !!(p && p.gates && p.gates[gateId()]); };
       const lamps = () => (o.lamps != null ? o.lamps : gateWon() ? 12 : Math.min(11, Math.floor(((party() && party().fights && party().fights.won) || 0) / 4)));
       const look = () => ((party() ? party().level : 1) <= 2 ? 'green' : 'steady');
-      let just = null, justT = 0, wonN = -1, lostN = -1;
+      let just = null, justT = 0, wonN = -1, lostN = -1, begun = TEST || !o.waitBegin;
       const stage = () => (tryStage != null ? tryStage : S.stage);
       // ---- the lines, gathered: a story talk is one unit, any other line a unit of its own ----
       const groups = {}; for (const l of LINES) if (l.talk) (groups[l.talk[0]] = groups[l.talk[0]] || []).push(l);
@@ -73,13 +74,18 @@
         if (S.stage !== was && o.onStage) o.onStage(S.stage, was); return S.stage !== was; }
       function heard(p, said) { for (const l of said) if (!/^standin\./.test(l.id)) S.heard[l.id] = ++S.n; if (p) { S.talks[p.id] = (S.talks[p.id] || 0) + 1; S.met[p.id] = true; } advance(); save(); }
       // ---- the coven's set moments ----
-      function moment(name) { const g = groups[zone + '.' + name]; if (!g || S.moments[name] || people.busy() || W.paused) return false; S.moments[name] = true; save(); return people.play(g, null); }
+      // (before the coven speaks, the scene is set by the narrator: the story job's narration line when the moment has one;
+      // until then a stand-in in words only, from game/people/zone-1.js)
+      const NARR = W3D.PEOPLE_NARRATION_STANDIN || {};
+      function moment(name) { const g = groups[zone + '.' + name]; if (!g || S.moments[name] || people.busy() || W.paused) return false; S.moments[name] = true; save();
+        const lead = !g.some((l) => l.who === 'narrator') && NARR[name] ? [{ id: 'standin.narrator.' + name, who: 'narrator', kind: 'narration', text: NARR[name], secs: Math.max(4, NARR[name].split(/\s+/).length * 0.33) }] : [];
+        return people.play(lead.concat(g), null); }
       const parts = {}; for (const p of Z.parts) parts[p.id] = p;
       const dRect = (p, x, z) => (p ? Math.hypot(Math.max(p.x0 - x, 0, x - p.x1), Math.max(p.z0 - z, 0, z - p.z1)) : 1e9);
       function watch() { const p = party(); if (p && p.fights) { if (wonN >= 0 && p.fights.won > wonN) { just = 'won'; justT = performance.now(); } if (lostN >= 0 && p.fights.lost > lostN) { just = 'lost'; justT = performance.now(); } wonN = p.fights.won; lostN = p.fights.lost; }
         if (just && performance.now() - justT > 120000) just = null;
         if (advance()) save();
-        if (people.busy() || W.paused) return; const me = people.me(), gate = G.__fights && G.__fights.gate;
+        if (!begun || people.busy() || W.paused) return; const me = people.me(), gate = G.__fights && G.__fights.gate;
         if (!S.moments.opening) return void moment('opening');
         if (gateWon() && !S.moments['after-wraith']) return void moment('after-wraith');
         if (heardTalk(zone + '.captain.sew') && !S.moments.leaving) return void moment('leaving');
@@ -87,11 +93,15 @@
         if (!S.moments.thornwood && dRect(parts.thornwood, me.x, me.z) < 30) return void moment('thornwood');
         if (!S.moments.fen && dRect(parts.bogmire, me.x, me.z) < 60) return void moment('fen');
         if (!S.moments['before-wraith'] && gate && !gateWon() && Math.hypot(me.x - gate.at[0], me.z - gate.at[1]) < 40) return void moment('before-wraith'); }
-      people.lines = linesFor; people.call = callFor; people.heard = heard;
+      // walked right up to: the first time, their first talk; later, a short word (not more than one in 45 seconds each)
+      const lastWord = {};
+      people.greet = (p) => { if (!(S.talks[p.id] > 0)) { const ls = linesFor(p); return ls ? { lines: ls } : null; }
+        const now = performance.now(); if (now - (lastWord[p.id] || -1e9) < 45000) return null; const c = callFor(p); if (!c) return null; lastWord[p.id] = now; return { lines: [c], short: true }; };
+      people.lines = linesFor; people.heard = heard;
       if (!TEST) setInterval(watch, 500);
       const api = { state: () => ({ stage: stage(), kept: S.stage, lamps: lamps(), look: look(), just, heard: Object.keys(S.heard).length, talks: Object.assign({}, S.talks), moments: Object.assign({}, S.moments) }),
         set(v) { Object.assign(S, v); save(); return api.state(); }, reset() { S = fresh(); save(); return api.state(); },
-        linesFor, callFor, moment, watch, groups, units: UNITS, lines: LINES, setLamps(n) { o.lamps = n; }, setJust(j) { just = j; justT = performance.now(); } };
+        begin() { begun = true; }, linesFor, callFor, moment, watch, groups, units: UNITS, lines: LINES, setLamps(n) { o.lamps = n; }, setJust(j) { just = j; justT = performance.now(); } };
       G.__story = api; return api;
     },
   };

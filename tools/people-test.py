@@ -35,6 +35,10 @@ JS = """async () => { const P = window.__people, L = window.__land, w = window._
   // the coven's set moments, once each
   S.reset(); st.moments = {}; for (const m of ['opening', 'cottage', 'thornwood', 'fen', 'before-wraith', 'after-wraith', 'leaving']) { const ok = S.moment(m); const ids = []; let guard = 0; while (P.say() && guard++ < 12) { ids.push(P.say().name); P.talk(); } finish(); st.moments[m] = { ok, n: ids.length, who: ids.join(', '), again: S.moment(m) }; }
   st.call = (S.callFor(P.list[0]) || {}).text || null;
+  // walking right up: nobody speaks from 3 m; at arm's length the first talk begins by itself; a later visit gets a short word
+  S.reset(); P.stop(); P.autoInTest = true; const k = P.list.find((q) => q.id === 'kofi'); const at = (d) => { w.setIo(M.px(k.x - d), M.py(k.z), 0); w.step(0.1, 30, false); P.tick(); };
+  at(12); at(3); st.far = P.say(); at(1.3); st.close = P.say() ? P.say().id : null; finish(); at(12); at(1.3); st.again = P.say() ? P.say().id : null; finish(); P.autoInTest = false;
+  st.kinds = [st.close, st.again].map((id) => (S.lines.find((l) => l.id === id) || {}).kind);
   return out; }"""
 with sync_playwright() as p:
     b = p.chromium.launch(channel='chrome', headless=True, args=['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'])
@@ -60,6 +64,9 @@ check(len(st['sew']) == 3 and st['sew'][0].endswith('|Europa'), 'at stage 4 with
 check(st['odileFirst'] == st['odileDistinct'] and st['odileDistinct'] >= 3, 'at dusk Odile has %d different talks, and says each once before any comes round again (%d talks tried)' % (st['odileDistinct'], len(st['odile'])))
 for m, v in st['moments'].items(): check(v['ok'] and v['n'] >= 5 and not v['again'], 'the moment "%s": %d lines (%s), once only' % (m, v['n'], v['who']))
 check(bool(st['call']), 'Odile has a call for when the coven walks past: "%s"' % st['call'])
+check(st['far'] is None, 'at 3 m nobody speaks by themselves')
+check(st['kinds'][0] == 'hello', 'walking right up to Kofi (1.3 m) the first time, his first talk begins by itself (%s)' % st['close'])
+check(st['kinds'][1] == 'call', 'walking right up again later, he says a short word (%s)' % st['again'])
 print('3. page errors: %d' % len(errors)); check(not errors, 'no page errors')
 for e in errors[:6]: print('  ! ' + e)
 print('ALL PASSED' if not fails else '%d FAILED' % len(fails)); sys.exit(1 if fails else 0)
