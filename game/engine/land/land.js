@@ -263,6 +263,7 @@
       }
       F.h = d < 28 ? lerp(hEdge(NR, x, z), h, ss(0, 28, d)) : h;
       F.sd = q && wk > 0.25 ? Math.min(sd, (0.5 - wk) * q.mpp) : sd; F.re = re;
+      F.dike = stone && stone.all && q && q.wm > 0.4 ? 1 : 0;   // on a causeway over the map's water: its sides are sheer, and not for walking
       F.aw = wk; if (q) { F.fen = q.fen; F.open = q.open; F.pine = q.pine; F.wl = q.wl; }
       if (want) {
         F.road = Math.max(rw, flatK * (0.5 + 0.5 * ss(0.3, 0.6, vnoise(x / 6.3 + 1.1, z / 6.3 + 7.7))));
@@ -598,7 +599,8 @@
     // ---- where her feet can stand on the land ----
     function landWalkable(x, z) {
       if (rimD(x, z) < 6) return false;
-      if (field(x, z, false).sd < 0.5) return false;
+      const f = field(x, z, false); if (f.sd < 0.5) return false;
+      if (f.dike && f.re > 0.5 && f.re < 16) return false;
       for (const s of SOLID) if (Math.hypot(x - s[0], z - s[1]) < s[2]) return false;
       for (const b of BLOCK) { const dx = x - b.x, dz = z - b.z; if (b.r != null) { if (dx * dx + dz * dz < b.r * b.r) return false; } else if (Math.abs(dx) < b.w + b.d && Math.abs(dz) < b.w + b.d) { const c = Math.cos(b.a), sn = Math.sin(b.a); if (Math.abs(dx * c - dz * sn) < b.w && Math.abs(dx * sn + dz * c) < b.d) return false; } }
       const ci = Math.floor(x / SIZE), cj = Math.floor(z / SIZE), fx = x - ci * SIZE, fz = z - cj * SIZE;
