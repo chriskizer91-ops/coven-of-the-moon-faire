@@ -66,7 +66,7 @@
           { w: 4.4, stone: 'pave', stoneTo: 'pave', stoneAll: true, name: 'the long causeway to the shipyard', to: 'The shipyard',
             pts: [SHORE, [2950, 300], [3050, 315], off(GATE.yardS, -6, 30), off(GATE.yardS, 0, 30), GATE.yardS] },
         ],
-        trees: { step: 5.2, woods: 0.8, thorn: 0.9, thornShare: 0, firShare: 0.7 },
+        trees: { step: 5.2, woods: 0.8, thorn: 0.9, thornShare: 0, firShare: 0.7, noLeaf: true },
         herbs: { step: 13, woods: 0.3, thorn: 0.6, away: 10, kinds: [
           { id: 'moonpetal', name: 'Moonpetal', petal: '#d6ecff', heart: '#fff6c8' },
           { id: 'lavender', name: 'Lavender', petal: '#c9a6ff', heart: '#f4e2ff' },

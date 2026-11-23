@@ -520,7 +520,8 @@
         if (h2(gx, gz, 3) > dens || !freeOfClearing(x, z)) continue;
         const r = h2(gx, gz, 4), r2 = h2(gx, gz, 5);
         // kinds as the place engine names them: 0 a leafy tree, 1 a fir, 2 a bare thorn
-        const kind = r < Math.max(tk * L.trees.thornShare, fen * 0.8) ? 2 : (r2 < (tk > 0.5 ? 0.25 : lerp(L.trees.firShare, 0.85, pine)) ? 1 : 0);
+        const kind0 = r < Math.max(tk * L.trees.thornShare, fen * 0.8) ? 2 : (r2 < (tk > 0.5 ? 0.25 : lerp(L.trees.firShare, 0.85, pine)) ? 1 : 0);
+        const kind = L.trees.noLeaf && kind0 === 0 ? (r < 0.22 ? 2 : 1) : kind0;   // (`noLeaf`: a land with no leafy trees, the frozen north: firs, and a bare thorn here and there)
         const size = kind === 2 ? 1.15 + 0.95 * r2 * r2 + 0.25 * h2(gx, gz, 6) : 0.8 + 0.7 * r2;
         q.trees.push({ x, z, y: f.h, size, kind, seed: (gx * 73 + gz * 151) & 0xffff, r: 0.3 * size });
       }
