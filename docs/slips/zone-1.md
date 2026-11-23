@@ -54,6 +54,41 @@ Where the new code is:
 | `game/data/maps-*.js` | Each place's walking areas |
 | `tools/zone-test.py` | New. Walks between the places and checks it by numbers |
 
+## Added on November 23: the story's lines and voices are in, and nineteen people stand in zone 1
+
+- **Every person in zone 1 speaks aloud.** The story job's 236 lines for zone 1 (`game/talk/zone-1.js`) and their 236
+  recordings (`game/talk/audio/z1/`, 8.4 MB) are in the page. `tools/voice-list.py z1` lists the recordings for the
+  page (`game/people/voice-z1.js`) and says if any line has none; the builder now puts MP3 inside the one file.
+- **Nineteen people stand in zone 1.** The eleven fair folk as before. New: the Grey Hat on the jetty's pier, on his
+  own painted body (`game/people/folk/greyhat_npc.js`, from Moon Faire); Quill at the jetty; Nettie, Hilde and Mayor
+  Gretch in Wickhollow; Old Wenna, Tobb and Pell in Bogmire, each where the new Envoi stands them in the painting.
+- **Which line comes next** (`game/people/story.js`), by the story job's own rules: a story talk first, then the
+  first hello, then the most particular line not yet heard; nothing repeats until all of a person's lines for that
+  time are said. Each line shows its own speaker's name, so a witch can answer inside a talk.
+- **The stage of the story** is kept in the browser: 0 dusk; 1 when the Grey Hat has asked for his lamps; 2 when
+  Nettie has known Io; 3 when Old Wenna has told of the great wraith; 4 when the great wraith is released.
+- **Lamps home:** one for every four fights won in the wilds, up to eleven; the twelfth with the great wraith.
+- **The coven speaks at seven set moments,** once each: the opening; near Io's cottage; near the Thornwood; near
+  Bogmire; near the great wraith's spot; after it is released; and the leaving, after Europa sews the flames.
+- **A person calls out as the coven walks past,** once each time she comes near from far off.
+- **Checked** (`tools/people-test.py`, all passed, 0 page errors): all nineteen are there, on the ground, in the open;
+  walking up shows the button; a talk shows the words and ends; all 236 lines have their recording in the page;
+  every person has something to say at every stage; the Grey Hat's first talk is his four-line asking and moves the
+  stage on, and so do Nettie's and Old Wenna's; at the end the talk at the jetty is Europa sewing the flames; a
+  person says each thing once before any comes round again; each of the seven moments plays once. `tools/zone-test.py`
+  still passes. The page is 97.0 MB (it was 85.7).
+- **Not checked: the sound itself.** A browser with no screen plays nothing, so nobody has yet heard a line in the
+  game. Whether the voice starts when it should, is loud enough beside the fights' music, and whether a phone lets
+  it play, only Chris can tell. Also not checked: the frame rate, and the page's size on the phone (97 MB).
+- **Rough or not done:**
+  - Tully's body is a man in a flat hat; Tully's voice is a woman's.
+  - Seven townsfolk wear the fair folk's other shapes, so some look like someone at the Faire.
+  - She can walk through a person who stands inside a town (not in the camp or on a road).
+  - The pale moth after the great wraith is not on the land yet, though Kore says "Watch the moth".
+  - Io's cottage has no lit gate lamp; Old Bridie has no lantern; the Grey Hat has no ship behind him.
+  - Nothing happens after the leaving: there is no flight to zone 2 yet.
+  - The people stand still.
+
 ## Added on November 19: the people of the Moon Faire, and talking to them
 
 - **Eleven people stand in the land,** on Moon Faire's painted bodies (`game/people/folk/`, copied from the new
