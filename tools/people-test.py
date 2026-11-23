@@ -35,6 +35,7 @@ JS = """async () => { const P = window.__people, L = window.__land, w = window._
   // the coven's set moments, once each
   S.reset(); st.moments = {}; for (const m of ['opening', 'cottage', 'thornwood', 'fen', 'before-wraith', 'after-wraith', 'leaving']) { const ok = S.moment(m); const ids = []; let guard = 0; while (P.say() && guard++ < 12) { ids.push(P.say().name); P.talk(); } finish(); st.moments[m] = { ok, n: ids.length, who: ids.join(', '), again: S.moment(m) }; }
   st.call = (S.callFor(P.list[0]) || {}).text || null;
+  S.reset(); S.set({ moments: { opening: true } }); P.stop(); S.narrate('lamp-first'); S.watch(); st.told = P.say(); finish();
   // walking right up: nobody speaks from 3 m; at arm's length the first talk begins by itself; a later visit gets a short word
   S.reset(); P.stop(); P.autoInTest = true; const k = P.list.find((q) => q.id === 'kofi'); const at = (d) => { w.setIo(M.px(k.x - d), M.py(k.z), 0); w.step(0.1, 30, false); P.tick(); };
   at(12); at(3); st.far = P.say(); at(1.3); st.close = P.say() ? P.say().id : null; finish(); at(12); at(1.3); st.again = P.say() ? P.say().id : null; finish(); P.autoInTest = false;
@@ -62,7 +63,8 @@ check(st['stage2'] == 2, 'Nettie\'s first talk (%d lines) moves the stage to 2 (
 check(st['stage3'] == 3, 'Old Wenna\'s second talk tells of the great wraith (%d lines) and moves the stage to 3 (fen)' % len(st['wenna2']))
 check(len(st['sew']) == 3 and st['sew'][0].endswith('|Europa'), 'at stage 4 with twelve lamps home, the talk at the jetty is Europa sewing the flames: %s' % ', '.join(x.split('|')[1] for x in st['sew']))
 check(st['odileFirst'] == st['odileDistinct'] and st['odileDistinct'] >= 3, 'at dusk Odile has %d different talks, and says each once before any comes round again (%d talks tried)' % (st['odileDistinct'], len(st['odile'])))
-for m, v in st['moments'].items(): check(v['ok'] and v['n'] >= 5 and not v['again'], 'the moment "%s": %d lines (%s), once only' % (m, v['n'], v['who']))
+for m, v in st['moments'].items(): check(v['ok'] and v['n'] >= 6 and v['who'].startswith(', ') and not v['again'], 'the moment "%s": the narrator first, then %d lines (%s), once only' % (m, v['n'] - 1, v['who'][2:]))
+check(st['told'] and st['told']['who'] == 'narrator' and st['told']['id'] == 'z1.narrator.11', 'when the first lamp comes home the narrator says so: "%s"' % (st['told'] or {}).get('text'))
 check(bool(st['call']), 'Odile has a call for when the coven walks past: "%s"' % st['call'])
 check(st['far'] is None, 'at 3 m nobody speaks by themselves')
 check(st['kinds'][0] == 'hello', 'walking right up to Kofi (1.3 m) the first time, his first talk begins by itself (%s)' % st['close'])

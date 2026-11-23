@@ -27,7 +27,7 @@
   W3D.story = {
     start(o) {
       const W = o.W, people = o.people, Z = W.P, T = G.COVEN_TALK_Z1 || { lines: [], moments: {} }, LINES = T.lines, zone = T.zone || 'z1';
-      const fresh = () => ({ v: 1, stage: 0, n: 0, heard: {}, talks: {}, met: {}, moments: {} });
+      const fresh = () => ({ v: 1, stage: 0, n: 0, heard: {}, talks: {}, met: {}, moments: {}, said: {} });
       let S = fresh(); if (!TEST) try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.v === 1) S = Object.assign(fresh(), s); } catch (e) {}
       const save = () => { if (!TEST) try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
       const q = /[?&]stage=(\d)/.exec(location.search), tryStage = q ? +q[1] : null;
@@ -36,7 +36,7 @@
       const gateWon = () => { const p = party(); return !!(p && p.gates && p.gates[gateId()]); };
       const lamps = () => (o.lamps != null ? o.lamps : gateWon() ? 12 : Math.min(11, Math.floor(((party() && party().fights && party().fights.won) || 0) / 4)));
       const look = () => ((party() ? party().level : 1) <= 2 ? 'green' : 'steady');
-      let just = null, justT = 0, wonN = -1, lostN = -1, begun = TEST || !o.waitBegin;
+      let just = null, justT = 0, wonN = -1, lostN = -1, lampN = -1, begun = TEST || !o.waitBegin;
       const stage = () => (tryStage != null ? tryStage : S.stage);
       // ---- the lines, gathered: a story talk is one unit, any other line a unit of its own ----
       const groups = {}; for (const l of LINES) if (l.talk) (groups[l.talk[0]] = groups[l.talk[0]] || []).push(l);
@@ -71,22 +71,34 @@
         if (S.stage === 1 && heardTalk(zone + '.nettie.hello')) S.stage = 2;
         if (S.stage < 3 && heardTalk(zone + '.wenna.wraith')) S.stage = 3;
         if (S.stage < 4 && gateWon()) S.stage = 4;
+        if (was < 1 && S.stage === 1) narrate('asked');
         if (S.stage !== was && o.onStage) o.onStage(S.stage, was); return S.stage !== was; }
       function heard(p, said) { for (const l of said) if (!/^standin\./.test(l.id)) S.heard[l.id] = ++S.n; if (p) { S.talks[p.id] = (S.talks[p.id] || 0) + 1; S.met[p.id] = true; } advance(); save(); }
       // ---- the coven's set moments ----
       // (before the coven speaks, the scene is set by the narrator: the story job's narration line when the moment has one;
       // until then a stand-in in words only, from game/people/zone-1.js)
       const NARR = W3D.PEOPLE_NARRATION_STANDIN || {};
+      // the narrator's lines (game/people/narration.js), by what each is for
+      const NAR = {}; for (const l of ((G.COVEN_NARRATION || {})[zone] || [])) NAR[l.at] = Object.assign({ who: 'narrator', kind: 'narration' }, l);
+      // a thing that has happened on the land, to be told when nothing else is being said: once, unless `again`
+      const pend = []; const narrate = (key, again) => { if (!NAR[key] || (!again && S.said[key]) || pend.indexOf(key) >= 0) return; if (!again) S.said[key] = true; pend.push(key); save(); };
       function moment(name) { const g = groups[zone + '.' + name]; if (!g || S.moments[name] || people.busy() || W.paused) return false; S.moments[name] = true; save();
-        const lead = !g.some((l) => l.who === 'narrator') && NARR[name] ? [{ id: 'standin.narrator.' + name, who: 'narrator', kind: 'narration', text: NARR[name], secs: Math.max(4, NARR[name].split(/\s+/).length * 0.33) }] : [];
+        const lead = NAR[name] ? [NAR[name]] : !g.some((l) => l.who === 'narrator') && NARR[name] ? [{ id: 'standin.narrator.' + name, who: 'narrator', kind: 'narration', text: NARR[name], secs: Math.max(4, NARR[name].split(/\s+/).length * 0.33) }] : [];
         return people.play(lead.concat(g), null); }
       const parts = {}; for (const p of Z.parts) parts[p.id] = p;
       const dRect = (p, x, z) => (p ? Math.hypot(Math.max(p.x0 - x, 0, x - p.x1), Math.max(p.z0 - z, 0, z - p.z1)) : 1e9);
-      function watch() { const p = party(); if (p && p.fights) { if (wonN >= 0 && p.fights.won > wonN) { just = 'won'; justT = performance.now(); } if (lostN >= 0 && p.fights.lost > lostN) { just = 'lost'; justT = performance.now(); } wonN = p.fights.won; lostN = p.fights.lost; }
+      function watch() { const p = party(); if (p && p.fights) {
+          if (wonN >= 0 && p.fights.won > wonN) { just = 'won'; justT = performance.now(); narrate('wisp-released'); }
+          if (lostN >= 0 && p.fights.lost > lostN) { just = 'lost'; justT = performance.now(); narrate('woke', true); }
+          wonN = p.fights.won; lostN = p.fights.lost;
+          // a lamp has come home (the twelfth comes with the great wraith, and is told there)
+          const lp = lamps(); if (lampN >= 0 && lp > lampN && lp < 12) { if (!S.said['lamp-first']) narrate('lamp-first'); else if (lp === 11) narrate('lamp-eleven'); else narrate('lamp-again', true); } lampN = lp; }
         if (just && performance.now() - justT > 120000) just = null;
         if (advance()) save();
         if (!begun || people.busy() || W.paused) return; const me = people.me(), gate = G.__fights && G.__fights.gate;
         if (!S.moments.opening) return void moment('opening');
+        if (pend.length) { const k = pend.shift(); return void people.play([NAR[k]], null); }
+        if (dRect(parts.wickhollow, me.x, me.z) < 4) narrate('wickhollow'); if (dRect(parts.jetty, me.x, me.z) < 10) narrate('jetty');
         if (gateWon() && !S.moments['after-wraith']) return void moment('after-wraith');
         if (heardTalk(zone + '.captain.sew') && !S.moments.leaving) return void moment('leaving');
         if (!S.moments.cottage && dRect(parts.cottage, me.x, me.z) < 34) return void moment('cottage');
@@ -100,8 +112,8 @@
       people.lines = linesFor; people.heard = heard;
       if (!TEST) setInterval(watch, 500);
       const api = { state: () => ({ stage: stage(), kept: S.stage, lamps: lamps(), look: look(), just, heard: Object.keys(S.heard).length, talks: Object.assign({}, S.talks), moments: Object.assign({}, S.moments) }),
-        set(v) { Object.assign(S, v); save(); return api.state(); }, reset() { S = fresh(); save(); return api.state(); },
-        begin() { begun = true; }, linesFor, callFor, moment, watch, groups, units: UNITS, lines: LINES, setLamps(n) { o.lamps = n; }, setJust(j) { just = j; justT = performance.now(); } };
+        set(v) { Object.assign(S, v); save(); return api.state(); }, reset() { S = fresh(); pend.length = 0; save(); return api.state(); },
+        begin() { begun = true; }, linesFor, callFor, moment, watch, narrate, pending: () => pend.slice(), narration: NAR, groups, units: UNITS, lines: LINES, setLamps(n) { o.lamps = n; }, setJust(j) { just = j; justT = performance.now(); } };
       G.__story = api; return api;
     },
   };
