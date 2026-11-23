@@ -73,7 +73,7 @@
         // its lamplight and shade are painted in its own painting's pixels: tell them where the painting now lies
         const k = P.U.uMapK.value; k.z -= ox * k.x; k.w -= oz * k.y;
         const [a, b, c, d] = P.walkRect, PM = P.M, px = (x) => PM.px(x - ox), py = (z) => PM.py(z - oz);
-        parts.push({ id: e.id, name: pl.name, P, ox, oy, oz, x0: ox + PM.x(a), z0: oz + PM.z(b), x1: ox + PM.x(c), z1: oz + PM.z(d), night: nightOf(pl), autoWater: !!e.autoWater, moat: !!e.moat, waterY: e.waterY,
+        parts.push({ id: e.id, name: pl.name, P, ox, oy, oz, x0: ox + PM.x(a), z0: oz + PM.z(b), x1: ox + PM.x(c), z1: oz + PM.z(d), night: nightOf(pl), autoWater: !!e.autoWater, moat: !!e.moat, sea: !!e.sea, waterY: e.waterY,
           walkable: (x, z) => P.walkable(px(x), py(z)), walkH: (x, z) => P.walkH(px(x), py(z)) + oy, terrain: (x, z) => P.terrain(px(x), py(z)) + oy });
       }
     }
