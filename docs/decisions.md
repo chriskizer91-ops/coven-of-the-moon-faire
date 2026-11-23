@@ -13,32 +13,25 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
-## November 19, 2026, 08:05: every person speaks aloud
+## November 23, 2026, midday: hub's calls made putting zones 2 and 3 on the map
 
-- **Chris: every person in the game speaks aloud,** with ElevenLabs voices.
-- **Chris: everyone has at least five or six lines. A few people have many more, and the story leads the player to
-  them.** The size of the sound has to be thought about, so some dialogue may have to be kept small.
-- **Chris: a fresh Opus 5.5 conversation at extra-high effort writes the story's dialogue,** from a brief the hub
-  puts together: the lore, and what the dialogue should be.
-- **Chris: the fights job's second round is done.** The hub brought step 3 (fights on the land) into `main`.
-- **Chris: next for the hub is the people in the Moon Faire's camp.**
-- **Hub's proposal, not approved:** `docs/lore/story-brief.md`. It marks what is Chris's settled word and what is
-  proposed: these are Aethermoor's last moonlit years; the fire at Misthollow was lit by Halcyon, Io's older sister;
-  the Grey Hat's twelve lamps fly on the first night and he will not fly dark. Nine calls in it are Chris's, each
-  with the hub's pick. The story job's first step stops for his yes before the lines are written.
-- **Hub's call.** *Zone 1 has about 236 spoken lines, about 17 minutes:* four people with 20 to 28 lines (the
-  lamp-seller, the Grey Hat, Nettie, Old Wenna), fifteen with 6 to 8, and 46 for the four witches. About 11 MB
-  inside the one-file build at MP3 64 kbps. The whole game should stay near an hour of speech.
-- **Hub's call.** *The Grey Hat stands at the jetty,* where his ship is moored, not in the camp.
-- **Chris, 08:30: the names can be made up now** (by the hub or the story job), so the people can be placed by name
-  while the lines are written. **And how the sound is made:** he gives the finished lines to ChatGPT, which uses
-  ElevenLabs to record them and hands back zip files labelled for the game.
-- **Hub's call.** *The fair folk's names:* Odile the lamp-seller, Bashir the ribbon-dyer, Zofia the fortune-teller,
-  Linnet the ballad-singer, Otto the baker, Corwin the night watchman, Ros the pie-seller, Tully the gate keeper,
-  Kofi the chestnut roaster, Old Bridie the lamplighter, Jory the farm lad. The Grey Hat's own name is not said.
-  Chris's to change before anything is recorded.
-- **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
-  (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
+Chris's word for this (10:15 and 10:36): "I really want to get those first three zones situated", and "let's continue on
+with the plan as it's been". No new word from Chris here. Every line below is a **Hub's call**.
+
+- **Hub's call.** *Each zone is its own page for now* (`zone-1.html`, `zone-2.html`, `zone-3.html`), with its first
+  camp at the middle of its own land. The flight between them joins the pages later.
+- **Hub's call.** *Zone 2 is the new Envoi's five places for it, on their pins:* the Warm Roads camp, the Ember Line
+  road, the forest road, Dawnroost, Dawnroost's living node. *Zone 3 is its five:* the northern camp, Eldergrove's
+  edge, the cold moor, the northern crossroads, the shipyard.
+- **Hub's call, for Chris to overrule.** *The shipyard stands 280 m south of its pin, out in the bay.* Its pin is on
+  a headland 25 m above the sea, and the place is a rock in the sea at the end of a long bridge from the south. On
+  the pin it would have stood in a pond on a hilltop. It is one number to move it back.
+- **Hub's call.** *The way to the shipyard is a stone causeway over the bay,* 330 m long, sloping down from a shelf
+  above the shore to the shipyard's own bridge. The coast is steep all round; the only other way was 1.9 km round
+  the inlet through cuttings 34 m deep.
+- **Hub's call.** *Ways out that lead off a zone stay closed* (the crossroads' east and south, to "the world").
+- **Hub's call.** *Zone 3's ground is frosted grass and heather, its night cold and blue; zone 2's is meadow and
+  heath with warm earth roads.* Both use the pictures their own places already bring.
 
 ## November 23, 2026, 10:36: room for new creatures
 
@@ -122,6 +115,33 @@ The full older record stays in the old repos and is not copied here:
   just over it. No choices. Nothing over the middle of the picture.
 - **Hub's call.** *Stand-in words until the story's lines come,* one or two a person, several leaning on Moon
   Faire's own stand-ins. They are not lore and every one is replaced.
+
+## November 19, 2026, 08:05: every person speaks aloud
+
+- **Chris: every person in the game speaks aloud,** with ElevenLabs voices.
+- **Chris: everyone has at least five or six lines. A few people have many more, and the story leads the player to
+  them.** The size of the sound has to be thought about, so some dialogue may have to be kept small.
+- **Chris: a fresh Opus 5.5 conversation at extra-high effort writes the story's dialogue,** from a brief the hub
+  puts together: the lore, and what the dialogue should be.
+- **Chris: the fights job's second round is done.** The hub brought step 3 (fights on the land) into `main`.
+- **Chris: next for the hub is the people in the Moon Faire's camp.**
+- **Hub's proposal, not approved:** `docs/lore/story-brief.md`. It marks what is Chris's settled word and what is
+  proposed: these are Aethermoor's last moonlit years; the fire at Misthollow was lit by Halcyon, Io's older sister;
+  the Grey Hat's twelve lamps fly on the first night and he will not fly dark. Nine calls in it are Chris's, each
+  with the hub's pick. The story job's first step stops for his yes before the lines are written.
+- **Hub's call.** *Zone 1 has about 236 spoken lines, about 17 minutes:* four people with 20 to 28 lines (the
+  lamp-seller, the Grey Hat, Nettie, Old Wenna), fifteen with 6 to 8, and 46 for the four witches. About 11 MB
+  inside the one-file build at MP3 64 kbps. The whole game should stay near an hour of speech.
+- **Hub's call.** *The Grey Hat stands at the jetty,* where his ship is moored, not in the camp.
+- **Chris, 08:30: the names can be made up now** (by the hub or the story job), so the people can be placed by name
+  while the lines are written. **And how the sound is made:** he gives the finished lines to ChatGPT, which uses
+  ElevenLabs to record them and hands back zip files labelled for the game.
+- **Hub's call.** *The fair folk's names:* Odile the lamp-seller, Bashir the ribbon-dyer, Zofia the fortune-teller,
+  Linnet the ballad-singer, Otto the baker, Corwin the night watchman, Ros the pie-seller, Tully the gate keeper,
+  Kofi the chestnut roaster, Old Bridie the lamplighter, Jory the farm lad. The Grey Hat's own name is not said.
+  Chris's to change before anything is recorded.
+- **Hub's call.** *A sound file is named by its line's id* (`z1.odile.03.mp3`), one zip for each speaker and zone
+  (`z1-odile.zip`). A name is said aloud only where it adds warmth, so a changed name means few new recordings.
 
 ## November 19, 2026, morning: Chris tries the rebuilt land; the fights job's steps 1 and 2 are in
 

@@ -49,6 +49,16 @@ What the checks say (no screen, no graphics card):
 - 0 page errors. The file fetches nothing from outside itself. The first test still passes.
 - The page takes 11 to 12 seconds to start.
 
+**Zones 2 and 3: their land is built** (November 23). `builds/zone-2.html` (81.8 MB) and `builds/zone-3.html` (78.9 MB):
+
+- **Zone 2, the Warm Roads and Dawnroost:** five places on their pins on the map, four roads, 2.5 km from the camp to
+  the living node.
+- **Zone 3, the northern wilds and the shipyard:** five places, 3.6 km from the northern camp to the shipyard. The
+  last 330 m is a stone causeway over the sea. The shipyard stands 280 m south of its pin (a hub's call, in
+  `docs/decisions.md`).
+- They are land to walk only: no people, voices, story, narrator or fights in them yet. All three zones pass
+  `tools/zone-test.py`. Nobody has seen their frame rates.
+
 ## What is being worked on now
 
 | Who | What |
@@ -56,7 +66,7 @@ What the checks say (no screen, no graphics card):
 | Chris | Taking the narrator's recording order (`game/people/recording/narration-recording-order.txt`, 48 lines) to be recorded; building creature models in another conversation |
 | The `story` conversation | All four zones' lines written (236, 120, 124, 144); zones 1 to 3 recorded and checked; zone 4's recordings to come |
 | The `fights` conversation | Step 3 done and in `main`. **Step 4 handed out** (November 23): two slots for a new creature in each zone (A on, B off), the whole game's levels, the checks at three settings (text below) |
-| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. Next: **zones 2 and 3's land, places and people on the map** (Chris: get the first three zones situated); the narrator's recordings when they come; the pale moth; the flight between zones |
+| The hub | **Zone 1's nineteen people speak aloud; nobody speaks from a distance; a start screen; narration stand-ins** (November 23). **The narrator's 48 lines for zones 1 to 3 are written** (the hub's, at Chris's asking) and wired into zone 1 in words. **Zones 2 and 3's land is built and in `main`** (November 23). Next: **zones 2 and 3's people, voices, story and narrator** (their lines and recordings are in `main` already); the narrator's recordings when they come; the pale moth; the flight between zones |
 
 ## A note for later: the fights' balance may be redone
 
@@ -109,6 +119,9 @@ The hub's plan. Names and order may change.
 
 - What he makes of the camp: where it is, how it is laid out, how bright the lanterns are.
 - Anything he wants changed about where the places stand or how far apart they are.
+- **The shipyard's spot.** The hub stood it in the bay, 280 m south of its pin, because the pin is on a headland 25 m
+  above the sea. Say if it should go back on the pin, or somewhere else.
+- The frame rate on `zone-2.html` and `zone-3.html`, laptop and phone.
 
 **A big story call, so the hub will ask before building on it:**
 
