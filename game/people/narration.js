@@ -16,7 +16,7 @@
 //   lamp-again     another lamp comes home (said each time)       lamp-eleven    eleven are home
 //   woke           the coven has lost a fight and wakes at camp   rest           the coven rests at the camp
 //   wickhollow, jetty   the first time the coven comes there      not-ready      at the gate fight's spot, too soon
-//   (zone 2) nodes, node-two, node-three     (zone 3) refit, past-grove
+//   (zone 2) nodes, node-two, node-three     (zone 3) refit, north-road
 // The audition line is for choosing the voice; it is not in the game.
 window.COVEN_NARRATION = {
   voice: { id: 'narrator', name: 'The narrator',
@@ -114,9 +114,9 @@ window.COVEN_NARRATION = {
       text: 'The Warm Roads camp. The Ember Wardens laid these roads to stay warm underfoot the whole year round.',
       say: 'The Warm Roads camp. The Ember Wardens laid these roads to stay warm underfoot the whole year round.',
       tone: 'Plain telling, with a little pride in the Wardens’ work. It does not say the roads are cold: the coven finds that.' },
-    { id: 'z2.narrator.04', at: 'first-node', secs: 6.0,
-      text: 'The first of the three dark nodes: a road stone, by the bridge. It should be warm to the hand.',
-      say: 'The first of the three dark nodes: a road stone, by the bridge. It should be warm to the hand.',
+    { id: 'z2.narrator.04', at: 'first-node', secs: 7.0,
+      text: 'The first of the three dark nodes: an old road stone with a glass eye, gone dim. It should be warm to the hand.',
+      say: 'The first of the three dark nodes: an old road stone with a glass eye, gone dim. It should be warm to the hand.',
       tone: 'Quiet and exact. The last sentence slower, a small sadness under it, not pressed.' },
     { id: 'z2.narrator.05', at: 'node-lit', secs: 6.0,
       text: 'Io’s small flame catches. The stone warms, and the frost draws back from the road around it.',
@@ -199,12 +199,12 @@ window.COVEN_NARRATION = {
       say: 'The northern crossroads. Four roads meet here, under snow.',
       tone: 'Still and spare. Leave a silence after it.' },
     { id: 'z3.narrator.09', at: 'after-knight', secs: 6.5,
-      text: 'The knight lowers her sword. She turns, and walks back up the north road, the way she came.',
-      say: 'The knight lowers her sword. She turns, and walks back up the north road, the way she came.',
-      tone: 'Quiet, watching her go. No triumph. Slow on “the way she came”.' },
+      text: 'The knight lowers her sword. She turns, and walks back the way she came, toward the mountains.',
+      say: 'The knight lowers her sword. She turns, and walks back the way she came, toward the mountains.',
+      tone: 'Quiet, watching her go. No triumph. Slow on “the way she came”, and the last three words plain.' },
     { id: 'z3.narrator.10', at: 'the-name', secs: 5.5,
-      text: 'The shipmaster’s tall house, under its roof of glass. She has just said a name.',
-      say: 'The shipmaster’s tall house, under its roof of glass. She has just said a name.',
+      text: 'The shipmaster stands at the door of her tall house. She has just said a name.',
+      say: 'The shipmaster stands at the door of her tall house. She has just said a name.',
       tone: 'Hushed. The second sentence very simple, and then stop: the silence after it matters.' },
     { id: 'z3.narrator.11', at: 'leaving', secs: 6.0,
       text: 'The ship climbs away from the shipyard, new-rigged, and turns north-east, toward the mountains.',
@@ -212,13 +212,13 @@ window.COVEN_NARRATION = {
       tone: 'Steady and resolved. The mountains are where the story is going: say it plainly.' },
     // ---- things that happen on the land ----
     { id: 'z3.narrator.12', at: 'refit', secs: 6.5,
-      text: 'The ship is up on the slip, and will be for a while. North of the yard, a road runs toward Eldergrove.',
-      say: 'The ship is up on the slip, and will be for a while. North of the yard, a road runs toward Eldergrove.',
+      text: 'The ship is up on the slip, and will be for a while. The shipmaster keeps the tall house, at the top of the yard.',
+      say: 'The ship is up on the slip, and will be for a while. The shipmaster keeps the tall house, at the top of the yard.',
       tone: 'Easy, a little dry about the wait. The second sentence helpful.' },
-    { id: 'z3.narrator.13', at: 'past-grove', secs: 4.5,
-      text: 'Past the grove, the north road goes on to a crossroads.',
-      say: 'Past the grove, the north road goes on to a crossroads.',
-      tone: 'Plain directions, kindly given.' },
+    { id: 'z3.narrator.13', at: 'north-road', secs: 7.5,
+      text: 'Back over the causeway and up the hill, the crossroads waits. Something bright has been seen there, on the road at night.',
+      say: 'Back over the causeway and up the hill, the crossroads waits. Something bright has been seen there, on the road at night.',
+      tone: 'Plain directions, kindly given. The second sentence lower: a warning, not a scare.' },
     { id: 'z3.narrator.14', at: 'woke', secs: 5.5,
       text: 'The northern camp. The coven wakes in a tent on the frozen ground, sore and safe.',
       say: 'The northern camp. The coven wakes in a tent on the frozen ground, sore and safe.',

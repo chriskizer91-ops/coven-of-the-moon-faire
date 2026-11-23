@@ -16,7 +16,8 @@
 // does the same. (A shout from far off, for the story's sake, would be its own thing: people.play.)
 // A line whose speaker is `narrator` is shown as narration: no name, set apart.
 // The words show just over the button, with the speaker's name: each line has its own speaker (`who`).
-// For checks: window.__people = { list, near(), talk(id), say(), tick(), ready() }.
+// people.move(id, spot) sends someone to stand somewhere else, once the coven is 62 m off or more.
+// For checks: window.__people = { list, near(), talk(id), say(), tick(), ready(), move(id, spot, now) }.
 (function (G) {
   'use strict';
   const W3D = G.W3D, TEST = /[?&]test\b/.test(location.search);
@@ -26,7 +27,7 @@
       const standIn = W3D.PEOPLE_STANDIN || {}, cast = G.COVEN_CAST || {};
       const ground = (x, z) => Z.walkH(M.px(x), M.py(z));
       // ---- where each stands ----
-      const list = D.people.map((d) => { const p = Object.assign({ npc: null, making: false, d: 1e9, far: true, standN: 0 }, d);
+      const spot = (d) => { const p = {};
         if (d.camp) { p.x = D.camp[0] + d.camp[0]; p.z = D.camp[1] + d.camp[1]; p.lookX = D.camp[0]; p.lookZ = D.camp[1]; }
         else if (d.road) { const r = L.roadList.find((q) => q.name === d.road[0]), q = r.pts; let len = 0; for (let i = 1; i < q.length; i++) len += Math.hypot(q[i][0] - q[i - 1][0], q[i][1] - q[i - 1][1]);
           let want = len * d.road[1]; for (let i = 1; i < q.length; i++) { const s = Math.hypot(q[i][0] - q[i - 1][0], q[i][1] - q[i - 1][1]); if (want <= s || i === q.length - 1) { const t = Math.min(1, want / s), ux = (q[i][0] - q[i - 1][0]) / s, uz = (q[i][1] - q[i - 1][1]) / s, cx = q[i - 1][0] + ux * s * t, cz = q[i - 1][1] + uz * s * t; p.x = cx - uz * d.road[2]; p.z = cz + ux * d.road[2]; p.lookX = cx; p.lookZ = cz; break; } want -= s; } }
@@ -35,8 +36,11 @@
           if (!Z.walkable(M.px(p.x), M.py(p.z))) { const f = W.nearestFit(M.px(p.x), M.py(p.z)); p.x = M.x(f[0]); p.z = M.z(f[1]); p.moved = true; }
           p.lookX = d.look ? part.ox + PM.x(d.look[0]) : p.x; p.lookZ = d.look ? part.oz + PM.z(d.look[1]) : p.z + 1; }
         else { p.x = d.at[0]; p.z = d.at[1]; p.lookX = p.x; p.lookZ = p.z + 1; }
-        return p; });
-      L.addBlockers(list.map((p) => ({ x: p.x, z: p.z, r: 0.42 })));
+        return p; };
+      const list = D.people.map((d) => Object.assign({ npc: null, making: false, d: 1e9, far: true, standN: 0 }, d, spot(d)));
+      for (const p of list) p.blk = { x: p.x, z: p.z, r: 0.42 }; L.addBlockers(list.map((p) => p.blk));
+      // someone goes to stand somewhere else (the Grey Hat, from the camp to the shipyard): done when the coven is too far off to see it
+      const settle = (p) => { Object.assign(p, spot(p.want)); p.want = null; p.blk.x = p.x; p.blk.z = p.z; if (p.npc) { p.npc.root.position.set(p.x, ground(p.x, p.z), p.z); p.npc.root.rotation.y = Math.atan2(p.lookX - p.x, p.lookZ - p.z); } };
       const nameOf = (id) => { const p = list.find((q) => q.id === id); return p ? p.name : cast[id] ? cast[id].name : ''; };
       // ---- the Talk button and the words, at the foot of the screen ----
       const el = (tag, cls, parent) => { const e = document.createElement(tag); e.className = cls; parent.appendChild(e); return e; };
@@ -74,7 +78,8 @@
       function tick() {
         const now = performance.now(), real = TEST ? 1 / 30 : lastT ? Math.min(0.5, (now - lastT) / 1000) : 0.016, dt = Math.min(0.05, real); lastT = now; tickN++;   // (a check steps the clock itself; `real` times the words, however slow the frames)
         const me = io(); let best = null, bd = REACH;
-        for (const p of list) { const d = p.d = Math.hypot(p.x - me.x, p.z - me.z);
+        for (const p of list) { let d = p.d = Math.hypot(p.x - me.x, p.z - me.z);
+          if (p.want && d > 62 && !(cur && cur.p === p)) { settle(p); d = p.d = Math.hypot(p.x - me.x, p.z - me.z); }
           if (d > 9) p.far = true;
           if (!p.npc) { if (d < 75 && !p.making && !p.failed && !makeBusy) make(p); continue; }
           const show = d < 58; if (p.npc.root.visible !== show) p.npc.root.visible = show; if (!show) continue;
@@ -90,6 +95,7 @@
       const u0 = Z.update; Z.update = function () { const r = u0.apply(this, arguments); try { tick(); } catch (e) { console.error(e); } return r; };
       Object.assign(api, { near: () => near, me: io, play, ARM, REACH, busy: () => !!cur, stop: () => stop(true), nameOf, tick,
         talk: (id) => talk(list.find((p) => p.id === id)),
+        move: (id, d, now) => { const p = list.find((q) => q.id === id); if (!p) return false; p.want = d; if (now) settle(p); return true; },
         say: () => (cur ? { who: cur.line.who || (cur.p && cur.p.id), name: who.textContent, id: cur.line.id, text: said.textContent, left: cur.queue.length, person: cur.p ? cur.p.id : null } : null),
         ready: async () => { for (const p of list) if (!p.npc && !p.failed) await make(p); return list.filter((p) => p.npc).length; } });
       G.__people = api; return api;

@@ -1,6 +1,6 @@
 COVEN OF THE MOON FAIRE
 VOICE RECORDING ORDER: THE NARRATOR, ZONES 1 TO 3
-Made November 23, 2026. 48 lines, 1 speaker, about 4.6 minutes of speech.
+Made November 23, 2026. 48 lines, 1 speaker, about 4.7 minutes of speech.
 
 WHAT THIS IS
 These are new lines for the same small fantasy video game as the earlier recording orders (zones 1, 2 and 3). They are all said by one new speaker: the narrator. The narrator sets the scene at certain points: where the four witches are, what has just happened, what is in front of them. Each line below is recorded as its own sound file. The game finds a line's sound by its file name, so the names must be exact.
@@ -32,7 +32,7 @@ Say them as in the earlier orders. If a name comes out wrong, write it in the In
 
 ==============================================================================
 SPEAKER: narrator   The narrator
-ZIPS: z1-narrator.zip, z2-narrator.zip, z3-narrator.zip   (48 lines, about 278 seconds)
+ZIPS: z1-narrator.zip, z2-narrator.zip, z3-narrator.zip   (48 lines, about 282 seconds)
 VOICE: A woman of about sixty. A fireside storyteller: warm, low and unhurried, close to the ear. Soft, plain British English with no strong region, so she belongs to no one town. Even and calm. She tells what is there and lets it be. Never dramatic, never sing-song, never hurried.
 IF THAT DOES NOT SUIT: If a man reads better: about sixty, the same warmth and plainness, a low, dry, kind voice.
 AUDITION LINE (to choose the voice, not a file): Night comes early to the fen. The people of Bogmire light their lamps, and wait.
@@ -112,7 +112,7 @@ z1.narrator.18.mp3
   Tone: Low and calm. A caution from someone on your side, not a threat.
 
 ------------------------------------------------------------------------------
-ZONE 2: the Warm Roads and Dawnroost   ZIP: z2-narrator.zip   (15 lines, about 89 seconds)
+ZONE 2: the Warm Roads and Dawnroost   ZIP: z2-narrator.zip   (15 lines, about 90 seconds)
 ------------------------------------------------------------------------------
 z2.narrator.01.mp3
   Say:  The ship flies north-west through the night, low over the hills. The cold is drinking her sunstone.
@@ -127,7 +127,7 @@ z2.narrator.03.mp3
   Tone: Plain telling, with a little pride in the Wardens’ work. It does not say the roads are cold: the coven finds that.
 
 z2.narrator.04.mp3
-  Say:  The first of the three dark nodes: a road stone, by the bridge. It should be warm to the hand.
+  Say:  The first of the three dark nodes: an old road stone with a glass eye, gone dim. It should be warm to the hand.
   Tone: Quiet and exact. The last sentence slower, a small sadness under it, not pressed.
 
 z2.narrator.05.mp3
@@ -175,7 +175,7 @@ z2.narrator.15.mp3
   Tone: Low and calm. A caution from someone on your side.
 
 ------------------------------------------------------------------------------
-ZONE 3: the northern wilds and the shipyard   ZIP: z3-narrator.zip   (15 lines, about 84 seconds)
+ZONE 3: the northern wilds and the shipyard   ZIP: z3-narrator.zip   (15 lines, about 88 seconds)
 ------------------------------------------------------------------------------
 z3.narrator.01.mp3
   Say:  North again, into colder air. Frost furs the rigging, and the twelve lamps burn small.
@@ -210,11 +210,11 @@ z3.narrator.08.mp3
   Tone: Still and spare. Leave a silence after it.
 
 z3.narrator.09.mp3
-  Say:  The knight lowers her sword. She turns, and walks back up the north road, the way she came.
-  Tone: Quiet, watching her go. No triumph. Slow on “the way she came”.
+  Say:  The knight lowers her sword. She turns, and walks back the way she came, toward the mountains.
+  Tone: Quiet, watching her go. No triumph. Slow on “the way she came”, and the last three words plain.
 
 z3.narrator.10.mp3
-  Say:  The shipmaster’s tall house, under its roof of glass. She has just said a name.
+  Say:  The shipmaster stands at the door of her tall house. She has just said a name.
   Tone: Hushed. The second sentence very simple, and then stop: the silence after it matters.
 
 z3.narrator.11.mp3
@@ -222,12 +222,12 @@ z3.narrator.11.mp3
   Tone: Steady and resolved. The mountains are where the story is going: say it plainly.
 
 z3.narrator.12.mp3
-  Say:  The ship is up on the slip, and will be for a while. North of the yard, a road runs toward Eldergrove.
+  Say:  The ship is up on the slip, and will be for a while. The shipmaster keeps the tall house, at the top of the yard.
   Tone: Easy, a little dry about the wait. The second sentence helpful.
 
 z3.narrator.13.mp3
-  Say:  Past the grove, the north road goes on to a crossroads.
-  Tone: Plain directions, kindly given.
+  Say:  Back over the causeway and up the hill, the crossroads waits. Something bright has been seen there, on the road at night.
+  Tone: Plain directions, kindly given. The second sentence lower: a warning, not a scare.
 
 z3.narrator.14.mp3
   Say:  The northern camp. The coven wakes in a tent on the frozen ground, sore and safe.

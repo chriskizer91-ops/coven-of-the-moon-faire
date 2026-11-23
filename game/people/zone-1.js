@@ -33,6 +33,27 @@
       { id: 'pell', name: 'Pell', trade: 'the child', body: 'farm-lad', size: 0.72, place: ['bogmire', 744, 354], look: [744, 300] },
     ],
   };
+  // ---- how zone 1's story moves (game/people/story.js reads this; the rules are the hub's, from the story brief's table) ----
+  W3D.STORY = W3D.STORY || {};
+  W3D.STORY['zone-1'] = {
+    talk: 'COVEN_TALK_Z1', key: 'coven.story.v1', gate: 'greatWraith', first: 'opening',
+    stages: [
+      { to: 1, when: (c) => c.heard('captain.ask') },                 // asked: the Grey Hat has asked for his lamps
+      { to: 2, from: 1, when: (c) => c.heard('nettie.hello') },       // home: after that, Nettie has known Io
+      { to: 3, when: (c) => c.heard('wenna.wraith') },                // fen: Old Wenna has told of the great wraith
+      { to: 4, when: (c) => c.won() },                                // after: the great wraith is released
+    ],
+    tellStage: { 1: 'asked' },
+    tell: [['wickhollow', (c) => c.near('wickhollow', 4)], ['jetty', (c) => c.near('jetty', 10)]],
+    moments: [
+      ['after-wraith', (c) => c.won()],
+      ['leaving', (c) => c.heard('captain.sew')],
+      ['cottage', (c) => c.near('cottage', 34)],
+      ['thornwood', (c) => c.near('thornwood', 30)],
+      ['fen', (c) => c.near('bogmire', 60)],
+      ['before-wraith', (c) => c.gate && !c.won() && c.gateD() < 40],
+    ],
+  };
   // ---- stand-in words, one or two each, so the talk can be tried. NOT the story's lines: those are being written by the
   // story job (docs/lore/story-brief.md) and replace every one of these. Several lean on Moon Faire's own stand-ins. ----
   W3D.PEOPLE_STANDIN = {
