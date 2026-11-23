@@ -74,5 +74,24 @@
       Z.fair = { mesh: out.mesh, glow: out.glow, lamps: out.lamps.length, pieces: C.pieces.length, triangles: Math.round(out.triangles) };
       return Z.fair;
     },
+    // One piece of the fair kit standing by itself anywhere on the land, away from the camp: Old Bridie's lantern on
+    // the south road (November 23). W3D.fair.piece(Z, 'lanternPost', { x, z, turn }) -> { mesh, glow, lamps, blockers }.
+    // The camp's lamplight picture does not reach it, so it is given a small one of its own (a warm pool under its own
+    // lamp) to light itself by. It cannot be walked through, and its lamp lights whoever stands by it. The ground under
+    // it is lit by whoever sets it down (the land takes lamplight only when a square of it is made).
+    piece(Z, kind, o) {
+      const land = Z.land, R = 8, S = 64, U0 = OW.U;
+      const cv = document.createElement('canvas'); cv.width = cv.height = S; const g = cv.getContext('2d'), gr = g.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S * 0.42);
+      g.fillStyle = '#000'; g.fillRect(0, 0, S, S); gr.addColorStop(0, 'rgba(255,196,128,0.8)'); gr.addColorStop(0.45, 'rgba(255,170,96,0.34)'); gr.addColorStop(1, 'rgba(255,150,70,0)'); g.fillStyle = gr; g.fillRect(0, 0, S, S);
+      const tex = new THREE.CanvasTexture(cv); tex.flipY = false; tex.minFilter = THREE.LinearFilter; tex.generateMipmaps = false;
+      // (the kit takes the night's numbers as they stand when a batch is finished: its own lamplight for this one, then back)
+      OW.U = Object.assign({}, U0, { uLampMap: { value: tex }, uMapK: { value: new THREE.Vector4(1 / (2 * R), 1 / (2 * R), 0.5 - o.x / (2 * R), 0.5 - o.z / (2 * R)) } });
+      let out; try { const B = OW.kit.batch({ gain: o.gain || [1, 1, 1] }); if (!B[kind]) throw new Error('the fair kit has no piece called ' + kind); B[kind](o); out = B.finish(Z.scene); } finally { OW.U = U0; }
+      if (out.mesh) { out.mesh.name = 'fair-piece'; out.mesh.matrixAutoUpdate = false; }
+      if (out.glow) { out.glow.name = 'fair-piece-glow'; out.glow.matrixAutoUpdate = false; }
+      land.addBlockers(out.blockers);
+      for (const l of out.lamps) Z.lamps.push({ x: l.x, y: l.y, z: l.z, c: l.fire ? 0xff7a30 : 0xffb070, k: l.fire ? 2.0 : 1.0 });
+      return out;
+    },
   };
 })(window);
