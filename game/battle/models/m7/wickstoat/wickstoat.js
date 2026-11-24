@@ -32,12 +32,12 @@ window.M7.add('wickstoat', {
       { px: 857, py: 458, tall: 50, len: 54, wide: 40, sink: 8, bone: 'spine' },
       { px: 794, py: 462, tall: 44, len: 50, wide: 36, sink: 8, bone: 'spine' },
       { px: 730, py: 465, tall: 38, len: 46, wide: 33, sink: 8, bone: 'spine' },
-      { px: 671, py: 470, tall: 33, len: 42, wide: 30, sink: 8, bone: 'hips' },
-      { px: 615, py: 478, tall: 28, len: 38, wide: 27, sink: 8, bone: 'hips' },
-      { px: 562, py: 487, tall: 24, len: 34, wide: 24, sink: 4, bone: 'hips' },
-      { px: 513, py: 498, tall: 20, len: 30, wide: 21, sink: 4, bone: 'hips' },
+      { px: 671, py: 462, tall: 33, len: 42, wide: 30, sink: 8, bone: 'hips' },
+      { px: 615, py: 470, tall: 28, len: 38, wide: 27, sink: 8, bone: 'hips' },
+      { px: 562, py: 479, tall: 24, len: 34, wide: 24, sink: 4, bone: 'hips' },
+      { px: 513, py: 490, tall: 20, len: 30, wide: 21, sink: 4, bone: 'hips' },
     ],
-    ice: 0x8fd0e8, iceOpacity: 0.55, iceGlow: 0x0e1820,
+    ice: 0x78c2e6, iceOpacity: 0.45, iceGlow: 0x0e1820,
     spark: 0xffb84a,
     startLit: 3,          // how many it has lit when met (THE JOB'S CALL: the sheet shows all nine; 0 was the other choice)
     pulse: 1.3,           // the sparks' slow pulse (a turn a second, about)

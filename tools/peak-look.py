@@ -97,8 +97,11 @@ with sync_playwright() as p:
     pg.evaluate('() => window.__plab.ready')
     keys = opt['keys'].split(',') if opt['keys'] else pg.evaluate('() => window.__plab.keys')
     sz = '-%dx%d' % (W, H)
-    for k in keys:
+    for n_, k in enumerate(keys):
         try:
+            if n_:      # a fresh page for each creature: a fight just played must not stand in front of the next pictures
+                pg.goto('file://' + page_file + '?test', wait_until='load', timeout=240000)
+                pg.wait_for_function('!!window.__plab', timeout=240000); pg.evaluate('() => window.__plab.ready')
             if k in sheets:
                 shots = []
                 for yaw in (0, 1.5708, 3.1416):

@@ -58,13 +58,13 @@
   function wickstoat(f, def, meta) {
     const P = def.peak, F = f.F, root = f.root, S = P.sheet;
     const toS = (px, py, xo) => [(xo || 0) * S.m, (px - S.mid) * S.m, (S.ground - py) * S.m];
-    const ice = new T.MeshPhongMaterial({ color: P.ice, specular: 0x6a8aa0, shininess: 60, flatShading: true, transparent: true, opacity: P.iceOpacity, depthWrite: false, side: T.DoubleSide, emissive: new T.Color(P.iceGlow), skinning: false });
+    const ice = new T.MeshPhongMaterial({ color: P.ice, specular: 0x3a5060, shininess: 50, flatShading: true, transparent: true, opacity: P.iceOpacity, depthWrite: false, side: T.DoubleSide, emissive: new T.Color(P.iceGlow), skinning: false });
     const spines = [];
     P.spines.forEach((s, i) => {
       const base = toModel(toS(s.px, s.py + s.sink));
       const o = hang(F, meta, s.bone, base);
       const m = new T.Mesh(spineGeo(s.len * S.m, s.wide * S.m, (s.tall + s.sink) * S.m), ice); m.renderOrder = 2; o.add(m);
-      const core = new T.Mesh(new T.OctahedronGeometry(s.tall * S.m * 0.11, 0), new T.MeshBasicMaterial({ color: P.spark, transparent: true, blending: T.AdditiveBlending, depthWrite: false }));
+      const core = new T.Mesh(new T.OctahedronGeometry(s.tall * S.m * 0.17, 0), new T.MeshBasicMaterial({ color: P.spark, transparent: true, depthWrite: false }));   // solid warm amber (added light turns white on white fur)
       core.position.set(0, (s.tall * 0.42 + s.sink) * S.m, -s.len * S.m * 0.08); core.renderOrder = 3; o.add(core);
       const halo = new T.Sprite(new T.SpriteMaterial({ map: dotTex(), color: P.spark, transparent: true, blending: T.AdditiveBlending, depthWrite: false }));
       halo.position.copy(core.position); halo.scale.setScalar(s.tall * S.m * 0.7); halo.renderOrder = 3; o.add(halo);
