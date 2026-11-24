@@ -22,10 +22,11 @@
 //   W3D.saves.remove(n)      empty slot n (not the one in use)          .copy(from, to)
 //   W3D.saves.toFile()       { name, text } of the slot in use, saved first   .fromText(text)  { ok, save, why }
 //   W3D.saves.put(save, n)   a save from a file into slot n (into the slot in use: the page starts again with it)
-//   W3D.saves.storage        { ok: true / false / null (not tried: ?test), first, visits }
-//   W3D.saves.openPage       left null. If set to (page) => ..., it is called in place of opening this page again when
-//                            the slot to be played was last saved on another zone's page (for the hub, when the pages
-//                            call each other)
+//   W3D.saves.storage        { ok: true / false / null (not tried: ?test), first, visits, inMemory }
+//   W3D.saves.openPage       left null. If set to (page, carry) => ..., it is called in place of opening this page again
+//                            when the slot to be played was last saved on another zone's page (for the hub, when the
+//                            pages call each other). carry is '' or, on a page with no storage, 'coven=...' to be put
+//                            after a # on the next page's address
 (function (G) {
   'use strict';
   const W3D = G.W3D = G.W3D || {}, D = W3D.MENU_DATA, WD = W3D.MENU_WORDS;
@@ -34,6 +35,23 @@
 
   // ---- the browser's storage, and with ?test a layer in memory over it (reads fall through, writes stay here) ----
   let LS = null; try { LS = G.localStorage; } catch (e) { LS = null; }
+  // does the browser keep what is written? (not tried with ?test: trying writes). Some phones give a page opened from a
+  // downloaded file no storage at all. Then the page gets a stand-in kept in memory, so the game runs as usual and Save
+  // to a file has the whole game to write; and a save to be loaded is carried into the page's next opening in its
+  // address (after #coven=), since nothing else lasts that long there
+  const storage = { ok: null, first: null, visits: 0, inMemory: false };
+  if (!TEST) {
+    const k = 'coven.saves.probe', v = 'p' + Math.random();
+    try { LS.setItem(k, v); storage.ok = LS.getItem(k) === v; LS.removeItem(k); } catch (e) { storage.ok = false; }
+    if (!storage.ok) {
+      const m = new Map(), shim = {
+        getItem: (q) => (m.has(String(q)) ? m.get(String(q)) : null), setItem: (q, x) => { m.set(String(q), String(x)); }, removeItem: (q) => { m.delete(String(q)); },
+        key: (i) => [...m.keys()][i] || null, clear: () => m.clear(), get length() { return m.size; },
+      };
+      try { Object.defineProperty(G, 'localStorage', { configurable: true, enumerable: true, get: () => shim }); } catch (e) { /* the game's own reads fail as before */ }
+      LS = shim; storage.inMemory = true;
+    }
+  }
   const real = {
     get(k) { try { return LS ? LS.getItem(k) : null; } catch (e) { return null; } },
     set(k, v) { try { LS.setItem(k, v); return true; } catch (e) { return false; } },
@@ -55,9 +73,23 @@
   const isSlotKey = (k) => D.keys.some((e) => e.slot && (e.key === k || (e.prefix && k.indexOf(e.prefix) === 0)));
   const N = D.slots || 3, okN = (n) => n === +n && n >= 1 && n <= N;
 
-  // ---- does the browser keep what is written? (not tried with ?test: trying writes) ----
-  const storage = { ok: null, first: null, visits: 0 };
-  if (!TEST) { const k = 'coven.saves.probe', v = 'p' + Math.random(); try { LS.setItem(k, v); storage.ok = LS.getItem(k) === v; LS.removeItem(k); } catch (e) { storage.ok = false; } }
+  // only a save's own keys, each a string the game wrote (for a save from a file, or carried in the address)
+  function clean(rec) {
+    if (!rec || typeof rec !== 'object' || !rec.keys || typeof rec.keys !== 'object') return null;
+    const keys = {}; let n = 0;
+    for (const k in rec.keys) { const v = rec.keys[k]; if (!isSlotKey(k) || typeof v !== 'string' || v.length > D.file.most) return null; const p = parse(v); if (!p || typeof p !== 'object') return null; keys[k] = v; n++; }
+    return n ? Object.assign({}, rec, { v: 1, keys }) : null;
+  }
+  // a load carried in the address, from a page that had no storage: put in place first
+  { const h = /[#&]coven=([^&]*)/.exec(location.hash || '');
+    if (h && !TEST) {
+      let c = null; try { c = JSON.parse(decodeURIComponent(h[1])); } catch (e) { c = null; }
+      if (c && c.v === 1) {
+        for (let n = 1; n <= N; n++) { const r = clean(c.slots && c.slots[n]); if (r) store.set(SLOT(n), JSON.stringify(Object.assign(r, { n }))); else store.del(SLOT(n)); }
+        if (c.state && c.state.v === 1) store.set(STATE, JSON.stringify(c.state));
+      }
+      try { history.replaceState(null, '', location.href.replace(/#.*$/, '')); } catch (e) { /* it stays in the address: harmless */ }
+    } }
 
   // ---- coven.saves: the slot in use, a load waiting for this page, when saves were first kept here, visits ----
   const readState = () => { const s = parse(store.get(STATE)); return s && s.v === 1 ? s : { v: 1, current: 1 }; };
@@ -131,8 +163,12 @@
     if (TEST) { lay(n, fresh); lastSaved = ''; G.dispatchEvent(new CustomEvent('coven:saves-switched', { detail: { slot: n, fresh: !!fresh } })); return 'test'; }
     state.pending = { slot: n, fresh: !!fresh, at: Date.now() }; put(STATE, state);
     switching = true; clearInterval(timer);
+    // no storage that lasts: everything is carried in the address instead (the three slots and which to load)
+    let carry = '';
+    if (storage.inMemory) { const c = { v: 1, state, slots: {} }; for (let m = 1; m <= N; m++) c.slots[m] = slot(m); carry = 'coven=' + encodeURIComponent(JSON.stringify(c)); }
     const rec = fresh ? null : slot(n);
-    if (rec && rec.page && rec.page !== page && typeof api.openPage === 'function') { try { api.openPage(rec.page); return 'page'; } catch (e) { console.error(e); } }
+    if (rec && rec.page && rec.page !== page && typeof api.openPage === 'function') { try { api.openPage(rec.page, carry); return 'page'; } catch (e) { console.error(e); } }
+    if (carry) location.hash = carry;
     api.reopen();
     return 'reload';
   }
