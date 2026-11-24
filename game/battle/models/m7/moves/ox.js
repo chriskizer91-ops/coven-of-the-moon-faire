@@ -16,10 +16,10 @@ function rz(b, n, v) { if (b[n]) b[n].rotation.z += v; }
 // one leg lifted and set down: k 0..1, how far forward (fw) it reaches
 function step1(b, l, k, fw) {
   const front = l[0] === 'f';
-  rx(b, l + '_upper', -fw * k); rx(b, l + '_lower', (front ? -0.35 : 0.35) * bump(k)); rx(b, l + '_paw', (front ? 0.3 : -0.25) * bump(k));
+  rx(b, l + '_upper', -fw * k); rx(b, l + '_lower', (front ? -0.2 : 0.2) * bump(k)); rx(b, l + '_paw', (front ? 0.18 : -0.15) * bump(k));
 }
 // head down, horns forward (k 0..1)
-function headDown(b, k) { rx(b, 'neck', 0.15 * k); rx(b, 'head', 0.1 * k); }
+function headDown(b, k) { rx(b, 'neck', 0.03 * k); rx(b, 'head', 0.2 * k); }   // the head does it; the neck, buried in hair, barely moves
 
 const ox = {
   list: [['idle', 'Breathe'], ['walk', 'Walk'], ['trample', 'Trample'], ['breath', 'Winter Breath'], ['shake', 'Shake the Mantle'], ['hurt', 'Hit'], ['ko', 'Fall']],
@@ -30,56 +30,54 @@ const ox = {
     const b = F.bones, B = F.body, H = F.height, br = Math.sin(t * 1.15);
     // breathing slow and deep: the barrel rises and falls, the hair sways with it
     rx(b, 'chest', 0.02 * br); rx(b, 'spine', -0.012 * br); rx(b, 'neck', -0.015 * br);
-    rz(b, 'hips', 0.008 * Math.sin(t * 0.7)); rz(b, 'chest', -0.008 * Math.sin(t * 0.7 + 0.8));
+    B.rotation.z = 0.006 * Math.sin(t * 0.7);         // the hair sways with the whole body, never twisted along it
     if (move === 'idle') return;
     if (move === 'walk') {
       // a slow heavy walk: one leg at a time (left hind, left fore, right hind, right fore), the body rolling over it
       const s = step * 0.5;
       const ph = { bl: 0, fl: Math.PI / 2, br: Math.PI, fr: Math.PI * 1.5 };
-      for (const l of LEGS) { const a = Math.sin(s + ph[l]); rx(b, l + '_upper', -0.16 * a); const lift = Math.max(0, Math.cos(s + ph[l]));
-        rx(b, l + '_lower', (l[0] === 'f' ? -0.22 : 0.22) * lift); rx(b, l + '_paw', (l[0] === 'f' ? 0.18 : -0.14) * lift); }
-      rz(b, 'hips', 0.03 * Math.sin(s)); rz(b, 'chest', -0.03 * Math.sin(s + 0.6));
-      B.position.y = 0.008 * H * Math.abs(Math.sin(s)); rx(b, 'neck', 0.03 * Math.sin(s * 2)); ry(b, 'head', 0.03 * Math.sin(s));
+      for (const l of LEGS) { const a = Math.sin(s + ph[l]); rx(b, l + '_upper', -0.02 * a); const lift = Math.max(0, Math.cos(s + ph[l]));
+        rx(b, l + '_lower', (l[0] === 'f' ? -0.03 : 0.03) * lift); }   // the legs move only a little, inside the hair (no stretching at the hem)
+      B.rotation.z = 0.02 * Math.sin(s);
+      B.position.y = 0.008 * H * Math.abs(Math.sin(s)); rx(b, 'head', 0.03 * Math.sin(s * 2)); ry(b, 'head', 0.03 * Math.sin(s));
       return;
     }
     if (move === 'trample') {
       // head down; a fore hoof paws the ground twice; the charge at 0.7; it pulls up and backs to its place
       const down = seg(u, 0, 0.18) * (1 - seg(u, 0.86, 1)), paw = u < 0.55 ? bump(((u - 0.15) / 0.2) % 1) * (u > 0.15 ? 1 : 0) : 0;
       const run = seg(u, 0.56, 0.7) * (1 - seg(u, 0.78, 1)), hook = bump((u - 0.64) / 0.16);
-      headDown(b, down); rx(b, 'head', -0.25 * hook); rx(b, 'neck', -0.08 * hook);
-      step1(b, 'fr', paw, 0.12); rx(b, 'fr_upper', 0.2 * paw * Math.sin(u * 60));
+      headDown(b, 0.6 * down); rx(b, 'head', -0.1 * hook);
+      // (a pawing hoof tore the hem beside it in M7's stretch check: the wind-up is the head lowered and the body rocking back and dipping twice)
+      B.position.y -= 0.012 * H * paw; B.rotation.x += 0.02 * paw;
       B.position.z = 1.1 * run - 0.1 * down * (1 - run); B.position.y = -0.03 * H * down + 0.03 * H * bump((u - 0.56) / 0.14);
       B.rotation.x = 0.05 * down - 0.04 * hook;
-      for (const l of LEGS) rx(b, l + '_upper', (l[0] === 'f' ? -0.18 : 0.16) * Math.sin(u * 30) * bump((u - 0.56) / 0.2));
       return;
     }
     if (move === 'breath') {
       // it lifts its head and draws in (the hump rises), then lowers it and breathes out long and cold over all four
       const draw = seg(u, 0, 0.35) * (1 - seg(u, 0.42, 0.55)), blow = seg(u, 0.45, 0.58) * (1 - seg(u, 0.85, 1));
-      rx(b, 'neck', -0.1 * draw + 0.07 * blow); rx(b, 'head', -0.1 * draw + 0.04 * blow);
-      rx(b, 'chest', -0.04 * draw + 0.03 * blow); B.position.y = 0.015 * H * draw;
-      ry(b, 'head', 0.12 * Math.sin((u - 0.5) * 6) * blow); ry(b, 'neck', 0.06 * Math.sin((u - 0.5) * 6) * blow);
+      rx(b, 'head', -0.1 * draw + 0.06 * blow); B.rotation.x = -0.02 * draw + 0.015 * blow; B.position.y = 0.015 * H * draw;
+      ry(b, 'head', 0.14 * Math.sin((u - 0.5) * 6) * blow);
       return;
     }
     if (move === 'shake') {
       // braced, it shakes its whole mantle: a shudder from the head back along the body; snow and icicles fall at 0.5
       const k = seg(u, 0.1, 0.3) * (1 - seg(u, 0.75, 0.95)), w = Math.sin(u * 50);
-      rz(b, 'neck', 0.1 * w * k); rz(b, 'head', 0.08 * w * k); rz(b, 'chest', -0.06 * w * k); rz(b, 'hips', 0.05 * Math.sin(u * 50 - 1) * k);
-      B.rotation.z = 0.025 * Math.sin(u * 50 - 0.5) * k; headDown(b, 0.4 * k);
+      rz(b, 'head', 0.1 * w * k); B.rotation.z = 0.035 * Math.sin(u * 50 - 0.5) * k; B.position.x = 0.03 * Math.sin(u * 50) * k; headDown(b, 0.4 * k);
       for (const l of LEGS) rz(b, l + '_upper', (l[1] === 'l' ? -0.04 : 0.04) * k);       // legs braced wide
       return;
     }
     if (move === 'hurt') {
       const a = bump(u * 1.5) * (1 - seg(u, 0.6, 1));
-      B.position.z = -0.12 * a; rx(b, 'neck', -0.12 * a); rx(b, 'head', -0.08 * a); rz(b, 'hips', 0.03 * Math.sin(u * 22) * a);
+      B.position.z = -0.12 * a; rx(b, 'head', -0.08 * a); B.rotation.x = -0.025 * a;
       B.rotation.z = 0.02 * a;
       return;
     }
     if (move === 'ko') {
       // it lowers its head, weary, and settles back on its haunches a little
       const k = seg(u, 0, 0.6);
-      headDown(b, 0.8 * k); rx(b, 'hips', 0.05 * k);
-      for (const l of ['bl', 'br']) { rx(b, l + '_upper', -0.12 * k); rx(b, l + '_lower', 0.18 * k); }
+      headDown(b, 0.5 * k);
+      for (const l of ['bl', 'br']) { rx(b, l + '_upper', -0.05 * k); rx(b, l + '_lower', 0.08 * k); }
       B.position.y = -0.03 * H * k;
       return;
     }

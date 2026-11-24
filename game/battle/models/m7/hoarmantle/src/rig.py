@@ -28,7 +28,7 @@ def in_hollow(P):
     u = np.abs(P[:, 0]) / a; v = np.abs(P[:, 1] - (fr + rear) / 2) / b
     return ((u ** 2.4 + v ** 2.4) < 1) & (z < HOLLOW + 0.05)
 
-REACH = {'upper': 0.16, 'lower': 0.15, 'paw': 0.17}
+REACH = {'upper': 0.16, 'lower': 0.2, 'paw': 0.26}
 def weigh(D, P, idx):
     D = _weigh(D, P, idx)
     x, y, z = P[:, 0], P[:, 1], P[:, 2]
@@ -40,6 +40,7 @@ def weigh(D, P, idx):
             t = np.clip(((P[:, :2] - a2) @ ab) / max(float(ab @ ab), 1e-9), 0, 1)
             far = np.linalg.norm(P[:, :2] - (a2 + t[:, None] * ab), axis=1) > REACH[n[3:]]
             D[:, i] += np.where(~hol | far, 1000.0, 0.0)                         # a leg is only what stands in the hollow
+            D[:, i] += np.where(np.abs(np.abs(x) - abs(bn[3][0])) > 0.17, 1000.0, 0.0)   # and only its own column: never the hem beside the hoof
     for e in ('head',):
         D[:, idx[e]] += np.where(y < (975 - MID) * S, 1000.0, 0.0)
     for e in ('neck_base', 'neck'):
