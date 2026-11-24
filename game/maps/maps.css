@@ -49,6 +49,17 @@
 .cvm .cvm-btn{min-height:46px;min-width:120px;padding:8px 20px;border-radius:23px;border:1px solid rgba(214,222,255,.4);background:rgba(34,30,70,.82);color:#f0ecff;font:600 16px Georgia,"Times New Roman",serif}
 .cvm .cvm-go{margin-top:10px;border-color:rgba(255,226,160,.8);background:rgba(60,46,110,.95);color:#ffe9b8}
 .cvm-world.going .cvm-card{padding:12px 16px}
+/* a phone held on its side (a low screen): the card goes to the bottom left corner and is narrower, so the middle of the map stays clear */
+@media (max-height:520px){
+  .cvm-card{left:calc(12px + env(safe-area-inset-left,0px));transform:none;bottom:calc(26px + env(safe-area-inset-bottom,0px));width:min(320px,calc(48% - 12px));padding:9px 50px 10px 14px}
+  .cvm-card h2{font-size:19px}
+  .cvm-card p{font-size:14px}
+  .cvm .cvm-go{margin-top:7px}
+  .cvm-world.going .cvm-card{padding:9px 14px}
+  .cvm-card .cvm-set{padding-left:0}
+  .cvm-hint{bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+  .cvm-nums{bottom:calc(5px + env(safe-area-inset-bottom,0px))}
+}
 /* choosing: Back at the top left, the question beside it */
 .cvm-top{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:3;display:flex;align-items:center;gap:12px;pointer-events:none}
 .cvm .cvm-top .cvm-back{pointer-events:auto;min-width:92px}

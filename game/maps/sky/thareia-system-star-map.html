@@ -54,6 +54,13 @@
   #cClose{position:absolute;right:8px;top:8px;border:none !important;background:none !important;
     font-size:15px !important;opacity:.7;padding:6px 9px !important}
   #card .kind{padding-right:44px} /* Coven: room for the bigger close button */
+  /* Coven: in a low frame (a phone held on its side) the card goes to the bottom left corner and is narrower, so the middle stays clear */
+  @media (max-height:440px){
+    #card{left:10px;bottom:10px;width:min(46vw,330px);max-height:calc(100% - 20px);overflow:auto;transform:translate(0,160%);padding:10px 12px 8px}
+    #card.show{transform:translate(0,0)}
+    #card h2{font-size:16px;margin:2px 0 4px}
+    #card p{font-size:12.5px;line-height:1.4;margin:0 0 6px}
+  }
   #hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);font-size:12px;opacity:0;
     transition:opacity .6s;color:#cfe9ff;pointer-events:none;white-space:nowrap;text-shadow:0 0 6px #000}
   #loading{position:fixed;inset:0;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;

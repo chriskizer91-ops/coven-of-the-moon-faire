@@ -1,6 +1,10 @@
 # maps: the 3D map of Aethermoor and the star map in the menu, and choosing where to fly
 
-Branch: job/maps      Updated: November 23, 2026      By: a sub-agent of the hub's (Fable 5.2)
+Branch: job/maps      Updated: November 23, 2026, 22:45      By: a sub-agent of the hub's (Fable 5.2)
+
+`origin/main` is merged into this branch twice, at the hub's asking: once with the real menu in it (`6f20722`) and
+once with the flight in it (`65c7825`). The checks below were run after the merges, on the real zone-1 page with the
+real menu.
 
 ## What it built
 
@@ -78,13 +82,13 @@ ShaderPass, MaskPass, CopyShader, LuminosityHighPassShader, OutputShader).
 
 ### Changes to copied files (each is marked "Coven" in the file)
 
-- `map3d.js`, 22 marks: `map.dispose()` frees everything; `map.setIoAt(x, y, name, zone)` puts the pin at any spot
+- `map3d.js`, 22 marked lines: `map.dispose()` frees everything; `map.setIoAt(x, y, name, zone)` puts the pin at any spot
   of the atlas; `map.screenOf()` says where a spot shows on the screen; `map.onFrame` tells the page each frame;
   the pin's word comes from data (it was the word "Io"); the landings are the game's own; a map taken away while
   it loads builds no further; `opts.still` lets a check draw it only when told.
 - `map.css`: only the rules for the names over the map are kept. The two web fonts are gone (a build fetches nothing).
 - `place-models.js` and `art/aethermoor-place-grounds.webp`: **made again** (see "The places and the reskin").
-- `thareia-system-star-map.html`, 37 marks: the import map with two web addresses is gone; names and words come
+- `thareia-system-star-map.html`, 39 marked lines: the import map with two web addresses is gone; names and words come
   from the game's data; travel is off unless the data turns it on; buttons and names are 44 px or more; it tells
   the game when it is ready, frees what it holds when told, and passes the Escape key up.
 
@@ -92,7 +96,7 @@ ShaderPass, MaskPass, CopyShader, LuminosityHighPassShader, OutputShader).
 
 | Call | Where | The other choice |
 |---|---|---|
-| **The star map runs in a frame with three.js 0.160 packed in.** It is the safer way: the map uses four pieces of 0.160 that r128 does not have in the same form (its bloom, its output pass, its colour handling), so moving it to r128 would mean rewriting its drawing and checking every colour by eye. In a frame it runs as Chris last saw it | `tools/maps-make-sky.mjs` | Change the map to run on r128 |
+| **The star map runs in a frame with three.js 0.160 packed in.** It is the safer way: the map is written for 0.160. Its colour handling and its last drawing pass do not exist in r128, and its add-ons (the turning of the view, the glow) are not in the game's r128 file. Moving it to r128 would mean rewriting its drawing and checking every colour by eye. In a frame it runs as Chris last saw it | `tools/maps-make-sky.mjs` | Change the map to run on r128 |
 | The pin says **"The coven"** (it said "Io"; here any of the four may lead) | `maps-data.js`, `words.pin` | "Io", or the name of whoever walks |
 | The moon is spelled **"Auros"** on the star map, the working name. The old page wrote "Aurous" | `maps-data.js`, `sky.info.aurous.name` | "Aurous" |
 | The star map is **to look at**: no "Set course" between worlds, no crystal cost | `maps-data.js`, `sky.travel: false` | `true` brings both back |
@@ -122,11 +126,79 @@ reading the old Envoi at `d450c3f`. Nothing was written in the old repo.
 
 ## What was checked, and how
 
-Everything here was run in a browser with no screen and no graphics card.
+Everything here was run in a browser with no screen and no graphics card, on November 24, after `origin/main` was
+merged in (the real menu and the flight are in the pages). The job was cut off once, late on November 23, while
+these runs were going; all of them were run again from the start.
 
-NUMBERS
+| Check | On | Result |
+|---|---|---|
+| `tools/maps-test.py` | `builds/maps.html`, at 412 by 880 and 1280 by 720 | **All passed: 102 checks, 0 page errors** |
+| `tools/maps-test.py` | `builds/zone-1.html` with the real menu, at both sizes | **All passed: 108 checks, 0 page errors** |
+| `tools/maps-test.py` | `builds/zone-2.html`, `builds/zone-3.html`, at 412 by 880 | **All passed: 54 checks each.** The pin stands where the walker is: "The Warm Roads camp" in zone 2, "The northern camp" in zone 3 |
+| `tools/menu-test.py --only A` (the hub's check now) | `builds/zone-1.html` | **All passed: 58 checks.** The tabs are Save, Maps, Coven, Settings, in that order, with the maps' tab in place |
+| `tools/things-test.py` | `builds/zone-1.html` | **All passed: 40 checks** |
+| `tools/people-test.py` | `builds/zone-1.html` | **All passed: 134 checks** |
 
-- Not checked: see below.
+What `tools/maps-test.py` checks, in plain words:
+
+- **The pin is in the right place.** At each zone's start and at each of the four landings, the pin's spot on the
+  atlas is the one worked out from the game's own files (`game/places/zone-N.js`, `game/travel/landings.js`), to
+  within 0.06 of an atlas pixel (60 cm on the map). Zone 1's start is atlas 1327.0, 1877.9; zone 2's 817.68, 1529.31; zone 3's 1148.73,
+  610.62. On a zone's page it is where the walker really stands. The pin is also checked where it is drawn: with
+  the view slid sideways its name stands 0.0 px from where it should.
+- **Each map opens, closes and leaves nothing behind.** After closing, the 3D map's own renderer counts 0 shapes and
+  0 pictures; so does the star map's. The page has no more canvases or frames than before. On zone 1 the game's own
+  renderer counts the same before and after (118 shapes and 57 pictures at the phone's size, 205 and 86 at the
+  laptop's). The 3D map is opened and closed three times, the star map twice, and each once more while switching.
+- **Choosing:** the landing tapped is the answer. Back answers `null`, the Escape key answers `null`. A landing that
+  is not open shows its why-line, has no "Set course", and cannot be chosen by the Enter key or by asking outright.
+  The dotted line is drawn to its end. The land is stopped meanwhile and goes on after.
+- **The star map makes no request to the network** (0 requests in the whole check). Its nine names are the data's.
+  "You are here" is on Thareia. Asking it to travel does nothing.
+- **Every button is 44 px or more** at both sizes, and none lies off the screen. The smallest are 46 by 46 (the
+  card's close mark) and 86 by 44 (the three view buttons). In the star map every button and every name that can be
+  tapped is 44 px tall or more. The card and the round button stay in the bottom two fifths of the screen.
+- **In the real menu:** the tab opens from `W3D.menu.open('maps')`; the three views switch and each takes the last
+  one away; the Escape key pressed inside the star map's frame closes the menu; opened again, the tab shows the
+  view last looked at.
+
+### The numbers (no graphics card: the times are this machine's, not a phone's)
+
+| | Phone's level (412 by 880) | Laptop's level (1280 by 720) |
+|---|---|---|
+| The 3D map: time to open | 1.5 to 1.7 seconds | 1.8 seconds |
+| Triangles in the first picture | 1,634,042 in 71 draw calls | 6,564,252 in 207 draw calls |
+| From far off (the whole land) | 531,306 in 46 draw calls | 2,115,962 in 94 draw calls |
+| Close in on Wickhollow | 1,724,144 in 55 draw calls | 6,721,514 in 133 draw calls |
+| It holds, while open | 59 shapes, 11 pictures | 104 shapes, 11 pictures |
+| It holds, after closing | 0 and 0 | 0 and 0 |
+| The star map: time to open | 2.0 to 3.4 seconds | 2.7 to 3.9 seconds |
+| The star map: one picture | 135,742 triangles in 219 draw calls | 161,144 in 242 draw calls |
+| The star map holds, open / closed | 61 shapes, 33 pictures / 0 and 0 | 62 shapes, 33 pictures / 0 and 0 |
+
+The triangle counts are the old map's own: its notes give 0.4 to 1.6 million on a phone and 1.8 to 6.0 million on a
+laptop, and Chris ran that map on his phone.
+
+| Page | Size | Of which the maps |
+|---|---|---|
+| `builds/maps.html` | 9.2 MB | all of it |
+| `builds/zone-1.html` | 108.6 MB | 7.4 MB |
+| `builds/zone-2.html` | 97.6 MB | 7.4 MB |
+| `builds/zone-3.html` | 94.9 MB | 7.4 MB |
+
+The star map's frame is 0.72 MB of the 7.4 (three.js 0.160.0 is 12 files inside it). A zone's page carries the
+land's two data pictures once, not twice: the map takes them from the zone.
+
+### Pictures
+
+Taken with `tools/maps-look.py`, on this machine (not in the repo). 12 views at each size: the zone's map; the 3D map
+where the coven is, with a landing's card, from far off, close in; choosing (as it opens, a landing not open, the
+open one, the dotted line); the star map (the system, Thareia, the moon).
+
+- From the real zone-1 page, inside the real menu, at 1280 by 720 and 412 by 880: 24 pictures.
+- From the small page, at 1280 by 720, 412 by 880 and 880 by 412 (a phone on its side): 36 pictures. The 12 at
+  880 by 412 are from the evening of November 23, before the flight was merged; the maps' own files have not changed
+  since.
 
 ## What was NOT checked
 
@@ -141,6 +213,11 @@ NUMBERS
 - **The star map's look against the old page,** side by side. It is the same code and data, so it should be the
   same; nobody compared them by eye.
 - Zone 4 has no page yet, so its pin was not checked (the map has zone 4's places on it).
+- **A phone held on its side** (880 by 412) was looked at in pictures only; the check runs at the two sizes above.
+- **The hub's other checks** (`zone-test`, `story-test`, `encounter-test`) were not run again after the merges. The
+  maps' block adds scripts that do nothing until a map is opened.
+- **The real joining:** nothing calls `choose()` in the game yet, so it was only called by the check and by the
+  small page's button.
 
 ## What is rough
 
@@ -154,7 +231,8 @@ NUMBERS
   words are the land's own name for the spot, or "The southwest and the fen".
 - Opening the 3D map takes a second or two, during which the page holds still behind the line "Unrolling the map
   of Aethermoor…".
-- On a phone held on its side the tab row and the three view buttons take 120 px of 412.
+- On a phone held on its side the tab row and the three view buttons take 120 px of 412. There the card sits in
+  the bottom left corner, and is narrower, so the middle of the map stays clear (on the 3D map and on the star map).
 - The star map's small letters (11 to 12 px) are the old page's own. They were not made bigger.
 
 ## Unfinished
@@ -164,26 +242,36 @@ NUMBERS
 
 ## For the hub
 
-1. **Bringing this in next to the menu job:** both jobs put their block at the same spot in the three zone pages
-   (just before the page's own script), so git will show a clash in each. **Keep both blocks, the menu's first, then
-   the maps'.** This was tried in a scratch copy (see "What was checked").
-2. **`game/travel/landings.js` is loaded by the maps' block.** If the hub loads it elsewhere too, take one out.
-3. **The Zone view reads `window.__map`** (what `W3D.miniMap` gives back, which the zone pages keep there). It asks
+1. **`origin/main` is merged into `job/maps`** (twice: `6f20722` with the menu, `65c7825` with the flight), so this
+   branch should come into `main` without a clash. In each zone page the maps' block sits straight after the menu's
+   block. In `assets/INDEX.csv` both sides' lines are kept: main's, then the maps' 13. There is no stand-in of the
+   menu in any zone page: it is only in `game/pages/maps.html`.
+2. **Checked on the real zone-1 page with the real menu,** as asked: the Maps tab opened from the real menu, and
+   `tools/menu-test.py builds/zone-1.html --only A` still passes (58 checks). `tools/things-test.py` and
+   `tools/people-test.py` pass on the same page.
+3. **`game/travel/landings.js` is loaded by the maps' block** in the three zone pages. If the hub loads it elsewhere
+   in a zone page when it joins the journey, take one out.
+4. **The Zone view reads `window.__map`** (what `W3D.miniMap` gives back, which the zone pages keep there). It asks
    the land's big map to draw itself, copies the picture, and puts it away again. It works, and `minimap.js` was not
-   changed. Better, when the hub has a moment: a `drawBigInto(canvas)` on the mini map, so nothing has to be shown
-   and hidden; and `map` in the tab's `ctx`.
-4. **`game/README.md`** has no row for `maps/` or `travel/`. Suggested: "`maps/`: the 3D map of Aethermoor, the star
-   map, the Maps tab, choosing where to fly" and "`travel/`: the landings".
-5. **`docs/assets-list.md`** could mark the 3D map and the star map as used.
-6. **To call the choosing screen:** `const to = await W3D.maps.world.choose({ from: 'wickhollow', open: ['warmCamp'] })`.
+   changed. Two things would make it better, when the hub has a moment: a `drawBigInto(canvas)` on the mini map, so
+   nothing has to be shown and hidden; and a way to leave out the big map's own close mark (the cross in its top
+   right corner), which shows in the copy and does nothing there.
+5. **`game/README.md`** has a row for `travel/` now and none for `maps/`. Suggested: "`maps/`: the 3D map of
+   Aethermoor, the star map, the Maps tab, choosing where to fly (the maps job's)".
+6. **`docs/assets-list.md`** could mark the 3D map and the star map as used.
+7. **To call the choosing screen:** `const to = await W3D.maps.world.choose({ from: 'wickhollow', open: ['warmCamp'] })`.
    `to` is a landing's id or `null`. While it is up `W3D.maps.world.choosing` is set (the menu leaves Escape to it).
-7. **To show where the coven is while travelling** (Chris, November 16): `W3D.maps.world.mount(el, { here })`, then
+   It stops the land itself and starts it again; if the hub would sooner do that, it is one line in `maps.js`.
+8. **To show where the coven is while travelling** (Chris, November 16): `W3D.maps.world.mount(el, { here })`, then
    `setHere()` as she moves, then `unmount()`.
-8. **Zone 4:** when its page exists, add its line to `zones` in `game/maps/data/maps-data.js` (its pin and its
-   start), or nothing at all if the page is open: the map then reads the zone's own numbers.
-9. **To make the star map's frame again** after changing its page: `npm install esbuild` in a scratch folder, then
-   `node tools/maps-make-sky.mjs --esbuild <that folder>`.
-10. The old checks: SEE NUMBERS.
+9. **Zone 4:** when its page exists the map reads the zone's own numbers from the page. For the small page, add
+   zone 4's line to `zones` in `game/maps/data/maps-data.js` (its pin and its start).
+10. **To make the star map's frame again** after changing its page: `npm install esbuild` in a scratch folder, then
+    `node tools/maps-make-sky.mjs --esbuild <that folder>`. The built text is in the repo, so a build needs no Node.
+11. **three.js 0.160.0 has no line in `assets/INDEX.csv`** (it is from npm, and the index's columns name an old
+    repo). If the hub wants a line for it, the facts are under "What was copied in".
+12. **The old Envoi's places tool was run on a scratch copy,** not in any repo. The copy is gone with the machine's
+    scratch space; `place-models.js` says at its top how it was made, should it be needed again.
 
 ## For Chris
 
