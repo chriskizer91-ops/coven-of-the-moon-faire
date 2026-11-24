@@ -52,6 +52,8 @@ RULES
 - Paint it lifelike, in the same hand-painted style as the picture, with soft brushwork.
 - Flat even light from straight ahead: no shadow down one side, no lamp highlights.
 - No text, no border.'''
+CUT_A = '- - - - copy everything from the next line - - - -'
+CUT_B = '- - - - down to the line above - - - -'
 SMALL = ' The game makes this person small by itself: paint the figure at exactly the size the guide shows, not smaller.'
 
 
@@ -106,8 +108,8 @@ def for_chris(d, out, guides, sizes, style):
              'A PROPOSAL: change any of these words before you use them. The look is yours to say.',
              '', 'Who this is, from their own lines: %s, %s. %s' % (p['fromTheLines'].get('age', ''), p['fromTheLines'].get('sex', ''), p['fromTheLines'].get('manner', '')),
              'What is a guess: ' + p.get('guesses', ''),
-             '', '=' * 78, 'PICTURE 1 OF 2: THE BODY.   Save what ChatGPT makes as:  %s-body.png' % pid, '=' * 78, '', body,
-             '', '', '=' * 78, 'PICTURE 2 OF 2: THE FACE.   Save what ChatGPT makes as:  %s-face.png' % pid, '=' * 78, '', face, '']
+             '', '=' * 78, 'PICTURE 1 OF 2: THE BODY.   Save what ChatGPT makes as:  %s-body.png' % pid, '=' * 78, CUT_A, body, CUT_B,
+             '', '', '=' * 78, 'PICTURE 2 OF 2: THE FACE.   Save what ChatGPT makes as:  %s-face.png' % pid, '=' * 78, CUT_A, face, CUT_B, '']
         open(os.path.join(folder, pid + '-words.txt'), 'w', encoding='utf-8').write('\n'.join(t))
     for s in sizes:
         shutil.copy(s, out)
@@ -167,7 +169,13 @@ GOOD TO KNOW
 - The face guide is the same picture in every folder (the template's plain face). It is copied into each folder
   under that person's name so nothing gets mixed up.
 - The children (Pell, Tamsin) and the gnomes (Tock, Pim) look full-size in their guides. That is right: the game
-  makes them small by itself. Their heads are drawn bigger for the same reason.
+  makes them small, and gives them a bigger head, by itself. The size sheets show them as they will stand.
+- In <name>-shape-all-round.jpg the small and short people stand with bent knees. That is a fault in the shared
+  template when a person is made smaller than a witch (it is in the game today too, under the stand-ins). The hub
+  has the one-line fix. The size sheets show everyone standing straight, as they will once it is in.
+- How long this takes is a guess: the old notes do not say how long the eleven's 22 pictures took, only that they
+  were all made in one day. At 3 to 5 minutes a picture, the first seven people are about an hour, and all
+  {pics} pictures are 2 and a half to 4 hours, more if ChatGPT makes you wait between pictures.
 - The forty Wardens who stand in Misthollow's street all share ONE body (folder 07-warden): the helm and the mail
   hood hide the hair, so one painting can be all forty. If you would like them to have two faces, paint a second
   face over the same face guide (a woman of about thirty) and save it as warden-face-2.png. That is up to you.

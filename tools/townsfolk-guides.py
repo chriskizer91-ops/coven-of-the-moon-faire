@@ -13,6 +13,11 @@ and then, for each person in game/people/folk/townsfolk/shapes/, uses the kit's 
     <id>-face-guide.png   the kit's face guide (its face_plain.webp), the same for everyone, named for the person
     <id>-shape.jpg        the kit's own sheet of the person as built: front, three-quarter, side, back, walking, the face twice
     facts.json            what the kit counted for each: triangles, parts, errors
+    style-example.jpg     three of the Faire's own eleven, seen from behind, on flat grey: cut out of the painted sheets
+                          Chris made for them (the old repo's game/people/skins/), so ChatGPT can match their finish
+
+    python3 tools/townsfolk-guides.py <the old Moon Faire repo> <work folder> <out folder> --style-only
+        makes only style-example.jpg (no browser, a few seconds)
 
 This is a tool for making art, not part of a build: the game and tools/build.py never need the old repo.
 Needs Python 3 with Playwright, Chrome and Pillow. The pictures are drawn with no graphics card: run it through the
@@ -38,6 +43,36 @@ def fetch(old, work):
     if not os.path.exists(stage):
         subprocess.check_call([sys.executable, os.path.join(work, 'game', 'people', 'kit', 'build_viewer.py')], cwd=os.path.join(work, 'game'))
     return os.path.join(work, 'game', 'people', 'kit')
+
+
+STYLE = [('baker', 'A'), ('fortune', 'B'), ('lampseller', 'A')]      # the baker, the old lamplighter, the lamp-seller
+
+
+def style_example(old, work, out):
+    """The painted BACK figure of three of the eleven, cut out along the guide's outline (moved by the fit the kit measured) and stood on flat grey."""
+    import io
+    import numpy as np
+    from PIL import Image
+    from scipy import ndimage
+    show = lambda f: subprocess.check_output(['git', '-C', old, 'show', 'HEAD:game/people/skins/' + f])
+    tiles = []
+    for model, letter in STYLE:
+        body = np.array(Image.open(io.BytesIO(show('%s/%s-body.webp' % (model, letter)))).convert('RGB')); H, Wd = body.shape[:2]; hw = Wd // 2
+        g = np.array(Image.open(io.BytesIO(show('%s/guide.png' % model))).convert('RGB')).astype(int); gm = (np.abs(g - 0x6e).sum(2) > 6)[:, 768:]
+        sx, sy, ox, oy = json.loads(show('%s/%s.json' % (model, letter)))['fit']['back']
+        yy, xx = np.mgrid[0:H, 0:hw]; u = xx / hw; v = 1 - yy / H                     # a painted point (0 to 1, y up)
+        gu = (u - ox) / sx; gv = (v - oy) / sy                                         # where that point is on the guide
+        gx = np.clip((gu * 768).astype(int), 0, 767); gy = np.clip(((1 - gv) * 1024).astype(int), 0, 1023)
+        m = gm[gy, gx] & (gu >= 0) & (gu < 1) & (gv >= 0) & (gv < 1)
+        soft = ndimage.gaussian_filter(ndimage.binary_erosion(m, iterations=2).astype(float), 1.2)[..., None]
+        half = body[:, hw:].astype(float)
+        tiles.append(Image.fromarray((half * soft + 0x6e * (1 - soft)).astype(np.uint8)))
+    im = Image.new('RGB', (sum(t.width for t in tiles), tiles[0].height), (0x6e, 0x6e, 0x6e)); x = 0
+    for t in tiles:
+        im.paste(t, (x, 0)); x += t.width
+    os.makedirs(out, exist_ok=True)
+    im.save(os.path.join(out, 'style-example.jpg'), quality=90)
+    print('style-example.jpg  %d x %d: %d of the eleven, from behind' % (im.width, im.height, len(tiles)))
 
 
 async def run(kit, out, ids):
@@ -72,7 +107,11 @@ def main():
     if len(sys.argv) < 4:
         sys.exit(__doc__)
     old, work, out = (os.path.abspath(p) for p in sys.argv[1:4])
-    ids = sys.argv[4:] or sorted(f[:-3] for f in os.listdir(SHAPES) if f.endswith('.js'))
+    rest = sys.argv[4:]
+    style_example(old, work, out)
+    if '--style-only' in rest:
+        return
+    ids = rest or sorted(f[:-3] for f in os.listdir(SHAPES) if f.endswith('.js'))
     kit = fetch(old, work)
     sys.exit(1 if asyncio.run(run(kit, out, ids)) else 0)
 

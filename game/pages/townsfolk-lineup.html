@@ -42,7 +42,7 @@
   const FAIR = { id: 'fair-baker', name: 'Otto, the baker', note: 'one of the Faire\'s own' };       // the painted person every row stands beside
   const ROWS = { 'zone-1': { label: 'Zone 1', zone: 1 }, 'zone-2': { label: 'Zone 2', zone: 2 }, 'zone-3': { label: 'Zone 3', zone: 3 }, 'zone-4': { label: 'Zone 4', zone: 4 }, first: { label: 'The first seven', first: 7 } };
   const LINES = [1.0, 1.5, 1.65, 1.8], GAP = 0.86, GREY = { torso: 0x9c9c9c, wine: 0x929292, cloth: 0xa6a6a6, leggings: 0x858585, boot: 0x666666, sole: 0x5a5a5a, face: 0xd6d6d6, hand: 0xd6d6d6 }, OWN = [0xbcbcbc, 0x8a8a8a, 0xcacaca, 0x787878, 0xacacac, 0x989898, 0xd0d0d0];
-  const WORDS = { grey: 'plain greys, as in the guides', colour: 'first colours (only to tell the parts apart: the paint replaces them)', lines: 'the lines: 1 m, 1.5 m, 1.65 m (a witch), 1.8 m', proposal: 'A proposal. Not painted yet.' };
+  const WORDS = { grey: 'plain greys, as in the guides', colour: 'first colours (only to tell the parts apart: the paint replaces them)', lines: 'The lines: 1 m, 1.5 m, 1.65 m (a witch), 1.8 m', proposal: 'A proposal. Not painted yet.' };
   try {
     const TF = window.COVEN_TOWNSFOLK, canvas = $('c');
     const R = new T.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true }); R.setClearColor(0x2b2633, 1); R.outputEncoding = T.sRGBEncoding;
