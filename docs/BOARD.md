@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 21:00, by the hub.
+Last updated: November 23, 2026, 20:10, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
