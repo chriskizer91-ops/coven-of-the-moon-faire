@@ -1,12 +1,71 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 15:45, by the hub (a new conversation since the handoff of 13:15).
+Last updated: November 23, 2026, 19:15, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
 
 **A new hub picking up:** read `CLAUDE.md`, this board, `docs/decisions.md` (newest first), then the newest slip in
 `docs/slips/`. Build the newest page (`game/README.md` says how) and open it before changing anything.
+
+## The plan to finish (November 23, 2026, 19:15)
+
+This section is the newest. Where "Hub handoff" below says something different, this is right.
+
+**Chris, 16:53 and 19:00:** set up finishing the game. The save menu gets **three save slots**, and holds the maps:
+the zone's own, **the 3D map of Aethermoor** and **the star map**. The 3D map is to look at and **to choose where to
+fly**; flying is **the airship game** (Skies of Aethermoor), and **the ships are the gates between zones, as in
+Envoi**. The **new creatures** are being built now in his project Aethermoor M7. He has **more narrator lines** to
+send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effort, or Fable 5.2 at high effort).
+
+### Who is doing what
+
+| Job | Branch | What | Who | State |
+|---|---|---|---|---|
+| `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | Started 19:15 |
+| `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Started 19:15 |
+| `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | Started 19:15 |
+| `fights` | `job/fights` | Step 4: room for new creatures, and the whole game's levels | its own conversation | In progress; nothing pushed since the morning |
+| the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
+
+### How the pieces join (the hub's part, once the three are in)
+
+1. At a zone's end the story reaches its leaving, at the Grey Hat's ship. **The ship is the gate.**
+2. The 3D map opens to choose where to fly: `W3D.maps.world.choose({ from, open })`. A dotted line is drawn.
+3. The next zone's page opens and **plays the flight in** first: `W3D.flight.fly({ from, to, ship })`. The lines for a
+   flight are that zone's own (the moments `flight` and `flight-after`), so they are heard there. The flight raises
+   two events, and the story engine speaks.
+4. The ship sets down at that zone's landing, and its story starts with the landing, as now.
+5. The save goes with the player from page to page: the same slot, in the same browser storage.
+
+The landings, one for each zone, are in `game/travel/landings.js` (the hub's; both the map and the flight read it).
+
+### What it takes to finish, in order
+
+1. The three sub-agents' jobs brought in and joined (above). **Then the first three zones are one journey.**
+2. **Zone 4:** its land, people and story (step 7 of the handoff's list, with its pins).
+3. **The fights job's step 4** brought in; fights joined to zones 2, 3 and 4; Chris's creatures as they come.
+4. **One game:** a title; the pages opening each other; a last pass on a phone.
+5. Left over, small: flames that lean; the townsfolk's own bodies (18 wear a fair-folk shape); the knight's body.
+
+### Sources
+
+- **Skies of Aethermoor** (`airship-game-in-aethermoor-`): a source since November 18. The hub read it for the
+  first time at 19:05, after Chris's word on the flight. It is small: 96 files, its built game 4.6 MB. It runs
+  three.js 0.186; the game runs r128; the star map 0.160. So the flight and the star map each run in a frame of
+  their own inside the one file, unless a sub-agent finds a better way.
+- **Aethermoor M7** (`Aethermoor-m7-`), where Chris is building the new creatures. **Not a source yet:** nothing of
+  it has been read. It becomes one when Chris says a creature is ready to bring in.
+
+### Waiting on Chris (the newest; the older lists below still stand where not answered)
+
+1. **The narrator's new lines:** the files themselves, attached to the hub's conversation. And his letter for the
+   narrator's sound (A, B, C or D), if he has chosen.
+2. **Where the great wraith waits** (the fen's dark heart, as the lines say, or where it is now). Not answered yet.
+3. **Which ship he flies first.** Skies starts on the Skiff, the Zephyr; his word of November 16 is that moving up
+   to the next ship is part of each gate. The flight job makes it one line of data.
+4. **The townsfolk's bodies:** who makes the 18, and when. They can stay as they are until the end.
+5. **A creature is ready:** when one is, he says so, and Aethermoor M7 becomes a source.
 
 ## Hub handoff (November 23, 2026, 13:15; brought up to date at 15:45)
 
@@ -58,7 +117,8 @@ list below wait on Chris, so it did **step 5, the four small things zone 1's lin
 
 New at 15:45, the first two because the next steps need them:
 
-1. **Skies of Aethermoor, for the hub.** The flight between zones (step 6) and the Grey Hat's real ship both come
+1. **ANSWERED (19:00): the hub has read Skies of Aethermoor.** As it stood at 15:45:
+   **Skies of Aethermoor, for the hub.** The flight between zones (step 6) and the Grey Hat's real ship both come
    from `chriskizer91-ops/airship-game-in-aethermoor-`. It is a source by the rules, but the hub's new conversation
    was given three repos and not that one, and may not add it by itself. Chris adds it to the hub's conversation,
    to read only. Until then the hub can go on with zone 4's land (step 7).
@@ -108,7 +168,8 @@ From the handoff of 13:15, still open:
    - Quill has no lantern "tied to its post with three hitches". Odile's stall is 20 m from the well, and two
      pointers say "by the well". Old Wenna's stall "by the boardwalk" was not looked at.
    - The moth could rise on the great wraith's own spot once that spot is settled ("Waiting on Chris", 2).
-6. **The flight between zones. NEEDS the Skies of Aethermoor repo added to the hub's conversation** ("Waiting on
+6. **The flight between zones. IN PROGRESS since 19:15** (the jobs `maps` and `flight`, "The plan to finish").
+   As it stood at 15:45: it needed the Skies of Aethermoor repo added to the hub's conversation ("Waiting on
    Chris", 1). Skies of Aethermoor is a read-only source by the rules; copy only what the game uses.
    The pages call each other; the flight lines (`flight`, `flight-after`) get heard; a ship stands at each landing.
    The real ship takes the place of the stand-in at the jetty: one file, `game/places/jetty-ship.js`. Keep
@@ -117,7 +178,8 @@ From the handoff of 13:15, still open:
    frozen-camp (2760, 1105), frostmere-shore (3180, 1125), frozen-pass (3270, 980), misthollow (3500, 735),
    moonwell (3522, 645). Its lines are in `game/talk/zone-4.js`; the plan is `docs/lore/story-zones-2-4.md`; it
    ends with a `faire` moment back at the camp.
-8. **One game:** a title, one save, a pause menu, everything joined.
+8. **One game:** a title, one save, a pause menu, everything joined. **The pause menu and the saves are IN
+   PROGRESS since 19:15** (the job `menu`), with three slots, not one (Chris, 19:00).
 
 ### How the hub works here (what a new hub needs to know)
 
@@ -309,6 +371,9 @@ The hub's plan. Names and order may change.
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
 | `zone-1` | All of zone 1 on one land; and all of the hub's own building since (zones 2 and 3, the people, the narrator, the small things) | `job/zone-1` | `docs/slips/zone-1.md` | **In `main`**, up to zone 1's four small things (November 23, 15:45). The rough spots are in the slip |
+| `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Started November 23, 19:15** |
+| `maps` | The 3D map of Aethermoor and the star map in the menu; choosing where to fly (a sub-agent) | `job/maps` | `docs/slips/maps.md` | **Started November 23, 19:15** |
+| `flight` | The flight between zones from Skies of Aethermoor; the real ship (a sub-agent) | `job/flight` | `docs/slips/flight.md` | **Started November 23, 19:15** |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
 | `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1, 2 and 3 done and in `main`** (November 19): the battle page; `CovenBattle.start()`; the party kept in the browser; unseen meetings in zone 1's wilds (about 46 fights to level 5); the fight over the land and back; rest at the camp; the gate's spot (a proposal). Zone 1's page is 83.5 MB |
 | `story` | The story's dialogue, written to be spoken aloud (every person has a voice) | `job/story` | `docs/slips/story.md` | **In `main`** (November 23): the story page Chris approved; every line of zones 1 to 4 (`game/talk/zone-*.js`, `cast.js`); the recordings for zones 1 to 3 (`game/talk/audio/`, 480 files, 16 MB). Its notes for the hub are at the end of its slip: the moth, the gate lamp, and what zones 2 to 4 need |
@@ -395,6 +460,232 @@ Small calls are yours: write each in your slip as a job's call. The creatures' n
 story are Chris's. The other game's repo is not a source for this one yet: copy nothing from it until the hub adds
 it in docs/decisions.md. Both pages must still build, and tools/zone-test.py, tools/people-test.py and your own
 checks must still pass. Push to job/fights often, and tell Chris when a step is ready.
+```
+
+### The three sub-agent jobs of November 23, 19:15: what every one of them is told first
+
+```
+You are a sub-agent of the hub's, working on Coven of the Moon Faire. Your job's name is JOBNAME and your branch is
+job/JOBNAME. Chris, whose game this is, cannot code: he reads plain words, pictures and simple numbers.
+
+READ FIRST, in this order: CLAUDE.md; docs/BOARD.md ("The plan to finish" at the top, then "Hub handoff");
+game/README.md; docs/slips/README.md.
+
+THE RULES THAT MATTER MOST (CLAUDE.md has them all)
+- You write: your own new files; ONE slip, docs/slips/JOBNAME.md; and, in a page under game/pages/ that you must
+  touch, ONE block marked "JOBNAME job: start" and "JOBNAME job: end". Nothing else. Never edit another job's
+  files, docs/BOARD.md, docs/decisions.md, docs/questions.md, docs/assets-list.md or CLAUDE.md. If you need one of
+  those changed, or a change to a file of the hub's or of the fights job's, write the exact change in your slip under
+  "For the hub" and work round it meanwhile.
+- The old repos are read-only. Copy in only what the game uses, and only the finished piece. Every copied file, or
+  folder copied whole, gets one line in assets/INDEX.csv in the same commit, with the commit it was read from.
+  A copied file that you then change gets a comment marked "Coven" at each change.
+- A build is one HTML file with everything inside it and no internet: python3 tools/build.py game/pages/<page>.html
+  (it writes builds/<page>.html). The builder stops if the finished file names any web address at all, even in a
+  comment, so take web addresses out of whatever you copy in.
+- Words the player reads live in a data file, not in code. A name that is not settled is a stand-in and is marked so.
+- Screens: few buttons, each large enough for a thumb (44 px or more), nothing covering the middle of the picture.
+  It must work on a laptop (keyboard and mouse) and on a phone (touch), upright and on its side. Check at 1280 by
+  720 and at 412 by 880.
+- The repo is public: no keys, no private details, no paths from anyone's computer, in files or commit messages.
+- Don't settle one of Chris's calls by building it. Where you must choose, make it one line of data, say in your
+  slip that it is your call, and what the other choice was.
+
+HOW TO WORK HERE
+- This machine has two processor cores and is shared with other sub-agents. Every build, check and picture run is
+  heavy (a zone page is about 100 MB and a check of one takes 3 to 8 minutes). Run each heavy command through the
+  shared lock, so only one runs at a time:   flock /tmp/coven-heavy.lock <the command>
+  Give such commands a long time limit (15 minutes), and do not run two at once yourself.
+- Make a small page of your own for fast checks (a few MB), and use the big zone pages only for the last checks.
+- The checks open a page with ?test: then nothing is saved and the game does not wait for the Begin button. Keep
+  both true. tools/look.py takes pictures with no screen; tools/hub/ has the hub's helpers. A headless browser
+  cannot show motion or measure a frame rate: say so, don't guess.
+- Commit as you go and push your branch: git -c push.negotiate=true push -u origin job/JOBNAME
+  End every commit message with the same two lines the repo's other commits end with (see git log).
+- Do not merge into main, and do not touch any other working copy on this machine.
+
+WHEN YOU ARE DONE
+Your slip says, in plain words: what was built; a few numbers a person can check; what was checked and how; what
+was NOT checked; what is rough; "For the hub" (what the hub must change or decide); "For Chris" (calls that are
+his). Everything is committed and pushed. Your last message to the hub is a short report: what works, the numbers,
+where the pictures are, what is not done, and anything you were unsure of.
+```
+
+### `menu` (given to a sub-agent of the hub's, November 23, 19:15, under the text above with its name put in)
+
+```
+JOB: menu. The pause menu, three save slots, and the frame the maps sit in.
+
+WHAT CHRIS SAID (November 23)
+"I think we need to work on the save menu." "I think three save slots if we can." He wants the star map and the 3D
+map of Aethermoor inside that menu (the maps job builds those two; you build the menu they sit in). He dislikes a
+crowded screen.
+
+WHAT IS THERE TODAY
+No menu, no title, no slots. The game saves itself in the browser: the party under the key coven.party
+(game/party/party.js, the fights job's file: do not change it), the story's stage under keys of its own
+(game/people/story.js, the hub's), and a few small switches. On screen are two round buttons, top right ("who":
+choose who walks; "nums": show the numbers), the small map, and a level pill. Each page waits behind a Begin button.
+
+WHAT TO BUILD
+1. ONE menu button on the land. It opens the menu and pauses the game: the land, the story, talk and sound. Closing
+   it carries on. Escape opens and closes it on a laptop. Say in your slip what happens if it is pressed during a
+   fight or while someone is speaking, and make that safe.
+2. The menu is one full screen with a row of tabs: Save, Maps, Coven, Settings. Other jobs add tabs through this,
+   which you must build exactly, because the maps job is coding to it now:
+       W3D.menu.addTab({ id, label, order, mount(el, ctx), unmount() })
+           el: the tab's own panel, filling the screen under the tab row. ctx: { W, zone, close() }.
+           mount is called each time the tab is shown and unmount each time it is left or the menu closes, so a
+           tab that draws in 3D stops drawing and frees what it holds.
+       W3D.menu.open(tabId), W3D.menu.close(), W3D.menu.isOpen()
+       window events 'coven:menu-open' and 'coven:menu-close'
+   Orders: Save 10, Maps 20, Coven 30, Settings 40. Until the maps job's tab is there, Maps shows one plain line.
+3. THREE SAVE SLOTS.
+   - First find every key the game writes in the browser's storage, and list them in your slip with what each holds.
+   - A slot is a snapshot of all of them, with the time and one line a player can read (the zone, how far the
+     story is, the coven's level, lamps home). The game goes on saving itself, into the slot in use: on a timer and
+     whenever the page is hidden or closed. Do it without changing party.js or story.js: a layer over the same keys.
+   - Each slot: Continue, New game (asks first), Delete (asks first). Copy to another slot if it is simple.
+   - Save to a file and Load from a file: one small file, to carry a save between the laptop and the phone and to
+     keep a spare. Loading checks the file is one of ours before it touches anything.
+   - On some phones a page opened from a downloaded file is given no lasting storage. Test whether storage works
+     and lasts; if it does not, say so plainly in the Save tab and point to Save to a file.
+   - The zone pages are separate files today and will call each other later. Slots must hold across pages: the
+     same keys in the same storage, the slot in use remembered, and the page the save was last on written in it.
+   - With ?test nothing is saved, as now.
+4. The Begin screen: under the Begin button, small, which slot is in use and its one line, and a way to the Save
+   tab. No more than that.
+5. Coven tab: the four witches, each one's level and health (read the party; do not change it), and who walks
+   (what the "who" button does today). Leave a clearly marked place for a full character viewer later.
+6. Settings tab: the switches that exist today (the numbers, sharpness, the Flipbook look, and sound volume if
+   there is one place to set it: look, don't rewrite sound). Move "who" and "nums" into the menu, so the land has
+   one button where it had two (the hub's call, for Chris to overrule). The checks in tools/ may press the old
+   buttons: look before you hide them, and keep the checks passing.
+7. A check, tools/menu-test.py: opening stops the game's clock and closing starts it; three slots save, load and
+   delete, and a save comes back the same; the file goes out and comes back the same; the game saves itself; a
+   wrong file is refused; ?test saves nothing; every button is 44 px or more at 412 by 880 and none lies off the
+   screen; 0 page errors. At the end the old checks must still pass on zone 1 (zone-test, people-test, things-test,
+   encounter-test --quick) and story-test on zone 2.
+8. Pictures of every tab at both sizes, in a folder you name in your report.
+The menu goes on all three zone pages (one marked block each). Its looks should sit with the game's own: read the
+pages' CSS for the colours and the lettering already in use.
+```
+
+### `maps` (given to a sub-agent of the hub's, November 23, 19:15, under the text above with its name put in)
+
+```
+JOB: maps. The 3D map of Aethermoor and the star map, in the menu; and choosing where to fly.
+
+WHAT CHRIS SAID
+November 23: "I want to add in the celestial sky planet orbit map and the larger 3D world map into the save menu."
+"The continent 3D map is to look at and for choosing where to fly using the airship game and ships as the gates
+like in Envoi." November 16 (in the old Envoi's notes, which you must read: moon-faire-witches/world-map/README.md):
+whenever the player travels, a 3D map of Aethermoor shows where Io is; for a flight it draws a dotted line from
+here to there; then Skies of Aethermoor flies the ship there, and the zone opens at the landing.
+
+WHERE THE TWO MAPS ARE (the old Envoi repo, read-only)
+- moon-faire-witches/world-map/: the 3D map of Aethermoor. map/ holds the model (map3d.js, places.js,
+  place-models.js, tree-models.js, buildings.js, moods.js, art.js, map.css), art/ its data pictures, textures and
+  trees, tools/ its makers, envoi-map-where.html the page. It is step 1 of 4 there: the land, and a pin where Io is.
+- moon-faire-witches/star-map/thareia-system-star-map.html: the star map of the Thareia system, one page. Its
+  notes are docs/project-notes/claude/slips/star-map.md. It has hooks already (window.StarMap, and events).
+
+WHAT TO BUILD
+1. THE 3D MAP OF AETHERMOOR, in this repo under game/maps/, running inside the game's page.
+       W3D.maps.world.mount(el, { here }) -> { unmount(), setHere(here) }
+           here: { landing: id } or { zone, x, z } (the walker's place on that zone's land, in its metres).
+       W3D.maps.world.choose({ from, open }) -> a promise of a landing's id, or null if the player backs out.
+           from: the landing the ship stands at. open: the ids that may be chosen now. It fills the screen
+           without the menu.
+   - "You are here": a pin where the coven is. This game's zones are laid on the atlas at one third size:
+     game/places/zone-1.js (and 2, 3) say how a spot in a zone's metres comes from the atlas's pixels.
+   - Choosing: the landings are in game/travel/landings.js (the hub's file: read it, don't change it). Each
+     shows on the map; a tap gives a card with its name; "Set course" draws the dotted line from here to there and
+     answers. A landing that is not open is shown dim, with one line saying why (your own data file).
+   - The old notes say the map's copy of the places is one step behind the reskin and that its own tool brings it
+     up to date. Do that if the tool runs here; if not, say so.
+   - It is a second 3D scene: free what it holds when it is left, and measure it (triangles, draw calls, how
+     long it takes to open). It has two levels of detail: use the lighter on a phone.
+2. THE STAR MAP, under game/maps/, to look at. "You are here" on Thareia.
+   - It loads three.js 0.160 from the internet as a module; the rest of the game uses three.js r128 (game/lib/).
+     Either pack 0.160 inside (npm has it: fetch it in a scratch folder outside the repo, copy in only the files it
+     needs, and write its version and licence in your slip) and run the map in a frame of its own inside the one
+     file, or change the map to run on r128. Choose the safer, and say why. Either way the built page must name no
+     web address, and the map must work with no internet.
+   - The names of the three stars and four planets are stand-ins, and the moon's spelling is an open question
+     (docs/questions.md, 7; docs/lore/README.md gives the working name). Put every name in a data file.
+3. THE MAPS TAB. The menu job is building the menu now, to this:
+       W3D.menu.addTab({ id, label, order, mount(el, ctx), unmount() })      ctx: { W, zone, close() }
+       mount is called each time the tab is shown; unmount each time it is left or the menu closes.
+   Add one tab: id 'maps', label 'Maps', order 20. Inside it, three views to switch between: Zone, World, Sky.
+   Zone is the big hand-drawn map the game already has (game/engine/land/minimap.js, the hub's: use what it
+   offers and do not change it; if it offers nothing you can use, say what you need under "For the hub").
+   Until the menu is merged, try your tab with a tiny stand-in of that interface on a small page of your own
+   (game/pages/maps.html: just the maps, a few MB, for fast checks).
+4. A check, tools/maps-test.py: each map opens and closes and leaves nothing behind (the renderer's own counts of
+   geometries and textures come back to where they were); the pin is in the right place for each zone's start;
+   choose() answers with the landing tapped, and null when backed out of; a landing that is not open cannot be
+   chosen; the star map makes no request to the network; every button is 44 px or more at 412 by 880; 0 page
+   errors. At the end, on the zone-1 page as well.
+5. Pictures of each view at both sizes, in a folder you name in your report.
+```
+
+### `flight` (given to a sub-agent of the hub's, November 23, 19:15, under the text above with its name put in)
+
+```
+JOB: flight. The flight between zones, in Skies of Aethermoor; and the Grey Hat's real ship.
+
+WHAT CHRIS SAID
+November 23: the 3D map "is to look at and for choosing where to fly using the airship game and ships as the
+gates like in Envoi." November 16 (the old Envoi's moon-faire-witches/world-map/README.md, read it): "the flight
+in Skies of Aethermoor on the night map, with as many raiders as the flight is long. You fly Skies' four ships;
+upgrading to the next ship is part of each gate between zones." Which ship he flies first is still his call
+(docs/questions.md): make it one line of data.
+
+THE SOURCE
+Skies of Aethermoor, the repo airship-game-in-aethermoor- (read-only; the hub's prompt says where it is on this
+machine and how to read it). Read its README.md, docs/game.md, docs/ships.md and docs/map.md. It is written as
+modules for three.js 0.186.1 and built with esbuild; the rest of this game runs three.js r128 (game/lib/).
+
+WHAT TO BUILD
+1. ONE FLIGHT, from one landing to another, as a piece the hub can call:
+       W3D.flight.fly({ from, to, ship }) -> a promise of { arrived: true } or { arrived: false, why }
+       window events while it runs: 'coven:flight-raiders' (raiders come) and 'coven:flight-clear' (seen off).
+   The landings are in game/travel/landings.js (the hub's file: read it, don't change it).
+   - It fills the screen, and when it ends it takes itself away wholly and frees what it held.
+   - Build it from Skies' own code. Copy in only what a flight needs (flying, the controls, the map under the
+     ship, the ship builder and the ships' measurements, and the raiders, guns and damage if raiders are in). Not
+     the port, the shop, the title or its saving.
+   - Because the two three.js versions differ, the simple safe way is a frame of its own inside the one file:
+     bundle the flight with esbuild (Node is here and npm works) into one piece of text, keep the sources, your
+     build tool and the built text all in the repo (so python3 tools/build.py needs no Node), and have the game's
+     page start it in a frame and talk to it by messages. If tools/build.py must learn something for this, it is
+     the hub's file: do it in a tool of your own and write the exact change under "For the hub".
+   - The route: start over the from-landing, a plain marker showing the way, arrive when the ship is near the
+     to-landing. A flight should take about two minutes (data). "As many raiders as the flight is long" (data);
+     the first flight should be gentle. If the ship goes down the crew get her home: the promise answers
+     { arrived: false } and the hub decides what happens next.
+   - "On the night map": Skies flies over Chris's day map in nine tiles. See whether a night map exists (the old
+     Envoi keeps day and night atlases under reference/art/world-map/); if it does and fits, use it; if not, say
+     what you did instead to make it night.
+   - The two events: the story has recorded lines for the flight into each zone (the moments "flight" and
+     "flight-after" in game/talk/zone-2.js and zone-3.js). You do not play them: you only raise the two events at
+     the right times, and the hub's story engine speaks.
+   - A small page of your own, game/pages/flight.html, for trying it and for fast checks.
+2. THE REAL SHIP AT A LANDING, if step 1 is done and sound. A plain stand-in ship lies at zone 1's jetty now
+   (game/places/jetty-ship.js, the hub's; read its top). The real one should take its place: one of Skies' ships,
+   moored, drawn by the land's own engine under its own night (three.js r128, the place engine's materials). The
+   likely way is to bake the built ship once into plain data (its shape and its painted pieces) with a tool, and
+   draw that. Do not change jetty-ship.js: make the real ship a file that can stand in its place, tell the hub how
+   to switch, and keep what the lamps need: W3D_PLACES.jetty.ship = { hooks: twelve spots, six a side, where a
+   lamp hangs; at; length; beam }. If this cannot be done well in the time, say so and stop at step 1.
+3. A check, tools/flight-test.py: fly() answers arrived when the ship reaches the landing (drive it through a test
+   handle of your own, not by hand); it answers not arrived when the ship is lost; the two events come; after it
+   ends nothing of it is left on the page; no request goes to the network; the controls are 44 px or more at 412
+   by 880; 0 page errors.
+4. Pictures at both sizes of the flight's start, middle (with raiders) and arrival, in a folder you name.
+You do NOT join the flight to the zones (the ship as a gate, the map to choose on, opening the next zone's page):
+the hub does that once your piece, the maps job's and the menu job's are in.
 ```
 
 ### `fights`: one more thing for step 4 (paste this into the fights conversation ONLY IF Chris says yes to moving the great wraith)

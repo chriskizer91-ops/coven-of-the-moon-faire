@@ -13,6 +13,34 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 16:53 and 19:00: the save menu, the maps, flying, the creatures, sub-agents
+
+- **Chris: three save slots,** "if we can". This replaces "one save" in the plan for the whole game.
+- **Chris: the star map and the 3D map of Aethermoor go into the save menu.** The hub's reading: the menu has a Maps
+  part with three views, the zone's own map, the 3D map of Aethermoor, and the star map of the Thareia system.
+- **Chris: the 3D map of Aethermoor is to look at, and to choose where to fly.** Flying is the airship game (Skies
+  of Aethermoor). **The ships are the gates between zones, as in Envoi.** This stands with his word of November 16
+  in the old Envoi's notes: a dotted line from here to there, then Skies flies the ship, with as many raiders as the
+  flight is long; his four ships; moving up to the next ship is part of each gate.
+- **Chris: the new creatures are being built now, in his project Aethermoor M7** (the repo `Aethermoor-m7-`).
+  The hub has read nothing of it. It becomes a source when he says a creature is ready.
+- **Chris: the hub may give side tasks to sub-agents,** Opus 5.5 at extra-high effort or Fable 5.2 at high effort.
+- **Chris: he has more narrator lines to send.** The hub takes them in when the files come.
+- **The hub read Skies of Aethermoor for the first time** (19:05). It was refused at 15:00, when Chris had named
+  three repos; after his word on the flight it was allowed, to read only.
+- **Hub's call.** *Three side jobs, each a sub-agent on its own branch:* `menu` (the pause menu and the three
+  slots), `maps` (the two maps and choosing where to fly), `flight` (one flight, from Skies; then the real ship).
+  The hub joins them and merges. Their texts are on the board.
+- **Hub's call.** *A zone's flight in is played on that zone's own page,* before its landing, because the recorded
+  lines for a flight belong to the zone being flown to.
+- **Hub's call.** *One landing for each zone* (`game/travel/landings.js`): the jetty, the Warm Roads camp, the
+  northern camp, the frozen camp. The old Envoi's three landings inside zones are left out: a zone is walked.
+- **Hub's call, for Chris to overrule.** *The menu button takes the place of the two round buttons* ("who walks"
+  and "numbers" move inside it), so the land has one button, not three.
+- **Hub's call.** *A save slot is a copy of everything the game already keeps in the browser,* so the fights job's
+  party file and the story engine do not change. *And a save can be written to a file and read back,* to carry it
+  between laptop and phone: the browser's own storage stays on one device, and on some phones may not last.
+
 ## November 23, 2026, 14:57 to 15:45: the new hub; the four small things zone 1's lines speak of
 
 - **Chris, 14:57: the new conversation is the hub.** He gave it this repo to write to and the two old repos to read,
