@@ -13,6 +13,15 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 10:52: the great bramble stays as it is; Briarmaw is left out
+
+- **Chris: "The great bramble on the frozen pass is an important lore piece. If the Briarmaw doesn't fit elsewhere,
+  it doesn't need to go in."** So the great bramble keeps its own body and its place, and the hub's suggestion of
+  10:31 (Briarmaw as its body) is dropped.
+- **Hub's reading.** *Briarmaw does not come into this game:* all eight slots are taken (the Rotwarden and the
+  Glowcap; the forge-spark and the Thornhound; the Sapwight and the Rot-Stag; the Wickstoat and the Hoarmantle).
+  The `creatures` job brings in six of M7's creatures, not seven, and takes out anything of Briarmaw's it had copied.
+
 ## November 24, 2026, 10:46: Chris's sheets for the Wickstoat and the Hoarmantle; the building starts
 
 - **Chris sent both character sheets,** made from the hub's words: each shows the creature front, side and back on

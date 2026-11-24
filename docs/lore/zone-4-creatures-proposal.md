@@ -34,9 +34,8 @@ colours written out, since there is no sprite to match.
 
 > Hoarmantle: A great shaggy ox of the peaks, taller at the hump than a grown man, so old that the frost has never left its back. It stands in the road above the pass like a snowdrift that breathes. Its shape and parts: a massive, heavy-shouldered musk-ox body with a high hump over the shoulders and a low-hung head; a long curtain of grey-blue hair hanging from its back and sides almost to the ground, hiding most of the legs, the ends of the hair hung with rows of small icicles; a thick mantle of white hoarfrost and packed snow lying over the hump and along the spine; two broad horns that sweep down beside the cheeks and curl forward at the tips, dull brown and ringed with ice; a slab of pale blue ice grown across the brow like a helm; a dark, broad, short-muzzled face with small calm pale-blue eyes; wide dark hooves just showing under the hair; a short tail hidden in the hair. No flame, no glow, no armour, no rider. Colours: frost white #dfe8ee, grey-blue wool #8a98a6, dark hide #3b3f47, pale ice #a9d8ec, horn brown #5d4a3c. Character model sheet for a 3D modeller: the same creature shown three times side by side at the same size, front view, side view (facing right) and back view, standing square on all four legs on nothing, in a plain neutral stance with the head held level and the mouth closed, on a plain flat warm-grey background, even studio light, no shadows on the background, no text, no frames. Hand-painted stylized fantasy in the style of a storybook JRPG, clear readable shapes.
 
-## What this would change if Chris says yes
+## What Chris said (November 24, 10:46 and 10:52)
 
-- All eight slots are filled: the seven from M7 and these two, less Briarmaw.
-- **Briarmaw has no slot then.** The hub's suggestion: Briarmaw becomes the body of the great bramble, the big fight
-  on the frozen pass (it is a boss in M7, and a bramble). That is his call; until he makes it Briarmaw is brought in
-  and improved with the others and placed nowhere.
+- He made both character sheets from these words, so the two designs stand as he pictured them.
+- The great bramble on the frozen pass is an important piece of the lore and stays as it is.
+- Briarmaw is left out of the game: every slot is taken. The eight slots hold six of M7's creatures and these two.
