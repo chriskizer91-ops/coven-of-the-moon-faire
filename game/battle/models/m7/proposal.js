@@ -1,5 +1,6 @@
-// proposal.js: where each of the seven would be met, and how each plays its slot's job (the creatures job).
+// proposal.js: where each of the six would be met, and how each plays its slot's job (the creatures job).
 // THE HUB'S PROPOSAL, NOT APPROVED: Chris has not said where each creature lives. Every line is data he can move.
+// Six creatures, in zones 1 to 3. (Briarmaw was left out: Chris, November 24, 10:52.)
 // Until the slots carry them (game/encounters/slots.js), only the creatures' own page (creatures-lab.html) uses this:
 // it puts each creature into its slot for that page alone.
 //   zone, slot   the slot it would take; foe: the slot's creature id (slots.js)
@@ -29,9 +30,5 @@ window.COVEN_M7_PROPOSAL = {
   rotstag: { zone: 'zone-3', slot: 'B', foe: 'leaper', acts: { lunge: 'antler', snap: 'gore', pounce: 'trample' },
     names: { lunge: 'Antler Charge', snap: 'Gore', pounce: 'Trample', crouch: 'Rears' },
     look: { kind: 'm7', tall: 2.0, shadow: 0.9, yawBias: 0, glow: null, appearColor: [0.85, 0.8, 0.6], hitColor: 0xfff0c8, hitRGB: [1, 0.93, 0.75], near: 1.9 } },
-  // zone 4, B: the big one (near the pass)
-  briarmaw: { zone: 'zone-4', slot: 'B', foe: 'bigOne', acts: { smash: 'maul', boulder: 'quake', stomp: 'volley', regrow: 'roar' },
-    names: { smash: 'Maul', boulder: 'Rootquake', lift: 'Rears up', stomp: 'Thorn Volley', regrow: 'Bramble Wall' },
-    look: { kind: 'm7', tall: 1.7, shadow: 1.3, yawBias: 0, glow: null, appearColor: [0.6, 0.85, 0.35], hitColor: 0xe0ffb0, hitRGB: [0.8, 1, 0.6], near: 2.4, reach: 0.8, halfW: 1.5, fxScale: 1.4 } },
-  // zone 4, A: stays a stand-in, switched off (no pick fits)
+  // zone 4: both slots stay stand-ins (Chris, November 24, 10:31: two new creatures for the frozen peaks will take them)
 };

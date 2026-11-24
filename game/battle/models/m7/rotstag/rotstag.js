@@ -17,4 +17,7 @@ window.M7.add('rotstag', {
     const dip = Math.max(0, c); if (b.neck) b.neck.rotation.x += 0.12 * dip * dip * w; if (b.head) b.head.rotation.x += 0.08 * dip * dip * w; } },
   fx: { kind: 'drift', color: 0xffe2a0, count: 16, at: 'head', dy: 0.12, radius: 0.25, speed: 0.08, life: 3.0, size: 0.03, bright: 0.6 },
   anchors: { chest: ['chest', 0], head: ['head', 0], top: ['head', 0.2], hit: ['head', 0] },
+  // Coven: its mend. This game's check (tools/m7-stretch.mjs) found two triangles of the neck over the limit in Gore
+  // (1.31 times): the neck and head bend a little less in Gore here
+  mend: { pose(F, move) { const b = F.bones; if (move === 'gore') for (const n of ['neck', 'neck_base', 'head', 'chest']) if (b[n]) b[n].rotation.x *= 0.85; } },
 });

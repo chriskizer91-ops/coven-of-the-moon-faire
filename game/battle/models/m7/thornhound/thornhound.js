@@ -18,4 +18,11 @@ window.M7.add('thornhound', {
   fx: { kind: 'drift', color: 0xffd060, count: 14, at: 'spine', dy: 0.05, radius: 0.3, speed: 0.08, life: 3.0, size: 0.025, bright: 0.6 },
   anchors: { chest: ['chest', 0], head: ['head', 0], top: ['head', 0.1], hit: ['head', 0] },
   stride: 1.4,
+  // Coven: its mends. M7 mended its hind legs itself on November 24 (02:13: the legs made pieces of their own, the hind
+  // thighs ending above the knee), and the copy here passes M7's check. This game's own check (tools/m7-stretch.mjs)
+  // found two triangles over the limit on the back in Bite (1.32 times) and two at the head in the Howl (1.30): those
+  // two motions bend the spine and head a little less here
+  mend: { pose(F, move) { const b = F.bones;
+    if (move === 'bite') for (const n of ['spine', 'chest']) if (b[n]) b[n].rotation.x *= 0.8;
+    if (move === 'howl' && b.head) { b.head.rotation.x *= 0.85; } } },
 });

@@ -1,11 +1,11 @@
-// creatures-lab.js: the creatures job's own small page (game/pages/creatures-lab.html). The seven creatures from
+// creatures-lab.js: the creatures job's own small page (game/pages/creatures-lab.html). The six creatures from
 // Aethermoor M7, each to Look at (standing, turned, every motion one by one) and to fight where it would be met
 // (Play: you choose every move; Watch: the battle plays itself). Words: lab-words.js. Not in the game itself.
 // window.__clab is for the checks: __clab.ready, __clab.keys, __clab.view(key, { act, u, yaw, light }), __clab.start(key, o).
 (function () {
   'use strict';
   const $ = (id) => document.getElementById(id), W = window.COVEN_CREATURES_LAB_WORDS, M7 = window.M7, P = window.COVEN_M7_PROPOSAL || {};
-  const ORDER = ['glowcap', 'forge-spark', 'sapwight', 'rotwarden', 'rotstag', 'briarmaw', 'thornhound'];
+  const ORDER = ['glowcap', 'forge-spark', 'sapwight', 'rotwarden', 'rotstag', 'thornhound'];
   const KEYS = ORDER.filter((k) => M7.kinds[k] && M7.bins[k]);
   const SL = window.COVEN_SLOTS.zones, Z = window.COVEN_ENCOUNTERS, DRAW = window.CovenDraw, FW = window.COVEN_FIGHT_WORDS;
 
@@ -63,7 +63,7 @@
     V = { r, scene, cam, cv, hemi, moon, fill, ground, shadow, glow, witch, m: null, key: null, yaw: 0, clock: 0, act: 'stand', on: false, light: 'battle', fps: 0 };
     return V;
   }
-  function lookOf(k) { const so = slotOf(k); return (so && so.s.model[(P[k] || {}).foe]) ? so.s.model[P[k].foe].look : (P[k] || {}).look || {}; }
+  function lookOf(k) { const so = slotOf(k); return (so && so.s.model[(P[k] || {}).foe]) ? so.s.model[P[k].foe].look : ((P[k] || {}).look || {}); }
   function choose(k) {
     const v = viewer(); if (v.key === k && v.m) return v;
     if (v.m) { v.scene.remove(v.m.root); }

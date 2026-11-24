@@ -1,11 +1,11 @@
 // lab-words.js: the words on the creatures job's own small page (game/pages/creatures-lab.html). Not in the game itself.
 // The creatures' names are Aethermoor M7's, here as STAND-INS until Chris says what they are called in this game.
 window.COVEN_CREATURES_LAB_WORDS = {
-  title: 'The seven creatures from Aethermoor M7',
+  title: 'The six creatures from Aethermoor M7',
   lead: 'Pick one. Look: see it stand, turn it, and play each of its motions. Play or Watch: fight it where it would be met.',
   names: {                     // STAND-IN: their M7 names
     glowcap: 'Glowcap', 'forge-spark': 'Forge-Spark', sapwight: 'Sapwight', rotwarden: 'The Rotwarden',
-    rotstag: 'The Rot-Stag', briarmaw: 'Briarmaw', thornhound: 'Thornhound',
+    rotstag: 'The Rot-Stag', thornhound: 'Thornhound',
   },
   size: '{m} m tall',
   where: '{zone}, slot {slot}',

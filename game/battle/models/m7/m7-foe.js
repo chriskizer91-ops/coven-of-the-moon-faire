@@ -29,7 +29,7 @@
   const M7 = G.M7 = G.M7 || {};
   M7.kinds = M7.kinds || {}; M7.moves = M7.moves || {}; M7.bins = M7.bins || {};
 
-  // ---- the shared look numbers (data: change here and all seven change) ----
+  // ---- the shared look numbers (data: change here and all six change) ----
   M7.LOOK = {
     film: true,           // M7's film curve (ACES) and sRGB, on the creature only
     exposure: 1.0,        // how bright before the curve (M7's beasts page uses 1.45 under a studio light)
@@ -245,8 +245,9 @@
     const moteAt = new T.Vector3();
 
     function reset() { for (const b of Object.values(F.bones)) { b.rotation.set(0, 0, 0); b.position.copy(b.userData.p0); b.scale.set(1, 1, 1); } F.body.position.set(0, 0, 0); F.body.rotation.set(0, 0, 0); }
+    let extra = null;      // the standing loop, put on before the helper joints and limits share the turns out
     function pose(move, u, t, step) {
-      reset(); moves.pose(F, move, u, t, step || 0);
+      reset(); moves.pose(F, move, u, t, step || 0); if (extra) extra();
       for (const [h, d, k] of helpers) { const hb = F.bones[h], db = F.bones[d]; if (!hb || !db) continue; const r = db.rotation; hb.rotation.set(r.x * k, r.y * k, r.z * k); r.set(r.x * (1 - k), r.y * (1 - k), r.z * (1 - k)); }
       if (limits) for (const n in limits) { const b = F.bones[n], k = limits[n]; if (b) { b.rotation.x *= k; b.rotation.y *= k; b.rotation.z *= k; } }
       if (!BEFORE && def.mend && def.mend.pose) def.mend.pose(F, move, u, t);       // a creature's own mend of a pose (its data says)
@@ -263,6 +264,10 @@
       let fade = gone ? 0 : 1, gray = 0, glowK = 1, rate = 1;
       const idleOn = !actv && !(wb > 0.5);
       idleW += ((idleOn ? 1 : 0) - idleW) * Math.min(1, dt * 5);
+      // its own standing loop, blended in when it stands (its data's `idle`: a pure pose of the loop's sine and cosine)
+      const I = def.idle, wI = I ? (time / I.period) * TAU : 0;
+      extra = I && !BEFORE && idleW > 0.01 ? () => I.pose(F, Math.sin(wI), Math.cos(wI), idleW, wI) : null;
+      if (extra && I.glow) glowK *= 1 + I.glow * idleW * Math.sin(wI * (I.glowBeats || 1));
       if (actv) {
         const a = actv.a; actv.t = Math.min(a.dur, actv.t + dt); const u = actv.t / a.dur, mu = a.from + (a.to - a.from) * u;
         if (a.arrive) {                                   // it arrives in character (its data's `arrive`)
@@ -288,8 +293,6 @@
         if (actv.t >= a.dur - 1e-6) { if (a.hold) { if (a.letGo) gone = true; } else actv = null; }
       } else if (wb > 0.5) pose('walk', 0, time, phase * (def.stride || 1));
       else pose('idle', 0, time, 0);
-      // its own standing loop, blended in when it stands (its data's `idle`: a pure pose of the loop's sine and cosine)
-      if (def.idle && !BEFORE && idleW > 0.01) { const I = def.idle, w = (time / I.period) * TAU; I.pose(F, Math.sin(w), Math.cos(w), idleW, w); if (I.glow) glowK *= 1 + I.glow * idleW * Math.sin(w * (I.glowBeats || 1)); }
       if (guardOn && !actv) { F.body.position.y -= 0.03 * H; F.body.rotation.x -= 0.06; }
       liftV = F.body.position.y;
       const f = clamp01(fade * fadeE);

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""creatures-look.py: pictures of the seven creatures from Aethermoor M7, with no screen (the creatures job).
+"""creatures-look.py: pictures of the six creatures from Aethermoor M7, with no screen (the creatures job).
 
     python3 tools/creatures-look.py builds/creatures-lab.html <out folder> [options]
 
   --size 1280x720          the window (also 412x880 for an upright phone)
-  --keys glowcap,rotstag   which creatures (all seven if left out)
+  --keys glowcap,rotstag   which creatures (all six if left out)
   --query m7=before        added to the page's address (m7=before draws them as they first came in)
   --stand                  one picture of each standing, turned three-quarters, beside a witch: <key>-stand.png
   --m7light                the same under M7's own lights (its beasts page), to set beside M7's pictures: <key>-m7light.png
