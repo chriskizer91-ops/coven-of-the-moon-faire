@@ -82,7 +82,7 @@ const stoat = {
     if (move === 'hurt') {
       const a = bump(u * 1.6) * (1 - seg(u, 0.6, 1));
       B.position.z = -0.25 * H * a; B.position.y = 0.05 * H * a; arch(b, 0.12 * a); snake(b, 0.3 * a);
-      rx(b, 'head', -0.12 * a); tail(b, 0.2 * Math.sin(u * 30) * a, -0.15 * a);
+      rx(b, 'head', -0.12 * a); tail(b, 0.08 * Math.sin(u * 30) * a, -0.12 * a);
       return;
     }
     if (move === 'ko') {
