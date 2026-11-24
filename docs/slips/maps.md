@@ -1,6 +1,6 @@
 # maps: the 3D map of Aethermoor and the star map in the menu, and choosing where to fly
 
-Branch: job/maps      Updated: November 23, 2026, 22:45      By: a sub-agent of the hub's (Fable 5.2)
+Branch: job/maps      Last commit of code: db8d36d      Updated: November 24, 2026, 07:00      By: a sub-agent of the hub's (Fable 5.2)
 
 `origin/main` is merged into this branch twice, at the hub's asking: once with the real menu in it (`6f20722`) and
 once with the flight in it (`65c7825`). The checks below were run after the merges, on the real zone-1 page with the
@@ -128,7 +128,9 @@ reading the old Envoi at `d450c3f`. Nothing was written in the old repo.
 
 Everything here was run in a browser with no screen and no graphics card, on November 24, after `origin/main` was
 merged in (the real menu and the flight are in the pages). The job was cut off once, late on November 23, while
-these runs were going; all of them were run again from the start.
+these runs were going; all of them were run again from the start. Every row below was run on the last
+commit of code, but for zones 2 and 3, which were run one small change earlier (before the card's place on a phone
+held on its side, which is CSS for low screens only).
 
 | Check | On | Result |
 |---|---|---|
@@ -195,10 +197,9 @@ Taken with `tools/maps-look.py`, on this machine (not in the repo). 12 views at 
 where the coven is, with a landing's card, from far off, close in; choosing (as it opens, a landing not open, the
 open one, the dotted line); the star map (the system, Thareia, the moon).
 
-- From the real zone-1 page, inside the real menu, at 1280 by 720 and 412 by 880: 24 pictures.
-- From the small page, at 1280 by 720, 412 by 880 and 880 by 412 (a phone on its side): 36 pictures. The 12 at
-  880 by 412 are from the evening of November 23, before the flight was merged; the maps' own files have not changed
-  since.
+- From the real zone-1 page, inside the real menu, at 1280 by 720, 412 by 880 and 880 by 412 (a phone on its
+  side): 36 pictures.
+- From the small page, at the same three sizes: 36 pictures.
 
 ## What was NOT checked
 
@@ -206,8 +207,8 @@ open one, the dotted line); the star map (the system, Thareia, the moon).
   bottom left, so Chris can read it off on his laptop and phone.
 - **No motion.** The camera's flight down to the coven, the dotted line being drawn dash by dash, the pin's pulse,
   the star map's orbits: none was seen moving. The pictures show where each ends.
-- **No real phone and no real fingers.** The old map's own touch test was not run here. Taps were made with a
-  pretend finger at 412 by 880.
+- **No real phone and no real fingers.** The old map's own touch test (turning, pinching, sliding) was not run
+  here. The check's taps are clicks at the place on the screen where a mark or a button shows.
 - **How much memory a phone has left** with the game and a 3D map both open. The map is freed when it is left, but
   while it is open the phone holds both.
 - **The star map's look against the old page,** side by side. It is the same code and data, so it should be the
@@ -233,7 +234,12 @@ open one, the dotted line); the star map (the system, Thareia, the moon).
   of Aethermoor…".
 - On a phone held on its side the tab row and the three view buttons take 120 px of 412. There the card sits in
   the bottom left corner, and is narrower, so the middle of the map stays clear (on the 3D map and on the star map).
+- On a phone held on its side the zone's own map is small (it is shown whole, in a box 290 px tall).
 - The star map's small letters (11 to 12 px) are the old page's own. They were not made bigger.
+- **The Zone view is a copy of the land's big map,** so it carries that map's own close mark (a cross, top right),
+  which does nothing there.
+- **While choosing on a wide screen,** the view opens on the ship and the landings that may be chosen. A landing
+  that is not open can lie off the screen until the map is turned or slid.
 
 ## Unfinished
 
@@ -278,7 +284,7 @@ open one, the dotted line); the star map (the system, Thareia, the moon).
 1. **The frame rates** of the 3D map on the laptop and the phone, read off its bottom left corner; and whether the
    phone is happy with the game and a 3D map open together.
 2. **The names of the three stars and the four other planets** (they read "The Twin Suns", "The Far Star",
-   "Unnamed I" to "Unnamed V"), and **the moon's spelling** (it reads "Auros").
+   "Unnamed I", "Unnamed II", "Unnamed IV", "Unnamed V"), and **the moon's spelling** (it reads "Auros").
 3. **"The coven" on the pin,** or another word.
 4. **Whether the star map should let him set a course between worlds** in this game. It is off.
 5. **The shipyard's spot** is still his call. The map follows the game.
