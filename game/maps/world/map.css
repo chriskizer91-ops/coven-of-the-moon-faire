@@ -1,0 +1,19 @@
+/* map.css: the names over the 3D map of Aethermoor (the old Envoi's moon-faire-witches/world-map/map/map.css).
+   Coven: only the rules for the names over the map are kept. The old page's own rules (html and body, the chip, the two
+   buttons, the "Move Io" list, the hint, the loading screen) are gone: here the map sits inside the game's page, and
+   game/maps/maps.css lays out what goes round it. Coven: the two web fonts are not in the game (a build fetches
+   nothing), so the names use the game's own Georgia, and the pin's title its system font. */
+/* names over the map */
+.map-labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.map-tag{position:absolute;left:0;top:0;white-space:nowrap;will-change:transform}
+.map-tag.place,.map-tag.landing,.map-tag.zone{font-family:Georgia,"Times New Roman",serif;color:#f3eedc;text-shadow:0 0 4px #000,0 1px 3px #000,0 0 10px rgba(0,0,0,.8)}
+.map-tag.place{font-size:13px;margin:-8px 0 0 0;translate:-50% -100%;opacity:.92}
+.map-tag.place::after{content:"";position:absolute;left:50%;bottom:-7px;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#e9e4ff;box-shadow:0 0 6px #b9b0ff}
+.map-tag.place.lands{color:#ffe2a6}
+.map-tag.place.lands::before{content:"◆ ";color:#ffcf6e}
+.map-tag.landing{font-size:13px;translate:-50% -100%;margin-top:-10px;color:#ffe2a6}
+.map-tag.landing::before{content:"◆ ";color:#ffcf6e}
+.map-tag.zone{font-size:22px;letter-spacing:.06em;translate:-50% -50%;color:rgba(255,236,196,.88)}
+.map-tag.io{translate:-50% -100%;margin-top:-26px;display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 12px 6px;border-radius:14px;background:rgba(18,15,44,.78);border:1px solid rgba(214,206,255,.55);box-shadow:0 0 14px rgba(150,140,255,.35)}
+.map-tag.io b{font:700 14px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff;letter-spacing:.04em}
+.map-tag.io span{font:13px/1.15 Georgia,"Times New Roman",serif;color:#e7e2ff}
