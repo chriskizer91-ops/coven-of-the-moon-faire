@@ -9,7 +9,7 @@
 //   M.hold(on)       stop counting (while a fight or a menu is up); M.held
 //   M.force(o)       a meeting now, where she stands (for the checks); o.slot: 'A' or 'B' forces that slot's creature
 //   M.numbers()      { walked, wild, meetings, where, toNext } for the checks
-//   M.spot(at)       a spot from a data file, [x, z] or ['place id', px, py], as [x, z] in the zone's metres (or null)
+//   M.spot(at)       a spot from a data file, [x, z] or ['place id', px, py] or 'ZONE4.bramble.at', as [x, z] in the zone's metres (or null)
 //   onMeet(meeting)  meeting = { where, name, stretch, foes: ['wisp', ...], foeLevel: [low, high], reward, worth, slot, arena, x, z }
 //
 // How it counts: only ground covered in the wilds, outside every place's ground and the camp's meadow (and the zone's
@@ -31,7 +31,10 @@
     let last = null, held = false, calmLeft = D.calm, need = -Math.log(1 - rand()), have = 0, meetings = 0, walked = 0, wild = 0, where = null;
     const at = () => ({ x: M.x(W.io.px), z: M.z(W.io.py) });
     // a spot from a data file: [x, z], or ['place id', px, py] in that place's own painting (null if the place is not on this land)
-    const spot = (a) => { if (!a) return null; if (typeof a[0] !== 'string') return [a[0], a[1]]; const p = parts[a[0]]; return !p ? null : a[1] == null ? [p.ox, p.oz] : [p.ox + p.P.M.x(a[1]), p.oz + p.P.M.z(a[2])]; };
+    // or 'ZONE4.bramble.at': a spot another file has worked out and left under window.W3D (null until it is there)
+    const spot = (a) => { if (!a) return null;
+      if (typeof a === 'string') { let v = window.W3D; for (const k of a.split('.')) v = v == null ? null : v[k]; return v && v.length >= 2 ? [v[0], v[1]] : null; }
+      if (typeof a[0] !== 'string') return [a[0], a[1]]; const p = parts[a[0]]; return !p ? null : a[1] == null ? [p.ox, p.oz] : [p.ox + p.P.M.x(a[1]), p.oz + p.P.M.z(a[2])]; };
     // inside a place's ground or the camp's meadow, or within the margin of one
     const inside = (x, z, m) => rects.some((q) => x > q.x0 - m && x < q.x1 + m && z > q.z0 - m && z < q.z1 + m) || flats.some((f) => Math.hypot(x - f.x, z - f.z) < f.r + m);
     // metres to a place's edge (0 inside it; a place that is not on this land is infinitely far), to the nearest place, to the nearest road

@@ -186,9 +186,10 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../encounters/land-fights.js"></script>
 <script>
 // the fights start the moment the page says the land is ready (the page sets window.__ready; the walker is window.__w3d).
-// The menu watches for the same moment in the same way, so this passes the word on to it, and looks again by itself in case
+// The menu watches for the same moment in the same way, so this passes the word on to it, and looks again by itself in case.
+// (A check that walks the story with no fights opens the page with ?test: the fights then stand aside, as window.__fightsQuiet)
 (function () { let own = false, started = false; const d = Object.getOwnPropertyDescriptor(window, '__ready');
-  const begin = () => { if (started || !window.__w3d) return; started = true; try { window.__fights = CovenLandFights.start({ W: window.__w3d, root: document.getElementById('world'), zone: 'zone-2' }); } catch (e) { console.error(e); window.__fightsErr = String(e && e.stack || e); } };
+  const begin = () => { if (started || !window.__w3d) return; started = true; try { const F = CovenLandFights.start({ W: window.__w3d, root: document.getElementById('world'), zone: 'zone-2' }); if (F.quiet) window.__fightsQuiet = F; else window.__fights = F; } catch (e) { console.error(e); window.__fightsErr = String(e && e.stack || e); } };
   try { Object.defineProperty(window, '__ready', { configurable: true, enumerable: true, get: () => (d && d.get ? d.get() : own), set: (v) => { if (v) begin(); if (d && d.set) d.set(v); else own = v; } }); } catch (e) {}
   const t = setInterval(() => { if (started) clearInterval(t); else if (window.__ready) begin(); }, 100); })();
 </script>

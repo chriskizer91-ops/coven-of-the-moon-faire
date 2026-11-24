@@ -1,8 +1,9 @@
 // zone-4.js: the fights of zone 4, the frozen pass, Misthollow and the dead Moonwell (Coven of the Moon Faire, the
 // fights job, November 24, 2026). Only numbers and names, in the form of zone-2.js. Levels 15 to 20.
-// WRITTEN BEFORE ZONE 4'S LAND WAS IN MAIN. Every spot is given by a place's id (the board's five: frozen-camp,
-// frostmere-shore, frozen-pass, misthollow, moonwell), so nothing here has to move when the land comes; the few spots
-// inside a place's painting are marked "TO SET" and the steps for joining are in docs/slips/fights.md.
+// WRITTEN BEFORE ZONE 4'S LAND WAS IN MAIN, from the zone-4 job's branch as it stood on November 24 (its slip says
+// where each fight belongs). Every spot is given by a place's id (frozen-camp, frostmere-shore, frozen-pass,
+// misthollow, moonwell) or is one the zone-4 job's own file works out (W3D.ZONE4), so nothing here has to move when the
+// land comes. It has not been run on zone 4's page: the steps for joining are in docs/slips/fights.md.
 //
 // The walk (from the pins on the map, at the land's one third size): the camp to Frostmere's shore 1.4 km, on to the
 // frozen pass 0.57, on to Misthollow 1.1, up to the Moonwell 0.3: about 3.4 km, a little less outside the places.
@@ -41,20 +42,23 @@ window.COVEN_ENCOUNTERS['zone-4'] = {
   // ---- the last fight (the story's gate): the fire at the dead Moonwell, level 20, in two forms, one after the other.
   // Between the two the land speaks (the coven's moment `between`): the page is sent an event and waited for.
   // Form 1 cannot be ended: when its Life is down to `below` the fight stops ("Nothing hurts it"). Form 2 is ended only
-  // by Kore's Sealed Fate. The foes are in foes.js, the words in words.js (gates.theFire). TO SET: the spot ----
-  gate: { id: 'theFire', name: 'The fire', at: ['moonwell', 768, 420], r: 14, level: 20, arena: 'dead-moonwell', stand: 'great', scene: 'dead-moonwell',
+  // by Kore's Sealed Fate. The foes are in foes.js, the words in words.js (gates.theFire).
+  // at: the well, as the zone-4 job's file gives it. stage: it is offered once the letter is given (the story's stage 3).
+  // between: the coven's moment between the two forms, which the fights play on the land ----
+  gate: { id: 'theFire', name: 'The fire', at: 'ZONE4.fire.at', r: 18, level: 20, stage: 3, between: 'between', arena: 'dead-moonwell', stand: 'great', scene: 'dead-moonwell',
     forms: [
       { foes: [{ id: 'fireHolds' }], ends: { retreat: { foe: 'fireHolds', below: 0.45 } } },
       { foes: [{ id: 'fireHunger' }], stand: 'knight' },
     ], fanfare: true },
   // ---- the other big fight: the great bramble that bars the frozen road up the pass (stage 1 of the story). It is the
   // battle's Bramble Colossus at level 16, with less Life and lighter blows (hpMul, dmgMul), since here it must be
-  // passed, where in the new Envoi it could be left alone. The coven can back away from it: it is rooted. TO SET: the spot ----
+  // passed, where in the new Envoi it could be left alone. The coven can back away from it: it is rooted.
+  // at: its spot on the road, as the zone-4 job's file gives it. won.flag: what the story asks to be told when it is won ----
   big: [
-    { id: 'greatBramble', name: 'The great bramble', at: ['frozen-pass', 768, 512], r: 16, level: 16, arena: 'frostmere', stand: 'colossus', scene: 'frozen-road',
+    { id: 'greatBramble', name: 'The great bramble', at: 'ZONE4.bramble.at', r: 22, level: 16, stage: 1, won: { flag: 'bramble' }, arena: 'frostmere', stand: 'colossus', scene: 'frozen-road',
       foes: [{ id: 'colossus', level: 16, hpMul: 0.6, dmgMul: 0.88 }], alias: { colossus: 'greatBramble' }, canFlee: true, fanfare: true },
   ],
-  camp: { at: ['frozen-camp', 768, 512], r: 36, wake: ['frozen-camp', 768, 540] },
+  camp: { at: ['frozen-camp', 630, 452], r: 40, wake: ['frozen-camp', 630, 480] },
   // where else the coven can rest (JOB'S CALL, one line): Ede's inn in Misthollow, where she tries to light the fire every night
-  rests: [{ id: 'inn', at: ['misthollow', 768, 512], r: 14 }],
+  rests: [{ id: 'inn', at: ['misthollow', 980, 690], r: 14 }],
 };

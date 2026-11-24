@@ -28,7 +28,8 @@
 // __fights.busy; __fights.last (the last fight's answer); __fights.auto = 'expert' lets the battle play itself;
 // __fights.bigs (every big fight, with its spot); __fights.events (what it has told the page).
 // A check that walks a story with no fights (tools/story-test.py) opens the page with ?test: then, in every zone but
-// the first, the big fights and the things' fights stand aside, and the story's own stand-in carries on as before.
+// the first, the big fights and the things' fights stand aside (the answer's `quiet` is true, and the page keeps it as
+// window.__fightsQuiet, not window.__fights), and the story's own stand-ins carry on as before.
 // A check of the fights themselves opens it with ?test&fights.
 (function () {
   'use strict';
@@ -135,7 +136,11 @@
       const alias = {}; for (const k in g.alias || {}) alias[k] = ((WORDS.gates || {})[g.alias[k]] || {}).name || g.alias[k];
       return { arena: f.arena || g.arena, stand: f.stand || g.stand, scene: g.scene, foes: f.foes || g.foes, ends: f.ends || g.ends, canFlee: !!g.canFlee, alias: g.alias ? alias : undefined, fanfare: !!g.fanfare, words: fw };
     };
-    const BIGS = [D.gate].concat(D.big || []).filter(Boolean).map((g) => Object.assign({}, g, { at: meetings.spot(g.at), words: (WORDS.gates || {})[g.id] || {} })).filter((g) => g.at);
+    // (a spot another file works out, such as zone 4's 'ZONE4.bramble.at', may not be there yet: it is looked for again)
+    const BIGS = [D.gate].concat(D.big || []).filter(Boolean).map((g) => Object.assign({}, g, { src: g.at, at: meetings.spot(g.at), words: (WORDS.gates || {})[g.id] || {} }));
+    const storyNow = () => (window.__story && window.__story.state ? window.__story.state() : null);
+    // a big fight may wait for the story (its `stage`: the story's stage from which it is offered)
+    const due = (g) => { if (g.stage == null) return true; const s = storyNow(); return !s || s.stage >= g.stage; };
     const told = {};
     async function bigFight(g) {
       if (g.kind) return fight({ id: g.id, kind: g.kind, arena: g.arena, gate: g.id, canFlee: false }, { gate: g.id });   // (one of the battle's own story fights: zone 1's great wraith)
@@ -143,16 +148,25 @@
       for (let i = 0; i < forms.length; i++) {
         const last = i === forms.length - 1, part = g.id + '.' + (i + 1);
         if (!last && party.gates[part]) continue;                                    // (a form already seen through is not fought again)
-        if (i > 0) await tell('between-forms', { id: g.id, form: i + 1 }).wait(90000);
+        if (i > 0) { const T = tell('between-forms', { id: g.id, form: i + 1 }); await between(g); await T.wait(90000); }
         const r = await fight({ id: g.id, kind: 'story', story: story(g, forms[i], i), gate: last ? g.id : part, canFlee: !!g.canFlee }, { gate: g.id, form: i + 1 });
         if (!r || !r.won) return r;
-        if (last) return r;
+        // won, and the story is told what it asked to be told (its `won.flag`: zone 4's great bramble lets go of the road)
+        if (last) { if (g.won && g.won.flag && window.__story && window.__story.flag) { try { window.__story.flag(g.won.flag, true); } catch (e) { console.error(e); } } return r; }
       }
       return null;
     }
+    // between the two forms of a fight the coven speaks on the land: the story's own moment (the gate's `between`), waited for
+    async function between(g) {
+      const S = window.__story, P = window.__people; if (!g.between || !S || !S.moment) return;
+      const wasHeld = meetings.held; meetings.hold(true); api.busy = true;
+      try { if (S.moment(g.between) && P && P.busy) await new Promise((r) => { const t0 = performance.now(), t = setInterval(() => { if (!P.busy() || performance.now() - t0 > 90000) { clearInterval(t); r(); } }, 250); }); } catch (e) { console.error(e); }
+      api.busy = false; meetings.hold(wasHeld);
+    }
     function gateCheck() {
       if (api.busy) { view.offer(null); return; }
-      const g = QUIET ? null : BIGS.find((b) => !party.gates[b.id] && near(b.at, b.r));
+      for (const b of BIGS) if (!b.at) b.at = meetings.spot(b.src);
+      const g = QUIET ? null : BIGS.find((b) => b.at && !party.gates[b.id] && due(b) && near(b.at, b.r));
       if (!g) { view.offer(null); return; }
       if (party.level < g.level) {
         view.offer(null);
@@ -185,7 +199,7 @@
       fight, bigFight, toCamp, inCamp, rest, thing, tell,
       bigs: BIGS, rests: RESTS, camp: CAMP, quiet: QUIET,
       // the story's big fight for this zone: { id, at: [x, z], ... } (not there when a check walks the story with no fights)
-      gate: QUIET ? null : BIGS.find((b) => D.gate && b.id === D.gate.id) || null,
+      get gate() { if (QUIET) return null; const g = BIGS.find((b) => D.gate && b.id === D.gate.id); if (g && !g.at) g.at = meetings.spot(g.src); return g && g.at ? g : null; },
       stop() { clearInterval(timer); meetings.stop(); },
     });
     return api;
