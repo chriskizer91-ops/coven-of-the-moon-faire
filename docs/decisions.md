@@ -13,6 +13,18 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 22:25: the flight is in, and the real ship lies at the jetty
+
+- **The flight job's work is in `main`,** checked by the hub: one flight between two landings, made from Skies of
+  Aethermoor, over Chris's night map; and the Skiff, baked, lying at zone 1's jetty in place of the hub's stand-in.
+- **Hub's call.** *The stand-in ship is taken out of the repo,* now the real one is there.
+- **The flight job's calls, each one line of data, for Chris to overrule** (`game/flight/flight-data.js`,
+  `game/places/jetty-ship-real.js`): the first flight is under calm skies, gentler than any of the airship game's
+  three; raiders give up after 60 seconds; long flights are hurried, up to 1.6 times; no wind; the player may turn
+  back; no shards are paid; at the jetty the ship rides in the lake like a boat at a pier, not hanging in the air.
+- **Still the hub's reading, for Chris to correct:** which ship goes with which gate (Skiff, Cutter, Brig, Frigate).
+- **Hub's call.** *`tools/flight-test.py` and `tools/flight-ship-test.py` join the checks the hub runs.*
+
 ## November 23, 2026, 21:50: the pause menu and three save slots are in
 
 - **The menu job's work is in `main`,** checked by the hub. One menu button on the land; the game pauses; three save

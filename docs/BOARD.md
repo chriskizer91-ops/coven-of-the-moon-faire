@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 21:55, by the hub.
+Last updated: November 23, 2026, 22:30, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -24,7 +24,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 |---|---|---|---|---|
 | `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | **Done, in `main` (21:50).** On all three zone pages. Its slip: `docs/slips/menu.md` |
 | `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Started 19:15 |
-| `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | Started 19:15 |
+| `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | **Done, in `main` (22:25).** Both parts. Its slip: `docs/slips/flight.md`. Not joined to the zones yet: that is the hub's |
 | `fights` | `job/fights` | Step 4: room for new creatures, and the whole game's levels | its own conversation | In progress; nothing pushed since the morning |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
@@ -50,6 +50,38 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 - **For Chris to try on his phone:** whether the phone keeps saves between visits for a page opened from a
   downloaded file. The Save tab says "this is visit N"; if N never goes past 1, it does not, and Save to a file is
   the way.
+
+### The flight and the real ship are in (22:25): what the hub checked, and what it leaves for the hub
+
+- **One flight is a piece a page can call:** `W3D.flight.fly({ from, to, ship })`. It is Skies of Aethermoor's own
+  flying, cut down to one flight, over Chris's night map of Aethermoor, in a frame of its own (its 3D library is
+  newer than the game's). It adds 2.9 MB to a page. Try it by itself: `game/pages/flight.html` (2.9 MB built).
+- **The four ships are the four travel upgrades** (Chris, 19:40), one for each landing flown from: the Skiff from
+  Wickhollow, the Cutter from the Warm Roads, the Brig from the northern wilds, the Frigate from the northeast
+  peaks. All four fly. The order is the hub's reading (`shipFrom` in `game/flight/flight-data.js`).
+- **The flights, by the job's own numbers:** Wickhollow to the Warm Roads 3.4 km, 1 raider, about 85 seconds;
+  the Warm Roads to the northern wilds 5.0 km, 2 raiders, about 2 and a half minutes; the northern wilds to the
+  northeast peaks 8.4 km, 3 raiders, about 3 minutes.
+- **The real ship lies at zone 1's jetty:** the Skiff, baked to plain data and drawn by the place engine. The hub's
+  stand-in is gone from the repo. The twelve lamps hang on her hooks as before.
+- **Checked by the hub on `main`, after the merge:** `tools/flight-test.py` (56 checks) and
+  `tools/flight-ship-test.py` (14) pass; on zone 1 with the real ship in (101.2 MB): things 40, people 134, zone 28,
+  fights 25, menu 58 (the quick way). The job changed only its own files. Both checks join the hub's list.
+- **Not checked by anyone: the flight on a real laptop or phone.** How it steers, its frame rate, whether a phone
+  holds up. Only Chris can.
+- **Left for the hub:**
+  - Joining it to the zones ("How the pieces join", below). The flight does not pause the page under it: fly before
+    the zone's world is built, or pause the world until the flight answers.
+  - The flight covers the menu button, and has a pause button of its own. When the menu should take over:
+    `buttons.pause` in the flight's data, and `W3D.flight.pause(on)`.
+  - A ship at the landings of zones 2 and 3: `node tools/flight-bake-ship.mjs cutter` bakes another (it needs Node;
+    the game's own build does not), and `W3D.mooredShip` draws it.
+  - What happens when a ship is lost on the way (the flight answers "not arrived" and leaves the page as it was).
+- **The flight job's calls, each one line of data, for Chris to overrule:** a calm first flight; raiders give up
+  after 60 seconds; long flights hurried up to 1.6 times; no wind; the player can turn back from the pause card; no
+  shards paid; the moored ship rides with her keel in the lake, not hanging in the air; her starboard side lies to
+  the pier; her own four lanterns are left off so her hooks are bare until the lamps come home. The ships' names
+  (the Zephyr and the rest) and every word on the flight's screen are stand-ins, in its data file.
 
 ### How the pieces join (the hub's part, once the three are in)
 
@@ -129,8 +161,8 @@ list below wait on Chris, so it did **step 5, the four small things zone 1's lin
 - **What Chris has last been sent:** November 23, 12:22: `listen-narrator.html`, and the three zone pages with the
   narrator speaking. November 23, 15:45: `zone-1.html` with the four small things, and four sheets of before and
   after pictures.
-- **The ship at the jetty is a stand-in, made here.** The real one is to come from Skies of Aethermoor. The new
-  hub's conversation was not given that repo, so it has read nothing of it (see "Waiting on Chris", 1).
+- **The ship at the jetty is the real one since 22:25:** the Skiff from Skies of Aethermoor ("The plan to finish").
+  The hub's stand-in of the afternoon is gone.
 
 ### What is in progress, and on which branch
 
@@ -375,7 +407,7 @@ The hub's plan. Names and order may change.
 - The 17 fighting models on Everyone Who Fights: lock them in, or say what to change.
 - Whether Halcyon gets moves of her own.
 - Six textures that show a faint line where they repeat.
-- Which Skies of Aethermoor ship he flies first.
+- ~~Which Skies of Aethermoor ship he flies first.~~ Answered November 23, 19:40: the four ships are the four travel upgrades; the Skiff first, by the hub's reading.
 - Four small answers on herbs.
 - The Moon Faire brambles: he has not looked at them yet.
 - The names of the three stars and the four other planets.
@@ -407,7 +439,7 @@ The hub's plan. Names and order may change.
 | `zone-1` | All of zone 1 on one land; and all of the hub's own building since (zones 2 and 3, the people, the narrator, the small things) | `job/zone-1` | `docs/slips/zone-1.md` | **In `main`**, up to zone 1's four small things (November 23, 15:45). The rough spots are in the slip |
 | `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Done, in `main`** (November 23, 21:50) |
 | `maps` | The 3D map of Aethermoor and the star map in the menu; choosing where to fly (a sub-agent) | `job/maps` | `docs/slips/maps.md` | **Started November 23, 19:15** |
-| `flight` | The flight between zones from Skies of Aethermoor; the real ship (a sub-agent) | `job/flight` | `docs/slips/flight.md` | **Started November 23, 19:15** |
+| `flight` | The flight between zones from Skies of Aethermoor; the real ship (a sub-agent) | `job/flight` | `docs/slips/flight.md` | **Done, in `main`** (November 23, 22:25). Joining it to the zones is the hub's |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
 | `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1, 2 and 3 done and in `main`** (November 19): the battle page; `CovenBattle.start()`; the party kept in the browser; unseen meetings in zone 1's wilds (about 46 fights to level 5); the fight over the land and back; rest at the camp; the gate's spot (a proposal). Zone 1's page is 83.5 MB |
 | `story` | The story's dialogue, written to be spoken aloud (every person has a voice) | `job/story` | `docs/slips/story.md` | **In `main`** (November 23): the story page Chris approved; every line of zones 1 to 4 (`game/talk/zone-*.js`, `cast.js`); the recordings for zones 1 to 3 (`game/talk/audio/`, 480 files, 16 MB). Its notes for the hub are at the end of its slip: the moth, the gate lamp, and what zones 2 to 4 need |
