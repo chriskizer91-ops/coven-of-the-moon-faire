@@ -16,6 +16,7 @@ Everything a build needs is in this folder (and `tools/`). Nothing is loaded fro
 | `lib/` | three.js r128 |
 | `menu/` | The pause menu, the three save slots and the tab frame other pieces add their tabs to (the menu job's) |
 | `travel/` | The landings a ship sets down at, one for each zone (the hub's) |
+| `flight/` | The flight between zones, made from Skies of Aethermoor: its sources, the one built piece a page loads (`flight-frame.js`), and the baked ship that lies at a landing (the flight job's) |
 
 ## Build and check
 
