@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 06:12, by the hub.
+Last updated: November 24, 2026, 06:25, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -27,7 +27,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | `zone-4` | `job/zone-4` | All of zone 4: its land, people, story and the narrator's words for it, built to fit the lines Chris is recording | a sub-agent (Fable 5.2, high) | **Started November 24, 05:41** (Chris, 05:39: zone four can get started) |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | **Done, in `main` (22:25).** Both parts. Its slip: `docs/slips/flight.md`. Not joined to the zones yet: that is the hub's |
 | `fights` | `job/fights` | The rest of the fights job: step 4 (room for new creatures, the whole game's levels); fights on zones 2 and 3; zone 4's fights as data; a trial of one M7 creature outside the repo | **a sub-agent (Fable 5.2, high), from November 24, 06:03** (Chris: "you can use a sub agent to do the rest of the fights conversation"). The fights conversation is done with | Started |
-| `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | Started November 24, 06:03 |
+| `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | **Proposal in, in `main` (November 24, 06:25):** `docs/lore/sky-names-proposal.md`. The short page went to Chris. **Waiting on his yes or his changes** |
 | `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). First part: who needs one, the shapes, the grey guides and the words for each picture, as one folder for Chris. His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | Started November 24, 06:03 |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
@@ -134,7 +134,14 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 5. **Two pictures for each townsperson** (a body sheet and a face, made over grey guides, as he did for the eleven
    fair folk), once the townsfolk job has the guides and the words ready. Or his word that the bodies are to be
    painted without his pictures.
-6. **Yes, or changes, to the sky's names** when the sky-names job's proposal comes.
+6. **Yes, or changes, to the sky's names.** The proposal is in (`docs/lore/sky-names-proposal.md`) and the short
+   page went to him on November 24: the Cresset and the Taper (the twin suns), the Vigil (the far star); Brasa,
+   Saffren, Pavane and Glaswen (the four planets, each with a fair-folk name); the Amberwake (the band of crystal).
+   Still stand-ins. When he has chosen, the hub puts the lines at the end of the proposal into the star map's
+   data (`game/maps/data/maps-data.js`, once the maps job is in `main`), and marks Auros settled there too (the
+   maps data still calls its spelling open; `docs/decisions.md` settled it on November 18).
+   The job could not read his own lore compendium: it is in a repo that is not a source. A name he gave there wins.
+   The hub's own check added one thing: *Pavane* is also the title of a well-known 1968 novel (not about a planet).
 7. **The flight: made again from his newest airship game, or left as it is?** The flight was built on the oldest
    version of Skies of Aethermoor. The one he plays is stage 4 and stage 5, on other branches of that repo. The
    Fire button is put right (below); the ships' better looks and the smoother picture of stage 5 are not in.
@@ -477,7 +484,7 @@ The hub's plan. Names and order may change.
 | `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Done, in `main`** (November 23, 21:50) |
 | `maps` | The 3D map of Aethermoor and the star map in the menu; choosing where to fly (a sub-agent) | `job/maps` | `docs/slips/maps.md` | **Started November 23, 19:15** |
 | `flight` | The flight between zones from Skies of Aethermoor; the real ship (a sub-agent) | `job/flight` | `docs/slips/flight.md` | **Done, in `main`** (November 23, 22:25). Joining it to the zones is the hub's |
-| `sky-names` | Names proposed for the stars, planets and the rest of the star map (a sub-agent; a lore job) | `job/sky-names` | `docs/slips/sky-names.md` | **Started November 24, 06:03.** Writes `docs/lore/sky-names-proposal.md`. A proposal until Chris says yes |
+| `sky-names` | Names proposed for the stars, planets and the rest of the star map (a sub-agent; a lore job) | `job/sky-names` | `docs/slips/sky-names.md` | **Proposal in, in `main`** (November 24, 06:25). Nothing built. Waiting on Chris's yes or his changes |
 | `townsfolk` | The towns' people in bodies of their own, first part: shapes, guides and the words for Chris's pictures (a sub-agent) | `job/townsfolk` | `docs/slips/townsfolk.md` | **Started November 24, 06:03** |
 | `zone-4` | All of zone 4: land, people, story, the narrator's words (a sub-agent) | `job/zone-4` | `docs/slips/zone-4.md` | **Started November 24, 05:41.** Its text is not on the board: the rule that matters is that no word of `game/talk/zone-4.js` changes, because Chris is recording those lines |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
