@@ -56,7 +56,7 @@
     // the battle's lights (game/battle/screen.js): sky and ground, the moon from behind, a warm fill from the front
     const hemi = new T.HemisphereLight(0x756aa8, 0x33262f, 1.1), moon = new T.DirectionalLight(0xb8c0ff, 0.62), fill = new T.DirectionalLight(0xffdcc0, 0.42);
     moon.position.set(-5, 9, -12); fill.position.set(2, 5, 10); scene.add(hemi, moon, fill);
-    const ground = new T.Mesh(new T.CircleGeometry(9, 48), new T.MeshStandardMaterial({ color: 0x2b2433, roughness: 1 })); ground.rotation.x = -Math.PI / 2; scene.add(ground);
+    const ground = new T.Mesh(new T.CircleGeometry(40, 64), new T.MeshStandardMaterial({ color: 0x2b2433, roughness: 1 })); ground.rotation.x = -Math.PI / 2; scene.add(ground);
     const disc = (tex, add) => { const m = new T.Mesh(new T.CircleGeometry(1, 36), new T.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, blending: add ? T.AdditiveBlending : T.NormalBlending })); m.rotation.x = -Math.PI / 2; m.position.y = 0.004; scene.add(m); return m; };
     const shadow = disc(radial('rgba(10,4,16,0.62)', 'rgba(10,4,16,0.3)'), false), glow = disc(radial('rgba(255,255,255,1)', 'rgba(255,255,255,0.28)'), true);
     let witch = null; try { witch = window.makeMoonIo({ weight: 'lightest' }); scene.add(witch.root); } catch (e) { witch = null; }
