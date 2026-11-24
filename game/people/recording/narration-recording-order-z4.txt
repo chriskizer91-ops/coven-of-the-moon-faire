@@ -1,0 +1,109 @@
+COVEN OF THE MOON FAIRE
+VOICE RECORDING ORDER: THE NARRATOR, ZONE 4 (THE NORTHEAST PEAKS, AND THE ENDING)
+Made November 24, 2026. 18 lines, 1 speaker, about 2.0 minutes of speech.
+
+WHAT THIS IS
+These are the narrator's lines for part 4 ("zone 4") of the same small fantasy video game as the earlier recording orders, and for its ending. They are all said by one speaker, the narrator, who was recorded before for zones 1, 2 and 3. The narrator sets the scene at certain points: where the four witches are, what has just happened, what is in front of them. Each line below is recorded as its own sound file. The game finds a line's sound by its file name, so the names must be exact. The lines are British English.
+
+HOW TO MAKE THE FILES
+ 1. Use the same ElevenLabs model, the same settings and the same way of working as for the narrator's earlier recording order (zones 1 to 3).
+ 2. RETURNING VOICE: the narrator was recorded for zones 1 to 3 (z1-narrator.zip, z2-narrator.zip, z3-narrator.zip). Use the very same voice and settings as before, for all 18 lines, so she sounds like the same person. The voice note below is for reference only.
+ 3. Say exactly the words after "Say:". Do not add, drop or change a word.
+ 4. Words in [square brackets] are delivery cues, not words to speak. If a cue is spoken aloud by mistake, make the line again without the cue.
+ 5. "Tone:" says how the line should sound. It is never spoken. If a line comes out in the wrong tone, make it again; you may put a short cue from the tone note in square brackets at its start, such as [quietly] or [warmly].
+ 6. The narrator is calm throughout: a storyteller by a fire. Never dramatic, never a film-trailer voice, never hurried. If a line comes out theatrical, make it again plainer. This matters most in zone 4, where the story ends: the quieter the better.
+ 7. One sound file for each line, named by its file name exactly, for example z4.narrator.03.mp3 (lower case, with the dots as shown).
+ 8. MP3, one channel (mono), 44.1 kHz, 64 kbps, as for the earlier orders. If a file comes out with two channels, mix it down to one.
+ 9. Silence: no more than a fifth of a second (0.2 s) at the start and at the end of each file. Trim any longer silence.
+10. Loudness: the same for every file, and the same as the earlier orders: about -18 LUFS (integrated), with peaks no higher than -1 dBFS.
+11. Packing: one zip, named z4-narrator.zip. Inside it: the 18 sound files, and a list named z4-narrator-list.csv with two columns, file and seconds: each file's name and its real length.
+12. Check before handing back: 18 files in 1 zip, every file name below present once, and nothing else.
+
+HOW TO SAY THE NAMES
+Say them as in the earlier orders. If a name comes out wrong, write it in the International Phonetic Alphabet between slashes in the text.
+  Wickhollow  WICK-hollow            /ˈwɪkhɒloʊ/
+  Faire       the same as "fair"     /fɛər/
+  Misthollow  MIST-hollow            /ˈmɪsthɒloʊ/
+  Moonwell    MOON-well              /ˈmuːnwɛl/
+  Frostmere   FROST-meer             /ˈfrɒstmɪər/
+  Wardens     WAR-dens               /ˈwɔːdənz/
+
+==============================================================================
+SPEAKER: narrator   The narrator
+ZIP: z4-narrator.zip   (18 lines, about 119 seconds)
+VOICE: RETURNING. Use the same voice as before (z1-narrator.zip, z2-narrator.zip, z3-narrator.zip). For reference: A woman of about sixty. A fireside storyteller: warm, low and unhurried, close to the ear. Soft, plain British English with no strong region, so she belongs to no one town. Even and calm. She tells what is there and lets it be. Never dramatic, never sing-song, never hurried.
+------------------------------------------------------------------------------
+ZONE 4: the northeast peaks, and the ending at the Faire   ZIP: z4-narrator.zip   (18 lines, about 119 seconds)
+------------------------------------------------------------------------------
+z4.narrator.01.mp3
+  Say:  North-east, into the mountains. There is snow on every peak, and frost on every rope.
+  Tone: Steady and a little hushed, as the cold comes on. Unhurried.
+
+z4.narrator.02.mp3
+  Say:  The frozen camp, at the foot of the pass. A fire, two tents, and the ship in the snow with every lamp lit.
+  Tone: Plain and settled. A small warmth on “every lamp lit”.
+
+z4.narrator.03.mp3
+  Say:  Above the pass, the cutting is choked with black bramble, from one bank to the other.
+  Tone: Even and quiet. Nothing sinister: it is simply so.
+
+z4.narrator.04.mp3
+  Say:  Misthollow. It is neither night nor day here. Up the one street, in two long lines, stand forty Wardens.
+  Tone: Hushed. A small pause after “Misthollow”. The last sentence slow and level, as if counting them.
+
+z4.narrator.05.mp3
+  Say:  The head of the street, and the dead Moonwell. Two bowls of white fire, and between them a figure, all light.
+  Tone: Low and very still. No awe in the voice: let the picture do it.
+
+z4.narrator.06.mp3
+  Say:  The light has left her. Behind her, in the mouth of the dead well, it is rising.
+  Tone: Quiet, and a little quicker on the second sentence. A storyteller lowering her voice, not raising it.
+
+z4.narrator.07.mp3
+  Say:  The fire’s first shape breaks, and a second rises out of the well.
+  Tone: Level and plain. She is telling what happened, not shouting over it.
+
+z4.narrator.08.mp3
+  Say:  The fire has ended. The well is dark, and the two bowls are cold iron.
+  Tone: Very quiet. Three plain facts, with room after each.
+
+z4.narrator.09.mp3
+  Say:  For the first time in eight years, the moon goes down over Misthollow.
+  Tone: Soft and unhurried. The gentlest line of the game: an ending that is welcome.
+
+z4.narrator.10.mp3
+  Say:  South-west, out of the mountains, with no moon to steer by. The ship flies home by her twelve small lamps.
+  Tone: Warm and easy. The danger is over: this is the way home.
+
+z4.narrator.11.mp3
+  Say:  The Moon Faire’s camp, outside Wickhollow. Every lantern is lit, and nobody has gone to bed.
+  Tone: Warm, with a smile in the second sentence. Home.
+
+z4.narrator.12.mp3
+  Say:  Frostmere’s shore. A boathouse under the snow, and beyond it the mere, frozen black. Here the road turns north, and begins to climb.
+  Tone: Plain directions, kindly given. Spare, like the place.
+
+z4.narrator.13.mp3
+  Say:  The frozen pass. A stone causeway over a frozen river, and one iron lamp, still burning. It is the last.
+  Tone: Even. The last four words lower and slower, said once and left alone.
+
+z4.narrator.14.mp3
+  Say:  The bramble has let go of the road. The way up to Misthollow is open.
+  Tone: Brief and plain, a breath let out.
+
+z4.narrator.15.mp3
+  Say:  Night comes to Misthollow, and the stars with it. Below, in the street, the forty are stirring.
+  Tone: Quiet wonder, kept small. The second sentence a little brighter.
+
+z4.narrator.16.mp3
+  Say:  The ship lifts out of the snow with five aboard, and turns south-west, for Wickhollow.
+  Tone: Steady and glad. “Five aboard” said simply, not underlined.
+
+z4.narrator.17.mp3
+  Say:  The frozen camp. The coven wakes by the fire, sore and safe, under the ship’s lamps.
+  Tone: Kind and unworried. A small smile on “sore and safe”.
+
+z4.narrator.18.mp3
+  Say:  The dead Moonwell. What waits at the head of the stair is more than the coven can face yet.
+  Tone: Low and calm. A caution from someone on your side.
+

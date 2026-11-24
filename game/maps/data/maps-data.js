@@ -61,6 +61,7 @@
       'zone-1': { zone: 1, origin: [1348, 1838], k: 10 / 3, start: [-70, 133] },
       'zone-2': { zone: 2, origin: [820, 1530], k: 10 / 3, start: [-7.72, -2.3] },
       'zone-3': { zone: 3, origin: [1150, 612], k: 10 / 3, start: [-4.24, -4.6] },
+      'zone-4': { zone: 4, origin: [2760, 1105], k: 10 / 3, start: [-5.52, -3] },   // added by the hub when zone 4 came in (November 24)
     },
     // The shipyard: the hub stood it in the bay, 280 m south of its pin (docs/decisions.md; Chris has not said yet whether
     // it stays). The map follows the game, so the pin and the shipyard's model agree. To put it back: delete the line.

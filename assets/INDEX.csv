@@ -263,3 +263,29 @@ game/maps/world/art/aethermoor-building-layers.webp,envoi-on-the-longest-night,m
 game/maps/world/art/aethermoor-place-layers.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world-map/art/aethermoor-place-layers.webp,"The 3D map: the textures the walking places wear, in one picture",2026-11-23
 game/maps/world/art/aethermoor-place-grounds.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world-map/art/aethermoor-place-grounds.webp,"The 3D map: where each walking place has cobbles, earth, paving and water",2026-11-23
 game/maps/sky/thareia-system-star-map.html,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/star-map/thareia-system-star-map.html,"The star map of the Thareia system: the page the game's frame is made from",2026-11-23
+game/places/frozen-camp.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/frozen-camp.js,The frozen camp as a 3D place,2026-11-24
+game/places/frozen-camp-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/frozen-camp-trees.js,where The frozen camp's trees stand,2026-11-24
+game/texture-packs/made-web/cliff_rock_frozen.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/cliff_rock_frozen.webp,"Chris's made texture, web copy: cliff_rock_frozen",2026-11-24
+game/texture-packs/made-web/frozen_waterfall_ice.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/frozen_waterfall_ice.webp,"Chris's made texture, web copy: frozen_waterfall_ice",2026-11-24
+game/texture-packs/made-web/snow_trodden_trail.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/snow_trodden_trail.webp,"Chris's made texture, web copy: snow_trodden_trail",2026-11-24
+game/data/maps-frozen-camp.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The frozen camp's walking map: only its walk and block areas, as plain numbers",2026-11-24
+game/places/frostmere-shore.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/frostmere-shore.js,Frostmere's shore as a 3D place,2026-11-24
+game/places/frostmere-shore-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/frostmere-shore-trees.js,where Frostmere's shore's trees stand,2026-11-24
+game/texture-packs/made-web/lake_ice_snowcrust.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/lake_ice_snowcrust.webp,"Chris's made texture, web copy: lake_ice_snowcrust",2026-11-24
+game/texture-packs/made-web/road_cobbles_snow.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/road_cobbles_snow.webp,"Chris's made texture, web copy: road_cobbles_snow",2026-11-24
+game/data/maps-frostmere-shore.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Frostmere's shore's walking map: only its walk and block areas, as plain numbers",2026-11-24
+game/places/frozen-pass.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/frozen-pass.js,The frozen pass as a 3D place,2026-11-24
+game/places/frozen-pass-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/frozen-pass-trees.js,where The frozen pass's trees stand,2026-11-24
+game/texture-packs/made-web/frozenpass_road_snowy.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/frozenpass_road_snowy.webp,"Chris's made texture, web copy: frozenpass_road_snowy",2026-11-24
+game/data/maps-frozen-pass.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The frozen pass's walking map: only its walk and block areas, as plain numbers",2026-11-24
+game/places/misthollow.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/misthollow.js,Misthollow as a 3D place,2026-11-24
+game/places/misthollow-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/misthollow-trees.js,where Misthollow's trees stand,2026-11-24
+game/texture-packs/made-web/misthollow_roof_blue_slate.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/misthollow_roof_blue_slate.webp,"Chris's made texture, web copy: misthollow_roof_blue_slate",2026-11-24
+game/texture-packs/made-web/shared_setts_frosted.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/shared_setts_frosted.webp,"Chris's made texture, web copy: shared_setts_frosted",2026-11-24
+game/data/maps-misthollow.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"Misthollow's walking map: only its walk and block areas, as plain numbers",2026-11-24
+game/places/moonwell.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/moonwell.js,The dead Moonwell as a 3D place,2026-11-24
+game/places/moonwell-trees.js,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/world3d/places/moonwell-trees.js,where The dead Moonwell's trees stand,2026-11-24
+game/texture-packs/made-web/moonwell_court_setts.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/moonwell_court_setts.webp,"Chris's made texture, web copy: moonwell_court_setts",2026-11-24
+game/texture-packs/made-web/moonwell_garden_frost.webp,envoi-on-the-longest-night,main,d450c3f,moon-faire-witches/texture-packs/made-web/moonwell_garden_frost.webp,"Chris's made texture, web copy: moonwell_garden_frost",2026-11-24
+game/data/maps-moonwell.js,envoi-on-the-longest-night,main,d450c3f,src/game/maps.js,"The dead Moonwell's walking map: only its walk and block areas, as plain numbers",2026-11-24
+game/art/walk/walk-frozen-camp.avif,envoi-on-the-longest-night,main,d450c3f,art/walk/walk-frozen-camp.avif,"The frozen camp's walking painting (the Flipbook look's colours in zone 4)",2026-11-24
