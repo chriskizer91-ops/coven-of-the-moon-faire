@@ -40,7 +40,7 @@ const stoat = {
     if (move === 'walk') {
       // the bound: the back humps as the hind feet land under it, then stretches long as the forefeet reach
       const s = Math.sin(step), c = Math.cos(step);
-      arch(b, 0.12 * s);
+      arch(b, 0.08 * s);
       for (const l of FRONT) { rx(b, l + '_upper', 0.13 * s); rx(b, l + '_lower', 0.12 * s - 0.28 * Math.max(0, -c)); rx(b, l + '_paw', 0.35 * Math.max(0, -c)); }
       for (const l of HIND) { rx(b, l + '_upper', -0.14 * s); rx(b, l + '_lower', -0.12 * s + 0.28 * Math.max(0, c)); rx(b, l + '_paw', -0.3 * Math.max(0, c)); }
       B.position.y = 0.06 * H * Math.max(0, Math.sin(step + 0.6)); B.rotation.x = 0.05 * c;
@@ -52,7 +52,7 @@ const stoat = {
       const low = seg(u, 0, 0.32) * (1 - seg(u, 0.38, 0.46)), dart = seg(u, 0.36, 0.5) * (1 - seg(u, 0.62, 1)), nip = bump((u - 0.44) / 0.14);
       crouch(b, low * 0.8); arch(b, -0.12 * low + 0.1 * dart);
       B.position.y = -0.1 * H * low; B.position.z = -0.12 * H * low + 0.7 * H * dart;
-      rx(b, 'neck', -0.12 * low + 0.1 * dart); rx(b, 'head', 0.1 * low + 0.22 * nip);
+      rx(b, 'neck', -0.12 * low + 0.1 * dart); rx(b, 'head', 0.08 * low + 0.14 * nip);
       tail(b, 0.06 * Math.sin(t * 30) * low, -0.16 * low + 0.06 * dart);
       for (const l of FRONT) { rx(b, l + '_upper', -0.1 * dart); rx(b, l + '_lower', -0.3 * dart); }
       for (const l of HIND) { rx(b, l + '_upper', 0.08 * dart); rx(b, l + '_lower', 0.3 * dart); }
@@ -75,7 +75,7 @@ const stoat = {
       B.rotation.x = -th; B.position.y = -zp * sn * 0.9; B.position.z = zp * (1 - Math.cos(th)) + 0.05 * H * up;
       // it turns up about its hind feet, so the hind legs lean with the body and the hips need not bend
       for (const l of HIND) { rx(b, l + '_upper', 0.1 * th); rx(b, l + '_lower', 0.15 * th); rx(b, l + '_paw', 0.9 * th); }
-      for (const l of FRONT) { rx(b, l + '_upper', -0.12 * up); rx(b, l + '_lower', -0.38 * up); rx(b, l + '_paw', 0.6 * up); }
+      for (const l of FRONT) { rx(b, l + '_upper', -0.12 * up); rx(b, l + '_lower', -0.22 * up); rx(b, l + '_paw', 0.35 * up); }
       rx(b, 'neck', 0.2 * up); rx(b, 'head', 0.3 * up - 0.12 * flash);
       arch(b, -0.15 * flash);
       tail(b, 0.05 * Math.sin(t * 9) * up, 0.35 * up, 0.08 * up);
@@ -90,7 +90,7 @@ const stoat = {
     if (move === 'ko') {
       // it curls down small, head on its paws, tail round it
       const down = seg(u, 0, 0.5), curl = seg(u, 0.3, 0.9);
-      crouch(b, 0.9 * down); B.position.y = -0.16 * H * down;
+      crouch(b, 0.7 * down); B.position.y = -0.16 * H * down;
       snake(b, 0.5 * curl); rx(b, 'neck', 0.2 * curl); rx(b, 'head', 0.15 * curl);
       tail(b, 0.5 * curl, 0.05 * curl);
       return;

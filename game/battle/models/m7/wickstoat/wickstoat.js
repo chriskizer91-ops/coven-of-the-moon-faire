@@ -6,7 +6,7 @@
 window.M7.add('wickstoat', {
   moves: 'stoat',
   tex: { color: "./color-1024.webp", normal: "./normal-512.webp", ao: "./ao-512.webp" },
-  mat: { glowK: 0, exposure: 1.0, double: true },
+  mat: { glowK: 0, exposure: 0.8, double: true },       // white fur: a little lower, so it is never brighter than the witches
   acts: {
     pinch: { move: 'pinch', dur: 1.2, hits: [0.5] },                                  // Pinch: it darts in and nips
     skitter: { move: 'skitter', dur: 1.4, hits: [] },                                 // Skitter: a darting S, hard to hit
