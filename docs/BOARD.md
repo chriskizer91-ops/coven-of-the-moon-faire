@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 08:01, by the hub.
+Last updated: November 24, 2026, 08:40, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -24,7 +24,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 |---|---|---|---|---|
 | `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | **Done, in `main` (21:50).** On all three zone pages. Its slip: `docs/slips/menu.md` |
 | `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | **Done, in `main` (November 24, 07:42).** On all three zone pages. Its slip: `docs/slips/maps.md`. Nothing calls `choose()` yet: that joining is the hub's |
-| `zone-4` | `job/zone-4` | All of zone 4: its land, people, story and the narrator's words for it, built to fit the lines Chris is recording | a sub-agent (Fable 5.2, high) | **Started November 24, 05:41** (Chris, 05:39: zone four can get started) |
+| `zone-4` | `job/zone-4` | All of zone 4: its land, people, story and the narrator's words for it, built to fit the lines Chris is recording | a sub-agent (Fable 5.2, high) | **Done, in `main` (November 24, 08:40).** No word of its 144 lines was changed. Its slip: `docs/slips/zone-4.md` |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | **Done, in `main` (22:25).** Both parts. Its slip: `docs/slips/flight.md`. Not joined to the zones yet: that is the hub's |
 | `fights` | `job/fights` | The rest of the fights job: step 4 (room for new creatures, the whole game's levels); fights on zones 2 and 3; zone 4's fights as data; a trial of one M7 creature outside the repo | **a sub-agent (Fable 5.2, high), from November 24, 06:03** (Chris: "you can use a sub agent to do the rest of the fights conversation"). The fights conversation is done with | Started |
 | `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | **Proposal in, in `main` (November 24, 06:25):** `docs/lore/sky-names-proposal.md`. The short page went to Chris. **Waiting on his yes or his changes** |
@@ -128,7 +128,8 @@ the townsfolk in bodies of their own, and the stars and planets named.**
    narrator line of zones 1 to 3 has a voice now, 48 of 48.
 2. **Zone 4's 144 spoken lines** (he is making them now, November 24, 06:58), recorded from `game/talk/recording/z4-recording-order.txt` (sent November 24).
    Zone 4 is being built to fit those words, so none should need making twice.
-3. **Zone 4's narrator lines,** once its land stands and the list is written (the zone-4 job writes it).
+3. **Zone 4's narrator lines:** 18, the list went to him on November 24 (`narration-recording-order-z4.txt`). They
+   are proposals: he may change any before recording.
 4. **The five foe questions** at the end of `docs/foes-from-m7.md`. Until he answers, every creature slot stays a
    stand-in. The fights job is trying one M7 creature in this game's battle, outside the repo, to learn what
    bringing one in takes.
@@ -151,6 +152,23 @@ the townsfolk in bodies of their own, and the stars and planets named.**
    the joining in and checked, one set of builds sent): `flight.html` again (does a thumb held on Fire aim as he expects; its
    frame rate); whether the phone keeps a save between visits (the Save tab's "visit N"); whether the phone opens
    a page of 100 MB at all; how the narrator sounds the B way.
+
+### Zone 4 is in (November 24, 08:40)
+
+- **In `main`:** `game/pages/zone-4.html` (82.1 MB with the maps; no recordings yet): five places from the old Envoi,
+  3.3 km of road from the frozen camp to the Moonwell, six people to talk to, forty held Wardens, the great
+  bramble, Halcyon, the fire, the moonset, and the story from the landing to "You came down. Five of you." The
+  Faire ending is a piece of its own (`game/people/faire-ending.js`, tried on `game/pages/faire-ending.html`).
+- **Checked by the hub on `main`, built again:** `zone-test` 19, `story-test` 75, `menu-test --only A` 57,
+  `maps-test` 108: all good. The hub added the maps' block to the page and zone 4 to the maps' data.
+- **The narrator's 18 lines for zone 4 are proposals** (`game/people/narration.js`); the list to record from is
+  `game/people/recording/narration-recording-order-z4.txt`. It went to Chris.
+- **Still to do for zone 4** (the slip's "For the hub" has the exact lines): its recordings (when Chris sends them:
+  `tools/voice-list.py z4`, then build); its two fights (the fights job has fitted them to its hooks); its flight
+  in, its flight home, and the Faire ending joined to zone 1's page (the journey); a baked ship of its own.
+- **Chris's to say** (each one line of data): the peaks stand at one ninth of the map's height, not one third (at
+  one third no walkable road exists); Misthollow stands 143 m south of its pin and the Moonwell at the head of its
+  street; the walk is 3.3 km up and 3.3 km down; the forty wear the night-watchman's coat.
 
 ### The maps are in, with the sky's names on the star map (November 24, 07:42)
 
