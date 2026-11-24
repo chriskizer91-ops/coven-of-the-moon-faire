@@ -8,6 +8,32 @@ the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
 
+## November 24, 2026: zone 4's recordings are in, 142 of 144; and a mistake of the hub's put right
+
+**Zone 4's voices.** Chris sent one zip holding 25 zips, one for each speaker: 142 recordings.
+
+- All 142 match a line of `game/talk/zone-4.js` by name, each once, nothing extra. They are in
+  `game/talk/audio/z4/` as they came (4.4 MB).
+- **Two lines have no recording: `z4.warden.01` and `z4.warden.02`,** the held Warden's two lines ("Is it morning? It
+  feels like morning." and "Marta will have our beds made. She always does."). The 26th speaker's zip did not come.
+- `tools/talk-voices.py 4`: format right on all 142 (MP3, one channel, 44.1 kHz); loudness -18.9 to -17.1 LUFS;
+  highest peak -1.0 dBFS; 9 minutes 4 seconds in all; no line flagged as worth a listen; the returning voices sit
+  where they sat in zone 1. Its page is `docs/lore/story-voices-z4.html` (one sentence on it says "all 144 are here":
+  it is 142).
+- `tools/talk-check.py game/talk/zone-4.js --fill` wrote each line's real length into `zone-4.js`. Only the lengths
+  changed: no word did. `tools/voice-list.py z4` wrote `game/people/voice-z4.js`.
+- Zone 4 built again (87.6 MB with its voices) and its story walked: 74 checks good, **2 failed, and both are the
+  two missing recordings** (the check wants every line to have its sound).
+- **Not checked:** the words of any recording. Nobody here can hear.
+
+**The mistake.** On the morning of November 24 the hub took in the five narrator lines Chris made again and wrote
+that every narrator line of zones 1 to 3 had a voice. The five sound files went into `main`, but the two lists that
+tell a page which sound belongs to which line (`game/people/voice-z2.js`, `voice-z3.js`) were left out of the
+commit. So a page built from `main` since then showed those five lines as words with no voice. The pages the hub
+checked that morning were built from its own working copy, which had the lists, so the check passed. Found now,
+because the same tool wrote the lists again. Both lists are in this commit. No zone 2 or zone 3 build went to
+Chris in between.
+
 ## November 24, 2026: the five narrator lines Chris made again are in (the hub)
 
 Chris sent one zip of five recordings: `z2.narrator.04` and `z3.narrator.09`, `.10`, `.12`, `.13`, the lines whose

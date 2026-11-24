@@ -132,7 +132,11 @@ window.COVEN_VOICE = Object.assign(window.COVEN_VOICE || {}, {
   "z3.narrator.06": "./../talk/audio/z3/z3.narrator.06.mp3",
   "z3.narrator.07": "./../talk/audio/z3/z3.narrator.07.mp3",
   "z3.narrator.08": "./../talk/audio/z3/z3.narrator.08.mp3",
+  "z3.narrator.09": "./../talk/audio/z3/z3.narrator.09.mp3",
+  "z3.narrator.10": "./../talk/audio/z3/z3.narrator.10.mp3",
   "z3.narrator.11": "./../talk/audio/z3/z3.narrator.11.mp3",
+  "z3.narrator.12": "./../talk/audio/z3/z3.narrator.12.mp3",
+  "z3.narrator.13": "./../talk/audio/z3/z3.narrator.13.mp3",
   "z3.narrator.14": "./../talk/audio/z3/z3.narrator.14.mp3",
   "z3.narrator.15": "./../talk/audio/z3/z3.narrator.15.mp3",
 });
