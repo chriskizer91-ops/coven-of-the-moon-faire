@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Coven of the Moon Faire: the maps</title>
+<style>
+/* The maps, by themselves: a small page for trying them and for fast checks (the maps job). The menu here is a
+   stand-in with the real menu's interface (W3D.menu.addTab, open, close, isOpen), no more. */
+html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-behavior:none;color:#f4f0ff;font:15px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#world{position:fixed;inset:0;display:grid;place-items:center;text-align:center}
+#world h1{margin:0 16px 6px;font:400 30px/1.15 Georgia,"Times New Roman",serif;color:#ffe9b8}
+#world p{margin:0 24px 18px;color:#cfc8ee;font:15px Georgia,serif}
+.sbtn{appearance:none;min-height:48px;min-width:150px;margin:5px;padding:10px 22px;border-radius:24px;border:1px solid rgba(255,226,160,.7);background:rgba(52,40,96,.9);color:#ffe9b8;font:600 16px Georgia,serif;cursor:pointer}
+#said{min-height:22px;margin-top:14px;color:#ffe6a8;font:italic 17px Georgia,serif}
+/* the stand-in menu: a row of tabs, and the tab's own panel filling the screen under it */
+#menu{position:fixed;inset:0;z-index:30;display:none;flex-direction:column;background:#0a0b18}
+#menu.open{display:flex}
+#tabs{flex:none;display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top,0px)) calc(10px + env(safe-area-inset-right,0px)) 6px calc(10px + env(safe-area-inset-left,0px));border-bottom:1px solid rgba(214,222,255,.16)}
+#tabs button{appearance:none;min-height:44px;min-width:76px;padding:8px 16px;border-radius:14px;border:1px solid rgba(214,222,255,.28);background:rgba(34,30,70,.55);color:#e9e5ff;font:600 15px Georgia,serif;cursor:pointer}
+#tabs button.on{background:rgba(96,80,170,.82);color:#ffe9b8}
+#tabs .gap{flex:1}
+#panel{flex:1;position:relative;min-height:0}
+</style>
+<link rel="stylesheet" href="../maps/world/map.css">
+<link rel="stylesheet" href="../maps/maps.css">
+</head>
+<body>
+<div id="world"><div>
+  <h1>The maps</h1>
+  <p>The Maps tab of the menu, and choosing where to fly.</p>
+  <button id="openMenu" class="sbtn">Open the menu</button>
+  <button id="fly" class="sbtn">Choose where to fly</button>
+  <div id="said"></div>
+</div></div>
+<div id="menu"><div id="tabs"></div><div id="panel"></div></div>
+<script src="../lib/three.r128.min.js"></script>
+<script src="../travel/landings.js"></script>
+<script>
+// The stand-in menu. It keeps to the interface the menu job is building, so the Maps tab is tried against the same calls:
+//   W3D.menu.addTab({ id, label, order, mount(el, ctx), unmount() })   ctx: { W, zone, close() }
+//   W3D.menu.open(tabId), W3D.menu.close(), W3D.menu.isOpen();  the events 'coven:menu-open' and 'coven:menu-close'
+(function () {
+  'use strict';
+  const W3D = window.W3D = window.W3D || {}, $ = (id) => document.getElementById(id);
+  const tabs = []; let now = null, open = false;
+  const zone = (location.search.match(/[?&]zone=(zone-\d)/) || [])[1] || 'zone-1';
+  const ctx = () => ({ W: window.__w3d || null, zone, close: () => W3D.menu.close() });
+  function row() {
+    const r = $('tabs'); r.textContent = '';
+    for (const t of tabs) { const b = document.createElement('button'); b.textContent = t.label; b.dataset.tab = t.id; b.classList.toggle('on', now === t); b.addEventListener('click', () => W3D.menu.open(t.id)); r.appendChild(b); }
+    const g = document.createElement('div'); g.className = 'gap'; r.appendChild(g);
+    const x = document.createElement('button'); x.textContent = 'Close'; x.id = 'closeMenu'; x.addEventListener('click', () => W3D.menu.close()); r.appendChild(x);
+  }
+  function leave() { if (now) { try { now.unmount(); } catch (e) { console.error(e); } now = null; } $('panel').textContent = ''; }
+  W3D.menu = {
+    addTab(t) { const i = tabs.findIndex((q) => q.id === t.id); if (i >= 0) tabs.splice(i, 1); tabs.push(t); tabs.sort((a, b) => a.order - b.order); row(); },
+    open(id) {
+      const t = tabs.find((q) => q.id === id) || tabs[0]; if (!t) return;
+      const was = open; open = true; $('menu').classList.add('open');
+      if (now !== t) { leave(); now = t; row(); const el = document.createElement('div'); el.style.cssText = 'position:absolute;inset:0'; $('panel').appendChild(el); t.mount(el, ctx()); }
+      if (!was) window.dispatchEvent(new CustomEvent('coven:menu-open'));
+    },
+    close() { if (!open) return; leave(); open = false; $('menu').classList.remove('open'); row(); window.dispatchEvent(new CustomEvent('coven:menu-close')); },
+    isOpen: () => open,
+  };
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !(W3D.maps && W3D.maps.world.choosing)) { if (open) W3D.menu.close(); else W3D.menu.open('maps'); } });
+})();
+</script>
+<!-- maps job: start (the maps: their data, the 3D map of Aethermoor, the star map's frame, and the tab) -->
+<script src="../maps/data/maps-data.js"></script>
+<script src="../maps/world/bands.js"></script>
+<script src="../maps/world/places.js"></script>
+<script src="../maps/world/art.js"></script>
+<script src="../maps/world/moods.js"></script>
+<script src="../maps/world/tree-models.js"></script>
+<script src="../maps/world/buildings.js"></script>
+<script src="../maps/world/place-models.js"></script>
+<script src="../maps/world/map3d.js"></script>
+<script src="../maps/sky/star-map-frame.js"></script>
+<script src="../maps/maps.js"></script>
+<!-- maps job: end -->
+<script>
+(function () {
+  'use strict';
+  const $ = (id) => document.getElementById(id), L = window.COVEN_LANDINGS;
+  const test = /[?&]test\b/.test(location.search);
+  // which landing the ship stands at here (?from=warmCamp), and which may be chosen: the next one on
+  const from = (location.search.match(/[?&]from=(\w+)/) || [])[1] || L[0].id;
+  $('openMenu').addEventListener('click', () => W3D.menu.open('maps'));
+  $('fly').addEventListener('click', async () => {
+    const open = L.filter((l) => l.after === from).map((l) => l.id);
+    const to = await W3D.maps.world.choose({ from, open });
+    const l = L.find((q) => q.id === to);
+    $('said').textContent = l ? 'You chose: ' + l.name + '. (The flight is another job’s.)' : 'You backed out.';
+  });
+  window.__ready = true;
+  if (!test) W3D.menu.open('maps');
+})();
+</script>
+</body>
+</html>
