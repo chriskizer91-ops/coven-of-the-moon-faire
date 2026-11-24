@@ -27,29 +27,46 @@
   //   place  the place she lies in         at  her middle, in its painting      bow  which way she points
   //   deck   the ground under her keel, in metres (left out: the place's own ground there)
   //   until  (zone 3) shown until the Grey Hat has gone to the other one's place
+  //   when   (zone 3) 'camp': until the Grey Hat has gone to the slip; 'slip': on the slip, the refit not done;
+  //          'refit': on the slip, the refit done (zone 3's story at stage 4: "Refit's done. She'll fly higher")
+  // CHRIS, November 24, 12:00 (the hub's reading, fitted to the lines): the Skiff fitted out (skiff2) at zone 2, and at
+  // zone 3 until her refit ("That skiff is held together by stubbornness and blue thread", Tock); after it, the Cutter.
   const SHIPS = {
     warmCamp: [
-      { id: 'camp', place: 'warm-roads-camp', ship: 'cutter', at: [285, 460], bow: 'west', glow: 0.45 },
+      { id: 'camp', place: 'warm-roads-camp', ship: 'skiff2', at: [300, 460], bow: 'west', glow: 0.45 },
     ],
     northCamp: [
-      { id: 'camp', place: 'northern-camp', ship: 'cutter', at: [320, 450], bow: 'west' },
-      { id: 'slip', place: 'shipyard', ship: 'cutter', at: [764, 248], bow: 'north', deck: 0.25, captain: true },     // on the slip's cradle, her bow to its head
+      { id: 'camp', place: 'northern-camp', ship: 'skiff2', at: [330, 450], bow: 'west', when: 'camp' },
+      { id: 'slip', place: 'shipyard', ship: 'skiff2', at: [764, 300], bow: 'north', deck: 0.25, when: 'slip' },       // on the slip's cradle, her bow to its head
+      { id: 'refit', place: 'shipyard', ship: 'cutter', at: [764, 248], bow: 'north', deck: 0.25, when: 'refit' },     // the same berth, after the refit
     ],
   };
+  // every ship carries twelve lamp hooks, six a side (the lamps came home in zone 1), each with its lamp, lit: where
+  // along her (0 amidships, +1 her bow's end of the rail, -1 her stern's), as the jetty's Skiff carries them
+  const HOOKS = [0.1, -0.22, 0.2, -0.32, 0.3, -0.42], POST_H = 0.95, ARM = 0.34, DROP = 0.34;
   const LIFT = 0.04;                 // her keel this far over the ground (so it does not flicker into it)
   let moored = [], shownId = null;
 
+  function hooks(B, S, SHIP) {
+    const L = SHIP.hull.bow - SHIP.hull.stern, mid = (SHIP.hull.bow + SHIP.hull.stern) / 2, T3 = G.THREE, solid0 = B.solid; B.solid = false;
+    const stick = (a, b, r) => { const d = new T3.Vector3(b[0] - a[0], b[1] - a[1], b[2] - a[2]), len = d.length(), g = new T3.CylinderGeometry(r, r, len, 5, 1, true);
+      B.geom('iron', g, new T3.Matrix4().compose(new T3.Vector3((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2), new T3.Quaternion().setFromUnitVectors(new T3.Vector3(0, 1, 0), d.normalize()), new T3.Vector3(1, 1, 1)), null, [1, 1]); g.dispose(); };
+    for (const f of HOOKS) for (const side of [-1, 1]) { const z = mid + f * L * 0.8, foot = S.rail(z, side, 0, -0.06), head = S.rail(z, side, 0, POST_H), tip = S.rail(z, side, ARM, POST_H), lamp = S.rail(z, side, ARM, POST_H - DROP);
+      stick(foot, head, 0.026); stick(head, tip, 0.02); stick(tip, [lamp[0], lamp[1] + 0.12, lamp[2]], 0.012);
+      B.box('glass', lamp[0], lamp[1] - 0.09, lamp[2], 0.13, 0.18, 0.13, 0, [2.2, 1.3, 0.5]); }
+    B.solid = solid0;
+  }
   function build(K, e, alone, i) {
     const SHIP = (G.COVEN_SHIPS || {})[e.ship];
     if (!SHIP || !W3D.mooredShip) { console.error('landing-ships.js: the baked ship ' + e.ship + ' or moored-ship.js is not loaded'); return; }
     const x = K.X(e.at[0]), z = K.Z(e.at[1]), ground = e.deck != null ? e.deck : K.gh(e.at[0], e.at[1]);
     const at = [x, ground - SHIP.hull.keel + LIFT, z], turn = TURN[e.bow] || 0;
     e.hull = SHIP.hull; e.beam = SHIP.beam; e.length = SHIP.length;
-    if (alone) { W3D.mooredShip(K, SHIP, { at, turn, glow: e.glow == null ? 0.45 : e.glow }); return; }
+    if (alone) { const S = W3D.mooredShip(K, SHIP, { at, turn, glow: e.glow == null ? 0.45 : e.glow }); hooks(K.B, S, SHIP); return; }
     // one of two places she can be: drawn apart, so she can be shown in one and not the other
     const fb = K.far(1e6 + i * 1000, 1e6);
-    W3D.mooredShip(Object.assign({}, K, { B: fb, halo: () => {} }), SHIP, { at, turn, glow: 0 });
-    fb.solids.pop();                                  // (her solid is a blocker on the land instead, below: it can be taken away)
+    const S = W3D.mooredShip(Object.assign({}, K, { B: fb, halo: () => {} }), SHIP, { at, turn, glow: 0 });
+    fb.solids.pop(); hooks(fb, S, SHIP);                                  // (her solid is a blocker on the land instead, below: it can be taken away)
     const b0 = fb.build; fb.build = function (m) { const r = b0.call(this, m); e.meshes = Object.values(r); show(shownId); return r; };
   }
   function show(id) {
@@ -84,11 +101,11 @@
         blks.push(e.blk);
       }
       if (L && L.addBlockers) L.addBlockers(blks);
-      const slip = moored.find((e) => e.captain);
+      const slip = moored.find((e) => e.when === 'slip'), by = (w) => (moored.find((e) => e.when === w) || moored[0]).id;
       const watch = () => {
-        const P = G.__people, cap = P && P.list && P.list.find((p) => p.id === 'captain');
+        const P = G.__people, cap = P && P.list && P.list.find((p) => p.id === 'captain'), st = G.__story && G.__story.state();
         const there = !!(cap && slip && slip.c && Math.hypot(cap.x - slip.c[0], cap.z - slip.c[1]) < 30);
-        const want = there ? slip.id : moored[0].id; if (want !== shownId) show(want);
+        const want = !there ? by('camp') : st && st.stage >= 4 ? by('refit') : by('slip'); if (want !== shownId) show(want);
       };
       watch(); setInterval(watch, 500);
     },

@@ -166,7 +166,7 @@ def main():
             check(pg.evaluate('__journey.state().reached') == ['wickhollow', 'warmCamp'], 'reached: Wickhollow and the Warm Roads')
             bs = at_gate(); check(bs and bs[-1]['text'] == 'Board the ship', 'zone 2 has its ship and its button too'); shot('a5-gate-zone-2')
             ships = pg.evaluate('W3D.landingShips.list()')
-            check(len(ships) == 1 and ships[0]['ship'] == 'cutter', 'the ship at the Warm Roads: %s' % json.dumps(ships))
+            check(len(ships) == 1 and ships[0]['ship'] == 'skiff2', 'the ship at the Warm Roads, the Skiff fitted out: %s' % json.dumps(ships))
 
         # ---------------- B ----------------
         if 'B' in only:
@@ -226,15 +226,18 @@ def main():
             pg.wait_for_function('__story.state().moments.landing === true', timeout=20000)
             pg.wait_for_timeout(500); sl = slot(); check(sl and sl['page'] == 'zone-3.html' and sl['zone'] == 3, 'the slot says zone 3: %s' % json.dumps(sl))
             ships = pg.evaluate('W3D.landingShips.list()')
-            check(len(ships) == 2 and ships[0]['shown'] and not ships[1]['shown'], 'the ship lies at the northern camp, not yet on the slip: %s' % json.dumps(ships))
+            check(len(ships) == 3 and ships[0]['shown'] and not ships[1]['shown'] and not ships[2]['shown'], 'the fitted Skiff lies at the northern camp, not yet on the slip: %s' % json.dumps([(x['id'], x['ship'], x['shown']) for x in ships]))
             bs = at_gate(0); check(bs and bs[-1]['text'] == 'Board the ship', 'her button at the camp'); shot('e2-landing-zone-3')
             pg.evaluate("(() => { __people.move('captain', { place: ['shipyard', 800, 384], look: [764, 240] }, true); })()"); pg.wait_for_timeout(1200)
             ships = pg.evaluate('W3D.landingShips.list()')
-            check(ships[1]['shown'] and not ships[0]['shown'], 'once the Grey Hat has gone to the slip, she is on the slip and not at the camp')
+            check(ships[1]['shown'] and not ships[0]['shown'] and not ships[2]['shown'], 'once the Grey Hat has gone to the slip, she is on the slip and not at the camp')
             bs = at_gate(1); pg.evaluate('() => __journey.board(1)'); pg.wait_for_timeout(300)
             ln = pg.evaluate("__journey.log.filter((l) => l.what === 'line').map((l) => l.text)")
             check(ln and 'slip' in ln[-1] and not pg.evaluate('!!W3D.maps.world.choosing'), 'on the slip, before the story is done, she will not fly: "%s"' % (ln[-1] if ln else ''))
             pg.wait_for_timeout(5000); at_gate(1); shot('e3-on-the-slip')
+            pg.evaluate("__story.set({ stage: 4 })"); pg.wait_for_timeout(1200); ships = pg.evaluate('W3D.landingShips.list()')
+            check(ships[2]['shown'] and ships[2]['ship'] == 'cutter' and not ships[1]['shown'], 'the refit done (stage 4), the ship on the slip is the Cutter')
+            at_gate(1); pg.wait_for_timeout(300); at_gate(1); shot('e4-refit-done')
 
         # ---------------- G ----------------
         if 'G' in only:

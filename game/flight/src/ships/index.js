@@ -6,11 +6,15 @@ import brig from './brig.js';
 import frigate from './frigate.js';
 import galleon from './galleon.js';
 import manowar from './manowar.js';
+// Coven (journey job): the Skiff fitted out and the Cutter made ready for the peaks, the Captain's ship in zones 2 and 4
+import skiff2 from './skiff2.js';
+import cutter2 from './cutter2.js';
 
 export const SHIPS = [skiff, cutter, brig, frigate];
-export const FLEET = [...SHIPS, galleon, manowar];
+export const FLEET = [...SHIPS, galleon, manowar, skiff2, cutter2];   // Coven: the two fitted-out ships at the end (never raiders)
 
 export const STATS = {
+  get skiff2() { return STATS.skiff; }, get cutter2() { return STATS.cutter; },   // Coven: they fly as the plain ones do
   skiff: { hull: 300, sails: 150, crystals: 150, speed: 8, turning: 10, climbing: 10, bow: 1, stern: 0, side: 1, crew: 4,
     blurb: 'The Captain\'s first ship. Out-turns and out-climbs everything, and quick enough to run from a fight it can\'t win.' },
   cutter: { hull: 600, sails: 300, crystals: 250, speed: 10, turning: 8, climbing: 7, bow: 1, stern: 1, side: 3, crew: 12,

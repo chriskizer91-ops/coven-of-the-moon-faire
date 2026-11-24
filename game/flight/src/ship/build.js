@@ -18,7 +18,8 @@ export const LEVELS = {
 
 // Small ships spend their triangles on finer detail and big ones spread theirs further, so every ship comes out
 // near the same budget at full (tuned with the counts tools/check.mjs prints)
-const FINE = { skiff: 2.0, cutter: 1.62, brig: 1.14, frigate: 0.74, galleon: 0.56, manowar: 0.31 };
+const FINE = { skiff: 2.0, skiff2: 2.0, cutter2: 1.62, cutter: 1.62,   // Coven: skiff2, cutter2 (journey job)
+   brig: 1.14, frigate: 0.74, galleon: 0.56, manowar: 0.31 };
 
 function detailFor(level, R) {
   const q = { ...LEVELS[level], level };

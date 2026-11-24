@@ -15,8 +15,12 @@
     // game/travel/landings.js). The Frigate is the last upgrade, for whatever flight comes after zone 4.
     // That mapping of ship to gate, and what the Frigate is for, are the hub's reading, not Chris's own words.
     // W3D.flight.fly({ from, to }) uses this table; fly({ from, to, ship: 'brig' }) overrules it.
-    shipFrom: { wickhollow: 'skiff', warmCamp: 'cutter', northCamp: 'brig', frozenCamp: 'frigate' },
-    ships: ['skiff', 'cutter', 'brig', 'frigate'],   // the four that can be flown, smallest first (a landing not in the table flies the first)
+    // journey job, on Chris's word of November 24, 12:00 ("the skiff for the first two zones ... slightly upgraded, and
+    // then the cutter for the last two zones with the same treatment"), as the hub read it: the Skiff from Wickhollow,
+    // the Skiff fitted out (skiff2) from the Warm Roads, the Cutter from the northern wilds (after her refit at the
+    // shipyard), the Cutter made ready for the peaks (cutter2) from the frozen camp, home.
+    shipFrom: { wickhollow: 'skiff', warmCamp: 'skiff2', northCamp: 'cutter', frozenCamp: 'cutter2' },
+    ships: ['skiff', 'cutter', 'brig', 'frigate', 'skiff2', 'cutter2'],   // (journey job: the two fitted-out ships added)   // the four that can be flown, smallest first (a landing not in the table flies the first)
 
     // ---------------- the flight ----------------
     startHeight: 680,        // metres over the landing she leaves from (Skies' own starting height; its clouds lie at 430)
@@ -71,7 +75,8 @@
       // change"), winds growing with the ship. STAND-INS here: the Grey Hat's ship has no settled name in this game.
       ships: {
         skiff: { name: 'Zephyr', cls: 'Skiff' }, cutter: { name: 'Gale', cls: 'Cutter' }, brig: { name: 'Tradewind', cls: 'Brig' },
-        frigate: { name: 'Tempest', cls: 'Frigate' }, galleon: { name: 'Doldrums', cls: 'Galleon' }, manowar: { name: 'Thunderhead', cls: 'Man-o\'-war' },
+        frigate: { name: 'Tempest', cls: 'Frigate' }, skiff2: { name: 'Zephyr', cls: 'Skiff' }, cutter2: { name: 'Gale', cls: 'Cutter' },   // (journey job: the same ships, fitted out)
+        galleon: { name: 'Doldrums', cls: 'Galleon' }, manowar: { name: 'Thunderhead', cls: 'Man-o\'-war' },
       },
       shipLine: '{cls} · {length} m',
       loading: 'Raising the sails…',

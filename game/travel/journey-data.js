@@ -29,7 +29,7 @@
       warmCamp: [{ place: ['warm-roads-camp', 285, 526], reach: 3.2 }],                        // on the landing ground, beside her port side
       northCamp: [
         { place: ['northern-camp', 320, 516], reach: 3.2, ship: 'camp' },                      // on the landing ground, beside her, until the Grey Hat takes her down the coast
-        { place: ['shipyard', 764, 448], reach: 3, ship: 'slip', refit: true },                 // at the foot of the slip, once she is up on it
+        { place: ['shipyard', 764, 448], reach: 3, ship: ['slip', 'refit'], refit: true },                 // at the foot of the slip, once she is up on it
       ],
       frozenCamp: [{ place: ['frozen-camp', 318, 516], reach: 3.2 }],                           // in the snow beside her port side (the zone-4 job laid her at 318, 458, bow west)
     },

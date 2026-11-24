@@ -267,7 +267,7 @@
   // journey's own (not one of the zone's things), so the zone's things stay as their checks know them ----
   let gateList = [], gateBtn = null, gateNear = null;
   const ships = () => (W3D.landingShips ? W3D.landingShips.shown() : null);
-  const gateCan = (g) => !busy && !(W3D.flight && W3D.flight.flying) && (!g.ship || !ships() || ships() === g.ship);
+  const gateCan = (g) => !busy && !(W3D.flight && W3D.flight.flying) && (!g.ship || !ships() || [].concat(g.ship).indexOf(ships()) >= 0);
   function gatesUp() {
     const Z = W.P;
     gateList = ((D().gates || {})[here] || []).map((g, i) => { const part = Z.parts.find((p) => p.id === g.place[0]); if (!part) return null;

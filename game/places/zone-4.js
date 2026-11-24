@@ -45,7 +45,7 @@
   //   SHIP   which baked ship lies there (game/flight/moored/). Only the Skiff is baked so far, so she stands in for
   //          the ship flown in from the northern wilds: one word to change when another is baked.
   //   HUT    where the hut stands in the camp's painting: beside the trail east, 47 m from the fire, on the way to the pass
-  const SHIP = () => (G.COVEN_SHIPS || {}).brig || (G.COVEN_SHIPS || {}).skiff || null, SHIP_AT = [318, 458], HUT = [1800, 500];
+  const SHIP = () => (G.COVEN_SHIPS || {}).cutter2 || (G.COVEN_SHIPS || {}).brig || (G.COVEN_SHIPS || {}).skiff || null,   /* journey job: the Cutter made ready for the peaks first (Chris, November 24, 12:00) */ SHIP_AT = [318, 458], HUT = [1800, 500];
   { const T = PL['frozen-camp'], ex = T.extra;
     T.extra = function (K) { if (ex) ex.call(T, K); try { camp(K); } catch (e) { console.error(e); } };
     const camp = (K) => { const B = K.B, T3 = G.THREE, X = K.X, Z = K.Z, solid0 = B.solid;
