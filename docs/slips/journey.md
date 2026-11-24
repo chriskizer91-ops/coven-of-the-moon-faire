@@ -119,16 +119,28 @@ Branch: job/journey      Updated: November 24, 2026
     slip. She won't fly until the refit is done.").
   - F: the front door: the name, two buttons ("Carry on · Save 1 · Zone 3 · part 2 of 5 · level 1", "New game"),
     Carry on opens zone 3's page.
+- **The hub's checks on pages built from this branch** (zone pages 117, 107 and 104 MB): zone-test zones 1, 2, 3 (28,
+  21, 25 good); people-test zone 1 (134); story-test zone 2 (61) and zone 3 (64); things-test zone 1 (40);
+  menu-test zone 1 --only A (58); maps-test zone 1 (108); encounter-test zone 1 --quick (25); flight-test on
+  flight.html (64). All pass. (A first try put the gate among the zone's things, which two checks count exactly; the
+  gate is now the journey's own button, and both pass.)
+- journey-test again at 412 by 880, parts A and F: 21 good.
 - The phone trial: both pages in a browser with no screen, at 412 by 880 and 1280 by 720: YES, YES, YES; way back works.
 - The small folk: `game/pages/journey-small-folk.html`, before and after, numbers above.
 
 ## What was NOT checked
+
+- The small folk standing in the zone pages themselves: a picture run was made, but its camera stood in walls; only the
+  small page's before and after pictures and numbers stand. The fix is in every zone page built from this branch.
 
 - Anything on a real laptop or phone: how the flight in feels, frame rates, whether a phone opens the next page by
   itself (the phone trial is for that), whether a phone plays the flight's recordings before a tap.
 - The card for a page that cannot open the next: built, not seen on a device that needs it.
 
 ## Unfinished
+
+- On an upright phone the "Board the ship" button lies over the frame-rate and level pills, as "Go on" already does
+  (the hub's known item for the last pass on a phone).
 
 - Zone 4 is not joined (it came into `main` after this branch began; see For the hub).
 - The way home after zone 4 (the last flight and the Faire ending on zone 1's page): not built.
