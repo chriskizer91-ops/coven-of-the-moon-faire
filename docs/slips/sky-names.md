@@ -1,6 +1,6 @@
 # sky-names: names for the stars, the other planets and the band of crystal
 
-Branch: job/sky-names      Last commit: the one that adds this slip      Updated: 2026-11-24
+Branch: job/sky-names      Last commit of the proposal: 841892c (this slip is committed after it)      Updated: 2026-11-24
 
 A sub-agent of the hub's wrote this, from the hub's brief of November 24. A lore job: no game code, no build.
 
@@ -53,7 +53,7 @@ wanderers together are the High Faire.
   - `envoi-on-the-longest-night`: all 888 text and code files, by word search; the star map's two notes read in full.
   - `moon-faire`: its 283 notes and its world and people data, by word search; Chris's lore discussion notes read.
   - `airship-game-in-aethermoor-`: its notes read; its sky and progress code searched.
-  - `aethermoor-m7-`: its 131 notes, its lore folder and its 40-odd data files, by word search.
+  - `aethermoor-m7-`: its 131 notes, its lore folder and its 90 data files, by word search.
   - This game's own story page, story brief and spoken lines for zones 1 to 4.
   - Found: no star and no other planet is named anywhere. What does exist is listed in the proposal, part 1.
 - **The looks.** Each name was fitted to the star map as it stands on `origin/job/maps`
