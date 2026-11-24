@@ -1,0 +1,99 @@
+// landing-ships.js: the Grey Hat's ship where she lies at the landings of zones 2 and 3 (Coven of the Moon Faire, the
+// journey job, November 24, 2026). Zone 1's is the flight job's (places/jetty-ship-real.js). The ship is one of Skies of
+// Aethermoor's, baked to plain data (game/flight/moored/, tools/flight-bake-ship.mjs) and drawn by the place engine under
+// the place's own night (W3D.mooredShip, the flight job's). Load after the zone's places, a baked ship and
+// game/flight/moored/moored-ship.js, then call W3D.landingShips.moor('<landing id>').
+//
+// What the lines say, and so what is seen (the lines are not changed; where the table of ships and a line disagree, the
+// line wins):
+//   zone 2  "the ship sets down at the Warm Roads camp": she lies on its roped landing ground, west of the tents, where
+//           the Grey Hat stands ("west of the tents, where the ship came down", game/people/zone-2.js).
+//   zone 3  "the ship sets down at the northern camp" and "She needs work before she'll go further": she lies on the
+//           camp's landing ground. Then the Grey Hat takes her down the coast to the shipyard: "The ship is up on the
+//           slip, and will be for a while"; Tock: "New ribs, new keelson, same old ship". So once the Grey Hat has gone
+//           to the slip (he goes when the coven is far off), she is no longer at the camp but up on the slip's cradle,
+//           and both are shown at the same moment. She is the same ship that flew in, being refitted, not a bigger one.
+//
+// WHICH SHIP (the journey job's call, one line each below, `ship`): the Cutter at both. The table of ships
+// (game/flight/flight-data.js, shipFrom) flies the Cutter from the Warm Roads, so the ship that lies at zone 2 is the one
+// the coven will board there; she is the ship that flies into zone 3, and zone 3's lines say that ship is refitted, not
+// changed (and the Brig, 25 m long, would not fit the slip, which is 17 m). The flight out of zone 3 is the Brig, by the
+// table: the refit is where she becomes the bigger ship. The other choices are in the journey slip.
+// She sits on her keel, upright, on the ground (an airship set down), not hanging in the air.
+(function (G) {
+  'use strict';
+  const W3D = G.W3D = G.W3D || {};
+  const TURN = { south: 0, west: -Math.PI / 2, north: Math.PI, east: Math.PI / 2 };
+  //   place  the place she lies in         at  her middle, in its painting      bow  which way she points
+  //   deck   the ground under her keel, in metres (left out: the place's own ground there)
+  //   until  (zone 3) shown until the Grey Hat has gone to the other one's place
+  const SHIPS = {
+    warmCamp: [
+      { id: 'camp', place: 'warm-roads-camp', ship: 'cutter', at: [285, 460], bow: 'west', glow: 0.45 },
+    ],
+    northCamp: [
+      { id: 'camp', place: 'northern-camp', ship: 'cutter', at: [320, 450], bow: 'west' },
+      { id: 'slip', place: 'shipyard', ship: 'cutter', at: [764, 248], bow: 'north', deck: 0.25, captain: true },     // on the slip's cradle, her bow to its head
+    ],
+  };
+  const LIFT = 0.04;                 // her keel this far over the ground (so it does not flicker into it)
+  let moored = [], shownId = null;
+
+  function build(K, e, alone, i) {
+    const SHIP = (G.COVEN_SHIPS || {})[e.ship];
+    if (!SHIP || !W3D.mooredShip) { console.error('landing-ships.js: the baked ship ' + e.ship + ' or moored-ship.js is not loaded'); return; }
+    const x = K.X(e.at[0]), z = K.Z(e.at[1]), ground = e.deck != null ? e.deck : K.gh(e.at[0], e.at[1]);
+    const at = [x, ground - SHIP.hull.keel + LIFT, z], turn = TURN[e.bow] || 0;
+    e.hull = SHIP.hull; e.beam = SHIP.beam; e.length = SHIP.length;
+    if (alone) { W3D.mooredShip(K, SHIP, { at, turn, glow: e.glow == null ? 0.45 : e.glow }); return; }
+    // one of two places she can be: drawn apart, so she can be shown in one and not the other
+    const fb = K.far(1e6 + i * 1000, 1e6);
+    W3D.mooredShip(Object.assign({}, K, { B: fb, halo: () => {} }), SHIP, { at, turn, glow: 0 });
+    fb.solids.pop();                                  // (her solid is a blocker on the land instead, below: it can be taken away)
+    const b0 = fb.build; fb.build = function (m) { const r = b0.call(this, m); e.meshes = Object.values(r); show(shownId); return r; };
+  }
+  function show(id) {
+    shownId = id;
+    for (const e of moored) { const on = !id || e.id === id;
+      for (const m of e.meshes || []) { m.position.y = on ? 0 : -500; m.updateMatrix(); m.matrixWorldNeedsUpdate = true; }     // (the land culls its far pieces by distance each frame, so they are moved away, not hidden)
+      if (e.blk) { e.blk.w = on ? e.blk.w0 : 0; e.blk.d = on ? e.blk.d0 : 0; } }
+  }
+
+  W3D.landingShips = {
+    // draw this landing's ship (or ships) when their places are built
+    moor(landing) {
+      moored = (SHIPS[landing] || []).map((e) => Object.assign({}, e));
+      const alone = moored.length === 1;
+      moored.forEach((e, i) => {
+        const P = (G.W3D_PLACES || {})[e.place]; if (!P) { console.error('landing-ships.js: no place ' + e.place); return; }
+        const extra0 = P.extra;
+        P.extra = function (K) { if (extra0) extra0.call(this, K); try { build(K, e, alone, i); } catch (err) { console.error(err); } };
+      });
+      if (!alone) shownId = moored[0].id;
+    },
+    // the zone page is ready: the blockers for a ship that can be taken away, and the watch on the Grey Hat
+    ready(o) {
+      if (moored.length < 2 || !o.W) return;
+      const Z = o.W.P, L = Z.land, blks = [];
+      for (const e of moored) {
+        const part = Z.parts.find((p) => p.id === e.place); if (!part || !e.hull) continue;
+        const PM = part.P.M, cx = part.ox + PM.x(e.at[0]), cz = part.oz + PM.z(e.at[1]), half = (e.hull.bow - e.hull.stern) / 2, mid = (e.hull.bow + e.hull.stern) / 2, hb = e.beam / 2 - 0.15;
+        const along = e.bow === 'west' ? [-1, 0] : e.bow === 'east' ? [1, 0] : e.bow === 'north' ? [0, -1] : [0, 1];
+        const x = cx + along[0] * mid, z = cz + along[1] * mid, lengthwiseX = along[0] !== 0;
+        e.blk = { x, z, a: 0, w0: lengthwiseX ? half : hb, d0: lengthwiseX ? hb : half }; e.blk.w = e.blk.w0; e.blk.d = e.blk.d0; e.c = [cx, cz];
+        blks.push(e.blk);
+      }
+      if (L && L.addBlockers) L.addBlockers(blks);
+      const slip = moored.find((e) => e.captain);
+      const watch = () => {
+        const P = G.__people, cap = P && P.list && P.list.find((p) => p.id === 'captain');
+        const there = !!(cap && slip && slip.c && Math.hypot(cap.x - slip.c[0], cap.z - slip.c[1]) < 30);
+        const want = there ? slip.id : moored[0].id; if (want !== shownId) show(want);
+      };
+      watch(); setInterval(watch, 500);
+    },
+    shown: () => shownId,
+    list: () => moored.map((e) => ({ id: e.id, place: e.place, ship: e.ship, shown: !shownId || shownId === e.id, meshes: (e.meshes || []).length, blocker: e.blk ? { x: +e.blk.x.toFixed(2), z: +e.blk.z.toFixed(2), w: e.blk.w, d: e.blk.d } : null })),
+    show,
+  };
+})(window);
