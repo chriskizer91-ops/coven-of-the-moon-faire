@@ -1,6 +1,6 @@
 # maps: the 3D map of Aethermoor and the star map in the menu, and choosing where to fly
 
-Branch: job/maps      Last commit of code: db8d36d      Updated: November 24, 2026, 07:00      By: a sub-agent of the hub's (Fable 5.2)
+Branch: job/maps      Last commit of code: 310f7a3      Updated: November 24, 2026, 07:15      By: a sub-agent of the hub's (Fable 5.2)
 
 `origin/main` is merged into this branch twice, at the hub's asking: once with the real menu in it (`6f20722`) and
 once with the flight in it (`65c7825`). The checks below were run after the merges, on the real zone-1 page with the
@@ -47,7 +47,7 @@ small page with a stand-in menu. The same pieces are in the three zone pages, in
 |---|---|
 | `game/maps/maps.js` | The Maps tab, the three views, `W3D.maps.world.mount` and `.choose`, `W3D.maps.sky.mount` |
 | `game/maps/maps.css` | Their look. Everything is under `.cvm`, so it touches nothing of the game's |
-| `game/maps/data/maps-data.js` | Every word the player reads, the stand-in names, the why-lines, the settings |
+| `game/maps/data/maps-data.js` | Every word the player reads, the names that are stand-ins (marked so), the why-lines, the settings |
 | `game/maps/world/` | The 3D map, copied from the old Envoi: `map3d.js`, `places.js`, `moods.js`, `tree-models.js`, `buildings.js`, `place-models.js`, `map.css`, `bands.js`, `art/` (four pictures). `art.js` and `art-land.js` are new |
 | `game/maps/sky/thareia-system-star-map.html` | The star map's page, copied, with its changes marked. It is the source of the frame |
 | `game/maps/sky/lib/three-0.160.0/` | three.js 0.160.0: 12 files and its licence |
@@ -98,7 +98,6 @@ ShaderPass, MaskPass, CopyShader, LuminosityHighPassShader, OutputShader).
 |---|---|---|
 | **The star map runs in a frame with three.js 0.160 packed in.** It is the safer way: the map is written for 0.160. Its colour handling and its last drawing pass do not exist in r128, and its add-ons (the turning of the view, the glow) are not in the game's r128 file. Moving it to r128 would mean rewriting its drawing and checking every colour by eye. In a frame it runs as Chris last saw it | `tools/maps-make-sky.mjs` | Change the map to run on r128 |
 | The pin says **"The coven"** (it said "Io"; here any of the four may lead) | `maps-data.js`, `words.pin` | "Io", or the name of whoever walks |
-| The moon is spelled **"Auros"** on the star map, the working name. The old page wrote "Aurous" | `maps-data.js`, `sky.info.aurous.name` | "Aurous" |
 | The star map is **to look at**: no "Set course" between worlds, no crystal cost | `maps-data.js`, `sky.travel: false` | `true` brings both back |
 | The **shipyard** stands on the map where this game has it, in the bay (atlas 2097, 684), so the pin and the model agree | `maps-data.js`, `places.shipyard` | Delete the line: back on its old pin (2097, 599) |
 | The why-lines for a landing that is not open: "Not yet. The way there leads on from The Warm Roads." | `maps-data.js`, `closed` | Any wording |
@@ -106,6 +105,11 @@ ShaderPass, MaskPass, CopyShader, LuminosityHighPassShader, OutputShader).
 | The dotted line takes 1.5 seconds to draw and is held 1.1 seconds | `maps-data.js`, `world.lineSecs`, `holdSecs` | Any times |
 | `choose()` stops the land while it is up (it calls the walker's `pause`) and starts it again after | `maps.js`, `world.choose` | Leave pausing to the hub |
 | The Maps tab opens on **Zone** the first time (it costs nothing to draw), then on the view last looked at | `maps.js`, `tab.mount` | Always World |
+
+**Not a call of this job's: the moon is Auros.** The job's text called the spelling open. `docs/decisions.md` says
+Chris settled it on November 18, so the star map reads "Auros" (the old page wrote "Aurous") and the name is not
+marked as a stand-in. The band of crystal's name, "Crystal Drift", is marked as a stand-in: it was Claude's in the
+old Envoi, not Chris's. The `sky-names` job, whose slip said both, was right; both are done.
 
 ## The places and the reskin
 
@@ -128,9 +132,12 @@ reading the old Envoi at `d450c3f`. Nothing was written in the old repo.
 
 Everything here was run in a browser with no screen and no graphics card, on November 24, after `origin/main` was
 merged in (the real menu and the flight are in the pages). The job was cut off once, late on November 23, while
-these runs were going; all of them were run again from the start. Every row below was run on the last
-commit of code, but for zones 2 and 3, which were run one small change earlier (before the card's place on a phone
-held on its side, which is CSS for low screens only).
+these runs were going; all of them were run again from the start.
+
+The two `maps-test` rows on the small page and on zone 1 were run on the last commit of code. The other rows were
+run a little earlier: the menu's check, `things-test` and `people-test` before two marks and three comments were
+put right in the data file (no code reads the marks); zones 2 and 3 before that and before the card's place on a
+phone held on its side (CSS for low screens only).
 
 | Check | On | Result |
 |---|---|---|
@@ -249,7 +256,9 @@ open one, the dotted line); the star map (the system, Thareia, the moon).
 ## For the hub
 
 1. **`origin/main` is merged into `job/maps`** (twice: `6f20722` with the menu, `65c7825` with the flight), so this
-   branch should come into `main` without a clash. In each zone page the maps' block sits straight after the menu's
+   branch should come into `main` without a clash. `main` has moved on since (to `3a4c65f`: the board, the flight's
+   Fire button, the sky-names proposal). None of that touches the maps' files, the zone pages or `assets/INDEX.csv`,
+   and git joins the two without a clash (tried with `git merge-tree`, not merged). In each zone page the maps' block sits straight after the menu's
    block. In `assets/INDEX.csv` both sides' lines are kept: main's, then the maps' 13. There is no stand-in of the
    menu in any zone page: it is only in `game/pages/maps.html`.
 2. **Checked on the real zone-1 page with the real menu,** as asked: the Maps tab opened from the real menu, and
@@ -276,15 +285,21 @@ open one, the dotted line); the star map (the system, Thareia, the moon).
     `node tools/maps-make-sky.mjs --esbuild <that folder>`. The built text is in the repo, so a build needs no Node.
 11. **three.js 0.160.0 has no line in `assets/INDEX.csv`** (it is from npm, and the index's columns name an old
     repo). If the hub wants a line for it, the facts are under "What was copied in".
-12. **The old Envoi's places tool was run on a scratch copy,** not in any repo. The copy is gone with the machine's
+12. **When Chris has chosen the sky's names** (`docs/lore/sky-names-proposal.md`): the lines go into
+    `game/maps/data/maps-data.js` under `sky.info`, as the sky-names slip says, and `standIn: true` comes off each.
+    Nothing else has to change, and the star map's frame need not be made again (the names are handed to it when it
+    opens). Look at the suns' longer name on an upright phone: a name's box on the star map is as wide as its
+    letters. `python3 tools/maps-test.py builds/maps.html` reads the nine names back from the star map.
+13. **The old Envoi's places tool was run on a scratch copy,** not in any repo. The copy is gone with the machine's
     scratch space; `place-models.js` says at its top how it was made, should it be needed again.
 
 ## For Chris
 
 1. **The frame rates** of the 3D map on the laptop and the phone, read off its bottom left corner; and whether the
    phone is happy with the game and a 3D map open together.
-2. **The names of the three stars and the four other planets** (they read "The Twin Suns", "The Far Star",
-   "Unnamed I", "Unnamed II", "Unnamed IV", "Unnamed V"), and **the moon's spelling** (it reads "Auros").
+2. **The names of the three stars, the four other planets and the band of crystal** (they read "The Twin Suns",
+   "The Far Star", "Unnamed I", "Unnamed II", "Unnamed IV", "Unnamed V", "Crystal Drift"). A proposal for all of
+   them is waiting for him (`docs/lore/sky-names-proposal.md`, the sky-names job's).
 3. **"The coven" on the pin,** or another word.
 4. **Whether the star map should let him set a course between worlds** in this game. It is off.
 5. **The shipyard's spot** is still his call. The map follows the game.
