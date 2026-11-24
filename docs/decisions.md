@@ -13,6 +13,25 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 07:58: Opus 5.5 for most tasks; the townsfolk's bodies wait; the joining starts
+
+- **Chris: his week's Fable usage is at 74%.** "You can use Opus 5.5 effort high for most tasks. You are the
+  coordinator. Whatever is running currently is ok to keep it going." So: new side work runs on Opus 5.5 at high
+  effort; zone 4 and the fights (Fable) run on to their end; the hub coordinates and keeps its own steps few.
+- **Chris: "I thought the NPC people models were already made."** They are: the Faire's eleven painted people (some
+  on two sets of shapes) and the Grey Hat, all in the game. The 18 townsfolk of zones 1 to 3 wear those same bodies
+  again (three people on the pie seller's, three on the night-watchman's, three on the baker's, and so on).
+  **Hub's reading.** *The townsfolk keep the bodies they have for the first draft.* The townsfolk job's first part
+  (23 new shapes, the guides, the words for 46 pictures) is kept in `main` and waits: nothing more is spent on it
+  unless he asks. This takes back the hub's reading of 05:56, that new bodies were part of the first draft.
+- **Chris: the phone questions wait** for "the next safe stopping point". **Hub's reading.** *That point is:* zone 4
+  and the fights in `main`, the zones joined into one journey, everything checked, and one set of builds sent.
+- **Chris: the flight** (made again from stage 5, or not): "let me think about the flight." Open.
+- **Hub's call.** *The joining is a sub-agent's job, `journey`, on Opus 5.5 at high effort,* started at 08:01: the
+  ship as the gate, the map to choose on, the next page playing the flight in, one save across the pages, a small
+  front door, the ships at the other landings, and the fix for small people standing bent. Its first piece is a
+  two-page trial for his phone: can one downloaded page open the next by itself, and does a save last.
+
 ## November 24, 2026, 06:58: the sky's names are approved; the five narrator lines; his Fable usage
 
 - **Chris: yes to the sky's names.** "I like all the names you suggested in sky names." And: "lore wise I appreciate

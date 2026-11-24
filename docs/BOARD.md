@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 07:42, by the hub.
+Last updated: November 24, 2026, 08:01, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -28,7 +28,8 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | **Done, in `main` (22:25).** Both parts. Its slip: `docs/slips/flight.md`. Not joined to the zones yet: that is the hub's |
 | `fights` | `job/fights` | The rest of the fights job: step 4 (room for new creatures, the whole game's levels); fights on zones 2 and 3; zone 4's fights as data; a trial of one M7 creature outside the repo | **a sub-agent (Fable 5.2, high), from November 24, 06:03** (Chris: "you can use a sub agent to do the rest of the fights conversation"). The fights conversation is done with | Started |
 | `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | **Proposal in, in `main` (November 24, 06:25):** `docs/lore/sky-names-proposal.md`. The short page went to Chris. **Waiting on his yes or his changes** |
-| `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | **First part done, in `main` (November 24, 07:42):** 23 people, their shapes, guides and the words for 46 pictures; the folder went to Chris. **Waiting on his pictures** (one person first, to try the fit). The later steps are in `docs/slips/townsfolk.md` |
+| `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | **First part done, in `main` (November 24, 07:42):** 23 people, their shapes, guides and the words for 46 pictures; the folder went to Chris. **On hold (07:58):** Chris thought the people's models were already made, and they are (the eleven). The townsfolk keep the bodies they have for the first draft; the kit waits unless he asks. The later steps are in `docs/slips/townsfolk.md` |
+| `journey` | `job/journey` | The joining: the ship as the gate, the map to choose on, the next page playing the flight in, one save across the pages, a small front door, the ships at zones 2 and 3, the fix for small people standing bent. First: a two-page trial for Chris's phone | **a sub-agent (Opus 5.5, high)** | **Started November 24, 08:01.** Its text is not on the board; the plan it builds is "How the pieces join", below |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
 
@@ -131,9 +132,8 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 4. **The five foe questions** at the end of `docs/foes-from-m7.md`. Until he answers, every creature slot stays a
    stand-in. The fights job is trying one M7 creature in this game's battle, outside the repo, to learn what
    bringing one in takes.
-5. **Two pictures for each townsperson** (a body sheet and a face, made over grey guides, as he did for the eleven
-   fair folk), once the townsfolk job has the guides and the words ready. Or his word that the bodies are to be
-   painted without his pictures.
+5. ~~Two pictures for each townsperson.~~ **Not needed for the first draft** (07:58: he thought the people's
+   models were already made; the townsfolk keep the eleven's bodies). The kit is ready if he ever wants it.
 6. ~~Yes, or changes, to the sky's names.~~ **He said yes to all of them (November 24, 06:58).** They are lore:
    `docs/decisions.md` and `docs/lore/README.md`. **The hub still has to put them on the star map** (below).
    As it stood before his yes: the proposal is in (`docs/lore/sky-names-proposal.md`) and the short
@@ -147,7 +147,8 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 7. **The flight: made again from his newest airship game, or left as it is?** The flight was built on the oldest
    version of Skies of Aethermoor. The one he plays is stage 4 and stage 5, on other branches of that repo. The
    Fire button is put right (below); the ships' better looks and the smoother picture of stage 5 are not in.
-8. **A try on his own laptop and phone:** `flight.html` again (does a thumb held on Fire aim as he expects; its
+8. **A try on his own laptop and phone, at the next safe stopping point** (his word, 07:58: zone 4, the fights and
+   the joining in and checked, one set of builds sent): `flight.html` again (does a thumb held on Fire aim as he expects; its
    frame rate); whether the phone keeps a save between visits (the Save tab's "visit N"); whether the phone opens
    a page of 100 MB at all; how the narrator sounds the B way.
 
@@ -183,9 +184,10 @@ the townsfolk in bodies of their own, and the stars and planets named.**
   Wardens' colours; the lifelike look of the eleven or the witches' painted look; whether the Warden who speaks is
   a man or a woman (the cast and the notes disagree).
 
-### Chris's Fable usage (November 24, 06:58)
+### Chris's Fable usage (November 24, 06:58; 74% at 07:58)
 
-He is at 60% of his week's Fable usage. **Start nothing new on Fable without his word.** The sub-agents are the big
+He was at 60% of his week's Fable usage at 06:58 and 74% at 07:58. **His word (07:58): new side work runs on Opus
+5.5 at high effort; what is running may run on; the hub coordinates.** Start nothing new on Fable. The sub-agents are the big
 spenders (what three of them used, start to finish: sky names 0.3 million tokens, the maps job's last part 0.55
 million, the townsfolk's first part 0.59 million; zone 4 and the fights are bigger jobs and still at work). If more side work is needed, ask him first whether it runs on Opus 5.5 (extra high), which he also
 allowed, or waits. Keep the hub's own steps few.
