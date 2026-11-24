@@ -1,7 +1,10 @@
 # Names for the sky: a proposal
 
-**Status: A PROPOSAL, NOT LORE.** Written by the `sky-names` job (Claude), November 24, 2026. Nothing here is true of
-Thareia until Chris says so. Every name below is a stand-in until then.
+**Status: THE NAMES ARE APPROVED.** Chris, November 24, 2026: "I like all the names you suggested in sky names."
+He read the short page of first choices, so the first-choice name of each thing in part 3 is lore now (the list is
+in `docs/decisions.md` and in `README.md` here). **Still a proposal:** each card's exact words, the second and
+third choices, "Small things the map shows that have no label at all", and "Three ideas left out". Written by the
+`sky-names` job (Claude), November 24, 2026.
 
 Chris asked (November 24): "we need to name the three stars and the other planets and any other features from that
 star map, using the lore that we have and making logical and beautiful lore continuations."

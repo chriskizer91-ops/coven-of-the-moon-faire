@@ -13,6 +13,29 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 06:58: the sky's names are approved; the five narrator lines; his Fable usage
+
+- **Chris: yes to the sky's names.** "I like all the names you suggested in sky names." And: "lore wise I appreciate
+  what you have created." What he read was the short page of first choices, so these are lore now:
+  - the twin suns: **the Cresset** (the big gold one) and **the Taper** (the small blue-white one that circles it).
+    In plain talk people still say "the sun";
+  - the far red star: **the Vigil**;
+  - the four other planets, from the suns outward, each with the fair folk's name for it: **Brasa** (the
+    Fire-Eater), **Saffren** (the Outrider), then Thareia and Auros, then **Pavane** (the Hoop-Dancer) and
+    **Glaswen** (the Straggler);
+  - the band of free crystal: **the Amberwake**. Lamplighters say the Taper spilled it, carrying fire out to light
+    the Vigil. Captains still call it "the Drift".
+- **Hub's reading.** *What is still a proposal:* the exact words on each card of the star map, and the things the
+  short page did not carry (the ring as "the Hoop", the storm as "the Rosette", the four planets together as "the
+  High Faire", and the three ideas the proposal left out). They stay as written in
+  `docs/lore/sky-names-proposal.md` until he says more. The cards' words are data and easy to change.
+- **Chris sent the five narrator lines made again** (one zip). All five are new recordings with the new words'
+  lengths (4.9 to 8.4 seconds), and are in the game: every narrator line of zones 1 to 3 now has a voice, 48 of 48.
+- **Chris: zone 4's voices are being made now.**
+- **Chris: "we are already at 60% of my weekly Fable usage."** **Hub's call.** *Nothing new is started on Fable
+  without his word.* The sub-agents already at work (zone 4, the fights, the townsfolk's first part, the maps
+  job's last checks) are the big spenders; whether any is stopped is his to say. The hub keeps its own work small.
+
 ## November 24, 2026, 05:56: what the first draft holds; the fights; the sky's names; the Fire button
 
 - **Chris: a sub-agent does the rest of the fights job.** "You can use a sub agent to do the rest of the fights

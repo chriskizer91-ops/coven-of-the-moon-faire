@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 06:25, by the hub.
+Last updated: November 24, 2026, 07:11, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -123,9 +123,9 @@ A first draft is: the four zones as one journey from dusk at the Faire to the en
 maps, the flights and every voice. **Chris, November 24, 05:56: the first draft also has the foes he picks from M7,
 the townsfolk in bodies of their own, and the stars and planets named.**
 
-1. **The five narrator lines of zones 2 and 3,** made again with their words as they are now (the list went to him
-   a second time on November 24).
-2. **Zone 4's 144 spoken lines,** recorded from `game/talk/recording/z4-recording-order.txt` (sent November 24).
+1. ~~The five narrator lines of zones 2 and 3.~~ **Done:** he sent them on November 24 and they are in. Every
+   narrator line of zones 1 to 3 has a voice now, 48 of 48.
+2. **Zone 4's 144 spoken lines** (he is making them now, November 24, 06:58), recorded from `game/talk/recording/z4-recording-order.txt` (sent November 24).
    Zone 4 is being built to fit those words, so none should need making twice.
 3. **Zone 4's narrator lines,** once its land stands and the list is written (the zone-4 job writes it).
 4. **The five foe questions** at the end of `docs/foes-from-m7.md`. Until he answers, every creature slot stays a
@@ -134,7 +134,9 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 5. **Two pictures for each townsperson** (a body sheet and a face, made over grey guides, as he did for the eleven
    fair folk), once the townsfolk job has the guides and the words ready. Or his word that the bodies are to be
    painted without his pictures.
-6. **Yes, or changes, to the sky's names.** The proposal is in (`docs/lore/sky-names-proposal.md`) and the short
+6. ~~Yes, or changes, to the sky's names.~~ **He said yes to all of them (November 24, 06:58).** They are lore:
+   `docs/decisions.md` and `docs/lore/README.md`. **The hub still has to put them on the star map** (below).
+   As it stood before his yes: the proposal is in (`docs/lore/sky-names-proposal.md`) and the short
    page went to him on November 24: the Cresset and the Taper (the twin suns), the Vigil (the far star); Brasa,
    Saffren, Pavane and Glaswen (the four planets, each with a fair-folk name); the Amberwake (the band of crystal).
    Still stand-ins. When he has chosen, the hub puts the lines at the end of the proposal into the star map's
@@ -148,6 +150,12 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 8. **A try on his own laptop and phone:** `flight.html` again (does a thumb held on Fire aim as he expects; its
    frame rate); whether the phone keeps a save between visits (the Save tab's "visit N"); whether the phone opens
    a page of 100 MB at all; how the narrator sounds the B way.
+
+### Chris's Fable usage (November 24, 06:58)
+
+He is at 60% of his week's Fable usage. **Start nothing new on Fable without his word.** The sub-agents are the big
+spenders. If more side work is needed, ask him first whether it runs on Opus 5.5 (extra high), which he also
+allowed, or waits. Keep the hub's own steps few.
 
 ### The flight's Fire button aims (November 24, 06:10)
 
