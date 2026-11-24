@@ -1,6 +1,6 @@
 # flight: the flight between zones, and the Grey Hat's real ship
 
-Branch: job/flight      Built by: a sub-agent of the hub's (Fable 5.2)      Updated: November 24, 2026, 06:45 (by the hub: the Fire button aims)
+Branch: job/flight      Built by: a sub-agent of the hub's (Fable 5.2)      Updated: November 24, 2026, 06:10 (by the hub: the Fire button aims)
 
 **State: both parts built, checked and pushed.** Part 1 is one flight between two landings, as a piece a page can
 call. Part 2 is the Grey Hat's real ship, the Skiff, moored at zone 1's jetty. Neither is joined to the zone pages:

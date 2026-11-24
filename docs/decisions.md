@@ -45,7 +45,7 @@ The full older record stays in the old repos and is not copied here:
   land stands. This is the lesson of the five narrator lines that had to be made again.
 - **What happened overnight, plainly:** the machine this work runs on stopped at about 22:30 on November 23 and
   nothing ran for seven hours. The maps job was cut off at its last checks; its work was already pushed. It was
-  taken up again at 05:45.
+  taken up again at about 05:40.
 
 ## November 23, 2026, 22:25: the flight is in, and the real ship lies at the jetty
 
