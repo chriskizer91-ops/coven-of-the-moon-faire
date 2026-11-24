@@ -56,7 +56,8 @@
   function reach(id) { const s = state(); if (s.reached.indexOf(id) < 0) s.reached.push(id); s.at = id; store.set(KEY, JSON.stringify(s)); return s; }
   // ---- the zone's story ----
   const story = () => G.__story || null;
-  const isDone = () => { const st = story() && story().state(); return !!(st && st.moments && st.moments[D().done[zone]]); };
+  const isDone = () => { const st = story() && story().state(), d = D().done[zone]; if (!st || !d) return false;
+    return d.flag ? !!(st.flags && st.flags[d.flag]) : !!(st.moments && st.moments[d]); };      // a moment's name, or { flag } (zone 4: flags.leaving)
   const next = () => (G.COVEN_LANDINGS || []).find((l) => l.after === here) || null;
 
   // ---- one line of words, at the top of the screen (out of the middle of the picture) ----

@@ -15,7 +15,7 @@ Everything a build needs is in this folder (and `tools/`). Nothing is loaded fro
 | `art/` | Paintings |
 | `lib/` | three.js r128 |
 | `menu/` | The pause menu, the three save slots and the tab frame other pieces add their tabs to (the menu job's) |
-| `travel/` | The landings a ship sets down at, one for each zone (the hub's) |
+| `travel/` | The landings a ship sets down at, one for each zone (the hub's); and the journey: the ship as the gate, the flight in, one save from page to page (`journey.js`, its words in `journey-data.js`; the journey job's) |
 | `flight/` | The flight between zones, made from Skies of Aethermoor: its sources, the one built piece a page loads (`flight-frame.js`), and the baked ship that lies at a landing (the flight job's) |
 | `maps/` | The menu's Maps tab: the zone's own map, the 3D map of Aethermoor (with choosing where to fly: `W3D.maps.world.choose`), and the star map of the Thareia system in a frame of its own. Every name and line is in `maps/data/maps-data.js` (the maps job's) |
 

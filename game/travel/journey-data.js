@@ -13,7 +13,8 @@
     // ---------------- when a zone is done ----------------
     // A zone's story has reached its end once this moment of its story has been played (game/people/zone-N.js,
     // W3D.STORY: each zone's "leaving"). Then the ship will go on to the next landing.
-    done: { 'zone-1': 'leaving', 'zone-2': 'leaving', 'zone-3': 'leaving', 'zone-4': 'leaving' },
+    // Zone 4 has no such moment: its leaving is a flag of its story (docs/slips/zone-4.md, For the hub, 3).
+    done: { 'zone-1': 'leaving', 'zone-2': 'leaving', 'zone-3': 'leaving', 'zone-4': { flag: 'leaving' } },
 
     // a new game begins on this page (the front door's "Begin anew", and the menu's New game on any page)
     firstPage: 'zone-1.html',
