@@ -2,7 +2,7 @@
 """things-test.py: the small things zone 1's lines speak of, checked with no screen.
     python3 tools/things-test.py builds/zone-1.html
 The lit gate lamps at Io's cottage; Old Bridie's lantern on the south road; the Grey Hat's ship at the end of the jetty's
-pier (a stand-in) and the twelve lamps that come home to her hooks; the pale moth after the great wraith. It also checks
+pier (the Skiff from Skies of Aethermoor) and the twelve lamps that come home to her hooks; the pale moth after the great wraith. It also checks
 that the cottage's lines are said at its gate, and the jetty's line where the ship can be seen.
 It cannot see a picture or a motion: it checks where things are, what is shown, and when. Look with tools/look.py."""
 import sys, os, json
@@ -26,7 +26,7 @@ JS = """async () => { const w = window.__w3d, Z = w.P, M = Z.M, P = window.__peo
       lights: Z.lamps.some((l) => Math.hypot(l.x - b.lamp[0], l.y - b.lamp[1], l.z - b.lamp[2]) < 0.1), triangles: b.post.triangles, pool: !!(b.pool && b.pool.parent) } : null; }
   // ---- the ship and her lamps ----
   { const s = T.get('ship-lamps'), J = window.W3D_PLACES.jetty.ship, j = part('jetty'), shown = () => ({ n: s.n, glass: s.glass.geometry.drawRange.count / 36, iron: s.iron.geometry.drawRange.count / 72, halos: s.halos.filter((h) => h.visible).length });
-    out.ship = { standIn: J.standIn, hooks: J.hooks.length, port: J.hooks.filter((h) => h[2] < J.at[2]).length, lowest: Math.min(...J.hooks.map((h) => h[1])) - J.at[1], clearOfPier: J.at[2] - J.beam / 2 - 14.4, inPlace: J.hooks.every((h) => Math.abs(h[0]) < 49 && Math.abs(h[2]) < 46),
+    out.ship = { standIn: J.standIn, kind: J.ship || null, hooks: J.hooks.length, port: J.hooks.filter((h) => h[2] < J.at[2]).length, lowest: Math.min(...J.hooks.map((h) => h[1])) - J.at[1], clearOfPier: J.at[2] - J.beam / 2 - 14.4, inPlace: J.hooks.every((h) => Math.abs(h[0]) < 49 && Math.abs(h[2]) < 46),
       walkOn: Z.walkable(M.px(j.ox + J.at[0]), M.py(j.oz + J.at[2])), counts: [] };
     S.reset(); for (const n of [0, 1, 4, 11, 12]) { S.setLamps(n); T.tick(); out.ship.counts.push([n, shown()]); }
     put(j.ox, j.oz + 12, Math.PI); T.tick(); out.ship.strength = s.halos[0].material.opacity; S.setLamps(0); T.tick(); }
@@ -76,9 +76,9 @@ if r.get('things'):
         check(o['solid'], 'the post cannot be walked through')
         check(o['herFree'], 'the way up to Old Bridie from the road is still open')
         check(o['lights'] and o['pool'], 'its lamp lights whoever stands by it, and the ground under it')
-    print('3. the Grey Hat\'s ship (a stand-in) and her twelve lamps')
+    print('3. the Grey Hat\'s ship and her twelve lamps')
     s = r['ship']
-    check(s['standIn'] is True, 'the ship is marked as a stand-in')
+    check(s['standIn'] is False and s['kind'] == 'skiff', 'she is the real ship, the Skiff from Skies of Aethermoor, not the stand-in')
     check(s['hooks'] == 12 and s['port'] == 6, 'twelve lamp hooks, six a side')
     check(s['lowest'] > 1.5 and s['inPlace'], 'every hook is over the water, inside the jetty\'s own ground (the lowest lamp hangs %.1f m above the lake)' % s['lowest'])
     check(s['clearOfPier'] > 1.0, 'she lies clear of the pier\'s end, by %.1f m' % s['clearOfPier'])

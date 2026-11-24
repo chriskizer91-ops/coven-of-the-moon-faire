@@ -59,7 +59,8 @@
     ],
   };
   // ---- the small things zone 1's lines expect to see (hub's calls, November 23; game/people/things.js draws them) ----
-  // The ship's hull is part of the jetty (game/places/jetty-ship.js, a stand-in). Here are the lights and the moth.
+  // The ship herself is part of the jetty (game/places/jetty-ship-real.js: the Skiff from Skies of Aethermoor, the flight
+  // job's). Here are the lights and the moth.
   W3D.THINGS = W3D.THINGS || {};
   const WEST = [-0.87, -0.5];    // the way the moth goes: west and somewhat north, toward the moon (the moon stands high in the north-west)
   // the cottage's four gate pillars, each with a lantern on top: where it stands in the cottage's painting, how tall it
