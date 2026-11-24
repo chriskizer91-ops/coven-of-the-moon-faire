@@ -63,15 +63,21 @@ that is the hub's part. Nothing has been flown on a real laptop or phone yet.
 | Flight | How far | Ship | Raiders | Flown straight, never firing | With a fight |
 |---|---|---|---|---|---|
 | Wickhollow to The Warm Roads | 3.4 km | Skiff | 1 Skiff, Calm skies | 83 s | about 85 s |
-| The Warm Roads to The northern wilds | 5.0 km | Cutter | a Cutter and a Skiff, Fair Winds | 106 s | about 150 s |
-| The northern wilds to The northeast peaks | 8.4 km | Brig | a Brig, a Cutter and a Skiff, Fair Winds | 144 s | about 180 s |
+| The Warm Roads to The northern wilds | 5.0 km | Cutter | a Cutter and a Skiff, Fair Winds | 106 s | about 145 s |
+| The northern wilds to The northeast peaks | 8.4 km | Brig | a Brig, a Cutter and a Skiff, Fair Winds | 144 s | about 175 s |
 | back from The northeast peaks | 8.4 km | Frigate | the same three | 133 s | about 160 s |
 
 - The two long flights are hurried 1.6 times (the data's limit), to stay near two minutes. The others fly at the
   ship's own speed.
-- **How hard it is.** Each flight was flown 8 times as it would really go, on the game's own clock. A captain who
-  only steers for the landing arrived every time. So did one who turns on the raiders and fires. (The check's
-  `--sim` prints this.) These are simulated captains, not people.
+- **How hard it is.** Each flight was flown 8 times as it would really go, on the game's own clock, by two simulated
+  captains: one who only steers for the landing, and one who turns on the raiders and fires. Both arrived 8 times in
+  8 on every flight, with the hull whole at the landing. (The crew patch her up once the raiders are gone, as in
+  Skies, so that does not say how much she took on the way.) `python3 tools/flight-test.py builds/flight.html --sim 8`
+  prints it. These are simulated captains, not people.
+- **It was harder at first, and that is why two things were added.** With Skies' own Fair Winds and raiders that never
+  give up, the captain who only steers lost the Skiff on the first flight 1 time in 5; and the Brig against three
+  raiders under Crosswinds was lost 2 times in 5 by either captain. So the first flight has calmer skies, the last has
+  Fair Winds, and raiders give up after a minute. All three are single lines of data.
 - The frame's text is 2.85 MB: 1.8 MB is the night map, 0.4 MB the corner map and the ships' painted pieces, and
   0.7 MB the code, three.js included.
 - The flight draws about 100,000 triangles in 27 draw calls with no raiders, and about 102,000 in 40 with one.
@@ -116,7 +122,7 @@ From `envoi-on-the-longest-night` (main, d450c3f):
 
 ## What was checked, and how
 
-- **`python3 tools/flight-test.py builds/flight.html`: 60 checks, all good, 0 page errors.** It opens the page with
+- **`python3 tools/flight-test.py builds/flight.html`: 56 checks, all good, 0 page errors.** It opens the page with
   `?test` and with the network switched off, and flies through the piece's own test handle. It checks:
   - a flight starts over the landing it leaves and fills the screen;
   - flown to the landing, `fly()` answers arrived, and the events come in order: raiders, then clear, then the end;
@@ -130,7 +136,7 @@ From `envoi-on-the-longest-night` (main, d450c3f):
   - at 412 by 880 and at 880 by 412: four things to press, the smallest 46 by 46 px; nothing over the middle of the
     picture; a thumb on the left steers; the Fire button fires;
   - no request went to the network: 3 requests in all, each for the page's own file.
-- **`python3 tools/flight-ship-test.py builds/moored-ship.html`:** the twelve hooks, six a side, over the water and
+- **`python3 tools/flight-ship-test.py builds/moored-ship.html`: 14 checks, all good.** The twelve hooks, six a side, over the water and
   clear of the pier and the sails; she is the baked Skiff, lit by the jetty's own night; she cannot be walked onto.
 - **The last check, on a scratch copy of zone 1's page** with the real ship switched in and the flight's four files
   added (the copy is not in the repo). The results are under "The last check" below.
