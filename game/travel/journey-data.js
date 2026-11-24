@@ -31,6 +31,7 @@
         { place: ['northern-camp', 320, 516], reach: 3.2, ship: 'camp' },                      // on the landing ground, beside her, until the Grey Hat takes her down the coast
         { place: ['shipyard', 764, 448], reach: 3, ship: 'slip', refit: true },                 // at the foot of the slip, once she is up on it
       ],
+      frozenCamp: [{ place: ['frozen-camp', 318, 516], reach: 3.2 }],                           // in the snow beside her port side (the zone-4 job laid her at 318, 458, bow west)
     },
 
     // ---------------- arriving ----------------
@@ -40,10 +41,19 @@
       wickhollow: { place: ['jetty', 768, 690], face: [768, 800] },                            // on the pier, a few steps from the ship
       warmCamp: null,
       northCamp: null,
+      frozenCamp: null,
     },
     // After a flight the page's Begin screen is passed by itself, if the browser already counts the player's taps or
     // keys on the flight (that is what lets a phone play sound). 'button': always show it, as on any other opening.
     beginAfterFlight: 'auto',
+
+    // ---------------- the way home ----------------
+    // Once the last zone's story is done, the ship goes home: boarding at `from` offers only `to`, and the page of `to`
+    // opens AS THE ENDING (game/people/faire-ending.js, the zone-4 job's), not as its first night. A slot that has
+    // flown home opens the ending again on Continue. The homecoming's lines (zone 4's moment "homecoming" and the
+    // narrator's line 10) are said as the ending opens, as the zone-4 job left them: the flight home itself is quiet.
+    // `fights`: whether the wilds' fights run during the ending (false: the land is quiet; the zone-4 job's advice).
+    home: { from: 'frozenCamp', to: 'wickhollow', page: 'zone-1.html', fights: false },
 
     // ---------------- the lines on the flight in ----------------
     // A zone's flight lines (its moments "flight" and "flight-after", game/talk/zone-N.js, and the narrator's lines for
@@ -79,6 +89,7 @@
         'zone-4': 'The Grey Hat won’t fly on yet.',
       },
       nowhereElse: 'There is nowhere else she can take you yet.',
+      toDoor: 'Back to the front door',          // the button under the end card
       onSlip: 'She is up on the slip. She won’t fly until the refit is done.',
       lost: 'The crew brought her home to {from}. Nothing was lost.',
       turnedBack: 'She turned back to {from}.',
@@ -97,6 +108,7 @@
         subtitle: 'A story in four zones',         // STAND-IN
         replace: 'Every slot is in use. Tap again to begin anew in slot {n}, in place of its save.',
         opening: 'Opening…',
+        ended: 'the end reached',                  // added to the line of a slot that has seen the ending (STAND-IN)
         // "Carry on", "Save {n}" and "New game" are the menu's own words (game/menu/menu-words.js)
       },
     },
