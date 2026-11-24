@@ -72,9 +72,8 @@ with sync_playwright() as p:
             pg.screenshot(path=os.path.join(out, name))
             d = pg.evaluate("() => window.__battle.drawn")
             print('%s  %s triangles, %s draw calls  (%s)' % (name, f"{d['triangles']:,}", d['calls'], f['name']))
-            # leave the fight: let it run to its end quickly
-            pg.evaluate("() => { window.__battle.turbo = 80; }")
-            pg.evaluate("""() => new Promise((r) => { const t = setInterval(() => { const B = window.__battle; if (B && B.state === 'over' && !document.getElementById('end').hidden) B.again(); if (!window.__lab.busy) { clearInterval(t); r(); } }, 400); })""")
+            # leave the fight: the page is opened again (quicker than playing a big fight to its end)
+            pg.reload(wait_until='load', timeout=180000); pg.wait_for_function('!!window.__lab', timeout=180000)
     b.close()
 print('page errors: %d' % len(errors))
 for e in errors[:10]: print('  ! ' + e)

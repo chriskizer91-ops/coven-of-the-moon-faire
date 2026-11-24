@@ -1,7 +1,7 @@
 // lab-words.js: the words on the fights job's own small page (game/pages/fights-lab.html). Not in the game itself.
 window.COVEN_LAB_WORDS = {
   lead: 'Every new fight by itself. The eight creatures are stand-ins (plain dark shapes) until the real ones are chosen. Pick one, set the coven’s level, then Play it or Watch it play itself.',
-  groups: { slots: 'The eight slots for new creatures', big: 'The big fights of zones 2 to 4' },
+  groups: { slots: 'The eight slots for new creatures', big: 'The big fights of zones 1 to 4' },
   zones: { 'zone-1': 'Zone 1', 'zone-2': 'Zone 2', 'zone-3': 'Zone 3', 'zone-4': 'Zone 4' },
   slot: 'slot', off: '(off in the game today)',
   things: { 'stone-road': 'the stone by the bridge', 'stone-ring': 'the stone in the ring', 'stone-rise': 'the stone on the rise' },
