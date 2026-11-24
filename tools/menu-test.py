@@ -88,6 +88,16 @@ with sync_playwright() as p:
         check([t.split(':')[0] for t in st['tabs']] == ['save', 'maps', 'coven', 'settings'], 'the tabs, in order: %s' % ', '.join(t.split(':')[1] for t in st['tabs']))
         check(st['ev'] == [['open', 'save']], "the event 'coven:menu-open' is sent, at the Save tab")
         tabs_pictures(pg, 'laptop')
+        pg.click('.cm-x')
+        # ---- a phone, upright and on its side ----
+        for (w, h, name) in [(412, 880, 'phone'), (880, 412, 'side')]:
+            pg.set_viewport_size({'width': w, 'height': h}); pg.wait_for_timeout(200)
+            pg.evaluate("() => { const w = window.__w3d; if (!w.P || !window.__land) return w.step(0.2, 30); for (let i = 0; i < 40 && __land.pending(); i++) w.step(0.2, 30); w.step(0.04, 30); }")
+            shot(pg, 'A-land-' + name); sizes(pg, name + ' %dx%d, the land' % (w, h))
+            pg.click('#cmBtn'); pg.wait_for_timeout(150); tabs_pictures(pg, name)
+            pg.click('.cm-tab[data-tab="save"]'); pg.click('.cm-card[data-slot="1"] [data-act="new"]'); pg.wait_for_timeout(100)
+            sizes(pg, name + ', the question asked first'); shot(pg, name + '-ask-new-game'); pg.click('.cm-ask [data-ask="false"]'); pg.click('.cm-x')
+        pg.set_viewport_size({'width': 1280, 'height': 720}); pg.wait_for_timeout(200); pg.click('#cmBtn'); pg.wait_for_timeout(100)
         pg.keyboard.press('Escape'); pg.wait_for_timeout(100)
         st = pg.evaluate('() => ({ open: W3D.menu.isOpen(), paused: __w3d.paused, ev: __mev.slice(-1) })')
         check(not st['open'] and not st['paused'] and st['ev'] == [['close']], "Escape closes it, the land carries on, and 'coven:menu-close' is sent")
@@ -158,14 +168,6 @@ with sync_playwright() as p:
         changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
         check(not changed, '?test saves nothing: the browser\'s storage is as it was (%d keys before, %d after%s)' % (len(before), len(after), (': changed ' + ', '.join(changed)) if changed else ''))
         notes.append('with ?test the storage held %d keys, written before the menu did anything: %s' % (len(before), ', '.join(sorted(before)) or 'none'))
-        # ---- a phone, upright and on its side ----
-        for (w, h, name) in [(412, 880, 'phone'), (880, 412, 'side')]:
-            pg.set_viewport_size({'width': w, 'height': h}); pg.wait_for_timeout(200)
-            pg.evaluate("() => { const w = window.__w3d; if (!w.P || !window.__land) return w.step(0.2, 30); for (let i = 0; i < 40 && __land.pending(); i++) w.step(0.2, 30); w.step(0.04, 30); }")
-            shot(pg, 'A-land-' + name); sizes(pg, name + ' %dx%d, the land' % (w, h))
-            pg.click('#cmBtn'); pg.wait_for_timeout(150); tabs_pictures(pg, name)
-            pg.click('.cm-tab[data-tab="save"]'); pg.click('.cm-card[data-slot="1"] [data-act="new"]'); pg.wait_for_timeout(100)
-            sizes(pg, name + ', the question asked first'); shot(pg, name + '-ask-new-game'); pg.click('.cm-ask [data-ask="false"]'); pg.click('.cm-x')
         real = [e for e in errs if 'willReadFrequently' not in e]
         check(not real, 'page errors with ?test: %d%s' % (len(real), (': ' + '; '.join(real[:3])) if real else ''))
         ctx.close()
@@ -247,6 +249,8 @@ with sync_playwright() as p:
         check(not err and pos['cur'] == 1 and not diff, 'Continue slot 1: the page opens again (%.0f s), and the %d keys of the game come back exactly as saved%s' % (time.time() - t0, len(slot1['keys']) - 1, (' (differ: ' + ', '.join(diff) + ')') if diff else ''))
         check(abs(pos['px'] - w0['px']) < 1 and abs(pos['py'] - w0['py']) < 1 and pos['who'] == w0.get('who', 'io'), 'she stands where she was saved (%.1f, %.1f; saved at %.1f, %.1f), and %s walks' % (pos['px'], pos['py'], w0['px'], w0['py'], pos['who']))
         pg.click('#begin button >> nth=0'); pg.wait_for_timeout(300)
+        pg.set_viewport_size({'width': 412, 'height': 880}); pg.wait_for_timeout(300); pg.click('#cmBtn'); pg.click('.cm-tab[data-tab="save"]'); pg.wait_for_timeout(150)
+        shot(pg, 'phone-save-as-played'); pg.click('.cm-x'); pg.set_viewport_size({'width': 1280, 'height': 720}); pg.wait_for_timeout(300)
         # ---- copy and delete ----
         pg.click('#cmBtn'); pg.click('.cm-tab[data-tab="save"]'); pg.wait_for_timeout(100)
         pg.click('.cm-card[data-slot="1"] [data-act="copy"]'); pg.click('.cm-card[data-slot="1"] [data-act="copy-to-3"]'); pg.wait_for_timeout(150)

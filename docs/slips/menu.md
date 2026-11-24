@@ -163,7 +163,20 @@ page). It opens the page three ways:
   The file back into slot 2: the same keys. 0 page errors.
 - **C. With the browser's storage blocked** (a stand-in for those phones). The Save tab says so plainly; Save to a
   file holds the whole game; Load from a file opens the page again with the file's game. 0 page errors.
-- **Results:** zone 1 ALL PASSED; the small page ALL PASSED. (The other zones and the old checks: below.)
+- **The check tries two guards as well**: with a fight on, Escape does nothing and `W3D.menu.open()` says false; while
+  the maps job's full-screen "choose where to fly" is up (`W3D.maps.world.choosing`), Escape is left to it.
+- **Results of `tools/menu-test.py`:** FINAL-RESULTS
+- **The old checks still pass** (run on builds with all of the menu but its last two one-line changes, the Escape guard
+  for the maps screen and the file picker; neither is touched by these checks):
+  - `tools/zone-test.py builds/zone-1.html`: ALL PASSED, 0 page errors
+  - `tools/people-test.py builds/zone-1.html`: ALL PASSED
+  - `tools/things-test.py builds/zone-1.html`: ALL PASSED
+  - `tools/encounter-test.py builds/zone-1.html --quick`: every check passed, 0 page errors
+  - `tools/story-test.py builds/zone-2.html`: ALL PASSED
+- With `?test`, zone 1 holds one key once it has started (`coven.party`, from party.js) and zones 2 and 3 hold none;
+  the menu adds nothing to either.
+- A save, as it sits in the browser: 765 bytes on zone 1 (3 keys), 493 bytes on zone 2 (2 keys). The file: about 1 KB.
+- Each zone page grows by about 60 KB (zone 1 is 105.2 MB built).
 
 ## What was NOT checked
 
