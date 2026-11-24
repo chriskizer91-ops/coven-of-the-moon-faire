@@ -100,6 +100,36 @@ the battle's camera often stands the foes at the right edge, so a big one (zone 
 the edge in the opening seconds: this is the battle's own framing (the wraiths too), not the stand-ins'; left as it
 is. The knight wears Halcyon's model, the fire Noctara's (stand-ins). Nothing covers the middle of a phone's screen.
 
+### Not checked
+
+- Anything in motion, any sound, a frame rate, touch on a real phone: only Chris's laptop and phone can show these.
+- The land's own buttons for the big fights (the node, a road stone, a rest, the bramble, the fire) were **not**
+  photographed: the run was lost twice when the machine stopped. The command is in "The pictures" above.
+- Of the phone pictures of the fights, only two were taken again after the phone fix; the rest show the old crowded
+  panel.
+- `zone-test` on zone 1 passed on the build before the last small change to `story.js`, and once again after it.
+- `battle-balance`: 49 of 51 targets, the same two misses as before this job (the old Envoi's own).
+
+### For the hub: bringing `job/fights` into `main`
+
+1. `git merge origin/job/fights` (it already holds `main` at 913dbb1). On the zone pages keep the menu's block, then the
+   maps', then the fights'; if the journey job adds a block, keep every marked block whole.
+2. Changed in the hub's files, each marked "fights job": `game/people/story.js` (the narrator's waiting lines);
+   `game/people/zone-2.js` (a road stone's `use`, from before). Zone 4's page: take out the hub's old comment at
+   line 117 ("the fights job has not reached this page") and line 165's "The fights of zone 4 are not in yet".
+3. Build the four zone pages and `fights-lab.html` and send `fights-lab.html` to Chris (14.1 MB): every fight there
+   to Play or Watch.
+4. The new creature sub-agent's branch is made from this one: Chris named the Rot-Stag, the Thornhound, the Rotwarden,
+   the Sapwight, Briarmaw, the forge-spark and the Glowcap (the hub's word, November 24). The slots here are still
+   stand-ins: nothing was brought in from Aethermoor M7.
+
+### For Chris
+
+- Everything under "For Chris" in the step 4 part below still stands (names, how hard the fire is, the rests, the
+  road stones, about 45 fights a zone).
+- The battle's camera stands the foes at the right edge of a laptop's screen in the opening seconds, so a big foe is
+  cut by the edge. Say if that bothers you.
+
 ## November 24: step 4, and fights on zones 2, 3 and 4
 
 ### What it built
