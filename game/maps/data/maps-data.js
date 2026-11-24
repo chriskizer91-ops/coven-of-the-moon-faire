@@ -9,8 +9,8 @@
 //   world    the 3D map's settings
 //   sky      the star map: every name and every line on it
 //
-// STAND-INS, not settled: the three stars' names, the four other planets' names and the band of crystal's name
-// (Chris has not named them; a proposal for all of them is in docs/lore/sky-names-proposal.md, waiting on his word).
+// The sky's names are Chris's (November 24, 2026). Still stand-ins: the words on each card of the star map, and any
+// entry below that carries standIn: true.
 // The moon is Auros: Chris settled it on November 18 (docs/decisions.md). The old star map wrote "Aurous".
 // Every line under `closed`, and the words "The coven" on the pin, are the maps job's proposals.
 (function (G) {
@@ -90,15 +90,24 @@
       },
       // kind: the small line over the name. name: what the player reads. text, fact: its card.
       // standIn: true marks a name Chris has not settled.
+      // THE NAMES BELOW ARE CHRIS'S (November 24, 2026: "I like all the names you suggested"): the Cresset and the Taper,
+      // the Vigil, Brasa, Saffren, Pavane, Glaswen, the Amberwake, and the fair folk's names for the four planets.
+      // Each card's words (text, fact) are still a proposal: docs/lore/sky-names-proposal.md.
       info: {
         aether: { kind: 'The space between worlds', name: 'The Aether',
           text: 'Space here isn’t empty. It’s the aether. Breathe it and you fall into a blissful sleep. Amber aether crystals, found inside the worlds and drifting free in space, power every journey. They charge from the light of the three stars.' },
-        suns: { kind: 'Binary star pair', name: 'The Twin Suns', standIn: true,
-          text: 'Two stars that circle each other at the heart of the system. Every world orbits the pair, and ships’ crystals charge from their light.' },
-        far: { kind: 'Third star', name: 'The Far Star', standIn: true,
-          text: 'The third star. It sits a great distance out but is still part of the system. Its light charges the crystals too.' },
-        w1: { kind: 'Known planet', name: 'Unnamed I', standIn: true, text: 'One of the four other known planets. Name and story still to come.' },
-        w2: { kind: 'Known planet', name: 'Unnamed II', standIn: true, text: 'One of the four other known planets. Name and story still to come.' },
+        suns: { kind: 'The twin suns', name: 'The Cresset and the Taper',
+          text: 'Two suns that circle each other at the heart of the system: the Cresset, big and gold, and the Taper, small and blue-white. Every world orbits the pair, and ships’ crystals charge from their light.',
+          fact: 'A cresset is a basket of fire on a pole. A taper is the thin candle that lights it.' },
+        far: { kind: 'Third star', name: 'The Vigil',
+          text: 'The third star, red as a coal. It sits a great distance out but is still part of the system, keeping its watch from the edge. Its light charges the crystals too.',
+          fact: 'A vigil is a watch kept through the night.' },
+        w1: { kind: 'Known planet', name: 'Brasa',
+          text: 'The world nearest the suns: small, dark and cracked, with fire showing through like a live coal. From Thareia it is a red spark low in the dawn or the dusk.',
+          fact: 'The fair folk call it the Fire-Eater.' },
+        w2: { kind: 'Known planet', name: 'Saffren',
+          text: 'A world of gold dunes and deep canyons, with a few small blue-green seas. It is the bright light that rides ahead of the suns at dawn and follows them down at dusk.',
+          fact: 'The fair folk call it the Outrider.' },
         thareia: { kind: 'Home world', name: 'Thareia',
           text: 'Home of the continent of Aethermoor. Most of its people have traveled by aether crystal, on little hoppers (basically skiffs) up to larger sailing vessels, all carrying massive crystals.',
           fact: 'Moon: {moon}' },
@@ -107,10 +116,15 @@
         aurous: { kind: 'Thareia’s moon', name: 'Auros',
           text: 'Holds the highest known concentration of aether crystal. Travel comes easiest to its people, so they are the wealthiest and most powerful.',
           fact: 'Orbits Thareia once every 500 years' },
-        w4: { kind: 'Known planet', name: 'Unnamed IV', standIn: true, text: 'One of the four other known planets. Name and story still to come.' },
-        drift: { kind: 'Free crystal', name: 'Crystal Drift', standIn: true,   // (a name Claude gave it in the old Envoi; Chris kept the band, not the name)
-          text: 'Aether crystal isn’t only found inside planets. Here the amber stone floats free, a band of it circling the suns.' },
-        w5: { kind: 'Known planet', name: 'Unnamed V', standIn: true, text: 'One of the four other known planets. Name and story still to come.' },
+        w4: { kind: 'Known planet', name: 'Pavane',
+          text: 'The giant of the system, banded in lilac, cream and rose, with a wide ring round it. It crosses the sky slowly and gravely, like the old dance it is named for.',
+          fact: 'The fair folk call it the Hoop-Dancer.' },
+        drift: { kind: 'Free crystal', name: 'The Amberwake',
+          text: 'Aether crystal isn’t only found inside planets. Here the amber stone floats free, a band of it circling the suns. Lamplighters say the Taper spilled it, carrying fire out to light the Vigil.',
+          fact: 'Captains call it the Drift.' },
+        w5: { kind: 'Known planet', name: 'Glaswen',
+          text: 'The farthest known world, pale and frozen, with a cold blue glow in the cracks of its ice. It is the slowest on the road: more than three of Thareia’s years to go round once.',
+          fact: 'The fair folk call it the Straggler.' },
       },
     },
   };
