@@ -64,7 +64,10 @@
       } else {   // (no baked ship on the page: the twelve lamps stand on posts along the landing ground's north rope)
         for (let i = 0; i < 12; i++) { const px = 150 + i * 30, x = X(px), z = Z(352), y = K.terrain(px, 352); B.box('wood', x, y - 0.2, z, 0.1, 1.9, 0.1, 0, [0.6, 0.5, 0.44]); lamps.push([x, y + 1.72, z]); } }
       { const px = SHIP_AT[0] + 150, py = SHIP_AT[1] + 46, x = X(px), z = Z(py), y = K.terrain(px, py); B.box('wood', x, y - 0.2, z, 0.12, 2.1, 0.12, 0, [0.6, 0.5, 0.44]); B.box('wood', x + 0.2, y + 1.82, z, 0.5, 0.08, 0.08, 0, [0.6, 0.5, 0.44]);
-        lamps.push([x + 0.38, y + 1.36, z]); K.addBlock(K.circlePx(px, py, 0.2, 6)); }
+        // (the spare hangs dark until the Grey Hat has said he will light it: its flame is the story's, game/people/zone-4.js)
+        const lx = x + 0.38, ly = y + 1.36, s = 0.62; B.box('iron', lx, ly + 0.3 * s, z, 0.03, 0.4, 0.03, 0); B.box('iron', lx, ly - 0.03 * s, z, 0.26 * s, 0.05 * s, 0.26 * s, 0); B.box('glass', lx, ly, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [0.1, 0.11, 0.15]);
+        B.box('iron', lx, ly + 0.3 * s, z, 0.3 * s, 0.06 * s, 0.3 * s, 0); for (const [dx, dz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) B.box('iron', lx + dx * 0.1 * s, ly, z + dz * 0.1 * s, 0.025, 0.3 * s, 0.025, 0);
+        W3D.ZONE4.spare = [lx, ly + 0.09, z]; K.addBlock(K.circlePx(px, py, 0.2, 6)); }
       for (const l of lamps) K.lantern(l[0], l[1], l[2], null, 0.62, true);
       for (const dx of [-70, 0, 70]) K.light(SHIP_AT[0] + dx, SHIP_AT[1], 190, 0.85, 'warm');
       // ---- the pass-keeper's hut: three plank walls and a roof under snow, open to the trail, and in it an iron stove, lit ----
@@ -126,7 +129,7 @@
   // iron. (What burns at the Moonwell, and what lights again when the fire ends, is the story's: game/people/zone-4.js.) ----
   const warm = (c) => Array.isArray(c) && c.length >= 3 && c[0] > c[2] * 1.15;
   const flameless = (id) => { const T = PL[id], lamps = T.lamps || [], ex = T.extra;
-    for (const b of T.buildings || []) { delete b.lanterns; for (const w of b.windows || []) w.dark = true; for (const d of b.doors || []) d.light = false; }
+    for (const b of T.buildings || []) { delete b.lanterns; for (const w of (b.windows || []).concat(b.dormers || [])) w.dark = true; for (const d of b.doors || []) d.light = false; }
     T.lamps = []; T.deadLamps = lamps;
     if (Array.isArray(T.lights)) T.lights = T.lights.filter((l) => l[4] === 'moon' || l[4] === 'cold');
     T.extra = function (K) {

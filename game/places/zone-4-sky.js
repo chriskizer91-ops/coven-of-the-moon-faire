@@ -43,12 +43,12 @@
           float cl = smoothstep(0.55, 0.85, n2(cp * vec2(1.0, 3.0)) * 0.65 + n2(cp * 3.1) * 0.35) * smoothstep(0.03, 0.25, y) * (1.0 - 0.75 * uStars);
           vec3 cloudNight = c * 0.55 + vec3(0.18, 0.17, 0.3) * (0.5 + pow(max(m, 0.0), 30.0) * 1.5 * up);
           c = mix(c, mix(cloudNight, c * 1.06, uDawn), cl * 0.6);
-          // the stars: one in about every sixty small squares of sky, each with its own size and its own slow twinkle
+          // the stars: one in about every thirty small squares of sky, each with its own size and its own slow twinkle
           if (uStars > 0.0) { vec2 sp = vec2(atan(d.z, d.x) * 1.0, asin(clamp(d.y, -1.0, 1.0))) * 110.0; sp.x *= max(0.25, cos(asin(clamp(d.y, -1.0, 1.0))));
-            vec2 cell = floor(sp), f = fract(sp) - 0.5; float h = h21(cell), on = step(0.983, h);
+            vec2 cell = floor(sp), f = fract(sp) - 0.5; float h = h21(cell), on = step(0.968, h);
             vec2 o = (vec2(h21(cell + 7.3), h21(cell + 3.1)) - 0.5) * 0.6; float r = length(f - o), big = h21(cell + 11.7);
-            float s = on * smoothstep(0.10 + 0.10 * big, 0.0, r) * (0.55 + 0.45 * sin(uTime * (0.6 + 1.6 * big) + h * 40.0));
-            c += vec3(0.86, 0.9, 1.0) * s * (0.6 + 0.9 * big) * uStars * smoothstep(0.02, 0.2, d.y) * (1.0 - cl * 0.8); }
+            float s = on * smoothstep(0.13 + 0.12 * big, 0.0, r) * (0.62 + 0.38 * sin(uTime * (0.6 + 1.6 * big) + h * 40.0));
+            c += vec3(0.9, 0.93, 1.0) * s * (0.8 + 1.1 * big) * uStars * smoothstep(0.02, 0.2, d.y) * (1.0 - cl * 0.8); }
           c = mix(c, mix(moon, vec3(0.93, 0.94, 0.97), uDawn * 0.6), disc * (1.0 - cl * 0.5));
           gl_FragColor = vec4(c, 1.0);
         }`,

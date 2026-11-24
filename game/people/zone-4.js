@@ -123,12 +123,13 @@
     // years; then, when the moon sets, the honest dark and the stars. (game/places/zone-4.js: DAWN and DARK; zone-4-sky.js) ----
     { id: 'night',
       make: (t, k) => { t.sky = W3D.zone4Sky ? W3D.zone4Sky(k.W.P) : null; t.b = -1; t.parts = ['misthollow', 'moonwell'].map((id) => partOf(k, id)).filter(Boolean); },
-      tick: (t, c, me, k) => { if (!Q.DAWN || !t.parts) return; const want = c.played('moonset') ? 1 : 0;
-        if (t.b < 0) t.b = want; else if (t.b !== want) t.b += Math.sign(want - t.b) * Math.min(Math.abs(want - t.b), k.dt / 26);     // the moon takes 26 seconds to set
+      // (when the fire ends the dawn it held begins to fail: half way to dark, a dusk. When the moon sets, the dark comes.)
+      tick: (t, c, me, k) => { if (!Q.DAWN || !t.parts) return; const want = c.played('moonset') ? 1 : c.won() ? 0.5 : 0;
+        if (t.b < 0) t.b = want; else if (t.b !== want) t.b += Math.sign(want - t.b) * Math.min(Math.abs(want - t.b), k.dt / 26);     // 13 seconds to the dusk, 13 more for the moon to set
         const e = t.b * t.b * (3 - 2 * t.b), D = Q.DAWN, N = Q.DARK, mix = (a, z) => [a[0] + (z[0] - a[0]) * e, a[1] + (z[1] - a[1]) * e, a[2] + (z[2] - a[2]) * e];
         let d = 1e9; for (const p of t.parts) { const n = p.night; n.fog = mix(D.fog, N.fog); n.sky = mix(D.sky, N.sky); n.moon = mix(D.moon, N.moon); n.near = D.fogNear + (N.fogNear - D.fogNear) * e; n.far = D.fogFar + (N.fogFar - D.fogFar) * e;
           d = Math.min(d, Math.hypot(Math.max(p.x0 - me.x, 0, me.x - p.x1), Math.max(p.z0 - me.z, 0, me.z - p.z1))); }
-        t.dark = e; if (t.sky) t.sky.set({ dawn: (1 - ss(6, 70, d)) * (1 - e), stars: e, moon: e }); },
+        t.dark = e; if (t.sky) t.sky.set({ dawn: (1 - ss(6, 70, d)) * (1 - e), stars: ss(0.6, 1, t.b), moon: ss(0.5, 1, t.b) }); },
     },
 
     // ---- the cold lights. "The cold lights go up the street to the Moonwell. Like everyone." "Like seedlings to a
@@ -162,23 +163,23 @@
     { id: 'bramble',
       make: (t, k) => { t.k = k; const T = k.THREE, pts = road(k, R3), a = along(pts, BRAMBLE_AT), R = rand(7717); t.x = a.x; t.z = a.z; Q.bramble = { at: [a.x, a.z], road: R3, along: BRAMBLE_AT };
         const px = -a.uz, pz = a.ux, at = (u, v) => [a.x + px * u + a.ux * v, a.z + pz * u + a.uz * v];          // u: metres across the road, v: along it
-        const build = (arcs) => { const pos = [], col = [], idx = []; let base = 0;
-          for (const [A, B, h, r] of arcs) { const [ax, az] = at(A[0], A[1]), [bx, bz] = at(B[0], B[1]), ay = k.stand(ax, az) - 0.3, by = k.stand(bx, bz) - 0.3;
+        const build = (arcs) => { const pos = [], nrm = [], col = [], idx = []; let base = 0;
+          for (const [A, B, h, r] of arcs) { const [ax, az] = at(A[0], A[1]), [bx, bz] = at(B[0], B[1]), ay = k.stand(ax, az) - 0.4, by = k.stand(bx, bz) - 0.4;
             const curve = new T.QuadraticBezierCurve3(new T.Vector3(ax, ay, az), new T.Vector3((ax + bx) / 2 + (R() - 0.5) * 1.5, Math.max(ay, by) + h * 2, (az + bz) / 2 + (R() - 0.5) * 1.5), new T.Vector3(bx, by, bz));
-            const g = new T.TubeGeometry(curve, 12, r, 5, false), P = g.attributes.position, N = g.attributes.normal;
-            for (let i = 0; i < P.count; i++) { pos.push(P.getX(i), P.getY(i), P.getZ(i)); const f = Math.pow(Math.max(0, N.getY(i)), 1.5) * 0.75, d = 0.75 + R() * 0.5; col.push(0.055 * d + 0.62 * f, 0.04 * d + 0.66 * f, 0.075 * d + 0.8 * f); }
+            const g = new T.TubeGeometry(curve, 10, r, 5, false), P = g.attributes.position, N = g.attributes.normal;
+            for (let i = 0; i < P.count; i++) { pos.push(P.getX(i), P.getY(i), P.getZ(i)); nrm.push(N.getX(i), N.getY(i), N.getZ(i)); const f = ss(0.78, 1.0, N.getY(i)) * 0.5; col.push(0.07 + 0.5 * f, 0.05 + 0.55 * f, 0.09 + 0.7 * f); }
             for (let i = 0; i < g.index.count; i++) idx.push(base + g.index.getX(i)); base += P.count;
             // thorns: short spikes along the cane
-            for (let s = 1; s < 11; s++) { const p = curve.getPoint(s / 12), c = new T.ConeGeometry(r * 0.55, 0.3 + R() * 0.25, 4); c.rotateZ((R() - 0.5) * 2.6); c.rotateY(R() * 6.28); c.translate(p.x, p.y + r * 0.6, p.z);
-              const CP = c.attributes.position; for (let i = 0; i < CP.count; i++) { pos.push(CP.getX(i), CP.getY(i), CP.getZ(i)); col.push(0.05, 0.035, 0.07); } for (let i = 0; i < c.index.count; i++) idx.push(base + c.index.getX(i)); base += CP.count; c.dispose(); }
+            for (let s = 1; s < 9; s += 2) { const p = curve.getPoint((s + R()) / 10), c = new T.ConeGeometry(r * 0.6, 0.35 + R() * 0.3, 4); c.rotateZ((R() - 0.5) * 2.6); c.rotateY(R() * 6.28); c.translate(p.x, p.y + r * 0.6, p.z);
+              const CP = c.attributes.position, CN = c.attributes.normal; for (let i = 0; i < CP.count; i++) { pos.push(CP.getX(i), CP.getY(i), CP.getZ(i)); nrm.push(CN.getX(i), CN.getY(i), CN.getZ(i)); col.push(0.06, 0.04, 0.08); } for (let i = 0; i < c.index.count; i++) idx.push(base + c.index.getX(i)); base += CP.count; c.dispose(); }
             g.dispose(); }
-          const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.setAttribute('color', new T.Float32BufferAttribute(col, 3)); g.setIndex(idx); g.computeBoundingSphere();
-          const mat = new T.MeshBasicMaterial({ vertexColors: true }); mat.onBeforeCompile = (sh) => misted(sh, k.W.P.U); mat.customProgramCacheKey = () => 'z4-bramble';
+          const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.setAttribute('normal', new T.Float32BufferAttribute(nrm, 3)); g.setAttribute('color', new T.Float32BufferAttribute(col, 3)); g.setIndex(idx); g.computeBoundingSphere();
+          const mat = new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 }); mat.onBeforeCompile = (sh) => misted(sh, k.W.P.U); mat.customProgramCacheKey = () => 'z4-bramble';
           const m = new T.Mesh(g, mat); m.name = 'z4-bramble'; k.scene.add(m); return m; };
         const mid = [], sides = [];
-        for (let i = 0; i < 74; i++) { const u0 = (R() - 0.5) * 30, span = (2.2 + R() * 4.5) * (R() < 0.5 ? -1 : 1), u1 = Math.max(-16, Math.min(16, u0 + span)), v0 = (R() - 0.5) * 6, v1 = v0 + (R() - 0.5) * 4, arc = [[u0, v0], [u1, v1], 1.1 + R() * 1.6, 0.07 + R() * 0.09];
+        for (let i = 0; i < 150; i++) { const u0 = (R() - 0.5) * 30, span = (2.2 + R() * 4.5) * (R() < 0.5 ? -1 : 1), u1 = Math.max(-16, Math.min(16, u0 + span)), v0 = (R() - 0.5) * 8, v1 = v0 + (R() - 0.5) * 4, arc = [[u0, v0], [u1, v1], 1.3 + R() * 2.2, 0.08 + R() * 0.15];
           (Math.min(Math.abs(u0), Math.abs(u1)) < 3.4 || u0 * u1 < 0 ? mid : sides).push(arc); }
-        for (let i = 0; i < 9; i++) mid.push([[-4.5 + i, (R() - 0.5) * 3], [-3 + i + R() * 2, (R() - 0.5) * 3], 1.4 + R() * 1.4, 0.09 + R() * 0.08]);         // (the road itself is covered, whatever the dice gave)
+        for (let i = 0; i < 16; i++) mid.push([[-5 + i * 0.6, (R() - 0.5) * 5], [-3 + i * 0.6 + R() * 2.5, (R() - 0.5) * 5], 1.6 + R() * 1.8, 0.1 + R() * 0.14]);         // (the road itself is covered, whatever the dice gave)
         t.mid = build(mid); t.sides = build(sides); t.canes = mid.length + sides.length;
         // what stops her: a row of round stops across the road and up both banks
         t.stops = []; for (let u = -17; u <= 17; u += 2) { const [x, z] = at(u, 0); t.stops.push({ x, z, r: 1.7, r0: 1.7 }); } k.land.addBlockers(t.stops); },
@@ -198,10 +199,11 @@
         t.lay = (mode) => { if (!t.crowds) return; const all = mode === 'awake' ? awakeSpots(k) : heldSpots(k); t.spots = all; t.n = all.length; t.crowds[0].stand(all.filter((_, i) => i % 2 === 0)); t.crowds[1].stand(all.filter((_, i) => i % 2 === 1)); t.mode = mode; }; },
       tick: (t, c, me, k) => { const p = partOf(t.k, 'misthollow'); if (!p) return; const d = Math.hypot(Math.max(p.x0 - me.x, 0, me.x - p.x1), Math.max(p.z0 - me.z, 0, me.z - p.z1));
         if (!t.crowds) { if (d < 220 && !t.making && !t.failed) t.ready(); return; }
-        const want = c.stage >= 4 ? 'awake' : 'held';
+        // (once the coven has gone on down the pass, the forty have gone down too: their footprints are at the pass-keeper's hut)
+        const want = c.stage >= 4 ? (c.flag('gone') ? 'gone' : 'awake') : 'held';
         // (they are moved only when the coven is too far off to see it done, as a person who goes elsewhere is)
-        if (t.mode !== want && (t.mode === null || d > 62)) t.lay(want);
-        const on = d < t.k.W.P.U.uFogFar.value + 60; for (const cr of t.crowds) cr.show(on); },
+        if (t.mode !== want && (t.mode === null || d > 62)) { if (want === 'gone') { t.mode = 'gone'; t.n = 0; } else t.lay(want); }
+        const on = t.mode !== 'gone' && d < t.k.W.P.U.uFogFar.value + 60; for (const cr of t.crowds) cr.show(on); },
     },
 
     // ---- Halcyon, on the top step of the Moonwell's stair, in the fire's light. ("She's there. On the top step."
@@ -239,7 +241,7 @@
     // behind Halcyon ("It's waking. Wait for my word."). When it ends, all of it is out. ----
     { id: 'the-fire', place: ['moonwell', 769, 455],
       make: (t, k) => { const T = k.THREE, oy = k.part.oy || 0; t.bowls = []; Q.fire = { at: [k.X(769), k.Z(455)] };
-        for (const px of [650, 886]) { const x = k.X(px), z = k.Z(748), a = k.halo(0xb4ccff, 3.0, 0.8), b = k.halo(0xf4f8ff, 1.0, 0.95); a.position.set(x, oy + 2.6, z); b.position.set(x, oy + 2.45, z); k.scene.add(a); k.scene.add(b); t.bowls.push(a, b); }
+        for (const px of [650, 886]) { const x = k.X(px), z = k.Z(748), a = k.halo(0xc4d6ff, 3.6, 0.9), b = k.halo(0xffffff, 1.3, 1); a.position.set(x, oy + 2.6, z); b.position.set(x, oy + 2.45, z); k.scene.add(a); k.scene.add(b); t.bowls.push(a, b); }
         const g = new T.Group(), x = k.X(769), z = k.Z(455); t.well = g; t.parts = [];
         for (const a of [0, Math.PI / 3, 2 * Math.PI / 3]) { const m = k.glow(0xdce8ff, 1, 0.9); m.scale.set(4.6, 9, 1); m.rotation.y = a; m.position.y = 5.2; g.add(m); t.parts.push(m); }
         const hl = k.halo(0xc4d6ff, 17, 0.6); hl.position.y = 4.5; g.add(hl); t.parts.push(hl);
@@ -277,15 +279,39 @@
       look: (t, c) => { if (t.done == null) t.done = !!c.heard('after-fire'); },          // (if the fire ended before this page was opened, they have long gone)
       // they rise as Io says "Go on, then. All of you. Go home.", so that by Callisto's "Look. Moths." the air is full of them
       tick: (t, c, me, k) => { if (!t.m) return; if (t.T0 < 0) { if (t.done !== false || !c.played('after-fire')) return; const s = t.k.people.say(); if ((s && (s.id === 'z4.io.10' || s.id === 'z4.callisto.08')) || c.heard('after-fire')) t.fly(); else return; }
-        const s = k.t - t.T0; t.m.material.uniforms.uT.value = s; t.m.material.uniforms.uPx.value = 96 * (G.innerHeight || 720) / 720 * Math.min(2, G.devicePixelRatio || 1);
+        const s = k.t - t.T0; t.m.material.uniforms.uT.value = s; t.m.material.uniforms.uPx.value = 150 * (G.innerHeight || 720) / 720 * Math.min(2, G.devicePixelRatio || 1);
         if (s > 96) { t.m.visible = false; t.T0 = -1; t.done = true; } },
+    },
+
+    // ---- the spare lamp. "Five, then. I'll light a spare." It hangs dark on its post by the ship's stern until the Grey
+    // Hat has said so, and burns from then on. ("Twelve lamps lit and a spare." "Good thing I lit the spare.") ----
+    { id: 'spare-lamp', place: ['frozen-camp', 468, 504],
+      make: (t, k) => { const sp = Q.spare; if (!sp) return; const oy = k.part.oy || 0, x = k.part.ox + sp[0], y = oy + sp[1], z = k.part.oz + sp[2];
+        t.h = k.halo(0xffb060, 1.5, 0.8); t.c = k.halo(0xffe0a8, 0.3, 1); t.p = k.pool(0xffb070, 5, 0.4, x, z); t.h.position.set(x, y, z); t.c.position.set(x, y, z); for (const m of [t.h, t.c, t.p]) { m.visible = false; k.scene.add(m); } },
+      tick: (t, c, me, k) => { if (!t.h) return; const d = k.cam.position.distanceTo(t.h.position), on = c.heard('captain.landing') && d < 120, f = k.fade(d) * (0.94 + 0.06 * Math.sin(k.t * 6.3));
+        t.h.visible = t.c.visible = t.p.visible = on; if (on) { t.h.material.opacity = 0.8 * f; t.c.material.opacity = f; t.p.material.opacity = 0.4 * f; } },
+    },
+
+    // ---- the footprints. "Footprints. Coming down. Forty pairs, and boots I know." When the fire has ended, the snow of
+    // the trail past the pass-keeper's hut is trodden by forty pairs of boots, all going the one way: down. ----
+    { id: 'footprints', place: ['frozen-camp', HUT[0], HUT[1] + 70],
+      make: (t, k) => { const T = k.THREE, R = rand(4041), line = [[3060, 574], [2800, 572], [2600, 600], [2350, 622], [2100, 592], [1900, 562], [1700, 584], [1520, 570], [1300, 560], [1100, 556]].map(([px, py]) => [k.X(px), k.Z(py)]), pos = [], idx = []; let n = 0;
+        for (let lane = 0; lane < 7; lane++) { const off = (lane - 3) * 0.3 + (R() - 0.5) * 0.2; let foot = 1, carry = R() * 0.4;
+          for (let i = 1; i < line.length; i++) { const a = line[i - 1], b = line[i], L = Math.hypot(b[0] - a[0], b[1] - a[1]), ux = (b[0] - a[0]) / L, uz = (b[1] - a[1]) / L;
+            for (let d = carry; d < L; d += 0.36 + R() * 0.06) { foot = -foot; const side = off + foot * 0.11 + (R() - 0.5) * 0.06, cx = a[0] + ux * d - uz * side, cz = a[1] + uz * d + ux * side, hl = 0.14, hw = 0.055, y = k.ground(cx, cz) + 0.035, base = pos.length / 3;
+              for (const [l, w] of [[-hl, -hw], [hl, -hw], [hl, hw], [-hl, hw]]) pos.push(cx + ux * l - uz * w, y, cz + uz * l + ux * w); idx.push(base, base + 2, base + 1, base, base + 3, base + 2); n++; }
+            carry = 0.2 * R(); } }
+        const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeBoundingSphere();
+        const mat = new T.MeshBasicMaterial({ color: 0x3c4466, transparent: true, opacity: 0.6, depthWrite: false, side: T.DoubleSide, polygonOffset: true, polygonOffsetFactor: -2 }); mat.onBeforeCompile = (sh) => misted(sh, k.W.P.U); mat.customProgramCacheKey = () => 'z4-prints';
+        t.m = new T.Mesh(g, mat); t.m.visible = false; t.m.name = 'z4-footprints'; k.scene.add(t.m); t.n = n; },
+      tick: (t, c, me, k) => { if (t.m) t.m.visible = c.stage >= 4 && Math.hypot(t.x - me.x, t.z - me.z) < 130; },
     },
 
     // ---- Ede's hearth, once the fire has ended. ("It caught. My fire caught. Look at it. Look at it burn.") A warm
     // light at the Lantern House's door, the first flame to stay lit in Misthollow for eight years. ----
     { id: 'ede-hearth', place: ['misthollow', 1000, 650],
-      make: (t, k) => { const x = k.X(1000), z = k.Z(648), y = k.ground(x, k.Z(660)); t.h = k.halo(0xff9a48, 3.4, 0.85); t.h.position.set(x, y + 1.25, z + 0.15); t.c = k.halo(0xffd9a0, 1.1, 0.9); t.c.position.set(x, y + 1.0, z + 0.1);
-        t.p = k.pool(0xff9a48, 8, 0.5, x, z + 2.2); for (const m of [t.h, t.c, t.p]) { m.visible = false; k.scene.add(m); } },
+      make: (t, k) => { const x = k.X(1000), z = k.Z(648), y = k.ground(x, k.Z(660)); t.h = k.halo(0xff8224, 4.4, 0.9); t.h.position.set(x, y + 1.25, z + 0.15); t.c = k.halo(0xffb860, 1.3, 0.9); t.c.position.set(x, y + 1.0, z + 0.1);
+        t.p = k.pool(0xff8224, 11, 0.6, x, z + 2.4); for (const m of [t.h, t.c, t.p]) { m.visible = false; k.scene.add(m); } },
       tick: (t, c, me, k) => { const d = k.cam.position.distanceTo(t.h.position), on = c.stage >= 4 && d < 140, f = k.fade(d) * (0.9 + 0.1 * Math.sin(k.t * 7.3));
         t.h.visible = t.c.visible = t.p.visible = on; if (on) { t.h.material.opacity = 0.85 * f; t.c.material.opacity = 0.9 * f; t.p.material.opacity = 0.5 * f; } },
     },
@@ -305,8 +331,9 @@
       { to: 4, when: (c) => c.stage >= 3 && c.won() },                                                          // after: the fire has ended
     ],
     tell: [
-      ['shore', (c) => c.near('frostmere-shore', 2)],
-      ['pass', (c) => c.near('frozen-pass', 2)],
+      // (each is said where what it names is in view: at the fork by the mere, and by the iron lamp before the causeway)
+      ['shore', (c) => c.spot('frostmere-shore', 640, 470, 16)],
+      ['pass', (c) => c.spot('frozen-pass', 782, 730, 14)],
       ['bramble-gone', (c) => !!c.flag('bramble') && c.heard('frozen-road')],
       ['down', (c) => c.heard('moonset')],
       ['leaving', (c) => !!c.flag('leaving')],
@@ -314,6 +341,8 @@
     each: (c) => {
       // the Warden who speaks: one of the forty until the fire ends, then at the bottom of the street
       if (c.stage >= 4 && !c.woke) { c.woke = true; c.people.move('warden', AWAKE); }
+      // once the coven has gone on down the pass, the forty have gone down ahead of it
+      if (c.stage >= 4 && !c.flag('gone') && c.played('moonset') && !c.near('misthollow', 420)) c.flag('gone', true);
       // the bramble that was walked round is behind them all the same
       if (c.stage >= 2 && !c.flag('bramble')) c.flag('bramble', true);
       // the leaving for the Faire: the Grey Hat has counted five down. (The ship is the gate: the hub joins the flight home here.)

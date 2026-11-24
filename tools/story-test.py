@@ -58,7 +58,7 @@ JS = """async () => { const P = window.__people, S = window.__story, T = window.
     const onRoad = (name, dist) => { const q = L.roadList.find((r) => r.name === name).pts; let d = 0; for (let i = 1; i < q.length; i++) { const sg = Math.hypot(q[i][0] - q[i - 1][0], q[i][1] - q[i - 1][1]); if (d + sg >= dist) { const f = (dist - d) / sg; return [q[i - 1][0] + (q[i][0] - q[i - 1][0]) * f, q[i - 1][1] + (q[i][1] - q[i - 1][1]) * f]; } d += sg; } return q[q.length - 1]; };
     await TH('wardens').ready(); await TH('halcyon').ready(); R.failed = [TH('wardens').failed || null, TH('halcyon').failed || null];
     at('frozen-camp', 630, 452); R.landing = look('the start');
-    R.captain = go('captain'); R.stage0 = S.state().stage; R.keeper = go('passkeeper'); R.stage1 = S.state().stage; R.keeper2 = go('passkeeper');
+    play(0.2); R.spare0 = TH('spare-lamp').h.visible; R.captain = go('captain'); play(0.2); R.spare1 = TH('spare-lamp').h.visible; R.stage0 = S.state().stage; R.keeper = go('passkeeper'); R.stage1 = S.state().stage; R.keeper2 = go('passkeeper');
     R.shipOn = !!(window.COVEN_SHIPS && window.W3D.mooredShip);
     at('frostmere-shore', 560, 430); R.shore = look('at Frostmere’s shore');
     at('frozen-pass', 774, 545); R.pass = look('at the frozen pass');
@@ -80,7 +80,8 @@ JS = """async () => { const P = window.__people, S = window.__story, T = window.
     // down again
     at('misthollow', 766, 655); play(0.3); R.home = TH('halcyon').home; R.hearth4 = TH('ede-hearth').h.visible; R.wisps4 = TH('cold-lights').wisps.filter((q) => q.h.visible).length;
     R.warden = go('warden'); R.watch4 = go('watch'); R.ede4 = go('ede'); R.sorrel4 = go('sorrel');
-    at('frozen-camp', 630, 452); look('back at the camp'); R.keeper4 = go('passkeeper'); R.capN = until('captain', 'z4.captain.07', 8); R.leave = look('after the Grey Hat'); R.leaving = !!S.state().flags.leaving;
+    at('frozen-pass', 774, 545); look('down past the frozen pass'); play(0.2); R.gone = !!S.state().flags.gone;
+    at('frozen-camp', 630, 452); look('back at the camp'); R.keeper4 = go('passkeeper'); play(0.2); R.prints = TH('footprints').m.visible; R.printN = TH('footprints').n; R.modeEnd = TH('wardens').mode; R.capN = until('captain', 'z4.captain.07', 8); R.leave = look('after the Grey Hat'); R.leaving = !!S.state().flags.leaving;
   } else {
     at('northern-camp', 662, 420); R.landing = look('the start'); R.cap0 = pos('captain');
     R.captain = go('captain'); look('after the Grey Hat');
@@ -142,6 +143,7 @@ elif z == 'z4':
     check(not R['failed'][0] and not R['failed'][1], 'the forty Wardens and Halcyon were made')
     moment(R['landing'], ('landing', '02'), 6)
     check(R['captain'] == ['z4.captain.02', 'z4.captain.03', 'z4.io.02', 'z4.captain.04'] and R['stage0'] == 0 and R['shipOn'], 'the Grey Hat\'s first talk: he waits below with every lamp lit, and lights a spare (4 lines); his ship lies on the landing ground')
+    check(not R['spare0'] and R['spare1'], 'the spare lamp hangs dark until he has said he will light it, and burns after')
     check(R['keeper'] == ['z4.passkeeper.01'] and R['stage1'] == 1, 'the pass-keeper speaks, and the stage moves to 1')
     check(R['keeper2'] == ['z4.passkeeper.04'], 'asked again, she tells of the great bramble first')
     check(first(R['shore'], 'z4.narrator.12') and first(R['pass'], 'z4.narrator.13'), 'the narrator speaks at Frostmere\'s shore and at the frozen pass')
@@ -170,6 +172,7 @@ elif z == 'z4':
     check(R['mode4'] == 'awake' and R['awakeN'] == 39 and R['wardenNow'] < 0, 'the forty are awake and coming down: thirty-nine on the street, the squares and the great stair, and the one who speaks at the bottom of the street')
     check(R['home'], 'once the coven has gone down, Halcyon is at the ship')
     check(R['warden'] == ['z4.warden.01'] and R['watch4'] == ['z4.watch.06'] and R['ede4'] == ['z4.ede.07'] and R['sorrel4'] == ['z4.sorrel.06'] and R['keeper4'] == ['z4.passkeeper.07'], 'the Warden, the watchwoman, Ede, Sorrel and the pass-keeper each say what the ending has done')
+    check(R['gone'] and R['prints'] and R['printN'] > 400, 'once the coven is down past the frozen pass the forty have gone down ahead of it: %d footprints lie on the trail by the pass-keeper\'s hut, all going down' % R['printN'])
     check(R['hearth4'] and R['wisps4'] == 0, 'Ede\'s hearth burns, and the cold lights are gone')
     check(R['capN'] > 0 and R['leaving'] and first(R['leave'], 'z4.narrator.16'), 'the Grey Hat counts five down (on talk %d): that is the leaving for the Faire, and the narrator says it' % R['capN'])
     want = ['landing', 'frozen-road', 'misthollow', 'stair', 'letter', 'before-fire', 'between', 'after-fire', 'bow', 'flame', 'moonset']
