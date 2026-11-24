@@ -56,8 +56,8 @@ recorded as they stand. Every one was read against the land before anything was 
   facing up the street to the Moonwell, the middle of the street left clear. They are still copies of the
   night-watchman's shape in his long coat (the "cloaks" of the lines, until Wardens are painted). Nobody among them can
   be talked to until the fire ends.
-- **The great bramble**, across the road in the cutting 72 m above the frozen pass: 83 black canes, frost on their
-  tops, from one bank to the other. It cannot be walked through.
+- **The great bramble**, across the road in the cutting 72 m above the frozen pass: 166 black canes thicker than an
+  arm, from one bank to the other. It cannot be walked through.
 - **Halcyon**, on the top step of the Moonwell's stair, in a tall white light. She is not a person to talk to: all
   twelve of her lines are said inside the coven's set moments.
 - **The cold lights**: twenty-three small pale lights. Sixteen drift up the road, over the bridge, up the street and
@@ -73,16 +73,16 @@ this job's call):
 | Walks up to the Grey Hat | He stays below with every lamp lit. Io says five will come down. He lights the spare: it is dark until he says so, and burns after. |
 | Walks 47 m east to the pass-keeper | Her first words move the story to **stage 1**. Asked again, she tells of the bramble first. (A player who walks past her reaches stage 1 at the frozen pass.) |
 | Goes on by Frostmere's shore and the frozen pass | The narrator speaks once at each. |
-| Comes within 24 m of the great bramble | The narrator, then the coven's four lines. **A fight belongs here.** Until there is one, the bramble then gives way: the canes over the road are gone. |
+| Comes within 24 m of the great bramble | The narrator, then the coven's four lines. **A fight belongs here.** Until there is one, the bramble then gives way: the canes over the road are gone, and the narrator says so. |
 | Steps onto the bridge into Misthollow | **Stage 2.** |
 | Climbs the great stair to the upper square | The first sight of the forty: the narrator, then the coven's five lines. |
 | Talks to the watchwoman, Sorrel, Ede | Each by a place the others point to. |
 | Walks up the street, between the Wardens, and on to the Moonwell | At 15 m from Halcyon: the narrator, then "She's there. On the top step" and the talk on the stair. |
 | Walks right up to her | Io gives her the letter. The light on the stair goes out over twelve seconds. **Stage 3.** The fire rises in the well, and the coven speaks before it. |
 | (nothing: the stand-in for the last fight) | **The fire, in two forms, belongs here.** Until there is a fight, the coven speaks between its two forms, and it ends. **Stage 4.** |
-| Stays where she is | After the fire (the moths rise as Io says "Go home": 1,400 of them); Kore's bow; the kept flame, a small warm light in Halcyon's hands; the moon sets in 26 seconds, the dawn goes dark and the stars come out. Then the narrator turns the coven back down. |
+| Stays where she is | The dawn the fire held fails to a dusk in 13 seconds. After the fire (the moths rise as Io says "Go home": 1,400 of them); Kore's bow; the kept flame, a small warm light in Halcyon's hands; then the moon sets in 13 seconds more, it is dark, and the stars come out. Then the narrator turns the coven back down. |
 | Walks down through Misthollow | The forty are awake and coming down: thirty-nine stand on the street, the squares and the great stair, facing the way out, and the one who speaks is at the bottom of the street. Ede's hearth burns. The cold lights are gone. Everyone has a line for it. |
-| Walks down past the frozen pass | The forty have gone down ahead: 1,300 footprints lie on the trail by the pass-keeper's hut, all going the one way. |
+| Walks down past the frozen pass | The forty have gone down ahead: 1,431 footprints lie on the trail by the pass-keeper's hut, all going the one way. |
 | Comes back to the Grey Hat | Halcyon is standing by the ship. "You came down. Five of you." **That line is the leaving for the Faire.** The narrator says the ship lifts. |
 
 ### 3. The ending at the Faire, as a piece of its own
@@ -115,8 +115,8 @@ this job's call):
 | z4.narrator.09 | the moon sets | For the first time in eight years, the moon goes down over Misthollow. |
 | z4.narrator.10 | on the flight home | South-west, out of the mountains, with no moon to steer by. The ship flies home by her twelve small lamps. |
 | z4.narrator.11 | at the Faire's camp | The Moon Faire's camp, outside Wickhollow. Every lantern is lit, and nobody has gone to bed. |
-| z4.narrator.12 | coming to Frostmere's shore | Frostmere's shore. The mere lies frozen under the snow, and here the road turns north, and begins to climb. |
-| z4.narrator.13 | coming to the frozen pass | The frozen pass. A stone causeway over a frozen river, and one iron lamp, still burning. It is the last. |
+| z4.narrator.12 | at the fork on Frostmere's shore | Frostmere's shore. A boathouse under the snow, and beyond it the mere, frozen black. Here the road turns north, and begins to climb. |
+| z4.narrator.13 | by the iron lamp at the frozen pass | The frozen pass. A stone causeway over a frozen river, and one iron lamp, still burning. It is the last. |
 | z4.narrator.14 | the bramble has given way | The bramble has let go of the road. The way up to Misthollow is open. |
 | z4.narrator.15 | after the moon has set | Night comes to Misthollow, and the stars with it. Below, in the street, the forty are stirring. |
 | z4.narrator.16 | the leaving for the Faire | The ship lifts out of the snow with five aboard, and turns south-west, for Wickhollow. |

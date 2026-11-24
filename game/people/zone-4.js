@@ -167,11 +167,11 @@
           for (const [A, B, h, r] of arcs) { const [ax, az] = at(A[0], A[1]), [bx, bz] = at(B[0], B[1]), ay = k.stand(ax, az) - 0.4, by = k.stand(bx, bz) - 0.4;
             const curve = new T.QuadraticBezierCurve3(new T.Vector3(ax, ay, az), new T.Vector3((ax + bx) / 2 + (R() - 0.5) * 1.5, Math.max(ay, by) + h * 2, (az + bz) / 2 + (R() - 0.5) * 1.5), new T.Vector3(bx, by, bz));
             const g = new T.TubeGeometry(curve, 10, r, 5, false), P = g.attributes.position, N = g.attributes.normal;
-            for (let i = 0; i < P.count; i++) { pos.push(P.getX(i), P.getY(i), P.getZ(i)); nrm.push(N.getX(i), N.getY(i), N.getZ(i)); const f = ss(0.78, 1.0, N.getY(i)) * 0.5; col.push(0.07 + 0.5 * f, 0.05 + 0.55 * f, 0.09 + 0.7 * f); }
+            for (let i = 0; i < P.count; i++) { pos.push(P.getX(i), P.getY(i), P.getZ(i)); nrm.push(N.getX(i), N.getY(i), N.getZ(i)); const f = ss(0.8, 1.0, N.getY(i)) * 0.4; col.push(0.022 + 0.42 * f, 0.016 + 0.46 * f, 0.03 + 0.6 * f); }
             for (let i = 0; i < g.index.count; i++) idx.push(base + g.index.getX(i)); base += P.count;
             // thorns: short spikes along the cane
             for (let s = 1; s < 9; s += 2) { const p = curve.getPoint((s + R()) / 10), c = new T.ConeGeometry(r * 0.6, 0.35 + R() * 0.3, 4); c.rotateZ((R() - 0.5) * 2.6); c.rotateY(R() * 6.28); c.translate(p.x, p.y + r * 0.6, p.z);
-              const CP = c.attributes.position, CN = c.attributes.normal; for (let i = 0; i < CP.count; i++) { pos.push(CP.getX(i), CP.getY(i), CP.getZ(i)); nrm.push(CN.getX(i), CN.getY(i), CN.getZ(i)); col.push(0.06, 0.04, 0.08); } for (let i = 0; i < c.index.count; i++) idx.push(base + c.index.getX(i)); base += CP.count; c.dispose(); }
+              const CP = c.attributes.position, CN = c.attributes.normal; for (let i = 0; i < CP.count; i++) { pos.push(CP.getX(i), CP.getY(i), CP.getZ(i)); nrm.push(CN.getX(i), CN.getY(i), CN.getZ(i)); col.push(0.02, 0.014, 0.028); } for (let i = 0; i < c.index.count; i++) idx.push(base + c.index.getX(i)); base += CP.count; c.dispose(); }
             g.dispose(); }
           const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.setAttribute('normal', new T.Float32BufferAttribute(nrm, 3)); g.setAttribute('color', new T.Float32BufferAttribute(col, 3)); g.setIndex(idx); g.computeBoundingSphere();
           const mat = new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 }); mat.onBeforeCompile = (sh) => misted(sh, k.W.P.U); mat.customProgramCacheKey = () => 'z4-bramble';
@@ -183,8 +183,10 @@
         t.mid = build(mid); t.sides = build(sides); t.canes = mid.length + sides.length;
         // what stops her: a row of round stops across the road and up both banks
         t.stops = []; for (let u = -17; u <= 17; u += 2) { const [x, z] = at(u, 0); t.stops.push({ x, z, r: 1.7, r0: 1.7 }); } k.land.addBlockers(t.stops); },
-      look: (t, c) => { const open = !!c.flag('bramble'); if (t.mid) t.mid.visible = !open; for (const s of t.stops || []) s.r = open && Math.hypot(s.x - t.x, s.z - t.z) < 4.5 ? 0 : s.r0; t.open = open; },
-      tick: (t, c, me, k) => { if (t.open !== !!c.flag('bramble')) W3D.THINGS['zone-4'].find((q) => q.id === 'bramble').look(t, c);
+      // (it bars the road from stage 1 on, the stage the story job calls "the great bramble bars the frozen road": in play the
+      // story is at stage 1 long before anyone is here. tools/zone-test.py walks this road with no story running, at stage 0.)
+      look: (t, c) => { const open = !!c.flag('bramble'), bars = c.stage >= 1; if (t.mid) t.mid.visible = !open; for (const s of t.stops || []) s.r = !bars || (open && Math.hypot(s.x - t.x, s.z - t.z) < 4.5) ? 0 : s.r0; t.open = open; t.bars = bars; },
+      tick: (t, c, me, k) => { if (t.open !== !!c.flag('bramble') || t.bars !== (c.stage >= 1)) W3D.THINGS['zone-4'].find((q) => q.id === 'bramble').look(t, c);
         const d = Math.hypot(t.x - k.cam.position.x, t.z - k.cam.position.z), far = d > t.k.W.P.U.uFogFar.value + 40; if (t.sides) t.sides.visible = !far; if (t.mid) t.mid.visible = !far && !t.open; },
     },
 

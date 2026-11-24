@@ -95,9 +95,9 @@
       K.light(HUT[0], HUT[1] + 12, 200, 1.25, 'forge'); K.lamps3d.push({ x: hx, y: g + 0.6, z: stz + 0.4, c: 0xff8a40, k: 1.7 });
     };
     // (no tree of the painting's stands where the hut does)
-    G.W3D_TREES['frozen-camp'] = (G.W3D_TREES['frozen-camp'] || []).filter(([x, y]) => !(x > HUT[0] - 110 && x < HUT[0] + 110 && y > HUT[1] - 90 && y < HUT[1] + 110));
-    T.extraTrees = (T.extraTrees || []).filter(([x, y]) => !(x > HUT[0] - 110 && x < HUT[0] + 110 && y > HUT[1] - 90 && y < HUT[1] + 110));
-    if (T.treeGen && T.treeGen.keepOut) T.treeGen.keepOut.push([HUT[0] - 110, HUT[1] - 90, HUT[0] + 110, HUT[1] + 110]); }
+    const CLEAR = [HUT[0] - 230, HUT[1] - 190, HUT[0] + 230, HUT[1] + 200], clear = ([x, y]) => !(x > CLEAR[0] && x < CLEAR[2] && y > CLEAR[1] && y < CLEAR[3]);
+    G.W3D_TREES['frozen-camp'] = (G.W3D_TREES['frozen-camp'] || []).filter(clear); T.extraTrees = (T.extraTrees || []).filter(clear);
+    if (T.treeGen && T.treeGen.keepOut) T.treeGen.keepOut.push(CLEAR); }
 
   // ---- Misthollow, joined to the land ----
   // It stands on its own rock above a sea of mist, and in the old game its two ways out were doors. Here:

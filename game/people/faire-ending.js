@@ -9,7 +9,8 @@
 //
 // How a page uses it (game/pages/faire-ending.html does exactly this; docs/slips/zone-4.md says what the hub must do
 // to join it to zone 1's own page after the last flight):
-//   1. load game/talk/zone-4.js (and its recordings, when they are in) beside zone 1's own files, and this file
+//   1. load game/talk/zone-4.js (and its recordings, when they are in) beside zone 1's own files, this file, and
+//      game/places/zone-4-sky.js (the stars: without it the ending still plays, under zone 1's own sky)
 //   2. W3D.faireEnding.cast()                          BEFORE W3D.people.start: the six who live elsewhere come to the camp
 //   3. const people = await W3D.people.start({ W, root, zone: 'zone-1' })
 //   4. const end = W3D.faireEnding.start({ W, root, people, waitBegin: true })     IN PLACE OF W3D.story.start for zone 1
@@ -42,6 +43,8 @@
       const story = W3D.story.start({ W, people, zone: 'faire', waitBegin: !!o.waitBegin, lamps: 0 }), talkOf = (p) => story.groups['z4.faire.' + p.id] || null;
       people.lines = (p) => talkOf(p);
       people.greet = (p) => { const t = talkOf(p); return t && !story.ctx.heard('faire.' + p.id) ? { lines: t } : null; };
+      // the last night is under the stars, with no moon ("Stars. Look at them. I've never seen so many."): zone 4's sky, if the page carries it
+      const sky = W3D.zone4Sky ? W3D.zone4Sky(Z) : null; if (sky) sky.set({ dawn: 0, stars: 1, moon: 1 });
       // Halcyon, come home: she stands by the well. (Not a person to talk to: her lines are said in Nettie's talk and the last one.)
       const H = { x: camp[0] + HALCYON[0], z: camp[1] + HALCYON[1], npc: null, failed: null };
       H.ready = (async () => { try { const n = await G.MF_NPC.make(o.body || 'fortune-teller'); const me = people.me(); n.root.position.set(H.x, Z.walkH(M.px(H.x), M.py(H.z)), H.z); n.root.rotation.y = Math.atan2(me.x - H.x, me.z - H.z); Z.scene.add(n.root); n.update(0.016); H.npc = n; } catch (e) { console.error(e); H.failed = String(e); } })();
@@ -53,7 +56,7 @@
       card.style.cssText = 'position:absolute;inset:0;z-index:30;display:none;place-items:center;text-align:center;background:rgba(5,5,14,0);transition:background 4s;pointer-events:none;font-family:Georgia,"Times New Roman",serif';
       card.innerHTML = '<div style="opacity:0;transition:opacity 3s 2.5s"><div class="faire-end-1" style="font-size:clamp(30px,6vw,54px);color:#ffe9b8;letter-spacing:.03em"></div><div class="faire-end-2" style="margin-top:10px;font-size:16px;color:#cfc8ee"></div></div>';
       card.querySelector('.faire-end-1').textContent = WORDS.end; card.querySelector('.faire-end-2').textContent = WORDS.under; root.appendChild(card);
-      const api = { story, halcyon: H, ended: false, card, heard: () => ALL.filter((id) => story.ctx.heard('faire.' + id)), left: () => ALL.filter((id) => !story.ctx.heard('faire.' + id)) };
+      const api = { story, halcyon: H, sky, ended: false, card, heard: () => ALL.filter((id) => story.ctx.heard('faire.' + id)), left: () => ALL.filter((id) => !story.ctx.heard('faire.' + id)) };
       W3D.faireEnding.onLast = () => { api.ended = true; card.style.display = 'grid'; requestAnimationFrame(() => { card.style.background = 'rgba(5,5,14,0.94)'; card.firstChild.style.opacity = 1; }); if (o.onEnd) try { o.onEnd(); } catch (e) { console.error(e); } };
       if (story.state().moments['faire.farewell'] && story.ctx.heard('faire.farewell')) W3D.faireEnding.onLast();     // (opened again after the end)
       G.__faire = api; return api; },

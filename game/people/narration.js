@@ -283,9 +283,9 @@ window.COVEN_NARRATION = {
       say: 'The Moon Faire’s camp, outside Wickhollow. Every lantern is lit, and nobody has gone to bed.',
       tone: 'Warm, with a smile in the second sentence. Home.' },
     // ---- things that happen on the land ----
-    { id: 'z4.narrator.12', at: 'shore', secs: 7.2,
-      text: 'Frostmere’s shore. The mere lies frozen under the snow, and here the road turns north, and begins to climb.',
-      say: 'Frostmere’s shore. The mere lies frozen under the snow, and here the road turns north, and begins to climb.',
+    { id: 'z4.narrator.12', at: 'shore', secs: 8.7,
+      text: 'Frostmere’s shore. A boathouse under the snow, and beyond it the mere, frozen black. Here the road turns north, and begins to climb.',
+      say: 'Frostmere’s shore. A boathouse under the snow, and beyond it the mere, frozen black. Here the road turns north, and begins to climb.',
       tone: 'Plain directions, kindly given. Spare, like the place.' },
     { id: 'z4.narrator.13', at: 'pass', secs: 7.6,
       text: 'The frozen pass. A stone causeway over a frozen river, and one iron lamp, still burning. It is the last.',

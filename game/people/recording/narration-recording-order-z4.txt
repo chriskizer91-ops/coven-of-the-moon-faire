@@ -30,10 +30,10 @@ Say them as in the earlier orders. If a name comes out wrong, write it in the In
 
 ==============================================================================
 SPEAKER: narrator   The narrator
-ZIP: z4-narrator.zip   (18 lines, about 118 seconds)
+ZIP: z4-narrator.zip   (18 lines, about 119 seconds)
 VOICE: RETURNING. Use the same voice as before (z1-narrator.zip, z2-narrator.zip, z3-narrator.zip). For reference: A woman of about sixty. A fireside storyteller: warm, low and unhurried, close to the ear. Soft, plain British English with no strong region, so she belongs to no one town. Even and calm. She tells what is there and lets it be. Never dramatic, never sing-song, never hurried.
 ------------------------------------------------------------------------------
-ZONE 4: the northeast peaks, and the ending at the Faire   ZIP: z4-narrator.zip   (18 lines, about 118 seconds)
+ZONE 4: the northeast peaks, and the ending at the Faire   ZIP: z4-narrator.zip   (18 lines, about 119 seconds)
 ------------------------------------------------------------------------------
 z4.narrator.01.mp3
   Say:  North-east, into the mountains. There is snow on every peak, and frost on every rope.
@@ -80,7 +80,7 @@ z4.narrator.11.mp3
   Tone: Warm, with a smile in the second sentence. Home.
 
 z4.narrator.12.mp3
-  Say:  Frostmere’s shore. The mere lies frozen under the snow, and here the road turns north, and begins to climb.
+  Say:  Frostmere’s shore. A boathouse under the snow, and beyond it the mere, frozen black. Here the road turns north, and begins to climb.
   Tone: Plain directions, kindly given. Spare, like the place.
 
 z4.narrator.13.mp3

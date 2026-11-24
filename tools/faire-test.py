@@ -30,7 +30,7 @@ JS = """async () => { const P = window.__people, S = window.__story, F = window.
     P.talk(id); const again = P.say() ? P.say().id : null; read(); out.log[out.log.length - 1].push(again);
     if (before < E.who.length) { S.watch(); if (P.say()) { out.tooSoon = P.say().id; read(); } } }
   out.left = F.left(); S.watch(); out.last = read(); out.ended = F.ended; out.card = F.card.style.display; out.words = [F.card.querySelector('.faire-end-1').textContent, F.card.querySelector('.faire-end-2').textContent];
-  S.watch(); out.after = P.say() ? P.say().id : null; out.lamps = S.state().lamps; out.saved = (() => { try { return localStorage.getItem('coven.story.faire.v1'); } catch (e) { return 'blocked'; } })();
+  S.watch(); out.after = P.say() ? P.say().id : null; out.lamps = S.state().lamps; out.stars = F.sky ? F.sky.state.stars : -1; out.saved = (() => { try { return localStorage.getItem('coven.story.faire.v1'); } catch (e) { return 'blocked'; } })();
   return out; }"""
 with sync_playwright() as p:
     b = p.chromium.launch(channel='chrome', headless=True, args=['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'])
@@ -59,6 +59,7 @@ check(r['last'][-6:] == ['z4.halcyon.11', 'z4.io.16', 'z4.halcyon.12', 'z4.io.17
 check(r['ended'] and r['card'] == 'grid' and all(r['words']), 'and the game ends: the picture goes dark and the words come up ("%s", "%s": stand-ins)' % tuple(r['words']))
 check(r['after'] is None, 'nothing is said after the end')
 check(r['lamps'] == 0, 'the ship\'s lamps are out')
+check(r['stars'] == 1, 'the stars are out over the camp')
 check(r['saved'] in (None, 'blocked'), 'as a check, nothing was saved')
 print('3. page errors: %d' % len(errors)); check(not errors, 'no page errors')
 for e in errors[:6]: print('  ! ' + e)
