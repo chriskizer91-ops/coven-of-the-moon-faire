@@ -1930,9 +1930,10 @@ function makeJester(opts) {
   }
   // two-bone IK: from joint a at world A to target T with the middle joint leaning toward pole; sets both bones' rotations
   function solveLimb(bA, bB, A, T, pole, L, twist, parentQ, outMidQ) {
+    // Coven (journey job, November 24, 2026): a person made smaller than a witch has her reach measured at the template's size, so her knees and elbows no longer bend to fit (the townsfolk job found it; its one-line fix divided before the direction was made a unit, so the division is made after it)
     _va.subVectors(T, A); let d = _va.length(); const mx = (L.l1 + L.l2) * 0.9985, mn = Math.abs(L.l1 - L.l2) + 0.02;
     if (d < 1e-5) { _va.set(0, -1, 0); d = 1e-5; }
-    _va.multiplyScalar(1 / d); d = cl(d, mn, mx);
+    _va.multiplyScalar(1 / d); d = cl(d / (root.scale.y || 1), mn, mx);      // Coven: the reach in the template's own size
     const a = (L.l1 * L.l1 - L.l2 * L.l2 + d * d) / (2 * d), h = Math.sqrt(Math.max(0, L.l1 * L.l1 - a * a));
     _vb.copy(pole).addScaledVector(_va, -pole.dot(_va)); if (_vb.lengthSq() < 1e-8) _vb.set(0, 0, -1).addScaledVector(_va, _va.z); _vb.normalize();
     const hinge = _vc.crossVectors(_vb, _va).normalize();                        // the axis the middle joint bends about

@@ -129,6 +129,18 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../people/voice-z2.js"></script>
 <script src="../people/narration.js"></script>
 <script src="../people/story.js"></script>
+<!-- journey job: start: the zones joined into one journey (game/travel/journey.js): the ship is the gate, the flight in plays before the world is built, one save from page to page. Before the menu's block, so it reads the flight's note in the address first -->
+<script src="../flight/moored/cutter.js"></script>
+<script src="../flight/moored/moored-ship.js"></script>
+<script src="../places/landing-ships.js"></script>
+<script>W3D.landingShips.moor('warmCamp');</script>
+<script src="../flight/flight-data.js"></script>
+<script src="../flight/flight-frame.js"></script>
+<script src="../flight/flight.js"></script>
+<script src="../travel/journey-data.js"></script>
+<script src="../travel/journey.js"></script>
+<script>W3D.journey.start({ page: 'zone-2.html', zone: 'zone-2', landing: 'warmCamp' });</script>
+<!-- journey job: end -->
 <!-- menu job: start: the pause menu, its three save slots and the frame the maps sit in (game/menu/). Before the page's own script, so a save waiting to be loaded is in place first -->
 <link rel="stylesheet" href="../menu/menu.css">
 <script src="../menu/menu-data.js"></script>

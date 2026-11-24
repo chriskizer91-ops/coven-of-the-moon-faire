@@ -1,0 +1,24 @@
+A TRIAL FOR YOUR PHONE: can one game page open the next by itself?
+
+The finished game will be a few pages (one for each zone). When the coven flies to the
+next zone, the page you are on has to open the next page by itself, and your save has
+to come with it. Nobody knows yet whether your phone allows that for downloaded pages.
+These two tiny pages find out. Each is a few KB. Nothing is fetched from the internet.
+
+Steps (about two minutes):
+
+1. Download both files, trial-1.html and trial-2.html, into the SAME folder on your
+   phone (your Downloads folder is fine). Keep their names as they are.
+2. Open trial-1.html from that folder, the way you open a game build.
+   It says whether it could keep a made-up save.
+3. Tap the big button "Open page 2".
+4. If page 2 opens: it shows three answers, each YES or NO. Tell the hub the three
+   answers (a screenshot is best). It also says what kind of address it was opened
+   as (for example "file" or "content"): send that too.
+5. If page 2 does NOT open (an error, a blank page, or nothing happens): tell the hub
+   what you saw. Then open trial-2.html yourself from the same folder and tell the
+   hub its three answers.
+6. "Back to page 1" on page 2 tries the way back. Tell the hub if that worked too.
+
+If you can, do the same on the laptop: it tells us the laptop's answers are as
+expected (all three YES).

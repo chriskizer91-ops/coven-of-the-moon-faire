@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coven of the Moon Faire</title>
+<!-- index.html: the front door (the journey job, November 24, 2026). The game's name, and the menu's own choices: carry on
+     a save slot, or begin anew. Each opens the right zone's page, which must be in the same folder. Nothing else is here.
+     The words are in game/travel/journey-data.js (door) and game/menu/menu-words.js. -->
+<style>
+html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 50% 35%,#1d1a3a,#0a0b18 70%);color:#f0ecff;font-family:Georgia,"Times New Roman",serif}
+#door{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px;box-sizing:border-box;text-align:center}
+h1{font-weight:400;font-size:clamp(30px,7vw,52px);line-height:1.12;color:#ffe9b8;margin:0 0 8px;letter-spacing:.02em}
+.sub{color:#cfc8ee;font-size:17px;margin:0 0 30px}
+.slots{display:flex;flex-direction:column;gap:12px;width:min(440px,100%)}
+button{appearance:none;cursor:pointer;width:min(440px,100%);min-height:56px;border-radius:28px;border:1px solid rgba(255,226,160,.75);background:rgba(52,40,96,.9);color:#ffe9b8;font:600 19px Georgia,serif;padding:8px 20px}
+button.slot{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 20px}
+button.slot span{font:400 14px system-ui,sans-serif;color:#d8d2f4}
+button.anew{margin-top:18px;background:rgba(30,26,60,.7);border-color:rgba(214,222,255,.45);color:#f0ecff}
+.msg{min-height:1.4em;margin:16px 0 0;color:#cfc8ee;font:15px system-ui,sans-serif;max-width:440px}
+</style>
+</head>
+<body>
+<div id="door"></div>
+<script src="../menu/menu-data.js"></script>
+<script src="../menu/menu-words.js"></script>
+<script src="../menu/saves.js"></script>
+<script src="../travel/landings.js"></script>
+<script src="../travel/journey-data.js"></script>
+<script src="../travel/journey.js"></script>
+<script>
+try { W3D.journey.door({ root: document.getElementById('door') }); window.__ready = true; }
+catch (e) { console.error(e); document.getElementById('door').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }
+</script>
+</body>
+</html>
