@@ -122,6 +122,17 @@
       people.greet = (p) => { if (!(S.talks[p.id] > 0)) { const ls = linesFor(p); return ls ? { lines: ls } : null; }
         const now = performance.now(); if (now - (lastWord[p.id] || -1e9) < 45000) return null; const c = callFor(p); if (!c) return null; lastWord[p.id] = now; return { lines: [c], short: true }; };
       people.lines = linesFor; people.heard = heard;
+      // fights job: start (November 24): the narrator's lines that wait on the fights' own events (game/encounters/land-fights.js):
+      // 'first-meeting' (the line `first-wisp`: the fight waits for it, 6 seconds at most), 'rest' (the line `rest`, at the camp,
+      // once), 'not-ready' (the line `not-ready`, in place of the fights' own words). A zone with no such line is left as it was.
+      if (G.__covenFightsNarr) G.removeEventListener('coven-fights', G.__covenFightsNarr);
+      G.__covenFightsNarr = (e) => { const d = e.detail || {}; if (d.zone && d.zone !== zone) return;
+        if (d.what === 'first-meeting' && NAR['first-wisp'] && !S.said['first-wisp'] && !people.busy()) { d.wait(); S.said['first-wisp'] = true; save();
+          let over = false; const end = () => { if (!over) { over = true; d.done(); } }; setTimeout(end, 6000); if (!people.play([NAR['first-wisp']], null, end)) end(); }
+        else if (d.what === 'rest' && d.where === 'camp' && NAR.rest) narrate('rest');
+        else if (d.what === 'not-ready' && NAR['not-ready']) { d.told(); narrate('not-ready', true); } };
+      G.addEventListener('coven-fights', G.__covenFightsNarr);
+      // fights job: end
       if (!TEST) setInterval(watch, 500);
       const api = { state: () => ({ stage: stage(), kept: S.stage, nodes: S.nodes || 0, flags: Object.assign({}, S.flags), lamps: lamps(), look: look(), just, heard: Object.keys(S.heard).length, talks: Object.assign({}, S.talks), moments: Object.assign({}, S.moments) }),
         set(v) { Object.assign(S, v); save(); return api.state(); }, reset() { S = fresh(); pend.length = 0; save(); return api.state(); },

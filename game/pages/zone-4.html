@@ -158,6 +158,63 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../maps/sky/star-map-frame.js"></script>
 <script src="../maps/maps.js"></script>
 <!-- maps job: end -->
+<!-- fights job: start: the fights of this zone (game/encounters/). The battle, the party, the creatures' slots, this zone's numbers; and the three lines at the end that join them to the land once it stands -->
+<!-- the battle (as game/pages/battle.html loads it, less what this page already has, the first fight's square and Chris's song) -->
+<link rel="stylesheet" href="../battle/screen-layer.css">
+<script src="../battle/stage/arena-river-glade.js"></script>
+<script src="../battle/stage/arena-warm-roads-moor.js"></script>
+<script src="../battle/stage/arena-eldergrove.js"></script>
+<script src="../battle/stage/arena-frostmere.js"></script>
+<script src="../battle/stage/arena-bogmire.js"></script>
+<script src="../battle/stage/arena-dawnroost.js"></script>
+<script src="../battle/stage/arena-crossroads.js"></script>
+<script src="../battle/stage/arena-dead-moonwell.js"></script>
+<script src="../battle/models/wraith.js"></script>
+<script src="../battle/models/wisp.js"></script>
+<script src="../battle/models/bramble.js"></script>
+<script src="../battle/models/colossus.js"></script>
+<script src="../battle/models/halcyon.js"></script>
+<script src="../battle/models/noctara.js"></script>
+<script src="../battle/models/lunara.js"></script>
+<script src="../battle/models/envoi.js"></script>
+<script src="../battle/models/stand-in.js"></script>
+<script src="../battle/fx/battle-fx.js"></script>
+<script src="../battle/fx/battlefield.js"></script>
+<script src="../battle/fx/arena.js"></script>
+<script src="../battle/fx/io-spells.js"></script>
+<script src="../witches/kore/moon-jester.js"></script>
+<script src="../witches/europa/moon-fox.js"></script>
+<script src="../witches/callisto/moon-ranger.js"></script>
+<script src="../battle/witch-look.js"></script>
+<script src="../battle/trance.js"></script>
+<script src="../battle/rules.js"></script>
+<script src="../battle/engine.js"></script>
+<script src="../battle/sim.js"></script>
+<script src="../sound/sound.js"></script>
+<script src="../battle/screen.js"></script>
+<script src="../battle/fights.js"></script>
+<script src="../battle/start.js"></script>
+<!-- the party; the fights' words; the plan; the big fights' foes; the creatures' slots; this zone's numbers; who is met, and when -->
+<script src="../party/party.js"></script>
+<script src="../party/party-view.js"></script>
+<script src="../encounters/words.js"></script>
+<script src="../encounters/plan.js"></script>
+<script src="../encounters/foes.js"></script>
+<script src="../encounters/slots.js"></script>
+<script src="../encounters/zone-4.js"></script>
+<script src="../encounters/draw.js"></script>
+<script src="../encounters/meetings.js"></script>
+<script src="../encounters/land-fights.js"></script>
+<script>
+// the fights start the moment the page says the land is ready (the page sets window.__ready; the walker is window.__w3d).
+// The menu watches for the same moment in the same way, so this passes the word on to it, and looks again by itself in case.
+// (A check that walks the story with no fights opens the page with ?test: the fights then stand aside, as window.__fightsQuiet)
+(function () { let own = false, started = false; const d = Object.getOwnPropertyDescriptor(window, '__ready');
+  const begin = () => { if (started || !window.__w3d) return; started = true; try { const F = CovenLandFights.start({ W: window.__w3d, root: document.getElementById('world'), zone: 'zone-4' }); if (F.quiet) window.__fightsQuiet = F; else window.__fights = F; } catch (e) { console.error(e); window.__fightsErr = String(e && e.stack || e); } };
+  try { Object.defineProperty(window, '__ready', { configurable: true, enumerable: true, get: () => (d && d.get ? d.get() : own), set: (v) => { if (v) begin(); if (d && d.set) d.set(v); else own = v; } }); } catch (e) {}
+  const t = setInterval(() => { if (started) clearInterval(t); else if (window.__ready) begin(); }, 100); })();
+</script>
+<!-- fights job: end -->
 <script>
 // Zone 4 (Coven of the Moon Faire): the zone's places stand on one open land, and Io walks from one to the next with
 // no fade. The places are the place engine's (engine/place/); the land between, and the joining, the land engine's

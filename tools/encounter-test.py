@@ -74,7 +74,18 @@ with sync_playwright() as p:
         if (x < B[0] + 30 || x > B[2] - 30 || z < B[1] + 30 || z > B[3] - 30 || mm.inside(x, z, D.margin + 20)) continue;
         const q = W.nearestFit(M.px(x), M.py(z)), qx = M.x(q[0]), qz = M.z(q[1]); if (Math.hypot(qx - x, qz - z) < 6 && !mm.inside(qx, qz, D.margin)) return [qx, qz]; }
       return [c[0] + 200, c[1]]; }""")
+    FAR = pg.evaluate("""() => { // the spot in the wilds with the strongest foes (then the farthest from the camp) where she can stand: for the fight that is to be lost
+      const F = window.__fights, W = window.__w3d, M = W.P.M, mm = F.meetings, D = window.COVEN_ENCOUNTERS[F.zone], c = F.camp.at, B = W.P.land.bounds; let best = null, bs = -1;
+      for (let r = 300; r <= 3000; r += 100) for (let a = 0; a < 6.28; a += 0.3) { const x = c[0] + Math.cos(a) * r, z = c[1] + Math.sin(a) * r;
+        if (x < B[0] + 30 || x > B[2] - 30 || z < B[1] + 30 || z > B[3] - 30 || mm.inside(x, z, D.margin + 20)) continue;
+        const q = W.nearestFit(M.px(x), M.py(z)), qx = M.x(q[0]), qz = M.z(q[1]); if (Math.hypot(qx - x, qz - z) >= 6 || mm.inside(qx, qz, D.margin)) continue;
+        const st = mm.stretchAt(qx, qz), w = mm.whereAt(qx, qz), lv = (st && st.levels) || (w && w.levels) || [0, 0], sc = (lv[0] + lv[1]) * 10000 + r;
+        if (sc > bs) { bs = sc; best = [qx, qz]; } }
+      return best; }""")
     CAMP = pg.evaluate("window.__fights.camp.wake || window.__fights.camp.at")
+    # (the lines the people are given to say, by id: for the narrator's lines that wait on the fights' events)
+    pg.evaluate("() => { window.__played = []; const P = window.__people; if (!P || !P.play) return; const o = P.play; P.play = (ls, p, t, c) => { for (const l of ls || []) window.__played.push(l.id); return o(ls, p, t, c); }; }")
+    NARID = pg.evaluate("() => { const S = window.__story, o = {}; if (S && S.narration) for (const k in S.narration) o[k] = S.narration[k].id; return o; }"); NAR = list(NARID)
     print('2. meetings in a kilometre of each kind of ground (20 km each, counted, not fought; a party two levels into the zone)')
     per = None if LONG else pg.evaluate("""() => {
       const F = window.__fights, W = window.__w3d, M = W.P.M, land = W.P.land, D = window.COVEN_ENCOUNTERS[F.zone];
@@ -132,6 +143,9 @@ with sync_playwright() as p:
         print('    answer:', l['result'], l['xp'], 'experience,', l['shards'], 'shards; herbs used', l['herbsSpent'])
         fm = pg.evaluate("() => ({ heard: window.__heard.slice(), waited: window.__firstDone && window.__firstAt ? window.__firstDone - window.__firstAt : null })")
         check('first-meeting' in fm['heard'] and fm['waited'] and fm['waited'] > 1000, 'the page was told before the very first fight, and the fight waited for its answer (%.1f s here; 6 s at most)' % ((fm['waited'] or 0) / 1000))
+        if 'first-wisp' in NAR:
+            pl = pg.evaluate("window.__played.slice()")
+            check(NARID['first-wisp'] in pl, 'the narrator\'s line for the first fight was said before it (%s)' % ', '.join(i for i in pl if 'narrator' in i))
         check(not x['before']['paused'] and d['paused'] and not a['paused'], 'the land was walking, paused during the fight, and walking again after')
         check(d['layer'] and not a['layer'], 'the fight played over the land in its own layer, and the layer went')
         check(len(d['heroes']) == 4, 'all four witches fought')
@@ -179,6 +193,9 @@ with sync_playwright() as p:
         check(camp['shown'] and not camp['whole'], 'at the camp, hurt, the Rest button shows')
         check(after['whole'], 'after resting everyone is whole (Io %d of %d HP): "%s"' % (after['io'], after['max'], after['said']))
         check('rest' in after['heard'], 'the page was told the party rested')
+        if 'rest' in NAR:
+            q = pg.evaluate("() => ({ pend: window.__story.pending(), played: window.__played.slice() })")
+            check('rest' in q['pend'] or NARID['rest'] in q['played'], 'the narrator\'s line for a rest is waiting to be said (%s)' % ', '.join(q['pend']))
         rests = pg.evaluate("window.__fights.rests.map((r) => r.id)")
         if len(rests) > 1:
             r2 = pg.evaluate("""async () => { const F = window.__fights, W = window.__w3d, M = W.P.M, r = F.rests[1]; F.party.setHp('io', 10); const a = W.nearestFit(M.px(r.at[0]), M.py(r.at[1])); W.setIo(a[0], a[1], 0);
@@ -194,7 +211,11 @@ with sync_playwright() as p:
         check(abs(stood[0] - g['at'][0]) < g['r'] and abs(stood[1] - g['at'][1]) < g['r'], 'the coven can stand at its spot (%.0f m from it)' % (((stood[0] - g['at'][0]) ** 2 + (stood[1] - g['at'][1]) ** 2) ** 0.5))
         low = pg.evaluate("() => ({ btns: [...document.querySelectorAll('#cvParty .cvBtn')].filter((b) => !b.hidden).map((b) => b.textContent), heard: window.__heard.slice(), said: document.getElementById('toast') ? document.getElementById('toast').textContent : '', level: window.__fights.party.level })")
         check(g['offer'] not in low['btns'] and low['level'] < g['level'], 'below level %d (the party is %d) no fight is offered there' % (g['level'], low['level']))
-        check('not-ready' in low['heard'] and str(g['level']) in low['said'], 'the page was told the coven came too soon, and the fights\' own words showed: "%s"' % low['said'])
+        if 'not-ready' in NAR:
+            pend = pg.evaluate("() => window.__story.pending()")
+            check('not-ready' in low['heard'] and 'not-ready' in pend and str(g['level']) not in low['said'], 'the page was told the coven came too soon, and the narrator\'s line for it waits to be said, in place of the fights\' own words (%s)' % ', '.join(pend))
+        else:
+            check('not-ready' in low['heard'] and str(g['level']) in low['said'], 'the page was told the coven came too soon, and the fights\' own words showed: "%s"' % low['said'])
         pg.evaluate("() => { const P = window.__fights.party; window.__keep = P.state; let n = 0; const G = window.__fights.gate; while (P.level < G.level && n++ < 400) P.afterBattle({ result: 'won', won: true, xp: 400, shards: 0, party: {} }); }")
         pg.evaluate(PUT, [g['at'][0] + 60, g['at'][1] + 60]); pg.wait_for_timeout(900); pg.evaluate(PUT, g['at']); pg.wait_for_timeout(1300)
         high = pg.evaluate("() => [...document.querySelectorAll('#cvParty .cvBtn')].filter((b) => !b.hidden).map((b) => b.textContent)")
@@ -202,7 +223,7 @@ with sync_playwright() as p:
         if ZONE != 'zone-1':
             st = pg.evaluate("""() => { const S = window.__story, P = window.__people, F = window.__fights, w = window.__w3d; if (!S) return null;
               const read = () => { const ids = []; let n = 0; while (P.say() && n++ < 20) { ids.push(P.say().id); P.talk(); } return ids; };
-              S.reset(); S.set({ stage: F.zone === 'zone-2' ? 3 : 2 }); S.begin(); if (S.state().moments && !S.state().moments.landing) { const m = S.state().moments; m.landing = true; S.set({ moments: Object.assign({ landing: true }, m) }); }
+              S.reset(); S.set({ stage: F.zone === 'zone-2' || F.zone === 'zone-4' ? 3 : 2 }); S.begin(); if (S.state().moments && !S.state().moments.landing) { const m = S.state().moments; m.landing = true; S.set({ moments: Object.assign({ landing: true }, m) }); }
               const said = []; for (let i = 0; i < 8; i++) { S.watch(); const ids = read(); if (ids.length) said.push(ids[0]); }
               const before = S.state().stage, wonBefore = S.ctx.won();
               F.party.afterBattle({ result: 'won', won: true, xp: 0, shards: 0, party: {} }, { gate: F.gate.id });
@@ -210,7 +231,7 @@ with sync_playwright() as p:
               return { said, before, wonBefore, after: S.state().stage, won: S.ctx.won(), flag: !!S.state().flags.gate }; }""")
             if st:
                 print('    the story at the spot:', ', '.join(st['said']))
-                want = 'before-node' if ZONE == 'zone-2' else 'before-knight'
+                want = {'zone-2': 'before-node', 'zone-3': 'before-knight', 'zone-4': 'before-fire'}.get(ZONE)
                 check(not st['wonBefore'] and not st['flag'], 'standing there, the story does not count the fight as met (its stand-in has stepped aside)')
                 check(st['won'] and st['after'] == st['before'] + 1, 'once the fight is won the story moves on (stage %d to %d)' % (st['before'], st['after']))
         pg.evaluate("() => { localStorage.setItem('coven.party', JSON.stringify(window.__keep)); }")
@@ -234,10 +255,39 @@ with sync_playwright() as p:
         check(z['result'] != 'won' or (z['nodes'] == z['nodes0'] + 1 and z['lit']), 'won: the stone is lit (%d lit, then %d)' % (z['nodes0'], z['nodes']))
         check(z['result'] != 'won' or z['again'] is False, 'and nothing waits there a second time')
 
+    if ZONE == 'zone-4' and not QUICK:
+        print('5d. zone 4: the great bramble (the story\'s flag), then the fire in its two forms, with the coven speaking between them')
+        z = pg.evaluate("""async () => {
+          const F = window.__fights, S = window.__story, P = window.__people; F.auto = 'expert';
+          if (!window.__played) { window.__played = []; const o = P.play; P.play = (ls, p, t, c) => { for (const l of ls || []) window.__played.push(l.id); return o(ls, p, t, c); }; }
+          window.__keep4 = JSON.parse(JSON.stringify(F.party.state));
+          const on = setInterval(() => { const B = window.__battle; if (B && B.engine && B.turbo !== 40) B.turbo = 40; if (B && B.state === 'over' && !document.getElementById('end').hidden) B.again(); if (!B || B.state === 'over') { if (P.say()) P.talk(); } }, 300);
+          S.reset(); S.set({ stage: 1 }); F.party.setLevel(16);
+          const br = F.bigs.find((b) => b.id === 'greatBramble'), flag0 = !!S.state().flags.bramble; window.__battle = null;
+          const r1 = await F.bigFight(br);
+          const flag1 = !!S.state().flags.bramble, won1 = !!F.party.gates.greatBramble;
+          F.party.setLevel(20); S.set({ stage: 3, moments: Object.assign({}, S.state().moments, { stair: true, letter: true, 'before-fire': true }) });
+          window.__heard.length = 0; const p0 = window.__played.length, stage0 = S.state().stage, wonBefore = S.ctx.won();
+          const fire = F.bigs.find((b) => b.id === 'theFire'); window.__battle = null;
+          const r2 = await F.bigFight(fire); clearInterval(on);
+          S.watch();
+          return { r1: r1 && r1.result, flag0, flag1, won1, r2: r2 && r2.result, heard: window.__heard.slice(), between: !!S.state().moments.between, played: window.__played.slice(p0),
+                   wonBefore, won: S.ctx.won(), stage0, stage: S.state().stage, gates: Object.keys(F.party.gates) }; }""")
+        print('    the bramble: %s; the fire: %s; told: %s' % (z['r1'], z['r2'], ', '.join(z['heard'])))
+        print('    said between the forms:', ', '.join(z['played']))
+        check(z['r1'] == 'won' and not z['flag0'] and z['flag1'] and z['won1'], 'the great bramble fought and won: the story\'s flag "bramble" was off, and is set')
+        check(z['r2'] == 'won' and 'theFire.1' in z['gates'] and 'theFire' in z['gates'], 'the fire: its first form seen through, then its second, and won')
+        check(z['heard'].count('fight-start') == 2 and 'between-forms' in z['heard'] and z['heard'].index('between-forms') > z['heard'].index('fight-start'), 'two fights, and the page told of the moment between them, after the first')
+        check(z['between'] and any('.between' in i or i.startswith('z4.') for i in z['played']), 'the coven\'s moment "between" was played on the land between the two forms (%d lines)' % len(z['played']))
+        check(not z['wonBefore'] and z['won'] and z['stage'] == z['stage0'] + 1, 'the story counts the fire as met, and moves on (stage %d to %d)' % (z['stage0'], z['stage']))
+        pg.evaluate("() => { localStorage.setItem('coven.party', JSON.stringify(window.__keep4)); }")
+        pg.reload(timeout=600000); pg.wait_for_function('(window.__ready && (window.__fights || window.__fightsErr)) || window.__err', timeout=600000)
+        pg.evaluate("() => { localStorage.setItem('envoi.sharp', '0.5'); localStorage.setItem('mfw.flipbook', '0'); }")
+
     if not QUICK:
-        print('6. a lost fight: the party sent in at 1 HP each, played carelessly')
+        print('6. a lost fight: the party sent in at 1 HP each, as far from the camp as it can stand (the strongest foes), played carelessly')
         pg.evaluate("() => { const F = window.__fights; for (const id of F.party.witches()) F.party.setHp(id, 1); }")
-        pg.evaluate(PUT, WILD)
+        print('    she stands at', [round(v) for v in pg.evaluate(PUT, FAR or WILD)], 'the camp at', [round(v) for v in CAMP])
         y = pg.evaluate(FIGHT, 'careless')
         print('    answer:', y['last']['result'], '; she is at', [round(v) for v in y['after']['at']])
         if y['last']['result'] == 'lost':
