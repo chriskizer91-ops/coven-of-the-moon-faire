@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Coven of the Moon Faire: the menu's own small page</title>
+<style>
+/* The menu job's small page for quick checks (a fraction of a megabyte): the zone pages' screen, with a stand-in for the
+   land (a turning ring of lamps, drawn in 2D) and the real party, so the menu can be tried without building a zone. */
+html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-behavior:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#world{position:fixed;inset:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#world canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#nums{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:4;appearance:none;width:46px;height:46px;border-radius:23px;border:1px solid rgba(214,222,255,.45);background:rgba(14,14,36,.62);display:grid;place-items:center;padding:0;cursor:pointer}
+#nums svg,#who svg{width:22px;height:22px}
+#nums.on{background:rgba(70,60,130,.8);border-color:rgba(200,190,255,.75)}
+#who{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(68px + env(safe-area-inset-right,0px));z-index:4;appearance:none;width:46px;height:46px;border-radius:23px;border:1px solid rgba(214,222,255,.45);background:rgba(14,14,36,.62);display:grid;place-items:center;padding:0;cursor:pointer}
+#begin{position:absolute;inset:0;z-index:20;display:none;place-items:center;background:radial-gradient(ellipse at 50% 60%,rgba(10,8,30,.55),rgba(6,5,18,.92));text-align:center}
+#begin h1{font:600 clamp(26px,5.2vw,46px)/1.15 Georgia,serif;color:#ffe9b8;margin:0 16px 8px;letter-spacing:.02em}
+#begin p{font:15px Georgia,serif;color:#cfc8ee;margin:0 20px 26px}
+#begin button{appearance:none;min-width:190px;min-height:56px;border-radius:28px;border:1px solid rgba(255,226,160,.8);background:rgba(52,40,96,.9);color:#ffe9b8;font:600 19px Georgia,serif;cursor:pointer}
+#numbers{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:4;padding:6px 12px;border-radius:14px;background:rgba(10,10,28,.6);color:#e8e6ff;font-size:13px;line-height:1.35;pointer-events:none}
+#numbers b{font-size:15px}
+#numbers small{display:none;color:#b8b4e0;font-size:12px}
+#numbers.more small{display:block}
+#mini{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));z-index:4;width:clamp(124px,22vmin,150px);height:clamp(124px,22vmin,150px);border-radius:13px;background:rgba(30,34,60,.9);box-shadow:0 2px 12px rgba(0,0,0,.55)}
+.talkbox{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:6;width:min(560px,calc(100% - 28px));padding:10px 16px 12px;border-radius:14px;background:rgba(14,12,34,.84);border:1px solid rgba(214,222,255,.28);pointer-events:none;color:#f4f0ff;font:17px/1.35 Georgia,serif;display:none}
+#load{position:fixed;inset:0;z-index:9;display:grid;place-content:center;text-align:center;background:#0a0b18;color:#e8e4ff;font-family:Georgia,"Times New Roman",serif;transition:opacity .6s;padding:0 24px}
+</style>
+</head>
+<body>
+<div id="world"><canvas id="cv"></canvas><div id="mini"></div>
+  <button id="nums" aria-label="Show or hide the numbers"><svg viewBox="0 0 24 24" fill="none" stroke="#eee8ff" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-5"/></svg></button>
+  <button id="who" aria-label="Choose who walks"><svg viewBox="0 0 24 24" fill="none" stroke="#eee8ff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="9" r="3"/><path d="M6 20c1-3 3-4 6-4s5 1 6 4"/></svg></button>
+  <div id="whoPanel"></div><div class="talkbox" id="said"></div>
+  <div id="begin"><div><h1>Coven of the Moon Faire</h1><p>The menu's own small page</p><button>Begin</button></div></div>
+  <div id="numbers"><b id="fps">…</b> frames a second<small id="more"></small></div></div>
+<div id="load"><div><h1>Coven of the Moon Faire</h1><p>Loading…</p></div></div>
+<script>window.W3D = window.W3D || {};</script>
+<script src="../battle/rules.js"></script>
+<script src="../party/party.js"></script>
+<script src="../witches/walkers.js"></script>
+<!-- menu job: start -->
+<link rel="stylesheet" href="../menu/menu.css">
+<script src="../menu/menu-data.js"></script>
+<script src="../menu/menu-words.js"></script>
+<script src="../menu/saves.js"></script>
+<script src="../menu/menu.js"></script>
+<script>W3D.menu.start({ page: 'menu-lab.html', zone: 'zone-1' });</script>
+<!-- menu job: end -->
+<script>
+// A stand-in for the land, with the walker's face as far as the menu uses it: pause, the clock, where she stands, who
+// walks, the look. And a stand-in for zone 1's story (its stage and moments, kept under the same key as zone 1's).
+(function () {
+  'use strict';
+  const TEST = /[?&]test\b/.test(location.search), $ = (id) => document.getElementById(id);
+  const cv = $('cv'), g = cv.getContext('2d');
+  W3D.STORY = W3D.STORY || {}; W3D.STORY['zone-1'] = W3D.STORY['zone-1'] || { first: 'opening', stages: [{}, {}, {}, {}] };
+  window.makeFlipbook = window.makeFlipbook || function () {};
+  // the story's stand-in
+  const KEY = 'coven.story.v1'; let S = { v: 1, stage: 0, moments: {}, heard: {} };
+  if (!TEST) try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.v === 1) S = Object.assign(S, s); } catch (e) {}
+  const keep = () => { if (!TEST) try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  window.__story = { state: () => ({ stage: S.stage, kept: S.stage, moments: Object.assign({}, S.moments), lamps: Math.min(11, Math.floor(((party.fights || {}).won || 0) / 4)) }), set(v) { Object.assign(S, v); keep(); return this.state(); } };
+  // the party: the real one (game/party/party.js), as zone 1 has it
+  const party = window.CovenParty.load();
+  window.__fights = { party, busy: false };
+  // the walker's stand-in: a clock that runs only when not paused; a ring of lamps that turns with it
+  let clock = 0, last = null, paused = false, frames = 0, t0 = performance.now(), look = { flip: false, rows: 600 }, who = 'io';
+  const io = { px: 640, py: 512, yaw: 0 };
+  function draw() {
+    const w = cv.width = cv.clientWidth, h = cv.height = cv.clientHeight;
+    const gr = g.createRadialGradient(w / 2, h * 0.6, 10, w / 2, h * 0.6, Math.max(w, h) * 0.7); gr.addColorStop(0, '#2a2650'); gr.addColorStop(1, '#0a0b18');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 12; i++) { const a = clock * 0.5 + i * Math.PI / 6, r = Math.min(w, h) * 0.28, x = w / 2 + Math.cos(a) * r, y = h * 0.55 + Math.sin(a) * r * 0.45;
+      g.fillStyle = 'rgba(255,200,120,' + (0.5 + 0.5 * Math.sin(a * 2)) + ')'; g.beginPath(); g.arc(x, y, 7, 0, 7); g.fill(); }
+    g.fillStyle = '#e8e4ff'; g.font = '15px Georgia'; g.textAlign = 'center'; g.fillText((look.flip ? 'Flipbook look · ' : '') + 'walking: ' + who + ' · clock ' + clock.toFixed(1) + ' s', w / 2, h * 0.55);
+  }
+  const W = window.__w3d = {
+    io, C: { yaw: 0 },
+    pause(on) { paused = !!on; last = null; return paused; }, get paused() { return paused; },
+    step(sec) { clock += sec; draw(); return {}; }, isBusy: () => false,
+    nearestFit: (x, y) => [x, y], setIo(x, y, yaw) { io.px = x; io.py = y; if (yaw != null) io.yaw = yaw; },
+    setWho(id) { who = id; return id; }, get who() { return who; },
+    look, setLook(q) { if (q.flip != null) look.flip = !!q.flip; if (q.rows != null) look.rows = +q.rows; if (!TEST) try { localStorage.setItem('envoi3d-look', JSON.stringify(look)); } catch (e) {} },
+    get clock() { return clock; }, ticks: 0,
+  };
+  function frame(now) { const dt = last == null ? 0 : Math.min(0.05, (now - last) / 1000); last = now; if (!paused) { clock += dt; W.ticks++; draw(); frames++; } if (now - t0 > 1000) { $('fps').textContent = Math.round(frames * 1000 / (now - t0)); frames = 0; t0 = now; } requestAnimationFrame(frame); }
+  draw(); if (!TEST) requestAnimationFrame(frame);
+  $('nums').addEventListener('click', () => { const on = $('numbers').classList.toggle('more'); $('nums').classList.toggle('on', on); });
+  $('more').textContent = 'a stand-in for the land, drawn in 2D';
+  $('load').style.display = 'none';
+  if (!TEST) { const b = $('begin'); b.querySelector('button').textContent = S.moments.opening ? 'Carry on' : 'Begin'; b.style.display = 'grid'; W.pause(true);
+    b.querySelector('button').addEventListener('click', () => { b.style.display = 'none'; W.pause(false); S.moments.opening = true; keep(); }, { once: true }); }
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>

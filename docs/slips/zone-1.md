@@ -1,12 +1,51 @@
 # zone-1: all of zone 1 on one land
 
-Branch: job/zone-1      Built by: the hub      Updated: November 23, 2026, late afternoon (newest part first)
+Branch: job/zone-1      Built by: the hub      Updated: November 23, 2026, night (newest part first)
 
 **State: part done.** All six places stand on one land and are joined by roads, and the game starts in the Moon
 Faire's camp. Still to come before this is milestone 2: a choice of who walks, the zone's shape taken from the 3D map,
 the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
+
+## Added on November 23, night: the narrator sounds close and warm (B)
+
+- **Chris, 20:57: "option B for the narrator sound".** All 43 of the narrator's recorded lines were made again the B
+  way: close and warm (more body low down, a little less hiss up top, evened out), still one voice in the middle.
+  `python3 tools/narrator-sound.py render B`. The recordings as they came are kept untouched beside them
+  (`game/people/recording/narrator-raw/`), so another way can be made at any time.
+- **Measured, not heard:** the 43 lines are as loud as the people's voices (-15.0 on the same measure the last hub
+  used, from -15.1 to -14.9); the loudest peak is 0.8 dB under the top; the narrator's files are 2.2 MB in all.
+- **Checked:** the three pages rebuilt (100.3, 90.2 and 87.4 MB); `tools/people-test.py` and `tools/things-test.py`
+  on zone 1 and `tools/story-test.py` on zones 2 and 3 all pass (134, 40, 61 and 64 checks); every narrator line the
+  story plays has its sound in the page.
+- **Not checked: how it sounds.** Nobody here can hear. Chris judges by ear.
+- **The five changed lines are still not recorded.** The two packets Chris sent at 20:57 (30 files) are, file for
+  file, the same recordings the game already has, and the same five with the old words. A number anyone can check:
+  `z3.narrator.13` in the packet is 3.7 seconds long, and its words as they are now take about 8 seconds to say.
+  So those five lines (one in zone 2, four in zone 3) are still shown in words only.
+
+## Added on November 23, evening: the great wraith waits in the fen's dark heart
+
+- **Chris, 19:40: move it into the fen's dark heart.** The fight is now offered in the middle of the heart's square,
+  before the drowned hall's steps, at (1506.7, 1818.7) in zone 1's metres. It was on the road 20 m out of Bogmire's
+  north gate. That is one line of data in `game/encounters/zone-1.js`, the fights job's file: the hub changed that
+  one line on Chris's word and wrote why above it. Nothing else of the fights job's was touched.
+- **So the lines are now true where they are said.** The narrator's "The fen's dark heart. The boardwalk ends here"
+  and the coven's lines before the fight start within 40 m of the spot, which is now as the coven comes off the
+  boardwalk into the heart. No wild fight starts inside the heart: it is a place, and places are safe ground.
+- **The moth rises on the great wraith's own spot** when the camera has that spot in view ("Where it stood, one pale
+  moth rises"). If the camera is turned away, it rises where the camera is looking, as before, so it is seen.
+- **Checked:** `tools/things-test.py` (40 checks now, all passed: the spot is inside the heart on ground that can be
+  walked; the moth rises on it; with the camera turned away it rises 6.5 m off, the way the camera looks);
+  `tools/encounter-test.py --quick` (the button offers the fight at level 5; about 46 fights from level 1 to 5);
+  `tools/people-test.py`. Three pictures of the spot were looked at.
+- **Not checked:** the fight itself played from the new spot by hand.
+- **For the fights job:** keep `gate.at` as it now is in `main`. Your check still calls it "the button by Bogmire's
+  north gate" (`tools/encounter-test.py`, 5b): the words are stale, the check passes.
+- **The narrator's five changed lines are still not recorded.** The page Chris sent at 19:40 holds 48 recordings: 43
+  are the very files already in the game, and the other five speak the words as they were before the change. So
+  nothing new could be taken in. A list of the five, with their words as they are now, went back to him.
 
 ## Added on November 23, late afternoon: the four small things zone 1's lines speak of
 

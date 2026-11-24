@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 19:15, by the hub.
+Last updated: November 23, 2026, 21:55, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -22,11 +22,34 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 
 | Job | Branch | What | Who | State |
 |---|---|---|---|---|
-| `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | Started 19:15 |
+| `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | **Done, in `main` (21:50).** On all three zone pages. Its slip: `docs/slips/menu.md` |
 | `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `fights` | `job/fights` | Step 4: room for new creatures, and the whole game's levels | its own conversation | In progress; nothing pushed since the morning |
+| a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
+
+### The menu is in (21:50): what the hub checked, and what it leaves for the hub
+
+- **Checked by the hub on `main`, after the merge:** the three pages rebuilt (100.3, 90.2 and 87.5 MB);
+  `tools/menu-test.py` passes on all three (93 checks on zone 1, its three ways: as a check, as a player, with
+  storage blocked; 57 each on zones 2 and 3); and the older checks still pass (people 134, things 40, zone 28,
+  fights 25 on zone 1; story 61 and 64 on zones 2 and 3). The job changed only its own files, its slip and one
+  marked block in each page. `tools/menu-test.py` is one of the hub's checks from now on.
+- **How it joins the page without changing it** (worth knowing): it wraps the browser's own "play" for sounds, so it
+  can pause a voice mid-line and carry on; it watches for the page saying it is ready; and with `?test` it keeps
+  every write in memory, so a check saves nothing.
+- **Left for the hub:**
+  - When the pages call each other: set `W3D.saves.openPage(page, carry)`, so a save last made on another zone's
+    page opens that page, and a new game opens zone 1's.
+  - Zone 4's page needs the menu's marked block.
+  - The maps job's tab must load after the menu's block (its code already waits for the menu).
+- **Seen in the pictures, both older than the menu and the hub's to fix in the last pass on a phone:**
+  - On an upright phone the "Go on" button lies over the frame-rate pill and the level pill.
+  - For a moment as a page finishes loading, the loading words and the Begin screen show through each other.
+- **For Chris to try on his phone:** whether the phone keeps saves between visits for a page opened from a
+  downloaded file. The Save tab says "this is visit N"; if N never goes past 1, it does not, and Save to a file is
+  the way.
 
 ### How the pieces join (the hub's part, once the three are in)
 
@@ -54,16 +77,24 @@ The landings, one for each zone, are in `game/travel/landings.js` (the hub's; bo
   first time at 19:05, after Chris's word on the flight. It is small: 96 files, its built game 4.6 MB. It runs
   three.js 0.186; the game runs r128; the star map 0.160. So the flight and the star map each run in a frame of
   their own inside the one file, unless a sub-agent finds a better way.
-- **Aethermoor M7** (`Aethermoor-m7-`), where Chris is building the new creatures. **Not a source yet:** nothing of
-  it has been read. It becomes one when Chris says a creature is ready to bring in.
+- **Aethermoor M7** (`Aethermoor-m7-`), where Chris is building the new creatures. **A read-only source since
+  19:40** (Chris: "Just don't write there. Only read from it"). The hub has read its board and its bestiary's notes
+  only; nothing is copied. 93 foes are planned there, about 29 beasts built in full detail (a light model of about
+  50,000 triangles each). Which come into this game, and where, is Chris's call (`docs/decisions.md`, 19:40).
 
 ### Waiting on Chris (the newest; the older lists below still stand where not answered)
 
-1. **The narrator's new lines:** the files themselves, attached to the hub's conversation. And his letter for the
-   narrator's sound (A, B, C or D), if he has chosen.
-2. **Where the great wraith waits** (the fen's dark heart, as the lines say, or where it is now). Not answered yet.
-3. **Which ship he flies first.** Skies starts on the Skiff, the Zephyr; his word of November 16 is that moving up
-   to the next ship is part of each gate. The flight job makes it one line of data.
+1. **The narrator's five changed lines, recorded with their words as they are now.** What he sent at 19:40 (a
+   page) and at 20:57 (two packets) were the same recordings the game already has, with the old words for those
+   five. The list of the five, with their words as they now are, went back to him.
+   **ANSWERED (20:57): the narrator's sound is B,** close and warm. Done, in `main`.
+2. **ANSWERED (19:40): the great wraith waits in the fen's dark heart.** Done and in `main`.
+3. **ANSWERED (19:40): the four ships are the four travel upgrades.** The hub's reading of the order (Skiff,
+   Cutter, Brig, Frigate, one at each gate) is his to correct.
+6. **Which of M7's creatures come into this game, and where.** The fights job's step 4 keeps two slots a zone.
+   The suggestions are in `docs/foes-from-m7.md`, with five short questions at its end: the willow-wight and the
+   briarling for zone 1, the mirage wisp and the thornhound for zone 2, the sapwight and the rime wolf for zone 3,
+   the rime-wraith and the peak-troll for zone 4.
 4. **The townsfolk's bodies:** who makes the 18, and when. They can stay as they are until the end.
 5. **A creature is ready:** when one is, he says so, and Aethermoor M7 becomes a source.
 
@@ -88,7 +119,7 @@ list below wait on Chris, so it did **step 5, the four small things zone 1's lin
   | `game/pages/zone-3.html` | The northern camp to the shipyard, 3.6 km, ending on a causeway over the sea; 7 people; the knight's light; the story from the landing to the leaving | 87.4 MB |
 
 - **Voices:** all 480 of the people's and the coven's lines for zones 1 to 3 are recorded and in. The narrator has
-  43 of 48 lines in, as recorded.
+  43 of 48 lines in, made close and warm (way B, Chris's choice, November 23, 20:57).
 - **Fights** are in zone 1 only (the fights job's steps 1 to 3). In zones 2 and 3 the two big fights are stood in
   for: walking up to them counts as the fight met.
 - **Not built yet:** the flight between zones, zone 4, one title and one save for the whole game.
@@ -352,7 +383,10 @@ The hub's plan. Names and order may change.
 
 ## For the fights job, when it reaches zones 2 and 3
 
-- **Zone 1's gate spot, if Chris says yes** ("Waiting on Chris", 2): the lines put the great wraith in the fen's dark
+- **Zone 1's gate spot: MOVED (November 23, 19:40, on Chris's word; in `main`).** `gate.at` in
+  `game/encounters/zone-1.js` is now [1506.7, 1818.7]: keep it when you merge `main`. Your check's words for it
+  ("the button by Bogmire's north gate", `tools/encounter-test.py` 5b) are stale; the check passes. As first written:
+  the lines put the great wraith in the fen's dark
   heart, where the boardwalk ends. The middle of the heart's square is (1506.7, 1818.7) in zone 1's metres (the
   place `bogmire-heart`, its painting's pixel 768, 420). The story's moments and the hub's moth read the spot from
   `window.__fights.gate.at`, so nothing of the hub's has to change when it moves.
@@ -371,7 +405,7 @@ The hub's plan. Names and order may change.
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
 | `zone-1` | All of zone 1 on one land; and all of the hub's own building since (zones 2 and 3, the people, the narrator, the small things) | `job/zone-1` | `docs/slips/zone-1.md` | **In `main`**, up to zone 1's four small things (November 23, 15:45). The rough spots are in the slip |
-| `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Started November 23, 19:15** |
+| `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Done, in `main`** (November 23, 21:50) |
 | `maps` | The 3D map of Aethermoor and the star map in the menu; choosing where to fly (a sub-agent) | `job/maps` | `docs/slips/maps.md` | **Started November 23, 19:15** |
 | `flight` | The flight between zones from Skies of Aethermoor; the real ship (a sub-agent) | `job/flight` | `docs/slips/flight.md` | **Started November 23, 19:15** |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
@@ -688,7 +722,7 @@ You do NOT join the flight to the zones (the ship as a gate, the map to choose o
 the hub does that once your piece, the maps job's and the menu job's are in.
 ```
 
-### `fights`: one more thing for step 4 (paste this into the fights conversation ONLY IF Chris says yes to moving the great wraith)
+### `fights`: one more thing for step 4 (NOT NEEDED NOW: Chris said yes on November 23, 19:40, and the hub made the change in `main`. The fights conversation only has to merge `main` and keep the new spot)
 
 ```
 One more thing for step 4, from the hub (November 23). Chris has said yes to this.

@@ -177,6 +177,14 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../encounters/meetings.js"></script>
 <script src="../encounters/land-fights.js"></script>
 <!-- fights job: end -->
+<!-- menu job: start: the pause menu, its three save slots and the frame the maps sit in (game/menu/). Before the page's own script, so a save waiting to be loaded is in place first -->
+<link rel="stylesheet" href="../menu/menu.css">
+<script src="../menu/menu-data.js"></script>
+<script src="../menu/menu-words.js"></script>
+<script src="../menu/saves.js"></script>
+<script src="../menu/menu.js"></script>
+<script>W3D.menu.start({ page: 'zone-1.html', zone: 'zone-1' });</script>
+<!-- menu job: end -->
 <!-- maps job: start (the Maps tab of the menu: the zone's map, the 3D map of Aethermoor, the star map; and choosing where to fly. game/maps/) -->
 <link rel="stylesheet" href="../maps/world/map.css">
 <link rel="stylesheet" href="../maps/maps.css">

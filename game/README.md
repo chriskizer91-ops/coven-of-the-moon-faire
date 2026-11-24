@@ -14,6 +14,8 @@ Everything a build needs is in this folder (and `tools/`). Nothing is loaded fro
 | `texture-packs/made-web/` | Chris's textures, with their labels in `index.csv` |
 | `art/` | Paintings |
 | `lib/` | three.js r128 |
+| `menu/` | The pause menu, the three save slots and the tab frame other pieces add their tabs to (the menu job's) |
+| `travel/` | The landings a ship sets down at, one for each zone (the hub's) |
 
 ## Build and check
 

@@ -42,11 +42,14 @@ JS = """async () => { const w = window.__w3d, Z = w.P, M = Z.M, P = window.__peo
     // the great wraith is let go: marked in the party's own record, the way a won gate fight marks it
     const pty = window.__fights && window.__fights.party; o.byParty = !!(pty && pty.gates); if (o.byParty) pty.gates[g.id || 'greatWraith'] = true; else S.flag('gate', true);
     S.watch(); o.said = P.say() ? P.say().id : null; T.tick(); const me = P.me(), y0 = Z.walkH(M.px(me.x), M.py(me.z));
-    o.start = at(); o.fromCoven = Math.hypot(o.start.x - me.x, o.start.z - me.z); o.ahead = o.start.z < me.z; o.y0 = y0;
+    o.start = at(); o.fromCoven = Math.hypot(o.start.x - me.x, o.start.z - me.z); o.ahead = o.start.z < me.z; o.y0 = y0; o.fromSpot = Math.hypot(o.start.x - g.at[0], o.start.z - g.at[1]); o.spot = g.at; o.heart = (() => { const h = part('bogmire-heart'); return g.at[0] > h.x0 && g.at[0] < h.x1 && g.at[1] > h.z0 && g.at[1] < h.z1 && Z.walkable(M.px(g.at[0]), M.py(g.at[1])); })();
     run(6); o.s6 = at(); run(24); o.s30 = at(); run(30); o.s60 = at(); finish(); run(70); T.tick(); o.s130 = at(); o.done = m.done;
     run(3); T.tick(); o.again = m.root.visible;
     // opened after the great wraith was already let go: no moth
-    m.done = null; m.T0 = -1; T.looks(); T.tick(); run(1); o.late = m.root.visible; if (o.byParty) delete pty.gates[g.id || 'greatWraith']; }
+    m.done = null; m.T0 = -1; T.looks(); T.tick(); run(1); o.late = m.root.visible;
+    // with the camera turned away from the spot, it rises where the camera looks
+    m.done = false; m.T0 = -1; m.root.visible = false; put(g.at[0], g.at[1] + 6, Math.PI); const p0 = m.fly(), me2 = P.me(); o.away = { fromSpot: Math.hypot(p0[0] - g.at[0], p0[2] - g.at[1]), fromCoven: Math.hypot(p0[0] - me2.x, p0[2] - me2.z), south: p0[2] > me2.z };
+    m.T0 = -1; m.done = true; m.root.visible = false; if (o.byParty) delete pty.gates[g.id || 'greatWraith']; }
   return out; }"""
 with sync_playwright() as p:
     b = p.chromium.launch(channel='chrome', headless=True, args=['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'])
@@ -93,7 +96,10 @@ if r.get('things'):
     m = r['moth']
     check(m['before'] is False, 'before the great wraith is let go there is no moth')
     check(m['said'] == 'z1.narrator.06', 'when it is (%s), the narrator speaks of the moth (%s)' % ('marked won in the party\'s record' if m.get('byParty') else 'by the story\'s own flag', m['said']))
+    check(m['heart'], 'the great wraith\'s spot (%.0f, %.0f) is in the fen\'s dark heart, on ground that can be walked' % tuple(m['spot']))
     check(m['start']['shown'] and 3 < m['fromCoven'] < 9 and m['ahead'], 'the moth is there at once, %.1f m from the coven, the way the camera looks' % m['fromCoven'])
+    check(m['fromSpot'] < 0.5, 'it rises on the great wraith\'s own spot when the camera has that in view')
+    check(m['away']['fromSpot'] > 6 and 5 < m['away']['fromCoven'] < 8 and m['away']['south'], 'with the camera turned away from the spot it rises where the camera looks, %.1f m from the coven' % m['away']['fromCoven'])
     check(m['s6']['y'] - m['y0'] > 2.5, 'six seconds on it has risen to %.1f m above the road' % (m['s6']['y'] - m['y0']))
     west, north = m['start']['x'] - m['s30']['x'], m['start']['z'] - m['s30']['z']
     check(west > 15 and north > 5 and west > north and m['s30']['shown'] and m['s30']['strength'] > 0.3, 'thirty seconds on it is %.0f m to the west and %.0f m to the north, %.1f m up, and still plain to see' % (west, north, m['s30']['y'] - m['y0']))
