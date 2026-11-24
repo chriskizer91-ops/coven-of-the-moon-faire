@@ -47,78 +47,84 @@
 (function (G) {
   'use strict';
   const M = ((G.COVEN_FIGHT_WORDS || {}).slots || {}).moves || {}, NAME = ((G.COVEN_FIGHT_WORDS || {}).slots || {}).name || 'Strange creature';
+  // creatures job: each slot's creature from Aethermoor M7 has its own name and moves' names in the words file
+  // (slots.creatures, STAND-INS: their M7 names). `C(id)` is its name, `CM(id)` its moves' names; the stand-in's words else
+  const CW = ((G.COVEN_FIGHT_WORDS || {}).slots || {}).creatures || {}, C = (id) => (CW[id] || {}).name || NAME, CM = (id) => Object.assign({}, M, (CW[id] || {}).moves || {});
   const standIn = (shape, tall, wide, eyes, look) => ({ make: 'makeStandIn', opts: { shape, tall, wide, eyes }, look: Object.assign({ kind: 'standin', tall, shadow: wide * 0.75, yawBias: 0, glow: [wide * 1.1, eyes], appearColor: [0.6, 0.62, 0.8], hitColor: 0xdfe8ff, hitRGB: [0.8, 0.85, 1] }, look || {}) });
+  // creatures job: a creature from Aethermoor M7 (game/battle/models/m7/): its kind, its look, and the stand-in it falls
+  // back to. A page that does not load the M7 creatures (the block marked "creatures job") keeps the stand-in
+  const m7 = (kind, look, fallback) => (typeof G.makeM7Foe === 'function' ? { make: 'makeM7Foe', opts: { kind, standIn: fallback.opts }, look } : fallback);
   const SLOTS = {
     'zone-1': {
       // the heavy one: slow and tough, with one big blow that can be seen coming
       A: { on: true, job: 'the heavy one: slow and tough, with one big blow that can be seen coming',
         suggested: { creature: 'Willow-Wight', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'slow; its Bough-Fall is a charged blow; it weeps to heal' },
         from: 2, met: ['thorn', 'fen'], worth: 1, pack: ['heavyOne'],
-        foes: { heavyOne: { name: NAME, hp: 4100, atb: 3.9, xp: 40, shards: 30,
+        foes: { heavyOne: { name: C('heavyOne'), hp: 4100, atb: 3.9, xp: 40, shards: 30,
           moves: {
-            swipe: { name: M.swipe, weight: 0.45, hits: [185], target: 'one', act: 'strike', time: 2.2 },
-            bigBlow: { name: M.bigBlow, weight: 0.35, charge: true, chargeName: M.gather, hits: [470], target: 'one', act: 'heave', time: 3 },
-            mendSelf: { name: M.mendSelf, weight: 0.2, healPct: 0.08, hurt: 0.6, cooldown: 3, target: 'self', act: 'cast', time: 2.4 },
+            swipe: { name: CM('heavyOne').swipe, weight: 0.45, hits: [185], target: 'one', act: 'rootlash', time: 2.2 },
+            bigBlow: { name: CM('heavyOne').bigBlow, weight: 0.35, charge: true, chargeName: CM('heavyOne').gather, hits: [470], target: 'one', act: 'roots', time: 3 },
+            mendSelf: { name: CM('heavyOne').mendSelf, weight: 0.2, healPct: 0.08, hurt: 0.6, cooldown: 3, target: 'self', act: 'bloom', time: 2.4 },
           } } },
-        model: { heavyOne: standIn('heavy', 2.6, 1.7, 0xdfe8ff, { near: 2.4 }) } },
+        model: { heavyOne: m7('rotwarden', { kind: 'm7', tall: 2.6, shadow: 0.95, yawBias: 0, glow: null, appearColor: [0.55, 0.75, 0.35], hitColor: 0xd8e8a0, hitRGB: [0.8, 0.9, 0.55], near: 2.3 }, standIn('heavy', 2.6, 1.7, 0xdfe8ff, { near: 2.4 })) } },
       // the swarm: three small quick ones, each down in a blow or two
-      B: { on: false, job: 'the swarm: three small quick ones, each down in a blow or two',
+      B: { on: true, job: 'the swarm: three small quick ones, each down in a blow or two',
         suggested: { creature: 'Briarling', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'one of the weakest creatures there; three of them read well' },
         from: 1, met: ['home', 'wilds'], worth: 1, pack: ['swarmling', 'swarmling', 'swarmling'],
-        foes: { swarmling: { name: NAME, hp: 640, atb: 2.0, xp: 40, shards: 30,
+        foes: { swarmling: { name: C('swarmling'), hp: 640, atb: 2.0, xp: 40, shards: 30,
           moves: {
-            nip: { name: M.nip, weight: 0.6, hits: [78], target: 'one', act: 'strike', time: 1.6 },
-            dart: { name: M.dart, weight: 0.4, hits: [34, 34], target: 'random', act: 'flurry', time: 2 },
+            nip: { name: CM('swarmling').nip, weight: 0.6, hits: [78], target: 'one', act: 'bump', time: 1.6 },
+            dart: { name: CM('swarmling').dart, weight: 0.4, hits: [34, 34], target: 'random', act: 'spores', time: 2 },
           } } },
-        model: { swarmling: standIn('small', 0.7, 0.7, 0xffe9a8, { near: 1.2 }) } },
+        model: { swarmling: m7('glowcap', { kind: 'm7', tall: 0.8, shadow: 0.38, yawBias: 0, glow: [0.75, 0x9dff5a], appearColor: [0.6, 1, 0.4], hitColor: 0xd8ffb0, hitRGB: [0.75, 1, 0.6], near: 1.0 }, standIn('small', 0.7, 0.7, 0xffe9a8, { near: 1.2 })) } },
     },
     'zone-2': {
       // the cold-bringer: does little harm itself, but slows and weakens the four. It comes with one of the zone's own foes
       A: { on: true, job: 'the cold-bringer: does little harm itself, but slows and weakens the four',
         suggested: { creature: 'Mirage Wisp', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'Cold Touch chills, Beguile charms, Blink dodges; little harm of its own' },
         from: 5, met: ['road'], worth: 1, pack: ['coldBringer', 'wraith'],
-        foes: { coldBringer: { name: NAME, hp: 2100, atb: 2.6, weak: { fire: 1.5 }, xp: 40, shards: 30,
+        foes: { coldBringer: { name: C('coldBringer'), hp: 2100, atb: 2.6, weak: { fire: 1.5 }, xp: 40, shards: 30,
           moves: {
-            chill: { name: M.chill, weight: 0.35, hits: [55], frost: 5, target: 'all', act: 'cast', time: 2.2 },
-            drainStrength: { name: M.drainStrength, weight: 0.3, hits: [45], weaken: 9, target: 'all', act: 'cast', time: 2.2 },
-            touch: { name: M.touch, weight: 0.2, hits: [115], target: 'one', act: 'strike', time: 1.8 },
-            blink: { name: M.blink, weight: 0.15, evade: 1, target: 'self', noRepeat: true, act: 'cast', time: 1.5 },
+            chill: { name: CM('coldBringer').chill, weight: 0.35, hits: [55], frost: 5, target: 'all', act: 'flare', time: 2.2 },
+            drainStrength: { name: CM('coldBringer').drainStrength, weight: 0.3, hits: [45], weaken: 9, target: 'all', act: 'lure', time: 2.2 },
+            touch: { name: CM('coldBringer').touch, weight: 0.2, hits: [115], target: 'one', act: 'singe', time: 1.8 },
+            blink: { name: CM('coldBringer').blink, weight: 0.15, evade: 1, target: 'self', noRepeat: true, act: 'flicker', time: 1.5 },
           } } },
-        model: { coldBringer: standIn('thin', 1.5, 0.7, 0xbfe4ff, { near: 1.6 }) } },
+        model: { coldBringer: m7('forge-spark', { kind: 'm7', tall: 0.55, shadow: 0.3, yawBias: 0, glow: [0.9, 0xffa040], appearColor: [1, 0.6, 0.25], hitColor: 0xffc070, hitRGB: [1, 0.75, 0.4], near: 1.0 }, standIn('thin', 1.5, 0.7, 0xbfe4ff, { near: 1.6 })) } },
       // the pair: two that are much stronger while both stand
-      B: { on: false, job: 'the pair: two that are much stronger while both stand',
+      B: { on: true, job: 'the pair: two that are much stronger while both stand',
         suggested: { creature: 'Thornhound', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'its Pack Howl: the pack answers, and every foe is quicker. It fails M7’s own stretch check today' },
         from: 5, met: ['open', 'pine', 'far'], worth: 1, pack: ['pairBeast', 'pairBeast'],
-        foes: { pairBeast: { name: NAME, hp: 2500, atb: 3.0, pair: { dmg: 1.45, haste: 1.25 }, xp: 40, shards: 30,
+        foes: { pairBeast: { name: C('pairBeast'), hp: 2500, atb: 3.0, pair: { dmg: 1.45, haste: 1.25 }, xp: 40, shards: 30,
           moves: {
-            bite: { name: M.bite, weight: 0.55, hits: [150], target: 'one', act: 'strike', time: 1.8 },
-            rake: { name: M.rake, weight: 0.45, hits: [52, 52, 52], target: 'random', act: 'flurry', time: 2.2 },
+            bite: { name: CM('pairBeast').bite, weight: 0.55, hits: [150], target: 'one', act: 'bite', time: 1.8 },
+            rake: { name: CM('pairBeast').rake, weight: 0.45, hits: [52, 52, 52], target: 'random', act: 'lunge', time: 2.2 },
           } } },
-        model: { pairBeast: standIn('low', 1.0, 0.8, 0xffd9a0, { near: 1.8 }) } },
+        model: { pairBeast: m7('thornhound', { kind: 'm7', tall: 0.9, shadow: 0.62, yawBias: 0, glow: null, appearColor: [0.85, 0.7, 0.4], hitColor: 0xffe0b0, hitRGB: [1, 0.85, 0.6], near: 1.5 }, standIn('low', 1.0, 0.8, 0xffd9a0, { near: 1.8 })) } },
     },
     'zone-3': {
       // the armoured one: blades slide off it, magic does not
       A: { on: true, job: 'the armoured one: blades slide off it, magic does not',
         suggested: { creature: 'Sapwight', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'bark wound round it like armour, and a Bark Hide move. That blades slide off would be this game’s own rule' },
         from: 10, met: ['bramble', 'pine'], worth: 1, pack: ['armouredOne'],
-        foes: { armouredOne: { name: NAME, hp: 3800, atb: 3.3, resist: { physical: 0.4 }, weak: { fire: 1.25 }, xp: 40, shards: 30,
+        foes: { armouredOne: { name: C('armouredOne'), hp: 3800, atb: 3.3, resist: { physical: 0.4 }, weak: { fire: 1.25 }, xp: 40, shards: 30,
           moves: {
-            slam: { name: M.slam, weight: 0.45, hits: [520], target: 'lastAttacker', act: 'strike', time: 2.2 },
-            crush: { name: M.crush, weight: 0.25, charge: true, chargeName: M.gather, hits: [900], target: 'one', act: 'heave', time: 3 },
-            sweep: { name: M.sweep, weight: 0.3, hits: [260], target: 'all', act: 'flurry', time: 2.4 },
+            slam: { name: CM('armouredOne').slam, weight: 0.45, hits: [520], target: 'lastAttacker', act: 'grasp', time: 2.2 },
+            crush: { name: CM('armouredOne').crush, weight: 0.25, charge: true, chargeName: CM('armouredOne').gather, hits: [900], target: 'one', act: 'leech', time: 3 },
+            sweep: { name: CM('armouredOne').sweep, weight: 0.3, hits: [260], target: 'all', act: 'grasp', time: 2.4 },
           } } },
-        model: { armouredOne: standIn('plated', 2.1, 1.5, 0xc8ffd0, { near: 2.2 }) } },
+        model: { armouredOne: m7('sapwight', { kind: 'm7', tall: 2.06, shadow: 0.6, yawBias: 0, glow: [0.7, 0xffa040], appearColor: [0.9, 0.6, 0.25], hitColor: 0xffd090, hitRGB: [1, 0.8, 0.5], near: 1.6 }, standIn('plated', 2.1, 1.5, 0xc8ffd0, { near: 2.2 })) } },
       // the leaper: goes past the front for whoever stands at the back
-      B: { on: false, job: 'the leaper: goes past the front for whoever stands at the back',
+      B: { on: true, job: 'the leaper: goes past the front for whoever stands at the back',
         suggested: { creature: 'Rime Wolf', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'one of the fastest there; its Lunge is a charged leap. Only planned in M7 today: no model yet' },
         from: 10, met: ['open', 'pine', 'far'], worth: 1, pack: ['leaper', 'leaper'],
-        foes: { leaper: { name: NAME, hp: 2500, atb: 2.3, xp: 40, shards: 30,
+        foes: { leaper: { name: C('leaper'), hp: 2500, atb: 2.3, xp: 40, shards: 30,
           moves: {
-            lunge: { name: M.lunge, weight: 0.5, hits: [250], target: 'back', leap: true, act: 'leap', time: 2 },
-            snap: { name: M.snap, weight: 0.3, hits: [140], target: 'one', act: 'strike', time: 1.8 },
-            pounce: { name: M.pounce, weight: 0.2, charge: true, chargeName: M.crouch, hits: [400], target: 'back', leap: true, act: 'leap', time: 2.4 },
+            lunge: { name: CM('leaper').lunge, weight: 0.5, hits: [250], target: 'back', leap: true, act: 'antler', time: 2 },
+            snap: { name: CM('leaper').snap, weight: 0.3, hits: [140], target: 'one', act: 'gore', time: 1.8 },
+            pounce: { name: CM('leaper').pounce, weight: 0.2, charge: true, chargeName: CM('leaper').crouch, hits: [400], target: 'back', leap: true, act: 'trample', time: 2.4 },
           } } },
-        model: { leaper: standIn('low', 1.05, 0.85, 0xcfe8ff, { near: 2.0 }) } },
+        model: { leaper: m7('rotstag', { kind: 'm7', tall: 2.0, shadow: 0.9, yawBias: 0, glow: null, appearColor: [0.85, 0.8, 0.6], hitColor: 0xfff0c8, hitRGB: [1, 0.93, 0.75], near: 1.9 }, standIn('low', 1.05, 0.85, 0xcfe8ff, { near: 2.0 })) } },
     },
     'zone-4': {
       // the light-thief: drains the four's magic rather than their health. It comes with one of the zone's own foes
