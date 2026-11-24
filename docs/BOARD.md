@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 20:10, by the hub.
+Last updated: November 23, 2026, 21:15, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -26,6 +26,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `fights` | `job/fights` | Step 4: room for new creatures, and the whole game's levels | its own conversation | In progress; nothing pushed since the morning |
+| a list of foes to suggest | none (it only reads) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | Started 21:00 |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
 
 ### How the pieces join (the hub's part, once the three are in)
@@ -61,10 +62,10 @@ The landings, one for each zone, are in `game/travel/landings.js` (the hub's; bo
 
 ### Waiting on Chris (the newest; the older lists below still stand where not answered)
 
-1. **The narrator's five changed lines, recorded with their words as they are now.** The page he sent at 19:40
-   held the old words for those five, and the 43 the game already has. The list of the five went back to him.
-   And **the narrator's sound:** the small page `listen-narrator.html` plays the same line four ways (A to D); he
-   picks one by ear, or leaves it as recorded (A, which the game uses now).
+1. **The narrator's five changed lines, recorded with their words as they are now.** What he sent at 19:40 (a
+   page) and at 20:57 (two packets) were the same recordings the game already has, with the old words for those
+   five. The list of the five, with their words as they now are, went back to him.
+   **ANSWERED (20:57): the narrator's sound is B,** close and warm. Done, in `main`.
 2. **ANSWERED (19:40): the great wraith waits in the fen's dark heart.** Done and in `main`.
 3. **ANSWERED (19:40): the four ships are the four travel upgrades.** The hub's reading of the order (Skiff,
    Cutter, Brig, Frigate, one at each gate) is his to correct.
@@ -93,7 +94,7 @@ list below wait on Chris, so it did **step 5, the four small things zone 1's lin
   | `game/pages/zone-3.html` | The northern camp to the shipyard, 3.6 km, ending on a causeway over the sea; 7 people; the knight's light; the story from the landing to the leaving | 87.4 MB |
 
 - **Voices:** all 480 of the people's and the coven's lines for zones 1 to 3 are recorded and in. The narrator has
-  43 of 48 lines in, as recorded.
+  43 of 48 lines in, made close and warm (way B, Chris's choice, November 23, 20:57).
 - **Fights** are in zone 1 only (the fights job's steps 1 to 3). In zones 2 and 3 the two big fights are stood in
   for: walking up to them counts as the fight met.
 - **Not built yet:** the flight between zones, zone 4, one title and one save for the whole game.

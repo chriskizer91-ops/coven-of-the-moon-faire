@@ -13,6 +13,17 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 20:57: the narrator's sound is B; a list of foes to suggest
+
+- **Chris: "option B for the narrator sound".** B is close and warm: more body low down, a little less hiss up top,
+  evened out. Done the same night: all 43 recorded narrator lines are made that way, in `main`. The narrator's sound
+  is settled unless he says otherwise when he hears it.
+- **Chris: yes to a list of foes to suggest from Aethermoor M7,** and a sub-agent may look more thoroughly. A
+  sub-agent (Opus 5.5, extra high) is reading both games and writing the list, with pictures. It only reads.
+  Which creatures come in, and where, stays his call.
+- **The narrator's five changed lines are still to record.** The two packets he sent (30 files) are the same
+  recordings as before, file for file, with the old words for those five.
+
 ## November 23, 2026, 19:40: the great wraith's place, the four ships, Aethermoor M7 to read
 
 - **Chris: the great wraith is moved into the fen's dark heart.** Done the same evening: the fight is offered in the
