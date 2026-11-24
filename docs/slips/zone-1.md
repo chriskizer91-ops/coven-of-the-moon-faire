@@ -1,12 +1,32 @@
 # zone-1: all of zone 1 on one land
 
-Branch: job/zone-1      Built by: the hub      Updated: November 23, 2026, night (newest part first)
+Branch: job/zone-1      Built by: the hub      Updated: November 23, 2026, late night (newest part first)
 
 **State: part done.** All six places stand on one land and are joined by roads, and the game starts in the Moon
 Faire's camp. Still to come before this is milestone 2: a choice of who walks, the zone's shape taken from the 3D map,
 the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
+
+## Added on November 23, late night: the Grey Hat's real ship lies at the jetty
+
+- **The stand-in ship is gone.** The flight job baked the Skiff from Chris's airship game (the Zephyr, the first of
+  the Captain's four ships) into plain data, and the place engine draws her at the end of the pier under the
+  jetty's own night: `game/places/jetty-ship-real.js`, with `game/flight/moored/`. The hub switched zone 1's page to
+  her and took its own stand-in (`game/places/jetty-ship.js`) out of the repo.
+- **She is 8 m long and 2.7 m wide,** with her mast and wing sails, her three sunstone crystals amidships, her wheel
+  and her rails. She rides with her keel in the lake, 1.6 m off the pier's end, bow to the west.
+- **The twelve lamps hang on her as before:** twelve iron hooks, six a side, about every 0.8 m along her rails. The
+  hub's lamps (`game/people/zone-1.js`, the thing `ship-lamps`) read the hooks from her, so nothing of theirs changed.
+- **What she costs to draw** (the headless browser's own count, at the foot of the pier): 228,000 triangles and 252
+  draw calls with her hooks bare, where the stand-in had 198,000 and 243. So about 30,000 triangles and 9 draw calls
+  more than the stand-in. The page is 101.2 MB (it was 100.3).
+- **Checked on the page with her in:** `tools/things-test.py` (40 checks; its ship check now asks for the real Skiff),
+  `tools/flight-ship-test.py` (14), people (134), zone (28), fights (25), menu (58, the quick way): all pass. Four
+  pictures were looked at: from the quay and the pier, with no lamps and with twelve.
+- **Not checked:** the frame rate with her in view, on a laptop or a phone.
+- **Rough:** only the Skiff is baked. Zones 2 and 3 show no ship at their landings yet (the Cutter and the Brig, by
+  the hub's reading of Chris's word). She never leaves: the flight is not joined to the zones yet.
 
 ## Added on November 23, night: the narrator sounds close and warm (B)
 
