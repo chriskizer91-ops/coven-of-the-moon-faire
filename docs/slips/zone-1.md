@@ -8,6 +8,22 @@ the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
 
+## November 24, 2026: the five narrator lines Chris made again are in (the hub)
+
+Chris sent one zip of five recordings: `z2.narrator.04` and `z3.narrator.09`, `.10`, `.12`, `.13`, the lines whose
+words were changed on November 23 to fit the land.
+
+- **They are new recordings.** None is the same file as the one sent before, and their lengths fit the new words:
+  8.4, 6.3, 4.9, 6.9 and 8.2 seconds (the old `z3.narrator.13` was 3.7 seconds).
+- Taken in as they came (`tools/narrator-sound.py take`), then given the close, warm sound Chris chose
+  (`render B`). The 43 lines already in did not change. Their real lengths are written into
+  `game/people/narration.js`.
+- **Every narrator line of zones 1 to 3 has a voice now: 48 of 48** (`tools/voice-list.py` on each zone: none
+  without).
+- `tools/story-test.py` on zones 2 and 3, built again: both pass (see the board for the run).
+- **Not checked:** that each recording says the new words. Nobody here can hear. A small page of the five, each
+  with its words above it, went to Chris to check by ear.
+
 ## Added on November 23, late night: the Grey Hat's real ship lies at the jetty
 
 - **The stand-in ship is gone.** The flight job baked the Skiff from Chris's airship game (the Zephyr, the first of
