@@ -13,6 +13,29 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 05:56: what the first draft holds; the fights; the sky's names; the Fire button
+
+- **Chris: a sub-agent does the rest of the fights job.** "You can use a sub agent to do the rest of the fights
+  conversation." The fights conversation is done with; `job/fights` is now a sub-agent's of the hub's.
+- **Chris: the first whole draft has more in it than the hub had said.** The foe picks "will have to get made", and
+  "the townsfolk's own bodies and the star and planet names will have to get come up with". So all three are part of
+  the first draft, not left for after it.
+- **Chris: the sky's names.** The planet's name and its moon's name stand (Thareia; Auros). "We need to name the
+  three stars and the other planets and any other features from that star map, using the lore that we have and
+  making logical and beautiful lore continuations." He offered a fresh conversation or a sub-agent: the hub chose a
+  sub-agent (the `sky-names` job). Its names are a proposal until he says yes.
+- **Chris: the flight's Fire button must also aim.** On his phone the flight "does not work the same as the airship
+  game originally did ... the fire button is also a joystick, so you can fire and aim at the same time, and then the
+  other joystick is the steering the ship." Done the same morning, in `main`.
+- **Hub's call.** *The townsfolk's bodies are made the way the eleven fair folk were,* which Chris approved: shapes
+  on the shared template, then two pictures a person that only he can make, then the painting. A sub-agent readies
+  everything up to his pictures. If he would rather they were painted without his pictures, that is his to say.
+- **A fact found, and a call that is Chris's.** The flight was built from the oldest version of Skies of Aethermoor
+  (the repo's main folders, commit `1887984`). The versions he plays, stage 4 and stage 5, are in folders of their
+  own on other branches of that repo (`stage5/` on `claude/keen-thompson-qm6iz2`, commit `289e47c`). That repo has
+  no branch named `main`. The hub read those branches to find out why the Fire button differed, and copied no file
+  from them. Whether the flight is made again from stage 5 is his call, asked on November 24.
+
 ## November 24, 2026, 05:39: zone 4 starts
 
 - **Chris: "zone four can get started".** He has voice tokens for zone 4's dialogue and for the narrator.
