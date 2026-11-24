@@ -1,6 +1,6 @@
 # menu: the pause menu, three save slots, and the frame the maps sit in
 
-Branch: job/menu      Last commit of code: 117218d (this slip is committed after it)      Updated: 2026-11-23, 21:30
+Branch: job/menu      Last commit of code: d25194d (this slip is committed after it)      Updated: 2026-11-23, 21:30
 
 A sub-agent of the hub's built this, from the hub's brief of November 23, 19:15.
 
