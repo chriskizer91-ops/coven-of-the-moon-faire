@@ -69,6 +69,21 @@ bramble (40 turns). Each took 1 to 16 minutes here.
 RESULTS of the rest (each filled in as it finished):
 
 - `quick-4` (35 ok, 0 failed): every check passed
+- `quick-2` (35 ok, 0 failed): every check passed
+- `story-2` (61 ok, 0 failed): ALL PASSED
+- `story-3` (64 ok, 0 failed): ALL PASSED
+- `story-4` (75 ok, 0 failed): ALL PASSED
+- `zone-test-1` (28 ok, 0 failed): ALL PASSED
+- `zone-test-2` (21 ok, 0 failed): ALL PASSED
+- `zone-test-3` (25 ok, 0 failed): ALL PASSED
+- `zone-test-4` (19 ok, 0 failed): ALL PASSED
+- `enc-balance` (0 ok, 0 failed): enc-balance exit 0 :
+- `battle-balance` (0 ok, 0 failed): ok   The finale        L18 expert    win   0% (want 0%-2%)       median 10.8 min, losses leave 58% of the foes' HP
+- `battle-testers` (0 ok, 0 failed): every check passed
+- `menu-1` (58 ok, 0 failed): ALL PASSED
+- `menu-2` (57 ok, 0 failed): ALL PASSED
+- `menu-3` (57 ok, 0 failed): ALL PASSED
+- `menu-4` (57 ok, 0 failed): ALL PASSED
 
 ### The pictures (looked at, every one)
 
