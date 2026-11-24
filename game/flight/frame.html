@@ -173,6 +173,8 @@
     #warn { top: 22%; }
     #toast { top: calc(var(--top) + 44px); }
     #hint { bottom: calc(var(--bottom) + 6px); max-width: calc(100vw - 420px); font-size: 13px; }
+    #battery { top: auto; bottom: calc(var(--bottom) + 112px); right: var(--right); left: auto; translate: none; text-align: right; }
+    #battery .meter { margin-right: 0; }
   }
   @media (prefers-reduced-motion: reduce) { #banner.on, #toast.on { animation-duration: 0.01s; } }
 </style>

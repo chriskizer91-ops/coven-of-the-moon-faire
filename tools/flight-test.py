@@ -60,6 +60,7 @@ def start(pg, frm, to, ship=None, hold=True, touch=None):
         opts['ship'] = ship
     if touch is not None:
         opts['test']['touch'] = touch
+    pg.wait_for_function('!W3D.flight.flying', timeout=60000)   # (a flight just stopped takes a moment to take itself away)
     pg.evaluate("(o) => { window.__answer = null; window.__flightLog.length = 0; W3D.flight.fly(o).then((r) => { window.__answer = r; }); }", opts)
     return pg.evaluate('W3D.flight.whenReady()')
 
@@ -129,10 +130,15 @@ def main():
         check(r and r.get('arrived') is True, 'fly() answers arrived: %s' % json.dumps(r))
         ev = events(pg)
         check(ev == ['start', 'raiders', 'clear', 'end'], 'the events come in order: %s' % ', '.join(ev))
-        check(r.get('downed') == len(want['ships']), 'the simulated captain brought down %d of %d raiders, in %d s of flight' % (r.get('downed', -1), len(want['ships']), r.get('seconds', -1)))
+        print('        (the simulated captain brought down %d of %d raiders, in %d s of flight)' % (r.get('downed', -1), len(want['ships']), r.get('seconds', -1)))
         lo = left_over(pg)
         check(lo == base, 'nothing of it is left on the page: %s' % json.dumps(lo))
 
+        start(pg, f1[0]['id'], f1[1]['id']); ask(pg, 'safe'); s = ask(pg, 'step', {'seconds': 200, 'auto': True, 'until': 'raised'})
+        s = ask(pg, 'step', {'seconds': D['raidersStay'] - 3, 'controls': {'sailTo': 0.1}}); held = s['raiders'] > 0 and not s['cleared']
+        s = ask(pg, 'step', {'seconds': 6, 'controls': {'sailTo': 0.1}})
+        check(held and s['fled'] and s['cleared'] and events(pg) == ['start', 'raiders', 'clear'], 'raiders not seen off after %d s give up and turn away, and that too raises coven:flight-clear' % D['raidersStay'])
+        pg.evaluate('() => { W3D.flight.stop(); }'); answer(pg)
         print('3. the ship lost')
         start(pg, f1[0]['id'], f1[1]['id']); ask(pg, 'step', {'seconds': 5, 'auto': True}); s = ask(pg, 'sink')
         s = ask(pg, 'step', {'seconds': 1}); check(s['state'] == 'lost' and D['words']['lost'][0] in ask(pg, 'words'), 'her hull gone, the flight says so ("%s")' % D['words']['lost'][0])
@@ -175,10 +181,11 @@ def main():
         for a, t in flights:
             ship = D['shipFrom'][a['id']]; s = start(pg, a['id'], t['id'])
             kmf = s['total'] / 1000; want = next(r for r in D['raiders'] if kmf <= r['upToKm'])
+            ask(pg, 'safe'); met = ask(pg, 'step', {'seconds': 300, 'auto': True, 'until': 'raised'})['classes']
             last = fly_through(pg, fight=True); r = answer(pg)
-            check(r and r.get('arrived') and s['ship'] == ship and r.get('downed') == len(want['ships']) and left_over(pg) == base,
-                  '%s to %s: %.1f km in the %s, hurried %.2f times; %d raider%s (%s, %s skies); arrived after %d s with the simulated captain'
-                  % (a['name'], t['name'], kmf, D['words']['ships'][s['ship']]['cls'], s['hurry'], len(want['ships']), '' if len(want['ships']) == 1 else 's', ', '.join(want['ships']), want['skies'], r.get('seconds', -1)))
+            check(r and r.get('arrived') and s['ship'] == ship and sorted(met) == sorted(want['ships']) and left_over(pg) == base,
+                  '%s to %s: %.1f km in the %s, hurried %.2f times; %d raider%s (%s, %s skies); arrived after %d s with the simulated captain, who brought down %d'
+                  % (a['name'], t['name'], kmf, D['words']['ships'][s['ship']]['cls'], s['hurry'], len(want['ships']), '' if len(want['ships']) == 1 else 's', ', '.join(want['ships']), want['skies'], r.get('seconds', -1), r.get('downed', -1)))
             notes['%s to %s' % (a['name'], t['name'])] = {'km': round(kmf, 2), 'ship': s['ship'], 'raiders': want['ships'], 'seconds with a fight': r.get('seconds')}
             s = start(pg, a['id'], t['id']); ask(pg, 'safe'); n = 0
             while not s['ended'] and n < 40:
@@ -189,7 +196,7 @@ def main():
 
         flown = sorted(set(v['ship'] for v in notes.values() if isinstance(v, dict)), key=D['ships'].index)
         check(flown == D['ships'], 'all four ships flew: %s' % ', '.join(D['words']['ships'][x]['cls'] for x in flown))
-        gave = pg.evaluate("(() => { W3D.flight.fly({ from: 'wickhollow', to: 'warmCamp', ship: 'brig', test: { hold: true } }); return W3D.flight.whenReady(); })()"); pg.evaluate('() => { W3D.flight.stop(); }')
+        gave = pg.evaluate("(() => { W3D.flight.fly({ from: 'wickhollow', to: 'warmCamp', ship: 'brig', test: { hold: true } }); return W3D.flight.whenReady(); })()"); pg.evaluate('() => { W3D.flight.stop(); }'); pg.wait_for_function('!W3D.flight.flying')
         check(gave['ship'] == 'brig', 'a ship named in the call overrules the table (asked for the Brig from Wickhollow, got the %s)' % gave['ship'])
         if SIM:
             print('how hard it is: each flight %d times as it would really go' % SIM)

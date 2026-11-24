@@ -167,7 +167,7 @@ async function begin(o) {
 
   // ---------- shots landing (Skies' own) ----------
   const BURST = { hull: [0xffa040, 22, 1], sails: [0xf5e6c8, 14, 0.7], crystals: [0xffe08a, 34, 1.4] };
-  const F = { state: 'fly', t: 0, raised: false, cleared: false, downed: 0, hits: 0, taken: 0, timer: 0, safe: false, result: null };
+  const F = { state: 'fly', t: 0, raised: false, cleared: false, fled: false, harried: 0, downed: 0, hits: 0, taken: 0, timer: 0, safe: false, result: null };
   let hurt = 0;
   function hitTest(b, a, c) {
     if (b.owner === 'player') {
@@ -195,6 +195,7 @@ async function begin(o) {
   }
   function toast(text) { const t = $('toast'); t.textContent = text; flash(t); }
   const alive = () => raiders.list.filter((r) => !r.f.down);
+  const about = () => (F.fled ? [] : alive());   // raiders still in the fight (not brought down, and not turned away)
   function clearSky() {
     if (!F.raised || F.cleared) return;
     F.cleared = true; document.body.classList.remove('fight');
@@ -215,20 +216,23 @@ async function begin(o) {
       return;
     }
     const left = toGo(player.pos);
-    // raiders left far behind give up the chase
-    for (const r of alive()) if (r.f.pos.distanceTo(player.pos) > 2600 && toGo(r.f.pos) > left) r.gone = true;
+    // a raider left far behind has lost her, and is gone
+    for (const r of alive()) if (r.f.pos.distanceTo(player.pos) > D.raidersLose && (F.fled || toGo(r.f.pos) > left)) r.gone = true;
+    // raiders not seen off in time give up: they hold their fire and turn away (Skies' raiders never give up: this is the flight's own)
+    if (F.raised && !F.cleared && (F.harried += dt) > D.raidersStay) { F.fled = true; raiders.setAI(false); }
+    if (F.fled) for (const r of alive()) { const away = Math.atan2(r.f.pos.x - player.pos.x, r.f.pos.z - player.pos.z); r.f.heading += clamp(wrap(away - r.f.heading), -0.5 * dt, 0.5 * dt); }
     if (!F.raised && left <= total * (1 - D.raidersAt)) {
       F.raised = true; document.body.classList.add('fight');
       raiders.spawnWave({ ids: [...plan.ships], captain: -1 }, player);
       banner(Wd.raiders);
       post('raiders', { ships: [...plan.ships] });
-    } else if (F.raised && !F.cleared && !alive().length) {
+    } else if (F.raised && !F.cleared && !about().length) {
       clearSky(); banner(Wd.clear);
     }
-    if (!alive().length) player.repair(dt * 0.12); // with the sky clear the crew patch her up (Skies' own rate)
+    if (!about().length) player.repair(dt * 0.12); // with the sky clear the crew patch her up (Skies' own rate)
     if (left <= D.arriveWithin) {
       // any raiders still about turn away from the landing's light
-      raiders.setAI(false); clearSky();
+      F.fled = true; raiders.setAI(false); clearSky();
       F.state = 'arriving'; F.timer = D.arriveSeconds; document.body.classList.add('over'); banner(Wd.arrive, true);
     }
   }
@@ -435,7 +439,7 @@ async function begin(o) {
   // ---------- the handle the checks use (tools/flight-test.py, tools/flight-look.py), and that flight.js stops it by ----------
   const state = () => ({
     state: F.state, t: +F.t.toFixed(2), total: Math.round(total), toGo: Math.round(toGo(player.pos)), raised: F.raised, cleared: F.cleared,
-    raiders: alive().length, classes: raiders.list.map((r) => r.id), downed: F.downed, hits: F.hits, taken: F.taken, paused, ended, frames,
+    raiders: about().length, fled: F.fled, classes: raiders.list.map((r) => r.id), downed: F.downed, hits: F.hits, taken: F.taken, paused, ended, frames,
     hull: +player.frac('hull').toFixed(3), sails: +player.frac('sails').toFixed(3), crystals: +player.frac('crystals').toFixed(3),
     speed: +player.speed.toFixed(1), height: Math.round(player.pos.y), hurry: +hurry.toFixed(2), skies: plan.skies, ship: R.id, touch,
     heading: +player.heading.toFixed(3), bolts: bolts.bolts.length, stick: !$('stick').hidden, sail: +player.sail.toFixed(2),
@@ -443,7 +447,7 @@ async function begin(o) {
   });
   // the nearest raider, as a simulated captain sees it: point the bow guns at it and fire (after Skies' tools/sim-fight.mjs)
   function captain() {
-    const live = alive(); if (!live.length || player.down) return null;
+    const live = about(); if (!live.length || player.down) return null;
     live.sort((a, b) => a.f.pos.distanceTo(player.pos) - b.f.pos.distanceTo(player.pos));
     const r = live[0], T = player.pos.clone(); T.y += R.length * 0.42 + 2;
     const look = r.f.pos.clone().sub(T).normalize();

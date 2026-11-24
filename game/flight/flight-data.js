@@ -36,16 +36,21 @@
     // Chris: raiders attack on every flight, "one, two or three by distance". Each row: a flight of up to this many
     // kilometres meets these raiders, under these skies. The three flights between the four landings are 3.4, 5.0 and
     // 8.4 km. Which classes come is the flight job's call (zone 3's line says "Bigger ship this time"), and so are
-    // the skies; the first flight is the gentlest Skies has: one Skiff under Fair Winds.
+    // the skies. The first flight is gentle: one Skiff under Calm skies, softer than any of Skies' own three.
     raiders: [
-      { upToKm: 4, ships: ['skiff'], skies: 'fair' },
+      { upToKm: 4, ships: ['skiff'], skies: 'calm' },
       { upToKm: 7, ships: ['cutter', 'skiff'], skies: 'fair' },
-      { upToKm: 1e9, ships: ['brig', 'cutter', 'skiff'], skies: 'cross' },
+      { upToKm: 1e9, ships: ['brig', 'cutter', 'skiff'], skies: 'fair' },
     ],
     raidersAt: 0.25,         // they come when this much of the way is flown (0.25: a quarter)
-    // Skies of Aethermoor's own three skies (its src/game/progress.js), copied here as numbers. How far off the
-    // raiders aim, how slowly they reload, how hard they hit, how sturdy they are, how fast they sail.
+    raidersStay: 60,         // seconds. Raiders not seen off by then give up and turn away, so a flight never turns into a long beating
+    raidersLose: 2600,       // metres. A raider left this far behind has lost her, and is gone
+    // How far off the raiders aim, how slowly they reload, how hard they hit, how sturdy they are, how fast they sail.
+    // fair, cross and mael are Skies of Aethermoor's own three skies (Fair Winds, Crosswinds, Maelstrom: its
+    // src/game/progress.js), copied here as numbers. calm is the flight job's own, for a first flight that a player
+    // who only steers for the landing gets through (tools/flight-test.py --sim says how each flight goes).
     skies: {
+      calm: { aim: 2.6, reload: 1.7, damage: 0.4, toughness: 0.7, pace: 0.84 },
       fair: { aim: 1.8, reload: 1.35, damage: 0.6, toughness: 0.8, pace: 0.88 },
       cross: { aim: 1, reload: 1, damage: 1, toughness: 1, pace: 0.92 },
       mael: { aim: 0.8, reload: 0.92, damage: 1.15, toughness: 1.15, pace: 0.96 },
