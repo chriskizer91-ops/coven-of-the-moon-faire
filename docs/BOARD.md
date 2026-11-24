@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 21:35, by the hub.
+Last updated: November 23, 2026, 21:55, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -22,12 +22,34 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 
 | Job | Branch | What | Who | State |
 |---|---|---|---|---|
-| `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | Started 19:15 |
+| `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | **Done, in `main` (21:50).** On all three zone pages. Its slip: `docs/slips/menu.md` |
 | `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `fights` | `job/fights` | Step 4: room for new creatures, and the whole game's levels | its own conversation | In progress; nothing pushed since the morning |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
+
+### The menu is in (21:50): what the hub checked, and what it leaves for the hub
+
+- **Checked by the hub on `main`, after the merge:** the three pages rebuilt (100.3, 90.2 and 87.5 MB);
+  `tools/menu-test.py` passes on all three (93 checks on zone 1, its three ways: as a check, as a player, with
+  storage blocked; 57 each on zones 2 and 3); and the older checks still pass (people 134, things 40, zone 28,
+  fights 25 on zone 1; story 61 and 64 on zones 2 and 3). The job changed only its own files, its slip and one
+  marked block in each page. `tools/menu-test.py` is one of the hub's checks from now on.
+- **How it joins the page without changing it** (worth knowing): it wraps the browser's own "play" for sounds, so it
+  can pause a voice mid-line and carry on; it watches for the page saying it is ready; and with `?test` it keeps
+  every write in memory, so a check saves nothing.
+- **Left for the hub:**
+  - When the pages call each other: set `W3D.saves.openPage(page, carry)`, so a save last made on another zone's
+    page opens that page, and a new game opens zone 1's.
+  - Zone 4's page needs the menu's marked block.
+  - The maps job's tab must load after the menu's block (its code already waits for the menu).
+- **Seen in the pictures, both older than the menu and the hub's to fix in the last pass on a phone:**
+  - On an upright phone the "Go on" button lies over the frame-rate pill and the level pill.
+  - For a moment as a page finishes loading, the loading words and the Begin screen show through each other.
+- **For Chris to try on his phone:** whether the phone keeps saves between visits for a page opened from a
+  downloaded file. The Save tab says "this is visit N"; if N never goes past 1, it does not, and Save to a file is
+  the way.
 
 ### How the pieces join (the hub's part, once the three are in)
 
@@ -383,7 +405,7 @@ The hub's plan. Names and order may change.
 |---|---|---|---|---|
 | `first-test` | The open land round Wickhollow, as one HTML file | `job/first-test` | `docs/slips/first-test.md` | **Done, in `main`.** Built by the hub. Sent to Chris |
 | `zone-1` | All of zone 1 on one land; and all of the hub's own building since (zones 2 and 3, the people, the narrator, the small things) | `job/zone-1` | `docs/slips/zone-1.md` | **In `main`**, up to zone 1's four small things (November 23, 15:45). The rough spots are in the slip |
-| `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Started November 23, 19:15** |
+| `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Done, in `main`** (November 23, 21:50) |
 | `maps` | The 3D map of Aethermoor and the star map in the menu; choosing where to fly (a sub-agent) | `job/maps` | `docs/slips/maps.md` | **Started November 23, 19:15** |
 | `flight` | The flight between zones from Skies of Aethermoor; the real ship (a sub-agent) | `job/flight` | `docs/slips/flight.md` | **Started November 23, 19:15** |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |

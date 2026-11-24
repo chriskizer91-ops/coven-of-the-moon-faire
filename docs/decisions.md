@@ -13,6 +13,16 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 21:50: the pause menu and three save slots are in
+
+- **The menu job's work is in `main`,** checked by the hub. One menu button on the land; the game pauses; three save
+  slots; a save can be written to a file and read back.
+- **The menu job's calls, each one line of data, for Chris to overrule** (`game/menu/menu-data.js`): the land has
+  one button, not two; settings stay with each device and are not in a save; a save puts the coven back where she
+  stood; the slot being played has no Delete (New game does that); Save to a file saves the game being played; the
+  menu does not open during a fight.
+- **Hub's call.** *`tools/menu-test.py` joins the checks the hub runs before sending a build.*
+
 ## November 23, 2026, 20:57: the narrator's sound is B; a list of foes to suggest
 
 - **Chris: "option B for the narrator sound".** B is close and warm: more body low down, a little less hiss up top,
