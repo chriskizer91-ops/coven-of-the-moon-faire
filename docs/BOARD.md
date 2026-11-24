@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 07:11, by the hub.
+Last updated: November 24, 2026, 07:42, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -23,12 +23,12 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | Job | Branch | What | Who | State |
 |---|---|---|---|---|
 | `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | **Done, in `main` (21:50).** On all three zone pages. Its slip: `docs/slips/menu.md` |
-| `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Built and pushed, both maps and the choosing. **Cut off at its last checks** when the machine stopped (November 23, about 22:30). Taken up again November 24, about 05:40, to finish its checks and its slip |
+| `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | **Done, in `main` (November 24, 07:42).** On all three zone pages. Its slip: `docs/slips/maps.md`. Nothing calls `choose()` yet: that joining is the hub's |
 | `zone-4` | `job/zone-4` | All of zone 4: its land, people, story and the narrator's words for it, built to fit the lines Chris is recording | a sub-agent (Fable 5.2, high) | **Started November 24, 05:41** (Chris, 05:39: zone four can get started) |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | **Done, in `main` (22:25).** Both parts. Its slip: `docs/slips/flight.md`. Not joined to the zones yet: that is the hub's |
 | `fights` | `job/fights` | The rest of the fights job: step 4 (room for new creatures, the whole game's levels); fights on zones 2 and 3; zone 4's fights as data; a trial of one M7 creature outside the repo | **a sub-agent (Fable 5.2, high), from November 24, 06:03** (Chris: "you can use a sub agent to do the rest of the fights conversation"). The fights conversation is done with | Started |
 | `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | **Proposal in, in `main` (November 24, 06:25):** `docs/lore/sky-names-proposal.md`. The short page went to Chris. **Waiting on his yes or his changes** |
-| `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). First part: who needs one, the shapes, the grey guides and the words for each picture, as one folder for Chris. His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | Started November 24, 06:03 |
+| `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | **First part done, in `main` (November 24, 07:42):** 23 people, their shapes, guides and the words for 46 pictures; the folder went to Chris. **Waiting on his pictures** (one person first, to try the fit). The later steps are in `docs/slips/townsfolk.md` |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
 
@@ -151,10 +151,43 @@ the townsfolk in bodies of their own, and the stars and planets named.**
    frame rate); whether the phone keeps a save between visits (the Save tab's "visit N"); whether the phone opens
    a page of 100 MB at all; how the narrator sounds the B way.
 
+### The maps are in, with the sky's names on the star map (November 24, 07:42)
+
+- **In `main`:** the Maps tab (Zone, World, Sky) on all three zone pages, the 3D map of Aethermoor with choosing
+  where to fly, and the star map. Chris's names are on the star map (`game/maps/data/maps-data.js`); each card's
+  words are still a proposal.
+- **Checked by the hub on `main`:** the small page `maps.html` (9.2 MB), `tools/maps-test.py`: 102 checks, all
+  good; pictures of every view at both sizes. On an upright phone the suns' longer name fits.
+- **NOT run by the hub on `main`:** the zone pages with the maps in them. The maps job ran them on its own branch
+  (`maps-test` on zone 1: 108; on zones 2 and 3: 54 each; `menu-test --only A`: 58; `things-test`: 40;
+  `people-test`: 134), and nothing that has come into `main` since touches them but the five narrator recordings.
+  **Run them all again when the journey is joined,** with `zone-test` and `story-test`, which the maps job did not run.
+- **Sizes with the maps in** (the maps job's numbers): zone 1 is 108.6 MB, zone 2 is 97.6 MB, zone 3 is 94.9 MB.
+- **Left for the hub** (from the maps job's report): `choose()` stops the land and starts it again by itself (one
+  line if the hub would sooner do it); the Zone view reads `window.__map` (a `drawBigInto(canvas)` in the minimap
+  would be cleaner); the shipyard shows on the 3D map as standing in water; the pin inside a town is on the right
+  place but not the right house; a phone's memory with the game and a 3D map both open has not been measured.
+
+### The townsfolk's bodies, first part (November 24, 07:42)
+
+- **23 people need a body of their own** (the 18 of zones 1 to 3, and zone 4's five). Only the forty held Wardens
+  share one. Today they stand on 9 stand-in bodies, each a copy of someone at the Faire.
+- **Chris's part: 46 pictures** (two a person). The folder and its `START-HERE.txt` went to him. One person first.
+- **Halcyon** is not from this kit: Chris decided earlier she is the doll (Io's body) in the paladin outfit with a
+  glow, built in the old Envoi. On `job/zone-4` she is a stand-in. **The knight of zone 3** stays a light on the land.
+- **A fault in the game today, found by this job:** anyone made smaller than a witch stands with bent knees and
+  elbows (Pell, Tamsin, Tock, Pim). The fix is one line in `game/witches/kore/jester_kit.js`, `solveLimb`:
+  `let d = _va.length() / (root.scale.y || 1);`. Tried in a scratch copy only. **The hub is to make it and look at
+  the four in a zone page.**
+- **Chris's to decide** (the slip has all six): every look; what the moon's people and a gnome look like; the Ember
+  Wardens' colours; the lifelike look of the eleven or the witches' painted look; whether the Warden who speaks is
+  a man or a woman (the cast and the notes disagree).
+
 ### Chris's Fable usage (November 24, 06:58)
 
 He is at 60% of his week's Fable usage. **Start nothing new on Fable without his word.** The sub-agents are the big
-spenders. If more side work is needed, ask him first whether it runs on Opus 5.5 (extra high), which he also
+spenders (what three of them used, start to finish: sky names 0.3 million tokens, the maps job's last part 0.55
+million, the townsfolk's first part 0.59 million; zone 4 and the fights are bigger jobs and still at work). If more side work is needed, ask him first whether it runs on Opus 5.5 (extra high), which he also
 allowed, or waits. Keep the hub's own steps few.
 
 ### The flight's Fire button aims (November 24, 06:10)
