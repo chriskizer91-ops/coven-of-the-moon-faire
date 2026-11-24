@@ -72,12 +72,13 @@ def main():
         def slot():
             return pg.evaluate('(() => { const s = W3D.saves.slot(W3D.saves.current); return s ? { page: s.page, zone: s.bits && s.bits.zone } : null; })()')
 
-        def at_gate(i=0):
-            """Io stands at the gate's spot; the land is stepped so the button can show. Returns the button's words."""
-            return pg.evaluate('''(i) => { const t = __things.list.filter((q) => /^ship-gate/.test(q.id))[i], w = __w3d, M = w.P.M;
-                w.setIo(M.px(t.x), M.py(t.z), 0); w.step(0.3, 30, true); __things.tick();
+        def at_gate(i=0, yaw=3.1416):
+            """Io stands at the gate's spot, facing the ship (yaw 0: south); the land is stepped so the button can show.
+            Returns the buttons shown."""
+            return pg.evaluate('''([i, yaw]) => { const t = __things.list.filter((q) => /^ship-gate/.test(q.id))[i], w = __w3d, M = w.P.M;
+                __people.stop(); w.setIo(M.px(t.x), M.py(t.z), yaw); w.C.yaw = yaw + Math.PI; w.step(0.3, 30, true); __things.tick();
                 const bs = [...document.querySelectorAll('.talkbtn')].filter((e) => e.style.display !== 'none');
-                return bs.map((e) => { const r = e.getBoundingClientRect(); return { text: e.textContent, w: r.width, h: r.height, y: r.top + r.height / 2 }; }); }''', i)
+                return bs.map((e) => { const r = e.getBoundingClientRect(); return { text: e.textContent, w: r.width, h: r.height, y: r.top + r.height / 2 }; }); }''', [i, yaw])
 
         def end_story():
             pg.evaluate("(() => { const m = Object.assign({}, __story.state().moments, { leaving: true }); __story.set({ moments: m }); })()")
@@ -95,7 +96,7 @@ def main():
             if expect_open is not None:
                 check(st['log'] and sorted(st['log']['open']) == sorted(expect_open), 'boarding offers: %s' % json.dumps(st['log'] and st['log']['open']))
             check(st['go'] is not None, 'the map offers "%s" for %s' % (st['go'], to))
-            pg.click('.cvm-go')
+            pg.evaluate("document.querySelector('.cvm-go').click()")
             return st['lines']
 
         def flight_page(page_name, timeout=120):
@@ -134,7 +135,7 @@ def main():
             pg.wait_for_timeout(500)
             st = pg.evaluate('__journey.state()')
             check(st['reached'] == ['wickhollow'], 'a new game has reached Wickhollow only: %s' % json.dumps(st['reached']))
-            bs = at_gate()
+            bs = at_gate(0, 0)
             check(bs and bs[-1]['text'] == 'Board the ship' and bs[-1]['h'] >= 44 and bs[-1]['w'] >= 44, 'at the foot of the gangway the button says "Board the ship" (%s)' % json.dumps(bs))
             pg.evaluate('() => __journey.board()'); pg.wait_for_timeout(300)
             ln = pg.evaluate("__journey.log.filter((l) => l.what === 'line').map((l) => l.text)")
@@ -142,7 +143,7 @@ def main():
             end_story()
             check(pg.evaluate('__journey.isDone()'), "zone 1's story set to its end (the moment \"leaving\")")
             pg.evaluate('() => { window.__shown = document.querySelector(".cj-line"); }')
-            bs = at_gate(); pg.wait_for_timeout(5000); at_gate(); shot('a1-gate-zone-1')
+            bs = at_gate(0, 0); pg.wait_for_timeout(5000); at_gate(0, 0); shot('a1-gate-zone-1')
             board_and_choose('warmCamp', 'a2-map-choose', ['warmCamp'])
             t0 = time.time(); s = flight_page('zone-2.html'); notes['flight starts (s)'] = round(time.time() - t0)
             check(s and s.get('state') == 'fly' and s.get('ship') == 'skiff', 'zone 2\'s page opens and the flight in starts before its world: %s, in the %s' % (s and s.get('state'), s and s.get('ship')))
