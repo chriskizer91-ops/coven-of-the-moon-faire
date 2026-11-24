@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 21:15, by the hub.
+Last updated: November 23, 2026, 21:35, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -26,7 +26,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | Started 19:15 |
 | `fights` | `job/fights` | Step 4: room for new creatures, and the whole game's levels | its own conversation | In progress; nothing pushed since the morning |
-| a list of foes to suggest | none (it only reads) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | Started 21:00 |
+| a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
 
 ### How the pieces join (the hub's part, once the three are in)
@@ -70,6 +70,9 @@ The landings, one for each zone, are in `game/travel/landings.js` (the hub's; bo
 3. **ANSWERED (19:40): the four ships are the four travel upgrades.** The hub's reading of the order (Skiff,
    Cutter, Brig, Frigate, one at each gate) is his to correct.
 6. **Which of M7's creatures come into this game, and where.** The fights job's step 4 keeps two slots a zone.
+   The suggestions are in `docs/foes-from-m7.md`, with five short questions at its end: the willow-wight and the
+   briarling for zone 1, the mirage wisp and the thornhound for zone 2, the sapwight and the rime wolf for zone 3,
+   the rime-wraith and the peak-troll for zone 4.
 4. **The townsfolk's bodies:** who makes the 18, and when. They can stay as they are until the end.
 5. **A creature is ready:** when one is, he says so, and Aethermoor M7 becomes a source.
 
