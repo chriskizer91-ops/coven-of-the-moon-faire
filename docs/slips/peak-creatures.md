@@ -1,5 +1,21 @@
 # peak-creatures: two new creatures for the frozen peaks, the Wickstoat and the Hoarmantle
 
+## Report for the hub (kept true as the work goes; newest state)
+
+- **M7's way runs here**, the whole of it (Blender 4.0.2 and Python's numpy, scipy, scikit-image installed from Ubuntu's
+  packages; M7's kit copied outside both repos; "How to make the two again" below). Nothing was faked.
+- **Chris's 12:00 word is followed**: each sculpt is over a million triangles, baked onto the light model the game
+  draws (surface, crease shading, colour), and painted from his own sheet by position (front, side, back laid on; the
+  unseen top, belly and between the legs filled from the sheet's colours).
+- **The Wickstoat**: sculpt 1,141,618 triangles; light model 20,583 triangles; in the repo. Its nine ice spines are
+  clear ice built in the page (not baked: a baked picture cannot be clear, nor light one spark at a time); foe.lit is
+  the number 0 to 9. Stretch check: failing at the shoulders and haunches before the 12:20 change to its moves;
+  re-run pending.
+- **The Hoarmantle**: sculpt about 1.28 million triangles; light model about 34,000; rebuild after fixing a hole at
+  its rump and its beard joining the curtain: pending.
+- **Not yet done**: the picture sheets for Chris, the lab page built and checked, zone 4's slots committed (written,
+  waiting for the Hoarmantle's model), the balance check.
+
 Branch: job/peak-creatures      Updated: November 24, 2026 (in progress)
 
 Made from `job/creatures`. A sub-agent of the hub's (Opus 5.5). The brief: build the two creatures Chris made
