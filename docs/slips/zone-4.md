@@ -1,6 +1,6 @@
 # zone-4: the northeast peaks, the last zone
 
-Branch: job/zone-4      Updated: November 24, 2026
+Branch: job/zone-4      Last commit: see the branch      Updated: November 24, 2026, 08:25
 
 A sub-agent of the hub's wrote this, building zone 4 the way zones 2 and 3 were built. Nobody could be asked while it
 worked, so every choice it made is listed under "The job's calls", each with the other choice.
@@ -8,6 +8,11 @@ worked, so every choice it made is listed under "The job's calls", each with the
 **The one rule above the others was kept: no word of `game/talk/zone-4.js` was changed.** Its 144 lines are being
 recorded as they stand. Every one was read against the land before anything was placed, and again at the end
 ("Every line, against the land", below).
+
+## What Chris said here
+
+- Nothing: Chris was not in this conversation. The hub passed on his word of November 24, 05:39: "I think zone four can
+  get started. I have more voice tokens for the narrator and the dialogue for zone four."
 
 ## What it built
 
@@ -149,7 +154,7 @@ In `game/places/zone-4.js`:
 2. **Misthollow stands 143 m south of its pin** (`MIST_PIN`), on the flat top of its mountain. On the pin itself the
    town would sit on the mountain's north rim, with the land falling away where its street has to climb.
 3. **The dead Moonwell stands at the head of Misthollow's street, 153 m north of the town** (`AT.well`), which is
-   290 m south of its own pin, and 12.8 m higher than the town's lower square (`WELL_UP`). The lines need it there:
+   290 m south and 73 m west of its own pin, and 12.8 m higher than the town's lower square (`WELL_UP`). The lines need it there:
    "The Moonwell's up there, where the street ends", "the cold lights go up the street to the Moonwell". On its own
    pin it would be 300 m away across open mountain and 47 m *below* the town. *The other choice:* on its pin, with a
    780 m road winding down to it, and three lines untrue.
@@ -249,14 +254,14 @@ Every check opens the built page with no screen, as `?test` (nothing saved, no B
 | Check | Result |
 |---|---|
 | `tools/zone-test.py builds/zone-4.html` | **ALL PASSED, 19 checks.** Every road walked at a sprint; her height never jumped (at most 5.3 cm in a thirtieth of a second); she ended on the next place's ground each time; 3,941 spots obey the land's rules (94% can be stood on); 0 page errors |
-| `tools/story-test.py builds/zone-4.html` (zone 4 added to it) | **ALL PASSED, 76 checks.** Six people built, on the ground, in the open, each with a Talk button and a talk that shows and ends. Then the story played from the landing to the leaving: every stage, all 11 moments in order with the narrator first, the forty counted, the bramble shut then open, the light on the stair out, the fire up then out, the moths, the dark and the stars, the forty awake then gone, the footprints, five counted down. 0 page errors |
-| `tools/faire-test.py builds/faire-ending.html` (new) | **ALL PASSED, 73 checks.** All fifteen at the camp and reachable; the homecoming first; each of the fifteen says their own goodbye when walked up to, and the same again if asked; nothing else said between; then the last talk, ending on Io's "Yes."; the end card; nothing saved |
+| `tools/story-test.py builds/zone-4.html` (zone 4 added to it) | **ALL PASSED, 75 checks.** Six people built, on the ground, in the open, each with a Talk button and a talk that shows and ends. Then the story played from the landing to the leaving: every stage, all 11 moments in order with the narrator first, the forty counted, the bramble shut then open, the light on the stair out, the fire up then out, the moths, the dark and the stars, the forty awake then gone, the footprints, five counted down. 0 page errors |
+| `tools/faire-test.py builds/faire-ending.html` (new) | **ALL PASSED, 72 checks.** All fifteen at the camp and reachable; the homecoming first; each of the fifteen says their own goodbye when walked up to, and the same again if asked; nothing else said between; then the last talk, ending on Io's "Yes."; the end card; the stars out; nothing saved |
 | `tools/menu-test.py builds/zone-4.html --only A` | **ALL PASSED, 57 checks** |
 | `tools/story-test.py` on zones 2 and 3 (they share the check and the narrator's file) | **ALL PASSED: 61 and 64 checks**, as before |
 | `tools/narration-order-z4.py` | 18 lines, about 2 minutes, the longest 23 words; no dash, semicolon, dots or digit in any |
 | `git diff` on `game/talk/` | **nothing changed** |
 
-- **Pictures looked at one by one:** 24 of the land, 49 of the people, the story and each narrator line's view, 8 of
+- **Pictures looked at one by one:** 24 of the land, 48 of the people, the story and each narrator line's view, 7 of
   the Faire ending, 6 at a phone's size (412 by 880 upright, 880 by 412 on its side). Each narrator line was read
   against the picture taken from where it is said; one was rewritten because of it (the shore: from the fork the mere
   cannot be seen past the boathouse, so the line now names the boathouse first).
@@ -273,6 +278,15 @@ Every check opens the built page with no screen, as `?test` (nothing saved, no B
 - **The sound.** Zone 4's recordings are not in yet, so every line shows in words only.
 - **How long the walk feels:** 3.3 km up, and the same down again after the fire.
 - The phone itself: only pictures at a phone's size were looked at.
+
+## Unfinished
+
+- **No fights**, as on zones 2 and 3: the two big ones are stood in for ("Where a fight belongs").
+- **No sound yet:** zone 4's 144 lines are being recorded; the narrator's 18 are proposals.
+- **Not joined to the journey:** no flight in, no flight home, and the ending is not on zone 1's own page. Those are
+  the hub's ("For the hub", 3 to 5).
+- **The right ship** at the frozen camp (the Skiff stands in).
+- Flames that lean, a green leaf on Sorrel's sage, mended cloaks: not drawn.
 
 ## Rough spots
 
@@ -334,7 +348,7 @@ Every check opens the built page with no screen, as `?test` (nothing saved, no B
 **His calls** (each is one line to change):
 
 1. **How tall the peaks are.** One ninth of the map's height, so the walk up is 3.3 km and not 7.8.
-2. **Where Misthollow and the Moonwell stand:** 143 m and 290 m south of their pins, with the Moonwell at the head
+2. **Where Misthollow and the Moonwell stand:** 143 m and 300 m from their pins, with the Moonwell at the head
    of the town's one street.
 3. **Is the walk too long?** 3.3 km up and 3.3 km down again. If it is, the pass-keeper's "footprints" and the
    Grey Hat's "five of you" could be reached sooner by a ride down, which nothing here builds.

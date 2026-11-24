@@ -6,8 +6,8 @@
 // THE JOB'S CALLS HERE, each one line of data, each Chris's to overrule (docs/slips/zone-4.md says why):
 //   VK        the peaks stand at one ninth of the map's height, not the one third of zones 1 to 3
 //   AT.mist   Misthollow stands 143 m south of its pin, on the flat top of its mountain
-//   AT.well   the dead Moonwell stands at the head of Misthollow's one street, 153 m north of the town (290 m south of
-//             its own pin), and WELL_UP metres above the street's top
+//   AT.well   the dead Moonwell stands at the head of Misthollow's one street, 153 m north of the town (290 m south and
+//             73 m west of its own pin), and WELL_UP metres above the street's top
 //   FLAMES    no flame is lit in Misthollow or at the Moonwell: every lamp there is dead and every window dark
 //   DAWN      the light there is a pale cold dawn that never turns (and DARK is the night that comes back at the end)
 (function (G) {
