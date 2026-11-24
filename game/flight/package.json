@@ -1,0 +1,10 @@
+{
+  "name": "coven-flight",
+  "private": true,
+  "type": "module",
+  "description": "What tools/flight-build.mjs needs to pack the flight between zones into game/flight/flight-frame.js. The game's own build (tools/build.py) needs none of it.",
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "three": "0.186.1"
+  }
+}
