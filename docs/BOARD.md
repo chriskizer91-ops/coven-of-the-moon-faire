@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 08:40, by the hub.
+Last updated: November 24, 2026, 08:48, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -26,7 +26,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | **Done, in `main` (November 24, 07:42).** On all three zone pages. Its slip: `docs/slips/maps.md`. Nothing calls `choose()` yet: that joining is the hub's |
 | `zone-4` | `job/zone-4` | All of zone 4: its land, people, story and the narrator's words for it, built to fit the lines Chris is recording | a sub-agent (Fable 5.2, high) | **Done, in `main` (November 24, 08:40).** No word of its 144 lines was changed. Its slip: `docs/slips/zone-4.md` |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | **Done, in `main` (22:25).** Both parts. Its slip: `docs/slips/flight.md`. Not joined to the zones yet: that is the hub's |
-| `fights` | `job/fights` | The rest of the fights job: step 4 (room for new creatures, the whole game's levels); fights on zones 2 and 3; zone 4's fights as data; a trial of one M7 creature outside the repo | **a sub-agent (Fable 5.2, high), from November 24, 06:03** (Chris: "you can use a sub agent to do the rest of the fights conversation"). The fights conversation is done with | Started |
+| `fights` | `job/fights` | The rest of the fights job: step 4 (two slots for a new creature in each zone, the whole game's levels); fights on zones 2 and 3; zone 4's fights; a trial of one M7 creature outside the repo | a sub-agent (Fable 5.2, high) built it and was stopped at 08:48 to save Chris's usage; **a second sub-agent (Opus 5.5, high) is finishing the checking** | **Built and pushed, NOT in `main`.** 14 of its 16 new fights were never played in a browser, nobody has seen them in a picture, zone 4's page has no fights block, one check fails. The second sub-agent does all of that, then the hub brings it in |
 | `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | **Proposal in, in `main` (November 24, 06:25):** `docs/lore/sky-names-proposal.md`. The short page went to Chris. **Waiting on his yes or his changes** |
 | `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | **First part done, in `main` (November 24, 07:42):** 23 people, their shapes, guides and the words for 46 pictures; the folder went to Chris. **On hold (07:58):** Chris thought the people's models were already made, and they are (the eleven). The townsfolk keep the bodies they have for the first draft; the kit waits unless he asks. The later steps are in `docs/slips/townsfolk.md` |
 | `journey` | `job/journey` | The joining: the ship as the gate, the map to choose on, the next page playing the flight in, one save across the pages, a small front door, the ships at zones 2 and 3, the fix for small people standing bent. First: a two-page trial for Chris's phone | **a sub-agent (Opus 5.5, high)** | **Started November 24, 08:01.** Its text is not on the board; the plan it builds is "How the pieces join", below |
@@ -152,6 +152,21 @@ the townsfolk in bodies of their own, and the stars and planets named.**
    the joining in and checked, one set of builds sent): `flight.html` again (does a thumb held on Fire aim as he expects; its
    frame rate); whether the phone keeps a save between visits (the Save tab's "visit N"); whether the phone opens
    a page of 100 MB at all; how the narrator sounds the B way.
+
+### The fights are built, and one M7 creature ran in this game's battle (November 24, 08:48)
+
+- **Built on `job/fights`** (the slip has it all): the slots as data (`game/encounters/slots.js`, A on, B off, each a
+  stand-in that names the creature `docs/foes-from-m7.md` suggests); the whole game's levels as one plan; fights on
+  zones 2 and 3; zone 4's as data; the three page events for the narrator.
+- **The numbers** (`node tools/encounter-balance.mjs`): about 45 fights to each gate's level in every zone, 181 in
+  all, and within 1.5 fights of that with both slots on or neither. An attentive player loses under 1 fight in 100.
+- **A mistake it found and put right:** on the land a zone 1 fight gave 1.75 times the experience meant, so zone 1
+  took about 26 fights to level 5, not 45.
+- **The M7 trial: it works, with changes.** The Willow-Wight was drawn and moved in this game's battle and fought
+  to its end. M7's loader had to be rewritten for this game's three.js (about 45 lines) and its poses joined to
+  this battle's motions (40 lines). One creature adds about 1.4 MB to a page. Scratch files only, outside the repo.
+- **Chris's to say:** which creatures fill the eight slots; whether about 45 fights a zone is right (zone 2's road
+  must be walked about twice before level 10); how hard the ending is; what a beaten creature does.
 
 ### Zone 4 is in (November 24, 08:40)
 
