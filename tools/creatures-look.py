@@ -55,9 +55,11 @@ with sync_playwright() as p:
     pg = b.new_page(viewport={'width': W, 'height': H})
     pg.on('pageerror', lambda e: errors.append(str(e)))
     pg.on('console', lambda m: errors.append(m.text) if m.type == 'error' and 'willReadFrequently' not in m.text else None)
-    pg.goto('file://' + page_file + '?test' + ('&' + opt['query'] if opt['query'] else ''), wait_until='load', timeout=240000)
-    pg.wait_for_function('!!window.__clab', timeout=240000)
-    pg.evaluate('() => window.__clab.ready')
+    def fresh():
+        pg.goto('file://' + page_file + '?test' + ('&' + opt['query'] if opt['query'] else ''), wait_until='load', timeout=240000)
+        pg.wait_for_function('!!window.__clab', timeout=240000)
+        pg.evaluate('() => window.__clab.ready')
+    fresh()
     keys = opt['keys'].split(',') if opt['keys'] else pg.evaluate('() => window.__clab.keys')
     tag = '-before' if 'before' in opt['query'] else ''
     sz = '-%dx%d' % (W, H)
@@ -78,11 +80,11 @@ with sync_playwright() as p:
               print(k, 'motions done')
           if opt['fight']:
               pg.evaluate('(k) => { window.__battle = null; window.__clab.start(k, { auto: "careless" }); }', k)
-              pg.wait_for_function("window.__battle && window.__battle.state === 'battle'", timeout=600000, polling=250)
+              pg.wait_for_function("window.__battle && window.__battle.state === 'battle'", timeout=300000, polling=250)
               pg.evaluate('() => { window.__battle.turbo = 2; }')
               t0 = pg.evaluate('() => window.__battle.t')
               for at in [float(x) for x in opt['fight'].split(',')]:
-                  pg.wait_for_function("(t) => !window.__battle || window.__battle.t >= t || window.__battle.state === 'over'", arg=t0 + at, timeout=900000, polling=100)
+                  pg.wait_for_function("(t) => !window.__battle || window.__battle.t >= t || window.__battle.state === 'over'", arg=t0 + at, timeout=300000, polling=100)
                   if pg.evaluate("() => !window.__battle || window.__battle.state === 'over'"):
                       break
                   pg.evaluate('() => { window.__battle.turbo = 0; }'); pg.wait_for_timeout(250)
@@ -90,10 +92,9 @@ with sync_playwright() as p:
                   d = pg.evaluate('() => window.__battle.drawn')
                   print(k, 'fight at %ds:' % at, d.get('triangles'), 'triangles,', d.get('calls'), 'draw calls')
                   pg.evaluate('() => { window.__battle.turbo = 2; }')
-              pg.evaluate('() => { if (window.__battle) window.__battle.turbo = 40; }')
-              pg.wait_for_function('() => !window.__clab.busy', timeout=900000, polling=500)
+              fresh()      # the next creature on a fresh page (a fight is not waited out: only its pictures are wanted)
       except Exception as e:
-        print(k, 'FAILED:', str(e)[:300])
+        print(k, 'FAILED:', str(e)[:300]); fresh()
     if 'row' in flags:
         hs = pg.evaluate('(ks) => window.__clab.row(ks)', keys)
         pg.screenshot(path=os.path.join(out, 'row%s%s.png' % (tag, sz)))

@@ -85,7 +85,12 @@ for (const k of keys) {
     const bad = worst > opt.limit;
     res[act] = { worst: +worst.toFixed(3), ok: !bad, over: over.size, folds: folds.size, where: worstAt, foldAt: foldWorst };
   }
-  out[k] = { triangles: tri, motions: res };
+  // where it stands: its lowest and highest point while standing (feet on the ground: lowest near 0)
+  m.reset(); for (let s2 = 0; s2 < 30; s2++) m.animate(0, 0, 2 + s2 / 30, 1 / 30); skin();
+  let lo = 1e9, hi = -1e9; for (let i = 0; i < n; i++) { lo = Math.min(lo, P[i * 3 + 1]); hi = Math.max(hi, P[i * 3 + 1]); }
+  m.root.updateMatrixWorld(true); const by = m.F.body.position.y + m.F.mesh.position.y;
+  out[k] = { triangles: tri, lowest: +(lo + by).toFixed(3), highest: +(hi + by).toFixed(3), motions: res };
+  console.log(`${k}: standing, its lowest point ${(lo + by).toFixed(3)} m and its highest ${(hi + by).toFixed(2)} m`);
   const fails = Object.entries(res).filter(([, r]) => !r.ok);
   console.log(`${k}: ${tri} triangles, ${motions.length} motions, ${fails.length ? fails.length + ' over ' + opt.limit : 'none over ' + opt.limit}`);
   for (const [a, r] of Object.entries(res)) console.log(`   ${a.padEnd(9)} worst ${r.worst.toFixed(2)}${r.ok ? '' : ' OVER'}  triangles over ${r.over}  folded ${r.folds}` + (r.where ? `  at ${r.where.bone}, u ${r.where.u}` : '') + (r.foldAt ? `  folds at ${r.foldAt.bone}` : ''));
