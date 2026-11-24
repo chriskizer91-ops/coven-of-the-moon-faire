@@ -7,22 +7,66 @@ November 19. Everything in this first part was written on November 24 by a sub-a
 over on Chris's word ("you can use a sub agent to do the rest of the fights conversation"). Nobody could be asked while
 it worked: every choice it made is listed under "The job's calls", each with the other choice.
 
-## November 24, later: the finishing (checks, zone 4's page, the narrator's waiting lines). IN PROGRESS
+## Report for the hub (the finishing, November 24). FILLED IN AS THE CHECKS COME: see "The last checks" below
 
-Written by a second sub-agent of the hub's, which took over the checking. Kept up to date as it goes.
+Written by a second sub-agent of the hub's, which took over the checking of the fights job. Nobody could be asked while
+it worked; its calls are marked "my call".
 
-- **Done:** `main` brought in (the maps' block before the fights' on zones 2 and 3). Zone 4's page has the fights block
-  (after the maps'). The narrator's lines that wait on the fights' events are wired in `game/people/story.js` (one
-  block marked "fights job"): `first-wisp` (the first fight waits for it, 6 s at most), `rest` (at the camp, once),
-  `not-ready` (in place of the fights' own words). `woke` was already wired there for every zone, zone 4 included.
-- **A real fault found by playing the fights in a browser, and put right** (`game/battle/start.js`): a big fight that
-  cannot be run from lost every one of its ends, not only running away. So on the land and on the lab page the knight
-  of light never stopped and walked away (the expert player lost to her after 116 turns, with her at 25% of her Life),
-  Io's answers did nothing, and the fire's first form could not stop. The simulator never had the fault.
-- **The check's fault, put right** (`tools/encounter-test.py`, part 6): the lost fight was fought 150 m from the camp,
-  where the foes are weakest. It is now fought at the spot of the land with the strongest foes.
-- **Played in a browser so far** (`tools/encounter-fights-test.py`, the expert player): zone 1 A and B, zone 2 A and
-  B, the three road stones, the night at the node, zone 3 A and B, zone 4 A and B: all won, every check good.
+### What was done
+
+- **`main` brought in** (zone 4, the maps, the star map). On zones 2 and 3 the maps' block now comes before the fights'.
+- **Zone 4's page has its fights block** (`game/pages/zone-4.html`, after the maps' block, copied from zone 3's with
+  `zone-4`). Its numbers (`game/encounters/zone-4.js`) were checked against the land as built: the camp's spot is the
+  page's own start at the frozen camp (the fire 7 m east of it is inside the camp's 40 m), the inn's rest is 1.6 m
+  south of the Lantern House's door, and each ground's `every` (100 to 125 m) is unchanged: the walk is 3.3 km, not the
+  3.4 the file guessed, too small a change to touch. Its hub comment at line 117 ("the fights job has not reached this
+  page") is the hub's to take out.
+- **The narrator's lines that wait on the fights are wired**, in the hub's `game/people/story.js`, one block marked
+  "fights job" (so it works for every zone at once): `first-wisp` (the first fight waits for it, 6 s at most; skipped if
+  someone is already talking), `rest` (at the camp only, once a page), `not-ready` (said in place of the fights' own
+  words, each time). `woke` was already wired there for every zone, zone 4's `z4.narrator.17` included. No word of
+  `game/talk/` or `narration.js` was changed.
+- **The great wraith is on the lab page too**, so all 17 fights can be tried there.
+
+### What I had to put right
+
+1. **A real fault, found only by playing in a browser** (`game/battle/start.js`): a big fight that cannot be run from
+   lost every one of its ends, not only running away. So on the land and on the lab page **the knight of light never
+   stopped** (the expert player fought her 116 turns and lost, with her at 25% of her Life), **Io's answers did
+   nothing**, and **the fire's first form could not stop**. The simulator never had the fault, so its numbers stand.
+   After the fix: the knight stopped and walked away at 40% after one answer, won in 53 turns; the fire's first form
+   stopped at 44%.
+2. **The failing check was the check's fault** (`tools/encounter-test.py`, part 6): its lost fight was fought 150 m
+   from the camp, where a level 1 party at 1 HP each can still win. It is now fought at the spot with the strongest
+   foes. The game was not wrong.
+3. **On a phone held upright the four witches' numbers in a fight ran into each other and off the panel**
+   (`game/battle/screen-layer.css`, marked "Coven"): under 480 px wide the panel of the four takes more of the width,
+   and an MP may go under its HP. This is in every fight on every zone page. Seen fixed in a picture at 412 by 880.
+4. **The lab page's buttons on a phone**: Watch fell onto a row of its own with the list showing through. Now the level
+   is one row and Play and Watch sit side by side under it, on a solid ground.
+5. `tools/encounter-test.py` now also checks zone 4's two big fights on the land (the great bramble sets the story's
+   flag `bramble`; the fire's two forms with the coven's moment `between` played between them, and the story moves
+   on) and the narrator's waiting lines. `tools/encounter-look.py --land` now takes every big fight's button and a
+   road stone's.
+
+### The 17 fights, played to their end in a browser (`tools/encounter-fights-test.py`, the expert player)
+
+All 17 won, every check passed, 0 page errors: zone 1 A and B, zone 2 A and B, the three road stones, the night at
+the node, zone 3 A and B, zone 4 A and B, the great wraith (51 turns), the knight of light (53 turns, stopped at 40%,
+answered once), the fire's first form (stopped at 44%), the fire's second form (ended by Kore's Sealed Fate), the great
+bramble (40 turns). Each took 1 to 16 minutes here.
+
+### The pictures (looked at, every one)
+
+Made again with (from the working copy, after `python3 tools/build.py game/pages/fights-lab.html`):
+`python3 tools/encounter-look.py builds/fights-lab.html <folder>` and the same with `--size 412x880`, then
+`python3 tools/hub/sheet.py <folder>` (a laptop sheet; for the phone's tall pictures it squashes them). The land's
+buttons: `python3 tools/encounter-look.py builds/zone-N.html <folder> --land` (and `--size 412x880`).
+
+What they show: every stand-in is a plain dark shape with two pale eyes, readable, sized for its kind. On the laptop
+the battle's camera often stands the foes at the right edge, so a big one (zone 1 A, zone 3 A, the fire) is cut by
+the edge in the opening seconds: this is the battle's own framing (the wraiths too), not the stand-ins'; left as it
+is. The knight wears Halcyon's model, the fire Noctara's (stand-ins). Nothing covers the middle of a phone's screen.
 
 ## November 24: step 4, and fights on zones 2, 3 and 4
 
