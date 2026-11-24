@@ -35,14 +35,15 @@ above the model, front, side, back), `<key>-stand-1280x720.webp` and `-412x880` 
 `python3 tools/peak-look.py builds/peak-creatures-lab.html <folder> --sheet game/battle/models/m7/wickstoat/src/sheet-wickstoat-reference.webp wickstoat --sheet game/battle/models/m7/hoarmantle/src/sheet-hoarmantle-reference.webp hoarmantle --stand --strip --fight 4,8`
 (add `--size 412x880` for the phone). The lab page: `builds/peak-creatures-lab.html` (16.6 MB, nothing fetched).
 
-**Checked:** both build and draw with 0 page errors; both fought in their slots with no screen; heights and triangles
-above. **Not checked:** motion and frame rate (no screen here; the page shows its own), the phone in Chris's hand,
+**Checked:** both build and draw with 0 page errors; both fought in their slots with no screen (the Hoarmantle's long
+fight was pictured at 4 and 8 seconds, not played to its end); heights and triangles above; `node
+tools/encounter-balance.mjs` with both slots as now: "every target met" (zone 4, A and B on: -1.4 fights). **Not checked:** motion and frame rate (no screen here; the page shows its own), the phone in Chris's hand,
 zone 4's own page with them (built but not walked), Glint being stronger with more sparks (only its flash is).
 
 **For the hub:** (1) merge job/creatures first, then this branch: it adds one marked block to `zone-4.html` and to
 `fights-lab.html` loading m7-foe.js and the decoder; if the creatures job also adds them, keep one copy. (2) slots.js
-(zone 4 A and B, B now on) and words.js changed (fights job's files, as the brief asked); run
-`node tools/encounter-balance.mjs` after merging. (3) `makePeakFoe` wraps `makeM7Foe` for the spines, sparks and
+(zone 4 A and B, B now on) and words.js changed (fights job's files, as the brief asked); it says "every target met" here; run it again
+after merging. (3) `makePeakFoe` wraps `makeM7Foe` for the spines, sparks and
 breath; a hook in m7-foe.js would let it be one maker. (4) creatures-lab.html still puts Briarmaw in zone 4 B on its
 own page; harmless.
 
