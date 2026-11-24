@@ -99,7 +99,28 @@ Branch: job/journey      Updated: November 24, 2026
 
 ## What was checked, and how
 
-- (being filled in as the last checks run)
+- **`python3 tools/journey-test.py builds`: 44 checks, all good, 0 page errors** (about 7.5 minutes here). One browser
+  with storage of its own, thrown away at the end, so nothing is left behind; the pages opened with `?journeytest`
+  (the save is real; the flight is flown on its own test handle). Its six parts:
+  - A: a new game on zone 1 reaches Wickhollow only; at the foot of the gangway "Board the ship" (150 by 48 px);
+    pressed before the story's end, one line ("The Grey Hat won't fly on until his lamps are home.") and no map;
+    story set to "leaving"; boarding offers the Warm Roads only; Set course; zone 2's page opens and the flight
+    starts with no world under it, in the Skiff; the raiders come and the narrator's and the Grey Hat's "flight" lines
+    are said; then the "flight-after" lines; zone 2's story counts the four as heard; the landing's lines begin; the
+    slot says zone 2; reached: Wickhollow and the Warm Roads; the Cutter lies at the Warm Roads with her button.
+  - B: zone 1's page opened again (Continue) opens zone 2's, with no flight.
+  - C: on zone 2, story not done: she says why, offers Wickhollow only; that flight lost (sunk on the test handle):
+    back at the Warm Roads, 0.0 m from where she boarded, with "The crew brought her home to The Warm Roads. Nothing
+    was lost."; the slot still says zone 2.
+  - D: a flight back to Wickhollow: no flight lines; Io on the jetty's pier (8.9 m south of its middle); slot zone 1.
+  - E: zone 1 to zone 2 again (no lines the second time), zone 2's story set to its end, boarding offers Wickhollow and
+    the northern wilds; zone 3's four flight lines; slot zone 3; the Cutter at the northern camp, not on the slip;
+    the Grey Hat moved to the slip: she is on the slip and not at the camp; there she will not fly ("She is up on the
+    slip. She won't fly until the refit is done.").
+  - F: the front door: the name, two buttons ("Carry on · Save 1 · Zone 3 · part 2 of 5 · level 1", "New game"),
+    Carry on opens zone 3's page.
+- The phone trial: both pages in a browser with no screen, at 412 by 880 and 1280 by 720: YES, YES, YES; way back works.
+- The small folk: `game/pages/journey-small-folk.html`, before and after, numbers above.
 
 ## What was NOT checked
 
@@ -109,12 +130,43 @@ Branch: job/journey      Updated: November 24, 2026
 
 ## Unfinished
 
-- (being filled in)
+- Zone 4 is not joined (it came into `main` after this branch began; see For the hub).
+- The way home after zone 4 (the last flight and the Faire ending on zone 1's page): not built.
+- The Brig is not baked (none of this branch's pages shows her). Zone 4's page takes her by itself if her file is
+  loaded: `node tools/flight-bake-ship.mjs brig` (needs `cd game/flight && npm install` once).
+- The leaving narration says the ship lifts before the player presses "Board the ship". If that reads wrong, boarding
+  could open straight after the leaving's lines: not built, a word from the hub would do it.
+- In zone 3 the flight out starts over the northern camp on the map, though she leaves from the shipyard's slip.
 
 ## For the hub
 
-- (being filled in)
+1. **Bring it in**: the branch changes, outside its own new files: one marked block in each zone page (before the
+   menu's block, so it reads the flight's note in the address before the menu's code clears the address); the one
+   line of `jester_kit.js`; the `travel/` row of `game/README.md`. Nothing in `game/menu/`, `game/maps/`, the flight's
+   code, `game/battle/`, `game/encounters/`, `game/talk/`, the people files or `story.js`: the gate is a "thing" the
+   journey adds to `W3D.THINGS[zone]` from its own file, so those files did not need touching.
+2. **Zone 4** (in `main` now): in `game/pages/zone-4.html`, before the menu's block, the same block as zone 2's with
+   `zone-4.html`, `zone-4`, `frozenCamp`, and without the four lines of the Cutter (zone 4 moors its own ship). Then in
+   `game/travel/journey-data.js` one line under `gates`: `frozenCamp: [{ place: ['<zone 4's landing place>', x, y],
+   reach: 3 }]`, beside its ship, and under `arrive`: `frozenCamp: null`. Its leaving is already understood
+   (`done`: `{ flag: 'leaving' }`, as its slip says). Its flight lines (moment "flight", `z4.narrator.01`) are said as
+   zones 2's and 3's are, with nothing more. What follows zone 4 (the flight home, the Faire ending) is a step of its
+   own.
+3. **The phone trial's answers** set one line, `opensNext` in `journey-data.js`: add the kind of address page 2 shows
+   (for example `'content:'`) if the button opened page 2 by itself on his phone.
+4. **The hub's checks on this branch's pages**: see "What was checked"; `tools/journey-test.py` joins the list.
+5. **The key `coven.story.journey`** holds the landings reached, in the slots by the menu's prefix rule. If the hub
+   would rather name it in `game/menu/menu-data.js` as a key of its own, that is one line there and one here.
+6. **The board**: the journey's row; the front door `index.html` among the pages; the phone trial sent.
+7. Commit lines here end with the attribution this session was given (Opus 5.5), not the repo's usual Fable lines.
 
 ## For Chris
 
-- (being filled in)
+- **Try the phone trial** (`trial/phone/steps.txt`): the three answers decide whether the phone can play the game page
+  to page.
+- **Which ship lies where**: the coven flies into zone 2 in the Skiff and finds the Cutter at the landing. Keep it (the
+  bigger ship is waiting for them there), or show the Skiff at zone 2 and make the refit at the shipyard the only
+  change of ship. One line of data either way.
+- **A lost flight** puts the coven back where she left, nothing lost. Or try again, or land anyway.
+- **The words**: "Board the ship", the lines for why she won't go on, the front door's line under the name ("A story
+  in four zones"): all stand-ins, in `game/travel/journey-data.js`.
