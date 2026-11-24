@@ -94,6 +94,15 @@ with sync_playwright() as p:
         pg.keyboard.press('Escape'); pg.wait_for_timeout(100)
         o1 = pg.evaluate('W3D.menu.isOpen()'); pg.click('.cm-x'); pg.wait_for_timeout(100); o2 = pg.evaluate('W3D.menu.isOpen()')
         check(o1 and not o2, 'Escape opens it again, and the × closes it')
+        fb = pg.evaluate("() => { const F = window.__fights; if (!F) return false; F.__wasBusy = F.busy; F.busy = true; return true; }")
+        if fb:
+            pg.keyboard.press('Escape'); pg.wait_for_timeout(100)
+            st = pg.evaluate("() => { const r = { open: W3D.menu.isOpen(), call: W3D.menu.open() }; __fights.busy = __fights.__wasBusy; return r; }")
+            check(not st['open'] and st['call'] is False, 'while a fight is on, the menu does not open: Escape is left to the fight, and W3D.menu.open() says false')
+        g = pg.evaluate("() => { const had = !!W3D.maps; if (!had) W3D.maps = { world: {} }; const w = W3D.maps.world || (W3D.maps.world = {}); const was = w.choosing; w.choosing = { from: 'wickhollow' }; return [had, was === undefined ? null : was]; }")
+        pg.keyboard.press('Escape'); pg.wait_for_timeout(100); o3 = pg.evaluate('W3D.menu.isOpen()')
+        pg.evaluate("([had, was]) => { if (!had) delete W3D.maps; else W3D.maps.world.choosing = was; }", g)
+        check(not o3, 'while the maps job\'s "choose where to fly" is up, Escape is left to it')
         # ---- the frame other jobs' tabs sit in ----
         api = pg.evaluate("""() => { const M = W3D.menu, log = [], out = {}; let el0 = null, ctx0 = null;
           M.addTab({ id: 'probe', label: 'Probe', order: 25, mount(el, ctx) { log.push('mount'); el0 = el; ctx0 = ctx; el.innerHTML = '<canvas width=10 height=10></canvas>'; }, unmount() { log.push('unmount'); } });

@@ -20,7 +20,8 @@
 //
 // The page calls W3D.menu.start({ page: 'zone-1.html', zone: 'zone-1' }) once, in its marked block, before its own
 // start-up script. The menu joins the page when the page says it is ready (window.__ready).
-// While a fight is on, the menu does not open and Escape is left to the fight. If someone is speaking, their voice is
+// While a fight is on, the menu does not open and Escape is left to the fight (and to the maps job's "choose where to
+// fly" while it is up). If someone is speaking, their voice is
 // paused with everything else and carries on from where it stopped when the menu closes.
 // The words are in menu-words.js; the keys and the calls in menu-data.js; the save slots in saves.js.
 (function (G) {
@@ -350,7 +351,8 @@
     if (e.key !== 'Escape' || e.repeat || !ready) return;
     if (asking) { endAsk(false); e.preventDefault(); return; }
     if (isOpen) { close(); e.preventDefault(); return; }
-    if (fighting()) return;
+    // left alone too while the maps job's full-screen "choose where to fly" is up: it uses Escape to back out
+    if (fighting() || (W3D.maps && W3D.maps.world && W3D.maps.world.choosing)) return;
     if (open()) e.preventDefault();
   });
   function start(o) {
