@@ -11,6 +11,9 @@ This is **Coven of the Moon Faire**, one game made from two: the new Envoi and M
 - This repo, `chriskizer91-ops/coven-of-the-moon-faire`, is the only one any session writes to.
 - A third read-only source, added by Chris on November 18: `chriskizer91-ops/airship-game-in-aethermoor-` (Skies of
   Aethermoor), for flying between zones. The same rules apply to it: never push to it, copy only what the game uses.
+- A fourth read-only source, added by Chris (November 23: to read; November 24: the creatures he names come over):
+  `chriskizer91-ops/aethermoor-m7-` (Aethermoor M7), for the foes he chooses. The same rules apply to it: never push
+  to it, copy only what the game uses.
 - Any other repo of Chris's is off limits until Chris adds it as a source in `docs/decisions.md`.
 
 Both old repos are heavy. Read them without downloading everything:
@@ -30,8 +33,8 @@ git -C <folder> show HEAD:<path>                 # one file
   | Column | What goes in it |
   |---|---|
   | `path_here` | where it now lives in this repo |
-  | `source_repo` | `envoi-on-the-longest-night`, `moon-faire` or `airship-game-in-aethermoor-` |
-  | `source_branch` | `main` |
+  | `source_repo` | `envoi-on-the-longest-night`, `moon-faire`, `airship-game-in-aethermoor-` or `aethermoor-m7-` |
+  | `source_branch` | `main` (the airship game and Aethermoor M7 have no `main`: the branch it was really read from) |
   | `source_commit` | the commit it was read from (short hash is fine) |
   | `source_path` | its path in the old repo |
   | `what_it_is` | a few plain words |

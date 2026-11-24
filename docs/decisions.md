@@ -13,6 +13,29 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 09:25: the seven creatures from Aethermoor M7
+
+- **Chris: the creatures to bring over.** "The rot stag and the thorn hound. And the rot warden and sapwight and
+  the briarmaw. Forge spark. Glowcap. I was picking the ones that look the best, and I would like to use Opus sub
+  agents to improve them with your instructions." So Aethermoor M7 is now a source to copy from, for these seven
+  (`CLAUDE.md`, part 1). All seven are built in M7 in full detail. Three are bosses there (Briarmaw, the Rotwarden,
+  the Rot-Stag). The Thornhound fails M7's own no-stretching check: mending it here is part of the work.
+- **Hub's call.** *One sub-agent (Opus 5.5, high), the `creatures` job, on a branch made from `job/fights`,* brings
+  them in by one shared way and makes each its best here by eight instructions: true to its M7 look (the trial came
+  out darker here); readable at night on a phone; standing right and at its true size; alive when still; every
+  move readable; nothing stretching; one small effect of its own; light enough for a phone (1 MB each, aimed at).
+- **Hub's proposal, Chris's to change** (each is one line of data). *Where each lives:* zone 1, the Rotwarden (A,
+  the heavy one) and the Glowcap (B, the swarm); zone 2, the forge-spark (A, the one that weakens, on the Ember
+  Line) and the Thornhound (B, the pair); zone 3, the Sapwight (A, the armoured one) and the Rot-Stag (B, the
+  leaper, on the moor); zone 4, Briarmaw (B, the big one, by the pass), with slot A left a stand-in and switched
+  off, since no pick is a creature of the frozen peaks. *When beaten, a creature is let go, not killed.*
+- **For Chris to weigh:** "the Rotwarden" is a foe's name in a game whose Wardens are the people the coven saves.
+- **Hub's call.** *`assets/INDEX.csv` names the branch a file was really read from* where a source has no `main`
+  (the airship game, Aethermoor M7). `CLAUDE.md`'s table says so now.
+- **What happened at 09:25, plainly:** the machine restarted and ended both Opus sub-agents mid-work (the journey,
+  the fights' checking). Their work was committed up to 08:58 and 08:53. Both were taken up again from their saved
+  state at 09:29.
+
 ## November 24, 2026, 07:58: Opus 5.5 for most tasks; the townsfolk's bodies wait; the joining starts
 
 - **Chris: his week's Fable usage is at 74%.** "You can use Opus 5.5 effort high for most tasks. You are the

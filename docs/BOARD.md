@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 08:48, by the hub.
+Last updated: November 24, 2026, 09:29, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -30,6 +30,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | **Proposal in, in `main` (November 24, 06:25):** `docs/lore/sky-names-proposal.md`. The short page went to Chris. **Waiting on his yes or his changes** |
 | `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | **First part done, in `main` (November 24, 07:42):** 23 people, their shapes, guides and the words for 46 pictures; the folder went to Chris. **On hold (07:58):** Chris thought the people's models were already made, and they are (the eleven). The townsfolk keep the bodies they have for the first draft; the kit waits unless he asks. The later steps are in `docs/slips/townsfolk.md` |
 | `journey` | `job/journey` | The joining: the ship as the gate, the map to choose on, the next page playing the flight in, one save across the pages, a small front door, the ships at zones 2 and 3, the fix for small people standing bent. First: a two-page trial for Chris's phone | **a sub-agent (Opus 5.5, high)** | **Started November 24, 08:01.** Its text is not on the board; the plan it builds is "How the pieces join", below |
+| `creatures` | `job/creatures` (made from `job/fights`) | Chris's seven creatures from Aethermoor M7 (the Rot-Stag, the Thornhound, the Rotwarden, the Sapwight, Briarmaw, the forge-spark, the Glowcap) brought into the battle and each made its best here, by the hub's eight instructions; then into the slots on the hub's proposal | **a sub-agent (Opus 5.5, high)** | **Started November 24, 09:29.** Its text is not on the board: `docs/decisions.md`, November 24, 09:25, has the instructions and the proposal in short |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
 | the hub | `job/zone-1`, `main` | Takes in Chris's narrator lines; brings each job into `main`; then joins the journey (below); then zone 4 | this conversation | |
 
@@ -130,7 +131,10 @@ the townsfolk in bodies of their own, and the stars and planets named.**
    Zone 4 is being built to fit those words, so none should need making twice.
 3. **Zone 4's narrator lines:** 18, the list went to him on November 24 (`narration-recording-order-z4.txt`). They
    are proposals: he may change any before recording.
-4. **The five foe questions** at the end of `docs/foes-from-m7.md`. Until he answers, every creature slot stays a
+4. **The foes: he has picked seven** (November 24, 09:25; the `creatures` job is bringing them in). Still his to
+   say: where each lives (the hub's proposal is in `docs/decisions.md`), an eighth for zone 4's peaks if he wants
+   one, what a beaten creature does, and the name "the Rotwarden" beside the story's Wardens. As asked before:
+   the five foe questions at the end of `docs/foes-from-m7.md`. Until he answers, every creature slot stays a
    stand-in. The fights job is trying one M7 creature in this game's battle, outside the repo, to learn what
    bringing one in takes.
 5. ~~Two pictures for each townsperson.~~ **Not needed for the first draft** (07:58: he thought the people's
