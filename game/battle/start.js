@@ -23,8 +23,12 @@
 //   auto        'careless', 'sensible' or 'expert': the battle's own players choose every move (for tests)
 //   flipbook    start with the Flipbook look
 //   kind        'wild' (the default), or a story fight: 'greatWraith' (gate 5) or 'dawnroost' (gate 10), which bring their own foes
+//               or 'story' with story: { arena, stand, foes: [{ id, level, hpMul, dmgMul }], ends, canFlee, words, ... }: a big
+//               fight given as data (a zone's file, game/encounters/zone-N.js)
+//   words       a wild fight's own words: { intro, attack, attackMany, win, lose } (the slots' stand-ins, a fight by a thing)
 //   xp          the party's experience toward its next level (for the end card's bar and its level-up)
-//   reward      what the fight's experience and shards are worth, against the battle's own (1: as they are)
+//   reward      what the fight's experience and shards are worth, against the foes' plain numbers in rules.js (1: as they
+//               are written there). Left out: the battle's own (a wild fight 1.75, a story fight 1)
 //   tag         anything, handed back unchanged
 // The fight covers the page (a layer of its own, over everything) and answers when the player leaves its end card.
 // While it runs, the page that called it should stop drawing its own picture. Needs, loaded before it, everything
@@ -49,11 +53,15 @@
     let pack = o.foes === 'roll' || !o.foes ? null : o.foes.slice();
     const opts = { arena: true, band, place: o.arena || undefined, foeLevel: o.foeLevel, weather: o.weather };
     if (pack) opts.pack = pack;
+    // (step 4) a big fight given as data (kind: 'story', story: {...}: game/battle/fights.js), and a meeting's own words
+    if (o.story) opts.story = o.story; if (o.words) opts.words = o.words;
     // kind: a wild fight (the default), or one of the story's fights: 'greatWraith' (gate 5), 'dawnroost' (gate 10)
     const cfg = window.GameFights.config(o.kind || 'wild', P, opts);
     if (o.canFlee === false) { const f0 = cfg.fight; cfg.fight = () => Object.assign(f0(), { ends: {} }); }
     // reward: what the fight's experience and shards are worth here, against the battle's own (the land's zones set it)
-    if (o.reward != null) { const f1 = cfg.fight; cfg.fight = () => { const f = f1(); f.reward = (f.reward || 1) * o.reward; return f; }; }
+    // (step 4: it TAKES THE PLACE of the battle's own worth for a wild fight, rules.js WILD_REWARD 1.75; until then it was
+    // multiplied by it, so a fight on the land gave 1.75 times what the zone's file and the slip said)
+    if (o.reward != null) { const f1 = cfg.fight; cfg.fight = () => { const f = f1(); f.reward = o.reward; return f; }; }
     let bag = null; { const f2 = cfg.fight; cfg.fight = () => { const f = f2(); bag = Object.assign({}, f.herbs || {}); return f; }; }
     // its own layer, with the stage the battle screen draws on
     const layer = document.createElement('div');

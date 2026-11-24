@@ -771,6 +771,8 @@
       else if (e.t === 'catch') { word(who, 'Caught!', 'heat'); }
       else if (e.t === 'taunt') { word(who, 'Taunt ×' + e.n, 'heat'); }
       else if (e.t === 'buff') { word(to, e.name, 'heat'); }
+      // Coven (step 4): a word over a fighter (or over every witch) for a rule the new foes bring: the words are data (game/encounters/words.js)
+      else if (e.t === 'say') { const w = ((window.COVEN_FIGHT_WORDS || {}).battle || {})[e.key]; if (w) { if (e.all) { for (const f of living('hero')) word(f, w.word, w.cls); } else if (to || who) word(to || who, w.word, w.cls); if (w.note && !S['said-' + e.key]) { S['said-' + e.key] = true; UI.note(w.note, 2.8); } } }
       else if (e.t === 'cradle') { word(who, 'Bramble Cradle'); }
       // ---- Coven: Europa's chaos ----
       else if (e.t === 'cloth') { /* her move shows it */ }
