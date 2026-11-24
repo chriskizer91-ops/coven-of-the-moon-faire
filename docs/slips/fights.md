@@ -7,6 +7,23 @@ November 19. Everything in this first part was written on November 24 by a sub-a
 over on Chris's word ("you can use a sub agent to do the rest of the fights conversation"). Nobody could be asked while
 it worked: every choice it made is listed under "The job's calls", each with the other choice.
 
+## November 24, later: the finishing (checks, zone 4's page, the narrator's waiting lines). IN PROGRESS
+
+Written by a second sub-agent of the hub's, which took over the checking. Kept up to date as it goes.
+
+- **Done:** `main` brought in (the maps' block before the fights' on zones 2 and 3). Zone 4's page has the fights block
+  (after the maps'). The narrator's lines that wait on the fights' events are wired in `game/people/story.js` (one
+  block marked "fights job"): `first-wisp` (the first fight waits for it, 6 s at most), `rest` (at the camp, once),
+  `not-ready` (in place of the fights' own words). `woke` was already wired there for every zone, zone 4 included.
+- **A real fault found by playing the fights in a browser, and put right** (`game/battle/start.js`): a big fight that
+  cannot be run from lost every one of its ends, not only running away. So on the land and on the lab page the knight
+  of light never stopped and walked away (the expert player lost to her after 116 turns, with her at 25% of her Life),
+  Io's answers did nothing, and the fire's first form could not stop. The simulator never had the fault.
+- **The check's fault, put right** (`tools/encounter-test.py`, part 6): the lost fight was fought 150 m from the camp,
+  where the foes are weakest. It is now fought at the spot of the land with the strongest foes.
+- **Played in a browser so far** (`tools/encounter-fights-test.py`, the expert player): zone 1 A and B, zone 2 A and
+  B, the three road stones, the night at the node, zone 3 A and B, zone 4 A and B: all won, every check good.
+
 ## November 24: step 4, and fights on zones 2, 3 and 4
 
 ### What it built
