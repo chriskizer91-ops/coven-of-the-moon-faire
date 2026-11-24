@@ -105,6 +105,12 @@ It builds `builds/creatures-lab.html`, takes every picture into `builds/creature
 and in a fight) and `sheets/row-1280x720.png` (all six standing in a row beside a witch). `builds/` is not kept in
 git, so the sheets are not in the repo.
 
+**Made on November 24, 14:30 to 15:00** (after Part 3, from the final page): on the machine this job ran on they are in
+the job's scratch folder (`work/creatures/shots/r4/sheets/`: `glowcap.jpg`, `forge-spark.jpg`, `sapwight.jpg`,
+`rotwarden.jpg`, `rotstag.jpg`, `thornhound.jpg`, `row-1280x720.png`, `row-412x880.png`). A new hub without that
+folder makes them again with the command above. All fights there were drawn from the slots as committed: 0 page
+errors. In the phone fight pictures the battle's camera is sometimes on the coven, not the creature.
+
 ### What is not checked
 
 - **Nothing here can show motion or a frame rate.** Every picture is a still from a browser with no graphics card.
