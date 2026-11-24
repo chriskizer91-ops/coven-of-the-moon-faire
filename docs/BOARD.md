@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 10:53, by the hub.
+Last updated: November 24, 2026, 11:34, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -29,7 +29,7 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | `fights` | `job/fights` | The rest of the fights job: step 4 (two slots for a new creature in each zone, the whole game's levels); fights on zones 2 and 3; zone 4's fights; a trial of one M7 creature outside the repo | a sub-agent (Fable 5.2, high) built it and was stopped at 08:48 to save Chris's usage; **a second sub-agent (Opus 5.5, high) is finishing the checking** | **Built and pushed, NOT in `main`.** 14 of its 16 new fights were never played in a browser, nobody has seen them in a picture, zone 4's page has no fights block, one check fails. The second sub-agent does all of that, then the hub brings it in |
 | `sky-names` | `job/sky-names` | A lore job: names proposed for the three stars, the four other planets, the band of crystal and every other unnamed thing on the star map, with each card's words. A proposal until Chris says yes | a sub-agent (Fable 5.2, high) | **Proposal in, in `main` (November 24, 06:25):** `docs/lore/sky-names-proposal.md`. The short page went to Chris. **Waiting on his yes or his changes** |
 | `townsfolk` | `job/townsfolk` | Bodies of their own for the towns' people (zones 1 to 4). His part is two pictures a person, as for the eleven fair folk | a sub-agent (Fable 5.2, high) | **First part done, in `main` (November 24, 07:42):** 23 people, their shapes, guides and the words for 46 pictures; the folder went to Chris. **On hold (07:58):** Chris thought the people's models were already made, and they are (the eleven). The townsfolk keep the bodies they have for the first draft; the kit waits unless he asks. The later steps are in `docs/slips/townsfolk.md` |
-| `journey` | `job/journey` | The joining: the ship as the gate, the map to choose on, the next page playing the flight in, one save across the pages, a small front door, the ships at zones 2 and 3, the fix for small people standing bent. First: a two-page trial for Chris's phone | **a sub-agent (Opus 5.5, high)** | **Started November 24, 08:01.** Its text is not on the board; the plan it builds is "How the pieces join", below |
+| `journey` | `job/journey` | The joining: the ship as the gate, the map to choose on, the next page playing the flight in, one save across the pages, a small front door, the ships at zones 2 and 3, small folk standing straight | **a sub-agent (Opus 5.5, high)** | **First part done, in `main` (November 24, 11:34):** zones 1 to 3 are one journey. **Second part started:** zone 4 joined, the flight home, the Faire ending on zone 1's page, the bottom of an upright phone, then every check on `main`'s state |
 | `creatures` | `job/creatures` (made from `job/fights`) | Six creatures from Aethermoor M7 (the Rot-Stag, the Thornhound, the Rotwarden, the Sapwight, the forge-spark, the Glowcap; Briarmaw, his seventh pick, is left out on his word of 10:52) brought into the battle and each made its best here, by the hub's eight instructions; then into the slots on the hub's proposal | **a sub-agent (Opus 5.5, high)** | **Started November 24, 09:29.** Its text is not on the board: `docs/decisions.md`, November 24, 09:25, has the instructions and the proposal in short |
 | `peak-creatures` | `job/peak-creatures` (made from `job/creatures`) | Two new creatures for the frozen peaks, built from Chris's character sheets the way M7 builds one: the Wickstoat (zone 4, slot A) and the Hoarmantle (zone 4, slot B), each held to the same eight instructions as the seven | **a sub-agent (Opus 5.5, high)** | **Started November 24, 10:48.** The sheets are kept outside the repo until it files them. `docs/lore/zone-4-creatures-proposal.md` says what each is |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
@@ -128,7 +128,9 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 
 1. ~~The five narrator lines of zones 2 and 3.~~ **Done:** he sent them on November 24 and they are in. Every
    narrator line of zones 1 to 3 has a voice now, 48 of 48.
-2. **Zone 4's 144 spoken lines** (he is making them now, November 24, 06:58), recorded from `game/talk/recording/z4-recording-order.txt` (sent November 24).
+2. **The held Warden's two lines** (`z4-warden.zip`: `z4.warden.01`, `z4.warden.02`), and whether that Warden is a
+   man or a woman (the cast says a man's voice, the story notes say "she"). The other 142 are in (November 24, 11:06).
+   As it stood: **zone 4's 144 spoken lines** (he is making them now, November 24, 06:58), recorded from `game/talk/recording/z4-recording-order.txt` (sent November 24).
    Zone 4 is being built to fit those words, so none should need making twice.
 3. **Zone 4's narrator lines:** 18, the list went to him on November 24 (`narration-recording-order-z4.txt`). They
    are proposals: he may change any before recording.
@@ -160,6 +162,27 @@ the townsfolk in bodies of their own, and the stars and planets named.**
    the joining in and checked, one set of builds sent): `flight.html` again (does a thumb held on Fire aim as he expects; its
    frame rate); whether the phone keeps a save between visits (the Save tab's "visit N"); whether the phone opens
    a page of 100 MB at all; how the narrator sounds the B way.
+
+### Zones 1 to 3 are one journey; zone 4 speaks (November 24, 11:34)
+
+- **The journey, in `main`** (`docs/slips/journey.md`): a "Board the ship" button by the ship at each landing; before a
+  zone's story is done she takes the coven only to landings already reached; then the 3D map opens with the next
+  one open; the next zone's page plays the flight in before its world is built, with the Grey Hat's and the
+  narrator's flight lines; a lost or turned-back flight puts the coven back where they left; the menu's slot goes
+  from page to page; `game/pages/index.html` is the front door (the name, "Carry on" for each slot, "New game").
+- **Checked on its own branch,** not run again on `main`: `tools/journey-test.py` 44 checks; `zone-test` 28, 21, 25;
+  `people-test` 134; `story-test` 61 and 64; `things-test` 40; `menu-test --only A` 58; `maps-test` 108;
+  `flight-test` 64. Built pages: zone 1 117 MB, zone 2 107 MB, zone 3 104 MB.
+- **Small folk stand straight** (one line in `game/witches/kore/jester_kit.js`): knees from 65 to 93 degrees up to
+  164 to 172, where 180 is straight. Shown on a small page only: the in-zone pictures were unusable.
+- **Zone 4's recordings are in: 142 of 144.** The held Warden's two lines (`z4.warden.01`, `.02`) did not come.
+  `story-test` on zone 4: 74 good, 2 failed, both those two lines.
+- **Rough, known:** on an upright phone "Board the ship" and "Go on" lie over the frame-rate and level pills (being
+  put right in the second part); the leaving narration says the ship lifts before Board is pressed; zone 3's
+  flight out starts over the northern camp though she leaves from the slip.
+- **Chris's to say:** which ship lies where. Today: the Skiff at Wickhollow, the Cutter at zones 2 and 3 (zone 3's
+  recorded lines say she is refitted, "same old ship"; the Brig, 25 m, does not fit the 17 m slip). His word of
+  November 23 was that the four ships are the four travel upgrades. And the phone trial (`trial/phone/`): no answer yet.
 
 ### The fights are built, and one M7 creature ran in this game's battle (November 24, 08:48)
 
