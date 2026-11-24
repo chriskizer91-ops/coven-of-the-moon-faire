@@ -23,12 +23,12 @@ BONES, _weigh, _rigid = make(
 def is_helper(n): return n in ('neck_base', 'tail_root') or n.endswith(('_blade', '_haunch'))
 HOLLOW = 0.78
 def in_hollow(P):
-    z = P[:, 2]; fr = (900 + 170 * (1 - np.clip((z - 0.35) / 0.25, 0, 1)) ** 2 - MID) * S; rear = (402 - MID) * S
-    a = (178 - 48 * np.clip((z - 0.3) / 1.4, 0, 1)) * S - 0.11; b = (fr - rear) / 2 - 0.11
+    z = P[:, 2]; fr = (900 + 85 * (1 - np.clip((z - 0.35) / 0.25, 0, 1)) ** 2 - MID) * S; rear = (402 - MID) * S
+    a = (186 - 72 * np.clip((z - 0.15) / 1.55, 0, 1) ** 0.8) * S - 0.16; b = (fr - rear) / 2 - 0.16
     u = np.abs(P[:, 0]) / a; v = np.abs(P[:, 1] - (fr + rear) / 2) / b
     return ((u ** 2.4 + v ** 2.4) < 1) & (z < HOLLOW + 0.05)
 
-REACH = {'upper': 0.2, 'lower': 0.16, 'paw': 0.16}
+REACH = {'upper': 0.16, 'lower': 0.12, 'paw': 0.1}
 def weigh(D, P, idx):
     D = _weigh(D, P, idx)
     x, y, z = P[:, 0], P[:, 1], P[:, 2]
@@ -43,7 +43,8 @@ def weigh(D, P, idx):
     for e in ('head',):
         D[:, idx[e]] += np.where(y < (975 - MID) * S, 1000.0, 0.0)
     for e in ('neck_base', 'neck'):
-        D[:, idx[e]] += np.where(y < (900 - MID) * S, 1000.0, 0.0)
+        D[:, idx[e]] += np.where((y < (900 - MID) * S) | (z < 0.62), 1000.0, 0.0)
+    D[:, idx['head']] += np.where(z < 0.55, 1000.0, 0.0)
     return D
 
 def rigid(kind, P, idx):

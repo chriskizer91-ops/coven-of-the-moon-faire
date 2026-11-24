@@ -58,16 +58,16 @@
   function wickstoat(f, def, meta) {
     const P = def.peak, F = f.F, root = f.root, S = P.sheet;
     const toS = (px, py, xo) => [(xo || 0) * S.m, (px - S.mid) * S.m, (S.ground - py) * S.m];
-    const ice = new T.MeshPhongMaterial({ color: P.ice, specular: 0xe8f6ff, shininess: 90, flatShading: true, transparent: true, opacity: P.iceOpacity, depthWrite: false, side: T.DoubleSide, emissive: new T.Color(P.iceGlow), skinning: false });
+    const ice = new T.MeshPhongMaterial({ color: P.ice, specular: 0x6a8aa0, shininess: 60, flatShading: true, transparent: true, opacity: P.iceOpacity, depthWrite: false, side: T.DoubleSide, emissive: new T.Color(P.iceGlow), skinning: false });
     const spines = [];
     P.spines.forEach((s, i) => {
       const base = toModel(toS(s.px, s.py + s.sink));
       const o = hang(F, meta, s.bone, base);
       const m = new T.Mesh(spineGeo(s.len * S.m, s.wide * S.m, (s.tall + s.sink) * S.m), ice); m.renderOrder = 2; o.add(m);
-      const core = new T.Mesh(new T.OctahedronGeometry(s.tall * S.m * 0.16, 0), new T.MeshBasicMaterial({ color: P.spark, transparent: true, blending: T.AdditiveBlending, depthWrite: false }));
+      const core = new T.Mesh(new T.OctahedronGeometry(s.tall * S.m * 0.11, 0), new T.MeshBasicMaterial({ color: P.spark, transparent: true, blending: T.AdditiveBlending, depthWrite: false }));
       core.position.set(0, (s.tall * 0.42 + s.sink) * S.m, -s.len * S.m * 0.08); core.renderOrder = 3; o.add(core);
       const halo = new T.Sprite(new T.SpriteMaterial({ map: dotTex(), color: P.spark, transparent: true, blending: T.AdditiveBlending, depthWrite: false }));
-      halo.position.copy(core.position); halo.scale.setScalar(s.tall * S.m * 1.3); halo.renderOrder = 3; o.add(halo);
+      halo.position.copy(core.position); halo.scale.setScalar(s.tall * S.m * 0.7); halo.renderOrder = 3; o.add(halo);
       spines.push({ o, core, halo, glow: 0, ph: i * 0.7 });
     });
     const motes = pool(40, P.mote.size, true); root.add(motes.pts);
@@ -101,8 +101,8 @@
       spines.forEach((s, i) => {
         const on = i < lit, pulse = 0.82 + 0.18 * Math.sin(time * P.pulse + s.ph);
         s.glow = Math.max(on ? 1 : 0, s.glow - dt * 2); const g = s.glow * pulse * boost * fade;
-        s.core.visible = s.halo.visible = g > 0.01; s.core.material.opacity = Math.min(1, g); s.halo.material.opacity = Math.min(1, g * 0.85);
-        s.halo.scale.setScalar(def.peak.spines[i].tall * S.m * (1.2 + 0.5 * flash) * (on ? 1 : 0.6));
+        s.core.visible = s.halo.visible = g > 0.01; s.core.material.opacity = Math.min(1, g); s.halo.material.opacity = Math.min(1, g * 0.45);
+        s.halo.scale.setScalar(def.peak.spines[i].tall * S.m * (0.7 + 0.6 * flash) * (on ? 1 : 0.6));
       });
       motes.update(dt, 1);
     };

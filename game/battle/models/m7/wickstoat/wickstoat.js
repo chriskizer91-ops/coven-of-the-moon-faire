@@ -34,10 +34,10 @@ window.M7.add('wickstoat', {
       { px: 730, py: 465, tall: 38, len: 46, wide: 33, sink: 8, bone: 'spine' },
       { px: 671, py: 470, tall: 33, len: 42, wide: 30, sink: 8, bone: 'hips' },
       { px: 615, py: 478, tall: 28, len: 38, wide: 27, sink: 8, bone: 'hips' },
-      { px: 562, py: 487, tall: 24, len: 34, wide: 24, sink: 7, bone: 'hips' },
-      { px: 513, py: 498, tall: 20, len: 30, wide: 21, sink: 7, bone: 'hips' },
+      { px: 562, py: 487, tall: 24, len: 34, wide: 24, sink: 4, bone: 'hips' },
+      { px: 513, py: 498, tall: 20, len: 30, wide: 21, sink: 4, bone: 'hips' },
     ],
-    ice: 0x9fd8ec, iceOpacity: 0.62, iceGlow: 0x1a2a36,
+    ice: 0x8fd0e8, iceOpacity: 0.55, iceGlow: 0x0e1820,
     spark: 0xffb84a,
     startLit: 3,          // how many it has lit when met (THE JOB'S CALL: the sheet shows all nine; 0 was the other choice)
     pulse: 1.3,           // the sparks' slow pulse (a turn a second, about)

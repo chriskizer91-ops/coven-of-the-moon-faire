@@ -30,9 +30,10 @@ LEGS = {   # across px, then side-view joints: shoulder/hip, elbow/stifle, knee/
 LEGS = {k: [p(*j) for j in v] for k, v in LEGS.items()}
 EYES = [p(s * 42, 1046, 492) for s in (1, -1)]
 NOSE = p(0, 1110, 552)
-REAR = (402 - MID) * S             # the curtain's back
+def REAR(z):                       # the curtain's back: 402 px low down, rounding forward over the rump
+    return (402 + 70 * np.clip((z - 0.75) / 0.4, 0, 1) ** 2 - MID) * S
 def FRONT(z):                      # its front: under the chin (1070 px) low down; behind the horns (900 px) higher up
-    return (900 + 170 * (1 - np.clip((z - 0.35) / 0.25, 0, 1)) ** 2 - MID) * S
+    return (900 + 85 * (1 - np.clip((z - 0.35) / 0.25, 0, 1)) ** 2 - MID) * S
 SKIRT_C = (735 - MID) * S          # (the middle, for the hem's pattern)
 HOLLOW_TOP = 0.78                  # how high the hollow under the hair reaches (the belly)
 
@@ -56,11 +57,11 @@ def build(K):
         return d
 
     def half_w(z):          # the curtain's half width (front view): 130 px under the hump, 178 px at the hem
-        return (178 - 48 * np.clip((z - 0.3) / 1.4, 0, 1)) * S
+        return (186 - 72 * np.clip((z - 0.15) / 1.55, 0, 1) ** 0.8) * S
     def plan(P, inset=0.0):
         """the curtain's footprint: a rounded oval, its front set back behind the head higher up, inset by `inset` m"""
-        fr = FRONT(P[:, 2]); c = (fr + REAR) / 2
-        a = half_w(P[:, 2]) - inset; b = (fr - REAR) / 2 - inset
+        fr = FRONT(P[:, 2]); rr = REAR(P[:, 2]); c = (fr + rr) / 2
+        a = half_w(P[:, 2]) - inset; b = (fr - rr) / 2 - inset
         u = np.abs(P[:, 0]) / a; v = np.abs(P[:, 1] - c) / b
         q = (u ** 2.4 + v ** 2.4) ** (1 / 2.4)
         return (q - 1) * np.minimum(a, b)
@@ -80,24 +81,23 @@ def build(K):
 
     def base_sdf(P):
         """the body under its snow: the hump, the back, the rump, the curtain, the head"""
-        d = ell(P, p(0, 830, 345), r(135, 150, 115))                                   # the hump, high
-        d = smin(d, ell(P, p(0, 640, 395), r(150, 180, 115)), 0.14)                   # the back
-        d = smin(d, ell(P, p(0, 480, 480), r(150, 90, 120)), 0.14)                    # the rump
+        d = ell(P, p(0, 830, 345), r(112, 150, 115))                                   # the hump, high
+        d = smin(d, ell(P, p(0, 640, 395), r(122, 180, 115)), 0.14)                   # the back
+        d = smin(d, ell(P, p(0, 500, 470), r(125, 90, 120)), 0.14)                    # the rump
         d = smin(d, cap(P, p(0, 900, 420), p(0, 1010, 505), 100 * S, 70 * S), 0.12)    # the neck, down to the head
         top = d
         # the curtain hangs from the back to the hem: its footprint, above the hem, below the back's shoulders
         sk = np.maximum(plan(P), hem(P) - P[:, 2])
-        sk = np.maximum(sk, P[:, 2] - 1.05)
+        sk = np.maximum(sk, P[:, 2] - 1.15)
         d = smin(top, sk, 0.25)
         d = smin(d, head_sdf(P), 0.07)
         # the beard under the head, hanging to 0.35 m
-        d = smin(d, cap(P, p(0, 1040, 590), p(0, 1030, 690), 52 * S, 30 * S), 0.07)
         # the hollow under the hair, where the legs stand (never seen from the side)
         hol = np.maximum(plan(P, 0.13), P[:, 2] - HOLLOW_TOP)
         d = smax(d, -hol, 0.04)
         for k, J in LEGS.items():
             d = smin(d, chain(P, J[1:5], [36 * S, 30 * S, 26 * S, 27 * S], 0.02), 0.03)
-            d = smin(d, ell(P, J[4] + r(0, 6, -2), r(34, 40, 14)), 0.015)            # the hoof, wide
+            d = smin(d, ell(P, J[4] + r(0, 16, -2), r(34, 30, 14)), 0.015)            # the hoof, wide
         return np.maximum(d, -P[:, 2])
 
     # ---- the mantle of snow: lumps laid in shelves over the hump and the spine (the same at every level) ----
@@ -171,6 +171,7 @@ def build(K):
     def style(TP, TL, rng):
         n = len(TP); Z = zones(TP)
         W = TL * (0.30 + 0.08 * rng.random(n)); H = np.minimum(TL * (0.08 + 0.03 * rng.random(n)), 0.055)
+        H = H * (0.35 + 0.65 * sstep(0.12, 0.55, TP[:, 2]))          # thinning toward the hem: no ledge where the locks end
         C = mix(WOOL, WOOL2, rng.random(n)[:, None] ** 1.5)
         hi = np.clip((TP[:, 2] - 1.0) / 0.8, 0, 1)                                    # paler, frostier up high
         C = mix(C, FROSTW, (hi * 0.4 * rng.random(n))[:, None])
