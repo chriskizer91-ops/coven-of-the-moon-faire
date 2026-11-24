@@ -7,7 +7,7 @@ November 19. Everything in this first part was written on November 24 by a sub-a
 over on Chris's word ("you can use a sub agent to do the rest of the fights conversation"). Nobody could be asked while
 it worked: every choice it made is listed under "The job's calls", each with the other choice.
 
-## Report for the hub (the finishing, November 24). FILLED IN AS THE CHECKS COME: see "The last checks" below
+## Report for the hub (the finishing, November 24)
 
 Written by a second sub-agent of the hub's, which took over the checking of the fights job. Nobody could be asked while
 it worked; its calls are marked "my call".
@@ -55,6 +55,18 @@ All 17 won, every check passed, 0 page errors: zone 1 A and B, zone 2 A and B, t
 the node, zone 3 A and B, zone 4 A and B, the great wraith (51 turns), the knight of light (53 turns, stopped at 40%,
 answered once), the fire's first form (stopped at 44%), the fire's second form (ended by Kore's Sealed Fate), the great
 bramble (40 turns). Each took 1 to 16 minutes here.
+
+### The last checks (on the four zone pages built from commit 931dd41, with every change above in them)
+
+| Check | Result |
+|---|---|
+| `tools/encounter-test.py` zone 1 (the quick part and the long parts) | **all 39 passed**, 0 page errors. The narrator's first-fight line was said before the first fight (`z1.narrator.09`); the rest line and the not-ready line wait to be said; the lost fight (at the spot with the strongest foes) was lost and the coven woke at the camp |
+| the same, zone 3 | **all 40 passed**, 0 page errors |
+| the same, zone 2 | 42 passed, **1 failed: the check's fault** (it read the toast's left-over words from earlier). Put right in the check (commit e2bcd8a); its quick part run again: see RESULTS below |
+| the same, zone 4 | 43 passed, **2 failed: the check's fault** (it looked for the fire before the story's stage 3, when the fire is rightly not offered). Put right (e2bcd8a); quick part run again: see RESULTS below. **Zone 4's two big fights on the land passed**: the great bramble won and the story's flag `bramble` set; the fire's first form seen through, the coven's moment `between` played on the land (the narrator and six of the coven's lines), the second form won, the story moved from stage 3 to 4. Its lost fight lost, the coven woke at the frozen camp. About 45 fights from level 16 to 20 (the plan: 45) |
+| `tools/zone-test.py` zone 1 | **ALL PASSED** (on the build before the last small change to `story.js`; run again below) |
+
+RESULTS of the rest (each filled in as it finished):
 
 ### The pictures (looked at, every one)
 
