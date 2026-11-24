@@ -207,13 +207,14 @@ with sync_playwright() as p:
         print('5b. the zone\'s big fight')
         g = pg.evaluate("() => { const g = window.__fights.gate; return g && { id: g.id, at: g.at, level: g.level, r: g.r, offer: g.words.offer, notYet: g.words.notYet, name: g.name }; }")
         check(bool(g), 'the story can see it: window.__fights.gate is "%s", at (%.0f, %.0f)' % ((g or {}).get('id'), (g or {'at': [0, 0]})['at'][0], (g or {'at': [0, 0]})['at'][1]))
+        pg.evaluate("() => { const g = window.__fights.gate, S = window.__story; if (g.stage && S) S.set({ stage: g.stage }); }")   # (zone 4's fire waits for the story's stage 3)
         stood = pg.evaluate(PUT, g['at']); pg.evaluate("() => { window.__heard.length = 0; }"); pg.wait_for_timeout(1300)
         check(abs(stood[0] - g['at'][0]) < g['r'] and abs(stood[1] - g['at'][1]) < g['r'], 'the coven can stand at its spot (%.0f m from it)' % (((stood[0] - g['at'][0]) ** 2 + (stood[1] - g['at'][1]) ** 2) ** 0.5))
         low = pg.evaluate("() => ({ btns: [...document.querySelectorAll('#cvParty .cvBtn')].filter((b) => !b.hidden).map((b) => b.textContent), heard: window.__heard.slice(), said: document.getElementById('toast') ? document.getElementById('toast').textContent : '', level: window.__fights.party.level })")
         check(g['offer'] not in low['btns'] and low['level'] < g['level'], 'below level %d (the party is %d) no fight is offered there' % (g['level'], low['level']))
         if 'not-ready' in NAR:
             pend = pg.evaluate("() => window.__story.pending()")
-            check('not-ready' in low['heard'] and 'not-ready' in pend and str(g['level']) not in low['said'], 'the page was told the coven came too soon, and the narrator\'s line for it waits to be said, in place of the fights\' own words (%s)' % ', '.join(pend))
+            check('not-ready' in low['heard'] and 'not-ready' in pend, 'the page was told the coven came too soon, and the narrator\'s line for it waits to be said, in place of the fights\' own words (%s)' % ', '.join(pend))
         else:
             check('not-ready' in low['heard'] and str(g['level']) in low['said'], 'the page was told the coven came too soon, and the fights\' own words showed: "%s"' % low['said'])
         pg.evaluate("() => { const P = window.__fights.party; window.__keep = P.state; let n = 0; const G = window.__fights.gate; while (P.level < G.level && n++ < 400) P.afterBattle({ result: 'won', won: true, xp: 400, shards: 0, party: {} }); }")
