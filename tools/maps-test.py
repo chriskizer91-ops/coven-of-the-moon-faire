@@ -243,7 +243,16 @@ def run(size):
         cnt = pg.evaluate('window.__mapsTest.count()'); left = pg.evaluate('W3D.maps.last.sky && W3D.maps.last.sky.left'); R['skyGone'] = round(time.time() - t1, 2)
         check(same(cnt) and left is not None, 'it closes and the frame is gone; before it went its renderer counted %s shapes and %s pictures still held' % (left and left['geometries'], left and left['textures']))
         check(left is not None and left['geometries'] == 0 and left['textures'] == 0, 'the star map freed everything it held')
-        pg.evaluate("window.__mapsTest.open('sky')"); wait(JS_SKY_READY, 240); pg.evaluate('window.__mapsTest.close()'); pg.wait_for_function("document.querySelectorAll('iframe').length === 0", timeout=8000)
+        pg.evaluate("window.__mapsTest.open('sky')"); wait(JS_SKY_READY, 240)
+        if S['hasMenu']:
+            # the Escape key pressed while the frame has the keyboard still closes the menu
+            [f for f in pg.frames if f != pg.main_frame][0].evaluate("window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }))")
+            pg.wait_for_timeout(600); shut = pg.evaluate('!W3D.menu.isOpen()')
+            check(shut, 'the Escape key pressed inside the star map\'s frame closes the menu')
+            if not shut: pg.evaluate('window.__mapsTest.close()')
+        else:
+            pg.evaluate('window.__mapsTest.close()')
+        pg.wait_for_function("document.querySelectorAll('iframe').length === 0", timeout=8000)
         check(same(pg.evaluate('window.__mapsTest.count()')), 'opened and closed once more: the same')
         check(len(requests) == n0, 'the star map made no request to the network (%d requests)' % (len(requests) - n0))
 

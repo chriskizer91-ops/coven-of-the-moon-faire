@@ -280,6 +280,8 @@
       const d = e.data; if (!frame || e.source !== frame.contentWindow || !d || d.coven !== 'sky') return;
       if (d.what === 'ready') { state.ready = true; load.classList.add('gone'); last.sky = { openMs: Math.round(performance.now() - t0), triangles: d.triangles, calls: d.calls, geometries: d.geometries, textures: d.textures, left: null }; okReady(handle); }
       else if (d.what === 'error') { state.error = d.message; loadMsg.textContent = WORDS.skyFailed; load.classList.remove('gone'); }
+      // the Escape key pressed inside the frame: handed on to the page, as if it had been pressed there (the menu closes on it)
+      else if (d.what === 'escape') { if (!state.dead) document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', bubbles: true, cancelable: true })); }
       else if (d.what === 'freed') { state.left = { geometries: d.geometries, textures: d.textures }; if (last.sky) last.sky.left = state.left; away(); }
     };
     function away() { clearTimeout(goneT); G.removeEventListener('message', onMsg); if (frame) { frame.remove(); frame = null; } root.remove(); }
@@ -300,7 +302,8 @@
         let left = null;
         try { const w = frame && frame.contentWindow; if (w && typeof w.COVEN_SKY_FREE === 'function') left = w.COVEN_SKY_FREE(); } catch (e) { left = null; }
         if (left) { state.left = left; if (last.sky) last.sky.left = left; away(); }
-        else if (frame && frame.contentWindow) { try { frame.contentWindow.postMessage({ coven: 'sky', what: 'stop' }, '*'); } catch (e) { /* gone already */ } goneT = setTimeout(away, 1500); }
+        else if (state.ready && frame && frame.contentWindow) { try { frame.contentWindow.postMessage({ coven: 'sky', what: 'stop' }, '*'); } catch (e) { /* gone already */ } goneT = setTimeout(away, 1500); }
+        // (a frame left before it was ready has drawn nothing yet: taking it away is all there is to do)
         else away();
       },
     };
@@ -320,7 +323,13 @@
       // the land's big map is drawn (out of sight, under this), copied here, and put away again
       const draw = () => {
         if (state.dead) return;
-        try { mm.open(true); const b = mm.big; if (cv.width !== b.width || cv.height !== b.height) { cv.width = b.width; cv.height = b.height; } const g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height); g.drawImage(b, 0, 0); state.drawn = b.width > 0 && b.height > 0; }
+        try {
+          mm.open(true); const b = mm.big; if (cv.width !== b.width || cv.height !== b.height) { cv.width = b.width; cv.height = b.height; }
+          const g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height); g.drawImage(b, 0, 0); state.drawn = b.width > 0 && b.height > 0;
+          // it is shown as large as the tab's box allows, in its own shape, and never larger than it was drawn
+          const box = root.getBoundingClientRect(), k = Math.min((box.width - 12) / (b.width || 1), (box.height - 12) / (b.height || 1), 1);
+          cv.style.width = Math.max(1, Math.floor(b.width * k)) + 'px'; cv.style.height = Math.max(1, Math.floor(b.height * k)) + 'px';
+        }
         catch (e) { console.error(e); } finally { try { mm.open(false); } catch (e) { /* nothing to close */ } }
       };
       draw(); G.addEventListener('resize', draw); state.draw = draw;

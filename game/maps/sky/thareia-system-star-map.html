@@ -1053,6 +1053,8 @@ function free(){
 }
 window.COVEN_SKY_FREE=free;   // Coven: the game's page calls this straight away when it can reach into the frame
 addEventListener('message',e=>{ const d=e.data; if(d && d.coven==='sky' && d.what==='stop') free(); });
+/* Coven: the Escape key pressed while this frame has the keyboard is passed up, so it still closes the game's menu */
+addEventListener('keydown',e=>{ if(e.key==='Escape' && !e.repeat) tell('escape'); });
 
 /* =====================================================================
    11. START-UP

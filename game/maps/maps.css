@@ -73,6 +73,6 @@
 
 /* ---- the zone's own map ---- */
 .cvm-zone{display:grid;place-items:center;background:#0a0b18}
-/* (the zone pages size every canvas inside #world to the whole screen: this one keeps its own shape, wherever the menu sits) */
-.cvm .cvm-zonemap{position:static !important;inset:auto !important;max-width:calc(100% - 12px);max-height:calc(100% - 12px);width:auto !important;height:auto !important;border-radius:14px;box-shadow:0 6px 40px rgba(0,0,0,.6)}
+/* (the zone pages lay every canvas inside #world over the whole screen: this one stays in its box, wherever the menu sits; maps.js gives it its size) */
+.cvm .cvm-zonemap{position:static !important;inset:auto !important;flex:none;border-radius:14px;box-shadow:0 6px 40px rgba(0,0,0,.6)}
 .cvm-note{margin:0;padding:0 28px;max-width:460px;font:italic 18px/1.4 Georgia,"Times New Roman",serif;color:#d9d4f5;text-align:center}
