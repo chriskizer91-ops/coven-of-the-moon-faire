@@ -137,7 +137,7 @@
 
   // ---- a question asked first, inside the menu: big buttons, Escape or "No" says no ----
   function ask(text, choices) {
-    endAsk(null);
+    endAsk(null); noteEl.classList.remove('cm-on');
     return new Promise((done) => {
       askBox.innerHTML = ''; askBox.hidden = false;
       const box = mk('div', 'cm-askbox', askBox); box.setAttribute('role', 'alertdialog');
