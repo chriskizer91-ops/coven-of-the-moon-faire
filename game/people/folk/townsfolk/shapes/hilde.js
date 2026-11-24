@@ -1,0 +1,34 @@
+// Hilde, the smith: shapes on the shared template (the fair folk's kit). Coven of the Moon Faire, townsfolk job, November 24, 2026.
+// A PROPOSAL: how this person looks is Chris's to say. Made new here; the colours are only first colours, for the grey guide and the size sheet:
+// the painted skin replaces them. The kit's format: game/people/folk/person-kit.js reads it (window.MF_PERSON).
+const PERSON = {
+  name: "Hilde, the smith",
+  height: 1.05,
+  build: [1.14, 1.06],
+  head: [0.96, 1, 0.98],
+  skin: '#c08a6e',
+  colors: { torso: '#8a8474', sleeve: '#8a8474', forearm: 'skin', legs: '#4a4038', boots: { color: '#2a201a', rough: 0.5 }, soles: '#17110d' },
+  parts: { shirt: { color: '#8a8474', rough: 0.95 }, roll: '#979182', apron: { color: '#5a3a26', rough: 0.6 }, strap: { color: '#3c2618', rough: 0.5 }, belt: { color: '#2e1e14', rough: 0.45 }, buckle: { color: '#8a8a8e', metal: 1, rough: 0.4 }, hair: '#6a3a22', band: '#7a2e22', wrap: { color: '#3c2618', rough: 0.6 }, hammer: { color: '#6a6a70', metal: 1, rough: 0.45 }, haft: '#7a5a3a' },
+  face(F) {
+    F.lips('#9a5a50', 0.5); F.brows('#5a301c', 0.85, 17); F.eyes('#6a4a2a', 0.6); F.lines(0.35); F.blush('#c05a44', 0.28); F.air(300, 470, 60, 40, '#3a2a22', 0.18, 'multiply');
+  },
+  make(K) {
+    K.shell('shirt', [[1.352, 0.066, 0.065, 0.07], [1.325, 0.151, 0.092, 0.102], [1.27, 0.151, 0.124, 0.106], [1.215, 0.149, 0.133, 0.108], [1.14, 0.136, 0.114, 0.102], [1.04, 0.123, 0.096, 0.097], [0.985, 0.154, 0.11, 0.117]], K.w.torso, { n: 28 });
+    K.shell('shirt', [[1.06, 0.146, 0.114, 0.112], [0.95, 0.169, 0.116, 0.126], [0.87, 0.186, 0.124, 0.138], [0.8, 0.192, 0.13, 0.142]], K.w.skirt, { n: 28 });
+    K.panel('apron', [[1.275, 0.11, 0.142], [1.215, 0.16, 0.148], [1.14, 0.152, 0.13], [1.05, 0.152, 0.118]], -44, 44, K.w.torso, { n: 14 });
+    K.panel('apron', [[1.06, 0.16, 0.13], [0.95, 0.184, 0.132], [0.87, 0.2, 0.14], [0.79, 0.21, 0.168], [0.62, 0.226, 0.204], [0.46, 0.24, 0.22], [0.34, 0.248, 0.228]], -62, 62, K.w.skirt, { n: 20 });
+    K.tube('strap', [[0.092, 1.272, 0.134], [0.086, 1.33, 0.098], [0.064, 1.366, 0.012], [0.04, 1.372, -0.058], [0, 1.374, -0.074]], [0.009, 0.009, 0.009, 0.009, 0.009], K.w.torso);
+    K.tube('strap', [[-0.092, 1.272, 0.134], [-0.086, 1.33, 0.098], [-0.064, 1.366, 0.012], [-0.04, 1.372, -0.058], [0, 1.374, -0.074]], [0.009, 0.009, 0.009, 0.009, 0.009], K.w.torso);
+    K.shell('belt', [[1.07, 0.16, 0.134, 0.124], [1.03, 0.166, 0.136, 0.128]], K.w.torso, { n: 28 });
+    K.ball('buckle', [0, 1.05, 0.14], [0.02, 0.022, 0.008], K.w.torso);
+    K.shell('roll', [[1.13, 0.06, 0.058, 0.058, 0.195, -0.008], [1.105, 0.068, 0.066, 0.066, 0.202, -0.008], [1.075, 0.062, 0.06, 0.06, 0.21, -0.008]], K.w.bone('uarmL'), { n: 16 });
+    K.shell('roll', [[1.13, 0.06, 0.058, 0.058, -0.195, -0.008], [1.105, 0.068, 0.066, 0.066, -0.202, -0.008], [1.075, 0.062, 0.06, 0.06, -0.21, -0.008]], K.w.bone('uarmR'), { n: 16 });
+    K.tube('wrap', [[0.24, 0.965, -0.008], [0.262, 0.885, -0.008]], [0.04, 0.033], K.w.bone('farmL'));
+    K.tube('wrap', [[-0.24, 0.965, -0.008], [-0.262, 0.885, -0.008]], [0.04, 0.033], K.w.bone('farmR'));
+    K.tube('haft', [[-0.214, 1.02, 0.03], [-0.228, 0.8, 0.035]], [0.012, 0.012], K.w.bone('hips'));
+    K.tube('hammer', [[-0.214, 1.04, -0.01], [-0.214, 1.04, 0.075]], [0.026, 0.026], K.w.bone('hips'));
+    K.hair('hair', 'short');
+    K.ball('hair', [0, 1.53, -0.112], [0.04, 0.046, 0.036], K.w.head);
+    K.shell('band', [[1.622, 0.086, 0.106, 0.102], [1.596, 0.088, 0.108, 0.104]], K.w.head, { n: 24 });
+  },
+};
