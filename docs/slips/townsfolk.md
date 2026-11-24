@@ -47,7 +47,7 @@ python3 tools/townsfolk-pack.py --for-chris <out folder> --guides <guides folder
 | Zone 1 (7) | Nettie, Old Wenna, Mayor Gretch, Hilde, Quill, Tobb, Pell | all wear a fair person's body |
 | Zone 2 (5) | Marta, the roadwarden, Brann, Tamsin, the carter | all wear a fair person's body |
 | Zone 3 (6) | Ysmera Brightkeel, Old Gil, Tock, Pim, the last passenger, the bramble-cutter | all wear a fair person's body |
-| Zone 4 (5) | the watchwoman, a Warden, the pass-keeper, Sorrel, Ede | no body yet: the zone is being built |
+| Zone 4 (5) | the watchwoman, a Warden, the pass-keeper, Sorrel, Ede | nothing in `main` yet. On `job/zone-4`, as pushed on November 24: stand-ins too (Ros, Corwin, Odile, Linnet, Bashir) |
 
 - **Why none of the 18 is fine as they are.** The 18 stand on **9** stand-in bodies, and every one is a copy of a
   person who also stands at the Faire. Mayor Gretch, the roadwarden and Old Gil are all Corwin the night watchman.
@@ -67,7 +67,8 @@ python3 tools/townsfolk-pack.py --for-chris <out folder> --guides <guides folder
   lines, the light over her face goes out, and at the ending she walks into the camp beside Io ("Same walk"). Chris
   has already said what she is (`docs/decisions.md`): Moon Faire's base doll, which is Io's body, in the paladin
   outfit, with a glow made in code. It is built in the old Envoi (`moon-faire-witches/src/halcyon-paladin.js`, with
-  `witches/doll/`; the outfit's light model is about 50,000 triangles). See "For the hub".
+  `witches/doll/`; the outfit's light model is about 50,000 triangles). On `job/zone-4` she is Zofia the
+  fortune-teller's body standing in a light, as a stand-in. See "For the hub".
 
 ## Numbers a person can check
 
@@ -224,25 +225,33 @@ Tried in a scratch copy of the kit, and looked at: Pell, Tamsin, Tock, Pim and O
   | | tock | `fair-baker-opus` | `town-tock` | take out `size: 0.62` |
   | | pim | `pie-seller` | `town-pim` | take out `size: 0.62` |
   | | passenger | `ballad-singer` | `town-passenger` | |
-  | `game/people/zone-4.js` (the zone-4 job's) | passkeeper, watch, sorrel, ede | stand-ins of that job's choosing | `town-passkeeper`, `town-watch`, `town-sorrel`, `town-ede` | |
-  | | every held Warden | a stand-in | `town-warden` | the same body for all forty |
+  | `game/people/zone-4.js` (the zone-4 job's; as on `job/zone-4`, November 24) | passkeeper | `old-lamp-seller` | `town-passkeeper` | |
+  | | watch | `pie-seller` | `town-watch` | |
+  | | sorrel | `ballad-singer` | `town-sorrel` | |
+  | | ede | `ribbon-dyer` | `town-ede` | |
+  | | warden (the one who speaks) | `old-night-watchman-opus` | `town-warden` | |
+  | | the forty, in the thing `wardens` | twenty baked copies each of `old-night-watchman` and `old-night-watchman-opus` | forty of `town-warden` | one line: the list of two ids becomes one |
+  | | the thing `halcyon` | `fortune-teller`, in a light | her own body (below) | |
 
 - **Each zone page** gets two script lines after `../people/folk/greyhat_npc.js` and before `../people/folk/npc.js`:
   `../people/folk/townsfolk/town_npcs.js` and that zone's `town_tex_zN.js`. The page where the ending is played also
   needs the pictures of Nettie, Gretch, Hilde and Quill.
 - **The template fix above** (`game/witches/kore/jester_kit.js`, one line). Without it Pell, Tamsin, Tock and Pim
   crouch in their new bodies as they do in their stand-ins today. It is worth making now: it mends the stand-ins too.
-- **Forty Wardens in one street.** Forty painted people at a quarter is about 120,000 triangles and 600 draws if all
-  are drawn at once, far more than a zone's people cost today. `people.js` builds a person within 75 m and draws
-  within 58 m, so a street's worth could show together. The zone-4 job should count how many it stands, or stand most
-  of them as something cheaper far off. Only a phone can say what it holds.
-- **Halcyon on the land in zone 4, and at the ending.** She needs: the doll, the paladin outfit and
-  `halcyon-paladin.js` copied in from the old Envoi; a way for `people.js` to stand a body that is not one of the
-  painted fair folk (it calls `MF_NPC.make`); the light over her face turned off after the letter. Her face with the
-  light out is Chris's (below). This was not looked into past the first lines of `halcyon-paladin.js`. The fights
-  job's battle uses the older dark-armoured Halcyon (`game/battle/models/halcyon.js`): the two should become one.
-- **Zone 4 has no people file yet** (a stub on `job/zone-4` when this was written). Its five people will need
-  stand-ins until Chris's pictures are in; this list has their ids, heights and who they are.
+- **Forty Wardens in one street.** The zone-4 job already stands them cheaply: it makes one painted person, bakes it
+  still, and stands twenty copies (twice, from two bodies). With the Warden's own body that is one bake and forty
+  copies. A held Warden is then exactly the pose it was baked in: bake `town-warden` standing at rest.
+- **Halcyon on the land in zone 4, and at the ending.** By Chris's decision she needs: the doll, the paladin outfit
+  and `halcyon-paladin.js` copied in from the old Envoi, and the zone-4 job's `halcyon` thing to make that body in
+  place of `MF_NPC.make('fortune-teller')` (it already turns the light off after the letter and takes her to the
+  ship). Her face with the light out is Chris's (below). This was not looked into past the first lines of
+  `halcyon-paladin.js`. The fights job's battle uses the older dark-armoured Halcyon
+  (`game/battle/models/halcyon.js`): the two should become one.
+  **A cheaper way, if Chris would rather:** a 24th body on this kit (the Warden's kit without the helm, a woman of
+  about forty, two more pictures). It was not made, so as not to settle his call by building it. She would then walk
+  as the fair folk walk, not as Io does, and Nettie's "Same walk" would be less true.
+- **Zone 4's people file is on `job/zone-4`, not in `main`.** Its ids are the list's ids (`passkeeper`, `watch`,
+  `sorrel`, `ede`, `warden`), so nothing needs renaming.
 - **The board says "18 wear a fair-folk shape".** It is 18 in zones 1 to 3, and 23 with zone 4's five.
 - `tools/townsfolk-test.py` can join the hub's checks: its list part needs no browser and takes a second.
 
