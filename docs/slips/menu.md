@@ -1,6 +1,6 @@
 # menu: the pause menu, three save slots, and the frame the maps sit in
 
-Branch: job/menu      Last commit: (see git log)      Updated: 2026-11-23, evening
+Branch: job/menu      Last commit of code: 117218d (this slip is committed after it)      Updated: 2026-11-23, 21:30
 
 A sub-agent of the hub's built this, from the hub's brief of November 23, 19:15.
 
@@ -8,7 +8,8 @@ A sub-agent of the hub's built this, from the hub's brief of November 23, 19:15.
 
 - **One menu button on the land**, top right, where the numbers button was (46 by 46 px, three short lines).
   Escape opens and closes the menu on a laptop. The "who" and "nums" buttons are inside the menu now, so the land has
-  one button where it had two (the hub's call, for Chris to overrule: `oneButton` in `game/menu/menu-data.js`).
+  one button where it had two (the hub's call, for Chris to overrule: `oneButton` in `game/menu/menu-data.js`). The
+  look's own settings button (made by the walker) is inside it too: see "What was found on the way".
 - **Opening the menu pauses the game**: the land stops walking and drawing, the story waits, nobody's talk moves on, and
   any voice that is playing stops. Closing it carries on: the voice goes on from the word it stopped at.
   - **During a fight** the menu does not open. The fight lies over the whole screen, so the button cannot be pressed;
@@ -27,6 +28,9 @@ A sub-agent of the hub's built this, from the hub's brief of November 23, 19:15.
   - A tab added with an id already there takes its place: **the maps job's tab must use the id `'maps'`**, and then
     the stand-in line goes. Orders: Save 10, Maps 20, Coven 30, Settings 40.
   - A tab whose `mount` throws shows one line saying so; the menu goes on working.
+  - The maps job's branch, as read on November 23 in the evening, already does all of this: its tab has the id
+    `'maps'` and order 20, and adds itself once the menu is there. While its full-screen "choose where to fly" is up
+    (`W3D.maps.world.choosing`), the menu leaves Escape to it.
 - **Three save slots** (`game/menu/saves.js`), a layer over the keys the game already keeps. party.js and story.js are
   not changed. How it works:
   - The game's keys in the browser are the game being played. A slot is a copy of all of them, with the time, the
@@ -165,7 +169,16 @@ page). It opens the page three ways:
   file holds the whole game; Load from a file opens the page again with the file's game. 0 page errors.
 - **The check tries two guards as well**: with a fight on, Escape does nothing and `W3D.menu.open()` says false; while
   the maps job's full-screen "choose where to fly" is up (`W3D.maps.world.choosing`), Escape is left to it.
-- **Results of `tools/menu-test.py`:** FINAL-RESULTS
+- **Results of `tools/menu-test.py`**, on pages built from this branch's last code:
+  - `builds/zone-1.html`, all three ways: **ALL PASSED**, 93 checks, 0 page errors
+  - `builds/zone-2.html`, A and C (zone 2 has no fights or party): **ALL PASSED**, 63 checks. An earlier full run
+    there (B too, on a build without the Escape guard for the maps screen) passed all but that one new line, which
+    that build did not have yet: its slots carried zone 2's own story key (`coven.story.z2.v1`)
+  - `builds/zone-3.html`, A: **ALL PASSED**, 57 checks
+  - `builds/menu-lab.html` (the small page), all three ways: **ALL PASSED**
+- Numbers from the zone 1 run: the page started in 10 to 13 s; a slot loaded and the page opened again in 7 s; the
+  game saved itself 13 s after a change (its timer is 20 s); the smallest button anywhere in the menu is 46 by 46 px,
+  and the Begin screen's Saves button 120 by 44 px.
 - **The old checks still pass** (run on builds with all of the menu but its last two one-line changes, the Escape guard
   for the maps screen and the file picker; neither is touched by these checks):
   - `tools/zone-test.py builds/zone-1.html`: ALL PASSED, 0 page errors
@@ -177,6 +190,9 @@ page). It opens the page three ways:
   the menu adds nothing to either.
 - A save, as it sits in the browser: 765 bytes on zone 1 (3 keys), 493 bytes on zone 2 (2 keys). The file: about 1 KB.
 - Each zone page grows by about 60 KB (zone 1 is 105.2 MB built).
+
+Pictures of every tab at 1280×720, 412×880 and 880×412, the Begin screen, the questions asked first, the land with its
+one button, and the Save tab with no storage were taken with `--shots` (not kept in git; the hub has the folder).
 
 ## What was NOT checked
 
