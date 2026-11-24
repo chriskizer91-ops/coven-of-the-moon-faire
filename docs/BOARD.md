@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 19:15, by the hub.
+Last updated: November 23, 2026, 21:00, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -54,16 +54,21 @@ The landings, one for each zone, are in `game/travel/landings.js` (the hub's; bo
   first time at 19:05, after Chris's word on the flight. It is small: 96 files, its built game 4.6 MB. It runs
   three.js 0.186; the game runs r128; the star map 0.160. So the flight and the star map each run in a frame of
   their own inside the one file, unless a sub-agent finds a better way.
-- **Aethermoor M7** (`Aethermoor-m7-`), where Chris is building the new creatures. **Not a source yet:** nothing of
-  it has been read. It becomes one when Chris says a creature is ready to bring in.
+- **Aethermoor M7** (`Aethermoor-m7-`), where Chris is building the new creatures. **A read-only source since
+  19:40** (Chris: "Just don't write there. Only read from it"). The hub has read its board and its bestiary's notes
+  only; nothing is copied. 93 foes are planned there, about 29 beasts built in full detail (a light model of about
+  50,000 triangles each). Which come into this game, and where, is Chris's call (`docs/decisions.md`, 19:40).
 
 ### Waiting on Chris (the newest; the older lists below still stand where not answered)
 
-1. **The narrator's new lines:** the files themselves, attached to the hub's conversation. And his letter for the
-   narrator's sound (A, B, C or D), if he has chosen.
-2. **Where the great wraith waits** (the fen's dark heart, as the lines say, or where it is now). Not answered yet.
-3. **Which ship he flies first.** Skies starts on the Skiff, the Zephyr; his word of November 16 is that moving up
-   to the next ship is part of each gate. The flight job makes it one line of data.
+1. **The narrator's five changed lines, recorded with their words as they are now.** The page he sent at 19:40
+   held the old words for those five, and the 43 the game already has. The list of the five went back to him.
+   And **the narrator's sound:** the small page `listen-narrator.html` plays the same line four ways (A to D); he
+   picks one by ear, or leaves it as recorded (A, which the game uses now).
+2. **ANSWERED (19:40): the great wraith waits in the fen's dark heart.** Done and in `main`.
+3. **ANSWERED (19:40): the four ships are the four travel upgrades.** The hub's reading of the order (Skiff,
+   Cutter, Brig, Frigate, one at each gate) is his to correct.
+6. **Which of M7's creatures come into this game, and where.** The fights job's step 4 keeps two slots a zone.
 4. **The townsfolk's bodies:** who makes the 18, and when. They can stay as they are until the end.
 5. **A creature is ready:** when one is, he says so, and Aethermoor M7 becomes a source.
 
@@ -352,7 +357,10 @@ The hub's plan. Names and order may change.
 
 ## For the fights job, when it reaches zones 2 and 3
 
-- **Zone 1's gate spot, if Chris says yes** ("Waiting on Chris", 2): the lines put the great wraith in the fen's dark
+- **Zone 1's gate spot: MOVED (November 23, 19:40, on Chris's word; in `main`).** `gate.at` in
+  `game/encounters/zone-1.js` is now [1506.7, 1818.7]: keep it when you merge `main`. Your check's words for it
+  ("the button by Bogmire's north gate", `tools/encounter-test.py` 5b) are stale; the check passes. As first written:
+  the lines put the great wraith in the fen's dark
   heart, where the boardwalk ends. The middle of the heart's square is (1506.7, 1818.7) in zone 1's metres (the
   place `bogmire-heart`, its painting's pixel 768, 420). The story's moments and the hub's moth read the spot from
   `window.__fights.gate.at`, so nothing of the hub's has to change when it moves.
@@ -688,7 +696,7 @@ You do NOT join the flight to the zones (the ship as a gate, the map to choose o
 the hub does that once your piece, the maps job's and the menu job's are in.
 ```
 
-### `fights`: one more thing for step 4 (paste this into the fights conversation ONLY IF Chris says yes to moving the great wraith)
+### `fights`: one more thing for step 4 (NOT NEEDED NOW: Chris said yes on November 23, 19:40, and the hub made the change in `main`. The fights conversation only has to merge `main` and keep the new spot)
 
 ```
 One more thing for step 4, from the hub (November 23). Chris has said yes to this.

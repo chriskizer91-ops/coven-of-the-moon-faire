@@ -13,6 +13,32 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 23, 2026, 19:40: the great wraith's place, the four ships, Aethermoor M7 to read
+
+- **Chris: the great wraith is moved into the fen's dark heart.** Done the same evening: the fight is offered in the
+  middle of the heart's square, before the drowned hall's steps. It is one line of the fights job's data; the hub
+  changed that line on his word, and nothing else of that job's.
+- **Chris: "the four ships you get in the airship game are the four ships you get as travel upgrades."** This answers
+  "which ship he flies first". **Hub's reading, for him to correct:** they come in the airship game's own order, one
+  at each gate: the Skiff (the Zephyr) at zone 1's jetty for the flight to zone 2, the Cutter (the Gale) from zone 2,
+  the Brig (the Tradewind) from zone 3, the Frigate (the Tempest) last. The flight job has been told.
+- **Chris: Aethermoor M7 may be read, and only read.** "If you look at the M7 3D repo you'll see what's planned to
+  be built. Just don't write there. Only read from it." So `Aethermoor-m7-` is a read-only source from now, like the
+  others: never pushed to, and nothing is copied from it until a creature is wanted in this game.
+  What the hub read there (its board, its bestiary's notes): 93 foes are planned (39 people, 54 beasts). About 29
+  beasts are built in full detail so far, each as a sculpt of 600,000 to a million triangles baked down to a light
+  one of about 50,000 that moves. Among them, of this game's zone 1 country: the thornhound, the briarling and
+  Briarmaw (thorn country); the boglurcher, the marsh-light, the mire-leech, the blackwater-gar and Old Jaws (fen).
+  **Which of them come into this game, and where, is Chris's call.**
+- **The narrator's "sound A, B, C or D"** was the last hub's page for choosing how the narrator's voice is treated
+  (A as recorded, B close and warm, C by the fire, D all round you). Chris had not seen it as a choice to make. The
+  page went to him again with one line on what it is. The game uses A, as recorded, until he says otherwise.
+- **The narrator's five changed lines are still to record.** The page Chris sent (48 recordings) holds the 43 already
+  in the game, byte for byte, and five that speak the words as they were before the hub changed them on November 23
+  to fit the land. Nothing new was taken in. The five, with their words as they now are, went back to him as a list.
+- **Hub's call.** *The moth rises on the great wraith's own spot* when the camera has it in view, now that the spot
+  is settled; where the camera looks when it has not.
+
 ## November 23, 2026, 16:53 and 19:00: the save menu, the maps, flying, the creatures, sub-agents
 
 - **Chris: three save slots,** "if we can". This replaces "one save" in the plan for the whole game.
