@@ -13,6 +13,15 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 10:46: Chris's sheets for the Wickstoat and the Hoarmantle; the building starts
+
+- **Chris sent both character sheets,** made from the hub's words: each shows the creature front, side and back on
+  plain grey, with every part asked for. So the two designs stand as he pictured them. Their names and stories are
+  still proposals until he says.
+- **Hub's call.** *One sub-agent (Opus 5.5, high), the `peak-creatures` job,* builds both the way Aethermoor M7
+  builds a creature from a sheet, on a branch made from `job/creatures`, so they come into the game by the same
+  loader as the seven. Started 10:48. Its first task is to find out whether M7's tools run on this machine.
+
 ## November 24, 2026, 10:31: two new creatures for the frozen peaks; "the Rotwarden" stays
 
 - **Chris: "let's make a new creature for the Frozen peaks. Maybe two new creatures that fit those slots and then
