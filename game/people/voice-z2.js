@@ -123,6 +123,7 @@ window.COVEN_VOICE = Object.assign(window.COVEN_VOICE || {}, {
   "z2.narrator.01": "./../talk/audio/z2/z2.narrator.01.mp3",
   "z2.narrator.02": "./../talk/audio/z2/z2.narrator.02.mp3",
   "z2.narrator.03": "./../talk/audio/z2/z2.narrator.03.mp3",
+  "z2.narrator.04": "./../talk/audio/z2/z2.narrator.04.mp3",
   "z2.narrator.05": "./../talk/audio/z2/z2.narrator.05.mp3",
   "z2.narrator.06": "./../talk/audio/z2/z2.narrator.06.mp3",
   "z2.narrator.07": "./../talk/audio/z2/z2.narrator.07.mp3",
