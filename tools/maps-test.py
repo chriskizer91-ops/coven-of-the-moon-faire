@@ -84,6 +84,8 @@ JS_SETUP = """() => {
   T.buttons = (root) => [...(root || document).querySelectorAll('.cvm button, .cvm-full button')].filter((b) => b.offsetParent && getComputedStyle(b).visibility !== 'hidden' && b.style.display !== 'none').map((b) => { const r = b.getBoundingClientRect();
     return { what: (b.className || b.dataset.view || b.textContent).trim().slice(0, 40), w: Math.round(r.width * 10) / 10, h: Math.round(r.height * 10) / 10, mark: b.classList.contains('cvm-mark'), inside: r.left >= -0.5 && r.top >= -0.5 && r.right <= innerWidth + 0.5 && r.bottom <= innerHeight + 0.5, top: r.top, bottom: r.bottom }; });
   T.rect = (sel) => { const e = document.querySelector(sel); if (!e || !e.offsetParent) return null; const r = e.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; };
+  // on a zone's page the game draws a few frames first, so its renderer holds what it holds in play
+  if (window.__w3d && typeof window.__w3d.step === 'function') { try { window.__w3d.step(0.3, 30); } catch (e) { /* the count below is still true */ } }
   return { maps: !!(window.W3D && W3D.maps), zone: T.zone, hasMenu: T.hasMenu, landings: (window.COVEN_LANDINGS || []).map((l) => l.id), count: T.count(), size: [innerWidth, innerHeight] };
 }"""
 JS_WORLD_READY = "() => { const h = W3D.maps.world.shown; return !!(h && h.state.ready) || !!(h && h.root.querySelector('.cvm-load p').textContent === W3D.maps.data.words.worldFailed); }"
@@ -93,6 +95,10 @@ JS_WORLD = """async (zones) => {
   out.pinNow = m.io ? m.io.at : null; out.pinName = h.root.querySelector('.map-tag.io span').textContent; out.pinTitle = h.root.querySelector('.map-tag.io b').textContent;
   // on a zone's page: where the walker really is, worked out from the land's own numbers
   const W = window.__w3d; if (W && T.zone) { const a = window.W3D_PLACES[T.zone].zone.land.atlas.map; out.walker = [a.origin[0] + W.P.M.x(W.io.px) / a.k, a.origin[1] + W.P.M.z(W.io.py) / a.k]; }
+  // where the pin is DRAWN: the view is slid sideways, and the pin's name tag must stand over its spot on the screen
+  try { const v = m.view; m.view = Object.assign({}, v, { x: v.x + 90 }); m.step(0.016);
+    const tr = /translate\\(([-\\d.]+)px,\\s*([-\\d.]+)px\\)/.exec(h.root.querySelector('.map-tag.io').style.transform), top = m.screenOf(m.io.at[0], m.io.at[1], 1 + 150 * m.view.dist / 1000, {}), so = m.screenOf(m.io.at[0], m.io.at[1], 0, {});   // the tag stands at the top of the pin's beam: 150 units up when the view is 1,000 units off
+    out.pinScreen = { tag: tr ? [+tr[1], +tr[2]] : null, top: [top.x, top.y], spot: [so.x, so.y], mid: h.root.clientWidth / 2 }; m.view = v; m.step(0.016); } catch (e) { out.pinScreen = { error: String(e) }; }
   out.marks = h.state.marks.map((k) => ({ id: k.l.id, kind: k.k }));
   out.buttons = T.buttons(); out.find = T.rect('.cvm-find'); out.nums = h.root.querySelector('.cvm-nums').textContent;
   // a landing tapped while only looking: its card, and no way to set a course
@@ -151,6 +157,10 @@ def run(size):
         if check(r['ready'], 'it opens: %s ms to build, %s triangles in %s draw calls at the %s\'s level of detail; it holds %s shapes and %s pictures' % (r['last']['openMs'], '{:,}'.format(r['last']['triangles']), r['last']['calls'], r['last']['detail'], r['last']['geometries'], r['last']['textures'])):
             want = EXP['zones'][zone_here]['at'] if not S['zone'] else r.get('walker')
             check(near(r['pinNow'], want), 'the pin stands where the coven is (%s): atlas %.1f, %.1f, wanted %.1f, %.1f' % (zone_here, r['pinNow'][0], r['pinNow'][1], want[0], want[1]))
+            ps = r.get('pinScreen') or {}
+            off = max(abs(ps['tag'][0] - ps['top'][0]), abs(ps['tag'][1] - ps['top'][1])) if ps.get('tag') else None
+            check(off is not None and off < 2 and ps['tag'][1] < ps['spot'][1] and abs(ps['spot'][0] - ps['mid']) > 20,
+                  'the pin is drawn on that spot: with the view slid sideways, the pin\'s name stands %s px from the top of a beam raised on the spot (%d px off the middle of the screen)%s' % ('%.1f' % off if off is not None else '?', abs(ps['spot'][0] - ps['mid']) if ps.get('spot') else 0, '' if ps.get('tag') else ' (' + json.dumps(ps) + ')'))
             check(r['pinTitle'] == pg.evaluate('W3D.maps.data.words.pin') and len(r['pinName']) > 0, 'the pin says "%s", and under it "%s"' % (r['pinTitle'], r['pinName']))
             for z in sorted(EXP['zones']):
                 e = EXP['zones'][z]
