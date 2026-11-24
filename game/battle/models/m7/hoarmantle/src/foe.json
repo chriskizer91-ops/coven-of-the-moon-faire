@@ -1,0 +1,11 @@
+{
+ "key": "hoarmantle", "name": "The Hoarmantle", "plan": "quad", "rank": "champion", "height": 2.1, "length": 2.75,
+ "sheet": "art-in/3d/sheets/sheet-hoarmantle.png", "crops": [[10, 385], [388, 1128], [1138, 1525]],
+ "bounds": [[-0.78, -1.44, -0.01], [0.78, 1.44, 2.22]],
+ "voxel": {"0": 0.014, "1": 0.012, "2": 0.0075, "3": 0.0052},
+ "view": {"center": [0, 0, 1.08], "width": 3.2, "head": [0, 1.1, 0.9], "headWidth": 1.1},
+ "light": {"level": 0, "coat": 30000},
+ "sculpt": {"level": 2},
+ "bake": {"res": 2048, "phone": 1024, "ao": 48, "reach": {"coat": [0.05, 0.14], "parts": [0.01, 0.03]}},
+ "rig": "rig.py", "moves": "ox"
+}

@@ -1,0 +1,11 @@
+{
+ "key": "wickstoat", "name": "The Wickstoat", "plan": "quad", "rank": "rabble", "height": 0.61, "length": 1.6,
+ "sheet": "art-in/3d/sheets/sheet-wickstoat.png", "crops": [[0, 280], [250, 1262], [1280, 1520]],
+ "bounds": [[-0.17, -0.84, -0.01], [0.17, 0.84, 0.64]],
+ "voxel": {"0": 0.0055, "1": 0.005, "2": 0.0033, "3": 0.0018},
+ "view": {"center": [0, 0, 0.32], "width": 1.75, "head": [0, 0.68, 0.5], "headWidth": 0.4},
+ "light": {"level": 0, "coat": 20000},
+ "sculpt": {"level": 3},
+ "bake": {"res": 2048, "phone": 1024, "ao": 48, "reach": {"coat": [0.02, 0.05], "parts": [0.004, 0.012]}},
+ "rig": "rig.py", "moves": "stoat"
+}
