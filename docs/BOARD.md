@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 09:29, by the hub.
+Last updated: November 24, 2026, 10:34, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -131,7 +131,10 @@ the townsfolk in bodies of their own, and the stars and planets named.**
    Zone 4 is being built to fit those words, so none should need making twice.
 3. **Zone 4's narrator lines:** 18, the list went to him on November 24 (`narration-recording-order-z4.txt`). They
    are proposals: he may change any before recording.
-4. **The foes: he has picked seven** (November 24, 09:25; the `creatures` job is bringing them in). Still his to
+4. **Two character sheet pictures** (`sheet-wickstoat.png`, `sheet-hoarmantle.png`) for the two new creatures of
+   the frozen peaks, from the words sent on November 24 (`docs/lore/zone-4-creatures-proposal.md`). When they
+   come: an Opus 5.5 sub-agent builds them (his word). And his yes or no to Briarmaw as the great bramble's body.
+   **The foes: he has picked seven** (November 24, 09:25; the `creatures` job is bringing them in). Still his to
    say: where each lives (the hub's proposal is in `docs/decisions.md`), an eighth for zone 4's peaks if he wants
    one, what a beaten creature does, and the name "the Rotwarden" beside the story's Wardens. As asked before:
    the five foe questions at the end of `docs/foes-from-m7.md`. Until he answers, every creature slot stays a

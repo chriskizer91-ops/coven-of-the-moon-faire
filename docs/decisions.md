@@ -13,6 +13,20 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 10:31: two new creatures for the frozen peaks; "the Rotwarden" stays
+
+- **Chris: "let's make a new creature for the Frozen peaks. Maybe two new creatures that fit those slots and then
+  all of the foe slots are filled."** The way of it, in his words: the hub writes a character sheet prompt for each
+  (designing them itself, or through an Opus 5.5 agent); he makes the character sheet pictures; an Opus 5.5
+  sub-agent builds them.
+- **Chris: the Rotwarden's name can stay.**
+- **Hub's proposal, his to change** (`docs/lore/zone-4-creatures-proposal.md`; the words went to him at 10:34):
+  *the Wickstoat,* a white stoat of the high snow that steals flames and carries them in ice spines on its back
+  (zone 4, slot A, the light-thief); and *the Hoarmantle,* a great shaggy ox with a mantle of frost that has never
+  melted (zone 4, slot B, the big one). Both go on four legs, so they can be built and moved as M7's beasts are.
+- **Hub's suggestion, his call:** with zone 4's two slots taken, *Briarmaw becomes the body of the great bramble,*
+  the big fight on the frozen pass. Until he says, Briarmaw is brought in and improved and placed nowhere.
+
 ## November 24, 2026, 09:25: the seven creatures from Aethermoor M7
 
 - **Chris: the creatures to bring over.** "The rot stag and the thorn hound. And the rot warden and sapwight and
