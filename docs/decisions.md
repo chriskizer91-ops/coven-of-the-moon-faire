@@ -13,6 +13,17 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 05:39: zone 4 starts
+
+- **Chris: "zone four can get started".** He has voice tokens for zone 4's dialogue and for the narrator.
+- **Hub's call.** *Zone 4 is built to fit its written lines, not the lines to fit the land.* Its 144 spoken lines
+  (written November 19) go to be recorded as they stand; a sub-agent builds the land, the people and the story so
+  each is true where it is said, and may not change a word. The narrator's zone 4 lines are written only after the
+  land stands. This is the lesson of the five narrator lines that had to be made again.
+- **What happened overnight, plainly:** the machine this work runs on stopped at about 22:30 on November 23 and
+  nothing ran for seven hours. The maps job was cut off at its last checks; its work was already pushed. It was
+  taken up again at 05:45.
+
 ## November 23, 2026, 22:25: the flight is in, and the real ship lies at the jetty
 
 - **The flight job's work is in `main`,** checked by the hub: one flight between two landings, made from Skies of

@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 23, 2026, 22:30, by the hub.
+Last updated: November 24, 2026, 06:05, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -23,7 +23,8 @@ send. The hub may hand side tasks to **sub-agents** (Opus 5.5 at extra-high effo
 | Job | Branch | What | Who | State |
 |---|---|---|---|---|
 | `menu` | `job/menu` | One menu button; the game pauses; tabs Save, Maps, Coven, Settings; **three save slots**, saving to a file and back | a sub-agent of the hub's (Opus 5.5, extra high) | **Done, in `main` (21:50).** On all three zone pages. Its slip: `docs/slips/menu.md` |
-| `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Started 19:15 |
+| `maps` | `job/maps` | The 3D map of Aethermoor and the star map brought in from the old Envoi, as the menu's Maps tab; choosing where to fly on the 3D map | a sub-agent (Fable 5.2, high) | Built and pushed, both maps and the choosing. **Cut off at its last checks** when the machine stopped (November 23, about 22:30). Taken up again November 24, 05:45, to finish its checks and its slip |
+| `zone-4` | `job/zone-4` | All of zone 4: its land, people, story and the narrator's words for it, built to fit the lines Chris is recording | a sub-agent (Fable 5.2, high) | **Started November 24, 06:00** (Chris, 05:39: zone four can get started) |
 | `flight` | `job/flight` | One flight between two landings, built from Skies of Aethermoor; then the Grey Hat's real ship at a landing | a sub-agent (Fable 5.2, high) | **Done, in `main` (22:25).** Both parts. Its slip: `docs/slips/flight.md`. Not joined to the zones yet: that is the hub's |
 | `fights` | `job/fights` | Step 4: room for new creatures, and the whole game's levels | its own conversation | In progress; nothing pushed since the morning |
 | a list of foes to suggest | none (it only read) | Which of Aethermoor M7's creatures could come into each zone, with pictures, for Chris to choose from | a sub-agent (Opus 5.5, extra high) | **Done 21:30:** `docs/foes-from-m7.md`; the list and four picture sheets went to Chris |
@@ -113,6 +114,23 @@ The landings, one for each zone, are in `game/travel/landings.js` (the hub's; bo
   19:40** (Chris: "Just don't write there. Only read from it"). The hub has read its board and its bestiary's notes
   only; nothing is copied. 93 foes are planned there, about 29 beasts built in full detail (a light model of about
   50,000 triangles each). Which come into this game, and where, is Chris's call (`docs/decisions.md`, 19:40).
+
+### What the hub needs from Chris for a first whole draft (November 24, 06:05)
+
+A first draft is: the four zones as one journey from dusk at the Faire to the ending, with the menu, the saves, the
+maps, the flights and every voice.
+
+1. **The five narrator lines of zones 2 and 3,** made again with their words as they are now (the list went to him).
+2. **Zone 4's 144 spoken lines,** recorded from `game/talk/recording/z4-recording-order.txt` (sent to him again on
+   November 24). Zone 4 is being built to fit those words, so none should need making twice.
+3. **Zone 4's narrator lines,** once its land stands and the list is written (the zone-4 job writes it).
+4. **His word on the fights conversation.** Nothing has been pushed from it since the morning of November 23, and
+   zones 2, 3 and 4 have no fights. Either it pushes what it has, or the hub gives that work to a sub-agent here.
+5. **A try on his own laptop and phone:** `flight.html` (how it steers, its frame rate); whether the phone keeps a
+   save between visits (the Save tab's "visit N"); whether the phone opens a page of 100 MB at all; how the
+   narrator sounds the B way.
+6. Not needed for a first draft, and can wait: which of M7's creatures come in (the slots can stay empty); the
+   townsfolk's own bodies; the names of the stars and planets.
 
 ### Waiting on Chris (the newest; the older lists below still stand where not answered)
 
@@ -440,6 +458,7 @@ The hub's plan. Names and order may change.
 | `menu` | The pause menu and three save slots (a sub-agent of the hub's) | `job/menu` | `docs/slips/menu.md` | **Done, in `main`** (November 23, 21:50) |
 | `maps` | The 3D map of Aethermoor and the star map in the menu; choosing where to fly (a sub-agent) | `job/maps` | `docs/slips/maps.md` | **Started November 23, 19:15** |
 | `flight` | The flight between zones from Skies of Aethermoor; the real ship (a sub-agent) | `job/flight` | `docs/slips/flight.md` | **Done, in `main`** (November 23, 22:25). Joining it to the zones is the hub's |
+| `zone-4` | All of zone 4: land, people, story, the narrator's words (a sub-agent) | `job/zone-4` | `docs/slips/zone-4.md` | **Started November 24, 06:00.** Its text is not on the board: the rule that matters is that no word of `game/talk/zone-4.js` changes, because Chris is recording those lines |
 | `minimap` | A better map in the corner (a sub-agent of the hub's) | `job/minimap` | `docs/slips/minimap.md` | **Done, in `main`.** Its files were `game/engine/land/minimap.js` and the map's CSS in `game/pages/zone-1.html`; they are the hub's again now |
 | `fights` | The battle here as its own page, grown to four witches; then fights on the land | `job/fights` | `docs/slips/fights.md` | **Steps 1, 2 and 3 done and in `main`** (November 19): the battle page; `CovenBattle.start()`; the party kept in the browser; unseen meetings in zone 1's wilds (about 46 fights to level 5); the fight over the land and back; rest at the camp; the gate's spot (a proposal). Zone 1's page is 83.5 MB |
 | `story` | The story's dialogue, written to be spoken aloud (every person has a voice) | `job/story` | `docs/slips/story.md` | **In `main`** (November 23): the story page Chris approved; every line of zones 1 to 4 (`game/talk/zone-*.js`, `cast.js`); the recordings for zones 1 to 3 (`game/talk/audio/`, 480 files, 16 MB). Its notes for the hub are at the end of its slip: the moth, the gate lamp, and what zones 2 to 4 need |
