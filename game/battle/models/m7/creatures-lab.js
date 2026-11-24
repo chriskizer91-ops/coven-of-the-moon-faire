@@ -131,6 +131,31 @@
   $('vclose').addEventListener('click', () => { if (V) V.on = false; $('viewer').hidden = true; $('lab').style.display = ''; });
   $('vturn').addEventListener('click', () => { if (V) V.yaw += Math.PI / 4; });
 
+  // one motion on one picture: three moments (rows) from four sides (columns), for the no-stretching look
+  async function sheet(k, act) {
+    const v = choose(k); await M7.pictures(); setLight(v, 'battle'); if (v.witch) v.witch.root.visible = false;
+    const w = v.cv.clientWidth || window.innerWidth, h = v.cv.clientHeight || window.innerHeight; v.r.setSize(w, h, false); v.r.setScissorTest(true);
+    v.r.setClearColor(0x120e1c, 1); v.r.clear();
+    const cw = w / 4, ch = h / 3, box = new T.Box3(); let H = v.m.height;
+    const cam = new T.PerspectiveCamera(30, cw / ch, 0.05, 80);
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 4; c++) {
+      const u = [0.3, 0.55, 0.8][r], dt = 1 / 30; let t = 2; v.m.reset(); v.m.root.rotation.y = c * Math.PI / 2;
+      if (act === 'stand' || act === 'walk') for (let i = 0; i < 30 + u * 60; i++, t += dt) v.m.animate(t * 4.2, act === 'walk' ? 1 : 0, t, dt);
+      else { for (let i = 0; i < 20; i++, t += dt) v.m.animate(0, 0, t, dt); v.m.play(act, true); const D = v.m.ACTIONS[act].dur * u; for (let x = 0; x < D - 1e-6; x += dt, t += dt) v.m.animate(0, 0, t, Math.min(dt, D - x)); }
+      box.setFromObject(v.m.F.mesh); const ctr = box.getCenter(new T.Vector3()), sz = box.getSize(new T.Vector3()), R = Math.max(sz.x, sz.y, sz.z, H * 0.6) * 0.62;
+      const d = R / Math.tan(15 * Math.PI / 180); cam.position.set(ctr.x, ctr.y + d * 0.15, ctr.z + d); cam.lookAt(ctr);
+      const x = c * cw, y = (2 - r) * ch; v.r.setViewport(x, y, cw, ch); v.r.setScissor(x, y, cw, ch); v.r.render(v.scene, cam);
+    }
+    v.r.setScissorTest(false); v.r.setViewport(0, 0, w, h); if (v.witch) v.witch.root.visible = true; return true;
+  }
+  // how bright it is drawn against the witch beside it: the mean brightness (0 to 255) of the pixels each covers
+  async function lum(k) {
+    await still(k, { act: 'stand', yaw: 0.55 }); const v = V, w = 320, h = 240, rt = new T.WebGLRenderTarget(w, h);
+    const grab = () => { v.r.setRenderTarget(rt); v.r.render(v.scene, v.cam); const px = new Uint8Array(w * h * 4); v.r.readRenderTargetPixels(rt, 0, 0, w, h, px); v.r.setRenderTarget(null); return px; };
+    const all = grab(); v.m.root.visible = false; const noM = grab(); v.m.root.visible = true; let noW = null; if (v.witch) { v.witch.root.visible = false; noW = grab(); v.witch.root.visible = true; }
+    const mean = (a, b) => { let s = 0, n = 0; for (let i = 0; i < a.length; i += 4) if (Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]) > 6) { s += 0.2126 * a[i] + 0.7152 * a[i + 1] + 0.0722 * a[i + 2]; n++; } return n ? +(s / n).toFixed(1) : 0; };
+    rt.dispose(); return { creature: mean(all, noM), witch: noW ? mean(all, noW) : null };
+  }
   // all of them standing in a row beside a witch, at their true sizes, under the battle's lights (for Chris's sheet)
   async function row(keys) {
     const v = viewer(); await M7.ready; if (v.m) { v.scene.remove(v.m.root); v.m = null; v.key = null; }
@@ -152,5 +177,5 @@
   $('wait').textContent = W.waiting;
   window.__clab = { keys: KEYS, ready, start: (k, o) => start(k, o), open, motions: (k) => motions(k).map((x) => x[0]),
     async view(k, o) { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = !!(o && o.bare); choose(k); await M7.pictures(); await new Promise((r) => setTimeout(r, 30)); return still(k, o); },
-    get busy() { return busy; }, row: async (ks) => { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = true; return row(ks || KEYS); }, slotOf: (k) => { const s = slotOf(k); return s ? { zone: s.zone, slot: s.k } : null; } };
+    get busy() { return busy; }, sheet: async (k, a) => { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = true; return sheet(k, a); }, lum: async (k) => { $('lab').style.display = 'none'; $('viewer').hidden = false; await M7.pictures(); return lum(k); }, row: async (ks) => { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = true; return row(ks || KEYS); }, slotOf: (k) => { const s = slotOf(k); return s ? { zone: s.zone, slot: s.k } : null; } };
 })();

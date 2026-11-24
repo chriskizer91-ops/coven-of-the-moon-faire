@@ -230,7 +230,10 @@
   const bumpf = (x) => Math.sin(clamp01(x) * Math.PI);
   const TAU = Math.PI * 2;
   G.makeM7Foe = function (opts) {
-    const o = opts || {}, sh = shared(o.kind), def = sh.def, A = sh.A, moves = sh.moves;
+    const o = opts || {};
+    // not unpacked yet (a fight in the first moment a page is open): the slot's plain stand-in, so the fight still runs
+    if (!(M7.bins[o.kind] && M7.bins[o.kind].bin) && typeof G.makeStandIn === 'function') { start(); return G.makeStandIn(o.standIn || { shape: 'heavy', tall: 1.6 }); }
+    const sh = shared(o.kind), def = sh.def, A = sh.A, moves = sh.moves;
     const letGo = o.letGo || def.letGo || 'wither', arrive = o.arrive || def.arrive || 'step';
     const mat = makeMaterial(def), sk = buildSkinned(sh, mat), U = mat.userData.m7;
     const root = new T.Group(), body = new T.Group(); root.add(body); body.add(sk.mesh);

@@ -3,7 +3,7 @@
 window.M7.add('rotwarden', {
   moves: 'rotwarden',
   tex: { color: "./color-768.webp", normal: "./normal-512.webp", orm: "./orm-384.webp" },
-  mat: { exposure: 1.0 },
+  mat: { exposure: 1.0, metalK: 0.55, env: 0.9 },     // its plate keeps some of its own colour as well as the sky's
   acts: {
     rootlash: { move: 'rootlash', dur: 1.6, hits: [0.45] },                           // Rootlash: wind up, the root whips across
     roots: { move: 'grasping-roots', dur: 2.0, hits: [0.47] },                        // Grasping Roots: root up, driven down

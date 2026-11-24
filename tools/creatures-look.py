@@ -8,7 +8,7 @@
   --query m7=before        added to the page's address (m7=before draws them as they first came in)
   --stand                  one picture of each standing, turned three-quarters, beside a witch: <key>-stand.png
   --m7light                the same under M7's own lights (its beasts page), to set beside M7's pictures: <key>-m7light.png
-  --motions                every motion at three moments, from four sides, one sheet a motion: <key>-<motion>.png
+  --motions                every motion at three moments (rows) from four sides (columns), one picture a motion
   --fight 3,6,9            a fight in its slot, the battle playing itself: a picture at each of these seconds
   --row                    all of them standing in a row beside a witch, in one picture: row.png
 
@@ -66,20 +66,15 @@ with sync_playwright() as p:
           if 'stand' in flags:
               info = pg.evaluate('async (k) => { const r = await window.__clab.view(k, { act: "stand", yaw: 0.55, bare: true }); return { h: r.height, t: r.triangles }; }', k)
               pg.screenshot(path=os.path.join(out, '%s-stand%s%s.png' % (k, tag, sz)))
-              print(k, 'height %.2f m' % info['h'], info['t'], 'triangles drawn')
+              print(k, 'height %.2f m' % info['h'], info['t'], 'triangles drawn', 'brightness (0-255) of it and of the witch:', pg.evaluate('(k) => window.__clab.lum(k)', k))
           if 'm7light' in flags:
               pg.evaluate('(k) => window.__clab.view(k, { act: "stand", yaw: 0.55, bare: true, light: "m7", witch: false })', k)
               pg.screenshot(path=os.path.join(out, '%s-m7light%s.png' % (k, sz)))
               pg.evaluate('(k) => window.__clab.view(k, { act: "stand", light: "battle" })', k)
           if 'motions' in flags:
               for m in pg.evaluate('(k) => window.__clab.motions(k)', k):
-                  shots, labels = [], []
-                  for u in (0.3, 0.55, 0.8):
-                      for yaw in (0, 1.5708, 3.1416, 4.7124):
-                          f = os.path.join(out, '_%d.png' % len(shots))
-                          pg.evaluate('([k, m, u, y]) => window.__clab.view(k, { act: m, u, yaw: y, at: u * 2, bare: true, witch: false })', [k, m, u, yaw])
-                          pg.screenshot(path=f); shots.append(f); labels.append('%s u=%.2f side %d' % (m, u, round(yaw / 1.5708)))
-                  grid(shots, 4, os.path.join(out, '%s-%s%s.png' % (k, m, tag)), labels)
+                  pg.evaluate('([k, m]) => window.__clab.sheet(k, m)', [k, m])
+                  pg.screenshot(path=os.path.join(out, '%s-%s%s.png' % (k, m, tag)))
               print(k, 'motions done')
           if opt['fight']:
               pg.evaluate('(k) => { window.__battle = null; window.__clab.start(k, { auto: "careless" }); }', k)

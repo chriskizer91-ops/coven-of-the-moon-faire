@@ -3,7 +3,7 @@
 window.M7.add('thornhound', {
   moves: 'quad',
   tex: { color: "./color-512.webp", normal: "./normal-512.webp", ao: "./ao-512.webp", emit: "./emit-256.webp" },
-  mat: { glowK: 1.3, exposure: 1.0, double: true },
+  mat: { glowK: 1.3, exposure: 1.25, double: true },   // its dark coat a little lifted, so it reads on dark ground
   acts: {
     bite: { move: 'bite', dur: 1.0, hits: [0.47] },                                   // Bite: a snap, head down and forward
     lunge: { move: 'lunge', dur: 2.2, hits: [0.66, 0.72, 0.8] },                      // Lunge: a long crouch, the leap, it rakes
