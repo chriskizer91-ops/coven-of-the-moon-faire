@@ -126,7 +126,7 @@
       // 'first-meeting' (the line `first-wisp`: the fight waits for it, 6 seconds at most), 'rest' (the line `rest`, at the camp,
       // once), 'not-ready' (the line `not-ready`, in place of the fights' own words). A zone with no such line is left as it was.
       if (G.__covenFightsNarr) G.removeEventListener('coven-fights', G.__covenFightsNarr);
-      G.__covenFightsNarr = (e) => { const d = e.detail || {}; if (d.zone && d.zone !== zone) return;
+      G.__covenFightsNarr = (e) => { const d = e.detail || {};
         if (d.what === 'first-meeting' && NAR['first-wisp'] && !S.said['first-wisp'] && !people.busy()) { d.wait(); S.said['first-wisp'] = true; save();
           let over = false; const end = () => { if (!over) { over = true; d.done(); } }; setTimeout(end, 6000); if (!people.play([NAR['first-wisp']], null, end)) end(); }
         else if (d.what === 'rest' && d.where === 'camp' && NAR.rest) narrate('rest');

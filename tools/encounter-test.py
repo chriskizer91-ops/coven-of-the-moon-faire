@@ -55,6 +55,7 @@ with sync_playwright() as p:
     pg.on('pageerror', lambda e: errors.append('pageerror: ' + str(e)))
     pg.on('console', lambda m: errors.append('console: ' + m.text) if m.type == 'error' else None)
     t0 = time.time()
+    pg.add_init_script("window.__played = []; setInterval(() => { const P = window.__people; if (P && P.play && !P.__rec) { P.__rec = true; const o = P.play; P.play = (ls, p, t, c) => { for (const l of ls || []) window.__played.push(l.id); return o(ls, p, t, c); }; } }, 50);")
     pg.add_init_script("window.__heard = []; window.addEventListener('coven-fights', (e) => { const d = e.detail; window.__heard.push(d.what); if (d.what === 'first-meeting') { d.wait(); window.__firstAt = performance.now(); setTimeout(() => { window.__firstDone = performance.now(); d.done(); }, 1200); } if (d.what === 'not-ready' && window.__sayNotReady) d.told(); });")
     URL = 'file://' + page_file + '?test&fights'
     pg.goto(URL, timeout=600000); pg.wait_for_function('(window.__ready && (window.__fights || window.__fightsErr)) || window.__err', timeout=600000)
@@ -84,7 +85,6 @@ with sync_playwright() as p:
       return best; }""")
     CAMP = pg.evaluate("window.__fights.camp.wake || window.__fights.camp.at")
     # (the lines the people are given to say, by id: for the narrator's lines that wait on the fights' events)
-    pg.evaluate("() => { window.__played = []; const P = window.__people; if (!P || !P.play) return; const o = P.play; P.play = (ls, p, t, c) => { for (const l of ls || []) window.__played.push(l.id); return o(ls, p, t, c); }; }")
     NARID = pg.evaluate("() => { const S = window.__story, o = {}; if (S && S.narration) for (const k in S.narration) o[k] = S.narration[k].id; return o; }"); NAR = list(NARID)
     print('2. meetings in a kilometre of each kind of ground (20 km each, counted, not fought; a party two levels into the zone)')
     per = None if LONG else pg.evaluate("""() => {
@@ -259,7 +259,6 @@ with sync_playwright() as p:
         print('5d. zone 4: the great bramble (the story\'s flag), then the fire in its two forms, with the coven speaking between them')
         z = pg.evaluate("""async () => {
           const F = window.__fights, S = window.__story, P = window.__people; F.auto = 'expert';
-          if (!window.__played) { window.__played = []; const o = P.play; P.play = (ls, p, t, c) => { for (const l of ls || []) window.__played.push(l.id); return o(ls, p, t, c); }; }
           window.__keep4 = JSON.parse(JSON.stringify(F.party.state));
           const on = setInterval(() => { const B = window.__battle; if (B && B.engine && B.turbo !== 40) B.turbo = 40; if (B && B.state === 'over' && !document.getElementById('end').hidden) B.again(); if (!B || B.state === 'over') { if (P.say()) P.talk(); } }, 300);
           S.reset(); S.set({ stage: 1 }); F.party.setLevel(16);
