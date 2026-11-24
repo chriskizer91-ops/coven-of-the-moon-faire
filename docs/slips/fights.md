@@ -68,6 +68,8 @@ bramble (40 turns). Each took 1 to 16 minutes here.
 
 RESULTS of the rest (each filled in as it finished):
 
+- `quick-4` (35 ok, 0 failed): every check passed
+
 ### The pictures (looked at, every one)
 
 Made again with (from the working copy, after `python3 tools/build.py game/pages/fights-lab.html`):
