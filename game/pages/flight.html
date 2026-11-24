@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Coven of the Moon Faire: the flight</title>
+<style>
+/* A small page for trying one flight between two landings (the flight job). It is not part of the game's journey: the
+   zone pages will call the same piece, W3D.flight.fly(). Pick a flight; when it ends, this page says how it went. */
+html,body{margin:0;min-height:100%;background:#0a0b18;color:#e8e4ff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+main{max-width:560px;margin:0 auto;padding:calc(22px + env(safe-area-inset-top,0px)) 20px calc(28px + env(safe-area-inset-bottom,0px))}
+h1{margin:0 0 4px;font:400 30px/1.1 Georgia,"Times New Roman",serif;letter-spacing:.02em}
+h2{margin:0 0 16px;font:400 17px/1.3 Georgia,"Times New Roman",serif;color:#cfc8f2}
+p{margin:0 0 12px;font-size:15px;line-height:1.45;color:#b8b4e0}
+#flights{display:grid;gap:10px;margin:16px 0}
+#flights button{appearance:none;min-height:64px;padding:11px 16px;border-radius:16px;border:1px solid rgba(214,222,255,.4);background:rgba(30,26,66,.75);color:#f0ecff;font:inherit;font-size:16px;text-align:left;cursor:pointer}
+#flights button b{display:block;font:400 19px/1.2 Georgia,"Times New Roman",serif;color:#ffe6a8}
+#flights button span{font-size:13.5px;color:#b8b4e0}
+label{display:flex;gap:10px;align-items:center;font-size:15px;color:#b8b4e0;margin:0 0 14px}
+select{min-height:44px;padding:8px 12px;border-radius:12px;border:1px solid rgba(214,222,255,.4);background:#14122c;color:#f0ecff;font:inherit;font-size:15px}
+#result{min-height:3em;padding:12px 16px;border-radius:14px;background:rgba(14,12,34,.7);border:1px solid rgba(214,222,255,.22);color:#f0ecff;font-size:15px;line-height:1.5;white-space:pre-line}
+#result:empty{display:none}
+</style>
+</head>
+<body>
+<main>
+  <h1>Coven of the Moon Faire</h1>
+  <h2>The flight between zones: try one</h2>
+  <p>Each flight goes from one landing to the next over the night map, in one of the ships from Skies of Aethermoor. Raiders come on the way. Follow the gold light to the landing.</p>
+  <label>Ship <select id="ship"></select></label>
+  <div id="flights"></div>
+  <div id="result"></div>
+  <p>The number at the bottom left of the flight is how many pictures it draws each second.</p>
+</main>
+<script src="../travel/landings.js"></script>
+<script src="../flight/flight-data.js"></script>
+<script src="../flight/flight-frame.js"></script>
+<script src="../flight/flight.js"></script>
+<script>
+// The flight's try-out page (Coven of the Moon Faire, the flight job, November 23, 2026).
+// With ?test in the address nothing starts by itself and nothing waits for a button: the checks call W3D.flight.fly().
+(function () {
+  const $ = (id) => document.getElementById(id), F = window.W3D.flight, D = window.COVEN_FLIGHT_DATA, L = window.COVEN_LANDINGS;
+  const shipName = (id) => D.words.ships[id].cls;
+  const sel = $('ship');
+  sel.add(new Option('the one for that gate', ''));
+  for (const id of D.ships) sel.add(new Option(shipName(id), id));
+  const log = [];
+  window.__flightLog = log;
+  for (const name of ['coven:flight-start', 'coven:flight-raiders', 'coven:flight-clear', 'coven:flight-end'])
+    window.addEventListener(name, (e) => log.push({ name: name, at: Math.round(performance.now()), detail: e.detail }));
+  // each flight on to the next landing, and one flight back from the last (the fourth ship's)
+  const pairs = L.filter((to) => to.after).map((to) => [L.find((l) => l.id === to.after), to]);
+  const lastL = L[L.length - 1]; if (lastL.after) pairs.push([lastL, L.find((l) => l.id === lastL.after)]);
+  for (const [from, to] of pairs) {
+    const b = document.createElement('button'), t = document.createElement('b'), s = document.createElement('span');
+    const line = () => { s.textContent = F.km(from, to).toFixed(1) + ' km · ' + shipName(sel.value || F.shipFor(from)); };
+    t.textContent = from.name + ' to ' + to.name; line(); sel.addEventListener('change', line);
+    b.append(t, s); $('flights').append(b);
+    b.addEventListener('click', async () => {
+      log.length = 0; $('result').textContent = '';
+      const t0 = performance.now(), r = await F.fly({ from: from.id, to: to.id, ship: sel.value || undefined });
+      const secs = r.seconds != null ? r.seconds : Math.round((performance.now() - t0) / 1000), time = Math.floor(secs / 60) + ' min ' + (secs % 60) + ' s';
+      const heard = log.filter((e) => /raiders|clear/.test(e.name)).map((e) => (e.name === 'coven:flight-raiders' ? 'the raiders came' : 'they were seen off')).join(', then ');
+      $('result').textContent = (r.arrived ? 'Arrived at ' + to.name + ' after ' + time + '.' : r.why === 'lost' ? 'The ship went down after ' + time + '. The crew got her home.' : r.why === 'turned-back' ? 'Turned back after ' + time + '.' : 'The flight did not happen: ' + (r.message || r.why) + '.')
+        + (r.downed != null ? '\nRaiders brought down: ' + r.downed + '. Hull left: ' + Math.round((r.hull || 0) * 100) + '%.' : '')
+        + (heard ? '\nWhat the story would hear: ' + heard + '.' : '');
+    });
+  }
+  window.__ready = true;
+})();
+</script>
+</body>
+</html>
