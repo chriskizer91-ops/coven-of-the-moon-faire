@@ -1,5 +1,88 @@
 # journey: the zones joined into one journey
 
+## Report for the hub (November 24, 2026: parts 1, 2 and 3 of the journey job)
+
+**The pictures to look at are in one folder on this machine: `work/journey/for-hub/` under the shared work folder**
+(the gate at zone 4, the flight home, the ending opening, the end card, the front door after it, the bottom of an
+upright phone before and after; the four ships side by side; each ship in flight).
+
+### What works now
+
+- **The whole journey, first night to the end.** Zone 1 to 2 to 3 to 4 by the ship, each zone's flight lines said on
+  its flight in, and home: once zone 4's story is done (its flag `leaving`), boarding offers only Wickhollow; the
+  flight home is quiet; zone 1's page opens **as the ending** (the Faire's last night: `W3D.faireEnding.cast()` before
+  `W3D.people.start`, `W3D.faireEnding.start()` in place of zone 1's story, the wilds' fights left off), not as its
+  first night. The homecoming's lines and narrator line 10 are said as the ending opens, as the zone-4 job left them.
+  After the end card, a button "Back to the front door". The front door shows "the end reached" on that slot; Carry
+  on opens the ending again. A new game, and a slot still in zone 1, open zone 1 as its first night. All of it is done
+  from the journey's own code: zone 1's page changed only inside its marked block (the ending's four files loaded).
+- **Zone 4 joined**: the marked block on `zone-4.html`; its gate beside the ship; its flight in says `z4.narrator.01`
+  and `z4.captain.01` (it has no "flight-after").
+- **The bottom of an upright phone**: the talk's button and words (the people's "Go on" and "Talk to", the things', and
+  "Board the ship") are lifted 52 px over the frame-rate and level pills where the screen is 620 px wide or less. One
+  style rule, set by `game/travel/journey.js` (marked "journey job"); nothing else moved. Before and after pictures.
+- **The ship by zone, on Chris's word of 12:00, as the hub read it**: zone 1 the Skiff; zone 2 the Skiff fitted out;
+  zone 3 the fitted Skiff at the camp and up on the slip, then the Cutter on the slip once the refit is done (stage 4);
+  zone 4 the Cutter made ready for the peaks (zone 4's own place file now takes her first: one marked line). Flights:
+  Skiff, fitted Skiff, Cutter, peaks Cutter (`shipFrom`, data lines, marked). Every version carries twelve lamp hooks,
+  six a side (zones 2 and 3: drawn by `landing-ships.js`, each with its lamp lit; zone 1: the jetty's own; zone 4: its
+  own twelve and a spare).
+
+### The two upgrades (proposals, Chris's to change; recipes `game/flight/src/ships/skiff2.js`, `cutter2.js`)
+
+- **The Skiff, fitted out**: a short brass-banded bowsprit; a small topsail over her wing sail (mast 0.4 m taller); two
+  more brass straps round the hull; a fourth sunstone crystal. 31,026 triangles moored (the plain Skiff 29,518).
+- **The Cutter, for the peaks**: a second, smaller sunstone mount aft (more lift in thin air) and five crystals in the
+  main one; topsails on both masts (masts 0.5 m taller); fins a third broader; two more brass straps. 37,714 triangles
+  moored (the plain Cutter 34,110).
+- They fly exactly as the plain ones (the same stats); their names are the same ships' (Zephyr, Gale).
+- **How they were made, plainly**: with the ship's own kit, by recipe (no new parts code), light and clean. NOT
+  modelled at high detail and baked down: no baking workflow was found ready on this machine (the peak-creatures
+  slip was not on any branch I could read), so Chris's "a million triangles baked onto a simpler model" is not done
+  for the ships.
+
+### Numbers
+
+- **journey-test: 57 checks, all good** (parts A to H and F, about 11 minutes here); at 412 by 880 (A and F): 21.
+- On pages built after parts 1 and 2: zone-test 28 / 21 / 25 / 19 (zones 1 to 4); people-test zone 1: 134;
+  things-test zone 1: 40; story-test zone 2: 61, zone 3: 64, zone 4: 74 good and **2 failed, the two expected** (the
+  held Warden's z4.warden.01 and .02 have no recording yet); faire-test: 72; menu-test --only A: 58 / 57 / 57 / 57;
+  maps-test: 108 on each of the four zones; flight-test: 64. All good otherwise.
+- Part 3's checks (journey-test, flight-test, flight-ship-test on zone 1): see "Part 3's checks" below.
+- Small folk knees (180 straight), before and after the fix of part 1: Pell 93 to 165, Tock 65 to 172, Tobb 172 both.
+
+### Not done
+
+- The ships' high-detail-and-bake (above). The Brig is not baked (none needed now).
+- Zone 4's page still loads `skiff.js` in its own lines (0.75 MB it no longer draws): the zone-4 job's line, left.
+- The flight home starts over the frozen camp; zone 3's flight out starts over the northern camp on the map, though
+  she leaves from the shipyard's slip.
+- The leaving narration says the ship lifts before the player presses "Board the ship".
+- Nothing tried on a real laptop or phone (feel, frame rates, sound before a tap, the "open this file next" card).
+
+### For the hub to decide or do
+
+1. Merge `job/journey` (blocks before the menu's on all four zone pages; the fights job's block is untouched).
+2. The phone trial's answer sets `opensNext` in `journey-data.js`.
+3. Whether the homecoming's lines should move onto the flight home (now: as the ending opens).
+4. Remove `skiff.js` from zone 4's own lines when convenient.
+5. The changed copied files (Skies of Aethermoor's sources), each change marked "Coven": `game/flight/src/ships/index.js`
+   (the two fitted ships registered, flying as the plain ones), `game/flight/src/ship/build.js` (their fineness);
+   `game/flight/flight-frame.js` rebuilt; `flight-data.js` data lines; `game/places/zone-4.js` one line.
+
+### For Chris
+
+- Try the phone trial (`trial/phone/steps.txt`).
+- Look at the four ships side by side: are the two upgrades the kind of "slightly better" you meant?
+- The end card's words, the front door's line under the name, "Board the ship", "Back to the front door", "the end
+  reached": all stand-ins in `game/travel/journey-data.js` (and the end card's in the zone-4 job's file).
+
+### Part 3's checks
+
+- (filled in when the run ends)
+
+---
+
 Branch: job/journey      Updated: November 24, 2026
 
 ## FIRST: the phone trial (ready to send to Chris now)
@@ -73,7 +156,7 @@ Branch: job/journey      Updated: November 24, 2026
 
 ## The journey job's calls (each one line of data; the hub's or Chris's to overrule)
 
-- **Which ship lies where** (`landing-ships.js`, `ship`): the Cutter at zones 2 and 3. The table (`shipFrom`) flies the
+- **(Superseded by Chris's word of November 24, 12:00: see the report above.) Which ship lay where** (`landing-ships.js`, `ship`): the Cutter at zones 2 and 3. The table (`shipFrom`) flies the
   Cutter from the Warm Roads, so she is the one boarded there, and she is the one that flies into zone 3. Zone 3's lines
   say that ship is refitted, not changed ("New ribs, new keelson, same old ship"), and the Brig (25 m) would not fit
   the slip (17 m). **Where the table and a line disagree, the line wins**: the flight out of zone 3 is the Brig by the
