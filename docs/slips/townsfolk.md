@@ -1,6 +1,6 @@
 # townsfolk: bodies of their own for the people of the towns (the first part: up to Chris's pictures)
 
-Branch: job/townsfolk      Last commit of code: see `git log` (this slip is committed with it)      Updated: 2026-11-24, 08:00
+Branch: job/townsfolk      Last commit of code: see `git log` (this slip is committed with it)      Updated: 2026-11-24, 07:32
 
 A sub-agent of the hub's did this, from the hub's brief of November 24. **Everything about how a person looks is a
 proposal until Chris says so.** Nothing in a zone page, in the people files or in `game/people/people.js` was changed.
