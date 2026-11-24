@@ -204,7 +204,7 @@
       a.href = url; a.download = f.name; a.click(); setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 5000);
       note(fill(T.fileSaved, { name: f.name })); root.dataset.file = f.name; saveTab(el);
     }).dataset.act = 'to-file';
-    const pick = mk('input', 'cm-hide', files); pick.type = 'file'; pick.accept = '.json,application/json,text/plain';
+    const pick = mk('input', 'cm-hide', files); pick.type = 'file';   // (any file may be picked: some phones grey out a .json when told what to accept; every file is checked here)
     btn('', files, T.fromFile, () => { pick.value = ''; pick.click(); }).dataset.act = 'from-file';
     pick.addEventListener('change', () => { const f = pick.files && pick.files[0]; if (f) fromFile(f, el); });
     mk('p', 'cm-small', col, T.fileNote);
