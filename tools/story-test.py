@@ -172,7 +172,7 @@ elif z == 'z4':
     check(R['mode4'] == 'awake' and R['awakeN'] == 39 and R['wardenNow'] < 0, 'the forty are awake and coming down: thirty-nine on the street, the squares and the great stair, and the one who speaks at the bottom of the street')
     check(R['home'], 'once the coven has gone down, Halcyon is at the ship')
     check(R['warden'] == ['z4.warden.01'] and R['watch4'] == ['z4.watch.06'] and R['ede4'] == ['z4.ede.07'] and R['sorrel4'] == ['z4.sorrel.06'] and R['keeper4'] == ['z4.passkeeper.07'], 'the Warden, the watchwoman, Ede, Sorrel and the pass-keeper each say what the ending has done')
-    check(R['gone'] and R['prints'] and R['printN'] > 400, 'once the coven is down past the frozen pass the forty have gone down ahead of it: %d footprints lie on the trail by the pass-keeper\'s hut, all going down' % R['printN'])
+    check(R['gone'] and R['modeEnd'] == 'gone' and R['prints'] and R['printN'] > 400, 'once the coven is down past the frozen pass the forty have gone down ahead of it: %d footprints lie on the trail by the pass-keeper\'s hut, all going down' % R['printN'])
     check(R['hearth4'] and R['wisps4'] == 0, 'Ede\'s hearth burns, and the cold lights are gone')
     check(R['capN'] > 0 and R['leaving'] and first(R['leave'], 'z4.narrator.16'), 'the Grey Hat counts five down (on talk %d): that is the leaving for the Faire, and the narrator says it' % R['capN'])
     want = ['landing', 'frozen-road', 'misthollow', 'stair', 'letter', 'before-fire', 'between', 'after-fire', 'bow', 'flame', 'moonset']

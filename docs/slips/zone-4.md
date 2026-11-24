@@ -244,7 +244,35 @@ the land, and what makes each true:
 
 ## What was checked, and how
 
-(the numbers are filled in at the end of the job: see the last section of this slip)
+Every check opens the built page with no screen, as `?test` (nothing saved, no Begin button).
+
+| Check | Result |
+|---|---|
+| `tools/zone-test.py builds/zone-4.html` | **ALL PASSED, 19 checks.** Every road walked at a sprint; her height never jumped (at most 5.3 cm in a thirtieth of a second); she ended on the next place's ground each time; 3,941 spots obey the land's rules (94% can be stood on); 0 page errors |
+| `tools/story-test.py builds/zone-4.html` (zone 4 added to it) | **ALL PASSED, 76 checks.** Six people built, on the ground, in the open, each with a Talk button and a talk that shows and ends. Then the story played from the landing to the leaving: every stage, all 11 moments in order with the narrator first, the forty counted, the bramble shut then open, the light on the stair out, the fire up then out, the moths, the dark and the stars, the forty awake then gone, the footprints, five counted down. 0 page errors |
+| `tools/faire-test.py builds/faire-ending.html` (new) | **ALL PASSED, 73 checks.** All fifteen at the camp and reachable; the homecoming first; each of the fifteen says their own goodbye when walked up to, and the same again if asked; nothing else said between; then the last talk, ending on Io's "Yes."; the end card; nothing saved |
+| `tools/menu-test.py builds/zone-4.html --only A` | **ALL PASSED, 57 checks** |
+| `tools/story-test.py` on zones 2 and 3 (they share the check and the narrator's file) | **ALL PASSED: 61 and 64 checks**, as before |
+| `tools/narration-order-z4.py` | 18 lines, about 2 minutes, the longest 23 words; no dash, semicolon, dots or digit in any |
+| `git diff` on `game/talk/` | **nothing changed** |
+
+- **Pictures looked at one by one:** 24 of the land, 49 of the people, the story and each narrator line's view, 8 of
+  the Faire ending, 6 at a phone's size (412 by 880 upright, 880 by 412 on its side). Each narrator line was read
+  against the picture taken from where it is said; one was rewritten because of it (the shore: from the fork the mere
+  cannot be seen past the boathouse, so the line now names the boathouse first).
+- **Sizes:** `zone-4.html` builds to 74.6 MB (no recordings in it yet; zone 3's are 4.6 MB). `faire-ending.html`
+  builds to 87.4 MB.
+- **The heaviest view** is the top of Misthollow's great stair, with the town, the forty and the cold lights in
+  sight: 379 thousand triangles in 348 pieces on laptop settings. The forty are 110 thousand of those, in 33 pieces.
+
+**Not checked, because nobody here can:**
+
+- **The frame rate anywhere, and above all in Misthollow.** Only Chris's laptop and phone can show it.
+- **How any of it moves:** the cold lights drifting, the moths rising, the fire, the moon going down, the dawn failing.
+  The checks see that each starts and stops when it should; the pictures show single moments.
+- **The sound.** Zone 4's recordings are not in yet, so every line shows in words only.
+- **How long the walk feels:** 3.3 km up, and the same down again after the fire.
+- The phone itself: only pictures at a phone's size were looked at.
 
 ## Rough spots
 
@@ -257,8 +285,65 @@ the land, and what makes each true:
 
 ## For the hub
 
-(filled in at the end of the job)
+1. **Bring it in.** The branch changes none of the menu job's, the flight job's, the maps job's or the fights job's
+   files, and no word of `game/talk/`. In the hub's own files it adds: lines to `assets/INDEX.csv`; zone 4's part to
+   `game/people/narration.js`; zone 4 to `tools/story-test.py`; and three files made by the hub's own tools or in their
+   form (`game/people/voice-z4.js`, `game/people/recording/narration-recording-order-z4.txt` and `.csv`).
+2. **When zone 4's recordings come:** put them in `game/talk/audio/z4/`, run `python3 tools/voice-list.py z4`, build.
+   Both pages already load `game/people/voice-z4.js`, which is an empty list until then. `tools/story-test.py` then
+   checks every line has its sound, by itself.
+3. **The leaving.** Zone 4 has no `leaving` moment of the coven's. The story is at its leaving when the Grey Hat's
+   "You came down. Five of you." has been heard at stage 4: `window.__story.state().flags.leaving` is then true, and
+   the narrator says the ship lifts (`z4.narrator.16`). That is where the last flight starts.
+4. **To join the ending to zone 1's page after the last flight** (`game/people/faire-ending.js` says the same at its
+   top; `game/pages/faire-ending.html` does exactly this):
+   - load `game/talk/zone-4.js`, `game/people/voice-z4.js`, `game/places/zone-4-sky.js` and
+     `game/people/faire-ending.js` in zone 1's page;
+   - when the page is opened for the ending: call `W3D.faireEnding.cast()` **before** `W3D.people.start`, and
+     `W3D.faireEnding.start({ W, root, people, waitBegin: true })` **in place of** `W3D.story.start` for zone 1.
+     Its `.story` is the story engine's own handle, for the Begin button and for zone 1's things;
+   - leave the fights off for the ending, or keep the wilds quiet: nothing in the ending needs them;
+   - it keeps its own place in the browser (`coven.story.faire.v1`), so it never touches zone 1's story;
+   - `o.onEnd` is called when the last line has been said, if the hub wants a title or credits after the end card.
+5. **The flights.** Zone 4's flight in has one line of the Grey Hat's (the moment `flight`) and the narrator's
+   `z4.narrator.01`, to be said on the flight as in zones 2 and 3. The flight home is the moment `homecoming` and
+   `z4.narrator.10`: the ending says both as it opens, at the camp. If the hub would rather they were heard on the
+   last flight itself, play that moment there and start the ending with it already played.
+6. **The ship at the frozen camp is the Skiff, standing in.** Bake the right one and load its file in
+   `zone-4.html` in place of `skiff.js`: `game/places/zone-4.js` takes `COVEN_SHIPS.brig` by itself if it is there.
+7. **For the fights job:** "Where a fight belongs", above. Two things it must do that zones 1 to 3 did not need:
+   set the flag `bramble` when the great bramble is won, and play the moment `between` between the fire's two forms.
+8. **For the board:** zone 4's row; its page in the table of pages (74.6 MB, 6 people, the story from the landing to
+   the leaving); the Faire ending as a piece ready to be joined; `tools/faire-test.py` and
+   `tools/narration-order-z4.py` as new tools; the narrator has 18 more lines waiting to be recorded.
+9. **For `docs/decisions.md` or `docs/questions.md`:** the seventeen calls above are all this job's, none Chris's yet.
+10. **`tools/zone-test.py` walks the bramble's road at stage 0**, when the bramble is not yet solid (it bars the road
+    from stage 1, which play reaches at the frozen pass at the latest). Said here so nobody is surprised.
+11. `game/README.md` was not changed: no new folder was made.
 
 ## For Chris
 
-(filled in at the end of the job)
+**To look at** (the pictures are in the hub's hands; the pages build with `python3 tools/build.py`):
+
+- `zone-4.html`: walk from the frozen camp to the Moonwell and back. It plays to the end without a fight.
+- `faire-ending.html`: the last scene by itself.
+
+**To record:** the narrator's 18 lines for zone 4, from
+`game/people/recording/narration-recording-order-z4.txt`. They are proposals: change any word first.
+
+**His calls** (each is one line to change):
+
+1. **How tall the peaks are.** One ninth of the map's height, so the walk up is 3.3 km and not 7.8.
+2. **Where Misthollow and the Moonwell stand:** 143 m and 290 m south of their pins, with the Moonwell at the head
+   of the town's one street.
+3. **Is the walk too long?** 3.3 km up and 3.3 km down again. If it is, the pass-keeper's "footprints" and the
+   Grey Hat's "five of you" could be reached sooner by a ride down, which nothing here builds.
+4. **The forty Wardens' look:** the night-watchman's long coat, tall hat and red scarf, all forty. And their two
+   files up the street.
+5. **Who wears which body** (the table of six, and Halcyon in the fortune-teller's).
+6. **The ship at the camp:** the Skiff for now.
+7. **The ending:** everyone gathered at the camp; the last talk as soon as the fifteenth goodbye is heard; the words
+   "The end" and "Coven of the Moon Faire" on the dark.
+8. **The names on the land** ("The frozen road", "The snowbound pines", "White sage") and "The Warden".
+
+**Only he can check:** the frame rate (Misthollow above all), how the moving things look, and the sound when it is in.

@@ -358,7 +358,7 @@
       // (until the fights job sets the great bramble's fight, it gives way once the coven has stood before it and spoken)
       ['frozen-road', (c) => !c.flag('bramble') && bramble(c, 24), (c) => { if (!c.fights) c.flag('bramble', true); }],
       // at the top of the great stair, where the street and its two files of Wardens open in front of the coven
-      ['misthollow', (c) => c.spot('misthollow', 766, 650, 10) || c.spot('misthollow', 766, 560, 9)],
+      ['misthollow', (c) => c.spot('misthollow', 766, 650, 13) || c.spot('misthollow', 766, 560, 9)],
       ['stair', (c) => c.stage >= 2 && c.spot('moonwell', STEP[1], STEP[2], 15)],
       ['letter', (c) => c.heard('stair') && c.spot('moonwell', STEP[1], STEP[2], 3.2)],
       ['before-fire', (c) => c.heard('letter') && !c.won()],
