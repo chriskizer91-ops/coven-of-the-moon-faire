@@ -1,12 +1,93 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 12:03, by the hub.
+Last updated: November 24, 2026, 12:08, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
 
 **A new hub picking up:** read `CLAUDE.md`, this board, `docs/decisions.md` (newest first), then the newest slip in
 `docs/slips/`. Build the newest page (`game/README.md` says how) and open it before changing anything.
+
+## Hub handoff, November 24, 2026, 12:08: READ THIS FIRST
+
+**Why there is a handoff.** Chris's week of Fable usage reached 84%. The hub's conversation had grown so long that
+every step in it was costly, so he starts a fresh one. **A new hub cannot talk to the old hub's sub-agents and will
+not get their reports.** Everything they do is on their branches and in their slips. Read those.
+
+**Chris's standing words** (all in `docs/decisions.md`, November 24): sub-agents run on **Opus 5.5 at high effort**
+(extra high for building a model); start nothing on Fable; the hub coordinates and keeps its own steps few; a model
+is a highly detailed sculpt (a million triangles or more) baked onto a simpler model, painted from pictures that
+already exist; plain words, pictures and simple numbers; he answers the phone questions at the next safe stopping
+point, which is: everything below in `main`, checked, and one set of builds sent.
+
+**`main` holds:** zones 1 to 4 (zone 4 with 142 of its 144 recordings); the menu and its three save slots; the maps
+with his names for the sky; the flight; zones 1 to 3 joined as one journey with a front door (`game/pages/index.html`);
+every narrator line of zones 1 to 3 voiced. **Not in `main`:** the fights for zones 2 to 4; any creature; zone 4
+joined; the ending joined.
+
+**Four sub-agents were at work when the hub changed (all Opus 5.5, high).** Each pushes as it goes. Where each
+stood at 12:08:
+
+| Branch | What it is doing | Its slip | Its brief |
+|---|---|---|---|
+| `job/journey` | Second part: zone 4 joined, the flight home, the Faire ending on zone 1's page, the bottom of an upright phone, every check. Third part: the ships (below) | `docs/slips/journey.md` | `docs/briefs/journey.txt`, and this handoff |
+| `job/fights` | Checking the fights: all 16 played in a browser, pictures, zone 4's block, the narrator's lines wired, every check | `docs/slips/fights.md` | `docs/briefs/fights-finish.txt` |
+| `job/creatures` (made from `job/fights`) | Six of M7's creatures brought in and improved: the Rotwarden and the Glowcap (zone 1), the forge-spark and the Thornhound (zone 2), the Sapwight and the Rot-Stag (zone 3) | `docs/slips/creatures.md` | `docs/briefs/creatures.txt` |
+| `job/peak-creatures` (made from `job/creatures`) | The Wickstoat and the Hoarmantle built from Chris's two character sheets, for zone 4's two slots | `docs/slips/peak-creatures.md` | `docs/briefs/peak-creatures.txt` |
+
+- `fights`: last commit 6823355 11:18 fights: on a phone, the four witches' numbers in a fight fit their panel, and the lab page's but
+- `journey`: last commit 3209582 11:36 journey: zone 4 joined; the flight home opens zone 1's page as the ending; the front door after
+- `creatures`: last commit b5ecc84 11:53 creatures: the picture tool takes a fresh page for each fight; the stretch check also says where
+- `peak-creatures`: last commit acba318 12:05 peak-creatures: M7's way runs here (the slip); Chris's word on a million-triangle sculpt painted
+
+**What was sent to them after their briefs** (so the briefs alone are not the whole of it):
+
+- *journey, second part:* merge `main`; zone 4's page gets the journey's block (`frozenCamp`; its done signal is the
+  story flag `leaving`); the flight home from the frozen camp opens zone 1's page AS THE ENDING (`docs/slips/zone-4.md`,
+  "For the hub", says how: `W3D.faireEnding`); "Board the ship" and "Go on" must not lie over the frame-rate and
+  level pills on an upright phone; then every check on the result. `story-test` on zone 4 fails exactly 2 checks
+  until the held Warden's two lines are recorded.
+- *journey, third part (Chris, 12:00):* the Skiff at zone 1; the Skiff slightly upgraded at zone 2, and at zone 3
+  until the refit; the Cutter at zone 3 once the refit is done; the Cutter slightly upgraded at zone 4, with her
+  twelve lamps and the spare. Twelve lamp hooks on every version. Three or four visible changes for each upgraded
+  look, as proposals. The Brig and the Frigate are not used.
+- *creatures:* Briarmaw is LEFT OUT (Chris, 10:52: the great bramble stays as it is). Zone 4's two slots are left
+  alone for the two new creatures. "The Rotwarden" keeps its name.
+- *peak-creatures:* the sculpt is a million triangles or more, baked onto the light model, and painted from
+  Chris's own sheet by position. Its first task was to find out whether M7's tools (they need Blender) run at all.
+
+**What the new hub does**
+
+1. Add the repos (this one with push; the four sources read-only: the old Envoi, Moon Faire, the airship game,
+   Aethermoor M7). The airship game and M7 have no branch called `main`.
+2. For each of the four branches: read its slip, newest part first. If it says the job is done, review it (only
+   its own files and marked blocks changed; look at its pictures; nothing private) and bring it in. If it stopped
+   part-way (the machine stopped twice on November 24), start an Opus 5.5 sub-agent from that branch with its brief
+   and what was sent after.
+3. The order to bring them in: `job/fights`, then `job/creatures`, then `job/peak-creatures`, then `job/journey`.
+   The zone pages will clash: keep every marked block. On a page the journey's block comes before the menu's, then
+   the maps', then the fights'.
+4. Then, on `main`: build the front door and the four zones, and run every check once (the list is in
+   `docs/briefs/journey.txt`, part 9, with `encounter-test`, `faire-test` and the creatures' own checks). Have a
+   sub-agent do it.
+5. Then the safe stopping point: one set of builds to Chris, with the questions below.
+
+**Waiting on Chris**
+
+- The held Warden's two lines (`z4-warden.zip`: `z4.warden.01`, `.02`), and whether that Warden is a man or a woman.
+- The narrator's 18 lines for zone 4 (`game/people/recording/narration-recording-order-z4.txt`). When they come:
+  `tools/narrator-sound.py take <folder>` then `render B`, then `tools/voice-list.py z4`, **and commit the
+  `game/people/voice-z*.js` files with them** (the hub forgot once).
+- The two-page phone trial (`trial/phone/`): can one downloaded page open the next on his phone.
+- Whether the flight is made again from stage 5 of his airship game ("let me think about the flight").
+- Yes or changes to: where each creature lives; a beaten creature is let go, not killed; the two new creatures'
+  names; about 45 fights a zone; zone 4's peaks at one ninth of the map's height.
+- At the stopping point: his laptop and phone on the builds (frame rates, the save between visits, a 100 MB page).
+
+**Known and not yet put right:** the leaving narration says the ship lifts before Board is pressed; zone 3's
+flight out starts over the northern camp though she leaves from the slip; `docs/lore/story-voices-z4.html` says
+"all 144" where it is 142; `assets/INDEX.csv` says `main` for the airship game's twelve lines (the commit is right);
+the townsfolk's own bodies are ready as shapes and wait on Chris, who has not asked for them.
 
 ## The plan to finish (November 23, 2026, 19:15)
 

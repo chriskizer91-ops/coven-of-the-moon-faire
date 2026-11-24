@@ -1,0 +1,94 @@
+JOB: creatures. Bring Chris's seven creatures from his other game, Aethermoor M7, into this game's battle, and make
+each one look and move its best here.
+
+WHAT CHRIS SAID
+- November 24, 09:25: "For the M7 creatures to bring over I think the rot stag and the thorn hound. And the rot
+  warden and sapwight and the briarmaw. Forge spark. Glowcap. I was picking the ones that look the best, and I
+  would like to use Opus sub agents to improve them with your instructions." (You are that sub-agent. The
+  instructions are the hub's, below.)
+- November 23, of M7's repo: "Just don't write there. Only read from it."
+He chose them BY HOW THEY LOOK. How they look in this game is the whole point of this job.
+
+THE SEVEN, in M7 (prototypes/foe-hd/foes/<name>/): rotstag, thornhound, rotwarden, sapwight, briarmaw,
+forge-spark, glowcap. All seven are M7's full-detail kind (a light model, its bones, its pictures, a moves file).
+docs/foes-from-m7.md, part 4, says what such a creature is made of and what a foe must be in this game's battle.
+Three of them are bosses in M7 (Briarmaw, the Rotwarden, the Rot-Stag): big ones.
+THE THORNHOUND FAILS M7'S OWN NO-STRETCHING CHECK (its hind legs), and M7's rule is that only a passing foe goes
+into a game. Putting that right, in this game's copy, is part of this job (instruction 6).
+
+WHAT IS ALREADY KNOWN (read these first, after the common list)
+- game/encounters/ADDING-A-CREATURE.md and the newest part of docs/slips/fights.md: the fights job tried ONE M7
+  creature, the Willow-Wight, in this game's battle, outside the repo, and it worked with changes. Its scratch
+  files are yours to start from: /home/claude/work/fights/m7-trial/ (willow-adapter.js, build-trial.py, m7/, out/).
+  What it found: M7's loader had to be rewritten for this game's three.js r128 (about 45 lines); a 21 KB decoder
+  unpacks the model (its file has two web addresses in comments, which this game's builder stops at: take them
+  out); a 40-line join turns M7's poses into this battle's motions; one creature added about 1.4 MB to a page;
+  AND IT LOOKED DARKER HERE THAN IN M7. Nobody found out why.
+- game/encounters/slots.js: the two slots for a new creature in each zone, each now a stand-in.
+
+PART 1. THE WAY IN, BUILT ONCE
+Make the trial's scratch into real files of this game: one shared loader and one shared join, in a new folder
+game/battle/models/m7/, that every one of the seven uses. Copy in, for each creature, only its finished pieces
+that the game uses (the light model, its bones, its phone-size pictures, its moves): not the sculpt, not M7's tools.
+Each copied file or folder gets its line in assets/INDEX.csv in the same commit, with source_repo aethermoor-m7-,
+and the branch and commit you really read it from. Before copying: git fetch in the light copy (read-only) and use
+the newest commit of M7's DEFAULT branch; M7 is being worked on daily and a creature may have been bettered since
+the copy here was made. If another branch of M7 (job/foe-hd, job/foes-beasts) holds a newer version of one of the
+seven, do not copy from it: say so in your slip, for Chris.
+Make one small page, game/pages/creatures-lab.html (a few MB, as fights-lab.html is made): the seven listed; each
+can be seen standing, played through every motion one by one, and fought.
+Do the Glowcap or the Sapwight first, all the way through part 2, as the pattern. The Thornhound last.
+
+PART 2. MAKE EACH ONE ITS BEST HERE: THE HUB'S INSTRUCTIONS
+For each creature, in this order. Take a BEFORE picture (as it first comes in) and an AFTER picture, at 1280 by
+720 and at 412 by 880, and look at every picture yourself: a thing you have not looked at is not done.
+1. TRUE TO ITS LOOK. Put it beside M7's own picture of it. Find out why creatures come out darker here (the
+   pictures' colour space, the battle's lights, a shading or glow picture left unused) and put it right ONCE, in
+   the shared loader, so all seven gain. Use every picture M7 made for it (colour, surface, shading, glow, shine).
+2. IT READS AT NIGHT, ON A PHONE. Every arena here is a night scene. At 412 px wide its shape must stand clear of
+   the dark ground: a soft rim of light from the moon's side, a shadow on the ground, and its own light where its
+   design has one (the Glowcap's gills, the forge-spark's fire, any eyes). Never brighter than the four witches.
+3. IT STANDS RIGHT. Feet on the ground, no sliding, facing the party, at its true M7 size beside a witch (1.65 m).
+   The three bosses must look BIG and still leave the party, the bars and the buttons clear on an upright phone.
+   If one cannot, the fix is its own numbers (its look line: height, how near it strikes from), not the screen.
+4. ALIVE WHEN STILL. A standing loop that suits its body, 2 to 4 seconds, with no jump where it repeats: the stag
+   shifts its weight and dips its antlers; the hound paces low; the Rotwarden sways, heavy; the Sapwight creaks and
+   drips; Briarmaw flexes; the forge-spark flickers and bobs; the Glowcap pulses and rocks. Use M7's own if it has one.
+5. EVERY MOVE READS. Each move it keeps from M7 has a wind-up that can be seen coming, a blow that lands on this
+   battle's own moment, and a way back. It flinches when hurt, braces to block, staggers; it arrives in character.
+   When it is beaten it is LET GO, not killed, as this game's wraiths are (it withers, roots, runs off, gutters
+   out): that is the hub's proposal, so make it one word of data for each creature that Chris can change.
+6. NOTHING STRETCHES. Look at every pose of every creature from four sides for skin that tears, folds through
+   itself or pulls into a spike. Mend it in this game's copy (the pose, or the weights), each change marked "Coven".
+   The Thornhound's hind legs are known to fail: mend them. If something cannot be mended, do not hide it: say so
+   with a picture, and leave that pose out.
+7. ONE SMALL EFFECT OF ITS OWN, in the style of this battle's effects (game/battle/fx/): rot motes, thorns, sap,
+   embers, spores. A few dozen pieces at most, and none that covers the middle of a phone's screen.
+8. LIGHT ENOUGH FOR A PHONE. Pictures no bigger than 1,024 px (512 where it still looks right). Aim at 1 MB or
+   less added by each creature, 1.5 MB at the very most. Write for each: its triangles, its MB, its height.
+Then, for Chris: one sheet for each creature (before beside after, both sizes, tools/hub/sheet.py), and one sheet
+of all seven standing in a row beside a witch.
+
+PART 3. INTO THE SLOTS, AS DATA, ON THE HUB'S PROPOSAL (Chris has not said where each lives: every line below is
+one line of data he can move; mark them as proposals)
+  zone 1  A the heavy one (the fen)            the Rotwarden       B the swarm (three small)     the Glowcap
+  zone 2  A the one that weakens (Ember Line)  the forge-spark     B the pair (two together)     the Thornhound
+  zone 3  A the armoured one (Eldergrove)      the Sapwight        B the leaper (the cold moor)  the Rot-Stag
+  zone 4  A stays a stand-in, switched OFF     (no pick fits)      B the big one (near the pass) Briarmaw
+So seven slots are on and one is off. Follow game/encounters/ADDING-A-CREATURE.md for what a creature needs to be
+a foe (its look line, its foe entry, its slot). Give each creature the job its slot has, using its own M7 moves
+for it; its numbers come from the fights job's rule (a slot's creature is worth what the fights it replaces are
+worth). Its name on screen is its M7 name, as a stand-in in the words file. Then node tools/encounter-balance.mjs
+must still say every target is met, with the slots on as above. Make this part your LAST commits, on their own:
+these lines are in the fights job's files (slots.js, the words file, the battle's look lines and foe entries),
+and another sub-agent is still checking that job on its own branch. Add; do not rearrange what is there.
+
+WHAT IS MOVING ROUND YOU
+Your branch job/creatures was made from job/fights. Another sub-agent is finishing the fights' checking in
+/home/claude/coven-fights, and another is joining the zones in /home/claude/coven-journey: touch neither. You need
+no zone page: work on your lab page, and leave the zone pages to the hub.
+
+YOUR REPORT: for each creature, what you changed and what it measures (triangles, MB, height); why they were
+darker; what the Thornhound's legs took; anything that could not be mended; the full paths of the sheets for
+Chris and of the built creatures-lab.html; what is not checked (nobody here can see motion or a frame rate); what
+the hub must do to bring the branch in; what is Chris's to decide.

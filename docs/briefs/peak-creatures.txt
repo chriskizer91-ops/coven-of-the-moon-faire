@@ -1,0 +1,95 @@
+JOB: peak-creatures. Build two NEW creatures for the frozen peaks from the character sheets Chris has just made,
+and make each one look and move its best in this game's battle: the Wickstoat and the Hoarmantle.
+
+WHAT CHRIS SAID (November 24)
+- 10:31: "Let's make a new creature for the Frozen peaks. Maybe two new creatures that fit those slots and then all
+  of the foe slots are filled ... I'll generate the character sheet images for you to have an Opus 5.5 sub agent
+  build them." (You are that sub-agent.)
+- 10:46: he sent both sheets. They are at /home/claude/work/peak-creatures/sheets/sheet-wickstoat.png and
+  sheet-hoarmantle.png (1536 by 1024 each: front, side facing right, back, on plain grey). LOOK AT BOTH FIRST.
+- He chooses creatures BY HOW THEY LOOK. The sheet is what he approved: the model must be that creature.
+- Of his other game's repo, Aethermoor M7: "Just don't write there. Only read from it."
+
+WHAT EACH ONE IS (docs/lore/zone-4-creatures-proposal.md has it in full; names and stories are proposals)
+- THE WICKSTOAT. Zone 4, slot A, "the light-thief": it drains the coven's magic, not their health; met on the
+  pass. A lean white stoat of the high snow, as long as a hunting dog (about 0.55 m at the shoulder, 1.6 m from
+  nose to tail tip). Long low sinuous body, long neck, short strong legs, small flat head, round ears, long
+  whiskers, dark blue-grey paws, a long tail with a black frost-crusted tip, eyes solid dark with no glow. Down its
+  back, from the shoulders to the base of the tail, a row of NINE clear ice spines, each holding one warm amber
+  spark: the only warm colour on it. (In the sheet's front view the first spine shows above the head: it stands
+  on the shoulders, not on the head.) Each spark must be able to be lit or dark by itself: in a fight one more
+  lights each time it steals, so the game needs one number, 0 to 9.
+- THE HOARMANTLE. Zone 4, slot B, "the big one": rare, a long fight, worth three ordinary ones; met near
+  Misthollow. A great shaggy musk-ox (about 2.1 m at the hump, 3 m long): a high hump, a low-hung head, a curtain
+  of grey-blue hair to the ground hiding most of the legs, its ends hung with small icicles; a mantle of frost and
+  packed snow over the hump and spine; two broad brown horns that sweep down beside the cheeks and curl forward,
+  ringed with ice; a slab of pale blue ice across the brow like a helm; a dark short-muzzled face, small calm
+  pale-blue eyes; wide dark hooves just showing. No flame, no glow.
+
+HOW TO BUILD THEM: THE WAY M7'S OWN CREATURES ARE BUILT FROM A SHEET
+M7 makes a full-detail creature from exactly such a sheet, in code: a sculpt, a rig, painted pictures, a light
+model that moves, and a no-stretching check that only a passing creature gets through. Learn that way from M7
+itself, READ-ONLY (a light copy: read with git show <commit>:<path>; git fetch is allowed; NEVER commit, push or
+change a file there): docs/project/jobs/foe-hd.md, docs/project/slips/foe-hd.md and foes-beasts.md,
+prototypes/foe-hd/README.md, prototypes/foe-hd/kit/ (py: the sculpting; rigs; blender: the baking; js/moves/quad.js:
+how a four-legged creature moves), and two finished four-legged creatures as your patterns:
+prototypes/foe-hd/foes/thornhound/ (lean) for the Wickstoat and prototypes/foe-hd/foes/rotstag/ (big) for the
+Hoarmantle (each has its sculpt.py, rig.py, foe.json, stretch.json and assets).
+To RUN M7's tools, copy what you need of its kit to your scratch folder (not into this repo, not back into M7).
+FIRST, before any long work, find out whether those tools run on this machine (they bake with Blender; there is
+no Blender here yet; the usual package registries can be reached). Write the answer in your slip at once. If M7's
+way cannot be made to run here, do not give up and do not fake it: choose the best way that does run, say plainly
+in your slip and your report what you chose and what it costs in looks, and go on.
+
+WHAT GOES INTO THIS REPO
+Your branch job/peak-creatures was made from job/creatures, where another sub-agent is bringing seven of M7's own
+creatures into this game through one shared loader and join (game/battle/models/m7/, a lab page, its slip
+docs/slips/creatures.md). Your two must come in THROUGH THE SAME WAY, laid out as its creatures are, so the game
+has one kind of creature, not two. That sub-agent is still working: do not touch its working copy
+(/home/claude/coven-creatures); when you need its newer work, git merge job/creatures into your branch.
+Into the repo go each creature's finished pieces (light model, bones, phone-size pictures, moves, its foe facts),
+and the small files that are the creature's own source (its sculpt and rig scripts), so it can be made again.
+M7's kit itself is not copied in: your slip says how the two are remade and what that needs. A file copied from M7
+(a moves file, say) gets its line in assets/INDEX.csv (source_repo aethermoor-m7-, the branch and commit really
+read). The two sheets are Chris's new pictures for this game: keep them in the repo as WebP beside the creatures,
+marked as reference only, never shown.
+Your own page: game/pages/peak-creatures-lab.html (small): both creatures seen standing, each motion played one by
+one, each fought.
+
+MAKE EACH ONE ITS BEST HERE: THE HUB'S INSTRUCTIONS (the same eight the seven are held to)
+0. IT IS THE SHEET. Before anything else is polished: your model's front, side and back, drawn plain, beside the
+   sheet's three views. Same outline, same parts, same colours. This comparison is the first thing Chris sees.
+1. TRUE TO ITS LOOK in this battle's light (the creatures job is finding why M7's come out darker here: use its fix).
+2. IT READS AT NIGHT, ON A PHONE (412 px wide): a soft rim of light, a ground shadow. The Wickstoat's sparks are
+   its own light; the Hoarmantle has none, and must read by its pale frost. Never brighter than the witches.
+3. IT STANDS RIGHT, at the sizes above, beside a witch (1.65 m). The Hoarmantle must look HUGE and still leave the
+   party, the bars and the buttons clear on an upright phone: by its own numbers, not by changing the screen.
+4. ALIVE WHEN STILL: the stoat never quite still (head up, a look round, the tail's flick, the sparks' slow pulse);
+   the ox breathing slow and deep, its hair and icicles swaying a little, a huff of frost now and then.
+5. EVERY MOVE READS, each with a wind-up seen coming, a blow on the battle's own moment, a way back; hurt, block,
+   stagger; an arriving. Moves, from each one's job (proposals, each a line of data):
+   Wickstoat: Pinch (darts in, nips, a mote of light flies from the witch into the next dark spine: drains magic);
+   Skitter (it is hard to hit this turn); Glint (a flash from every lit spine: stronger the more it has stolen).
+   Hoarmantle: Trample (head down, a pawing hoof, then the charge at one: the big blow seen coming); Winter Breath
+   (a long cold huff over all four: they are slowed); Shake the Mantle (snow and icicles fall on all four).
+   Beaten, each is LET GO, not killed (the hub's proposal, one word of data): the Wickstoat drops its stolen lights,
+   which drift back, and bolts; the Hoarmantle turns away and walks off up the road.
+6. NOTHING STRETCHES: M7's no-stretching check, passed, on every pose, and looked at from four sides. The hard
+   parts: the stoat's long back arching and bounding; the ox's hair curtain over walking legs; rigid ice (spines,
+   brow, icicles) that must not bend.
+7. ONE SMALL EFFECT EACH in the style of this battle's effects (game/battle/fx/): the stoat's motes of stolen
+   light; the ox's breath and falling snow. A few dozen pieces at most.
+8. LIGHT ENOUGH FOR A PHONE: pictures no bigger than 1,024 px; aim at 1 MB or less each, 1.5 MB at the very most.
+   Write for each: triangles, MB, height.
+
+INTO THE SLOTS, AS DATA (your last commits, on their own; add, do not rearrange): zone 4 A the Wickstoat, zone 4 B
+the Hoarmantle, both on, following game/encounters/ADDING-A-CREATURE.md; their numbers by the fights job's rule;
+names as stand-ins in the words file; then node tools/encounter-balance.mjs must still say every target is met.
+
+FOR CHRIS, at the end: for each creature one sheet "his picture beside the model" (three views), one sheet of it in
+the battle at 1280 by 720 and 412 by 880 with a witch for size, and one strip of its motions.
+
+YOUR REPORT: whether M7's way ran here and what you used; for each creature how near it is to its sheet and where
+it is not; triangles, MB, height; what would not mend; the full paths of the sheets for Chris and of the built lab
+page; what is not checked (nobody here can see motion or a frame rate); what the hub must do to bring the branch
+in; what is Chris's to decide.

@@ -1,0 +1,44 @@
+You are a sub-agent of the hub's, working on Coven of the Moon Faire. Your job's name is JOBNAME and your branch is
+job/JOBNAME. Chris, whose game this is, cannot code: he reads plain words, pictures and simple numbers.
+
+READ FIRST, in this order: CLAUDE.md; docs/BOARD.md ("The plan to finish" at the top, then "Hub handoff");
+game/README.md; docs/slips/README.md.
+
+THE RULES THAT MATTER MOST (CLAUDE.md has them all)
+- You write: your own new files; ONE slip, docs/slips/JOBNAME.md; and, in a page under game/pages/ that you must
+  touch, ONE block marked "JOBNAME job: start" and "JOBNAME job: end". Nothing else. Never edit another job's
+  files, docs/BOARD.md, docs/decisions.md, docs/questions.md, docs/assets-list.md or CLAUDE.md. If you need one of
+  those changed, or a change to a file of the hub's or of the fights job's, write the exact change in your slip under
+  "For the hub" and work round it meanwhile.
+- The old repos are read-only. Copy in only what the game uses, and only the finished piece. Every copied file, or
+  folder copied whole, gets one line in assets/INDEX.csv in the same commit, with the commit it was read from.
+  A copied file that you then change gets a comment marked "Coven" at each change.
+- A build is one HTML file with everything inside it and no internet: python3 tools/build.py game/pages/<page>.html
+  (it writes builds/<page>.html). The builder stops if the finished file names any web address at all, even in a
+  comment, so take web addresses out of whatever you copy in.
+- Words the player reads live in a data file, not in code. A name that is not settled is a stand-in and is marked so.
+- Screens: few buttons, each large enough for a thumb (44 px or more), nothing covering the middle of the picture.
+  It must work on a laptop (keyboard and mouse) and on a phone (touch), upright and on its side. Check at 1280 by
+  720 and at 412 by 880.
+- The repo is public: no keys, no private details, no paths from anyone's computer, in files or commit messages.
+- Don't settle one of Chris's calls by building it. Where you must choose, make it one line of data, say in your
+  slip that it is your call, and what the other choice was.
+
+HOW TO WORK HERE
+- This machine has two processor cores and is shared with other sub-agents. Every build, check and picture run is
+  heavy (a zone page is about 100 MB and a check of one takes 3 to 8 minutes). Run each heavy command through the
+  shared lock, so only one runs at a time:   flock /tmp/coven-heavy.lock <the command>
+  Give such commands a long time limit (15 minutes), and do not run two at once yourself.
+- Make a small page of your own for fast checks (a few MB), and use the big zone pages only for the last checks.
+- The checks open a page with ?test: then nothing is saved and the game does not wait for the Begin button. Keep
+  both true. tools/look.py takes pictures with no screen; tools/hub/ has the hub's helpers. A headless browser
+  cannot show motion or measure a frame rate: say so, don't guess.
+- Commit as you go and push your branch: git -c push.negotiate=true push -u origin job/JOBNAME
+  End every commit message with the same two lines the repo's other commits end with (see git log).
+- Do not merge into main, and do not touch any other working copy on this machine.
+
+WHEN YOU ARE DONE
+Your slip says, in plain words: what was built; a few numbers a person can check; what was checked and how; what
+was NOT checked; what is rough; "For the hub" (what the hub must change or decide); "For Chris" (calls that are
+his). Everything is committed and pushed. Your last message to the hub is a short report: what works, the numbers,
+where the pictures are, what is not done, and anything you were unsure of.

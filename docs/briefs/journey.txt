@@ -1,0 +1,92 @@
+JOB: journey. Join the zones into ONE JOURNEY: the ship is the gate, the 3D map is where you choose, the flight
+carries you, the next zone's page opens and lands you, and one save follows the player. This is the hub's own
+joining work, handed to you. Every piece you join is finished and in main. You build the seams.
+
+WHAT CHRIS SAID
+- November 23: the 3D map of the continent "is to look at and for choosing where to fly using the airship game
+  and ships as the gates like in Envoi." Three save slots. "The four ships you get in the airship game are the four
+  ships you get as travel upgrades" (the hub's reading of the order, his to correct: the Skiff from Wickhollow, the
+  Cutter from the Warm Roads camp, the Brig from the northern camp, the Frigate from the frozen camp. It is one
+  table, shipFrom in game/flight/flight-data.js: keep it one table).
+- He cannot code, plays on a laptop and on a phone, and dislikes a crowded screen.
+
+READ FIRST, after the common list: docs/BOARD.md "How the pieces join" and "What it takes to finish"; the parts
+headed "For the hub" in docs/slips/menu.md, docs/slips/flight.md and docs/slips/maps.md (each says exactly how its
+piece is to be called: W3D.saves.openPage, W3D.flight.fly and its two events, W3D.maps.world.choose);
+game/travel/landings.js; game/people/story.js; the three people files (game/people/zone-1.js, zone-2.js, zone-3.js);
+and the flight moments in game/talk/zone-2.js and zone-3.js ("flight", "flight-after").
+
+WHAT TO BUILD
+0. FIRST, A TINY TRIAL FOR CHRIS'S PHONE (an hour's work at most; commit and push it before anything else, and name
+   it in your slip's first lines so the hub can send it at once). Nobody knows yet whether, on a phone, one
+   downloaded page can open the next file by itself, or whether a save in the browser's storage is still there when
+   it does. Make two small pages (a few KB each, one HTML file each, nothing fetched) that sit in the same folder:
+   the first keeps a made-up save and has one big button that opens the second; the second says in plain words,
+   large enough to read on a phone, three things: did it open by itself; is the save still in storage; did the save
+   come through in the address (after a #). And the way back. Write beside them, in a short text file, the exact
+   steps for Chris (download both to the same folder, open the first, tap the button, tell the hub the three
+   answers). Everything below must then WORK ON A LAPTOP, where pages in one folder can open each other, and must
+   FAIL KINDLY where they cannot: a card that names the file to open next, with the save carried by the menu's own
+   "save to a file" if storage does not last. Do not build a second way to play until Chris has tried the trial.
+1. THE SHIP IS THE GATE. At a zone's landing, when that zone's story has reached its end (read each zone's rules for
+   what "done" is; zone 1's is the moment "leaving"), the coven can board: one button by the ship, thumb-sized, out
+   of the middle of the picture, its words in data (the things on the land already show buttons: game/people/things.js).
+   Before the story is done the ship still takes them to any landing they have already been to, and says in one
+   line why she will not go on yet.
+2. CHOOSING. Boarding opens W3D.maps.world.choose({ from, open }). "open" is every landing the player has reached,
+   and the next one once this zone's story is done. Back, or no choice, puts them back on the pier.
+3. THE NEXT PAGE PLAYS THE FLIGHT IN. The page they leave saves, then opens the chosen zone's page with a note of
+   the flight (from, to, the ship). That page plays the flight BEFORE its world is built (the flight slip says why:
+   one 3D picture alive at a time), with W3D.flight.fly. The flight's two events are that zone's moments "flight"
+   and "flight-after": the Grey Hat's recorded lines must be heard then, as any other line is heard. Then the world
+   is built and the zone begins with its landing, as it does today. A page opened with no flight note (the first
+   time ever, or Continue) starts as it does today.
+   If the ship is lost, or the player turns back: they are back at the landing they left, nothing lost, with one
+   line of words. That is the hub's call, his to change: make it one line of data and say so in your slip.
+4. ONE SAVE FOLLOWS THE PLAYER. The menu's three slots are the save. Carried from page to page: the party (levels
+   and health, coven.party), each zone's story, which landings are open, the ship. Set W3D.saves.openPage so that
+   Continue on any page opens the page the slot was last saved on, and a new game begins on zone 1's page. Read the
+   menu slip on "carry" for a browser whose storage does not last between files.
+5. THE FRONT DOOR. One small page, game/pages/index.html: the game's name, and the menu's own choices to continue
+   a slot or begin anew, which opens the right zone's page. Nothing else on it. The name is "Coven of the Moon
+   Faire"; any other word on it is a stand-in in a data file.
+6. THE SHIPS AT THE OTHER LANDINGS. Zone 1 has the real Skiff moored at its jetty (game/places/jetty-ship-real.js,
+   game/flight/moored/). Bake the others the same way (node tools/flight-bake-ship.mjs <ship>) and moor one at zone
+   2's landing and one at zone 3's, where the Grey Hat stands and where the recorded lines put her. READ THE LINES
+   FIRST AND CHANGE NO WORD OF THEM: zone 3's say the ship is "up on the slip" at the shipyard for a while, and the
+   narrator and the Grey Hat speak of her in each zone. Every line must be true of what is seen. Where a line and
+   the table of ships disagree, the line wins: say so in your slip.
+7. THE MENU OVER THE FLIGHT. One pause, not two: the flight slip, "The menu button", says how.
+8. A FAULT TO PUT RIGHT ON THE WAY: anyone made smaller than a witch stands with bent knees and elbows (Pell,
+   Tamsin, Tock, Pim). The townsfolk job found the cause and a one-line fix: in game/witches/kore/jester_kit.js,
+   solveLimb: `let d = _va.length() / (root.scale.y || 1);`. Make it, marked "Coven", and look at those four and at
+   one full-size person in a zone page, in pictures, before and after.
+9. THE CHECK. tools/journey-test.py: a new game on zone 1; the story set to its end through the story's test
+   handle; board; choose the Warm Roads; zone 2's page opens; the flight plays in and is flown through its own test
+   handle; the Grey Hat's two flight lines come; the landing comes; the slot now says zone 2. Then: Continue pressed
+   on zone 1's page opens zone 2's; a lost flight puts them back; a flight back to Wickhollow; zone 2 to zone 3 the
+   same way. (The other checks open a page with ?test, where nothing is saved: yours needs a save that lasts across
+   pages and still leaves no trace afterwards. How is your call.) And every check the hub runs must still pass on
+   pages built from your branch: zone-test on each zone; people-test (zone 1); story-test (zones 2 and 3);
+   things-test; menu-test --only A; maps-test; encounter-test --quick; flight-test. Pictures at 1280 by 720 and at
+   412 by 880: the button at the ship, the map with its choice, the flight beginning on the next page, the landing,
+   the front door.
+
+WHAT IS MOVING ROUND YOU (do not touch their working copies)
+- Zone 4's land, people and page are being built on job/zone-4. The landing "frozenCamp" already names zone-4.html.
+  Leave zone 4's joining so that it needs your one marked block on that page and nothing more, and write those
+  lines in your slip for the hub.
+- The fights are being added to zones 2 and 3 on job/fights: its own marked block on those two pages, and small
+  marked changes in game/people/zone-2.js and zone-3.js. Keep your own changes in those four files small, marked
+  "journey job", and away from anything about fights, so the hub can bring all three together.
+
+FILES YOU MAY CHANGE THOUGH THEY ARE NOT NEW (the hub's own, handed to you for this): the three zone pages (ONE
+marked block each); the three people files and game/people/story.js (only what makes the ship the gate and the
+flight's lines heard, each change marked "journey job"); game/travel/; game/places/ (new files for the moored
+ships); game/flight/flight-data.js (lines of data only, marked); game/witches/kore/jester_kit.js (the one line of
+8); game/README.md (a row); assets/INDEX.csv (new lines only). Change nothing in game/menu/, game/maps/, the
+flight's code, game/battle/, game/encounters/ or game/talk/: if one of them stands in your way, write the exact
+change in your slip under "For the hub" and work round it.
+
+ORDER AND SAVING: 0, then 8 (small), then 1 to 4 for zone 1 to zone 2 (the first whole crossing, checked), then
+zone 2 to zone 3, then 5, 6, 7, then 9 in full. Commit and push after each. Keep your slip up to date as you go.

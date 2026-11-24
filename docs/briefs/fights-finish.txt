@@ -1,0 +1,50 @@
+JOB: fights (the finishing). The fights job's building is done and pushed on job/fights (last commit 977de5b) by an
+earlier sub-agent, who was stopped early to save Chris's usage. Its slip, docs/slips/fights.md, newest part first,
+says what was built, and under "What was checked" and "Not done" exactly what was never run, with the commands.
+You finish the CHECKING and the last joins. You build nothing new unless a check shows something broken.
+The fights job's files are yours for this (game/encounters/, game/battle/, its tools, its marked blocks, its slip).
+
+READ FIRST, after the common list: all of the newest part of docs/slips/fights.md; docs/slips/zone-4.md ("For the
+hub", and what it says of the two fights); the fights job's block in game/pages/zone-3.html.
+
+DO, IN THIS ORDER (commit and push after each)
+1. Bring main into job/fights: git fetch, git merge origin/main. Main now holds zone 4 (its page, land, people,
+   story), the maps job's block on every zone page, and the star map. Where both sides touched a file, keep both
+   (on a page: the menu's block, then the maps', then the fights'; in assets/INDEX.csv: every line of both).
+2. Zone 4's page. Copy the block "fights job: start" to "fights job: end" from game/pages/zone-3.html into
+   game/pages/zone-4.html after the maps job's block, with zone-4 in place of zone-3. Check camp, rests and each
+   ground's "every" in game/encounters/zone-4.js against the land as it was built (game/places/zone-4.js,
+   docs/slips/zone-4.md). Then tools/encounter-test.py on zone 4, and tools/story-test.py on zone 4 must still pass
+   (75 checks), with tools/zone-test.py. Change no word of game/talk/.
+3. The one failing check: tools/encounter-test.py's long part on zone 1 fails one check, and the earlier sub-agent
+   says it is the check's fault (its "lost fight" is now fought by the camp, where foes are too weak; it wants a fen
+   spot again, part 6). Find out whether that is true; put the check right, or the game if the game is wrong.
+4. PLAY EVERY FIGHT IN A BROWSER. Only 2 of the 16 fights on game/pages/fights-lab.html were ever played outside
+   the simulator. Play all 16 to their end through the page's own test handle (zone 1 to 4, slots A and B, the
+   great wraith, the night at the node, a road stone's fight, the knight of light, the great bramble, both forms of
+   the fire with the moment between them). For each: it starts, every move plays, it ends as the story needs (the
+   knight stops and walks away; the fire's second form comes), 0 page errors.
+5. LOOK AT THEM. Nobody has seen a stand-in creature or these fights in a picture. Take pictures at 1280 by 720 and
+   at 412 by 880 of each stand-in in the battle, each big fight, and the land's own buttons for them (the node,
+   a road stone, a rest, the bramble, the fire). Look at every picture yourself. Put right what is broken, cut off,
+   unreadable, or covers the middle of a phone's screen. Make sheets of the best (tools/hub/sheet.py) for Chris.
+6. The narrator's lines that wait on the fights' page events. In zone 1 three are unwired (first-wisp, rest,
+   not-ready); zone 4 has two written for it (z4.narrator.17 "woke", z4.narrator.18 "not-ready"). Wire each to its
+   event as the earlier sub-agent's report says: window.addEventListener('coven-fights', ...); for 'first-meeting'
+   call d.wait() at once and d.done() after the line (6 seconds at most); for 'not-ready' call d.told() at once.
+   This is in the hub's files (game/people/zone-1.js, zone-4.js, or story.js): change only that, marked
+   "fights job". Read docs/BOARD.md on those three lines first (search "first-wisp").
+7. Every check, once, on pages built from your branch after all of the above: zone-test on all four zones;
+   people-test and things-test on zone 1; story-test on zones 2, 3 and 4; encounter-test --quick on all four and
+   its long parts once on each; menu-test --only A and maps-test on each zone; node tools/encounter-balance.mjs;
+   battle-balance and battle-testers. Write each result as a number in your slip.
+
+DO NOT
+- Bring in any creature from Aethermoor M7. Chris has not chosen. The earlier sub-agent's trial (the Willow-Wight
+  ran in this game's battle) is in scratch files outside the repo; leave them where they are.
+- Touch the journey job's working copy (/home/claude/coven-journey): another sub-agent is joining the zones there,
+  and it too adds one marked block to each page. Keep your page changes inside your own marked block.
+
+YOUR REPORT: what passed (numbers), what you had to put right, where the sheets of pictures are (full paths), the
+full path of the built fights-lab.html and of each zone page, what is still not checked, what the hub must do to
+bring job/fights into main, and what is Chris's to decide.
