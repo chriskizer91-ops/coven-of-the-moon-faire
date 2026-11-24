@@ -92,14 +92,11 @@
       },
       // the front door (game/pages/index.html)
       door: {
-        subtitle: 'Night, at the Moon Faire',     // STAND-IN
-        carryOn: 'Carry on',
-        anew: 'Begin anew',
-        anewIn: 'Begin anew in slot {n}',
+        title: 'Coven of the Moon Faire',          // the game's name (settled)
+        subtitle: 'A story in four zones',         // STAND-IN
         replace: 'Every slot is in use. Tap again to begin anew in slot {n}, in place of its save.',
-        slot: 'Slot {n}',
-        noSave: 'No save yet',
         opening: 'Opening…',
+        // "Carry on", "Save {n}" and "New game" are the menu's own words (game/menu/menu-words.js)
       },
     },
   };

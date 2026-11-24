@@ -251,6 +251,28 @@
     }));
   }
 
+  // ---- the front door (game/pages/index.html): the game's name, carry on a slot, or begin anew ----
+  function door(o) {
+    page = 'index.html'; hookSaves();
+    const S = W3D.saves, w = WORDS().door, MW = W3D.MENU_WORDS || {}, root = o.root, recs = S.slots();
+    const el = (tag, cls, parent, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; parent.appendChild(e); return e; };
+    el('h1', '', root, w.title); el('p', 'sub', root, w.subtitle);
+    const list = el('div', 'slots', root), msg = el('p', 'msg', root, '');
+    recs.forEach((rec, i) => { if (!rec) return; const n = i + 1, b = el('button', 'slot', list); b.dataset.slot = n;
+      el('b', '', b, (MW.carryOn || 'Carry on')); el('span', '', b, fill(MW.slot || 'Save {n}', { n }) + ' · ' + S.line(rec));
+      b.addEventListener('click', () => { msg.textContent = w.opening; say('door', { carryOn: n });
+        if (n === S.current) open(rec.page || D().firstPage, carry(true)); else S.load(n); }); });
+    const empty = recs.findIndex((r) => !r) + 1;
+    let ask = 0;
+    const anew = el('button', 'anew', root, MW.newGame || 'New game');
+    anew.addEventListener('click', () => {
+      let n = empty;
+      if (!n) { const old = recs.map((r, i) => [r ? r.saved : 0, i + 1]).sort((a, b) => a[0] - b[0])[0][1];
+        if (ask !== old) { ask = old; msg.textContent = fill(w.replace, { n: old }); return; } n = old; }
+      msg.textContent = w.opening; say('door', { anew: n }); S.fresh(n);
+    });
+  }
+
   W3D.journey = {
     start(o) {
       page = o.page; zone = o.zone; here = o.landing;
@@ -277,7 +299,7 @@
       setTimeout(hookSaves, 0);
       const poll = setInterval(() => { hookSaves(); if (G.__ready && G.__w3d && (G.__story || G.__peopleErr)) { clearInterval(poll); try { onReady(); } catch (e) { console.error(e); } } }, 250);
     },
-    state, board: (i) => board(((D().gates || {})[here] || [])[i || 0] || null), leave, isDone, next, line,
+    door, state, board: (i) => board(((D().gates || {})[here] || [])[i || 0] || null), leave, isDone, next, line,
     get note() { return note; }, get arrived() { return arrived; }, get here() { return here; }, get busy() { return busy; },
   };
   G.__journey = { log, state, board: (i) => W3D.journey.board(i), leave, isDone, get note() { return note; }, get arrived() { return arrived; }, get ready() { return readyDone; } };
