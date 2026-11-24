@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""story-test.py: zone 2's or zone 3's people and story, checked with no screen.
-    python3 tools/story-test.py builds/zone-2.html        (or builds/zone-3.html)
+"""story-test.py: zone 2's, zone 3's or zone 4's people and story, checked with no screen.
+    python3 tools/story-test.py builds/zone-2.html        (or builds/zone-3.html, or builds/zone-4.html)
 It builds every person and checks each as tools/people-test.py does for zone 1 (on the ground, in the open, the Talk
 button, a talk that shows and ends). Then it plays the zone's story through as a player would, by standing the coven
 where the story needs it, and checks that each stage and each of the coven's moments comes when it should, the
@@ -13,6 +13,7 @@ def check(ok, what):
     if not ok: fails.append(what)
 JS = """async () => { const P = window.__people, S = window.__story, T = window.__things, L = window.__land, w = window.__w3d, M = w.P.M, t0 = performance.now(); const n = await P.ready(), ms = (performance.now() - t0) / Math.max(1, n), out = { n, ms, people: [], zone: S.zone };
   const finish = () => { for (let i = 0; i < 90 * 30 && P.say(); i++) w.step(1 / 30, 30, false); };
+  if (S.zone === 'z4') { S.set({ stage: 4 }); P.move('warden', window.W3D.ZONE4.spots.AWAKE, true); }   // (zone 4: the Warden who speaks is one of the forty until the fire ends: she is looked at as she stands after it)
   for (const p of P.list) { const o = { id: p.id, name: p.name, failed: p.failed || null, moved: !!p.moved };
     o.off = p.npc ? Math.abs(p.npc.root.position.y - w.P.walkH(M.px(p.x), M.py(p.z))) : 9; o.tris = p.npc ? p.npc.triangles : 0;
     o.open = [0, 1, 2, 3, 4, 5, 6, 7].filter((k) => w.P.walkable(M.px(p.x + Math.cos(k * 0.785) * 1.4), M.py(p.z + Math.sin(k * 0.785) * 1.4))).length;
@@ -24,8 +25,9 @@ JS = """async () => { const P = window.__people, S = window.__story, T = window.
     out.people.push(o); }
   // ---- the story ----
   const V = window.COVEN_VOICE || {}, st = out.story = { lines: S.lines.length, voiced: S.lines.filter((l) => V[l.id]).length, bad: [], log: [] };
-  for (let stage = 0; stage <= 4; stage++) { S.reset(); S.set({ stage }); for (const p of P.list) { const ls = S.linesFor(p); if (!ls || !ls.length) st.bad.push(p.id + ' has nothing to say at stage ' + stage); else for (const l of ls) if (!V[l.id]) st.bad.push(l.id + ' has no sound'); } }
-  S.reset(); P.stop();
+  for (let stage = 0; stage <= 4; stage++) { S.reset(); S.set({ stage }); for (const p of P.list) { const ls = S.linesFor(p); if ((S.cfg.quiet || {})[p.id] > stage) { if (ls && ls.length) st.bad.push(p.id + ' should have nothing to say at stage ' + stage); continue; }
+    if (!ls || !ls.length) st.bad.push(p.id + ' has nothing to say at stage ' + stage); else if (st.voiced) for (const l of ls) if (!V[l.id]) st.bad.push(l.id + ' has no sound'); } }
+  S.reset(); P.stop(); if (S.zone === 'z4') P.move('warden', { at: [0, 6000] }, true);
   const part = (id) => w.P.parts.find((q) => q.id === id);
   // what is said next, read through to its end: [line ids]
   const read = () => { const ids = []; let guard = 0; while (P.say() && guard++ < 14) { ids.push(P.say().id); P.talk(); } return ids; };
@@ -50,6 +52,35 @@ JS = """async () => { const P = window.__people, S = window.__story, T = window.
     R.marta = go('marta'); R.beds = look('after Marta'); R.martaN = until('marta', 'z2.marta.06', 6); R.stage3 = S.state().stage;
     at('dawnroost-node', 768, 900); R.node = look('at the living node'); R.stage4 = S.state().stage;
     R.capN = until('captain', 'z2.captain.10', 8); R.leaving = look('after the Grey Hat');
+  } else if (S.zone === 'z4') {
+    // ---- zone 4: from the landing to the leaving for the Faire ----
+    const Q = window.W3D.ZONE4, TH = (id) => T.get(id), play = (sec) => { w.step(sec, 30, false); P.tick(); T.tick(); }, one = (name) => { S.watch(); const ids = read(); st.log.push([name, S.state().stage, ids.join(' ')]); return ids; };
+    const onRoad = (name, dist) => { const q = L.roadList.find((r) => r.name === name).pts; let d = 0; for (let i = 1; i < q.length; i++) { const sg = Math.hypot(q[i][0] - q[i - 1][0], q[i][1] - q[i - 1][1]); if (d + sg >= dist) { const f = (dist - d) / sg; return [q[i - 1][0] + (q[i][0] - q[i - 1][0]) * f, q[i - 1][1] + (q[i][1] - q[i - 1][1]) * f]; } d += sg; } return q[q.length - 1]; };
+    await TH('wardens').ready(); await TH('halcyon').ready(); R.failed = [TH('wardens').failed || null, TH('halcyon').failed || null];
+    at('frozen-camp', 630, 452); R.landing = look('the start');
+    R.captain = go('captain'); R.stage0 = S.state().stage; R.keeper = go('passkeeper'); R.stage1 = S.state().stage; R.keeper2 = go('passkeeper');
+    R.shipOn = !!(window.COVEN_SHIPS && window.W3D.mooredShip);
+    at('frostmere-shore', 560, 430); R.shore = look('at Frostmere’s shore');
+    at('frozen-pass', 774, 545); R.pass = look('at the frozen pass');
+    // the great bramble, on the road above the pass
+    { const B = TH('bramble'), b = Q.bramble.at, far = onRoad(Q.spots.R3, Q.bramble.along - 40), near = onRoad(Q.spots.R3, Q.bramble.along - 14);
+      stand(far[0], far[1]); R.far = look('40 m short of the bramble'); R.canes = B.canes; R.mid0 = B.mid.visible; R.shut = !L.walkable(b[0], b[1]); R.stops = B.stops.filter((q) => q.r > 0).length;
+      stand(near[0], near[1]); R.bramble = look('before the great bramble'); play(0.2); R.mid1 = B.mid.visible; R.open = L.walkable(b[0], b[1]); R.sides = B.sides.visible; R.stopsLeft = B.stops.filter((q) => q.r > 0).length; }
+    at('misthollow', 768, 1300); R.bridge = look('on the bridge into Misthollow'); R.stage2 = S.state().stage;
+    play(0.2); { const Wd = TH('wardens'); R.mode0 = Wd.mode; R.forty = Wd.n; R.stillTris = Wd.triangles; R.stillPieces = Wd.pieces; R.dawn = TH('night').sky ? TH('night').sky.state.dawn : -1; R.wardenFar = Math.round(P.list.find((q) => q.id === 'warden').z); }
+    at('misthollow', 766, 655); R.town = look('at the top of the great stair');
+    R.watch = go('watch'); R.sorrel = go('sorrel'); R.ede = go('ede'); play(0.2); R.hearth0 = TH('ede-hearth').h.visible; R.wisps0 = TH('cold-lights').wisps.filter((q) => q.h.visible).length; R.wardenSilent = !S.linesFor(P.list.find((q) => q.id === 'warden'));
+    // up the street to the Moonwell
+    at('moonwell', 768, 1300); R.street = look('in the Moonwell’s street'); play(0.2); R.light0 = TH('halcyon').light.visible; R.bowls0 = TH('the-fire').bowls[0].visible; R.well0 = TH('the-fire').well.visible; R.body = !!TH('halcyon').npc;
+    at('moonwell', 768, 1010); R.stair = look('at the foot of the Moonwell’s stair'); R.stage2b = S.state().stage;
+    at('moonwell', 768, 806); R.letter = one('on the stair, before Halcyon'); R.stage3 = S.state().stage; play(13); R.light1 = TH('halcyon').light.visible; R.well1 = TH('the-fire').well.visible;
+    R.before = one('before the fire'); R.between = one('between its two forms'); play(4); R.well2 = TH('the-fire').well.visible; R.won = S.ctx.won();
+    R.after = look('after the fire'); R.stage4 = S.state().stage; play(0.3); R.bowls4 = TH('the-fire').bowls[0].visible; R.moths = TH('moths').m.visible; R.mothN = TH('moths').N; R.flame = TH('halcyon').flame.visible; R.rest = look('and then'); play(30); R.dark = TH('night').dark; R.stars = TH('night').sky ? TH('night').sky.state.stars : -1;
+    R.mode4 = TH('wardens').mode; R.awakeN = TH('wardens').n; R.wardenNow = Math.round(P.list.find((q) => q.id === 'warden').z);
+    // down again
+    at('misthollow', 766, 655); play(0.3); R.home = TH('halcyon').home; R.hearth4 = TH('ede-hearth').h.visible; R.wisps4 = TH('cold-lights').wisps.filter((q) => q.h.visible).length;
+    R.warden = go('warden'); R.watch4 = go('watch'); R.ede4 = go('ede'); R.sorrel4 = go('sorrel');
+    at('frozen-camp', 630, 452); look('back at the camp'); R.keeper4 = go('passkeeper'); R.capN = until('captain', 'z4.captain.07', 8); R.leave = look('after the Grey Hat'); R.leaving = !!S.state().flags.leaving;
   } else {
     at('northern-camp', 662, 420); R.landing = look('the start'); R.cap0 = pos('captain');
     R.captain = go('captain'); look('after the Grey Hat');
@@ -82,7 +113,8 @@ st = r['story']; R = st['r']; z = r['zone']
 print('2. the story, played through')
 for name, stage, said in st['log']: print('      %-34s stage %d   %s' % (name, stage, said))
 narr = len([1 for l in range(0)])
-check(st['lines'] - st['voiced'] == 0, '%d lines, %d with their recording in the page' % (st['lines'], st['voiced']))
+if z == 'z4' and not st['voiced']: print('        (zone 4: %d lines, none with a recording in the page yet: they are being recorded)' % st['lines'])
+else: check(st['lines'] - st['voiced'] == 0, '%d lines, %d with their recording in the page' % (st['lines'], st['voiced']))
 check(not st['bad'], 'every person has something to say at every stage, with its sound' + ('' if not st['bad'] else ': ' + '; '.join(st['bad'][:5])))
 first = lambda got, want: bool(got) and any(g[0] == want for g in got)
 def moment(got, name, least=2): 
@@ -106,6 +138,41 @@ if z == 'z2':
     moment(R['node'], ('before-node', '08')); check(R['stage4'] == 4 and any(g[0] == 'z2.narrator.09' for g in R['node']), 'the node holds (no fight yet: a stand-in), the narrator and the coven speak after it, and the stage moves to 4')
     check(R['capN'] > 0, 'the Grey Hat says they can fly (on talk %d)' % R['capN']); moment(R['leaving'], ('leaving', '10'))
     want = ['landing', 'first-node', 'node-lit', 'dawnroost', 'forty-beds', 'before-node', 'after-node', 'leaving']
+elif z == 'z4':
+    check(not R['failed'][0] and not R['failed'][1], 'the forty Wardens and Halcyon were made')
+    moment(R['landing'], ('landing', '02'), 6)
+    check(R['captain'] == ['z4.captain.02', 'z4.captain.03', 'z4.io.02', 'z4.captain.04'] and R['stage0'] == 0 and R['shipOn'], 'the Grey Hat\'s first talk: he waits below with every lamp lit, and lights a spare (4 lines); his ship lies on the landing ground')
+    check(R['keeper'] == ['z4.passkeeper.01'] and R['stage1'] == 1, 'the pass-keeper speaks, and the stage moves to 1')
+    check(R['keeper2'] == ['z4.passkeeper.04'], 'asked again, she tells of the great bramble first')
+    check(first(R['shore'], 'z4.narrator.12') and first(R['pass'], 'z4.narrator.13'), 'the narrator speaks at Frostmere\'s shore and at the frozen pass')
+    check(not R['far'] and R['mid0'] and R['shut'] and R['stops'] >= 12, 'the great bramble lies over the road above the pass (%d canes): it cannot be walked through, and nothing is said 40 m short of it' % R['canes'])
+    moment(R['bramble'], ('frozen-road', '03'), 5)
+    check(R['open'] and not R['mid1'] and R['sides'] and R['stopsLeft'] < R['stops'] and any(g[0] == 'z4.narrator.14' for g in R['bramble']), 'it gives way (no fight yet: a stand-in): the canes over the road are gone, the rest still stand, the road can be walked, and the narrator says so')
+    check(R['stage2'] == 2 and not R['bridge'], 'on the bridge into Misthollow the stage moves to 2, and nothing is said yet')
+    check(R['mode0'] == 'held' and R['forty'] == 40 and R['wardenFar'] > 3000 and R['wardenSilent'], 'forty Wardens stand held in the street (%d triangles in %d pieces), and none of them can be talked to' % (R['stillTris'], R['stillPieces']))
+    check(R['dawn'] > 0.95, 'the sky over Misthollow is the pale dawn')
+    moment(R['town'], ('misthollow', '04'), 6)
+    check(R['watch'] == ['z4.watch.01'] and R['sorrel'] == ['z4.sorrel.01'] and R['ede'] == ['z4.ede.01'] and not R['hearth0'], 'the watchwoman, Sorrel and Ede each speak; Ede\'s hearth is dark')
+    check(R['wisps0'] > 0, 'cold lights are in the town (%d in sight)' % R['wisps0'])
+    check(not R['street'] and R['light0'] and R['bowls0'] and not R['well0'] and R['body'], 'in the Moonwell\'s street: Halcyon stands in her light on the top step, the two bowls burn cold, the well is dark, and nothing is said yet')
+    moment(R['stair'], ('stair', '05'), 7); check(R['stage2b'] == 2, 'and it is still stage 2')
+    check(R['letter'] == ['z4.io.06', 'z4.halcyon.04', 'z4.io.07', 'z4.halcyon.05', 'z4.halcyon.06', 'z4.europa.05'] and R['stage3'] == 3, 'walking up to her, Io gives her the letter (6 lines), and the stage moves to 3')
+    check(not R['light1'] and R['well1'], 'the light on the stair goes out, and the fire wakes in the dead well')
+    check(R['before'][:1] == ['z4.narrator.06'] and len(R['before']) == 6 and R['between'][:1] == ['z4.narrator.07'] and len(R['between']) == 7, 'the coven speaks before the fire (5 lines) and between its two forms (6 lines), the narrator first each time (no fight yet: a stand-in)')
+    check(R['won'] and not R['well2'], 'the fire ends: the well is dark again')
+    moment(R['after'], ('after-fire', '08'), 7)
+    check(R['stage4'] == 4 and not R['bowls4'], 'the stage moves to 4, and the two bowls are out')
+    check(any(g == ['z4.kore.12', 'z4.callisto.09', 'z4.io.12', 'z4.kore.13', 'z4.europa.08'] for g in R['after']) and any(g == ['z4.halcyon.08', 'z4.io.13', 'z4.europa.09'] for g in R['after']), 'Kore\'s bow (5 lines) and the kept flame (3 lines) follow')
+    moment(R['after'], ('moonset', '09'), 6)
+    check(R['moths'] and R['flame'], 'the moths are rising (%d of them), and the kept flame is in Halcyon\'s hands' % R['mothN'])
+    check(first(R['rest'], 'z4.narrator.15'), 'the narrator then turns the coven back down')
+    check(R['dark'] > 0.99 and R['stars'] > 0.99, 'half a minute on, the moon has set: it is dark over Misthollow, and the stars are out')
+    check(R['mode4'] == 'awake' and R['awakeN'] == 39 and R['wardenNow'] < 0, 'the forty are awake and coming down: thirty-nine on the street, the squares and the great stair, and the one who speaks at the bottom of the street')
+    check(R['home'], 'once the coven has gone down, Halcyon is at the ship')
+    check(R['warden'] == ['z4.warden.01'] and R['watch4'] == ['z4.watch.06'] and R['ede4'] == ['z4.ede.07'] and R['sorrel4'] == ['z4.sorrel.06'] and R['keeper4'] == ['z4.passkeeper.07'], 'the Warden, the watchwoman, Ede, Sorrel and the pass-keeper each say what the ending has done')
+    check(R['hearth4'] and R['wisps4'] == 0, 'Ede\'s hearth burns, and the cold lights are gone')
+    check(R['capN'] > 0 and R['leaving'] and first(R['leave'], 'z4.narrator.16'), 'the Grey Hat counts five down (on talk %d): that is the leaving for the Faire, and the narrator says it' % R['capN'])
+    want = ['landing', 'frozen-road', 'misthollow', 'stair', 'letter', 'before-fire', 'between', 'after-fire', 'bow', 'flame', 'moonset']
 else:
     moment(R['landing'], ('landing', '03'))
     check(R['captain'][:2] == ['z3.captain.03', 'z3.captain.04'], 'the Grey Hat\'s first talk points to the shipyard (%d lines)' % len(R['captain']))

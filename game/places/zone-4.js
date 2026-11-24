@@ -39,6 +39,63 @@
   open('frozen-pass', [{ line: [[782, 1930], [784, 2110], [860, 2300], [900, 2510]], hw: 2.7 },    // south, to Frostmere's shore (the road the place already draws there)
     { line: [[790, -890], [800, -1080], [720, -1260], [690, -1480]], hw: 2.6 }], 'cob');           // north, to Misthollow
 
+  // ---- the frozen camp: the Grey Hat's ship on the landing ground with every lamp lit, and the pass-keeper's hut ----
+  // Both are made new here, with the place engine's own parts (the lines need them: "I'll wait here with every lamp
+  // lit", "Twelve lamps lit and a spare", "I keep the stove lit for anyone coming down").
+  //   SHIP   which baked ship lies there (game/flight/moored/). Only the Skiff is baked so far, so she stands in for
+  //          the ship flown in from the northern wilds: one word to change when another is baked.
+  //   HUT    where the hut stands in the camp's painting: beside the trail east, 47 m from the fire, on the way to the pass
+  const SHIP = () => (G.COVEN_SHIPS || {}).brig || (G.COVEN_SHIPS || {}).skiff || null, SHIP_AT = [318, 458], HUT = [1800, 500];
+  { const T = PL['frozen-camp'], ex = T.extra;
+    T.extra = function (K) { if (ex) ex.call(T, K); try { camp(K); } catch (e) { console.error(e); } };
+    const camp = (K) => { const B = K.B, T3 = G.THREE, X = K.X, Z = K.Z, solid0 = B.solid;
+      const stick = (k, a, b, r, col, seg) => { const d = new T3.Vector3(b[0] - a[0], b[1] - a[1], b[2] - a[2]), len = d.length(), g = new T3.CylinderGeometry(r, r, len, seg || 5, 1, true);
+        B.geom(k, g, new T3.Matrix4().compose(new T3.Vector3((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2), new T3.Quaternion().setFromUnitVectors(new T3.Vector3(0, 1, 0), d.normalize()), new T3.Vector3(1, 1, 1)), col, [1, 1]); g.dispose(); };
+      // ---- the ship: on her keel in the snow of the landing ground, her bow to the west ----
+      const ship = SHIP(), sx = X(SHIP_AT[0]), sz = Z(SHIP_AT[1]), g0 = K.terrain(SHIP_AT[0], SHIP_AT[1]), lamps = [];
+      if (ship && W3D.mooredShip) { const at = [sx, g0 + 1.22, sz], turn = -Math.PI / 2; W3D.mooredShip(K, ship, { at, turn, glow: 0.45 });
+        const S = W3D.mooredShip.spots(ship, { at, turn });
+        // twelve lamps on her rails, six a side, each hung from an iron post; and the spare, on a post of its own by her stern
+        B.solid = false;
+        for (const z of [0.8, -1.75, 1.55, -2.5, 2.3, -3.25]) for (const side of [-1, 1]) { const foot = S.rail(z, side, 0, -0.06), head = S.rail(z, side, 0, 0.95), tip = S.rail(z, side, 0.34, 0.95);
+          stick('iron', foot, head, 0.026, null, 5); stick('iron', head, tip, 0.02, null, 4); lamps.push([tip[0], tip[1] - 0.48, tip[2]]); }
+        B.solid = solid0;
+        K.addBlock([[SHIP_AT[0] - 112, SHIP_AT[1] - 36], [SHIP_AT[0] + 112, SHIP_AT[1] - 36], [SHIP_AT[0] + 112, SHIP_AT[1] + 36], [SHIP_AT[0] - 112, SHIP_AT[1] + 36]]);
+      } else {   // (no baked ship on the page: the twelve lamps stand on posts along the landing ground's north rope)
+        for (let i = 0; i < 12; i++) { const px = 150 + i * 30, x = X(px), z = Z(352), y = K.terrain(px, 352); B.box('wood', x, y - 0.2, z, 0.1, 1.9, 0.1, 0, [0.6, 0.5, 0.44]); lamps.push([x, y + 1.72, z]); } }
+      { const px = SHIP_AT[0] + 150, py = SHIP_AT[1] + 46, x = X(px), z = Z(py), y = K.terrain(px, py); B.box('wood', x, y - 0.2, z, 0.12, 2.1, 0.12, 0, [0.6, 0.5, 0.44]); B.box('wood', x + 0.2, y + 1.82, z, 0.5, 0.08, 0.08, 0, [0.6, 0.5, 0.44]);
+        lamps.push([x + 0.38, y + 1.36, z]); K.addBlock(K.circlePx(px, py, 0.2, 6)); }
+      for (const l of lamps) K.lantern(l[0], l[1], l[2], null, 0.62, true);
+      for (const dx of [-70, 0, 70]) K.light(SHIP_AT[0] + dx, SHIP_AT[1], 190, 0.85, 'warm');
+      // ---- the pass-keeper's hut: three plank walls and a roof under snow, open to the trail, and in it an iron stove, lit ----
+      const hx = X(HUT[0]), hz = Z(HUT[1]), g = K.terrain(HUT[0], HUT[1]), Wd = 3.4, Dp = 2.4, PLK = [0.86, 0.78, 0.74], DARK = [0.5, 0.44, 0.42];
+      B.box('planks', hx, g - 0.6, hz - Dp / 2, Wd, 2.55, 0.14, 0, PLK);
+      B.box('planks', hx - Wd / 2, g - 0.6, hz, 0.14, 2.85, Dp, 0, PLK); B.box('planks', hx + Wd / 2, g - 0.6, hz, 0.14, 2.85, Dp, 0, PLK);
+      B.box('wood', hx - Wd / 2, g - 0.6, hz + Dp / 2, 0.18, 3.1, 0.18, 0, DARK); B.box('wood', hx + Wd / 2, g - 0.6, hz + Dp / 2, 0.18, 3.1, 0.18, 0, DARK);
+      B.solid = false;
+      { const y0 = g + 2.55, y1 = g + 1.98, zf = hz + Dp / 2 + 0.45, zb = hz - Dp / 2 - 0.25, xa = hx - Wd / 2 - 0.3, xb = hx + Wd / 2 + 0.3, t = 0.22;
+        B.quad('snow', [xa, y0 + t, zf], [xb, y0 + t, zf], [xb, y1 + t, zb], [xa, y1 + t, zb], [0, 0, 2, 1.4], [1.0, 1.0, 1.04]);                    // the snow on the roof
+        B.quad('planks', [xb, y0, zf], [xa, y0, zf], [xa, y1, zb], [xb, y1, zb], [0, 0, 2, 1.4], DARK);                                       // its boards, from under
+        B.quad('snow', [xa, y0, zf], [xb, y0, zf], [xb, y0 + t, zf], [xa, y0 + t, zf], [0, 0, 2, 0.2], [0.94, 0.95, 1.0]);                      // its front edge
+        B.quad('snow', [xa, y1, zb], [xa, y0, zf], [xa, y0 + t, zf], [xa, y1 + t, zb], [0, 0, 1.4, 0.2], [0.94, 0.95, 1.0]); B.quad('snow', [xb, y0, zf], [xb, y1, zb], [xb, y1 + t, zb], [xb, y0 + t, zf], [0, 0, 1.4, 0.2], [0.94, 0.95, 1.0]); }
+      B.solid = solid0;
+      const stz = hz - 0.45;
+      B.box('iron', hx, g, stz, 0.62, 0.78, 0.5, 0, [0.62, 0.62, 0.7]); B.box('iron', hx, g + 0.78, stz, 0.7, 0.05, 0.58, 0, [0.5, 0.5, 0.58]);
+      for (const [dx, dz] of [[-0.25, -0.19], [0.25, -0.19], [-0.25, 0.19], [0.25, 0.19]]) B.box('iron', hx + dx, g - 0.3, stz + dz, 0.06, 0.32, 0.06, 0);
+      B.solid = false;
+      B.box('glass', hx, g + 0.2, stz + 0.255, 0.3, 0.3, 0.02, 0, [2.2, 1.0, 0.36]);                                                           // its door, glowing
+      B.cyl('iron', hx + 0.18, g + 0.83, stz - 0.1, 0.07, 0.07, 2.3, 6, [0.5, 0.5, 0.58]);                                                      // its pipe, up through the roof
+      B.box('wood', hx - 1.1, g - 0.2, hz - 0.2, 0.9, 0.62, 0.36, 0, DARK);                                                                    // a bench
+      for (let i = 0; i < 5; i++) B.cyl('wood', hx + 1.1, g + 0.06 + i * 0.13, hz - 0.6 + (i % 2) * 0.05, 0.065, 0.065, 0.7, 6, [0.7, 0.58, 0.5]);   // stove wood, stacked
+      B.solid = solid0;
+      K.halo(hx, g + 0.42, stz + 0.3, 1.9, [1.0, 0.55, 0.24]); K.halo(hx, g + 0.9, hz + 0.2, 3.4, [0.5, 0.26, 0.1]);
+      K.light(HUT[0], HUT[1] + 12, 200, 1.25, 'forge'); K.lamps3d.push({ x: hx, y: g + 0.6, z: stz + 0.4, c: 0xff8a40, k: 1.7 });
+    };
+    // (no tree of the painting's stands where the hut does)
+    G.W3D_TREES['frozen-camp'] = (G.W3D_TREES['frozen-camp'] || []).filter(([x, y]) => !(x > HUT[0] - 110 && x < HUT[0] + 110 && y > HUT[1] - 90 && y < HUT[1] + 110));
+    T.extraTrees = (T.extraTrees || []).filter(([x, y]) => !(x > HUT[0] - 110 && x < HUT[0] + 110 && y > HUT[1] - 90 && y < HUT[1] + 110));
+    if (T.treeGen && T.treeGen.keepOut) T.treeGen.keepOut.push([HUT[0] - 110, HUT[1] - 90, HUT[0] + 110, HUT[1] + 110]); }
+
   // ---- Misthollow, joined to the land ----
   // It stands on its own rock above a sea of mist, and in the old game its two ways out were doors. Here:
   //   north  its one street runs on between the houses to the edge of its ground, and on up to the Moonwell
@@ -101,7 +158,7 @@
   const DAWN = { sky: [1.45, 1.5, 1.66], moon: [0.36, 0.38, 0.46], ground: [0.5, 0.52, 0.6], fog: [0.66, 0.7, 0.8], fogNear: 30, fogFar: 120 };
   const DARK = { sky: [0.5, 0.52, 0.7], moon: [0.3, 0.32, 0.46], fog: [0.035, 0.04, 0.085], fogNear: 34, fogFar: 150 };
   PL.misthollow.night = Object.assign({}, PL.misthollow.night, DAWN); PL.moonwell.night = Object.assign({}, PL.moonwell.night, DAWN);
-  W3D.ZONE4 = { DAWN, DARK, AT, K, VK, PIN0 };
+  W3D.ZONE4 = { DAWN, DARK, AT, K, VK, PIN0, HUT, SHIP_AT };
 
   // each place's gates, as metres from its own middle
   const GATE = { campE: off(AT.camp, 92.2, 3.1), shoreW: off(AT.shore, -92.2, 6.0), shoreN: off(AT.shore, 0.6, -76.8), passS: off(AT.pass, 5.3, 99.9), passN: off(AT.pass, -3.1, -99.6),
