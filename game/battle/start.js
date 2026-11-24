@@ -57,7 +57,9 @@
     if (o.story) opts.story = o.story; if (o.words) opts.words = o.words;
     // kind: a wild fight (the default), or one of the story's fights: 'greatWraith' (gate 5), 'dawnroost' (gate 10)
     const cfg = window.GameFights.config(o.kind || 'wild', P, opts);
-    if (o.canFlee === false) { const f0 = cfg.fight; cfg.fight = () => Object.assign(f0(), { ends: {} }); }
+    // (no running away: only `canFlee` is taken out of the fight's ends. Fixed November 24: it took out every end, so the knight
+    // of light never stopped and walked away, and Io's answers and the fire's first form did nothing, on the land and on the lab page)
+    if (o.canFlee === false) { const f0 = cfg.fight; cfg.fight = () => { const f = f0(), ends = Object.assign({}, f.ends || {}); delete ends.canFlee; return Object.assign(f, { ends }); }; }
     // reward: what the fight's experience and shards are worth here, against the battle's own (the land's zones set it)
     // (step 4: it TAKES THE PLACE of the battle's own worth for a wild fight, rules.js WILD_REWARD 1.75; until then it was
     // multiplied by it, so a fight on the land gave 1.75 times what the zone's file and the slip said)
