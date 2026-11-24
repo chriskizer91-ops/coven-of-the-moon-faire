@@ -153,7 +153,105 @@ minutes where an ordinary one takes 0.7 to 1.8; the big one takes 6.7 (it is wor
 | `zone-3.html` | 87.5 MB | 89.5 MB (2.0 MB more) | 13 seconds |
 | `fights-lab.html` | new | 14.1 MB | |
 
-(How much longer zones 2 and 3 take to open is at the end of "What was checked".)
+(How much longer zones 2 and 3 take to open than before was not measured: see "What was checked".)
+
+### The trial of one creature from Aethermoor M7 (outside the repo; nothing copied in)
+
+**It works, with changes.** The Willow-Wight (the first of the hub's top picks, and finished in M7) was drawn and
+moved in this game's battle in zone 1's slot A, and fought to its end: won in 10 turns, 0 page errors. Its moves file
+is used as it is; M7's loader had to be written again for this game's older 3D library (about 45 lines); a small
+decoder (21 KB) unpacks the model in 45 thousandths of a second; a join of about 40 lines turns M7's poses into this
+battle's motions. It adds about 1.4 MB to a page (the lab page 14.1 MB, with it 15.4 MB). It looks a little darker
+here than in M7. The true steps are in `game/encounters/ADDING-A-CREATURE.md`. Only the full-detail kind was tried.
+
+### The job's calls (each is one line of data; each is Chris's to overrule)
+
+1. **About 45 fights a zone, at one meeting every 100 to 130 m** in zones 2 to 4 (zone 1 keeps its 160 to 260 m).
+   Zone 2's road to the node is 2.5 km, which brings about 20 fights, so the coven walks it about twice before level
+   10. Zone 3's road is long enough (4.8 km before the knight, about 41 fights). *The other choice:* fewer fights each
+   worth more (`reward` in the zone's file), or a lower gate level.
+2. **Zone 1's `reward` is 0.31**, not 0.27, so that it is 45 fights with foes never more than one level above the party.
+3. **What each slot's stand-in does**, its numbers, and where it is met. Zone 3's A is met in the pines as well as the
+   brambles, or it would be one fight in ten.
+4. **Zone 2's A and zone 4's A come with one of the zone's own foes**, since alone they do little harm.
+5. **The big one (zone 4, B) is rare**: worth three fights, and it uses up the ground of three.
+6. **The road stones' fights**: frost wisps and a wraith, worth one and a half ordinary fights each, can be run from.
+7. **The knight**: stops at three tenths of her Life; each answer raises that by a tenth, up to six tenths, and costs
+   her a turn. *The other choice:* she stops at the first answer (a very short fight).
+8. **The fire**: the first form stops at 45% of its Life; the second is ended only by Kore's Sealed Fate, and all its
+   single blows fall on Kore. The attentive player nearly always wins it. How hard the ending should be is Chris's.
+9. **The Bramble Colossus does not roam zone 4** (it did in the new Envoi): it is the great bramble, once.
+   **The Bramble Horror is met in zone 3's brambles only**, about one fight in ten there.
+10. **One more resting place in each of zones 2 to 4** (`rests`): the Wardens' hall, Old Gil's bunkhouse, Ede's inn.
+11. **The first-meeting event** waits only if the page asks (`d.wait()`), so nothing pauses when nobody is listening.
+    The board's text had it wait six seconds always.
+12. Every name and line in `game/encounters/words.js` is a stand-in or a proposal, marked so.
+
+### What was checked, and how
+
+| Check | Result |
+|---|---|
+| `node tools/encounter-balance.mjs` (the three settings, the slots, the big fights) | **every target met** |
+| `node tools/battle-balance.mjs` (the new Envoi's 51 targets), and `--two` | **49 of 51, and 44 of 51: as before** |
+| `node tools/battle-testers.mjs` (Moon Faire's eight players) | **every check passed, as before** |
+| `tools/encounter-test.py --quick` on zones 1, 2 and 3 | **every check passed** (32, 35 and 35 checks), 0 page errors |
+| `tools/encounter-test.py --long-only` on zones 2 and 3 (slot A fought, a road stone's fight, a lost fight) | **every check passed** |
+| the same on zone 1 | slot A fought and won; **1 check failed, and it is the check's fault**: its "lost fight" is now fought by the camp, where the foes are too weak to beat a party at 1 HP each. Not fixed, not run again |
+| `tools/story-test.py` on zones 2 and 3 | **all passed** (61 and 64 checks, as in `main`) |
+| `tools/zone-test.py` on zones 1, 2 and 3; `tools/people-test.py` and `tools/things-test.py` on zone 1 | **all passed** |
+| `tools/encounter-fights-test.py` on the lab page: zone 1 A and zone 2 A played to their end | **passed**, 0 page errors |
+
+- **Not run** (the job was asked to stop starting long runs): the other 14 fights of the lab page played by the
+  battle (both of B's stand-ins in zones 1 to 4, zone 3's A and zone 4's A, the three stones, the node, **the knight,
+  the great bramble and both forms of the fire**); `tools/menu-test.py` on the three pages (one run on zone 2 was
+  still going when this was written); pictures of the stand-ins and of the buttons on the land at both sizes; the
+  time a page takes to open, before against after (with its fights a zone page opened in 11 to 13 seconds here).
+  The commands: `python3 tools/encounter-fights-test.py builds/fights-lab.html` (about two minutes a fight; `--only`
+  plays some), `python3 tools/encounter-look.py builds/fights-lab.html <folder>`, and the same with
+  `builds/zone-2.html <folder> --land` for the buttons on the land (`--size 412x880` for a phone).
+- **So the knight, the great bramble and the fire have only been played by the simulator, not on a screen.**
+- **Not checked by anyone:** a frame rate, anything in motion, any sound, touch on a real phone, zone 4 on its page.
+
+### Rough spots
+
+- The stand-ins are plain shapes with simple motions. Nobody has looked at one in a picture yet.
+- The knight wears dark armour (Halcyon's model) and the fire is Noctara's model: both stand-ins.
+- Zone 2 needs its road walked about twice (call 1).
+- A herb the battle does not know (zone 4's white sage) is carried and shown, and cannot be used in a fight.
+- The old rough spots of step 3 (below) still stand.
+
+### For the hub
+
+- **Zone 4's page:** copy the block marked "fights job: start" to "fights job: end" from `game/pages/zone-3.html` to
+  the same spot in `game/pages/zone-4.html` (after the menu's block), and change `zone-3` to `zone-4` in it twice (the
+  data file's name, and the zone's name in the last lines). Its numbers are `game/encounters/zone-4.js`. It reads the
+  zone-4 job's own spots (`W3D.ZONE4.bramble.at`, `W3D.ZONE4.fire.at`), sets the story's flag `bramble` when the great
+  bramble is won, offers the fire from the story's stage 3, and plays the moment `between` between the fire's two
+  forms. **None of this has been run on zone 4's page.** Then: `python3 tools/encounter-test.py builds/zone-4.html`.
+  To set there: `camp` and `rests` (two spots in two places' paintings), and each ground's `every`.
+- **The narrator's lines** (`first-wisp`, `rest`, `not-ready`): the events are sent on every zone's page.
+  `window.addEventListener('coven-fights', (e) => { const d = e.detail; ... })`: `d.what === 'first-meeting'` (call
+  `d.wait()` at once, say the line, then `d.done()`; six seconds at most); `'rest'`; `'not-ready'` (`d.id`, `d.level`;
+  call `d.told()` at once and the fights' own words are not shown). Also `'fight-start'`, `'fight-end'`,
+  `'between-forms'`.
+- **A story walked with no fights** (`tools/story-test.py`, `?test`): on zones 2 to 4 the fights then stand aside
+  (`window.__fightsQuiet`, no `window.__fights`). A check of the fights opens a page with `?test&fights`.
+- **Changed in the hub's files:** only `game/people/zone-2.js`, a road stone's `use`, marked "fights job".
+- **New files of this job's** for the board's table: `game/encounters/` (all of it), `game/battle/models/stand-in.js`,
+  `game/pages/fights-lab.html`, `tools/encounter-balance.mjs`, `tools/encounter-fights-test.py`,
+  `tools/encounter-look.py`. `party.setLevel(n)` is new, for the checks and for trying a later zone by itself.
+- `?slots=AB` (or `A`, `B`, `none`) at the end of a page's address tries another setting without changing a file.
+- The check of zone 1's lost fight wants a spot in the fen again (`tools/encounter-test.py`, part 6).
+
+### For Chris
+
+- Which creatures fill the slots (the eight suggestions are in the table above; none is approved).
+- Whether about 45 fights a zone is right when zones 2 and 4 are short walks (call 1).
+- How hard the ending should be (call 8), and what the fire's two forms are called.
+- What a beaten creature does (the stand-in "goes still"), and every stand-in name and line in `words.js`.
+- Whether the coven may rest at the hall, the bunkhouse and the inn (call 10).
+- What waits by the road stones (call 6).
+- `fights-lab.html` on his laptop and phone: only he can see the fights move and read the frame rate.
 
 ## Steps 1 to 3 (written by the fights conversation, up to November 19)
 

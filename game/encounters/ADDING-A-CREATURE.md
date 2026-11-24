@@ -49,7 +49,7 @@ What you set by hand is only **how dangerous it is**: its Life and how hard its 
 - `anchor('chest')`, `anchor('head')`: where a blow lands on it;
 - `animate(...)`, called every frame; `guard(on)`; `reset()`.
 
-For a creature from Aethermoor M7 the true steps for this are in "A creature from Aethermoor M7", below.
+For a creature from Aethermoor M7, what this takes is in "A creature from Aethermoor M7", below (tried once).
 
 **4. Change the slot's lines in `game/encounters/slots.js`:**
 
@@ -94,6 +94,48 @@ python3 tools/encounter-look.py builds/fights-lab.html <a folder> --only zone-1-
 
 Then build its zone's page, run `python3 tools/encounter-test.py builds/zone-N.html`, and send Chris
 `fights-lab.html` to try it on his laptop and phone. Only he can see it move or read its frame rate.
+
+## A creature from Aethermoor M7
+
+**Tried on November 24 with the Willow-Wight, outside the repo (nothing was copied in). It works, with the changes
+below.** It was drawn and moved in this game's battle, fought to its end in zone 1's slot A, with 0 page errors.
+
+What a full-detail M7 creature is: a folder `prototypes/foe-hd/foes/<name>/assets/` with the light model
+(`light.bin`), its bones (`light.json`) and four pictures; and a moves file for its body plan
+(`prototypes/foe-hd/kit/js/moves/<plan>.js`). The Willow-Wight: 30,634 triangles, 11 bones; model 481 KB, pictures
+547 KB (colour and bump at 512, shading at 1,024, glow at 256). **Inside a page it adds about 1.4 MB.**
+
+What it took:
+
+1. **Its moves file is used as it is.** It only turns bones by name, and needs nothing from M7's 3D library. The one
+   change: the word `export` is taken off, since this game loads scripts, not modules.
+2. **M7's loader (`kit/js/loader.js`, 140 lines) is written again for this game's older 3D library** (three.js r128
+   where M7 has 0.170), about 45 lines. Four things differ:
+   - a material must be told it is on a skinned model (`skinning = true`) and that the model brings its own tangents
+     (`vertexTangents = true`);
+   - the shading picture needs a second copy of the model's picture coordinates (`uv2`);
+   - no colour space is set on the pictures: the battle draws every model as painted, so this one is too;
+   - M7's `SkeletonUtils` (for a second copy of one creature) is not there: each one is built from the shared model.
+3. **The model is packed and must be unpacked when the page opens.** That needs a small decoder (meshoptimizer's, MIT
+   licence, 21 KB). It took 45 thousandths of a second here. Two things to know:
+   - it is ready a moment after the page opens, not at once, so a page must wait for it before its first fight;
+   - its file has two web addresses in comments, which the builder stops at: take them out.
+   The other way, not tried: unpack once with Node when copying the creature in, and keep plain numbers (a bigger file,
+   nothing to wait for).
+4. **A join of about 40 lines** between M7's way of moving a creature (`pose(move, how far through, clock)`: a pure
+   pose) and this battle's (`play(name)`, `busy`, `progress`, the list of motions and when their blows land, the
+   anchors). Each of this battle's motions is given one of the creature's moves: `hurt` its Hit, `die` its Fall, and
+   for the slot's own moves the creature's own (the Willow-Wight: Lash, Bough-Fall, Weep). The charged blow that can be
+   seen coming is the first two fifths of Bough-Fall, held.
+5. **The model and its pictures go inside a script file** (as text), because the builder only puts pictures inside a
+   page when a script names them, and a page opened from a file cannot read another file.
+
+**What does not come across:** M7's numbers (it fights with dice; this game sets its own in `slots.js`), and its look
+exactly: M7 manages colour and this game's battle does not, so the same model is a little darker and flatter here.
+**Not seen by anyone:** it moving, or its frame rate. The pictures are stills from a browser with no graphics card.
+
+The rigid-piece kind (the wraiths, the winged: built in code from M7's hero kit) was **not tried**. It is not a file,
+so it would need that kit brought over as well.
 
 ## Turning slot B on
 
