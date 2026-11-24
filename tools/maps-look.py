@@ -37,7 +37,7 @@ for (W, H) in sizes:
         pg = b.new_page(viewport={'width': W, 'height': H}, has_touch=W < 600)
         pg.on('pageerror', lambda e: errors.append('page error: ' + str(e)))
         pg.on('console', lambda m: errors.append('console error: ' + m.text) if m.type == 'error' else None)
-        pg.goto('file://' + page_file + '?test&mapshold=25')
+        pg.goto('file://' + page_file + '?test&mapshold=40')
         pg.wait_for_function('window.__ready || window.__err', timeout=600000)
         def shot(name, settle=2.5):
             # the map draws by itself; a few frames are let by so the picture is the settled one
@@ -62,7 +62,7 @@ for (W, H) in sizes:
         pg.evaluate("(() => { window.__got = undefined; W3D.maps.world.choose({ from: 'wickhollow', open: ['warmCamp'] }).then((v) => { window.__got = v; }); })()"); pg.wait_for_function(CHOOSE_READY, timeout=300000); drawn(True); shot('6-choose')
         pg.evaluate("W3D.maps.world.choosing.pick('northCamp')"); drawn(True); shot('7-choose-not-open', 1)
         pg.evaluate("W3D.maps.world.choosing.pick('warmCamp')"); drawn(True); shot('8-choose-open', 1)
-        pg.evaluate("W3D.maps.world.choosing.setCourse('warmCamp')"); drawn(True, 2); shot('9-choose-line', 0.5)
+        pg.evaluate("W3D.maps.world.choosing.setCourse('warmCamp')"); shot('9-choose-line', 0.8)   # (the map draws itself when the course is set; the line is held 40 seconds here, for the picture)
         pg.wait_for_function("window.__got !== undefined", timeout=90000)
         # the star map
         pg.evaluate(OPEN, 'sky'); pg.wait_for_function(SKY_READY, timeout=300000); shot('10-sky', 5)
