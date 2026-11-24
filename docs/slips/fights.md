@@ -1,8 +1,163 @@
-# fights: the new Envoi's battle, here, then grown to four witches
+# fights: the new Envoi's battle, here, then grown to four witches, then fights on every land
 
-Branch: job/fights      Last commit: see the branch      Updated: November 19, 2026, morning (step 3)
+Branch: job/fights      Last commit: see the branch      Updated: November 24, 2026 (step 4, zones 2 to 4)
 
-## What it built
+**Who wrote what.** Steps 1 to 3 (below, from "What it built") were written by the fights conversation, up to
+November 19. Everything in this first part was written on November 24 by a sub-agent of the hub's that took the job
+over on Chris's word ("you can use a sub agent to do the rest of the fights conversation"). Nobody could be asked while
+it worked: every choice it made is listed under "The job's calls", each with the other choice.
+
+## November 24: step 4, and fights on zones 2, 3 and 4
+
+### What it built
+
+**1. Room for new creatures: two slots in every zone** (`game/encounters/slots.js`, one file).
+
+- Slot A is **on**: the game is balanced with it in. Slot B is **off**: one word turns it on.
+- Until Chris's creatures come, each slot is a **stand-in that can be fought**: a plain dark shape with two pale eyes,
+  sized for its kind, shown as "Strange creature" (`game/battle/models/stand-in.js`, made here in code).
+- Each slot has a job in a fight that the foes already there do not have, and the stand-in does that job today:
+
+| Zone | Slot | Its job in a fight | Where it is met | Suggested for it (NOT approved) |
+|---|---|---|---|---|
+| 1 | A, on | the heavy one: slow, tough, one big blow that can be seen coming; it knits itself | thorn country, fen | Willow-Wight |
+| 1 | B, off | the swarm: three small quick ones | the woods and wilds | Briarling |
+| 2 | A, on | the cold-bringer: slows and weakens the four; a wraith fights beside it | the cold road | Mirage Wisp |
+| 2 | B, off | the pair: two that hit harder and come round sooner while both stand | the hills off the road | Thornhound |
+| 3 | A, on | the armoured one: blades and arrows do two fifths of their harm, spells all of it | the brambles, the pines | Sapwight |
+| 3 | B, off | the leaper: goes past the front for Europa or Callisto; Kore cannot catch the blow | the wilds | Rime Wolf |
+| 4 | A, on | the light-thief: drinks MP from one witch or from all four; a frost wisp beside it | the frozen pass | Rime-Wraith |
+| 4 | B, off | the big one: alone, a long fight, worth three ordinary ones | round Misthollow | Peak-Troll |
+
+- The suggested creature for each slot is written in the slot's own line, marked "SUGGESTED, NOT APPROVED"
+  (from `docs/foes-from-m7.md`). Each job is shaped from what that creature does in Aethermoor M7, so it could take the
+  slot with no change to the rules. **Nothing was copied from Aethermoor M7.**
+- **The rule that keeps the balance steady** (`game/encounters/draw.js`): a slot's fight gives exactly the experience
+  and shards of the ordinary fights it takes the place of, on that ground, at those levels. A fight worth three uses up
+  the ground of three meetings. So a slot on or off changes what the fights are like, not how many a level takes.
+- Seven small rules were added to the battle for the slots' jobs, each marked "Coven (step 4)" in
+  `game/battle/engine.js`: Weakened (the four's blows a quarter lighter for a while); a pair; blades sliding off; a
+  blow at the back that Kore cannot catch; MP drunk from all four; a foe with no ending to seal; a foe only a seal ends.
+
+**2. The whole game's levels, as one plan** (`game/encounters/plan.js`, and one file of numbers for each zone:
+`game/encounters/zone-1.js` to `zone-4.js`).
+
+| Zone | The party comes in at | Its big fight asks | Fights to get there | What a fight is worth there |
+|---|---|---|---|---|
+| 1 | level 1 | level 5: the great wraith | about 45 | 0.31 of the foes' own numbers |
+| 2 | level 6 | level 10: the night at the node | about 45 | 0.27 |
+| 3 | level 10, most of the way to 11 | level 15: the knight of light | about 45 | 0.29 |
+| 4 | level 16 | level 20: the fire | about 45 | 0.70 |
+
+- **About 181 fights from level 1 to 20** (Chris: about 180).
+- A foe is never more than one level above the party. How strong the foes are goes by how far along a zone's road the
+  coven is (its `stretches`); what is met goes by the kind of ground (its `where`: the road, the pines, the open
+  hills, far from any place, and in zone 3 the brambles).
+- **A mistake found and put right:** on the land a zone-1 fight was giving 1.75 times the experience the zone's file
+  and this slip said (the battle's own worth for a wild fight was multiplied in as well). So zone 1 took about 26
+  fights to level 5, not the 46 the slip gave. Now a zone's `reward` is the whole of it, and zone 1 takes about 45.
+
+**3. Fights on zones 2 and 3** (one marked block in each page: `game/pages/zone-2.html`, `zone-3.html`).
+
+- Meetings in the wilds, as in zone 1: unseen, in the nearest arena, never in a place or at the camp.
+- **Zone 2's big fight, `nodeNight`:** three wraiths come up the hill for Dawnroost's living node (Marta: "Every night
+  something comes up the hill for the node behind the hall. Wraiths."; Callisto: "Three of them, coming up the hill").
+  It is the battle's own Dawnroost fight (three wraiths at level 12), with new words. The spot is the sun in the floor
+  of the node's court, before the sunstone. The button says "Hold the node", from level 10.
+- **A fight by each of zone 2's three road stones:** pressing "Light the road stone" starts it (frost wisps and a
+  wraith: the cold has company), and the stone is lit when it is won. What waits there is this job's proposal.
+- **Zone 3's big fight, `knightOfLight`:** on the crossroads' east road, where the hub's light stands. She fights with
+  Io's own spells (Flame Bolt, Crescent Blades, Nightbloom Briars, Lunar Mend, Moonlight). Kore's Fate writes nothing on
+  her ("There's nothing there to seal"). **She is never beaten:** when her Life is down to three tenths she stops and
+  walks away, and the fight is won. **When Io answers one of her spells with the same spell** she falters, loses her
+  turn, and stops sooner (the lines: "She used my prayers. Every one. And she stopped when I answered."). The button
+  says "Stand in her way", from level 15. **She wears Halcyon's model as a stand-in** (the new Envoi's Gloam Knight,
+  dark armour with a pale gold light at her feet, where the story says "all light").
+- Rest: at each zone's camp, and (this job's call) at one more place in each: the Wardens' hall in Dawnroost, Old
+  Gil's bunkhouse at the shipyard. A lost fight wakes the coven at the zone's camp, as the narrator's lines say.
+- **The story is joined as the hub asked:** it sees `window.__fights.gate` and `party.gates[id]`, and its own stand-in
+  stops by itself. In `game/people/zone-2.js` one thing was changed, marked "fights job": a stone's `use`.
+  `game/people/zone-3.js` was not changed.
+
+**4. Zone 4, as data** (`game/encounters/zone-4.js`; not on a page yet: "For the hub" has the steps).
+
+- Meetings by ground and by stretch, levels 15 to 20, with frost wisps and wraiths.
+- **The great bramble** on the frozen road: the battle's Bramble Colossus at level 16 with three fifths of its Life and
+  lighter blows, since here it must be passed. From level 16, from the story's stage 1. The coven can back away (it
+  is rooted). When it is won the story's flag `bramble` is set, as the zone-4 job's slip asks.
+- **The fire, in two forms**, at the dead Moonwell, level 20, offered once the letter is given (the story's stage 3):
+  - the first form cannot be ended (no Fate, and it never falls): when its Life is down to 45% the fight stops
+    ("Nothing hurts it. It won't let anything end.");
+  - then the coven's moment `between` is played on the land, and waited for;
+  - the second form's single blows all fall on Kore. No blow can end it. Its Fate grows with every blow on her, and
+    her Sealed Fate ends it ("Then I'll give it an ending. I know how.").
+  - **Both forms wear Noctara's model as a stand-in** (the new Envoi's last foe).
+
+**5. One check for three settings:** `node tools/encounter-balance.mjs` (about half a minute). **6. The steps for a
+real creature:** `game/encounters/ADDING-A-CREATURE.md`. **7. A small page of every new fight:**
+`game/pages/fights-lab.html` (14 MB built): the eight stand-ins, the three stones' fights and the big fights of zones 2
+to 4, each to Play or to Watch, at any level. **This is the page to send Chris.**
+
+**8. What the land's narrator needed** (step 4, thing 6): the page is sent an event for each. See "For the hub".
+
+### Numbers a person can check
+
+From `node tools/encounter-balance.mjs` (60 journeys for each kind of pretend player in each zone, at each setting;
+the same numbers every time it is run):
+
+**Fights to each gate's level, the attentive player:**
+
+| Zone | The plan | A on (the game as shipped) | A and B on | Neither |
+|---|---|---|---|---|
+| 1, to level 5 | 45 | 45.2 | 45.3 | 45.7 |
+| 2, to level 10 | 45 | 45.0 | 44.8 | 44.9 |
+| 3, to level 15 | 45 | 44.9 | 45.0 | 45.5 |
+| 4, to level 20 | 45 | 46.1 | 44.6 | 46.5 |
+| All four | 180 | 181 | 180 | 183 |
+
+**How often a fight is lost** (a share of the fights met; hurts carried from fight to fight, as on the land):
+
+| Zone | Setting | Careless | Attentive | Expert |
+|---|---|---|---|---|
+| 1 | A on / A and B / neither | 1.6% / 1.5% / 1.9% | 0% / 0% / 0% | 0% / 0% / 0% |
+| 2 | A on / A and B / neither | 13% / 15% / 11% | 0.1% / 0.1% / 0.1% | 0% / 0% / 0% |
+| 3 | A on / A and B / neither | 17% / 18% / 19% | 0.4% / 0.5% / 1.2% | 0.4% / 0.5% / 1.2% |
+| 4 | A on / A and B / neither | 24% / 23% / 26% | 0.8% / 0.6% / 1.1% | 0% / 0.1% / 0.1% |
+
+- **How close the other two settings stay to A on:** within 1.5 fights in every zone, and within 2.6 points of chance
+  for every kind of player. (The check allows 3 fights and 4 points.)
+- With A on, a new creature is about one fight in 5 to 7 in every zone; with both on, one in 3 to 4.
+- The careless player rests about 4 to 8 times in a zone, the attentive one 12 to 15 times, the expert 9 to 12.
+
+**The big fights, each at the level it is offered at** (500 fights each):
+
+| Fight | Level | Careless wins | Attentive wins | Expert wins | About |
+|---|---|---|---|---|---|
+| The great wraith (zone 1) | 5 | 29% | 93% | 99% | 6 minutes |
+| The night at the node (zone 2) | 10 | 15% | 98% | 100% | 3 minutes |
+| The knight of light (zone 3) | 15 | 11% | 94% | 97% | 5 and a half minutes |
+| The great bramble (zone 4) | 16 | 18% | 95% | 99% | 4 minutes |
+| The fire, both forms (zone 4) | 20 | 5% | 100% | 100% | 9 minutes |
+
+**Each slot's own fights against the ordinary fights they take the place of** (500 fights each, begun whole): the
+careless player loses 0% to 1% of them where the ordinary fights cost 0% to 12% (zone 3's brambles have the Bramble
+Horror in them), and 9% to 10% of zone 4's big one where ordinary fights cost 5% to 6%. A slot's fight takes 0.9 to 2.4
+minutes where an ordinary one takes 0.7 to 1.8; the big one takes 6.7 (it is worth three).
+
+**The pages:**
+
+| Page | In `main` | With its fights | How long to open here |
+|---|---|---|---|
+| `zone-1.html` | 101.2 MB | 101.3 MB | 11 seconds |
+| `zone-2.html` | 90.2 MB | 92.2 MB (2.0 MB more) | 13 seconds |
+| `zone-3.html` | 87.5 MB | 89.5 MB (2.0 MB more) | 13 seconds |
+| `fights-lab.html` | new | 14.1 MB | |
+
+(How much longer zones 2 and 3 take to open is at the end of "What was checked".)
+
+## Steps 1 to 3 (written by the fights conversation, up to November 19)
+
+## What it built (steps 1 to 3)
 
 ### Step 1: the new Envoi's battle, running here (done)
 
