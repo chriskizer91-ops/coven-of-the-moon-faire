@@ -91,13 +91,13 @@
     party.onChange = () => view.refresh();
 
     // ---- a fight ----
-    let first = party.fights.won + party.fights.lost + party.fights.fled === 0;
+    let firstTold = false; const noFightYet = () => party.fights.won + party.fights.lost + party.fights.fled === 0;
     async function fight(spec, why) {
       if (api.busy) return null;
       const wasHeld = meetings.held;
       api.busy = true; meetings.hold(true); view.close(); view.hide(true);
       // the very first fight: the page may have a line to say before it
-      if (first) { first = false; await tell('first-meeting', { meeting: why || null }).wait(6000); }
+      if (!firstTold && noFightYet()) { firstTold = true; await tell('first-meeting', { meeting: why || null }).wait(6000); }
       W.pause(true);
       tell('fight-start', { id: spec.id || null });
       const B = party.forBattle();
