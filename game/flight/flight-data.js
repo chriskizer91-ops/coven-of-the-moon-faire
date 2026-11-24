@@ -94,7 +94,7 @@
       fps: 'frames a second',
       paused: ['Paused', 'The ship holds her place.'], resume: 'Fly on', turnBack: 'Turn back',
       pauseLabel: 'Pause', mapLabel: 'The map: tap to make it bigger',
-      hintTouch: 'Left thumb: steer, climb and dive · drag on the right: look round',
+      hintTouch: 'Left thumb steers · hold Fire and slide to aim · drag the sky to look round',
       hintMouse: 'A and D steer · Space climbs, Shift dives · drag to look round',
       keysButton: 'Keys (H)', keysTitle: 'Flying',
       keys: [

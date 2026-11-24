@@ -1,10 +1,50 @@
 # flight: the flight between zones, and the Grey Hat's real ship
 
-Branch: job/flight      Built by: a sub-agent of the hub's (Fable 5.2)      Updated: November 23, 2026, 21:30
+Branch: job/flight      Built by: a sub-agent of the hub's (Fable 5.2)      Updated: November 24, 2026, 06:10 (by the hub: the Fire button aims)
 
 **State: both parts built, checked and pushed.** Part 1 is one flight between two landings, as a piece a page can
 call. Part 2 is the Grey Hat's real ship, the Skiff, moored at zone 1's jetty. Neither is joined to the zone pages:
 that is the hub's part. Nothing has been flown on a real laptop or phone yet.
+
+## November 24, 2026: a thumb held on Fire slides to aim (the hub, on Chris's word)
+
+**Chris, after trying `flight.html` on his phone:** "it does not work the same as the airship game originally did.
+When you're firing, you should be able to control where you're firing from while holding down fire. So the fire
+button is also a joystick. So you can fire and aim at the same time, and then the other joystick is the steering
+the ship."
+
+**Why it was so.** The flight was made from the oldest version of Skies of Aethermoor, the one in that repo's main
+folders (commit `1887984`). In that version the Fire button only fires. Chris's later versions of the game (the
+folders `polished/`, `stage4/` and `stage5/`, kept on other branches of that repo) changed it: a thumb held on Fire
+can slide off it to aim while the guns keep firing. He plays those, so that is what he expected.
+
+**What was changed** (all marked "Coven", November 24):
+
+- `game/flight/src/game/input.js`: a thumb held on Fire slides to aim, and the guns keep firing; while a thumb
+  rests on Fire or on the sky the view stays where it was put; a finger lifted anywhere on the screen is let go of.
+  It is written to behave as the later versions do. No file was copied from them.
+- `game/flight/flight-data.js`: the phone's hint now reads "Left thumb steers · hold Fire and slide to aim · drag
+  the sky to look round".
+- `game/flight/src/coven-flight.js`: the test handle also says where the view is turned and whether the guns are
+  firing, so the check can see it.
+- `game/flight/flight-frame.js`: packed again (`node tools/flight-build.mjs`), 2.85 MB as before.
+- `tools/flight-test.py`: eight new checks, four at each phone size. **64 checks, all good, 0 page errors.**
+  A thumb held on Fire and slid 90 px left and 40 px up turns the view 35 degrees and tips it 15, still firing;
+  held still for 4 seconds the view stays and the guns go on; lifted, the guns stop; a thumb dragged 60 px on the
+  sky turns the view 23 degrees without firing.
+- The phone still has four things to press, the smallest 46 by 46 px, and nothing over the middle of the picture.
+
+**Not checked:** how it feels under a real thumb. The check sends made-up touches; only Chris's phone can say.
+
+**For the hub and for Chris: the flight is built on the oldest Skies of Aethermoor.** The newest is `stage5/` (the
+shipwright's pass, November 14 and 15: better-looking ships with a crew, and a picture that keeps its pace on a slow
+phone), on the branch `claude/keen-thompson-qm6iz2`, commit `289e47c`. Its `src/` has 53 files to the oldest's 25.
+Other things Chris knows from the game he plays may be missing here for the same reason. Making the flight again
+from stage 5 is his call.
+
+**A true fact about the record:** that repo has no branch named `main`. The twelve lines in `assets/INDEX.csv` say
+`main`; the commit they name, `1887984`, is right, and it is the head of the repo's default branch,
+`claude/ship-game-magpie-l8cbdn`.
 
 ## What it built
 

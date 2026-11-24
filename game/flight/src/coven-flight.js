@@ -442,7 +442,7 @@ async function begin(o) {
     raiders: about().length, fled: F.fled, classes: raiders.list.map((r) => r.id), downed: F.downed, hits: F.hits, taken: F.taken, paused, ended, frames,
     hull: +player.frac('hull').toFixed(3), sails: +player.frac('sails').toFixed(3), crystals: +player.frac('crystals').toFixed(3),
     speed: +player.speed.toFixed(1), height: Math.round(player.pos.y), hurry: +hurry.toFixed(2), skies: plan.skies, ship: R.id, touch,
-    heading: +player.heading.toFixed(3), bolts: bolts.bolts.length, stick: !$('stick').hidden, sail: +player.sail.toFixed(2),
+    heading: +player.heading.toFixed(3), view: [+cam.yaw.toFixed(3), +cam.pitch.toFixed(3)], firing: !!input.fire, bolts: bolts.bolts.length, stick: !$('stick').hidden, sail: +player.sail.toFixed(2),
     result: F.result, calls: renderer.info.render.calls, triangles: renderer.info.render.triangles,
   });
   // the nearest raider, as a simulated captain sees it: point the bow guns at it and fire (after Skies' tools/sim-fight.mjs)

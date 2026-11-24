@@ -1,9 +1,11 @@
 // input.js: one set of controls from the keyboard and mouse (a laptop) or the touch screen (a phone), both at once.
 //   Laptop: W/S sails, A/D or arrows turn, Space/E or Up climb, Shift/Q or Down dive, mouse aims (click the view to
 //   lock the mouse to it; Esc lets go), left click or F fires, R surges, C looks ahead, M map, P pause, H help.
-//   Phone: a stick under the left thumb steers and climbs, dragging on the right aims, Fire, Surge and the sail buttons.
+//   Phone: a stick under the left thumb steers and climbs, dragging on the right aims, Fire (hold it and slide the
+//   thumb to aim while firing: Coven, November 24), Surge and the sail buttons.
 // Only while `active` (flying); in port and on the title screen the controls are left alone.
-// Coven: Skies of Aethermoor's src/game/input.js with three small changes, each marked "Coven".
+// Coven: Skies of Aethermoor's src/game/input.js with three small changes, each marked "Coven", and (November 24)
+// the Fire button made the way Chris's newer versions of the game have it: a thumb held on Fire slides to aim.
 export function makeInput(canvas, el) {
   const keys = new Set();
   const s = {
@@ -79,10 +81,14 @@ export function makeInput(canvas, el) {
       return;
     }
     const a = aims.get(e.pointerId); if (!a) return;
-    s.look.x += (e.clientX - a.x) * 1.6; s.look.y += (e.clientY - a.y) * 1.6; a.x = e.clientX; a.y = e.clientY; s.lastLook = now();
+    aimBy(e.clientX - a.x, e.clientY - a.y); a.x = e.clientX; a.y = e.clientY;
   });
+  // Coven (November 24): one place where an aiming thumb swings the view, so the Fire button can use it too
+  // (not while paused: it would all land at once on Resume)
+  const aimBy = (dx, dy) => { if (!s.active) return; s.look.x += dx * 1.6; s.look.y += dy * 1.6; s.lastLook = now(); };
   const up = (e) => { if (e.pointerId === stick.id) { stick.id = null; stick.x = stick.y = 0; knob.hidden = true; } aims.delete(e.pointerId); };
-  canvas.addEventListener('pointerup', up); canvas.addEventListener('pointercancel', up);
+  // Coven (November 24): on the window, not only the picture, so a finger lifted anywhere is let go of
+  addEventListener('pointerup', up); addEventListener('pointercancel', up);
   let touchFire = false, sailHold = 0;
   const hold = (id, on, off) => {
     const b = el.querySelector(id);
@@ -92,6 +98,19 @@ export function makeInput(canvas, el) {
     b.addEventListener('contextmenu', (e) => e.preventDefault());
   };
   hold('#btn-fire', () => { touchFire = true; }, () => { touchFire = false; });
+  // Coven (November 24, Chris: "the fire button is also a joystick, so you can fire and aim at the same time"):
+  // a thumb held on Fire slides to aim while it keeps firing. The button keeps hold of the finger, so the thumb can
+  // slide right off it. This is how the later versions of Skies of Aethermoor do it; the version first copied here
+  // (the oldest) only fired.
+  const fireBtn = el.querySelector('#btn-fire'); let fireAt = null;
+  if (fireBtn) {
+    fireBtn.addEventListener('pointerdown', (e) => { fireAt = { id: e.pointerId, x: e.clientX, y: e.clientY }; });
+    fireBtn.addEventListener('pointermove', (e) => {
+      if (!fireAt || e.pointerId !== fireAt.id) return;
+      aimBy(e.clientX - fireAt.x, e.clientY - fireAt.y); fireAt.x = e.clientX; fireAt.y = e.clientY;
+    });
+    for (const ev of ['pointerup', 'pointercancel', 'lostpointercapture']) fireBtn.addEventListener(ev, () => { fireAt = null; });
+  }
   hold('#btn-sail-up', () => { sailHold = 1; }, () => { sailHold = 0; });
   hold('#btn-sail-down', () => { sailHold = -1; }, () => { sailHold = 0; });
   el.querySelector('#btn-surge')?.addEventListener('pointerdown', (e) => { e.preventDefault(); s.pressed.add('r'); }); // Coven: "?." (see above)
@@ -102,6 +121,7 @@ export function makeInput(canvas, el) {
       keys.clear(); s.pressed.clear(); s.look.x = s.look.y = 0; s.zoom = 0; mouseFire = touchFire = false; sailHold = 0;
       return { turn: 0, climb: 0, sail: 0, fire: false, look: { x: 0, y: 0 }, zoom: 0, pressed: new Set(), lastLook: s.lastLook, locked: s.locked };
     }
+    if (aims.size || fireAt) s.lastLook = now(); // Coven (November 24): a thumb resting on the aiming side, or on Fire, is still aiming: the view stays put
     const k = (...names) => names.some((n) => keys.has(n)) ? 1 : 0;
     s.turn = Math.max(-1, Math.min(1, k('d', 'ArrowRight') - k('a', 'ArrowLeft') + stick.x));
     s.climb = Math.max(-1, Math.min(1, k(' ', 'e', 'ArrowUp') - k('Shift', 'q', 'ArrowDown') - stick.y));

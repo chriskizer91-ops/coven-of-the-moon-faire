@@ -26,6 +26,12 @@ Where the two old games disagree, neither wins by default. The disagreements are
 - Space is the aether, not a vacuum. Travel between worlds runs on aether crystal, which is the same amber stone as
   the airships' sunstone. The moon's people are the wealthiest.
 - The airship captain, the Grey Hat (maybe "Noiz"), is a friend of the Moon Faire.
+- **The sky** (Chris, November 24, 2026: "I like all the names you suggested"). The twin suns are the Cresset (big
+  and gold) and the Taper (small and blue-white, circling it); in plain talk people still say "the sun". The far red
+  star is the Vigil. The four other planets, from the suns outward: Brasa (the fair folk's name: the Fire-Eater),
+  Saffren (the Outrider), then Thareia with its moon Auros, then Pavane (the Hoop-Dancer) and Glaswen (the
+  Straggler). The band of free crystal is the Amberwake; captains call it "the Drift", and lamplighters say the
+  Taper spilled it carrying fire out to light the Vigil. `sky-names-proposal.md` has how each is said and why.
 - This game is an alternate universe to the first *Envoi on the Longest Night* and does not have to agree with it.
   The first Envoi's retired lore stays out: the Drowned Mother, Old Snuff, the mandrakes, Mother's Hollow.
 

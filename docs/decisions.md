@@ -13,6 +13,71 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 07:58: Opus 5.5 for most tasks; the townsfolk's bodies wait; the joining starts
+
+- **Chris: his week's Fable usage is at 74%.** "You can use Opus 5.5 effort high for most tasks. You are the
+  coordinator. Whatever is running currently is ok to keep it going." So: new side work runs on Opus 5.5 at high
+  effort; zone 4 and the fights (Fable) run on to their end; the hub coordinates and keeps its own steps few.
+- **Chris: "I thought the NPC people models were already made."** They are: the Faire's eleven painted people (some
+  on two sets of shapes) and the Grey Hat, all in the game. The 18 townsfolk of zones 1 to 3 wear those same bodies
+  again (three people on the pie seller's, three on the night-watchman's, three on the baker's, and so on).
+  **Hub's reading.** *The townsfolk keep the bodies they have for the first draft.* The townsfolk job's first part
+  (23 new shapes, the guides, the words for 46 pictures) is kept in `main` and waits: nothing more is spent on it
+  unless he asks. This takes back the hub's reading of 05:56, that new bodies were part of the first draft.
+- **Chris: the phone questions wait** for "the next safe stopping point". **Hub's reading.** *That point is:* zone 4
+  and the fights in `main`, the zones joined into one journey, everything checked, and one set of builds sent.
+- **Chris: the flight** (made again from stage 5, or not): "let me think about the flight." Open.
+- **Hub's call.** *The joining is a sub-agent's job, `journey`, on Opus 5.5 at high effort,* started at 08:01: the
+  ship as the gate, the map to choose on, the next page playing the flight in, one save across the pages, a small
+  front door, the ships at the other landings, and the fix for small people standing bent. Its first piece is a
+  two-page trial for his phone: can one downloaded page open the next by itself, and does a save last.
+
+## November 24, 2026, 06:58: the sky's names are approved; the five narrator lines; his Fable usage
+
+- **Chris: yes to the sky's names.** "I like all the names you suggested in sky names." And: "lore wise I appreciate
+  what you have created." What he read was the short page of first choices, so these are lore now:
+  - the twin suns: **the Cresset** (the big gold one) and **the Taper** (the small blue-white one that circles it).
+    In plain talk people still say "the sun";
+  - the far red star: **the Vigil**;
+  - the four other planets, from the suns outward, each with the fair folk's name for it: **Brasa** (the
+    Fire-Eater), **Saffren** (the Outrider), then Thareia and Auros, then **Pavane** (the Hoop-Dancer) and
+    **Glaswen** (the Straggler);
+  - the band of free crystal: **the Amberwake**. Lamplighters say the Taper spilled it, carrying fire out to light
+    the Vigil. Captains still call it "the Drift".
+- **Hub's reading.** *What is still a proposal:* the exact words on each card of the star map, and the things the
+  short page did not carry (the ring as "the Hoop", the storm as "the Rosette", the four planets together as "the
+  High Faire", and the three ideas the proposal left out). They stay as written in
+  `docs/lore/sky-names-proposal.md` until he says more. The cards' words are data and easy to change.
+- **Chris sent the five narrator lines made again** (one zip). All five are new recordings with the new words'
+  lengths (4.9 to 8.4 seconds), and are in the game: every narrator line of zones 1 to 3 now has a voice, 48 of 48.
+- **Chris: zone 4's voices are being made now.**
+- **Chris: "we are already at 60% of my weekly Fable usage."** **Hub's call.** *Nothing new is started on Fable
+  without his word.* The sub-agents already at work (zone 4, the fights, the townsfolk's first part, the maps
+  job's last checks) are the big spenders; whether any is stopped is his to say. The hub keeps its own work small.
+
+## November 24, 2026, 05:56: what the first draft holds; the fights; the sky's names; the Fire button
+
+- **Chris: a sub-agent does the rest of the fights job.** "You can use a sub agent to do the rest of the fights
+  conversation." The fights conversation is done with; `job/fights` is now a sub-agent's of the hub's.
+- **Chris: the first whole draft has more in it than the hub had said.** The foe picks "will have to get made", and
+  "the townsfolk's own bodies and the star and planet names will have to get come up with". So all three are part of
+  the first draft, not left for after it.
+- **Chris: the sky's names.** The planet's name and its moon's name stand (Thareia; Auros). "We need to name the
+  three stars and the other planets and any other features from that star map, using the lore that we have and
+  making logical and beautiful lore continuations." He offered a fresh conversation or a sub-agent: the hub chose a
+  sub-agent (the `sky-names` job). Its names are a proposal until he says yes.
+- **Chris: the flight's Fire button must also aim.** On his phone the flight "does not work the same as the airship
+  game originally did ... the fire button is also a joystick, so you can fire and aim at the same time, and then the
+  other joystick is the steering the ship." Done the same morning, in `main`.
+- **Hub's call.** *The townsfolk's bodies are made the way the eleven fair folk were,* which Chris approved: shapes
+  on the shared template, then two pictures a person that only he can make, then the painting. A sub-agent readies
+  everything up to his pictures. If he would rather they were painted without his pictures, that is his to say.
+- **A fact found, and a call that is Chris's.** The flight was built from the oldest version of Skies of Aethermoor
+  (the repo's main folders, commit `1887984`). The versions he plays, stage 4 and stage 5, are in folders of their
+  own on other branches of that repo (`stage5/` on `claude/keen-thompson-qm6iz2`, commit `289e47c`). That repo has
+  no branch named `main`. The hub read those branches to find out why the Fire button differed, and copied no file
+  from them. Whether the flight is made again from stage 5 is his call, asked on November 24.
+
 ## November 24, 2026, 05:39: zone 4 starts
 
 - **Chris: "zone four can get started".** He has voice tokens for zone 4's dialogue and for the narrator.
@@ -22,7 +87,7 @@ The full older record stays in the old repos and is not copied here:
   land stands. This is the lesson of the five narrator lines that had to be made again.
 - **What happened overnight, plainly:** the machine this work runs on stopped at about 22:30 on November 23 and
   nothing ran for seven hours. The maps job was cut off at its last checks; its work was already pushed. It was
-  taken up again at 05:45.
+  taken up again at about 05:40.
 
 ## November 23, 2026, 22:25: the flight is in, and the real ship lies at the jetty
 

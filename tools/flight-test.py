@@ -13,7 +13,7 @@ It opens the flight's try-out page with ?test and no network, and flies through 
   6. the three flights between the four landings, and one back from the last: how long, how many raiders, and that
      each leaves in the ship the data file gives (all four ships fly)
   7. on a phone, upright (412 by 880) and on its side (880 by 412): everything to press is 44 px or more, nothing lies
-     over the middle of the picture, the thumb stick and the Fire button work
+     over the middle of the picture, the thumb stick and the Fire button work, and a thumb held on Fire slides to aim
   8. no request went to the network, and the page had no errors
 With --sim N it also flies each flight N times as it would really go (shots do harm), once by a captain who only steers
 for the landing and once by one who turns on the raiders and fires, and prints how each went: that is how hard it is.
@@ -234,14 +234,34 @@ def main():
                 ev('pointerdown', 0); ev('pointermove', 60); }""", [size[0] * 0.2, size[1] * 0.7])
             pg.wait_for_timeout(2500); h1 = ask(pg, 'state')
             check(h1['stick'] and h0['heading'] - h1['heading'] > 0.02, '%s: a left thumb pushed right shows the stick and turns her to starboard (%.0f degrees)' % (name, (h0['heading'] - h1['heading']) * 57.3))
+            # a thumb goes down on the middle of the Fire button and stays there
             fr.evaluate("""() => { document.getElementById('stage').dispatchEvent(new PointerEvent('pointerup', { pointerType: 'touch', pointerId: 7, bubbles: true }));
-                document.getElementById('btn-fire').dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', pointerId: 8, bubbles: true })); }""")
+                const b = document.getElementById('btn-fire'), r = b.getBoundingClientRect(); window.__fireAt = [r.left + r.width / 2, r.top + r.height / 2];
+                b.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', pointerId: 8, clientX: window.__fireAt[0], clientY: window.__fireAt[1], bubbles: true })); }""")
             fired = 0
             for _ in range(12):
                 pg.wait_for_timeout(250); fired = max(fired, ask(pg, 'state')['bolts'])
                 if fired: break
-            fr.evaluate("() => document.getElementById('btn-fire').dispatchEvent(new PointerEvent('pointerup', { pointerType: 'touch', pointerId: 8, bubbles: true }))")
             check(fired > 0, '%s: the Fire button, held, fires her guns' % name)
+            # Chris, November 24: "the fire button is also a joystick, so you can fire and aim at the same time".
+            # The same thumb, still down, slides 90 px left and 40 px up, right off the button: the view must turn with
+            # it, and the guns must go on firing all the while.
+            v0 = ask(pg, 'state')
+            fr.evaluate("""() => { const b = document.getElementById('btn-fire'), [x, y] = window.__fireAt;
+                for (let i = 1; i <= 9; i++) b.dispatchEvent(new PointerEvent('pointermove', { pointerType: 'touch', pointerId: 8, clientX: x - i * 10, clientY: y - i * 40 / 9, bubbles: true })); }""")
+            pg.wait_for_timeout(400); v1 = ask(pg, 'state')
+            turned = (v1['view'][0] - v0['view'][0]) * 57.3; tipped = (v1['view'][1] - v0['view'][1]) * 57.3
+            check(abs(turned) > 10 and abs(tipped) > 3 and v1['firing'], '%s: the thumb held on Fire, slid 90 px left and 40 px up, turns the view %.0f degrees and tips it %.0f, still firing' % (name, turned, tipped))
+            pg.wait_for_timeout(4200); v2 = ask(pg, 'state')
+            check(v2['firing'] and abs(v2['view'][0] - v1['view'][0]) < 0.02, '%s: held still there for 4 seconds, the view stays where the thumb put it and the guns go on firing' % name)
+            fr.evaluate("() => document.getElementById('btn-fire').dispatchEvent(new PointerEvent('pointerup', { pointerType: 'touch', pointerId: 8, bubbles: true }))")
+            pg.wait_for_timeout(300); v3 = ask(pg, 'state')
+            check(not v3['firing'], '%s: the thumb lifted, the guns stop' % name)
+            # and the other way to aim still works: a thumb dragged on the sky, with nothing held
+            fr.evaluate("""([x, y]) => { const c = document.getElementById('stage'), ev = (t, dx) => c.dispatchEvent(new PointerEvent(t, { pointerType: 'touch', pointerId: 9, clientX: x + dx, clientY: y, bubbles: true }));
+                ev('pointerdown', 0); for (let i = 1; i <= 6; i++) ev('pointermove', i * 10); window.dispatchEvent(new PointerEvent('pointerup', { pointerType: 'touch', pointerId: 9, bubbles: true })); }""", [size[0] * 0.7, size[1] * 0.35])
+            pg.wait_for_timeout(300); v4 = ask(pg, 'state')
+            check(abs(v4['view'][0] - v3['view'][0]) * 57.3 > 8 and not v4['firing'], '%s: a thumb dragged 60 px on the sky turns the view %.0f degrees without firing' % (name, (v4['view'][0] - v3['view'][0]) * 57.3))
             pg.evaluate('() => { W3D.flight.stop(); }'); answer(pg)
             pg.context.close()
         b.close()
