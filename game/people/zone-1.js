@@ -101,8 +101,8 @@
         const f = 0.75 * k.fade(k.cam.position.distanceTo(t.halos[0].position)), fl = 0.94 + 0.06 * Math.sin(k.t * 6.3);     // the fog takes them at a distance; a little flicker
         for (let i = 0; i < t.n; i++) t.halos[i].material.opacity = f * (i % 2 ? fl : 1.88 - fl); },
     },
-    // the pale moth after the great wraith: it rises where the coven is looking, circles once, and flies west toward the
-    // moon until the fog has it. ("Where it stood, one pale moth rises." "Watch the moth." "It's flying west. Toward
+    // the pale moth after the great wraith: it rises on the great wraith's own spot if the camera has that in view (if
+    // not, where the camera is looking), circles once, and flies west toward the moon until the fog has it. ("Where it stood, one pale moth rises." "Watch the moth." "It's flying west. Toward
     // the moon.") Once only: if the great wraith was let go before this page was opened, the moth has long gone.
     { id: 'moth',
       make: (t, k) => { const T = k.THREE, c = document.createElement('canvas'); c.width = c.height = 96; const g = c.getContext('2d');
@@ -119,7 +119,9 @@
         root.visible = false; k.scene.add(root); Object.assign(t, { root, R, Lw, mat, body, hl, core, T0: -1, done: null, k });
         // (for the checks, and to try it: window.__things.get('moth').fly())
         t.fly = (x, z) => { const me = k.people.me(), v = new T.Vector3(); k.cam.getWorldDirection(v); const d = Math.hypot(v.x, v.z) || 1;
-          if (x == null) { x = me.x + v.x / d * 6.5; z = me.z + v.z / d * 6.5; }
+          // on the great wraith's own spot ("where it stood") when the camera has that in view; if not, where the camera is looking, so it is seen
+          if (x == null) { const g = G.__fights && G.__fights.gate, gx = g ? g.at[0] - me.x : 0, gz = g ? g.at[1] - me.z : 0, gd = Math.hypot(gx, gz);
+            if (g && gd > 2 && gd < 30 && (gx * v.x + gz * v.z) / (gd * d) > 0.5) { x = g.at[0]; z = g.at[1]; } else { x = me.x + v.x / d * 6.5; z = me.z + v.z / d * 6.5; } }
           t.p0 = [x, Math.max(k.stand(x, z), k.stand(me.x, me.z)) + 0.8, z]; t.T0 = k.clock.t; t.done = false; t.at = t.p0.slice(); root.position.set(t.p0[0], t.p0[1], t.p0[2]); root.visible = true; return t.p0; }; },
       look: (t, c) => { if (t.done == null) t.done = !!c.played('after-wraith'); },
       tick: (t, c, me, k) => { if (!t.root) return;
