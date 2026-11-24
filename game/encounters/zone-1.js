@@ -2,7 +2,7 @@
 // Everything is metres, x east and z south of Wickhollow's square (as game/places/zone-1.js).
 //
 // Chris's word (November 19): the meetings are unseen (no foes walk the land); the fight is in the nearest arena; zone 1
-// is band 1, levels 1 to 5, with the great wraith at Bogmire as the gate at level 5; about 180 fights carry the party from
+// is band 1, levels 1 to 5, with the great wraith in the fen's dark heart as the gate at level 5; about 180 fights carry the party from
 // level 1 to 20 over the four zones, so about 45 belong to zone 1.
 //
 // How often (job's call, from his 45): a first time through zone 1 walks about 9 km of wilds. One way from the camp,
@@ -44,10 +44,13 @@ window.COVEN_ENCOUNTERS['zone-1'] = {
     { id: 'wilds', name: 'the wilds', every: 200, levels: [2, 5],
       packs: [[['wisp', 'wisp'], 2], [['wraith'], 2], [['wisp', 'wraith'], 2], [['wisp', 'wisp', 'wisp'], 1]] },
   ],
-  // the gate fight (a proposal, not story: Chris's to place and to dress). The great wraith waits on the road out of
-  // Bogmire's north gate toward the fen's dark heart, 20 m past the gate. When the party stands within `r` metres and is
-  // at least `level`, a button offers the fight; it is fought in Bogmire's arena, and once won it is not offered again
-  gate: { id: 'greatWraith', kind: 'greatWraith', name: 'The great wraith', at: [1348, 2180], r: 14, level: 5, arena: 'bogmire',
+  // the gate fight. PLACED BY CHRIS (November 23, 19:40; the hub made this one change in the fights job's file on his
+  // word): the great wraith waits in the fen's dark heart, where the boardwalk ends, as Old Wenna and the narrator say.
+  // The spot is the middle of the heart's square, before the drowned hall's steps (the place bogmire-heart, its
+  // painting's pixel 768, 420), where the old Envoi's great wraith sat. It was a proposal before: the road 20 m out of
+  // Bogmire's north gate, [1348, 2180]. When the party stands within `r` metres and is at least `level`, a button
+  // offers the fight; it is fought in Bogmire's arena, and once won it is not offered again
+  gate: { id: 'greatWraith', kind: 'greatWraith', name: 'The great wraith', at: [1506.7, 1818.7], r: 14, level: 5, arena: 'bogmire',
     offer: 'Face the great wraith', notYet: 'Something waits here, too strong for the coven yet (level 5).' },
   // the Moon Faire's camp: where the party rests, and wakes after a lost fight (job's call)
   camp: { at: [-70, 128], r: 36, wake: [-70, 133] },

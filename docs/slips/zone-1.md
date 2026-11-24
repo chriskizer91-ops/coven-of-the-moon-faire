@@ -1,12 +1,34 @@
 # zone-1: all of zone 1 on one land
 
-Branch: job/zone-1      Built by: the hub      Updated: November 23, 2026, late afternoon (newest part first)
+Branch: job/zone-1      Built by: the hub      Updated: November 23, 2026, evening (newest part first)
 
 **State: part done.** All six places stand on one land and are joined by roads, and the game starts in the Moon
 Faire's camp. Still to come before this is milestone 2: a choice of who walks, the zone's shape taken from the 3D map,
 the fen's own ground round Bogmire, and the long road out toward zone 2.
 
 Chris ran the six places (before the camp) at 144 frames a second on his laptop and 60 on his phone.
+
+## Added on November 23, evening: the great wraith waits in the fen's dark heart
+
+- **Chris, 19:40: move it into the fen's dark heart.** The fight is now offered in the middle of the heart's square,
+  before the drowned hall's steps, at (1506.7, 1818.7) in zone 1's metres. It was on the road 20 m out of Bogmire's
+  north gate. That is one line of data in `game/encounters/zone-1.js`, the fights job's file: the hub changed that
+  one line on Chris's word and wrote why above it. Nothing else of the fights job's was touched.
+- **So the lines are now true where they are said.** The narrator's "The fen's dark heart. The boardwalk ends here"
+  and the coven's lines before the fight start within 40 m of the spot, which is now as the coven comes off the
+  boardwalk into the heart. No wild fight starts inside the heart: it is a place, and places are safe ground.
+- **The moth rises on the great wraith's own spot** when the camera has that spot in view ("Where it stood, one pale
+  moth rises"). If the camera is turned away, it rises where the camera is looking, as before, so it is seen.
+- **Checked:** `tools/things-test.py` (40 checks now, all passed: the spot is inside the heart on ground that can be
+  walked; the moth rises on it; with the camera turned away it rises 6.5 m off, the way the camera looks);
+  `tools/encounter-test.py --quick` (the button offers the fight at level 5; about 46 fights from level 1 to 5);
+  `tools/people-test.py`. Three pictures of the spot were looked at.
+- **Not checked:** the fight itself played from the new spot by hand.
+- **For the fights job:** keep `gate.at` as it now is in `main`. Your check still calls it "the button by Bogmire's
+  north gate" (`tools/encounter-test.py`, 5b): the words are stale, the check passes.
+- **The narrator's five changed lines are still not recorded.** The page Chris sent at 19:40 holds 48 recordings: 43
+  are the very files already in the game, and the other five speak the words as they were before the change. So
+  nothing new could be taken in. A list of the five, with their words as they are now, went back to him.
 
 ## Added on November 23, late afternoon: the four small things zone 1's lines speak of
 
