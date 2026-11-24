@@ -119,7 +119,7 @@
     frame(v); v.r.render(v.scene, v.cam); requestAnimationFrame(loop);
   }
   async function open(k) {
-    $('lab').style.display = 'none'; $('viewer').hidden = false; $('vname').textContent = W.names[k] + ' · ' + W.size.replace('{m}', '…');
+    $('lab').style.display = 'none'; $('viewer').hidden = false; $('vtop').hidden = $('vbar').hidden = $('fps').hidden = false; $('vname').textContent = W.names[k] + ' · ' + W.size.replace('{m}', '…');
     await M7.ready; const v = choose(k); setLight(v, 'battle'); v.on = true; v.act = 'stand'; v.m.reset();
     $('vname').textContent = W.names[k] + ' · ' + W.size.replace('{m}', v.m.height.toFixed(2));
     const row = $('moves'); row.innerHTML = '';
@@ -176,6 +176,6 @@
   const ready = M7.ready.then(() => { $('wait').hidden = true; return true; });
   $('wait').textContent = W.waiting;
   window.__clab = { keys: KEYS, ready, start: (k, o) => start(k, o), open, motions: (k) => motions(k).map((x) => x[0]),
-    async view(k, o) { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = !!(o && o.bare); choose(k); await M7.pictures(); await new Promise((r) => setTimeout(r, 30)); return still(k, o); },
-    get busy() { return busy; }, sheet: async (k, a) => { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = true; return sheet(k, a); }, lum: async (k) => { $('lab').style.display = 'none'; $('viewer').hidden = false; await M7.pictures(); return lum(k); }, row: async (ks) => { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = true; return row(ks || KEYS); }, slotOf: (k) => { const s = slotOf(k); return s ? { zone: s.zone, slot: s.k } : null; } };
+    async view(k, o) { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = !!(o && o.bare); $('vtop').hidden = $('fps').hidden = !!(o && o.bare); choose(k); await M7.pictures(); await new Promise((r) => setTimeout(r, 30)); return still(k, o); },
+    get busy() { return busy; }, sheet: async (k, a) => { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = $('vtop').hidden = true; return sheet(k, a); }, lum: async (k) => { $('lab').style.display = 'none'; $('viewer').hidden = false; await M7.pictures(); return lum(k); }, row: async (ks) => { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = $('vtop').hidden = true; return row(ks || KEYS); }, slotOf: (k) => { const s = slotOf(k); return s ? { zone: s.zone, slot: s.k } : null; } };
 })();
