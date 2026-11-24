@@ -34,10 +34,24 @@ with sync_playwright() as p:
         pg.evaluate("() => { const F = window.__fights, P = F.party, D = window.COVEN_ENCOUNTERS[F.zone]; P.afresh(); P.setLevel(F.zone === 'zone-1' ? 3 : D.levels[0] + 1); P.setHp('io', Math.round(P.maxHp('io') * 0.2)); P.setHp('ranger', Math.round(P.maxHp('ranger') * 0.4)); }")
         camp = pg.evaluate('window.__fights.camp.wake || window.__fights.camp.at'); pg.evaluate(PUT, camp); pg.wait_for_timeout(900); shot('1-camp-rest')
         pg.evaluate("() => document.getElementById('cvPill').click()"); pg.wait_for_timeout(300); shot('2-party-panel'); pg.evaluate("() => document.getElementById('cvPill').click()")
-        g = pg.evaluate("() => { const g = window.__fights.gate; return { at: g.at, level: g.level }; }")
-        pg.evaluate(PUT, g['at']); pg.wait_for_timeout(1300); shot('3-big-fight-too-soon')
-        pg.evaluate("() => { const P = window.__fights.party; P.setLevel(window.__fights.gate.level); }")
-        pg.evaluate(PUT, [g['at'][0] + 60, g['at'][1] + 60]); pg.wait_for_timeout(900); pg.evaluate(PUT, g['at']); pg.wait_for_timeout(1300); shot('4-big-fight-offered')
+        try: pg.evaluate("() => window.__people && window.__people.ready ? window.__people.ready() : null")
+        except Exception: pass
+        # the story at the stage each big fight waits for (zone 4's fire waits for the letter); the narrator's line, when the zone has one, shown in place of the fights' own words
+        SAY = "() => { const S = window.__story, P = window.__people; if (S && P && S.pending && S.pending().indexOf('not-ready') >= 0 && S.narration['not-ready']) P.play([S.narration['not-ready']], null); }"
+        bigs = pg.evaluate("() => window.__fights.bigs.map((b) => ({ id: b.id, at: b.at, level: b.level, stage: b.stage || 0, gate: !!(window.__fights.gate && window.__fights.gate.id === b.id) }))")
+        for k, g in enumerate(bigs):
+            if not g['at']: print('no spot for', g['id']); continue
+            pg.evaluate("(st) => { const S = window.__story; if (S && S.set) S.set({ stage: st }); const P = window.__fights.party; P.setLevel(%d); }" % max(1, g['level'] - 2), g['stage'])
+            pg.evaluate(PUT, [g['at'][0] + 60, g['at'][1] + 60]); pg.wait_for_timeout(900)
+            pg.evaluate(PUT, g['at']); pg.wait_for_timeout(1300); pg.evaluate(SAY); pg.wait_for_timeout(500); shot('%d-%s-too-soon' % (3 + 2 * k, g['id']))
+            try: pg.evaluate("() => { const P = window.__people; if (P && P.stop) P.stop(); }")
+            except Exception: pass
+            pg.evaluate("(l) => { window.__fights.party.setLevel(l); }", g['level'])
+            pg.evaluate(PUT, [g['at'][0] + 60, g['at'][1] + 60]); pg.wait_for_timeout(900); pg.evaluate(PUT, g['at']); pg.wait_for_timeout(1300); shot('%d-%s-offered' % (4 + 2 * k, g['id']))
+        # zone 2: a dark road stone, its button
+        if zone == 'zone-2':
+            pg.evaluate("() => { const S = window.__story, T = window.__things, w = window.__w3d, M = w.P.M; S.set({ stage: 1 }); const t = T.get('node-road'); w.setIo(M.px(t.x), M.py(t.z), 0); w.step(0.6, 30); for (let i = 0; i < 40 && window.__land.pending(); i++) w.step(0.2, 30); T.tick(); }")
+            pg.wait_for_timeout(900); shot('9-road-stone')
         pg.evaluate("() => window.__fights.party.afresh()")
     else:
         pg.goto('file://' + page_file, wait_until='load', timeout=180000)

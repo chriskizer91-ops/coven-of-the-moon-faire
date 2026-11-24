@@ -112,7 +112,8 @@ html,body{margin:0;min-height:100%;background:#0d0a14;color:#f0ecff;font-family:
     for (const t of D.things || []) list.push({ id: t.id, group: 'big', name: zoneName(z) + ', ' + LW.things[t.id], note: LW.thingNote, level: 7,
       spec: (L) => ({ arena: t.arena, foes: t.foes.slice(), foeLevel: [Math.min(L, t.levels[0]), Math.min(t.levels[1], L)], reward: D.reward, words: W.gates[t.words] }) });
     for (const g of [D.gate].concat(D.big || [])) {
-      if (g.kind) continue;                       // (the great wraith is the battle page's own)
+      // (the great wraith is one of the battle's own story fights: started by its kind, as the land starts it)
+      if (g.kind) { list.push({ id: g.id, group: 'big', name: zoneName(z) + ', ' + ((W.gates[g.id] || {}).name || g.name), note: LW.bigNote.replace('{level}', g.level), level: g.level, spec: () => ({ kind: g.kind, arena: g.arena, canFlee: false }) }); continue; }
       (g.forms || [null]).forEach((form, i) => list.push({ id: g.id + (g.forms ? '-' + (i + 1) : ''), group: 'big', name: zoneName(z) + ', ' + ((g.forms && (W.gates[g.id].forms[i] || {}).name) || g.name), note: LW.bigNote.replace('{level}', g.level), level: g.level,
         spec: () => ({ kind: 'story', story: story(g, form, i), canFlee: !!g.canFlee }) }));
     }
