@@ -236,12 +236,9 @@ planet or moon, and not a well-known one from someone else's story or game.
 | The Straggler | **Not sure** | "Blue straggler" is what astronomers call one real kind of star. Not a star's name, but close to the sky |
 | Wistral (a second choice) | Not sure | A search found a small Star Wars planet called Wistril |
 
-The web pages the search turned up, for the three that are near something:
-
-- *A Planet Called Pavanne*: https://authorwars.com/publications/a-planet-called-pavanne-242629.html
-- Pavanne, a world in Traveller: https://wiki.travellerrpg.com/Pavanne_(world)/meta
-- Vigil, a world in Traveller: https://wiki.travellerrpg.com/Vigil_(world)
-- Wistril, in Star Wars: https://starwars.archivum.wiki/article/Wistril
+The search only showed the titles of the pages it found (a book list for the novel, the Traveller game's own wiki
+for Pavanne and Vigil, a Star Wars wiki for Wistril). The pages themselves were not read. Their addresses are in the
+job's report to the hub, not here, since no page in this repo carries a web address.
 
 Sounds, so none is mixed up when heard: KRESS, TAY, VIJ, BRAH, SAFF, pah-VAHN, GLASS, AM. Beside them: Thareia,
 Auros (OR-oss on the story page).
