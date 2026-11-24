@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trial, page 1</title>
+<style>
+  body { margin: 0; font: 22px/1.4 sans-serif; background: #1d1a2b; color: #f3ecd9; }
+  main { max-width: 34em; margin: 0 auto; padding: 24px 20px 40px; }
+  h1 { font-size: 30px; margin: 0 0 12px; }
+  p { margin: 0 0 16px; }
+  .big { display: block; width: 100%; min-height: 88px; font-size: 28px; border: 0; border-radius: 14px;
+         background: #e2b24a; color: #1d1a2b; font-weight: bold; margin: 24px 0; }
+  .note { font-size: 18px; opacity: .8; }
+  b.yes { color: #9fe09a; } b.no { color: #ff9c8c; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Trial, page 1 of 2</h1>
+  <p id="said">...</p>
+  <button class="big" id="go">Open page 2</button>
+  <p class="note">Page 2 must be in the same folder as this page, with its name "trial-2.html".</p>
+  <p class="note" id="kind"></p>
+</main>
+<script>
+// A made-up save, kept in the browser's storage, and carried in the address after a "#".
+var save = { slot: 1, zone: 2, level: 4, made: new Date().toLocaleTimeString() };
+var kept = false;
+try {
+  localStorage.setItem('coven-trial-save', JSON.stringify(save));
+  kept = JSON.parse(localStorage.getItem('coven-trial-save')).made === save.made;
+} catch (e) { kept = false; }
+document.getElementById('said').innerHTML = kept
+  ? 'A made-up save is kept in storage now (made at <b>' + save.made + '</b>). Tap the button.'
+  : '<b class="no">This page could not keep a save in storage.</b> Tap the button anyway.';
+document.getElementById('kind').textContent = 'This page was opened as a "' + location.protocol.replace(':', '') + '" address.';
+document.getElementById('go').onclick = function () {
+  location.href = 'trial-2.html#from=page-1&save=' + encodeURIComponent(JSON.stringify(save));
+};
+</script>
+</body>
+</html>

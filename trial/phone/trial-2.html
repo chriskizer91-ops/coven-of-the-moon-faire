@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trial, page 2</title>
+<style>
+  body { margin: 0; font: 22px/1.4 sans-serif; background: #1d1a2b; color: #f3ecd9; }
+  main { max-width: 34em; margin: 0 auto; padding: 24px 20px 40px; }
+  h1 { font-size: 30px; margin: 0 0 12px; }
+  ol { padding-left: 1.3em; margin: 0 0 16px; } li { margin: 0 0 18px; }
+  .ans { font-size: 30px; font-weight: bold; }
+  .yes { color: #9fe09a; } .no { color: #ff9c8c; }
+  .big { display: block; width: 100%; min-height: 88px; font-size: 26px; border: 0; border-radius: 14px;
+         background: #e2b24a; color: #1d1a2b; font-weight: bold; margin: 24px 0 12px; }
+  .note { font-size: 18px; opacity: .8; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Trial, page 2 of 2</h1>
+  <p>Please tell the hub these three answers:</p>
+  <ol>
+    <li>Did this page open by itself, from the button?<br><span class="ans" id="a1"></span></li>
+    <li>Is the save still in storage?<br><span class="ans" id="a2"></span></li>
+    <li>Did the save come through in the address (after a #)?<br><span class="ans" id="a3"></span></li>
+  </ol>
+  <button class="big" id="back">Back to page 1</button>
+  <p class="note" id="kind"></p>
+</main>
+<script>
+function put(id, ok, words) {
+  var el = document.getElementById(id);
+  el.className = 'ans ' + (ok ? 'yes' : 'no');
+  el.textContent = words;
+}
+var hash = {};
+location.hash.replace(/^#/, '').split('&').forEach(function (kv) {
+  var i = kv.indexOf('=');
+  if (i > 0) hash[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1));
+});
+var byButton = hash.from === 'page-1';
+put('a1', byButton, byButton ? 'YES' : 'NO (it was opened another way)');
+
+var stored = null;
+try { stored = JSON.parse(localStorage.getItem('coven-trial-save')); } catch (e) { stored = null; }
+put('a2', !!stored, stored ? 'YES (made at ' + stored.made + ')' : 'NO');
+
+var carried = null;
+try { carried = JSON.parse(hash.save); } catch (e) { carried = null; }
+put('a3', !!carried, carried ? 'YES (made at ' + carried.made + ')' : 'NO');
+
+document.getElementById('kind').textContent = 'This page was opened as a "' + location.protocol.replace(':', '') + '" address.';
+document.getElementById('back').onclick = function () { location.href = 'trial-1.html'; };
+</script>
+</body>
+</html>
