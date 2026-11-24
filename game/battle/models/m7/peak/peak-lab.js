@@ -138,6 +138,6 @@
   const ready = M7.ready.then(() => { $('wait').hidden = true; return true; });
   $('wait').textContent = W.waiting;
   window.__plab = { keys: KEYS, ready, start: (k, o) => start(k, o), open, motions: (k) => motions(k).map((x) => x[0]),
-    async view(k, o) { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = !!(o && o.bare); $('vtop').hidden = $('fps').hidden = !!(o && o.bare); choose(k); await M7.pictures(); await new Promise((r) => setTimeout(r, 30)); return still(k, o); },
+    async view(k, o) { $('lab').style.display = 'none'; $('viewer').hidden = false; $('vbar').hidden = !!(o && o.bare); $('vtop').style.display = $('fps').style.display = (o && o.bare) ? 'none' : ''; choose(k); await M7.pictures(); await new Promise((r) => setTimeout(r, 30)); return still(k, o); },
     get busy() { return busy; }, slotOf: (k) => { const s = slotOf(k); return { zone: s.zone, slot: s.k }; } };
 })();

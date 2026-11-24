@@ -28,7 +28,7 @@ def in_hollow(P):
     u = np.abs(P[:, 0]) / a; v = np.abs(P[:, 1] - (fr + rear) / 2) / b
     return ((u ** 2.4 + v ** 2.4) < 1) & (z < HOLLOW + 0.05)
 
-REACH = {'upper': 0.16, 'lower': 0.12, 'paw': 0.1}
+REACH = {'upper': 0.16, 'lower': 0.15, 'paw': 0.17}
 def weigh(D, P, idx):
     D = _weigh(D, P, idx)
     x, y, z = P[:, 0], P[:, 1], P[:, 2]
@@ -43,7 +43,7 @@ def weigh(D, P, idx):
     for e in ('head',):
         D[:, idx[e]] += np.where(y < (975 - MID) * S, 1000.0, 0.0)
     for e in ('neck_base', 'neck'):
-        D[:, idx[e]] += np.where((y < (900 - MID) * S) | (z < 0.62), 1000.0, 0.0)
+        D[:, idx[e]] += np.where((y < (900 - MID) * S) | (z < 0.45), 1000.0, 0.0)
     D[:, idx['head']] += np.where(z < 0.55, 1000.0, 0.0)
     return D
 
