@@ -166,6 +166,8 @@ THE NAMES TO SAVE THEM AS
 {rows}
 
 GOOD TO KNOW
+- In a guide, hair and bare skin can come out the same pale grey (the back of a head most of all). The words say
+  which is which.
 - The face guide is the same picture in every folder (the template's plain face). It is copied into each folder
   under that person's name so nothing gets mixed up.
 - The children (Pell, Tamsin) and the gnomes (Tock, Pim) look full-size in their guides. That is right: the game
