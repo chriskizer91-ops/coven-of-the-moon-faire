@@ -70,6 +70,13 @@
     if (!name && P) name = near && best < 16 ? P.PLACES[near].name : P.ZONES[zone] ? P.ZONES[zone].land : '';
     return { at, zone, name, place };
   }
+  // the map's pictures. The two of the land (how high, what kind of ground) are the same two the zones read: on a
+  // zone's page they are taken from the zone, which has them inside the page already
+  function mapArt() {
+    const art = Object.assign({}, G.MAP_ART || {});
+    if (!art.height || !art.kinds) for (const k in G.W3D_PLACES || {}) { const a = G.W3D_PLACES[k] && G.W3D_PLACES[k].zone && G.W3D_PLACES[k].zone.land && G.W3D_PLACES[k].zone.land.atlas; if (a && a.height && a.kinds) { art.height = a.height; art.kinds = a.kinds; break; } }
+    return art;
+  }
   // how much the 3D map draws: the laptop's level where the game itself runs at its high setting, the phone's otherwise
   function detail() {
     const asked = (location.search.match(/[?&]detail=(phone|laptop)/) || [])[1]; if (asked) return asked;
@@ -99,9 +106,10 @@
     const state = { ready: false, dead: false, picked: null, going: null, lineT0: 0, linePart: 0, frames: 0, openMs: 0, here: null, marks: [] };
     let map = null, numsT = 0, hintT = 0, doneT = 0, tick = 0;
     // with ?test the map does not draw by itself (a browser with no graphics card would spend all its time drawing):
-    // it is drawn when something changes, and about once a second besides
+    // it is drawn when something changes, and now and then besides
     const draw = () => { if (TEST && map && state.ready && !state.dead) { map.step(0.05); map.render(); } };
-    if (TEST) tick = setInterval(draw, 1200);
+    const again = () => { draw(); if (!state.dead) tick = setTimeout(again, detail() === 'laptop' ? 5000 : 1500); };
+    if (TEST) tick = setTimeout(again, 1500);
     const openIds = new Set(o.open || []);
     const fromL = o.from ? landing(o.from) : null;
 
@@ -198,6 +206,7 @@
         map.screenOf(m.l.atlas[0], m.l.atlas[1], 14, m.s);
         if (m.s.on) { m.b.style.display = ''; m.b.style.transform = 'translate(' + m.s.x.toFixed(1) + 'px,' + m.s.y.toFixed(1) + 'px)'; } else m.b.style.display = 'none';
       }
+      root.classList.toggle('far', map.view.dist > 3000);
       drawLine();
       const now = performance.now();
       if (now - numsT > 1000) { numsT = now; const n = map.numbers(); nums.textContent = (n.fps ? fill(WORDS.fps, { fps: n.fps }) : WORDS.measuring) + ' · ' + fill(WORDS.triangles, { n: Math.round(n.triangles / 1000) }) + ' · ' + (n.detail === 'laptop' ? WORDS.detailLaptop : WORDS.detailPhone); }
@@ -218,7 +227,8 @@
       // a moment for the "Unrolling" line to show before the land is built (the building holds the page for a second or more)
       await new Promise((r) => setTimeout(r, 30));
       if (state.dead) return null;
-      map = G.WorldMap.create(mapEl, { art: G.MAP_ART, detail: detail(), open: zonesUpTo(w.zone), words: { pin: WORDS.pin }, landings: [], keep: TEST, still: TEST }); // (landings: []: the landings are this file's own marks, so no place's name carries the old diamond)
+      const art = mapArt(); if (!art.height || !art.kinds) throw new Error('the land\'s two pictures are not in this page');
+      map = G.WorldMap.create(mapEl, { art, detail: detail(), open: zonesUpTo(w.zone), words: { pin: WORDS.pin }, landings: [], keep: TEST, still: TEST }); // (landings: []: the landings are this file's own marks, so no place's name carries the old diamond)
       handle.map = map;
       map.onTouch = () => hint.classList.add('gone');
       await map.ready;
@@ -243,7 +253,7 @@
       pick, setCourse,
       unmount() {
         if (state.dead) return; state.dead = true;
-        clearTimeout(hintT); clearTimeout(doneT); clearInterval(tick); if (ro) ro.disconnect();
+        clearTimeout(hintT); clearTimeout(doneT); clearTimeout(tick); if (ro) ro.disconnect();
         if (CH) G.removeEventListener('keydown', onKey, true);
         let left = null; if (map) { try { left = map.dispose(); } catch (e) { console.error(e); } }
         if (last.world) last.world.left = left;
@@ -347,7 +357,15 @@
   const zone = { mount(elm) { return openZone(elm); } };
 
   // ---- the Maps tab: three views to switch between ----
-  let view = null, shown = null, tabRoot = null, tabCtx = null;
+  let view = null, shown = null, tabRoot = null, tabCtx = null, tabEl = null, tabWas = null;
+  // The tab fills the panel the menu gives it. If that panel is not a box the tab can fill (it has no place of its own,
+  // or no height), the tab takes the screen from the panel's top down, so a map is never drawn into nothing.
+  function fit() {
+    if (!tabRoot || !tabEl) return;
+    tabRoot.style.position = ''; tabRoot.style.height = '';
+    const r = tabEl.getBoundingClientRect();
+    if (r.height < 160) { tabRoot.style.position = 'relative'; tabRoot.style.height = Math.max(240, G.innerHeight - Math.max(0, r.top)) + 'px'; }
+  }
   function hereOf(ctx) {
     const Wk = ctx && ctx.W, key = ctx && ctx.zone;
     if (Wk && Wk.io && Wk.P && Wk.P.M && key && zoneMap(zoneKey(key))) {
@@ -369,15 +387,19 @@
   const tab = {
     id: 'maps', label: WORDS.tab, order: 20, view: null, shown: null,
     mount(elm, ctx) {
-      tab.unmount(); tabCtx = ctx || {};
-      tabRoot = el('div', 'cvm cvm-tab', elm);
+      tab.unmount(); tabCtx = ctx || {}; tabEl = elm;
+      tabWas = elm.style.position; if (getComputedStyle(elm).position === 'static') elm.style.position = 'relative';
+      tabRoot = el('div', 'cvm cvm-tab', elm); fit(); G.addEventListener('resize', fit);
       const row = el('div', 'cvm-views', tabRoot); row.setAttribute('role', 'group'); row.setAttribute('aria-label', WORDS.viewsLabel);
       for (const v of ['zone', 'world', 'sky']) { const b = button(null, row, WORDS.views[v]); b.dataset.view = v; b.addEventListener('click', () => { if (view !== v || !shown) show(v); }); }
       el('div', 'cvm-view', tabRoot);
       // it opens on the view last looked at; the first time, on the zone's own map if there is one (it costs nothing to draw)
       show(view || (G.__map && G.__map.big ? 'zone' : 'world'));
     },
-    unmount() { if (shown) { shown.unmount(); shown = null; } tab.shown = null; if (tabRoot) { tabRoot.remove(); tabRoot = null; } tabCtx = null; },
+    unmount() {
+      if (shown) { shown.unmount(); shown = null; } tab.shown = null; G.removeEventListener('resize', fit);
+      if (tabRoot) { tabRoot.remove(); tabRoot = null; } if (tabEl && tabWas != null) tabEl.style.position = tabWas; tabEl = null; tabWas = null; tabCtx = null;
+    },
     show,
   };
 

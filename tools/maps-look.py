@@ -37,15 +37,15 @@ for (W, H) in sizes:
         pg = b.new_page(viewport={'width': W, 'height': H}, has_touch=W < 600)
         pg.on('pageerror', lambda e: errors.append('page error: ' + str(e)))
         pg.on('console', lambda m: errors.append('console error: ' + m.text) if m.type == 'error' else None)
-        pg.goto('file://' + page_file + '?test&mapshold=8')
+        pg.goto('file://' + page_file + '?test&mapshold=25')
         pg.wait_for_function('window.__ready || window.__err', timeout=600000)
         def shot(name, settle=2.5):
             # the map draws by itself; a few frames are let by so the picture is the settled one
-            pg.wait_for_timeout(int(settle * 1000)); f = os.path.join(out, '%s-%s.jpg' % (name, tag)); pg.screenshot(path=f, type='jpeg', quality=90); print('  ' + os.path.basename(f))
-        frames = lambda h: pg.evaluate('(c) => (c ? W3D.maps.world.choosing : W3D.maps.world.shown).state.frames', h)
+            pg.wait_for_timeout(int(settle * 1000)); f = os.path.join(out, '%s-%s.jpg' % (name, tag)); pg.screenshot(path=f, type='jpeg', quality=90, timeout=180000); print('  ' + os.path.basename(f))
+        frames = lambda h: pg.evaluate('(c) => { const h = c ? W3D.maps.world.choosing : W3D.maps.world.shown; return h ? h.state.frames : 0; }', h)
         def drawn(choosing=False, n=3):
             f0 = frames(choosing)
-            pg.wait_for_function('([c, f]) => (c ? W3D.maps.world.choosing : W3D.maps.world.shown).state.frames >= f', arg=[choosing, f0 + n], timeout=120000)
+            pg.wait_for_function('([c, f]) => { const h = c ? W3D.maps.world.choosing : W3D.maps.world.shown; return !h || h.state.frames >= f; }', arg=[choosing, f0 + n], timeout=120000)
         print(tag)
         # the zone's own map
         pg.evaluate(OPEN, 'zone'); shot('1-zone', 0.6)
@@ -59,11 +59,11 @@ for (W, H) in sizes:
         n = pg.evaluate('W3D.maps.world.shown.map.numbers()'); print('    close in: %s triangles in %s draw calls' % ('{:,}'.format(n['triangles']), n['calls']))
         pg.evaluate(CLOSE)
         # choosing where to fly
-        pg.evaluate("W3D.maps.world.choose({ from: 'wickhollow', open: ['warmCamp'] }).then((v) => { window.__got = v; })"); pg.wait_for_function(CHOOSE_READY, timeout=300000); drawn(True); shot('6-choose')
+        pg.evaluate("(() => { window.__got = undefined; W3D.maps.world.choose({ from: 'wickhollow', open: ['warmCamp'] }).then((v) => { window.__got = v; }); })()"); pg.wait_for_function(CHOOSE_READY, timeout=300000); drawn(True); shot('6-choose')
         pg.evaluate("W3D.maps.world.choosing.pick('northCamp')"); drawn(True); shot('7-choose-not-open', 1)
         pg.evaluate("W3D.maps.world.choosing.pick('warmCamp')"); drawn(True); shot('8-choose-open', 1)
-        pg.evaluate("W3D.maps.world.choosing.setCourse('warmCamp')"); drawn(True); shot('9-choose-line', 1)
-        pg.wait_for_function("window.__got !== undefined", timeout=60000)
+        pg.evaluate("W3D.maps.world.choosing.setCourse('warmCamp')"); drawn(True, 2); shot('9-choose-line', 0.5)
+        pg.wait_for_function("window.__got !== undefined", timeout=90000)
         # the star map
         pg.evaluate(OPEN, 'sky'); pg.wait_for_function(SKY_READY, timeout=300000); shot('10-sky', 5)
         l = pg.evaluate('W3D.maps.last.sky'); print('    the star map: %s ms to open, %s triangles in %s draw calls, %s shapes and %s pictures held' % (l['openMs'], '{:,}'.format(l['triangles']), l['calls'], l['geometries'], l['textures']))

@@ -2,7 +2,8 @@
    Everything is under .cvm or .cvm-full, so nothing here touches the game's own page. Few things on the screen, all at
    its edges; every button 44 px or more. The colours and the lettering are the game's own (the zone pages' CSS). */
 .cvm{position:absolute;inset:0;overflow:hidden;color:#f4f0ff;font:15px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-.cvm button{font:inherit;cursor:pointer;appearance:none;-webkit-appearance:none}
+/* (each button's rule starts with .cvm, so the menu's own rule for its buttons, ".cm button", does not undo its lettering) */
+.cvm button{cursor:pointer;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
 .cvm [hidden]{display:none !important}
 /* choosing where to fly: over everything, the whole screen */
 .cvm-full{position:fixed;inset:0;z-index:60;background:#0b0d22}
@@ -10,8 +11,8 @@
 /* ---- the Maps tab: which map, and the map ---- */
 .cvm-tab{display:flex;flex-direction:column;background:#0a0b18}
 .cvm-views{flex:none;display:flex;justify-content:center;gap:6px;padding:8px 10px}
-.cvm-views button{min-width:86px;min-height:44px;padding:8px 16px;border-radius:22px;border:1px solid rgba(214,222,255,.3);background:rgba(34,30,70,.55);color:#e9e5ff;font:600 15px Georgia,"Times New Roman",serif;letter-spacing:.02em}
-.cvm-views button.on{background:rgba(96,80,170,.82);border-color:rgba(255,226,160,.75);color:#ffe9b8}
+.cvm .cvm-views button{min-width:86px;min-height:44px;padding:8px 16px;border-radius:22px;border:1px solid rgba(214,222,255,.3);background:rgba(34,30,70,.55);color:#e9e5ff;font:600 15px Georgia,"Times New Roman",serif;letter-spacing:.02em}
+.cvm .cvm-views button.on{background:rgba(96,80,170,.82);border-color:rgba(255,226,160,.75);color:#ffe9b8}
 .cvm-view{flex:1;position:relative;min-height:0}
 
 /* ---- the 3D map of Aethermoor ---- */
@@ -24,7 +25,7 @@
 .cvm-line .line{stroke:#ffd98a;stroke-width:5;stroke-dasharray:.1 11;filter:drop-shadow(0 0 4px rgba(255,190,90,.9))}
 /* a landing: a diamond on its spot, its name under it. The whole of it is the button */
 .cvm-marks{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.cvm-mark{position:absolute;left:0;top:0;margin:-22px 0 0 -60px;width:120px;min-height:48px;padding:0 0 4px;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:auto;will-change:transform;color:#ffe2a6}
+.cvm .cvm-mark{font:inherit;position:absolute;left:0;top:0;margin:-22px 0 0 -60px;width:120px;min-height:48px;padding:0 0 4px;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:auto;will-change:transform;color:#ffe2a6}
 .cvm-mark i{flex:none;width:44px;height:44px;display:grid;place-items:center}
 .cvm-mark i::before{content:"";width:15px;height:15px;transform:rotate(45deg);background:#ffcf6e;border:2px solid #fff3d0;box-shadow:0 0 10px rgba(255,200,100,.9),0 0 2px #000}
 .cvm-mark span{font:600 13px/1.15 Georgia,"Times New Roman",serif;text-align:center;text-shadow:0 0 4px #000,0 1px 3px #000,0 0 10px rgba(0,0,0,.85);margin-top:-8px;max-width:120px}
@@ -34,6 +35,9 @@
 .cvm-mark.shut i::before{background:rgba(70,70,104,.9);border-color:#8f8cb4;box-shadow:0 0 2px #000}
 .cvm-mark.from i::before{background:#e9e4ff;border-color:#fff;box-shadow:0 0 12px rgba(190,180,255,.95),0 0 2px #000;border-radius:50%;transform:none}
 .cvm-mark.from{color:#e9e4ff}
+/* from far off the zones' own names show, so a landing keeps only its diamond; while choosing, the landings' names stay and the zones' go */
+.cvm-world.far:not(.cvm-choosing) .cvm-mark span{display:none}
+.cvm-choosing .map-tag.zone{display:none !important}
 .cvm-mark.on i{border-radius:50%;box-shadow:inset 0 0 0 2px rgba(255,236,196,.9)}
 /* the card: at the foot, never over the middle */
 .cvm-card{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:3;width:min(420px,calc(100% - 24px));box-sizing:border-box;padding:12px 56px 12px 16px;border-radius:16px;background:rgba(14,12,34,.9);border:1px solid rgba(214,222,255,.3);box-shadow:0 4px 22px rgba(0,0,0,.55)}
@@ -41,19 +45,19 @@
 .cvm-card h2{margin:2px 0 4px;font:400 22px/1.15 Georgia,"Times New Roman",serif;color:#ffe9b8}
 .cvm-card p{margin:0;font-size:14.5px;color:#dcd6f5}
 .cvm-card .cvm-set{font:italic 17px/1.3 Georgia,"Times New Roman",serif;color:#ffe9b8;text-align:center;padding-left:40px}
-.cvm-x{position:absolute;right:4px;top:4px;width:46px;height:46px;border:0;background:none;color:#cfc9ef;font-size:18px}
-.cvm-btn{min-height:46px;min-width:120px;padding:8px 20px;border-radius:23px;border:1px solid rgba(214,222,255,.4);background:rgba(34,30,70,.82);color:#f0ecff;font:600 16px Georgia,"Times New Roman",serif}
-.cvm-go{margin-top:10px;border-color:rgba(255,226,160,.8);background:rgba(60,46,110,.95);color:#ffe9b8}
+.cvm .cvm-x{position:absolute;right:4px;top:4px;width:46px;height:46px;padding:0;border:0;background:none;color:#cfc9ef;font:18px/1 system-ui,sans-serif}
+.cvm .cvm-btn{min-height:46px;min-width:120px;padding:8px 20px;border-radius:23px;border:1px solid rgba(214,222,255,.4);background:rgba(34,30,70,.82);color:#f0ecff;font:600 16px Georgia,"Times New Roman",serif}
+.cvm .cvm-go{margin-top:10px;border-color:rgba(255,226,160,.8);background:rgba(60,46,110,.95);color:#ffe9b8}
 .cvm-world.going .cvm-card{padding:12px 16px}
 /* choosing: Back at the top left, the question beside it */
 .cvm-top{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));z-index:3;display:flex;align-items:center;gap:12px;pointer-events:none}
-.cvm-top .cvm-back{pointer-events:auto;min-width:92px}
+.cvm .cvm-top .cvm-back{pointer-events:auto;min-width:92px}
 .cvm-title{padding:8px 16px;border-radius:16px;background:rgba(14,12,34,.66);font:400 20px/1.2 Georgia,"Times New Roman",serif;color:#ffe6a8}
 .cvm-world.going .cvm-back{opacity:.4}
 /* the round button, bottom right: back to where the coven is */
-.cvm-round{position:absolute;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:3;width:54px;height:54px;border-radius:27px;border:1px solid rgba(214,222,255,.45);background:rgba(14,14,36,.72);display:grid;place-items:center;padding:0}
+.cvm .cvm-round{position:absolute;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:3;width:54px;height:54px;border-radius:27px;border:1px solid rgba(214,222,255,.45);background:rgba(14,14,36,.72);display:grid;place-items:center;padding:0}
 .cvm-round svg{width:26px;height:26px}
-.cvm-world.carded .cvm-round,.cvm-world.going .cvm-round{display:none}
+.cvm.cvm-world.carded .cvm-round,.cvm.cvm-world.going .cvm-round{display:none}
 /* small print: how fast the map is drawing (bottom left), and how to move it */
 .cvm-nums{position:absolute;left:calc(12px + env(safe-area-inset-left,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px));z-index:2;font-size:11.5px;color:#b8b4e0;text-shadow:0 0 4px #000,0 0 2px #000;pointer-events:none;white-space:nowrap}
 .cvm-hint{position:absolute;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2;max-width:calc(100% - 28px);box-sizing:border-box;padding:8px 14px;border-radius:16px;background:rgba(14,12,34,.72);font-size:14px;text-align:center;transition:opacity .6s;pointer-events:none}

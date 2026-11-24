@@ -22,8 +22,6 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 #tabs .gap{flex:1}
 #panel{flex:1;position:relative;min-height:0}
 </style>
-<link rel="stylesheet" href="../maps/world/map.css">
-<link rel="stylesheet" href="../maps/maps.css">
 </head>
 <body>
 <div id="world"><div>
@@ -35,7 +33,6 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 </div></div>
 <div id="menu"><div id="tabs"></div><div id="panel"></div></div>
 <script src="../lib/three.r128.min.js"></script>
-<script src="../travel/landings.js"></script>
 <script>
 // The stand-in menu. It keeps to the interface the menu job is building, so the Maps tab is tried against the same calls:
 //   W3D.menu.addTab({ id, label, order, mount(el, ctx), unmount() })   ctx: { W, zone, close() }
@@ -67,7 +64,10 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !(W3D.maps && W3D.maps.world.choosing)) { if (open) W3D.menu.close(); else W3D.menu.open('maps'); } });
 })();
 </script>
-<!-- maps job: start (the maps: their data, the 3D map of Aethermoor, the star map's frame, and the tab) -->
+<!-- maps job: start (the Maps tab of the menu: the zone's map, the 3D map of Aethermoor, the star map; and choosing where to fly. game/maps/) -->
+<link rel="stylesheet" href="../maps/world/map.css">
+<link rel="stylesheet" href="../maps/maps.css">
+<script src="../travel/landings.js"></script>
 <script src="../maps/data/maps-data.js"></script>
 <script src="../maps/world/bands.js"></script>
 <script src="../maps/world/places.js"></script>
@@ -80,6 +80,8 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../maps/sky/star-map-frame.js"></script>
 <script src="../maps/maps.js"></script>
 <!-- maps job: end -->
+<!-- (this page has no zone in it, so it names the land's two pictures itself) -->
+<script src="../maps/world/art-land.js"></script>
 <script>
 (function () {
   'use strict';
