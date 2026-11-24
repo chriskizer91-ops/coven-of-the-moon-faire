@@ -1,0 +1,11 @@
+[
+ {"name": "a1-zone-1-grey", "js": "window.__lineup.show('zone-1', 'grey')", "run": 0.1},
+ {"name": "a2-zone-2-grey", "js": "window.__lineup.show('zone-2', 'grey')", "run": 0.1},
+ {"name": "a3-zone-3-grey", "js": "window.__lineup.show('zone-3', 'grey')", "run": 0.1},
+ {"name": "a4-zone-4-grey", "js": "window.__lineup.show('zone-4', 'grey')", "run": 0.1},
+ {"name": "b1-zone-1-first-colours", "js": "window.__lineup.show('zone-1', 'colour')", "run": 0.1},
+ {"name": "b2-zone-2-first-colours", "js": "window.__lineup.show('zone-2', 'colour')", "run": 0.1},
+ {"name": "b3-zone-3-first-colours", "js": "window.__lineup.show('zone-3', 'colour')", "run": 0.1},
+ {"name": "b4-zone-4-first-colours", "js": "window.__lineup.show('zone-4', 'colour')", "run": 0.1},
+ {"name": "c1-the-first-seven-grey", "js": "window.__lineup.show('first', 'grey')", "run": 0.1}
+]

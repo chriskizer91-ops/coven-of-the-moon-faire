@@ -1,0 +1,470 @@
+{
+ "about": "The people of the towns in zones 1 to 4 who need a body of their own (Coven of the Moon Faire, the townsfolk job, November 24, 2026). For each: who they are, taken ONLY from their own lines in game/talk/ and from docs/lore/ (the line a fact comes from is named); the stand-in body they wear today; and the look proposed for them, as the words Chris gives ChatGPT with each grey guide. tools/townsfolk-pack.py reads this file.",
+ "status": "A PROPOSAL by Claude. Every 'look' here is a proposal until Chris says so. Nothing about the story is made up: where the lines say nothing of how a person looks, the look is a guess fitted to their age, trade, manner and the weather of their zone, and is marked as one.",
+ "standInsToday": {
+  "old-night-watchman-opus": "Corwin the night watchman's painted skin, on the other set of shapes",
+  "chestnut-roaster-opus": "Kofi the chestnut roaster's painted skin, on the other set of shapes",
+  "old-lamplighter-opus": "Old Bridie the lamplighter's painted skin, on the other set of shapes",
+  "fair-baker-opus": "Otto the baker's painted skin, on the other set of shapes",
+  "fortune-teller-opus": "Zofia the fortune-teller's painted skin, on the other set of shapes",
+  "pie-seller": "Ros the pie-seller's own body",
+  "ballad-singer": "Linnet the ballad-singer's own body",
+  "gate-keeper": "Tully the gate keeper's own body",
+  "farm-lad": "Jory the farm lad's own body"
+ },
+ "style": "Paint it the way the Moon Faire's own eleven people are painted: lifelike, hand-painted, soft brushwork, rich but slightly muted colours, with real cloth (weave, seams, stitching), wear, dust and mends.",
+ "world": "A Dark Ages storybook land: wool, linen, leather, fur, wood, brass and iron; lamps and candles. Nothing modern: no zips, no plastic, no printed cloth, no writing.",
+ "order": ["nettie", "wenna", "marta", "roadwarden", "ysmera", "watch", "warden", "gretch", "hilde", "quill", "tobb", "pell", "brann", "tamsin", "carter", "gil", "tock", "pim", "passenger", "cutter", "passkeeper", "sorrel", "ede"],
+ "firstSeven": "The first seven in the order are the people the story leans on: Nettie, Old Wenna, Marta, the roadwarden, Ysmera and the watchwoman are the guides with the most lines (the ones the story job set in bold), and the Warden is forty people at once, the sight Misthollow is built round.",
+ "people": [
+  {
+   "id": "nettie", "name": "Nettie", "trade": "the herb-seller", "zone": 1, "where": "Wickhollow: her herb stall in the square; and at the ending",
+   "lines": "24 in zone 1, 4 at the ending", "wearsToday": "old-lamplighter-opus", "verdict": "own",
+   "why": "She has the most lines of anyone in the towns and meets Halcyon at the ending. Today she is a copy of Old Bridie, who stands at the same camp at the ending.",
+   "fromTheLines": {
+    "age": "about sixty (cast)", "sex": "woman",
+    "manner": "quick and warm, a scold that melts, motherly, quick to laugh and quicker to fuss (cast)",
+    "facts": ["sells herbs at a stall: mint, sage, thyme, feverfew (z1.nettie.11, .13, .20; her audition line)", "a gardener: she has watered Io's garden for seven summers (z1.nettie.01, .03)", "her drying herbs hang in bunches at the stall (z1.nettie.04)", "she tends cuts and fusses (z1.nettie.19, .20)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/nettie.js", "heightM": 1.55,
+   "look": {
+    "name": "A herb-seller of a country town",
+    "who": "A warm, bossy gardener of about sixty who sells herbs at a stall in the town square and mothers everyone who passes.",
+    "body": "A wide, shallow hat of plaited straw, sun-faded, with a moss-green ribbon band and a sprig of rosemary tucked into the band on her left; soft iron-grey hair is drawn back under it into a round bun at the nape. A small rust-orange wool shawl in a faint darker check lies over the shoulders and upper chest and hangs to a point between the shoulder blades. Under it is a sage-green linen dress top with the sleeves rolled into thick rolls above the elbow, and the forearms below are bare, sun-browned and freckled, with a little earth in the creases of the knuckles. A cream linen bib apron covers the chest and falls to the shin over a full walnut-brown wool skirt that reaches the ankle; the apron has a plain waistband and two big square patch pockets in a darker oatmeal cloth, green-stained at their lips from herbs, with soil smudges at the knee. Sturdy dark brown boots, muddy at the toes.",
+    "face": "A woman of about sixty with warm, weathered, lightly tanned skin and round cheeks gone pink. Quick hazel-green eyes with deep laugh lines at the corners, under soft grey brows, and fine lines round a firm, kindly mouth. Her lips are closed and calm, as if a scolding is about to melt into a smile."
+   },
+   "guesses": "The straw hat, the shawl and the rosemary are guesses from 'gardener' and 'herb-seller'."
+  },
+  {
+   "id": "wenna", "name": "Old Wenna", "trade": "the herb-seller", "zone": 1, "where": "Bogmire: her herb stall by the boardwalk",
+   "lines": "20 in zone 1", "wearsToday": "fortune-teller-opus", "verdict": "own",
+   "why": "She tells of the great wraith and where it sits. Today she is a copy of Zofia: tall, about fifty, in a headscarf and long black hair. Wenna is eighty.",
+   "fromTheLines": {
+    "age": "about eighty (cast)", "sex": "woman",
+    "manner": "dry and unafraid, a listener who notices sounds and smells; a low voice cracked with age (cast)",
+    "facts": ["sells herbs, by touch and smell while Bogmire is dark; she can see: when the lamps are lit she reads her own labels (z1.wenna.08, .12)", "mugwort grows by her stall (z1.wenna.01)", "she gives the children sweets (z1.pell.03)", "she says the cold is the hard part of the dark (z1.wenna.10)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/wenna.js", "heightM": 1.44,
+   "look": {
+    "name": "An old herb-seller of a fen village",
+    "who": "A very old, small, dry-witted woman of about eighty who sells herbs at a stall by the boardwalk of a dark marsh village.",
+    "body": "A big shawl of thick felted wool in a dull moss grey-green is drawn up over her head as a deep hood, wraps the shoulders, and ends in a darker fringed edge across the upper chest and back; its two ends cross on the chest and hang to the waist, and its point hangs down the middle of the back. Under it is a long gown of dark slate-grey wool that falls straight to the ground, rubbed pale at the hem and damp-stained from the marsh. A waist apron of undyed, tea-coloured linen hangs to the shin, tied with a twisted hemp cord; from the cord, at each hip, hangs a bunch of dried herbs, grey-green and brittle. Only the toes of worn dark boots show under the hem. Her hands are small, knotted and pale, the nails stained green.",
+    "face": "A woman of about eighty with pale, thin, deeply lined skin, hollow cheeks and a sharp chin. Clear pale grey eyes, bright and watchful under sparse white brows; she sees well. Her thin lips are closed in a dry, amused line."
+   },
+   "guesses": "The hooded shawl is a guess from her age, the fen and 'only the cold that's hard'."
+  },
+  {
+   "id": "marta", "name": "Marta", "trade": "the keeper of the Wardens' hall", "zone": 2, "where": "Dawnroost: before the Wardens' hall",
+   "lines": "22 in zone 2", "wearsToday": "old-lamplighter-opus", "verdict": "own",
+   "why": "Zone 2's story is hers: the forty beds. Today she and Nettie are the same copy of Old Bridie.",
+   "fromTheLines": {
+    "age": "about sixty-eight (cast)", "sex": "woman",
+    "manner": "motherly and bossy, 'a voice like a clean apron' (cast)",
+    "facts": ["keeps the Wardens' hall; makes up forty bunks with fresh linen every night (z2.marta.02, .03)", "feeds everyone (z2.roadwarden.06, z2.brann.04, z2.tamsin.03)", "house-proud: 'Wipe your feet!', 'not on the clean bed' (z2.marta.21, .17)", "knew Io and Halcyon as girls (z2.marta.01, .12)"],
+    "saidOfHerLook": "nothing in the lines; the cast's 'a voice like a clean apron' is where the apron comes from"
+   },
+   "shapes": "shapes/marta.js", "heightM": 1.53,
+   "look": {
+    "name": "The keeper of a soldiers' hall",
+    "who": "A short, sturdy, house-proud woman of nearly seventy who keeps a great hall, makes its beds every night and feeds whoever comes through the door.",
+    "body": "A crisp white linen cap sits on the head, puffed a little at the back, with a narrow frill standing out all round at the brow; smooth silver-grey hair shows at the temples and is gathered into a bun under the cap behind. The dress is plain slate-blue wool to the ankle, with a small white collar at the throat and deep white cuffs turned back at the wrists. Over it is a spotless full apron of starched white linen: a bib on the chest, a wide skirt almost to the hem, a waistband, and two straps that go over the shoulders, cross on the back and tie in a bow at the waist behind. A ring of iron keys hangs from the waistband at her left hip. Dark, well-polished brown boots. Her hands are strong and red from washing.",
+    "face": "A woman of about sixty-eight with soft, fair, well-scrubbed skin, full pink cheeks and a round chin. Clear blue-grey eyes under tidy grey brows, with kind lines at their corners and a firm crease between them. Her mouth is closed and set, a woman about to tell someone to wipe their feet, with warmth under it."
+   },
+   "guesses": "The white cap and the keys are guesses from 'the keeper of the hall'."
+  },
+  {
+   "id": "roadwarden", "name": "The roadwarden", "trade": "the roadwarden", "zone": 2, "where": "the Warm Roads camp, by the fire",
+   "lines": "16 in zone 2", "wearsToday": "old-night-watchman-opus", "verdict": "own",
+   "why": "Zone 2's first guide. Today he, Mayor Gretch and Old Gil are all the same copy of Corwin.",
+   "fromTheLines": {
+    "age": "about seventy (cast)", "sex": "man",
+    "manner": "rough and kind, an old soldier who talks to stones (cast)",
+    "facts": ["an old Ember Warden who stayed when the forty went north, because he was afraid (z2.roadwarden.07, .08; cast)", "he has kept the road alone for eight years (z2.roadwarden.08)", "he lays his hand flat on the stones to feel their warmth (z2.roadwarden.01, .03, .10)", "he stands by a fire (z2.roadwarden.14)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/roadwarden.js", "heightM": 1.68,
+   "look": {
+    "name": "An old road-keeper, once a soldier",
+    "who": "A weathered old soldier of about seventy who has kept a long road alone for years, in what is left of his old company's kit.",
+    "body": "He is bare-headed, with short thick white hair and a short white beard trimmed to the jaw. He wears a knee-length tunic of dun brown wool with long sleeves, patched at one elbow, and over its front a soldier's tabard of ember orange, sun-faded almost to brick, with a thin band of dull gold along its lower edge, the cloth worn thin and mended at one side. A broad dark leather belt with a plain steel buckle. A short cloak of earth-brown wool lies on the shoulders and hangs down the back to the knee, pinned on his left shoulder with a round brass clasp, its hem frayed and grey with road dust. Scuffed dark leather bracers on both forearms; his right hand is wrapped across the palm in a strip of worn linen. Grey-brown wool hose and tall dark boots, dusty to the ankle. His hands are big, brown and scarred.",
+    "face": "A man of about seventy with deeply tanned, leathery skin, a broad brow and heavy lines across it and round the eyes. Steady brown eyes, a little sad, under thick white brows, and a short, neat white beard and moustache. His lips are closed, his look gruff and kind."
+   },
+   "guesses": "That he still wears his old Warden's kit, and its colours, are guesses. The Wardens' colours here (ember orange, dull gold, brown cloaks) are shared with the Warden and with Tamsin's cloak, and are Chris's to set: they should agree with Halcyon's paladin outfit."
+  },
+  {
+   "id": "ysmera", "name": "Ysmera Brightkeel", "trade": "the shipmaster", "zone": 3, "where": "the shipyard: the tall house with the glass roof",
+   "lines": "22 in zone 3", "wearsToday": "fortune-teller-opus", "verdict": "own",
+   "why": "Zone 3's story is hers: she names Halcyon. Today she and Old Wenna are the same copy of Zofia.",
+   "fromTheLines": {
+    "age": "about fifty (cast)", "sex": "woman",
+    "manner": "silk over steel, a dry wit; cool, exact, very elegant (cast)",
+    "facts": ["one of the moon-folk, 'a moon-woman' (z3.cutter.03, z3.gil.05; z3.ysmera.02)", "the shipmaster: she sells the last passages south, and is rich (z3.ysmera.01, .05, .15)", "fastidious: 'Clean them before you walk on my deck' (z3.ysmera.18)", "she drinks moonwort tea (z3.pim.03)", "the moon's people are the wealthy ones (story-brief, settled)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/ysmera.js", "heightM": 1.75,
+   "look": {
+    "name": "A shipmaster, one of the people of the moon",
+    "who": "A tall, slim, very elegant woman of about fifty, one of the wealthy people of the moon, who owns a shipyard and sells passage on its ships.",
+    "body": "Her hair is pale silver-white, drawn perfectly smooth off the face into a high round knot on the crown, held by one long silver pin. She wears a long narrow coat-gown of midnight-blue wool, fine and close-woven, that fits the body and falls straight to the ground, with a high standing collar open at the throat and long sleeves ending in deep turned-back cuffs of pale silver-grey silk. A short shoulder mantle of the same blue, a shade lighter, lies over the shoulders and upper chest, closed at the throat by an oval silver clasp. A wide sash of pale silver-grey silk is wound at the waist, fastened with a smaller silver clasp, with one long end hanging down the front on her left. The hem carries a band of the same pale silk. Polished black boots, very clean. Her hands are long, pale and ringless. Nothing on her is worn, patched or dusty.",
+    "face": "A woman of about fifty with very pale, cool-toned, smooth skin, high cheekbones and a long straight nose. Pale blue-grey eyes, cool and exact, under fine arched silver brows, with only the faintest lines at their corners. Her lips are a muted rose, closed, with the smallest dry lift at one corner."
+   },
+   "guesses": "What the moon's people look like is not written anywhere: the silver hair and cool pale skin are a guess, and Chris's to set for all the moon-folk."
+  },
+  {
+   "id": "watch", "name": "The watchwoman", "trade": "the watchwoman", "zone": 4, "where": "Misthollow: at the foot of the one street, by the dead lamp",
+   "lines": "10 in zone 4", "wearsToday": "nothing yet (zone 4 is being built)", "verdict": "own",
+   "why": "Zone 4's guide in the town. She has no body at all yet.",
+   "fromTheLines": {
+    "age": "about fifty (cast)", "sex": "woman",
+    "manner": "plain and unshakeable; bright and brittle from long habit (cast, z4.watch.01)",
+    "facts": ["she has watched the street up to the Moonwell for eight years (z4.watch.03; cast)", "she stands at the bottom of the street by the dead lamp, and has a step to sit on (z4.ede.03, z4.watch.09)", "she says good morning to every one of the forty Wardens, every day (z4.watch.02)", "Misthollow is never dark and never warm, and no flame stays lit there (story-zones-2-4)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/watch.js", "heightM": 1.70,
+   "look": {
+    "name": "The watchwoman of a mountain town",
+    "who": "A plain, steady woman of about fifty who has stood watch at the foot of a frozen mountain town's one street for years.",
+    "body": "A round fur hat of dark brown fur with a flat crown of blue-grey wool and a small round steel badge on its front; straight brown hair, greying, hangs to the jaw at the sides and back. A thick scarf of undyed cream wool is wound at the throat. She wears a long belted coat of heavy blue-grey wool to the calf, with a narrow band of paler grey along the hem, and over the shoulders a watch-cape of the same cloth that reaches the elbow, edged with the same pale band. A dark leather belt with a steel buckle. A plain horn of pale cow-horn hangs at her right hip on a dark strap that comes down from under the cape. Dark leather gloves with deep cuffs over the coat's sleeves. Tall dark boots with a rime of frost at the toes. The cloth is clean but long worn, darned at the cape's edge.",
+    "face": "A woman of about fifty with fair skin reddened on the cheeks and nose by cold, a square jaw and a level brow. Grey eyes, patient and tired, with shadows under them, beneath straight brown brows. Her lips are pale and closed in a small, practised, brittle half-smile."
+   },
+   "guesses": "The horn, the cape and the fur hat are guesses from 'watchwoman' and the frozen peaks."
+  },
+  {
+   "id": "warden", "name": "A Warden", "trade": "a Warden of Dawnroost (the forty held in the street)", "zone": 4, "where": "Misthollow's street: forty of them, standing held; they walk home at the end",
+   "lines": "2 in zone 4 (one Warden speaks)", "wearsToday": "nothing yet (zone 4 is being built)", "verdict": "own, and shared by all forty",
+   "why": "Forty Wardens stand held in Misthollow's street 'alike'. One body, worn by every one of them: the helm and the mail hood hide the hair, so one set of shapes can be anyone.",
+   "fromTheLines": {
+    "age": "about thirty (cast)", "sex": "the cast gives this Warden a man's voice; the notes on both lines, and the cast's own note, say 'she' (z4.warden.01, .02)",
+    "manner": "dazed, as if just waking (cast)",
+    "facts": ["forty Ember Wardens went north with Halcyon; the fire holds them standing in the street (story-zones-2-4, call 14; z4.watch.02)", "they wear boots and buckles, forty sets of everything (z2.marta.13, z2.brann.05)", "they wear cloaks, which Halcyon mended badly (cast, Halcyon)", "Halcyon is a paladin of the Ember Wardens (story-brief)"],
+    "saidOfTheirLook": "cloaks, boots and buckles; nothing else"
+   },
+   "shapes": "shapes/warden.js", "heightM": 1.73,
+   "look": {
+    "name": "A soldier of a company of road-wardens",
+    "who": "One of forty soldiers of the same company, about thirty years old, who marched north together eight years ago in full kit.",
+    "body": "A plain round steel helm with a brass rim and a low brass ridge over the crown sits over a hood of grey ring-mail that frames the face, covers the hair, ears and throat and spreads onto the shoulders. A shirt of the same grey ring-mail reaches the knee, with mail sleeves to the wrist. Over it, front and back, hangs the company's tabard of ember orange wool with a thin band of dull gold along its lower edge, and on the chest one small sign in pale gold: a single lamp flame. A broad dark leather belt with a large square steel buckle. A heavy cloak of dark red-brown wool hangs from two round brass clasps at the collarbones down the back to the calf; near its hem is one clumsy darn in a thread that does not match. Rounded caps of dark leather on the shoulders, dark leather bracers on the forearms, and dark leather guards on the shins over tall dark boots. Everything is sound and cared for, dulled a little by cold. The hands are bare.",
+    "face": "A man of about thirty with a plain, open, weather-tanned face, clean-shaven, a straight nose and a firm jaw. Brown eyes looking straight ahead, calm and a little far away, under level dark brows. His lips are closed; he looks like someone just waking."
+   },
+   "guesses": "The helm, the mail and the flame sign are guesses. The one bad darn in the cloak is from the cast's note that Halcyon mended the Wardens' cloaks badly. A second face (a woman of about thirty) painted over the same face guide would give the forty two faces for one more picture: Chris's call."
+  },
+  {
+   "id": "gretch", "name": "Mayor Gretch", "trade": "the mayor", "zone": 1, "where": "Wickhollow: the square; and at the ending",
+   "lines": "8 in zone 1, 1 at the ending", "wearsToday": "old-night-watchman-opus", "verdict": "own",
+   "why": "Today he is a copy of Corwin, who stands in the same camp at the ending.",
+   "fromTheLines": {
+    "age": "about sixty-five (cast)", "sex": "man",
+    "manner": "blunt and tired, a decent man out of his depth (cast)",
+    "facts": ["the mayor of Wickhollow, 'for my sins' (z1.gretch.01)", "he has lit more lamps to steady the town (z1.gretch.05)", "at the end: 'I feel a speech coming' (z4.gretch.01)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/gretch.js", "heightM": 1.63,
+   "look": {
+    "name": "The mayor of a country town",
+    "who": "A stout, blunt, tired man of about sixty-five, mayor of a small town, decent and out of his depth.",
+    "body": "A soft, wide, flat cap of dark wine-red velvet with a narrow band of dull gold cloth at the brow; grey hair shows below it at the sides and back. A broad collar of grey-brown fur lies on the shoulders. He wears a long town coat of wine-red wool to the knee, open down the front over a round belly, with a darker band along its hem and darker turned-back cuffs; the nap is rubbed at the elbows. Under it, filling the opening, is a mustard-gold waistcoat, a little strained across the middle. A chain of office hangs from the shoulders to the chest: plain brass links and one round brass medal, dulled with handling. Charcoal wool hose and dark brown boots, sound and plain.",
+    "face": "A man of about sixty-five with a broad, ruddy, heavy-jowled face, a big nose and tired pouches under the eyes. Grey-blue eyes, plain and worried, under bushy grey brows; grey stubble on the jaw, as if he has been up all night. His lips are closed and pressed, a man who has said the same bad news ten times."
+   },
+   "guesses": "The coat, cap and chain are guesses from 'the mayor'."
+  },
+  {
+   "id": "hilde", "name": "Hilde", "trade": "the smith", "zone": 1, "where": "Wickhollow: her forge; and at the ending",
+   "lines": "6 in zone 1, 1 at the ending", "wearsToday": "pie-seller", "verdict": "own",
+   "why": "Today she wears Ros the pie-seller's very body, and the two stand in the same camp at the ending.",
+   "fromTheLines": {
+    "age": "about forty-five (cast)", "sex": "woman",
+    "manner": "strong and dry, proud of her fire (cast)",
+    "facts": ["the smith; her forge has never disobeyed her until tonight (z1.hilde.01)", "she works a hammer: 'Mind the sparks' is called over the hammer (z1.hilde.06, tone)", "she speaks of the forge as 'she' (z1.hilde.04, .05)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/hilde.js", "heightM": 1.73,
+   "look": {
+    "name": "A blacksmith",
+    "who": "A tall, strong, dry-spoken woman of about forty-five who works the forge of a small town and is proud of her fire.",
+    "body": "Her dark auburn hair is cut short and held off the face by a brick-red cloth band tied round the head, with a small knot of hair at the back. A collarless work shirt of undyed grey-cream linen, scorched with tiny burn holes, has its sleeves rolled into thick rolls above the elbow; the forearms are bare, strong, freckled and smudged with soot, with a wide dark leather wrap on each wrist. A heavy smith's apron of thick brown leather covers the chest and falls to the shin, hung from two dark straps that go over the shoulders to the back of the neck; it is burn-pocked, scratched and darkened with soot down the middle. A dark leather belt with a round iron buckle; a short-handled hammer with an iron head hangs head-up in a loop at her right hip. Seen from behind, the shirt hangs loose to the hip over dark brown wool trousers. Heavy black boots, scuffed grey at the toes.",
+    "face": "A woman of about forty-five with a strong square face, skin ruddy from the fire, and a smudge of soot on one cheek. Direct brown eyes under straight dark auburn brows, with fine lines from squinting at heat. Her lips are closed, level and a little proud."
+   },
+   "guesses": "The leather apron and the hammer at her hip are guesses from 'the smith' and 'called over the hammer'."
+  },
+  {
+   "id": "quill", "name": "Quill", "trade": "the sailor", "zone": 1, "where": "the jetty: his stall of rope and line; and at the ending",
+   "lines": "6 in zone 1, 1 at the ending", "wearsToday": "chestnut-roaster-opus", "verdict": "own",
+   "why": "Today he is a copy of Kofi, who stands in the same camp at the ending.",
+   "fromTheLines": {
+    "age": "about sixty (cast)", "sex": "man",
+    "manner": "salty and friendly, a teller of half-true stories (cast)",
+    "facts": ["a sailor with a stall: 'Rope, line, or a knot while you wait' (z1.quill.01)", "he has tied his own lantern to its post with three hitches (z1.quill.04)", "at the end he coils the rope (z4.quill.01, tone)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/quill.js", "heightM": 1.67,
+   "look": {
+    "name": "An old sailor who sells rope",
+    "who": "A lean, friendly old sailor of about sixty who sells rope and line from a stall by a lake jetty and ties knots while you wait.",
+    "body": "A close knitted cap of faded brick-red wool with a thick rolled brim; short grey hair shows under it at the sides and back. A neckerchief of red cotton is knotted at the throat. He wears a short sea-jacket of dark navy wool to the hip, open down the front, salt-faded on the shoulders and frayed at the cuffs, over a knitted jersey of cream wool with narrow dark blue hoops. A brown leather belt. A thick coil of pale hemp rope is worn across the body like a sash, from his left shoulder to his right hip and round the back. Canvas trousers of weathered grey-brown, tar-spotted, and tall dark sea-boots. His hands are brown, rope-scarred and thick-fingered.",
+    "face": "A man of about sixty with brown, wind-burned skin, deep creases fanning from the eyes and grey stubble on a lean jaw. Bright sea-blue eyes, amused, under grey brows. His lips are closed in a crooked half-smile, a man with a story ready."
+   },
+   "guesses": "The rope across his body is from his trade; the cap and jersey are guesses."
+  },
+  {
+   "id": "tobb", "name": "Tobb", "trade": "the innkeeper", "zone": 1, "where": "Bogmire: his inn",
+   "lines": "6 in zone 1", "wearsToday": "fair-baker-opus", "verdict": "own",
+   "why": "Today he, Brann and Tock are all the same copy of Otto the baker.",
+   "fromTheLines": {
+    "age": "about fifty-five (cast)", "sex": "man",
+    "manner": "big and gentle, a host's welcome (cast)",
+    "facts": ["the innkeeper of Bogmire (z1.tobb.01, .06)", "he sets an unlit candle in his window every night, as manners (z1.tobb.04)"],
+    "saidOfHisLook": "'big' (cast)"
+   },
+   "shapes": "shapes/tobb.js", "heightM": 1.77,
+   "look": {
+    "name": "A village innkeeper",
+    "who": "A very big, gentle, slow-smiling man of about fifty-five who keeps the inn of a marsh village.",
+    "body": "He is bare-headed, with short, thinning brown hair going grey at the temples. A loose shirt of cream linen, soft from washing, is rolled into thick rolls above the elbow over big bare forearms. Over it an open waistcoat of dark moss-brown wool, shiny with wear at the edges, with two small brass buttons on his left side; it does not meet over his round belly. A long white linen apron is tied at the waist and falls to the shin, creased where it has been folded, with one pale ale stain near the hem; its tie is knotted behind. A folded cloth of pale blue-grey with three darker stripes lies over his left shoulder. Seen from behind, dark brown wool breeches show to the thigh. Dark hose and big dark brown boots.",
+    "face": "A man of about fifty-five with a broad, fleshy, ruddy face, a soft double chin and a faint brown stubble. Gentle brown eyes, a little sleepy, under thick brown brows, with smile lines beside them. His lips are closed in a small, welcoming, patient smile."
+   },
+   "guesses": "The waistcoat, apron and shoulder cloth are guesses from 'innkeeper'."
+  },
+  {
+   "id": "pell", "name": "Pell", "trade": "the child", "zone": 1, "where": "Bogmire, near the boardwalk",
+   "lines": "6 in zone 1", "wearsToday": "farm-lad, made small (0.72)", "verdict": "own",
+   "why": "Today she is Jory the farm lad shrunk: a grown man's body and face at a child's height.",
+   "fromTheLines": {
+    "age": "about eight (cast)", "sex": "a girl by the voice; the lines never say (cast)",
+    "manner": "bright and fearless, very sure of herself (cast)",
+    "facts": ["a child of Bogmire who is not scared (z1.pell.01, .06)", "she once waved at the great wraith (z1.pell.04)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/pell.js", "heightM": 1.19,
+   "look": {
+    "name": "A village child",
+    "who": "A fearless, matter-of-fact child of about eight from a marsh village.",
+    "body": "Sandy brown hair is parted in the middle and tied in two short plaits that stick out below the ears, each with a small red ribbon. The child wears a loose smock dress of faded teal-blue linen to the knee, with a wide plain collar and long sleeves of unbleached cream linen, the sleeves pushed up to leave the forearms bare. A narrow sash of grey-green cloth is tied at the waist. Low on the skirt, on the child's left, is one square patch of rust-orange cloth sewn on with big stitches, and the hem carries a darker band, mud-splashed. Brown knitted stockings, wrinkled at the knee, and scuffed brown boots a little too big.",
+    "face": "A child of about eight with a round face, fair skin, and a scatter of freckles over the nose and cheeks. Wide, steady green-grey eyes under light brown brows, looking straight out without any fear. The lips are closed and firm, the chin lifted a little."
+   },
+   "guesses": "Everything but her age: the lines say nothing of how she looks."
+  },
+  {
+   "id": "brann", "name": "Brann", "trade": "the storekeeper", "zone": 2, "where": "Dawnroost: the Wardens' stores",
+   "lines": "8 in zone 2", "wearsToday": "fair-baker-opus", "verdict": "own",
+   "why": "Today he, Tobb and Tock are all the same copy of Otto the baker.",
+   "fromTheLines": {
+    "age": "about fifty (cast)", "sex": "man",
+    "manner": "blunt and careful, a counter of things (cast)",
+    "facts": ["keeps the Wardens' stores; counts them twice a day (z2.marta.16)", "he wrote down the day each road stone went dark (z2.brann.03)", "he oils forty sets of buckles nobody wears (z2.brann.05)", "casks and lamp oil are in his stores (z2.brann.02, .07)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/brann.js", "heightM": 1.65,
+   "look": {
+    "name": "A storekeeper",
+    "who": "A solid, blunt, careful man of about fifty who keeps a company's stores and counts everything twice.",
+    "body": "A small, round, flat-topped cap of dark teal felt sits on short dark hair that is greying at the sides; he has a short, dark, grey-flecked beard. A plain shirt of grey linen with long sleeves ends in dark leather cuffs. Over it is a long sleeveless jerkin of brown leather to mid-thigh, darkened with oil at the front, with a darker bound edge at the shoulders and hem. A broad dark belt with a large round steel buckle, kept bright. At his right hip a thick tally book bound in dark red leather hangs in a strap, its page edges showing pale; at his left hip hang two iron keys. Dark charcoal wool trousers and plain dark boots. His fingers are stained with ink and oil.",
+    "face": "A man of about fifty with a square, pale-olive face, a heavy brow and a short dark beard flecked with grey. Dark, narrow, careful eyes under thick straight black brows, with a deep line between them. His lips are closed and flat, a man doing sums in his head."
+   },
+   "guesses": "The tally book is from 'I wrote down the days'; the jerkin and cap are guesses."
+  },
+  {
+   "id": "tamsin", "name": "Tamsin", "trade": "the child", "zone": 2, "where": "Dawnroost",
+   "lines": "6 in zone 2", "wearsToday": "farm-lad, made small (0.72)", "verdict": "own",
+   "why": "Today she and Pell are the same shrunk copy of Jory the farm lad.",
+   "fromTheLines": {
+    "age": "about nine (cast)", "sex": "girl",
+    "manner": "bossy and earnest (cast)",
+    "facts": ["she plays at being a Warden: 'Halt! Who goes there? I'm a Warden. Nearly.' (z2.tamsin.01, .06)", "she has never seen a real Warden (story-zones-2-4)", "she wants to be one (z2.tamsin.05, z2.marta.15)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/tamsin.js", "heightM": 1.25,
+   "look": {
+    "name": "A child playing at soldiers",
+    "who": "A bossy, earnest girl of about nine who plays at being a soldier of the road-wardens, in grown-up kit that is far too big for her.",
+    "body": "Her straight dark brown hair is pulled up into a tight topknot on the crown, tied with a twist of yellow cord. She wears a short, plain tunic of tan wool to mid-thigh with long sleeves, grass-stained at the elbows. Round her waist is a grown soldier's broad dark leather belt with a big steel buckle, so long that its end hangs down the front almost to her knee. An old soldier's cloak of faded ember-red wool is pinned at her throat with a round brass clasp, lies over her shoulders and hangs down her back nearly to her heels; its hem has been turned up in a deep fold and stitched with big uneven stitches, and it is muddy along the bottom. Grey knitted leggings, baggy at the knee, and scuffed brown boots.",
+    "face": "A girl of about nine with warm light-brown skin, a round chin and a few freckles on the nose. Dark brown eyes, very serious, under straight dark brows drawn a little together. Her lips are closed and pressed tight, a child on guard and meaning it."
+   },
+   "guesses": "The cloak and belt are guesses from 'plays at being a Warden' and the storekeeper's 'forty sets of everything, and nobody to wear them'. The lines do not say she wears any."
+  },
+  {
+   "id": "carter", "name": "The carter", "trade": "the carter", "zone": 2, "where": "the Ember Line road: by the broken cart",
+   "lines": "6 in zone 2", "wearsToday": "chestnut-roaster-opus", "verdict": "own",
+   "why": "Today he and Quill are the same copy of Kofi.",
+   "fromTheLines": {
+    "age": "about forty (cast)", "sex": "man",
+    "manner": "a cheerful grumbler (cast)",
+    "facts": ["he hauls sunstone by cart (z2.carter.01, .05)", "he carries a whip: he points with it (z2.carter.03, tone)", "he is a trader with a trader's hunches (z2.carter.02, tone)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/carter.js", "heightM": 1.70,
+   "look": {
+    "name": "A carter on a warm road",
+    "who": "A cheerful, grumbling man of about forty who drives a cart of stone along a warm country road.",
+    "body": "A low, round-crowned hat of dark brown felt with a narrow curled brim and a darker band, sweat-marked; short brown hair shows under it. A red cotton neckerchief with small cream spots is knotted at the throat. He wears a carter's smock: a loose, light frock of undyed oatmeal linen that hangs to the knee, gathered into a deeper-coloured yoke across the shoulders and chest, with long sleeves gathered at darker cuffs; it is dusty at the hem and streaked with pale stone dust on the front. A long whip of dark plaited leather is coiled and worn across the body from his right shoulder to his left hip, where its stock and the last of the lash hang down. Brown wool breeches, tan leather gaiters wrapped on the shins, and dusty brown boots.",
+    "face": "A man of about forty with a sun-browned, open face, a snub nose and brown stubble on the jaw. Green-brown eyes, good-humoured, creased at the corners from the sun, under brown brows. His lips are closed in a rueful half-grin."
+   },
+   "guesses": "The smock and hat are guesses from 'carter' and the warm roads; the whip is from the tone note."
+  },
+  {
+   "id": "gil", "name": "Old Gil", "trade": "the innkeeper", "zone": 3, "where": "the shipyard: before his bunkhouse",
+   "lines": "8 in zone 3", "wearsToday": "old-night-watchman-opus", "verdict": "own",
+   "why": "Today he, Mayor Gretch and the roadwarden are all the same copy of Corwin.",
+   "fromTheLines": {
+    "age": "about seventy-five (cast)", "sex": "man",
+    "manner": "wheezy and cheerful (cast)",
+    "facts": ["he has kept the shipyard inn fifty years (z3.gil.05)", "beds that smell of tar, a fire that smells of fish (z3.gil.01)", "his knees know the frost before it comes; he rubs a knee (z3.gil.04 and its tone)", "it is colder every week (z3.gil.04)"],
+    "saidOfHisLook": "nothing but the knees"
+   },
+   "shapes": "shapes/gil.js", "heightM": 1.55,
+   "look": {
+    "name": "An old innkeeper of a shipyard",
+    "who": "A small, round, wheezy, cheerful old man of about seventy-five who has kept the inn of a cold northern shipyard for fifty years.",
+    "body": "A knitted cap of brick-red wool with a rolled brim and a cream wool bobble on top; white hair shows under it at the sides and back, and he has a full white beard to the collarbone. He wears a thick seaman's jersey of dark blue-grey wool, knitted in upright ribs, with a heavy rolled collar at the neck and ribbed cuffs, stretched over a round belly and darned at one elbow. A short apron of oatmeal sacking is tied at the waist and hangs to the knee, with a dark tar smear on it. Seen from behind, dark wool breeches show to the thigh. Both knees are wrapped in bands of grey-brown wool. Grey hose and old dark boots.",
+    "face": "A man of about seventy-five with a round, red-cheeked, deeply wrinkled face and a red nose. Twinkling pale blue eyes, watery, under bushy white brows, and a full white beard and moustache. His lips are closed in a pleased, proud little smile."
+   },
+   "guesses": "The jersey and cap are guesses from the shipyard and the cold; the wrapped knees are from his line."
+  },
+  {
+   "id": "tock", "name": "Tock", "trade": "the shipwright", "zone": 3, "where": "the shipyard: by the slip",
+   "lines": "6 in zone 3", "wearsToday": "fair-baker-opus, made small (0.62)", "verdict": "own",
+   "why": "Today he is Otto the baker shrunk to a gnome's height.",
+   "fromTheLines": {
+    "age": "middle years (cast)", "sex": "man (a gnome)",
+    "manner": "gruff, and fond of ships more than people (cast)",
+    "facts": ["a gnome (cast; the hub stands him at 0.62 of a person's height)", "the shipwright who refits the Grey Hat's ship: new ribs, new keelson (z3.tock.04)", "he carries a mallet: he points with it (z3.tock.03, tone); he folds his arms (z3.tock.01, tone)", "he has apprentices and scaffolds (z3.tock.03, .06)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/tock.js", "heightM": 1.02,
+   "look": {
+    "name": "A gnome shipwright",
+    "who": "A gnome: a small, broad, big-headed, gruff master shipwright in his middle years.",
+    "body": "A soft pointed cap of slate-blue felt fits close round the head with a darker band at the brow, its point falling back; thick ginger hair shows under it at the sides. A great ginger beard, combed and full, hangs from the cheeks to the middle of the chest. He wears a work shirt of dun-brown linen with the sleeves rolled into thick rolls above the elbow; his bare forearms are short, thick and freckled, dusted with sawdust. A shipwright's apron of brown leather covers the chest and falls to the knee, hung from two dark straps over the shoulders, with one wide, deep pocket across the lap, and it is scored with tool marks and spotted with pitch. A dark leather belt goes over the apron. A wooden mallet with a pale, dented head hangs head-up in a loop at his right hip. Seen from behind, dark brown breeches show to the thigh. Dark hose and stout dark boots.",
+    "face": "A man in his middle years with a broad, ruddy, weather-beaten face, a wide red-tipped nose and heavy cheeks. Small, sharp green-brown eyes under very thick ginger brows drawn down in a scowl that is half for show, and a thick ginger moustache running into a great ginger beard. His lips are closed and set."
+   },
+   "guesses": "What a gnome looks like is not written anywhere: the big head, the beard and the pointed cap are a guess, and Chris's to set for both gnomes. A plain round cap is the other choice."
+  },
+  {
+   "id": "pim", "name": "Pim", "trade": "the herb-seller", "zone": 3, "where": "the shipyard: before her hall",
+   "lines": "6 in zone 3", "wearsToday": "pie-seller, made small (0.62)", "verdict": "own",
+   "why": "Today she is Ros the pie-seller shrunk to a gnome's height: a sturdy middle-aged body for a young woman.",
+   "fromTheLines": {
+    "age": "young (cast)", "sex": "woman (a gnome)",
+    "manner": "a chirpy saleswoman (cast)",
+    "facts": ["a gnome (cast; the hub stands her at 0.62 of a person's height)", "she sells herbs from baskets, moonwort 'from very high up' (z3.pim.01, .04)", "the shipmaster buys her moonwort (z3.pim.03)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/pim.js", "heightM": 0.99,
+   "look": {
+    "name": "A young gnome herb-seller",
+    "who": "A gnome: a small, big-headed, chirpy young woman who sells herbs in a cold northern shipyard.",
+    "body": "A soft pointed cap of mustard-yellow felt stands up from the head and tips a little to her left, with a darker gold band at the brow; her bright ginger hair is wound into two round buns, one over each ear. She wears a blouse with full white linen sleeves gathered into narrow moss-green cuffs, and over it a fitted bodice of moss-green wool laced up the front over a cream panel. A short, full, bell-shaped skirt of warm orange wool reaches mid-calf, with five darker rust hoops running round it; over its front hangs a small cream apron on a cream waistband. A satchel of tan leather with a darker flap hangs at her left hip on a strap that crosses the chest from her right shoulder, and two green leaves poke out from under the flap. Brown knitted stockings and small brown boots.",
+    "face": "A young woman of about twenty with a round, rosy, freckled face, a small upturned nose and full cheeks. Big bright green eyes under fine ginger brows, wide open and friendly. Her lips are pink and closed in a cheerful, hopeful smile."
+   },
+   "guesses": "As for Tock: the gnome's look is a guess. The satchel stands in for her baskets, which are at her stall."
+  },
+  {
+   "id": "passenger", "name": "The last passenger", "trade": "the passenger", "zone": 3, "where": "the shipyard: on the lower quay, by the west dock",
+   "lines": "8 in zone 3", "wearsToday": "ballad-singer", "verdict": "own",
+   "why": "Today she wears Linnet the ballad-singer's very body: a young stage singer for a woman of forty who cannot make herself leave.",
+   "fromTheLines": {
+    "age": "about forty (cast)", "sex": "woman",
+    "manner": "wistful, a little wry (cast)",
+    "facts": ["she has a ticket south and keeps not going; she holds the ticket up (z3.passenger.01, .03 and its tone)", "she came down from the north; her house is past the crossroads (z3.passenger.02, .06)", "the shipmaster calls her 'the woman by the dock' (z3.ysmera.16)"],
+    "saidOfHerLook": "nothing in the game; the cast's audition line (not in the game) speaks of a packed bag"
+   },
+   "shapes": "shapes/passenger.js", "heightM": 1.65,
+   "look": {
+    "name": "A traveller waiting on a dock",
+    "who": "A wistful, slightly wry woman of about forty, dressed and packed for a sea voyage she keeps not taking.",
+    "body": "She is bare-headed; her brown hair, with a few grey threads, is drawn back smoothly and hangs in one long plait down the middle of the back. A scarf of ochre wool with thin darker stripes is wound at the throat, one end hanging down the front on her right. She wears a plain long dress of dusky mauve-grey wool to the ankle, with long sleeves and darker cuffs. A travelling cloak of grey-green wool lies on her shoulders and hangs down the back to the shin, its hood lying empty between the shoulder blades, closed on the breast with a small brass clasp; the cloak is good cloth, creased from being packed. A bag of brown leather with a darker flap and a brass buckle hangs at her right hip, on a strap that crosses the chest from her left shoulder; it is full. Sound dark boots, hardly worn.",
+    "face": "A woman of about forty with fair skin, a long oval face and faint shadows under the eyes. Grey-brown eyes, a little far away, under fine brown brows, with the first lines at their corners. Her lips are closed, with a small rueful twist at one side."
+   },
+   "guesses": "The cloak, plait and bag are guesses from 'a ticket south' and the audition line."
+  },
+  {
+   "id": "cutter", "name": "The bramble-cutter", "trade": "the bramble-cutter", "zone": 3, "where": "Eldergrove's edge: on the road",
+   "lines": "6 in zone 3", "wearsToday": "gate-keeper", "verdict": "own",
+   "why": "Today he wears Tully the gate keeper's very body.",
+   "fromTheLines": {
+    "age": "about forty-five (cast)", "sex": "man",
+    "manner": "tired and strong (cast)",
+    "facts": ["he cuts back the thorns at Eldergrove's edge every day, and keeps cutting as he talks (z3.cutter.01 and its tone)", "'Watch your sleeves' (z3.cutter.06)", "the northern wilds are cold (story-zones-2-4)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/cutter.js", "heightM": 1.75,
+   "look": {
+    "name": "A man who cuts back thorns",
+    "who": "A big, tired, strong man of about forty-five who cuts back a wall of thorns at a forest's edge every day.",
+    "body": "A hood of thick brown leather covers the head and frames the face, and spreads into a short cape over the shoulders and upper chest; the leather is scored all over with pale thorn scratches. A dark brown beard shows inside the hood. Under the cape he wears a long-sleeved tunic of olive-green wool to just above the knee, snagged and pulled in places, and over its body a sleeveless jerkin of thick tan leather to the hip. A dark leather belt. Long gauntlets of dark leather cover the forearms to the elbow, deeply scratched, the cuffs flared. A billhook with a wooden handle and a curved iron blade hangs blade-down at his left hip. Dark hose, guards of thick brown leather strapped round the shins, and heavy dark boots.",
+    "face": "A man of about forty-five with a broad, weather-reddened face, a full dark brown beard and moustache, and one thin, fresh red scratch across his left cheek. Tired hazel eyes with heavy lids under thick dark brows. His lips are closed, his look patient and worn."
+   },
+   "guesses": "The leather hood, gauntlets and billhook are guesses from his trade and 'Watch your sleeves'."
+  },
+  {
+   "id": "passkeeper", "name": "The pass-keeper", "trade": "the pass-keeper", "zone": 4, "where": "the hut at the foot of the frozen pass",
+   "lines": "8 in zone 4", "wearsToday": "nothing yet (zone 4 is being built)", "verdict": "own",
+   "why": "She has no body at all yet.",
+   "fromTheLines": {
+    "age": "about sixty (cast)", "sex": "woman",
+    "manner": "patient and plain (cast)",
+    "facts": ["she keeps the hut and its stove at the foot of the pass, and keeps the stove lit (z4.passkeeper.06, .08)", "she has watched the snow for footprints for eight winters (z4.passkeeper.01)", "she wears mittens: 'a mittened hand pointing up' (z4.passkeeper.03, tone)", "she is 'weathered' (z4.passkeeper.01, tone)"],
+    "saidOfHerLook": "mittens; weathered"
+   },
+   "shapes": "shapes/passkeeper.js", "heightM": 1.60,
+   "look": {
+    "name": "The keeper of a hut at the foot of a snow pass",
+    "who": "A weathered, patient, sturdy woman of about sixty who keeps a hut and its stove at the foot of a frozen mountain pass.",
+    "body": "A deep hood is up over her head, edged all round the face with a thick roll of cream sheep's fleece; a little grey hair shows at the temples inside it. A scarf of dark red wool is wound high at the throat. She wears a long quilted coat of brown wool, stitched in a faint pattern of squares, that hangs to the shin, with a wide band of the same cream fleece along the hem and round each cuff. A sash of dark red wool is tied at the waist, one end hanging down the front on her right. Thick mittens of dark red felt cover both hands. Felt boots of grey-brown with fleece at their tops, snow-crusted at the toes. The coat is patched at one elbow and pale with old frost on the shoulders.",
+    "face": "A woman of about sixty with wind-burned, deeply weathered skin, red cheeks and a red nose, and pale lines at the corners of the eyes from squinting at snow. Calm blue-grey eyes under grey brows. Her chapped lips are closed, her look patient and far-sighted."
+   },
+   "guesses": "The quilted coat and hood are guesses from the frozen pass; the mittens are from the tone note."
+  },
+  {
+   "id": "sorrel", "name": "Sorrel", "trade": "the herb-seller", "zone": 4, "where": "Misthollow",
+   "lines": "8 in zone 4", "wearsToday": "nothing yet (zone 4 is being built)", "verdict": "own",
+   "why": "She has no body at all yet.",
+   "fromTheLines": {
+    "age": "about thirty-five (cast)", "sex": "woman",
+    "manner": "brisk and dry, with grief under it (cast)",
+    "facts": ["she sells herbs, and everything she grows comes up white: white sage, white thyme (z4.sorrel.01)", "her mother died the winter the light came, and she could not cry for her (z4.sorrel.05)", "at the end: one green leaf on her white sage (z4.sorrel.07)", "Misthollow is never dark and never warm (story-zones-2-4)"],
+    "saidOfHerLook": "nothing"
+   },
+   "shapes": "shapes/sorrel.js", "heightM": 1.63,
+   "look": {
+    "name": "A herb-seller of a frozen mountain town",
+    "who": "A brisk, dry-eyed woman of about thirty-five who sells herbs in a mountain town where it is always cold and everything grows pale.",
+    "body": "A headscarf of cream wool in a faint oatmeal check covers the head, is drawn round under the chin and knotted at the throat, with its corner hanging down the back between the shoulders. She wears a short padded jacket of dull rose-red wool, quilted in upright lines, with a collar of pale fleece and a band of the same fleece round its bottom edge at the hip. A dark leather belt carries a small leather pouch on each hip, and a sprig of white sage is tucked into the pouch at her left hip. Fingerless mitts of grey wool reach from the knuckles to the forearm. A heavy skirt of slate-grey wool falls to the ankle, with one paler grey band near the hem, and over its front hangs a short white linen apron. Brown boots with fleece at their tops. Nothing on her is green.",
+    "face": "A woman of about thirty-five with pale, cool skin, a few faded freckles, and cheeks pinched pink by cold. Blue-grey eyes, dry and steady, with tired shadows under them, beneath fine red-brown brows. Her lips are pale and closed, pressed a little thin."
+   },
+   "guesses": "The headscarf and jacket are guesses from the cold; 'nothing on her is green' is from her white herbs."
+  },
+  {
+   "id": "ede", "name": "Ede", "trade": "the innkeeper", "zone": 4, "where": "Misthollow: the inn",
+   "lines": "8 in zone 4", "wearsToday": "nothing yet (zone 4 is being built)", "verdict": "own",
+   "why": "He has no body at all yet.",
+   "fromTheLines": {
+    "age": "about seventy-five (cast)", "sex": "man",
+    "manner": "cantankerous, slow to smile (cast)",
+    "facts": ["the innkeeper of Misthollow; his hearth never catches, and he lights it every night out of spite (z4.ede.01, .04)", "he takes soup out to the Wardens in the street every night (z4.ede.05)", "no flame stays lit in Misthollow (story-zones-2-4)"],
+    "saidOfHisLook": "nothing"
+   },
+   "shapes": "shapes/ede.js", "heightM": 1.58,
+   "look": {
+    "name": "An old innkeeper of a frozen mountain town",
+    "who": "A thin, cross, stubborn old man of about seventy-five who keeps an inn with no fire in a mountain town where it is always cold.",
+    "body": "A hat of dark brown fur with a paler fur band across the front, its two flaps down over the ears and the back of the neck. A short white beard. A long scarf of dark green wool is wound high round the throat, one end hanging down the front on his left. He wears a shirt of thick grey wool with long sleeves and darker cuffs, and over it a long sheepskin waistcoat, the tan leather side out, open down the front and hanging to mid-thigh, with the cream fleece showing as a thick edge round the shoulders and along the hem. In the opening hangs a narrow waist apron of grey linen to the knee, with a dry soup stain on it. Seen from behind, dark wool breeches show below the waistcoat. Grey hose and brown boots, cracked with cold.",
+    "face": "A man of about seventy-five with a long, thin, grey-pale face, hollow cheeks, a beaky nose and a short white beard and moustache. Sharp grey-green eyes under jutting white brows drawn down in a scowl, with two deep lines between them. His thin lips are closed and turned down."
+   },
+   "guesses": "The sheepskin and fur hat are guesses from the cold; the soup stain is from his line."
+  }
+ ],
+ "others": [
+  {
+   "id": "knight", "name": "The knight of light", "zone": 3, "verdict": "fine as she is on the land",
+   "why": "On the land she is a tall pale light (the hub's call, game/people/zone-3.js), and both people who speak of her say she is 'all light' (z3.cutter.05, z3.ysmera.08). She says two words and walks away. Her fighting body is a fights model, not a person on this kit: the fights job owns it (game/battle/models/halcyon.js, used by game/battle/fights.js).",
+   "needs": "Nothing from Chris's pictures, and nothing from this kit. If the hub wants a figure seen inside the light, it is Halcyon's own body (below), not a new one."
+  },
+  {
+   "id": "halcyon", "name": "Halcyon", "zone": 4, "verdict": "needs a body on the land, but not from this kit",
+   "why": "In zone 4 she stands on the Moonwell stair with a light over her face, says twelve lines, the light goes out, and at the ending she walks into the Faire's camp beside Io: 'Look at the two of you. Same walk.' (z4.nettie.03). So she has to be seen as a person, close to, with her face showing. Chris has already said what she is (docs/decisions.md): a woman on Moon Faire's base doll, which is Io's body, in the paladin outfit, with a glow made in code. It is built in the old Envoi (moon-faire-witches/src/halcyon-paladin.js and witches/doll/, the outfit's light model about 50,000 triangles), with Io's moves, which is why 'same walk' is true.",
+   "needs": "The hub, or the zone-4 job: copy the doll, the paladin outfit and halcyon-paladin.js in from the old Envoi; a way for the people on the land to stand a body that is not one of the painted fair folk; the light over her face switched off after the letter. From Chris: his word on her face once the light is out (his own note of November 16 says 'repaint her face'); that may be one face picture, by the doll's own way, not this kit's. Not looked into here beyond the first lines of halcyon-paladin.js."
+  }
+ ]
+}

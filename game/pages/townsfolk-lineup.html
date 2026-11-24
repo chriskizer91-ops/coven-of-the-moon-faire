@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The townsfolk's shapes, side by side: Coven of the Moon Faire</title>
+<!-- townsfolk-lineup.html: the townsfolk job's own small page (November 24, 2026). It stands the townsfolk's shapes in a row
+     beside one of the Faire's own painted people, on one ground line, with lines at 1 m, 1.5 m, 1.65 m and 1.8 m, so their
+     sizes can be seen at a glance. The shapes are A PROPOSAL and are not painted yet: they are drawn in plain greys (as in
+     the guides Chris paints over) or in their first colours. Nothing here is part of the game: no zone page loads it.
+       python3 tools/townsfolk-pack.py && python3 tools/build.py game/pages/townsfolk-lineup.html
+       python3 tools/look.py builds/townsfolk-lineup.html <folder> --plan tools/townsfolk-lineup-plan.json
+     In the page: the buttons at the top change the row; ?row=zone-1 (to zone-4, or first) and ?look=grey or colour start it. -->
+<style>
+  html, body { margin: 0; height: 100%; background: #2b2633; color: #f3ecdc; font: 15px/1.3 system-ui, sans-serif; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+  #bar { position: fixed; left: 0; right: 0; top: 0; display: flex; flex-wrap: wrap; gap: 8px; padding: 8px; align-items: center; }
+  #bar button { min-width: 44px; min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid #6b617a; background: #3a3345; color: inherit; font: inherit; }
+  #bar button.on { background: #e9b45a; color: #241c12; border-color: #e9b45a; }
+  #title { margin-left: 6px; opacity: 0.9; }
+  #names div { position: fixed; transform: translateX(-50%); text-align: center; font-size: 13px; line-height: 1.25; text-shadow: 0 1px 2px #000; }
+  #names div b { display: block; font-size: 14px; } #names div.fair b { color: #e9b45a; }
+  #marks div { position: fixed; left: 6px; font-size: 12px; opacity: 0.8; transform: translateY(-50%); }
+  #msg { position: fixed; left: 0; right: 0; bottom: 6px; text-align: center; font-size: 12px; opacity: 0.75; }
+  body.shot #bar { display: none; } body.shot #msg { top: 8px; bottom: auto; }
+</style></head>
+<body><canvas id="c"></canvas><div id="bar"></div><div id="names"></div><div id="marks"></div><div id="msg">making the people…</div>
+<script src="../lib/three.r128.min.js"></script>
+<script src="../witches/io/meshopt_simplifier.js"></script>
+<script src="../witches/kore/jester_tex.js"></script>
+<script src="../witches/kore/jester_kit.js"></script>
+<script src="../witches/kore/lod.js"></script>
+<script src="../people/folk/face_plain.js"></script>
+<script src="../people/folk/person-kit.js"></script>
+<script src="../people/folk/emotes.js"></script>
+<script src="../people/folk/npcs.js"></script>
+<script src="../people/folk/npc_tex.js"></script>
+<script src="../people/folk/npc.js"></script>
+<script src="../people/folk/townsfolk/townsfolk-shapes.js"></script>
+<script>
+(async function () {
+  'use strict';
+  const T = THREE, $ = (id) => document.getElementById(id), Q = new URLSearchParams(location.search);
+  // ---- what the page shows: all of it data ----
+  const FAIR = { id: 'fair-baker', name: 'Otto, the baker', note: 'one of the Faire\'s own' };       // the painted person every row stands beside
+  const ROWS = { 'zone-1': { label: 'Zone 1', zone: 1 }, 'zone-2': { label: 'Zone 2', zone: 2 }, 'zone-3': { label: 'Zone 3', zone: 3 }, 'zone-4': { label: 'Zone 4', zone: 4 }, first: { label: 'The first seven', first: 7 } };
+  const LINES = [1.0, 1.5, 1.65, 1.8], GAP = 0.86, GREY = { torso: 0x9c9c9c, wine: 0x929292, cloth: 0xa6a6a6, leggings: 0x858585, boot: 0x666666, sole: 0x5a5a5a, face: 0xd6d6d6, hand: 0xd6d6d6 }, OWN = [0xbcbcbc, 0x8a8a8a, 0xcacaca, 0x787878, 0xacacac, 0x989898, 0xd0d0d0];
+  const WORDS = { grey: 'plain greys, as in the guides', colour: 'first colours (only to tell the parts apart: the paint replaces them)', lines: 'the lines: 1 m, 1.5 m, 1.65 m (a witch), 1.8 m', proposal: 'A proposal. Not painted yet.' };
+  try {
+    const TF = window.COVEN_TOWNSFOLK, canvas = $('c');
+    const R = new T.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true }); R.setClearColor(0x2b2633, 1); R.outputEncoding = T.sRGBEncoding;
+    const scene = new T.Scene(), cam = new T.OrthographicCamera(-1, 1, 1, -1, 0.1, 50);
+    scene.add(new T.AmbientLight(0xffffff, 0.74)); const sun = new T.DirectionalLight(0xffffff, 0.42); sun.position.set(0.6, 1.2, 5); scene.add(sun);
+    const ground = new T.Mesh(new T.PlaneGeometry(60, 0.012), new T.MeshBasicMaterial({ color: 0xf3ecdc })); ground.position.set(0, -0.006, 0); scene.add(ground);
+    const marks = LINES.map((h) => { const m = new T.Mesh(new T.PlaneGeometry(60, 0.006), new T.MeshBasicMaterial({ color: h === 1.65 ? 0xe9b45a : 0x8d84a0, transparent: true, opacity: 0.55 })); m.position.set(0, h, -1); scene.add(m); return m; });
+    // ---- the people: each made once, in both looks ----
+    const made = {};
+    async function fair() { if (made.fair) return made.fair; const n = await window.MF_NPC.make(FAIR.id, { weight: 'full' }); n.update(0.016); const box = new T.Box3().setFromObject(n.root); made.fair = { root: n.root, top: box.max.y, name: FAIR.name, note: FAIR.note, fair: true }; n.root.visible = false; scene.add(n.root); return made.fair; }
+    async function person(id) {
+      if (made[id]) return made[id];
+      const D = TF.people[id], P = D.person(), prepared = await window.MF_PERSON.prepare(P, null), J = window.MF_PERSON.make(P, prepared);
+      J.fx.remove(J.spellLight); J.fx.visible = false; const stool = J.root.getObjectByName('stool'); if (stool) stool.visible = false;
+      const keep = J.bones.map((b) => b.scale.clone());
+      J.skeleton.pose();                                      // the standing pose of the guides, at the person's own height and build
+      J.bones.forEach((b, k) => b.scale.copy(keep[k]));       // (the pose puts every bone back to the template's size: give the head and the trunk the person's again)
+      J.root.updateMatrixWorld(true);
+      const looks = []; let i = 0;
+      J.root.traverse((m) => { if (m.isSkinnedMesh) { m.frustumCulled = false; looks.push([m, m.material, new T.MeshLambertMaterial({ color: new T.Color(GREY[m.name] || OWN[i++ % OWN.length]).convertSRGBToLinear(), skinning: true, side: T.DoubleSide })]); } });
+      let top = 0; const v = new T.Vector3();            // the top of the head or hat, measured on the posed points
+      J.root.traverse((m) => { if (m.isSkinnedMesh && m.visible) { const pos = m.geometry.attributes.position; for (let k = 0; k < pos.count; k += 3) { v.fromBufferAttribute(pos, k); m.boneTransform(k, v); v.applyMatrix4(m.matrixWorld); if (v.y > top) top = v.y; } } });
+      let tris = 0; for (const k in J.partTris) tris += J.partTris[k];
+      made[id] = { id, root: J.root, looks, top, name: D.name, heightM: D.heightM, wide: (P.build || [1])[0], errors: J.personErrors || [], triangles: Math.round(tris), parts: (J.partNames || []).length }; J.root.visible = false; scene.add(J.root); return made[id];
+    }
+    // ---- one row ----
+    let row = ROWS[Q.get('row')] ? Q.get('row') : 'zone-1', look = Q.get('look') === 'colour' ? 'colour' : 'grey', shown = [];
+    async function show(r, l) {
+      row = r || row; look = l || look; const W = ROWS[row];
+      const ids = W.first ? TF.order.slice(0, W.first) : TF.order.filter((id) => TF.people[id].zone === W.zone);
+      for (const k in made) made[k].root.visible = false;
+      shown = [await fair()]; for (const id of ids) shown.push(await person(id));
+      const n = shown.length, w = (n - 1) * GAP;
+      shown.forEach((p, i) => { p.root.visible = true; p.root.position.set(-w / 2 + i * GAP, 0, 0); p.x = p.root.position.x; if (p.looks) for (const [m, own, grey] of p.looks) m.material = look === 'grey' ? grey : own; });
+      layout(); labels();
+      for (const b of $('bar').querySelectorAll('button')) b.classList.toggle('on', b.dataset.k === row || b.dataset.k === look);
+      $('msg').textContent = W.label + ': ' + WORDS[look] + '. ' + WORDS.lines + '. ' + WORDS.proposal;
+      return shown.map((p) => ({ name: p.name, top: +p.top.toFixed(3), heightM: p.heightM || null }));
+    }
+    function layout() {
+      const vw = innerWidth, vh = innerHeight; R.setPixelRatio(1); R.setSize(vw, vh, false);
+      const n = shown.length || 2, needW = (n - 1) * GAP + 1.3, needH = 2.6, a = vw / vh, hh = Math.max(needH / 2, needW / a / 2), hw = hh * a, low = -0.2 * hh;      // the ground a fifth of the way up, the names under it
+      cam.left = -hw; cam.right = hw; cam.top = low + 2 * hh; cam.bottom = low; layout.gap = GAP / (2 * hw) * vw; cam.position.set(0, 0, 10); cam.lookAt(0, 0, 0); cam.updateProjectionMatrix();
+      layout.sx = (x) => (x + hw) / (2 * hw) * vw; layout.sy = (y) => (cam.top - y) / (2 * hh) * vh;
+    }
+    function labels() {
+      $('names').innerHTML = ''; $('marks').innerHTML = '';
+      for (const p of shown) { const d = document.createElement('div'); d.className = p.fair ? 'fair' : ''; d.style.left = layout.sx(p.x) + 'px'; d.style.top = (layout.sy(0) + 8) + 'px'; d.style.width = Math.round(layout.gap - 8) + 'px';
+        const b = document.createElement('b'); b.textContent = p.name; d.appendChild(b); d.appendChild(document.createTextNode(p.fair ? p.note + ': ' + p.top.toFixed(2) + ' m to the top of his cap' : (p.heightM.toFixed(2) + ' m' + (p.top - p.heightM > 0.04 ? ' (' + p.top.toFixed(2) + ' to the top of the hat or hair)' : '')))); $('names').appendChild(d); }
+      for (const h of LINES) { const d = document.createElement('div'); d.textContent = h + ' m'; d.style.top = layout.sy(h) + 'px'; $('marks').appendChild(d); }
+    }
+    const draw = () => { R.render(scene, cam); return { triangles: R.info.render.triangles, calls: R.info.render.calls }; };
+    for (const k in ROWS) { const b = document.createElement('button'); b.textContent = ROWS[k].label; b.dataset.k = k; b.onclick = () => show(k).then(draw); $('bar').appendChild(b); }
+    for (const k of ['grey', 'colour']) { const b = document.createElement('button'); b.textContent = k === 'grey' ? 'Grey' : 'First colours'; b.dataset.k = k; b.onclick = () => show(null, k).then(draw); $('bar').appendChild(b); }
+    addEventListener('resize', () => { layout(); labels(); draw(); });
+    // for the checks (tools/look.py): the same few calls a zone page answers
+    window.__lineup = { show: async (r, l) => { const x = await show(r, l); draw(); return x; }, rows: Object.keys(ROWS), made,
+      facts: async () => { const out = []; for (const id of TF.order) { const p = await person(id); out.push({ id, name: p.name, heightM: p.heightM, top: +p.top.toFixed(3), errors: p.errors, triangles: p.triangles }); } return out; } };
+    window.__w3d = { step: () => draw(), setIo: () => {}, setCam: () => {} };
+    if (/[?&]test\b/.test(location.search)) document.body.classList.add('shot');
+    await show(); draw(); window.__ready = true;
+  } catch (e) { console.error(e); $('msg').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }
+})();
+</script></body></html>
