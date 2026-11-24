@@ -40,7 +40,11 @@
         slam: 'Slam', crush: 'Crush', sweep: 'Sweep', lunge: 'Lunge', snap: 'Snap', pounce: 'Pounce', crouch: 'Crouches',
         drink: 'Drinks the light', dirge: 'Dirge', grasp: 'Cold grasp', pull: 'Pulls under', smash: 'Smash',
         boulder: 'Hurls a boulder', lift: 'Lifts a boulder', stomp: 'Stomp', regrow: 'Regrows',
+        // peak-creatures job: the two frozen-peak creatures' moves (STAND-IN names, the hub's proposal)
+        pinch: 'Pinch', glint: 'Glint', skitter: 'Skitter',
+        trample: 'Trample', paw: 'Paws the ground', winterBreath: 'Winter Breath', shake: 'Shake the Mantle',
       },
+      names: { wickstoat: 'Wickstoat', hoarmantle: 'Hoarmantle' },      // peak-creatures job: STAND-IN names (the hub's proposal)
     },
     // ---- the big fights (game/encounters/zone-N.js names each; game/encounters/foes.js has the foes that are new) ----
     // offer: the button on the land. notYet: said once when the coven comes too soon (the narrator says it instead when

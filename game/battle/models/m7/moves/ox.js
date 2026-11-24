@@ -19,7 +19,7 @@ function step1(b, l, k, fw) {
   rx(b, l + '_upper', -fw * k); rx(b, l + '_lower', (front ? -0.35 : 0.35) * bump(k)); rx(b, l + '_paw', (front ? 0.3 : -0.25) * bump(k));
 }
 // head down, horns forward (k 0..1)
-function headDown(b, k) { rx(b, 'neck', 0.22 * k); rx(b, 'head', 0.12 * k); }
+function headDown(b, k) { rx(b, 'neck', 0.15 * k); rx(b, 'head', 0.1 * k); }
 
 const ox = {
   list: [['idle', 'Breathe'], ['walk', 'Walk'], ['trample', 'Trample'], ['breath', 'Winter Breath'], ['shake', 'Shake the Mantle'], ['hurt', 'Hit'], ['ko', 'Fall']],
@@ -56,7 +56,7 @@ const ox = {
     if (move === 'breath') {
       // it lifts its head and draws in (the hump rises), then lowers it and breathes out long and cold over all four
       const draw = seg(u, 0, 0.35) * (1 - seg(u, 0.42, 0.55)), blow = seg(u, 0.45, 0.58) * (1 - seg(u, 0.85, 1));
-      rx(b, 'neck', -0.16 * draw + 0.1 * blow); rx(b, 'head', -0.14 * draw + 0.05 * blow);
+      rx(b, 'neck', -0.1 * draw + 0.07 * blow); rx(b, 'head', -0.1 * draw + 0.04 * blow);
       rx(b, 'chest', -0.04 * draw + 0.03 * blow); B.position.y = 0.015 * H * draw;
       ry(b, 'head', 0.12 * Math.sin((u - 0.5) * 6) * blow); ry(b, 'neck', 0.06 * Math.sin((u - 0.5) * 6) * blow);
       return;
