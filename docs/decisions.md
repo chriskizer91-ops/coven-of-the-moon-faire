@@ -13,6 +13,27 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 12:00: which ship lies where; how a model is built
+
+- **Chris: the ships.** "Have the skiff for the first two zones and have them differentiated by changing the skiff
+  model to look slightly upgraded, and then the cutter for the last two zones with the same treatment. Like doing
+  some slight modification to the model so it looks better." This takes the place of the hub's reading of November
+  23 (Skiff, Cutter, Brig, Frigate, one at each gate). The Brig and the Frigate are not used.
+- **Hub's reading, fitted to the recorded lines.** *Zone 1: the Skiff. Zone 2: the Skiff, slightly upgraded. Zone 3:
+  she arrives and goes up the slip as that Skiff* (Tock, before the work: "That skiff is held together by
+  stubbornness and blue thread") *and comes off it as the Cutter* (the Grey Hat: "Refit's done. She'll fly higher";
+  Tock: "New ribs, new keelson, same old ship"). *Zone 4: the Cutter, slightly upgraded,* with her twelve lamps and
+  the spare. Every version keeps twelve lamp hooks. The journey job makes the two upgraded looks as its third part.
+- **Chris: how a model is built, from now on.** A sub-agent that builds a model is Opus 5.5 at high or extra high
+  effort. It makes "a model that's like a million triangles or more, a highly detailed model", and bakes that onto
+  a simpler model; and it uses "model painting in places where we already have images". That is how Aethermoor M7
+  builds its creatures. Passed on at 12:03 to the peak-creatures job (the sculpt, the bake, and painting from his
+  sheets) and to the journey job (new ship parts, if the baking tools run here by then).
+- **A plain fact for the record:** not everything in this game is built that way. M7's six creatures were, in M7.
+  The two new creatures are to be, if Blender can be made to run on this machine (the peak-creatures job's first
+  task). The ships are built in code by Skies of Aethermoor's own ship kit. The people are template shapes painted
+  from Chris's pictures by position.
+
 ## November 24, 2026, 10:52: the great bramble stays as it is; Briarmaw is left out
 
 - **Chris: "The great bramble on the frozen pass is an important lore piece. If the Briarmaw doesn't fit elsewhere,

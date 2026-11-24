@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 11:34, by the hub.
+Last updated: November 24, 2026, 12:03, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -180,7 +180,9 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 - **Rough, known:** on an upright phone "Board the ship" and "Go on" lie over the frame-rate and level pills (being
   put right in the second part); the leaving narration says the ship lifts before Board is pressed; zone 3's
   flight out starts over the northern camp though she leaves from the slip.
-- **Chris's to say:** which ship lies where. Today: the Skiff at Wickhollow, the Cutter at zones 2 and 3 (zone 3's
+- **ANSWERED 12:00: which ship lies where.** The Skiff (zone 1), the Skiff slightly upgraded (zone 2, and zone 3
+  until the refit), the Cutter (zone 3 after the refit), the Cutter slightly upgraded (zone 4). The journey job's
+  third part. `docs/decisions.md` has it in full. As it stood: the Skiff at Wickhollow, the Cutter at zones 2 and 3 (zone 3's
   recorded lines say she is refitted, "same old ship"; the Brig, 25 m, does not fit the 17 m slip). His word of
   November 23 was that the four ships are the four travel upgrades. And the phone trial (`trial/phone/`): no answer yet.
 
@@ -247,6 +249,13 @@ the townsfolk in bodies of their own, and the stars and planets named.**
 - **Chris's to decide** (the slip has all six): every look; what the moon's people and a gnome look like; the Ember
   Wardens' colours; the lifelike look of the eleven or the witches' painted look; whether the Warden who speaks is
   a man or a woman (the cast and the notes disagree).
+
+### How a model is built here (Chris, November 24, 12:00)
+
+Whoever builds a model is a sub-agent on **Opus 5.5 at high or extra high effort.** It makes **a highly detailed
+model, a million triangles or more, and bakes it onto a simpler model** the game draws; and it **paints the model
+from pictures that already exist** (his sheets, his skins) and does not repaint from words. Put this in every
+brief that builds a model.
 
 ### Chris's Fable usage (November 24, 06:58; 74% at 07:58)
 
