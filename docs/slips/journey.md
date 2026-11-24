@@ -77,9 +77,21 @@ upright phone before and after; the four ships side by side; each ship in flight
 - The end card's words, the front door's line under the name, "Board the ship", "Back to the front door", "the end
   reached": all stand-ins in `game/travel/journey-data.js` (and the end card's in the zone-4 job's file).
 
-### Part 3's checks
+### Part 3's checks (on pages built after part 3, 13:02)
 
-- (filled in when the run ends)
+- **journey-test: 58 checks, all good**, 0 page errors (one more than part 2: in zone 3, once the refit is done the
+  ship on the slip is the Cutter; at zone 2 the fitted Skiff lies at the landing).
+- **flight-ship-test on zone 1: all good** (the jetty's Skiff and her twelve hooks unchanged).
+- **flight-test: 63 good, 1 failed**: "all four ships flew". The check expects every ship in `ships`
+  (`flight-data.js`) to be flown by the table; with Chris's new table the Brig and the Frigate are no longer flown
+  (the four flown are the Skiff, the fitted Skiff, the Cutter, the peaks Cutter), while another check of the same tool
+  still asks for the Brig by name. **For the hub**: one line of `tools/flight-test.py` (line 198) should compare the
+  flown ships with the table's (`shipFrom`) rather than with `ships`. Not changed here: it is not this job's tool.
+- Pictures (in the folder above): the four ships side by side (`four-ships-1280x720.png`, `four-ships-412x880.png`)
+  and each in flight (`flight-skiff-*`, `flight-skiff2-*`, `flight-cutter-*`, `flight-cutter2-*`, both sizes).
+- Not run again after part 3 (they were run after part 2, and part 3 changed only ships and flight data): zone-test,
+  people-test, things-test, story-test, faire-test, menu-test, maps-test. Not seen in pictures: each fitted ship moored
+  in her own zone from the pier's distance, except through journey-test's own pictures of the gates.
 
 ---
 
