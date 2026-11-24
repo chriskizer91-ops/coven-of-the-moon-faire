@@ -9,8 +9,9 @@
 //   world    the 3D map's settings
 //   sky      the star map: every name and every line on it
 //
-// STAND-INS, not settled: the three stars' names and the four other planets' names (Chris has not named them), and
-// the moon's spelling (docs/questions.md, 7: "Auros" is the working name; the old star map wrote "Aurous").
+// STAND-INS, not settled: the three stars' names, the four other planets' names and the band of crystal's name
+// (Chris has not named them; a proposal for all of them is in docs/lore/sky-names-proposal.md, waiting on his word).
+// The moon is Auros: Chris settled it on November 18 (docs/decisions.md). The old star map wrote "Aurous".
 // Every line under `closed`, and the words "The coven" on the pin, are the maps job's proposals.
 (function (G) {
   'use strict';
@@ -101,12 +102,13 @@
         thareia: { kind: 'Home world', name: 'Thareia',
           text: 'Home of the continent of Aethermoor. Most of its people have traveled by aether crystal, on little hoppers (basically skiffs) up to larger sailing vessels, all carrying massive crystals.',
           fact: 'Moon: {moon}' },
-        // the moon: "Auros" is the working name (docs/lore/README.md); the spelling is open (docs/questions.md, 7)
-        aurous: { kind: 'Thareia’s moon', name: 'Auros', standIn: true,
+        // the moon: Auros (Chris, November 18, docs/decisions.md). The old page spelled it "Aurous"; its key here keeps
+        // that spelling only because the star map's own code looks the moon up by it
+        aurous: { kind: 'Thareia’s moon', name: 'Auros',
           text: 'Holds the highest known concentration of aether crystal. Travel comes easiest to its people, so they are the wealthiest and most powerful.',
           fact: 'Orbits Thareia once every 500 years' },
         w4: { kind: 'Known planet', name: 'Unnamed IV', standIn: true, text: 'One of the four other known planets. Name and story still to come.' },
-        drift: { kind: 'Free crystal', name: 'Crystal Drift',
+        drift: { kind: 'Free crystal', name: 'Crystal Drift', standIn: true,   // (a name Claude gave it in the old Envoi; Chris kept the band, not the name)
           text: 'Aether crystal isn’t only found inside planets. Here the amber stone floats free, a band of it circling the suns.' },
         w5: { kind: 'Known planet', name: 'Unnamed V', standIn: true, text: 'One of the four other known planets. Name and story still to come.' },
       },
