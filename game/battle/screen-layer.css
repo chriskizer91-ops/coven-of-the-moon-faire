@@ -167,3 +167,6 @@
 .coven-battle{display:flex;flex-direction:column;overflow:hidden;line-height:normal;text-align:left}
 /* an id the land's page also uses for one of its own buttons (#nums): what its style would add is taken away */
 .coven-battle #nums{width:auto;height:auto;border:0;border-radius:0;background:none;display:block;padding:0;cursor:default;box-shadow:none}
+/* Coven (the fights job's finishing, November 24): on a phone held upright the four witches' numbers ran into each other and
+   off the panel's right edge. There the panel of the four takes a little more of the width, and a witch's MP may go under her HP */
+@media (max-width:480px){.coven-battle #ui{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}.coven-battle #status.four .stat{flex-wrap:wrap;white-space:normal;row-gap:0}.coven-battle #status.four .stat .sec{margin-left:0}.coven-battle #status.four .stat .v{font-size:13.5px}.coven-battle #status.four .hero .name small{display:none}}
