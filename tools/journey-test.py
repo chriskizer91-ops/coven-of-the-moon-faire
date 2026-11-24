@@ -75,8 +75,8 @@ def main():
         def at_gate(i=0, yaw=3.1416):
             """Io stands at the gate's spot, facing the ship (yaw 0: south); the land is stepped so the button can show.
             Returns the buttons shown."""
-            return pg.evaluate('''([i, yaw]) => { const t = __things.list.filter((q) => /^ship-gate/.test(q.id))[i], w = __w3d, M = w.P.M;
-                __people.stop(); w.setIo(M.px(t.x), M.py(t.z), yaw); w.C.yaw = yaw + Math.PI; w.step(0.3, 30, true); __things.tick();
+            return pg.evaluate('''([i, yaw]) => { const t = __journey.gates()[i], w = __w3d, M = w.P.M;
+                __people.stop(); w.setIo(M.px(t.x), M.py(t.z), yaw); w.C.yaw = yaw + Math.PI; w.step(0.3, 30, true); __things.tick(); __journey.gateTick();
                 const bs = [...document.querySelectorAll('.talkbtn')].filter((e) => e.style.display !== 'none');
                 return bs.map((e) => { const r = e.getBoundingClientRect(); return { text: e.textContent, w: r.width, h: r.height, y: r.top + r.height / 2 }; }); }''', [i, yaw])
 
@@ -190,7 +190,7 @@ def main():
             err = ready(); pg.wait_for_timeout(1500)
             ln = pg.evaluate("__journey.log.filter((l) => l.what === 'line').map((l) => l.text)")
             check(not err and ln and 'brought her home' in ln[-1], 'back at the Warm Roads: "%s"' % (ln[-1] if ln else ''))
-            dist = pg.evaluate('(() => { const t = __things.get("ship-gate"), M = __w3d.P.M; return Math.hypot(M.x(__w3d.io.px) - t.x, M.z(__w3d.io.py) - t.z); })()')
+            dist = pg.evaluate('(() => { const t = __journey.gates()[0], M = __w3d.P.M; return Math.hypot(M.x(__w3d.io.px) - t.x, M.z(__w3d.io.py) - t.z); })()')
             check(dist < 4, 'standing by the ship, where she boarded (%.1f m from the gate)' % dist)
             shot('c1-back-after-lost')
             sl = slot(); check(sl and sl['page'] == 'zone-2.html', 'the slot still says zone 2')

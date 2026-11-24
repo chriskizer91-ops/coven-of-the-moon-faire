@@ -224,6 +224,7 @@
       const w = WORDS(), L = landing(note.from), k = note.back === 'turned-back' ? 'turnedBack' : note.back === 'lost' ? 'lost' : 'flightError';
       setTimeout(() => line(fill(w[k], { from: L ? L.name : '' }), 5), 400);
     }
+    try { gatesUp(); } catch (e) { console.error(e); }
     if (W3D.landingShips && W3D.landingShips.ready) try { W3D.landingShips.ready({ W, here }); } catch (e) { console.error(e); }
     say('ready', { here, arrived });
   }
@@ -241,15 +242,29 @@
     };
   }
 
-  // ---- the gate on the land ----
-  function gates() {
-    const list = (D().gates || {})[here] || [], ships = () => (W3D.landingShips ? W3D.landingShips.shown(here) : null);
-    return list.map((g, i) => ({
-      id: 'ship-gate' + (i ? '-' + i : ''), place: g.place, reach: g.reach || 3, gate: g,
-      get label() { return WORDS().board; },
-      can: () => !busy && !(W3D.flight && W3D.flight.flying) && (!g.ship || !ships() || ships() === g.ship),
-      use: () => { board(g); },
-    }));
+  // ---- the gate on the land: a button by the ship, the same look and place as the things' button (game/people/things.js),
+  // shown when the coven stands within reach of a gate, nobody is talking and nothing nearer has a button. It is the
+  // journey's own (not one of the zone's things), so the zone's things stay as their checks know them ----
+  let gateList = [], gateBtn = null, gateNear = null;
+  const ships = () => (W3D.landingShips ? W3D.landingShips.shown() : null);
+  const gateCan = (g) => !busy && !(W3D.flight && W3D.flight.flying) && (!g.ship || !ships() || ships() === g.ship);
+  function gatesUp() {
+    const Z = W.P;
+    gateList = ((D().gates || {})[here] || []).map((g, i) => { const part = Z.parts.find((p) => p.id === g.place[0]); if (!part) return null;
+      const PM = part.P.M; return { i, g, x: part.ox + PM.x(g.place[1]), z: part.oz + PM.z(g.place[2]), reach: g.reach || 3 }; }).filter(Boolean);
+    if (!gateList.length) return;
+    gateBtn = document.createElement('button'); gateBtn.className = 'talkbtn cj-gate'; gateBtn.style.display = 'none';
+    (document.getElementById('world') || document.body).appendChild(gateBtn);
+    for (const ev of ['pointerdown', 'touchstart', 'mousedown']) gateBtn.addEventListener(ev, (e) => e.stopPropagation());
+    gateBtn.addEventListener('click', () => { if (gateNear) board(gateNear.g); });
+    G.addEventListener('keydown', (e) => { if ((e.key === 'e' || e.key === 'E' || e.key === 'Enter') && gateNear && gateBtn.style.display !== 'none' && !W.paused) { board(gateNear.g); e.preventDefault(); } });
+    const u0 = Z.update; Z.update = function () { const r = u0.apply(this, arguments); try { gateTick(); } catch (e) { console.error(e); } return r; };
+  }
+  function gateTick() {
+    const P = G.__people, T = G.__things; gateNear = null;
+    if (!P || (!P.busy() && !P.near() && !(T && T.near()) && !W.paused)) { const me = P ? P.me() : { x: W.P.M.x(W.io.px), z: W.P.M.z(W.io.py) };
+      for (const q of gateList) if (Math.hypot(q.x - me.x, q.z - me.z) < q.reach && gateCan(q.g)) { gateNear = q; break; } }
+    const label = gateNear ? WORDS().board : ''; if (gateBtn.textContent !== label) { gateBtn.textContent = label; gateBtn.style.display = label ? 'block' : 'none'; }
   }
 
   // ---- the front door (game/pages/index.html): the game's name, carry on a slot, or begin anew ----
@@ -277,7 +292,6 @@
   W3D.journey = {
     start(o) {
       page = o.page; zone = o.zone; here = o.landing;
-      W3D.THINGS = W3D.THINGS || {}; W3D.THINGS[zone] = (W3D.THINGS[zone] || []).concat(gates());
       // a flight note for this page: from the address, or (a page opened by hand) from the browser's storage
       if (!note && !TEST) { const n = parse(store.get(NEXT)); if (n && n.to === here && Date.now() - n.at < 6 * 3600 * 1000) note = n; }
       const flight = !!(note && !note.back && note.to === here);
@@ -303,5 +317,5 @@
     door, state, board: (i) => board(((D().gates || {})[here] || [])[i || 0] || null), leave, isDone, next, line,
     get note() { return note; }, get arrived() { return arrived; }, get here() { return here; }, get busy() { return busy; },
   };
-  G.__journey = { log, state, board: (i) => W3D.journey.board(i), leave, isDone, get note() { return note; }, get arrived() { return arrived; }, get ready() { return readyDone; } };
+  G.__journey = { log, state, gates: () => gateList, gateTick: () => gateBtn && gateTick(), board: (i) => W3D.journey.board(i), leave, isDone, get note() { return note; }, get arrived() { return arrived; }, get ready() { return readyDone; } };
 })(window);
