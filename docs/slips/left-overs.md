@@ -211,34 +211,45 @@ Together the first three are about **36 MB off zone 1 (119 to about 83)** and ab
 
 ### Making every page smaller than 95 MB (Chris's word of November 25: every page under 100 MB, for GitHub)
 
-**Done by the first way alone, with nothing seen or heard changed.** `tools/build.py` (the hub's; changes marked
-"left-overs:") now puts each picture and sound that a script names in the page ONCE, in a table at the top
-(`var __CP = [...]`), and the script reads it from there (`__CP[12]` stands where `"data:..."` stood). It does this only
-where the name stands as a plain value in code (`key: "./x.webp",`); I checked every such name in the five big pages'
-scripts: all 1,294 stand that way. Anything else is packed where it stands, as before.
+**Done with nothing seen or heard changed, by two of the hub's first means: a thing stored twice, and files a page never
+uses.** No picture, sound, voice or creature was made lighter; nothing lossy was done.
 
-| Page, as a file | Before | After | Copies left out | Begin showing here, before | after |
-|---|---|---|---|---|---|
-| zone 1 | 124.8 MB | **93.1 MB** | 31.7 MB | 9.9 s, 9.1 s | 7.9 s, 8.9 s |
-| zone 2 | 110.5 MB | **81.0 MB** | 29.5 MB | 12.5 s, 12.4 s | 12.0 s, 12.0 s |
-| zone 3 | 108.9 MB | **90.2 MB** | 18.7 MB | 13.0 s, 13.9 s | 13.5 s, 13.7 s |
-| zone 4 | 100.5 MB | **80.5 MB** | 20.0 MB | 11.3 s, 10.9 s | 9.5 s, 10.9 s |
-| the Faire ending | 97.5 MB | **65.8 MB** | 31.7 MB | (not timed) | |
+1. **Each picture and sound packed once.** `tools/build.py` (the hub's; changes marked "left-overs:") now puts each
+   picture and sound a script names in the page ONCE, in a table at the top (`var __CP = [...]`), and the script reads it
+   from there (`__CP[12]` stands where `"data:..."` stood). It does this only where the name stands as a plain value in
+   code (`key: "./x.webp",`); I checked every such name in the five big pages' scripts: all 1,294 stand that way.
+   Anything else is packed where it stands, as before. Saves 31.7, 29.5, 18.7, 20.0 MB on zones 1 to 4.
+2. **Zone 1 carries only the zone 4 lines it can play.** Zone 1's page opens as the Faire ending after the flight home,
+   and carried all 162 of zone 4's recordings for it; the Faire and the homecoming use 43 (the moments `faire` and
+   `homecoming`, the narrator's two among them; I checked all 41 lines of the Faire's and the homecoming's talks are in
+   it). `tools/voice-list.py z4` now also writes `game/people/voice-z4-faire.js` (that list), so it stays in step when
+   recordings change; `game/pages/zone-1.html` loads it in place of `voice-z4.js`. Saves 5.5 MB on zone 1. Zone 4's own
+   page and the Faire's page still load the whole list.
 
-(Times: `tools/left-overs-load.py`, the page opened as a player would, two runs each, on this shared machine with no
-graphics card: for comparing, not what a laptop takes. The page's text is read faster, 1.5 s against 2.1 s; the rest
-is the game building itself.) Each copy left out is also one copy less in the phone's memory.
+Sizes as files, with `main` at 4c7d6bc (Chris's 20 new recordings in), and the time to the Begin screen here:
 
-**The builder now says the real size and stops at 100 MB:** "as a file: 93.1 MB (93122527 bytes)". 1 MB here is
-1,000,000 bytes, as GitHub counts. From 95 MB it warns; at 100 MB or more it stops with "STOP" and fails.
+| Page, as a file | Before | After | Begin showing here, before | after |
+|---|---|---|---|---|
+| zone 1 | 126.2 MB | **89.0 MB** | 12.1 s, 10.4 s | 10.0 s, 10.6 s |
+| zone 2 | 110.5 MB | **81.0 MB** | 17.1 s, 15.6 s | 15.3 s, 14.6 s |
+| zone 3 | 108.9 MB | **90.2 MB** | 17.8 s, 15.8 s | 14.8 s, 14.5 s |
+| zone 4 | 101.9 MB | **81.9 MB** | 13.0 s, 12.7 s | 11.8 s, 11.4 s |
+| the Faire ending | 98.8 MB | **67.1 MB** | (not timed) | |
+| first-test | | 31.7 MB | | |
 
-**Not done, because it was not needed** (each is ready to be the next step if a page grows again):
-- zone 1 carries all 142 of zone 4's recordings for the Faire ending, which uses 41 (the moments `faire` and
-  `homecoming`): leaving the other 101 out would save about **4.3 MB** on zone 1. It needs a second voice list kept in
-  step with `voice-z4.js` (when zone 4's missing recordings come), so I left it.
-- the code's comments left out of the built page: about 1.8 MB a page.
-- a denser packing than base64: about 5 MB a page, but every file would then be unpacked by the page's own code.
-- Nothing lossy was done: no picture, sound, voice or creature was made lighter.
+(Times: `tools/left-overs-load.py`, the page opened as a player would, two runs each, old and new in the same run, on
+this shared machine with no graphics card: for comparing only, not what a laptop takes. The "before" pages were built
+before the new recordings, so they are 1.4 MB lighter than the true before. Reading the page's text takes 1.7 s
+instead of 2.3 to 4.0; the rest is the game building itself, the same as before.) Each copy left out is also one copy
+less in memory.
+
+**The builder now says the real size and stops at 100 MB:** "as a file: 89.0 MB (89026726 bytes)". 1 MB here is
+1,000,000 bytes, as GitHub counts. From 95 MB it warns ("WARNING"); at 100 MB or more it says "STOP" and fails.
+
+**The next safe steps, if a page grows past 95 MB again** (not done: not needed):
+- the code's comments left out of the built page: about 1.8 MB a page (low risk with care).
+- a denser packing than base64: about 5 MB a page, but every file would then be unpacked by the page's own code
+  (medium risk; loading time to be measured).
 
 ### Ways that WOULD change what he sees or hears (only on Chris's word; not suggested now)
 
