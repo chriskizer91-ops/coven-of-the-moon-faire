@@ -91,12 +91,12 @@ with sync_playwright() as p:
       const F = window.__fights, W = window.__w3d, M = W.P.M, land = W.P.land, D = window.COVEN_ENCOUNTERS[F.zone];
       F.meetings.hold(true);
       let seed = 7; const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-      let n = 0, slots = 0, lastWorth = 1; const mm = window.CovenMeetings.create({ W, land, data: D, party: { level: Math.min(D.levels[1], D.levels[0] + 2) }, rand, onMeet: (m) => { n++; if (m.slot) slots++; lastWorth = m.worth; } }); mm.stop();
+      let n = 0, slots = 0, units = 0, lastWorth = 1; const mm = window.CovenMeetings.create({ W, land, data: D, party: { level: Math.min(D.levels[1], D.levels[0] + 2) }, rand, onMeet: (m) => { n++; units += m.worth || 1; if (m.slot) slots++; lastWorth = m.worth; } }); mm.stop();   // hub: units: each meeting counted by its worth (a fight worth 3 uses up the ground of 3)
       const out = {}, B = land.bounds, segs = [];
       for (const r of land.mapData().roads) for (let i = 1; i < r.pts.length; i++) segs.push([r.pts[i - 1], r.pts[i]]);
       for (const wh of D.where) {
         const id = wh.id; let walked = 0, tries = 0, last = -1e9, minGap = 1e9, path = 0;
-        n = 0; slots = 0; mm.calm();
+        n = 0; slots = 0; units = 0; mm.calm();
         while (walked < 20000 && tries < 60000) {
           tries++;
           let x = B[0] + rand() * (B[2] - B[0]), z = B[1] + rand() * (B[3] - B[1]), a = rand() * Math.PI * 2;
@@ -111,7 +111,7 @@ with sync_playwright() as p:
             if (n > k0) { if (last > -1e9) minGap = Math.min(minGap, path - last); last = path; }
           }
         }
-        if (walked > 2000) out[id] = { km: +(walked / 1000).toFixed(1), meetings: n, slots, perKm: +(n / (walked / 1000)).toFixed(2), every: wh.every, minGap: Math.round(minGap) };
+        if (walked > 2000) out[id] = { km: +(walked / 1000).toFixed(1), meetings: n, slots, perKm: +(n / (walked / 1000)).toFixed(2), perKmW: +(units / (walked / 1000)).toFixed(2), units, every: wh.every, minGap: Math.round(minGap) };
         else out[id] = { km: +(walked / 1000).toFixed(1), none: true };
       }
       // in a place, and in the camp: walking there never counts
@@ -128,7 +128,10 @@ with sync_playwright() as p:
         for k, v in per['out'].items():
             if v.get('none'): print('    %-8s only %.1f km of it could be found to walk: not counted' % (k, v['km'])); continue
             print('    %-8s %5.1f km walked: %3d meetings, %.1f a km (one every %d m on average; the data file says %d). Closest two: %d m apart. The new creature: %d of them' % (k, v['km'], v['meetings'], v['perKm'], round(1000 / max(v['perKm'], 0.01)), v['every'], v['minGap'], v['slots']))
-        check(len(seen) >= 2 and all(abs(1000 / max(v['perKm'], 0.01) - v['every']) < v['every'] * 0.35 for v in seen.values()), 'each kind of ground brings about as many as its data file says (within a third: 20 km is not many meetings)')
+        # hub: counted by worth: zone 4's slot B (worth 3, on since the peak-creatures job) uses up the ground of three meetings
+        for k, v in seen.items():
+            if v['units'] != v['meetings']: print('    %-8s counted by worth: %d (one every %d m)' % (k, v['units'], round(1000 / max(v['perKmW'], 0.01))))
+        check(len(seen) >= 2 and all(abs(1000 / max(v['perKmW'], 0.01) - v['every']) < v['every'] * 0.35 for v in seen.values()), 'each kind of ground brings about as many as its data file says, a fight worth 3 counted as 3 (within a third: 20 km is not many meetings)')
         check(all(v['minGap'] >= per['calm'] for v in seen.values()), 'never two meetings within %d m of each other' % per['calm'])
         check(per['inTown'] == 0 and per['inCamp'] == 0, 'none in the first place (%d) or in the camp (%d), walking 8 km round them' % (per['inTown'], per['inCamp']))
         allm = sum(v['meetings'] for v in seen.values()); alls = sum(v['slots'] for v in seen.values())
@@ -294,6 +297,7 @@ with sync_playwright() as p:
         pg.evaluate("() => { const F = window.__fights; for (const id of F.party.witches()) F.party.setHp(id, 1); }")
         print('    she stands at', [round(v) for v in pg.evaluate(PUT, FAR or WILD)], 'the camp at', [round(v) for v in CAMP])
         y = pg.evaluate(FIGHT, 'careless')
+        print('    met:', y['m'].get('foes'), 'slot', y['m'].get('slot'), '; the party', y['during']['heroes'])   # hub: what the lost fight met
         print('    answer:', y['last']['result'], '; she is at', [round(v) for v in y['after']['at']])
         if y['last']['result'] == 'lost':
             st = y['after']['state']
