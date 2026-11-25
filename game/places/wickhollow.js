@@ -299,7 +299,7 @@
         const hx = X(1158), z1 = Z(359), g = K.gh(1158, 363), hw = 2.6, hh = 2.5;
         B.box('stone', hx, g, z1 - 0.25, hw + 0.9, hh + 0.7, 0.6, 0, [0.9, 0.86, 0.86]);
         B.quad('glass', [hx - hw / 2, g + 0.1, z1 + 0.06], [hx + hw / 2, g + 0.1, z1 + 0.06], [hx + hw / 2, g + hh, z1 + 0.06], [hx - hw / 2, g + hh, z1 + 0.06], [0, 0, 1, 1], [0.32, 0.1, 0.05]);
-        B.box('glass', hx, g + 0.1, z1 + 0.02, hw * 0.7, 0.55, 0.22, 0, [2.0, 0.95, 0.35]);
+        (B.leaning || ((yy, fn) => fn()))(g + 0.1, () => B.box('glass', hx, g + 0.1, z1 + 0.02, hw * 0.7, 0.55, 0.22, 0, [2.0, 0.95, 0.35]));      // Coven (left-overs, November 25, 2026): the hearth's fire leans
         B.box('stone', hx, g - 0.1, z1 + 0.45, hw + 0.5, 0.2, 0.8, 0, [0.7, 0.66, 0.66]);
         K.halo(hx, g + 0.6, z1 + 0.5, 3.2, [1.0, 0.52, 0.22]); K.lamps3d.push({ x: hx, y: g + 0.8, z: z1 + 0.8, c: 0xff7a30, k: 2.2 });
       }

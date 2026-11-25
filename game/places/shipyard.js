@@ -501,8 +501,9 @@ const BUILDINGS = [
     const brazier = (x, y, z, px, py) => {
       for (let i = 0; i < 3; i++) { const a = i / 3 * TAU; B.box('iron', x + Math.cos(a) * 0.22, y, z + Math.sin(a) * 0.22, 0.05, 0.42, 0.05, a); }
       B.cyl('iron', x, y + 0.4, z, 0.2, 0.42, 0.32, 9, null, null, true);
-      B.box('glass', x, y + 0.55, z, 0.42, 0.22, 0.42, 0.3, [2.0, 0.8, 0.25]);
-      B.box('glass', x, y + 0.66, z, 0.26, 0.42, 0.26, 1.0, [2.2, 1.1, 0.35]); B.box('glass', x + 0.08, y + 0.76, z - 0.04, 0.14, 0.38, 0.14, 0.4, [2.4, 1.6, 0.6]);
+      (B.leaning || ((yy, fn) => fn()))(y + 0.55, () => {      // Coven (left-overs, November 25, 2026): the brazier's fire leans
+        B.box('glass', x, y + 0.55, z, 0.42, 0.22, 0.42, 0.3, [2.0, 0.8, 0.25]);
+        B.box('glass', x, y + 0.66, z, 0.26, 0.42, 0.26, 1.0, [2.2, 1.1, 0.35]); B.box('glass', x + 0.08, y + 0.76, z - 0.04, 0.14, 0.38, 0.14, 0.4, [2.4, 1.6, 0.6]); });
       K.halo(x, y + 0.85, z, 2.4, [1.0, 0.55, 0.22]); K.lamps3d.push({ x, y: y + 0.8, z, c: 0xff8a40, k: 1.6 });
       K.light(px, py, 150, 0.9, 'forge');
     };

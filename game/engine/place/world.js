@@ -71,6 +71,9 @@
       iron: m({ tint: 0x2a2632, spec: 0.6, shade: 0.5 }),
       cloth: m({ tint: TINT.cloth, map: ST('cloth'), rep: 1, cut: true, side: DS, shade: 0.3 }),
       glass: m({ lit: 0 }),
+      // Coven (left-overs, November 25, 2026): a lantern's glass, see-through: it glows, added to what is behind it, so the
+      // flame inside shows (and leans)
+      lampGlass: (() => { const g = m({ lit: 0, transparent: true }); g.blending = THREE.AdditiveBlending; g.depthWrite = false; return g; })(),
       // doors and windows: Chris's painted ones where the page carries them (short list, group B: cut-outs, the frame and
       // the sill in the picture; a lit window's glass glows by itself, glowmap), else the ones paint.js draws
       win: PIC('shared_window_lit') ? m({ map: T('shared_window_lit'), alphaTest: 0.5, glowmap: true, shade: 0.3 }) : m({ map: pics.win, lit: 0 }),
@@ -295,7 +298,10 @@
       if (n) B.box('iron', x - n[0] * 0.15, y + 0.33 * s, z - n[2] * 0.15, Math.abs(n[2]) > 0.5 ? 0.05 : 0.36, 0.05, Math.abs(n[0]) > 0.5 ? 0.05 : 0.36, 0, null);
       if (hang) B.box('iron', x, y + 0.3 * s, z, 0.03, 0.4, 0.03, 0);
       B.box('iron', x, y - 0.03 * s, z, 0.26 * s, 0.05 * s, 0.26 * s, 0);
-      B.box('glass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [1.6, 1.1, 0.62]);
+      // Coven (left-overs): the glass is see-through and dimmer (it was one glowing block, [1.6, 1.1, 0.62]), and a small
+      // flame burns inside it, leaning as every flame does (game/look/flame-lean.js)
+      B.box('lampGlass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [0.62, 0.42, 0.24], { solid: false });
+      B.leaning(y + 0.05 * s, () => { B.cyl('glass', x, y + 0.05 * s, z, 0.05 * s, 0, 0.18 * s, 7, [2.4, 1.55, 0.7]); B.cyl('glass', x, y + 0.05 * s, z, 0.026 * s, 0, 0.11 * s, 6, [2.6, 2.2, 1.4]); });
       B.box('iron', x, y + 0.3 * s, z, 0.3 * s, 0.06 * s, 0.3 * s, 0);
       B.cyl('iron', x, y + 0.36 * s, z, 0.16 * s, 0.02, 0.14 * s, 4);
       for (const [dx, dz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) B.box('iron', x + dx * 0.1 * s, y, z + dz * 0.1 * s, 0.025, 0.3 * s, 0.025, 0);
@@ -504,11 +510,11 @@
         const f = b.hearth, c = [X(f.x), base, z1];
         B.box('stone', c[0], base, c[2] + 0.3, f.w + 0.9, f.h + 0.7, 0.6, 0, [0.9, 0.86, 0.86]);
         B.quad('glass', [c[0] - f.w / 2, base + 0.1, c[2] + 0.61], [c[0] + f.w / 2, base + 0.1, c[2] + 0.61], [c[0] + f.w / 2, base + f.h, c[2] + 0.61], [c[0] - f.w / 2, base + f.h, c[2] + 0.61], [0, 0, 1, 1], [0.32, 0.1, 0.05]);
-        B.box('glass', c[0], base + 0.1, c[2] + 0.5, f.w * 0.7, 0.55, 0.22, 0, [2.0, 0.95, 0.35]);
+        B.leaning(base + 0.1, () => B.box('glass', c[0], base + 0.1, c[2] + 0.5, f.w * 0.7, 0.55, 0.22, 0, [2.0, 0.95, 0.35]));      // Coven (left-overs): the forge's fire leans
         halos.push([c[0], base + 0.6, c[2] + 0.8, 3.2, 1.0, 0.52, 0.22]); lamps3d.push({ x: c[0], y: base + 0.8, z: c[2] + 1.0, c: 0xff7a30, k: 2.2 });
         B.box('stone', c[0], base, c[2] + 1.1, f.w + 0.5, 0.25, 0.9, 0, [0.7, 0.66, 0.66]);
       }
-      if (b.fire) { const fx = X(b.fire[0]), fz = Z(b.fire[1]); B.box('stone', fx, base, fz, 0.9, 0.7, 0.7, 0, [0.8, 0.75, 0.75]); B.box('glass', fx, base + 0.7, fz, 0.5, 0.25, 0.4, 0, [2.0, 0.9, 0.3]); halos.push([fx, base + 1.0, fz, 1.8, 1.0, 0.55, 0.25]); }
+      if (b.fire) { const fx = X(b.fire[0]), fz = Z(b.fire[1]); B.box('stone', fx, base, fz, 0.9, 0.7, 0.7, 0, [0.8, 0.75, 0.75]); B.leaning(base + 0.7, () => B.box('glass', fx, base + 0.7, fz, 0.5, 0.25, 0.4, 0, [2.0, 0.9, 0.3])); halos.push([fx, base + 1.0, fz, 1.8, 1.0, 0.55, 0.25]); }      // Coven (left-overs): it leans
       if (b.sign) {
         const sx = X(b.sign[0]), sz = Z(b.sign[1]);
         B.box('iron', sx - 0.4, base + 3.3, sz, 0.9, 0.06, 0.06, 0); B.box('wood', sx - 0.2, base + 2.5, sz, 0.7, 0.75, 0.08, 0, [0.7, 0.55, 0.45]);
@@ -760,7 +766,7 @@
         layWall: (k, len, y0, y1, lay, s0) => { const q = layWall(k, len, y0, y1, lay || newLay()); if (s0 && !q.n) { q.uv[0] += s0; q.uv[2] += s0; } return q.uv; }, lays: LAYS, newLay, wear: WEAR, have: HAVE,
         light: (px, py, r, s, kind) => lights.push([px, py, r, s, kind || 'warm']),
         halo: (x, y, z, size, rgb) => halos.push([x, y, z, size, rgb[0], rgb[1], rgb[2]]),
-        fire(px, py, size) { const x = X(px), z = Z(py), y = gh(px, py), s = size || 1; B.box('stone', x, y - 0.1, z, 0.9 * s, 0.25, 0.9 * s, 0.785, [0.6, 0.58, 0.6]); B.box('glass', x, y + 0.1, z, 0.45 * s, 0.35 * s, 0.45 * s, 0.3, [2.0, 0.85, 0.3]); B.box('glass', x, y + 0.3 * s, z, 0.25 * s, 0.35 * s, 0.25 * s, 1.1, [2.2, 1.2, 0.4]); halos.push([x, y + 0.5 * s, z, 2.6 * s, 1.0, 0.5, 0.2]); lights.push([px, py, 170 * s, 1.4, 'forge']); lamps3d.push({ x, y: y + 0.6, z, c: 0xff8a40, k: 1.8 }); addBlock(circlePx(px, py, 0.6 * s, 8)); },
+        fire(px, py, size) { const x = X(px), z = Z(py), y = gh(px, py), s = size || 1; B.box('stone', x, y - 0.1, z, 0.9 * s, 0.25, 0.9 * s, 0.785, [0.6, 0.58, 0.6]); B.leaning(y + 0.1, () => { B.box('glass', x, y + 0.1, z, 0.45 * s, 0.35 * s, 0.45 * s, 0.3, [2.0, 0.85, 0.3]); B.box('glass', x, y + 0.3 * s, z, 0.25 * s, 0.35 * s, 0.25 * s, 1.1, [2.2, 1.2, 0.4]); });      /* Coven (left-overs): the fire leans */ halos.push([x, y + 0.5 * s, z, 2.6 * s, 1.0, 0.5, 0.2]); lights.push([px, py, 170 * s, 1.4, 'forge']); lamps3d.push({ x, y: y + 0.6, z, c: 0xff8a40, k: 1.8 }); addBlock(circlePx(px, py, 0.6 * s, 8)); },
       };
       place.extra(K);
     }
