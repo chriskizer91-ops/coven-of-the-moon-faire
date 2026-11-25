@@ -88,7 +88,7 @@
     // are. The first numbers came from that; the balance check then moved them (see docs/slips/fights.md).
     fox: {
       name: 'Europa', hp: 1270, mp: 100, atb: 2.16, noTrance: true, back: true, // Coven (step 4): she stands at the back, where a leaper lands
-      // // her trance is Chris's to make: none yet
+      // her trance is Chris's to make: none yet
       moves: {
         // her shears split into two daggers: one quick cut (Moon Faire 50)
         fangs: { name: 'Hemline Fangs', kind: 'attack', hits: [275], physical: true, target: 'foe', time: 2.6 },
