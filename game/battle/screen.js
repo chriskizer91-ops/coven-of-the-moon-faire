@@ -234,6 +234,8 @@
     //   two; the second, nearer one when another witch would stand in front of the first) and `aside` to the audience's
     //   side, at `eye` of her height, through a `fov` degree lens, and looks up no more than `pitch` degrees (more, and
     //   she would drop out of the bottom of the picture).
+    // `pair`: a witch and a foe who stand more than this many metres apart are seen over her shoulder, not from the side
+    //   (from the side, both would be small).
     // `all`: a move landing on several at once: seen from `turn` degrees round and `rise` up, through a `fov` degree lens.
     // `see`: when a blow lands, the camera cuts to whoever it lands on unless the shot already shows them at least this big
     //   (as a share of the picture's height a witch would stand there): `one` for a blow on one, `many` for a blow on several
@@ -258,8 +260,9 @@
       tall: { wide: { turn: 10, rise: 22, fov: 40 }, fit: { turn: 12, rise: 24, fov: 40 }, centre: 3, clearTop: 8, edge: 0.84 },
       loom: { tall: 3.2, halfW: 2.2, wide: { tall: 5.4, halfW: 2.4 } },
       giant: { wide: { turn: 38, rise: 4, fov: 38 }, fit: { turn: 38, rise: 5, fov: 38 }, centre: 3, foot: 0.96, eye: 1.3, fov: 46, part: 0.82 },
-      close: { share: 0.5, least: 1.15, fov: 42, turns: [35, 55, 15, -15], rise: 5, profile: [80, 100, -80], ahead: 0.5 },
+      close: { share: 0.5, least: 1.15, fov: 42, turns: [35, 55, 15, -15], rise: 5, profile: [80, 100, -80], ahead: 0.25 },
       over: { back: [3.4, 2.2], aside: 0.75, eye: 0.75, fov: 40, pitch: 7 },
+      pair: 7,
       all: { turn: 28, rise: 8, fov: 32 },
       see: { one: 0.3, many: 0.17 },
       cuts: { on: true, into: 'cut', glide: 9, swing: 40, push: 0.1, pull: 0.08, ease: 1.6, hold: 0.9, hit: 0.8 },
@@ -411,7 +414,7 @@
       function blocked(c, subjects) {
         for (const g of heroes.concat(foes)) {
           if (!g.m.root.visible || g.out || (subjects && subjects.includes(g))) continue;
-          if (Math.hypot(c.pos.x - g.pos.x, c.pos.z - g.pos.z) < Math.min(halfOf(g), 3) + 0.35 && c.pos.y < g.tall + 0.3) return true;
+          if (Math.hypot(c.pos.x - g.pos.x, c.pos.z - g.pos.z) < Math.min(halfOf(g), 3) + (giant(g) ? 0.35 : 0.2) && c.pos.y < g.tall + 0.3) return true;
           const lx = c.look.x - c.pos.x, lz = c.look.z - c.pos.z, L2 = lx * lx + lz * lz; if (L2 < 1e-6) continue;
           const gx = g.pos.x - c.pos.x, gz = g.pos.z - c.pos.z, gd = Math.hypot(gx, gz), inView = (gx * lx + gz * lz) / (gd * Math.sqrt(L2));
           if (c.fore && gd < Math.hypot(c.fore.pos.x - c.pos.x, c.fore.pos.z - c.pos.z) + 0.4 && inView > 0.72) return true;
@@ -528,6 +531,10 @@
         // a phone held upright has no room across: two who are apart are seen one behind the other, over a shoulder
         if (upright() && hero && other) kind = 'shoulder'; // fights-polish: FRAMING.upright (was 0.9 written here)
         if (kind === 'shoulder' && !(hero && other)) kind = 'side';
+        // fight-camera: the same one twice (a foe that strikes itself): close on it. And two far apart (an arrow, a spell, a
+        // giant's long arm): over the witch's shoulder, where both stay big (FRAMING.pair)
+        if (fa && fa === fb) return at_(a, 1, k);
+        if (hero && other && !upright() && Math.hypot(a.x - b.x, a.z - b.z) > FRAMING.pair) kind = 'shoulder';
         const c = bothPlan(a, b, fa, fb, kind); go(kind, c, k, { subject: null });
       };
       // one place, close: low in front of whoever stands there, on the audience's side

@@ -76,7 +76,7 @@ with sync_playwright() as p:
                 # the fight plays itself; the clock stops at each part of each move, and a still is taken
                 pg.evaluate("() => { const B = window.__battle; B.shot('rest'); B.freezeOn(['act', 'hit', 'out', 'rest']); B.auto = 'sensible'; const btn = document.querySelector('#cmd button:not([disabled])'); if (btn) btn.click(); }")
                 pg.wait_for_timeout(400)
-                pg.evaluate("() => { const btn = document.querySelector('#cmd button:not([disabled])'); if (btn && window.__battle.menuOpen) btn.click(); window.__battle.turbo = 1; }")
+                pg.evaluate("() => { const btn = document.querySelector('#cmd button:not([disabled])'); if (btn && window.__battle.menuOpen) btn.click(); if (!window.__battle.frozen) window.__battle.turbo = 1; }")
                 seen, n0, last = 0, None, None
                 while seen < BEATS * 4:
                     try: pg.wait_for_function("() => !window.__battle || window.__battle.state === 'over' || (window.__battle.frozen && window.__battle.t !== undefined)", timeout=240000, polling=100)
