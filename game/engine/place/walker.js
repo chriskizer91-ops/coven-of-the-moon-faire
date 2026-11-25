@@ -291,7 +291,8 @@
       const p = pos();
       A.root.position.copy(p); A.root.rotation.set(0, io.yaw, 0);
       A.walkRun = io.jog;
-      const rate = io.moving ? clamp(io.speed / (io.jog ? NATURAL.jog : NATURAL.walk), 0.6, 2.3) : 1;
+      // leader: each witch's own step speeds (witches/walkers.js gives them: A.natural), so her feet keep to the ground
+      const NAT = A.natural || NATURAL, rate = io.moving ? clamp(io.speed / (io.jog ? NAT.jog : NAT.walk), 0.6, 2.3) : 1;
       A.camera = cam; A.animate(0, io.moving ? 1 : 0, t, dt * rate);
       blob.position.set(p.x, io.y + 0.03, p.z);
       // the lamps nearest her light her
@@ -444,7 +445,8 @@
     // the page's hooks, for headless stills and the checks (?test: the clock only moves when told)
     const api = {
       P, io, C, cam, renderer, guide: setGuide,
-      get A() { return A; },   // leader: the one walking now (it was the first one made, and stayed so after setWho) numbers, switchTo, warm, nearestFit, isBusy: () => busy,
+      numbers, switchTo, warm, nearestFit, isBusy: () => busy,
+      get A() { return A; },   // leader: the one walking now (it was the first one made, and stayed so after setWho)
       step(sec, fps, draw) { const n = Math.max(1, Math.round(sec * (fps || 30))); for (let i = 0; i < n; i++) { clock += 1 / (fps || 30); tick(1 / (fps || 30), clock); } if (draw !== false && !busy) drawFrame(); return numbers(); },
       render() { if (!busy) drawFrame(); }, setLook, look,
       // Coven: stop the land (no walking, no drawing) while something is laid over it, and start it again. Keys held are let go.
