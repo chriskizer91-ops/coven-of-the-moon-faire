@@ -4,8 +4,8 @@ Branch: job/small-things      Updated: November 25, 2026      By: a sub-agent of
 
 ## Report for the hub
 
-**Ready to bring in: CHECKS_VERDICT.** Eleven items: 9 were real and are put right, 2 were only how a browser with no
-screen draws (and got a small change anyway, so the pictures read right), 1 is two facts for the hub to write.
+**Ready to bring in: CHECKS_VERDICT.** Eleven items: 1, 2, 3, 4, 7, 8 and 9 were real and are put right; 6 and 10 were half
+real (that half put right) and half only how a check shows them; 5 was item 4 seen again; 11 is two facts for the hub.
 Pictures (not in the repo): `small-things/after/` and `small-things/before/` under the session's scratchpad folder
 (the same one as the hub's `final-check/`).
 
@@ -35,7 +35,7 @@ Pictures (not in the repo): `small-things/after/` and `small-things/before/` und
 - On Chris's laptop it would have been ready a few seconds in. On his phone, with a slower processor and the 100 MB page
   busy, likely 20 seconds to a minute or more of an empty map. So it was a real fault, much worse here than there.
 - Now, while the land is paused (the Begin screen, the menu), the slices are bigger. Measured here: ready 1.9 to
-  BEGIN_RANGE seconds after the Begin screen came, before Begin was pressed. While walking, nothing changed (7 ms slices,
+  3.5 seconds after the Begin screen came, before Begin was pressed. While walking, nothing changed (7 ms slices,
   as before), so the frame rate is not touched.
 - Not changed: if Begin is pressed at once, the rest is painted while walking, as before.
 
@@ -58,9 +58,34 @@ Pictures (not in the repo): `small-things/after/` and `small-things/before/` und
 - With `?test` (the story's own check, `story-test`) the story is left exactly as it was, so that check still finds the
   leaving where it looks for it.
 
+### Found on the way, and put right before the last checks
+
+- The story's own name for its zone is its talk file's (`z1`, `z2`...), not the page's (`zone-1`). A first version
+  of items 3 and 9 compared the wrong ones: the save line lost its part on every zone page, and the leaving was skipped.
+  journey-test caught the second; both were put right (`3c87e42` and before), the pages built again and every check run
+  again on them. The pictures of the end card and the front door were taken before that fix; the fix does not change
+  what they show (in the ending there is still no part).
+
 ### Numbers
 
-NUMBERS
+- **Talk box** on a 412 px phone: 418 px wide before, 384 px now (14 px to 398 px); at 1280 and at 880 wide, 594 px as
+  before. Checked on all four zones at all three sizes (12 pictures, each measured).
+- **End card button** on a 412x880 phone: 212 by 52 px, one line, its foot at 820 px; the frame-rate pill's top is at
+  836 px (16 px clear). At 1280x720: 212 by 52, foot at 660, pill from 676. At 880x412: foot at 352, pill from 368.
+- **Front door after the end**: "Save 1 · Zone 1 · level 7 · the end reached" (with a kept party at level 7);
+  "level 1" when the party never fought, as in the checks.
+- **Corner map, time from the Begin screen to its picture painted**, on this machine, before Begin is pressed: zone 1:
+  8 s before, 3.2 to 3.5 s now; zones 2 to 4: 1.6 to 2.3 s now. Its work: zone 1 2.2 to 2.4 s, zones 2 to 4 1.3 to
+  1.6 s. While walking here: 1 to 3 frames a second, as before.
+- **Loading screen** when the Begin screen first shows: before, still showing at full opacity; now gone (12 of 12 page
+  openings).
+- **Flight tag** pinned to an edge: 172 px wide, now from 8 px in on either side (the whole tag on the screen), at all
+  three sizes. Corner map: drawn (34 to 65 different colours in it), also on a held flight.
+- **Zone 3's flight out** starts at atlas (2097, 683), the shipyard's slip; before, at (1150, 590), the northern camp,
+  about 3.2 km away on the zone's scale. The flights out of zones 1 and 2 and the flight home start over their landings
+  (each ship lies within 100 m of its landing's spot).
+- **The leaving**, zone 1, said after "Set course": z1.narrator.07, z1.io.13, z1.kore.12, z1.io.14, z1.europa.10,
+  z1.callisto.10 (6 lines, about 24 s of recordings; "Go on" hurries them). Zone 4: z4.narrator.16 (words only).
 
 ### What was checked, and how many good and failed
 
@@ -68,7 +93,21 @@ CHECKS
 
 ### Pictures (each looked at)
 
-PICTURES
+Under the session's scratchpad folder, `small-things/`:
+
+- `before/`: the main build, measured (`zone-1-begin-first`, `zone-1-maps-tab`, `zone-1-end` after 40 s on the Begin
+  screen: the land does come; the flight at three sizes).
+- `after/`: each zone at 1280x720, 412x880 and 880x412: `-0-begin-at-once` (the Begin screen the moment it shows: no
+  loading words under it), `-1-begin`, `-2-talk` (the talk box and the corner map), `-3-ship` (zones 2 and 3: the
+  lanterns), `-4-maps-zone` (the Maps tab's Zone view), `-5-land-after`; `end-card-*` and `front-door-after-end-*` at the
+  three sizes; `flight-after-*` (the flight at three sizes, and `-edge1`, `-edge2`: the landing's tag pinned to the right
+  and left edges); `sheet-880x412.png` (four of them together).
+- `journey-1280/` and `journey-412/`: journey-test's own pictures, with two new: `leaving-said-zone-1-*` (the narrator's
+  "The Grey Hat's ship lifts from the lake…" in the talk box after "Set course") and `leaving-said-zone-4-*`.
+
+Each was looked at. What they still show: in journey-test's pictures the corner map is empty, because the check presses
+Begin at once and the land is then drawn at 1 frame a second (see item 4); in a held flight (journey-test's) the
+landing's tag sits beside the light, not under it, because the flight's camera is not placed until it runs.
 
 ### What was not checked
 
