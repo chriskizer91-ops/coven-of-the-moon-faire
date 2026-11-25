@@ -178,7 +178,7 @@ def build(K):
         sheet = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', K.cfg['sheet'])
         def ice(rgb):
             r_, g_, b_ = rgb[:, 0], rgb[:, 1], rgb[:, 2]
-            return ((b_ - r_ > 50) & (b_ > 150)) | (r_ - b_ > 50)
+            return ((b_ - r_ > 50) & (b_ > 150)) | (r_ - b_ > 50) | (rgb.mean(1) < 75)   # nor the eyes, nose, tail tip: the sculpt has them
         Cn = sheetpaint.paint(V, F, Cc, sheet, S, {'front': (140, GROUND), 'side': (MID, GROUND), 'back': (1400, GROUND + 2)}, skip=ice, log=log)
         o = 0
         for i, c in enumerate(M.C): M.C[i] = Cn[o:o + len(c)]; o += len(c)
