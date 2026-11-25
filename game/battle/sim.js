@@ -497,8 +497,20 @@
     const t = (style === 'sensible' ? foes[0] : focusFoe(B)).key;
     return [o('gem') ? 'gem' : 'bow', t];
   };
+  // Coven: the knight of light casts Io's own spells; Io can answer one with the same spell (engine.js, `ends.answer`).
+  // The expert always answers, unless someone has fallen; the attentive player answers when nobody is badly hurt; the
+  // careless one never means to. A Lunar Mend answered is cast on whoever is hurt most
+  const answer = (B, s, style) => {
+    if (!B.ends.answer || s.unit.id !== 'io' || style === 'careless') return null;
+    const k = B.foes.find((f) => f.id === B.ends.answer.foe && B.alive(f)); if (!k || !k.echo) return null;
+    const o = s.options.find((x) => x.id === k.echo && x.ok); if (!o) return null;
+    const party = B.heroes.filter(B.alive), low = party.slice().sort((p, q) => p.hp / p.maxHp - q.hp / q.maxHp)[0];
+    if (B.heroes.some((h) => !B.alive(h))) return null;
+    if (style === 'sensible' && low.hp < low.maxHp * 0.4 && k.echo !== 'mend') return null;
+    return [k.echo, o.targets.includes(k.key) ? k.key : low.key];
+  };
   for (const k of Object.keys(POLICIES)) {
-    const f = POLICIES[k];
+    const f0 = POLICIES[k], f = (B, s, rand) => answer(B, s, k) || f0(B, s, rand);
     POLICIES[k] = (B, s, rand) => (s.unit.id === 'jester' ? jesterPolicy(B, s, rand, k) : s.unit.id === 'fox' ? foxPolicy(B, s, rand, k) : s.unit.id === 'ranger' ? rangerPolicy(B, s, rand, k) : f(B, s, rand));
   }
   G.BattleSim = { setFleeLow: (x) => { FLEE_LOW = x; }, setParty: (ids) => { PARTY_IDS = ids || null; }, foxPolicy, rangerPolicy, jesterPolicy, focusFoe, FIGHTS, POLICIES, BAND_PACKS, BRAMBLE_FORMS, COLOSSUS, wildPack, formOf, BAND_LEVELS, wildLevel, BAGS, TARGETS, check, economy, playOne, run, bandOf, THINK };

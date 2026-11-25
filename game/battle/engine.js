@@ -34,8 +34,9 @@
     const rand = rng(setup.seed == null ? Math.floor(Math.random() * 4294967296) : setup.seed);
     const B = {
       t: 0, gaugeT: 0, turns: 0, units: [], heroes: [], foes: [], queue: [], over: null, cur: null, log: [],
-      herbs: Object.assign({}, setup.herbs || {}), carried: setup.carried ? Object.assign({}, setup.carried) : null, flags: Object.assign({}, setup.flags || {}), ends: setup.ends || {},
-      lunara: 0, envoi: 0, guardian: 0, taunt: 0, decoy: 0, ward: false, frost: 0, frostLen: 0, frostLate: null, kestrelUsed: false, might: 0, act: 0, rand, tune,
+      herbs: Object.assign({}, setup.herbs || {}), carried: setup.carried ? Object.assign({}, setup.carried) : null, flags: Object.assign({}, setup.flags || {}), ends: Object.assign({}, setup.ends || {}), // (Coven: a copy, since an answer changes it)
+     
+      lunara: 0, envoi: 0, guardian: 0, taunt: 0, decoy: 0, ward: false, weak: 0, answers: 0, frost: 0, frostLen: 0, frostLate: null, kestrelUsed: false, might: 0, act: 0, rand, tune,
       stats: { dealt: 0, taken: 0, healed: 0, low: 1, downs: 0, herbsUsed: 0, summons: [] },
     };
     const solo = setup.party.length === 1;
@@ -86,6 +87,10 @@
     });
 
     const alive = (u) => !!u && u.hp > 0;
+    // Coven (step 4): a foe that no blow can end (rules: `unending`): it stays at 1 Life until Kore's Sealed Fate ends it
+    const keep = (f) => { if (f.def.unending && f.hp < 1) f.hp = 1; return f; };
+    // Coven (step 4): a pair (rules: `pair`): while its partner still stands, each of the two hits harder and comes round sooner
+    const paired = (f) => !!(f.def && f.def.pair && B.foes.some((o) => o !== f && o.id === f.id && o.hp > 0));
     const living = (side) => (side === 'hero' ? B.heroes : B.foes).filter(alive);
     const unit = (key) => B.units.find((u) => u.key === key);
     const hero = (id) => B.heroes.find((u) => u.id === id);
@@ -129,7 +134,7 @@
     // a big foe (a boss, a Bramble Horror, the Colossus: rules.js FATE.bigHp) takes its Fate more slowly (FATE.bigMult)
     const perBlow = (f) => FA.perBlow * RL.scale(f.level) * ((f.def.hp || 0) >= (FA.bigHp || 1e9) ? (FA.bigMult == null ? 1 : FA.bigMult) : 1);
     function addFate(f, n, why) {
-      if (!alive(f) || f.side !== 'foe' || !(n > 0)) return;
+      if (!alive(f) || f.side !== 'foe' || !(n > 0) || f.def.noFate) return; // Coven (step 4): a foe with no ending takes no Fate (`noFate`)
       const was = sealed(f); f.fate = (f.fate || 0) + n;
       emit({ t: 'fate', to: f.key, n: Math.round(n), fate: Math.round(f.fate), why });
       if (!was && sealed(f)) emit({ t: 'sealed', to: f.key });
@@ -139,11 +144,15 @@
 
     // ---------- damage and healing ----------
     // summon: a summon's strike, which a hero's keepsakes don't make harder
-    function hitFoe(a, f, base, el, burn, summon) {
+    function hitFoe(a, f, base, el, burn, summon, phys) {
       let n = base * RL.scale(a.level) * swing();
       const w = f.def.weak, r = f.def.resist;
       if (el && w && w[el]) n *= w[el];
       if (el && r && r[el]) n *= r[el];
+      // Coven (step 4): an armoured foe (`resist.physical`): blades slide off it, magic does not; and the party Weakened
+      if (phys && r && r.physical) n *= r.physical;
+      if (phys && w && w.physical) n *= w.physical;
+      if (a.side === 'hero' && B.weak > 0) n *= ST.weak || 1;
       if (burn) n *= HE.sol.sunburn.damage;
       if (f.sunder > 0) n *= ST.sunder;
       if (a.side === 'hero') n *= 1 + B.might; // Ember-star Lily
@@ -152,10 +161,11 @@
       const weak = !!(f.open && f.def.heart && a.side === 'hero');
       if (weak) n *= f.def.heart;
       n = Math.max(1, Math.round(n * (tune.heroDmg || 1)));
-      f.hp = Math.max(0, f.hp - n); B.stats.dealt += n; f.lastAttacker = a.side === 'hero' ? a.key : (hero('io') || a).key;
+      f.hp = Math.max(0, f.hp - n); keep(f); B.stats.dealt += n; f.lastAttacker = a.side === 'hero' ? a.key : (hero('io') || a).key;
       // a foe who retreats (Halcyon in the ambush) never falls: she leaves first
       if (f.hp <= 0 && B.ends.retreat && B.ends.retreat.foe === f.id) f.hp = 1;
       emit(weak ? { t: 'hit', from: a.key, to: f.key, n, el: el || null, weak: true } : { t: 'hit', from: a.key, to: f.key, n, el: el || null });
+      if (phys && r && r.physical && r.physical < 1 && !f.slidSaid) { f.slidSaid = true; emit({ t: 'say', to: f.key, key: 'slides' }); }
       if (a.side === 'hero' && !a.inTrance && !a.tranceReady && !a.def.noTrance) a.trance = Math.min(0.99, a.trance + TR.dealt * a.tranceMul);
       sealCheck(f);
       if (f.hp <= 0) down(f);
@@ -180,7 +190,7 @@
       if (o.single && f.cloth && !o.counter && f.side === 'foe') {
         f.cloth = false;
         const n = Math.max(1, Math.round(base * RL.scale(f.level) * swing() * (o.mul || 1) * f.dmgMul * ((f.solo && f.def.dmgSolo) || 1) * (1 + f.rage * f.acted) * ((tune.foeDmg && tune.foeDmg[f.id]) || 1) * caneMul(f) * f.pOne * (HE.fox.moves.cloth.cloth || 2)));
-        f.hp = Math.max(0, f.hp - n); B.stats.dealt += n;
+        f.hp = Math.max(0, f.hp - n); keep(f); B.stats.dealt += n;
         emit({ t: 'hit', from: f.key, to: f.key, n, cloth: true });
         if (f.hp <= 0) down(f); else addFate(f, perBlow(f) * (o.warned ? FA.markedMult : 1), 'Same Cloth');
         return { to: h, n: 0, turned: true };
@@ -193,12 +203,12 @@
       const s = hero('sol');
       // the Jester's taunt: she catches the next single-target blows aimed at anyone else
       const J = hero('jester');
-      if (o.single && B.taunt > 0 && alive(J) && h !== J && !o.counter) { to = J; h = J; B.taunt--; emit({ t: 'catch', who: J.key, left: B.taunt }); }
+      if (o.single && B.taunt > 0 && alive(J) && h !== J && !o.counter && !o.leap /* Coven (step 4): a leap goes past the front (`leap`) */) { to = J; h = J; B.taunt--; emit({ t: 'catch', who: J.key, left: B.taunt }); }
       if (o.single && h.id === 'io' && alive(s) && s !== h && !s.hovering && !o.counter) {
         if (s.guarding) { to = s; emit({ t: 'cover', who: s.key, from: h.key }); }
         else if (h.hp < h.maxHp * HE.sol.oath.below) { to = s; take = HE.sol.oath.take; emit({ t: 'oath', who: s.key, from: h.key }); }
       }
-      let n = base * RL.scale(f.level) * swing() * take * (o.mul || 1) * f.dmgMul * (f.side === 'foe' ? (o.single ? f.pOne : f.pAll) : 1) * ((f.solo && f.def.dmgSolo) || 1) * (1 + f.rage * f.acted) * ((tune.foeDmg && tune.foeDmg[f.id]) || 1) * caneMul(f);
+      let n = base * RL.scale(f.level) * swing() * take * (o.mul || 1) * f.dmgMul * (f.side === 'foe' ? (o.single ? f.pOne : f.pAll) : 1) * ((f.solo && f.def.dmgSolo) || 1) * (1 + f.rage * f.acted) * ((tune.foeDmg && tune.foeDmg[f.id]) || 1) * caneMul(f) * (paired(f) ? f.def.pair.dmg || 1 : 1);
       if (to.defending || to.guarding) n *= ST.defend;
       if (B.lunara === 1) n *= SU.lunara.cut;
       if (o.warned) n *= to.warnedMul; // her keepsake
@@ -216,7 +226,7 @@
       // Peril: a friend falling under half gives every foe 5% of its Life as Fate, once a fight
       if (to.hp > 0 && was >= to.maxHp * 0.5 && to.hp < to.maxHp * 0.5 && !to.peril && hero('jester')) { to.peril = true; for (const e of living('foe')) addFate(e, FA.peril * e.maxHp, 'peril'); }
       // Bramble Cradle's thorns: a share of the blow comes back on its striker
-      if (to.thorns && f.side === 'foe' && alive(f)) { const back = Math.max(1, Math.round(n * to.thorns)); f.hp = Math.max(0, f.hp - back); emit({ t: 'hit', from: to.key, to: f.key, n: back, thorns: true }); if (f.hp <= 0) down(f); else sealCheck(f); }
+      if (to.thorns && f.side === 'foe' && alive(f)) { const back = Math.max(1, Math.round(n * to.thorns)); f.hp = Math.max(0, f.hp - back); keep(f); emit({ t: 'hit', from: to.key, to: f.key, n: back, thorns: true }); if (f.hp <= 0) down(f); else sealCheck(f); }
       if (to.hp <= 0) down(to); else lowMark();
       return { to, n };
     }
@@ -242,6 +252,7 @@
     function rate(u) {
       let r = 1 / u.fill;
       if (u.side === 'foe' && u.bound) r *= ST.bindSlow;
+      if (u.side === 'foe' && u.def.pair && u.def.pair.haste && paired(u)) r *= u.def.pair.haste;
       // a hero whose keepsake shakes the Frost off early (frostCut) is slowed only while more than that share of it is left
       if (u.side === 'hero' && B.frost > B.frostLen * u.frostCut) r *= ST.frostSlow;
       if (u.lured) r = 0; // drawn to the Bramble Horror's fruit, her gauge stops
@@ -264,6 +275,7 @@
         }
         B.t += dt; B.gaugeT += dt; left -= dt;
         if (B.frost > 0) { B.frost -= dt; if (B.frost <= 1e-9) frostEnds(); }
+        if (B.weak > 0) B.weak = Math.max(0, B.weak - dt); // Coven (step 4): Weakened wears off with the gauges' time
         for (const u of us) if (alive(u) && u.atb >= 1 && !B.queue.includes(u)) B.queue.push(u);
         checkEnd();
       }
@@ -330,9 +342,14 @@
         case 'io': { const io = hero('io'); return alive(io) && !io.hovering ? io : one(); }
         case 'lastAttacker': { const u = unit(f.lastAttacker); return u && u.side === 'hero' && alive(u) && !u.hovering ? u : one(); }
         case 'lowest': return party.reduce((a, b) => (b.hp < a.hp ? b : a));
-        default: return one();
+        // Coven (step 4): whoever stands at the back (rules: a hero's `back`), or anyone if nobody does
+        case 'back': { const bk = party.filter((h) => h.def.back); return bk.length ? bk[Math.floor(rand() * bk.length)] : one(); }
+        // Coven: a move aimed at one witch by name (the fire's hunger falls on Kore: target 'jester'), or anyone if she is down
+        default: { const hh = hero(m.target); return hh && alive(hh) && !hh.hovering ? hh : one(); }
       }
     }
+    // Coven (step 4): MP drunk from one witch (a light-thief's `sap`, as Halcyon's Light-Drinker)
+    function sapHero(h, sap) { if (!alive(h) || !h.maxMp) return; const n = Math.min(h.mp, Math.round(sap * RL.mpScale(h.level))); h.mp -= n; emit({ t: 'sap', to: h.key, n, what: 'mp' }); }
     function useFoeMove(f, id, released) {
       let m = f.def.moves[id];
       const warned = !!released; // a charged move, seen coming
@@ -340,6 +357,9 @@
       if (released && m.then) { uncharm(f); f.open = false; id = m.then; m = f.def.moves[id]; }
       emit({ t: 'move', who: f.key, move: id, name: m.name, released: !!released });
       B.t += m.time || 2;
+      f.echo = m.echo || null; // Coven: the knight's spell is one of Io's own (`echo`: Io's move); Io can answer it with the same
+      // Coven (step 4): the party Weakened for a while (`weaken`: seconds of the gauges' time)
+      if (m.weaken) { B.weak = Math.max(B.weak, m.weaken); emit({ t: 'say', who: f.key, key: 'weakened', all: true }); }
       if (m.target === 'self') {
         if (m.evade) f.evade = m.evade;
         if (m.vow) { f.vow = m.vow; f.vowed = true; }
@@ -366,6 +386,7 @@
       if (m.target === 'all') {
         // wave by wave (the Colossus's Maelstrom and Thorn Volley): every hero takes a wave's blow before the next wave
         hits.forEach((base, i) => { for (const h of reach()) if (alive(h)) hitHero(f, h, base, { single: false, wave: hits.length > 1 ? i : undefined, warned }); });
+        if (m.sap) for (const h of reach()) sapHero(h, m.sap); // Coven (step 4): a move that drinks every witch's MP
         outOfReach(f);
         return;
       }
@@ -379,7 +400,7 @@
         const pool = reach();
         if (!pool.length) { outOfReach(f); break; }
         const tgt = m.target === 'random' ? pool[Math.floor(rand() * pool.length)] : m.prey && took ? took : (first && alive(first) ? first : targetFor(f, m));
-        const r = hitHero(f, tgt, base, { single: !m.prey, warned });
+        const r = hitHero(f, tgt, base, { single: !m.prey, warned, leap: !!m.leap });
         if (!first) first = tgt;
         if (r.turned) continue; // Coven: Same Cloth or Borrowed Face took it
         if (!took) took = r.to; // whoever the blow actually landed on (Sol's Guard can take it for Io)
@@ -419,7 +440,7 @@
           if (!o2) emit({ t: 'lost', who: f.key, to: null, n: 0 });
           else {
             const n = Math.max(1, Math.round(hits.reduce((a, b) => a + b, 0) * RL.scale(f.level) * swing() * f.dmgMul));
-            o2.hp = Math.max(0, o2.hp - n); B.stats.dealt += n;
+            o2.hp = Math.max(0, o2.hp - n); keep(o2); B.stats.dealt += n;
             emit({ t: 'lost', who: f.key, to: o2.key, n }); emit({ t: 'hit', from: f.key, to: o2.key, n, lost: true });
             if (o2.hp <= 0) down(o2); else sealCheck(o2);
           }
@@ -547,7 +568,7 @@
       let cut = false;
       for (const base of hits || d.hits) {
         if (!alive(f)) break;
-        hitFoe(h, f, base, el, burn);
+        hitFoe(h, f, base, el, burn, false, !!d.physical);
         // the Jester's own blows write Fate in her Trance (Doom Dance) and under Harvest Moon
         if (h.id === 'jester' && alive(f) && (h.inTrance || h.harvest > 0)) addFate(f, perBlow(f) * (h.inTrance ? FA.tranceWrite : FA.harvestWrite), h.inTrance ? 'her Doom Dance' : 'Harvest Moon');
         // a heavy blade blow severs one of the Bramble Horror's canes (it keeps at least three), or one of the Colossus's
@@ -580,6 +601,16 @@
       // the dive lands as hot as Sol was when she rose: the rise spends her Heat, so judging it at the dive would never land hot
       const hot = id === 'stoop' && h.stoopHot != null ? h.stoopHot : sunburnOn(h);
       const c = cost(h, d); if (c) h.mp -= c;
+      // Coven: Io answers the knight's spell with the same spell (the fight's `ends.answer`: { foe, step, most }): the knight
+      // falters (she loses her next turn), and the share of her Life at which she stops rises by `step`, up to `most`
+      if (B.ends.answer && h.id === 'io') {
+        const k = B.foes.find((u) => u.id === B.ends.answer.foe);
+        if (k && alive(k) && k.echo === id) {
+          k.echo = null; k.stagger = true; B.answers++;
+          if (B.ends.retreat) B.ends.retreat = Object.assign({}, B.ends.retreat, { below: Math.min(B.ends.answer.most || 0.6, B.ends.retreat.below + (B.ends.answer.step || 0.1)) });
+          emit({ t: 'say', to: k.key, key: 'answered' });
+        }
+      }
       if (h.id === 'sol' && d.heat && !h.inTrance) h.heat = Math.max(0, Math.min(HE.sol.heat.max, h.heat + (d.heat < 0 ? d.heat : 0)));
       switch (id) {
         case 'attack': case 'flame': case 'crescent': case 'briars': case 'moonlight':
@@ -626,7 +657,7 @@
           if (!f) break;
           // the seal closes: it is ended with whatever Life is left in it, and its end wounds every other foe
           const n = f.hp; f.hp = 0; B.stats.dealt += n; emit({ t: 'hit', from: h.key, to: f.key, n, sealedEnd: true }); down(f);
-          for (const o of living('foe')) { const m = Math.max(1, Math.round(FA.splash * o.maxHp)); o.hp = Math.max(0, o.hp - m); B.stats.dealt += m; emit({ t: 'hit', from: h.key, to: o.key, n: m, splash: true }); if (o.hp <= 0) down(o); else sealCheck(o); }
+          for (const o of living('foe')) { const m = Math.max(1, Math.round(FA.splash * o.maxHp)); o.hp = Math.max(0, o.hp - m); keep(o); B.stats.dealt += m; emit({ t: 'hit', from: h.key, to: o.key, n: m, splash: true }); if (o.hp <= 0) down(o); else sealCheck(o); }
           // Curtain Call: the show is over, and the fallen get up
           if (!living('foe').length) { emit({ t: 'curtain', who: h.key }); for (const a of B.heroes) if (!alive(a)) revive(a, FA.ccStand); }
           break;

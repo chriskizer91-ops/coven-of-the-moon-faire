@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coven of the Moon Faire: the new fights</title>
+<link rel="stylesheet" href="../battle/screen-layer.css">
+<style>
+/* The fights job's own small page (step 4): every new fight, to try by itself. One list, two buttons. */
+html,body{margin:0;min-height:100%;background:#0d0a14;color:#f0ecff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+#lab{box-sizing:border-box;max-width:720px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(20px + env(safe-area-inset-bottom,0px))}
+#lab h1{margin:0 0 4px;font:400 26px/1.15 Georgia,"Times New Roman",serif;color:#ffe6a8}
+#lab p{margin:0 0 12px;font-size:14.5px;line-height:1.4;color:#cfc8ee}
+#lab h2{margin:16px 0 6px;font:600 13px system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#b8b4e0}
+.fl{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.fl button{appearance:none;font:inherit;text-align:left;min-height:56px;padding:8px 12px;border-radius:12px;border:1px solid rgba(214,222,255,.28);background:rgba(34,28,62,.6);color:#f0ecff;cursor:pointer}
+.fl button b{display:block;font-size:15px;font-weight:600}
+.fl button small{display:block;font-size:12.5px;color:#b8b4e0;line-height:1.25}
+.fl button[aria-pressed="true"]{border-color:#ffe6a8;box-shadow:0 0 0 1px #ffe6a8;background:rgba(70,56,110,.8)}
+#bar{position:sticky;bottom:0;margin:16px -14px 0;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(13,10,20,.94);border-top:1px solid rgba(214,222,255,.18);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+#bar .lv{display:flex;align-items:center;gap:8px;font-size:15px;flex:1 1 200px}
+#bar .lv button{appearance:none;width:48px;height:48px;border-radius:24px;border:1px solid rgba(214,222,255,.4);background:rgba(34,28,62,.7);color:#f0ecff;font-size:22px;cursor:pointer}
+#bar .go{appearance:none;min-height:48px;min-width:120px;padding:0 20px;border-radius:24px;border:1px solid rgba(255,230,168,.75);background:rgba(70,56,110,.9);color:#fff3d6;font:600 16px Georgia,serif;cursor:pointer}
+@media (max-width:560px){#bar{background:#0d0a14}#bar .lv{flex:1 1 100%}#bar .go{flex:1 1 0;min-width:0}}  /* a phone: the level on one row, Play and Watch side by side under it, nothing showing through */
+#last{margin:10px 0 0;font-size:14px;color:#d8d4f4;min-height:1.3em}
+</style>
+</head>
+<body>
+<div id="lab">
+  <h1>The new fights</h1>
+  <p id="lead"></p>
+  <div id="lists"></div>
+  <p id="last" aria-live="polite"></p>
+  <div id="bar">
+    <div class="lv"><button id="down" aria-label="A level lower">−</button><span id="lvl"></span><button id="up" aria-label="A level higher">+</button></div>
+    <button class="go" id="play"></button><button class="go" id="watch"></button>
+  </div>
+</div>
+<script src="../lib/three.r128.min.js"></script>
+<script src="../witches/io/meshopt_simplifier.js"></script>
+<script src="../witches/io/palette.js"></script>
+<script src="../witches/io/io_tex.js"></script>
+<script src="../witches/io/io_plus.js"></script>
+<script src="../witches/kore/jester_tex.js"></script>
+<script src="../witches/kore/jester_kit.js"></script>
+<script src="../witches/kore/lod.js"></script>
+<script src="../witches/europa/fox_tex.js"></script>
+<script src="../witches/europa/fox_lod.js"></script>
+<script src="../witches/callisto/ranger_tex.js"></script>
+<script src="../witches/callisto/ranger_lod.js"></script>
+<script src="../witches/io/witch_levels.js"></script>
+<script src="../witches/io/moon-io.js"></script>
+<script src="../look/flipbook.js"></script>
+<script src="../battle/stage/arena-river-glade.js"></script>
+<script src="../battle/stage/arena-warm-roads-moor.js"></script>
+<script src="../battle/stage/arena-eldergrove.js"></script>
+<script src="../battle/stage/arena-frostmere.js"></script>
+<script src="../battle/stage/arena-bogmire.js"></script>
+<script src="../battle/stage/arena-dawnroost.js"></script>
+<script src="../battle/stage/arena-crossroads.js"></script>
+<script src="../battle/stage/arena-dead-moonwell.js"></script>
+<script src="../battle/models/wraith.js"></script>
+<script src="../battle/models/wisp.js"></script>
+<script src="../battle/models/bramble.js"></script>
+<script src="../battle/models/colossus.js"></script>
+<script src="../battle/models/halcyon.js"></script>
+<script src="../battle/models/noctara.js"></script>
+<script src="../battle/models/lunara.js"></script>
+<script src="../battle/models/envoi.js"></script>
+<script src="../battle/models/stand-in.js"></script>
+<script src="../battle/fx/battle-fx.js"></script>
+<script src="../battle/fx/battlefield.js"></script>
+<script src="../battle/fx/arena.js"></script>
+<script src="../battle/fx/io-spells.js"></script>
+<script src="../witches/kore/moon-jester.js"></script>
+<script src="../witches/europa/moon-fox.js"></script>
+<script src="../witches/callisto/moon-ranger.js"></script>
+<script src="../battle/witch-look.js"></script>
+<script src="../battle/trance.js"></script>
+<script src="../battle/rules.js"></script>
+<script src="../battle/engine.js"></script>
+<script src="../battle/sim.js"></script>
+<script src="../sound/sound.js"></script>
+<script src="../battle/screen.js"></script>
+<script src="../battle/fights.js"></script>
+<script src="../battle/start.js"></script>
+<script src="../encounters/words.js"></script>
+<script src="../encounters/plan.js"></script>
+<script src="../encounters/foes.js"></script>
+<script src="../encounters/slots.js"></script>
+<script src="../encounters/zone-1.js"></script>
+<script src="../encounters/zone-2.js"></script>
+<script src="../encounters/zone-3.js"></script>
+<script src="../encounters/zone-4.js"></script>
+<script src="../encounters/draw.js"></script>
+<script src="../encounters/lab-words.js"></script>
+<script>
+// fights-lab (Coven of the Moon Faire, the fights job, step 4): every new fight by itself, started the way the land
+// starts it (CovenBattle.start). The eight slots' stand-in creatures, zone 2's road stones, and the big fights of zones
+// 2 to 4. Play: you choose every move. Watch: the battle plays itself. The words on this page are in
+// game/encounters/lab-words.js. window.__lab is for the checks: __lab.list, __lab.start(id, { level, auto }).
+(function () {
+  'use strict';
+  const $ = (id) => document.getElementById(id), LW = window.COVEN_LAB_WORDS, Z = window.COVEN_ENCOUNTERS, SL = window.COVEN_SLOTS.zones, W = window.COVEN_FIGHT_WORDS, DRAW = window.CovenDraw;
+  const zoneName = (z) => LW.zones[z], list = [];
+  const story = (g, form, i) => { const w = W.gates[g.id] || {}, fw = form && w.forms ? w.forms[i] || {} : w, f = form || g; const alias = {}; for (const k in g.alias || {}) alias[k] = (W.gates[g.alias[k]] || {}).name || g.alias[k];
+    return { arena: f.arena || g.arena, stand: f.stand || g.stand, scene: g.scene, foes: f.foes || g.foes, ends: f.ends || g.ends, canFlee: !!g.canFlee, alias: g.alias ? alias : undefined, fanfare: !!g.fanfare, words: fw }; };
+  for (const z of window.COVEN_PLAN.zones) {
+    const D = Z[z];
+    for (const k of ['A', 'B']) { const s = SL[z][k], w = D.where.find((x) => s.met.indexOf(x.id) >= 0) || D.where[0];
+      list.push({ id: z + '-' + k, group: 'slots', name: zoneName(z) + ', ' + LW.slot + ' ' + k, note: s.job + (s.on ? '' : ' ' + LW.off), level: Math.max(D.levels[0] + 1, s.from || 1),
+        spec: (L) => ({ arena: D.arenas[0].id, foes: s.pack.slice(), foeLevel: [Math.max(D.levels[0], L - 1), Math.min(D.levels[1], L + 1)], reward: D.reward * (s.worth || 1) * DRAW.meanBase(w, D.band) / DRAW.base(s.pack, D.band), words: W.slots }) }); }
+    for (const t of D.things || []) list.push({ id: t.id, group: 'big', name: zoneName(z) + ', ' + LW.things[t.id], note: LW.thingNote, level: 7,
+      spec: (L) => ({ arena: t.arena, foes: t.foes.slice(), foeLevel: [Math.min(L, t.levels[0]), Math.min(t.levels[1], L)], reward: D.reward, words: W.gates[t.words] }) });
+    for (const g of [D.gate].concat(D.big || [])) {
+      // (the great wraith is one of the battle's own story fights: started by its kind, as the land starts it)
+      if (g.kind) { list.push({ id: g.id, group: 'big', name: zoneName(z) + ', ' + ((W.gates[g.id] || {}).name || g.name), note: LW.bigNote.replace('{level}', g.level), level: g.level, spec: () => ({ kind: g.kind, arena: g.arena, canFlee: false }) }); continue; }
+      (g.forms || [null]).forEach((form, i) => list.push({ id: g.id + (g.forms ? '-' + (i + 1) : ''), group: 'big', name: zoneName(z) + ', ' + ((g.forms && (W.gates[g.id].forms[i] || {}).name) || g.name), note: LW.bigNote.replace('{level}', g.level), level: g.level,
+        spec: () => ({ kind: 'story', story: story(g, form, i), canFlee: !!g.canFlee }) }));
+    }
+  }
+  let cur = list[0], level = cur.level, busy = false;
+  $('lead').textContent = LW.lead; $('play').textContent = LW.play; $('watch').textContent = LW.watch;
+  const lists = $('lists');
+  for (const grp of ['slots', 'big']) { const h = document.createElement('h2'); h.textContent = LW.groups[grp]; lists.appendChild(h); const d = document.createElement('div'); d.className = 'fl'; lists.appendChild(d);
+    for (const f of list.filter((x) => x.group === grp)) { const b = document.createElement('button'); b.dataset.id = f.id; b.innerHTML = '<b></b><small></small>'; b.querySelector('b').textContent = f.name; b.querySelector('small').textContent = f.note;
+      b.addEventListener('click', () => { cur = f; level = f.level; show(); }); d.appendChild(b); } }
+  function show() { for (const b of lists.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.id === cur.id)); $('lvl').textContent = LW.level.replace('{level}', level); }
+  $('down').addEventListener('click', () => { level = Math.max(1, level - 1); show(); });
+  $('up').addEventListener('click', () => { level = Math.min(20, level + 1); show(); });
+  async function start(id, o) {
+    o = o || {}; if (busy) return null; if (id) { cur = list.find((f) => f.id === id) || cur; if (o.level) level = o.level; else level = cur.level; show(); }
+    busy = true; $('lab').style.display = 'none'; let r = null;
+    const L = level, flags = { envoi: L > 10 };
+    try { r = await window.CovenBattle.start(Object.assign({ partyLevel: L, flags, herbs: { moonpetal: 3, lavender: 3, mugwort: 3, emberLily: 3, nightrose: 3 }, auto: o.auto || undefined }, cur.spec(L))); }
+    catch (e) { console.error(e); $('last').textContent = LW.noStart; window.__labErr = String(e && e.stack || e); }
+    $('lab').style.display = ''; busy = false;
+    if (r) $('last').textContent = cur.name + ': ' + LW.results[r.result] + (r.xp ? ' ' + LW.gave.replace('{xp}', r.xp.toLocaleString('en-US')) : '');
+    return r;
+  }
+  $('play').addEventListener('click', () => start(null, {}));
+  $('watch').addEventListener('click', () => start(null, { auto: 'sensible' }));
+  show();
+  window.__lab = { list: list.map((f) => ({ id: f.id, name: f.name, group: f.group, level: f.level })), start, get busy() { return busy; } };
+})();
+</script>
+</body>
+</html>

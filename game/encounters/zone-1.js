@@ -16,10 +16,10 @@
 // and the shards). The levels job should look at this with the whole game's plan.
 window.COVEN_ENCOUNTERS = window.COVEN_ENCOUNTERS || {};
 window.COVEN_ENCOUNTERS['zone-1'] = {
-  band: 1,
+  id: 'zone-1', band: 1,
   // levels the foes can be in this zone, and the most above the party's own level a foe can be
   levels: [1, 5], above: 1,
-  reward: 0.27,
+  reward: 0.31,
   // no meeting for this many metres after a fight (won, run from or lost), nor after coming out of a place or the camp
   calm: 70,
   // no meeting this close to a place's own ground or to the camp's meadow (metres past their edge)
@@ -32,16 +32,18 @@ window.COVEN_ENCOUNTERS['zone-1'] = {
   // where she is: the first that fits. kind: what the land is under her feet (the land's mapData().kind), or a
   // test of her spot. every: metres between meetings on average. levels: the foes' levels here.
   // packs: which foes, and how often each (a weight). Band 1's foes are Envoi's: wisps and wraiths
+  // part (step 4): how much of the zone's fighting this kind of ground takes, by the walk above (the job's estimate;
+  // the check and the slots' shares use it): the fen and the thorn country are where most of zone 1's fights are
   where: [
-    { id: 'road', name: 'the long road', test: (x, z) => x < -443 || z < -460, every: 220, levels: [3, 5],
+    { id: 'road', name: 'the long road', test: (x, z) => x < -443 || z < -460, every: 220, levels: [3, 5], part: 0.03,
       packs: [[['wisp', 'wraith'], 3], [['wraith'], 2], [['wisp', 'wisp', 'wisp'], 2], [['wisp', 'wisp'], 1]] },
-    { id: 'fen', name: 'the fen', kind: 'fen', every: 160, levels: [3, 5],
+    { id: 'fen', name: 'the fen', kind: 'fen', every: 160, levels: [3, 5], part: 0.3,
       packs: [[['wisp', 'wisp', 'wisp'], 3], [['wisp', 'wraith'], 3], [['wraith'], 1], [['wisp', 'wisp'], 1]] },
-    { id: 'thorn', name: 'the thorn country', kind: 'thorn', every: 170, levels: [2, 4],
+    { id: 'thorn', name: 'the thorn country', kind: 'thorn', every: 170, levels: [2, 4], part: 0.25,
       packs: [[['wraith'], 3], [['wisp', 'wraith'], 3], [['wisp', 'wisp'], 2], [['wisp', 'wisp', 'wisp'], 1]] },
-    { id: 'home', name: 'the woods round Wickhollow', test: (x, z) => Math.hypot(x, z) < 420, every: 260, levels: [1, 3],
+    { id: 'home', name: 'the woods round Wickhollow', test: (x, z) => Math.hypot(x, z) < 420, every: 260, levels: [1, 3], part: 0.17,
       packs: [[['wisp', 'wisp'], 4], [['wraith'], 2], [['wisp', 'wraith'], 1]] },
-    { id: 'wilds', name: 'the wilds', every: 200, levels: [2, 5],
+    { id: 'wilds', name: 'the wilds', every: 200, levels: [2, 5], part: 0.25,
       packs: [[['wisp', 'wisp'], 2], [['wraith'], 2], [['wisp', 'wraith'], 2], [['wisp', 'wisp', 'wisp'], 1]] },
   ],
   // the gate fight. PLACED BY CHRIS (November 23, 19:40; the hub made this one change in the fights job's file on his
@@ -50,8 +52,8 @@ window.COVEN_ENCOUNTERS['zone-1'] = {
   // painting's pixel 768, 420), where the old Envoi's great wraith sat. It was a proposal before: the road 20 m out of
   // Bogmire's north gate, [1348, 2180]. When the party stands within `r` metres and is at least `level`, a button
   // offers the fight; it is fought in Bogmire's arena, and once won it is not offered again
-  gate: { id: 'greatWraith', kind: 'greatWraith', name: 'The great wraith', at: [1506.7, 1818.7], r: 14, level: 5, arena: 'bogmire',
-    offer: 'Face the great wraith', notYet: 'Something waits here, too strong for the coven yet (level 5).' },
+  // (step 4: its two lines of words are in game/encounters/words.js, gates.greatWraith)
+  gate: { id: 'greatWraith', kind: 'greatWraith', name: 'The great wraith', at: [1506.7, 1818.7], r: 14, level: 5, arena: 'bogmire' },
   // the Moon Faire's camp: where the party rests, and wakes after a lost fight (job's call)
   camp: { at: [-70, 128], r: 36, wake: [-70, 133] },
 };

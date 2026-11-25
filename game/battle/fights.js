@@ -90,7 +90,19 @@
     c.weather = opts.weather || (opts.wilds && A.wild && Math.random() < A.wild ? (Math.random() < 0.5 ? 'rain' : 'storm') : 'clear');
     return c;
   }
+  // Coven (step 4): foes that are not the battle's own (the slots' creatures, the big fights' foes): what draws each is
+  // data (window.COVEN_FOE_LOOKS: game/encounters/slots.js and foes.js). `make` names a model's maker and `opts` is
+  // handed to it; or `wears` names one of the battle's own foes, whose model and look it borrows as a stand-in
+  const EXTRA = () => window.COVEN_FOE_LOOKS || {};
+  function lookOf(id) {
+    const x = EXTRA()[id]; if (!x) return FOE_LOOK[id];
+    return Object.assign({}, x.wears ? FOE_LOOK[x.wears] : {}, x.look || {});
+  }
+  function looks() { const L = Object.assign({}, FOE_LOOK); for (const id in EXTRA()) L[id] = lookOf(id); return L; }
   function makeFoe(id, level, i) {
+    const x = EXTRA()[id];
+    if (x && x.wears) return makeFoe(x.wears, level, i);
+    if (x && x.make) { const mk = window[x.make]; if (typeof mk !== 'function') throw new Error('no model maker ' + x.make + ' for ' + id); return mk(Object.assign({ level, seed: i + 1 }, x.opts || {})); }
     if (id === 'wraith') return makeWraith({ level });
     if (id === 'greatWraith') return makeWraith({ level, great: true });
     if (id === 'wisp' || id === 'frostWisp') return makeWisp({ seed: i + 1, frost: id === 'frostWisp' });
@@ -143,7 +155,7 @@
     const at = PLACES[scene] || PLACES['gloamwood-road'];
     const heroes = [hero('io', at.io)]; if (!solo && P.flags.party) heroes.push(hero('jester', at.sol), hero('fox', at.io), hero('ranger', at.sol));
     return {
-      scene, level: P.level, xp: P.xp || 0, heroes, slots: at.slots, foeLook: FOE_LOOK, makeFoe,
+      scene, level: P.level, xp: P.xp || 0, heroes, slots: at.slots, foeLook: looks(), makeFoe, // (Coven: with the foes added as data)
       makeLunara: () => makeLunara({}), makeEnvoi: P.flags.envoi ? () => makeEnvoi({}) : undefined,
     };
   };
@@ -155,6 +167,22 @@
     return { herbs, carried: Object.assign({}, have) };
   };
 
+  // Coven: a fight's words, from data (game/encounters/words.js), in the screen's own names for them
+  function worded(w) {
+    if (!w) return {};
+    const o = {};
+    if (w.intro) { o.introMsg = w.intro; o.quickIntro = false; }
+    if (w.after) o.introAfter = w.after;
+    if (w.attack) o.attackText = (fs) => (fs.length > 1 && w.attackMany ? w.attackMany : w.attack);
+    if (w.moth) o.winMoth = w.moth;
+    if (w.win) o.winText = w.win;
+    if (w.lose) o.loseText = w.lose;
+    if (w.retreat) o.retreatLines = w.retreat.slice();
+    if (w.tip) o.tips = { menu: w.tip };
+    o.endTexts = {}; if (w.win) o.endTexts.retreat = w.win; if (w.fled) o.endTexts.fled = w.fled;
+    if (w.endTitle) o.endTitles = { retreat: w.endTitle, win: w.endTitle };
+    return o;
+  }
   function config(kind, P, opts) { return placeFour(config0(kind, P, opts)); }
   function config0(kind, P, opts) {
     opts = opts || {};
@@ -172,19 +200,35 @@
       if (foes[0].id === 'colossus') return colossus(P, foes, opts);
       const scene = opts.scene || 'gloamwood-road';
       const c = base(scene, P);
-      const lone = foes[0].id.startsWith('bramble');
+      const bram0 = foes[0].id.startsWith('bramble');
+      // Coven (step 4): any foe that is always met alone stands as the Bramble Horror does (rules.js: `alone`)
+      const lone = bram0 || !!(window.BattleRules.FOES[foes[0].id] || {}).alone;
       if (lone) { const at = PLACES[scene]; c.heroes[0].home = [at.io[0] + 40, at.io[1] - 50]; if (c.heroes[1]) c.heroes[1].home = [at.sol[0] + 40, at.sol[1] - 50]; c.slots = [at.slots[0]]; }
       if (arena) inArena(c, opts.place || ARENA_OF.wild[band], lone ? ARENA_AT.lone : ARENA_AT.pack, wilds);
       return Object.assign(c, {
         fight: () => ({ party: partyOf(P), foes, flags: flagsOf(P), ...bagOf(P), ends: { canFlee: true }, flee: fleeOf(P), reward: window.BattleRules.WILD_REWARD }),
-        introMsg: lone ? (fs) => (fs[0].id === 'brambleAmbush' ? 'A low blackberry thicket grows over the road, heavy with fruit.' : 'A blackberry thicket stands by the road, lusher than it should be, and heavy with fruit.') : undefined,
-        introAfter: lone ? (fs) => (fs[0].id === 'brambleAmbush' ? 'It was never a thicket. It strikes before anyone can move.' : fs[0].id === 'brambleAncient' ? 'The ground heaves. Old woody horns rise out of its crown: an Ancient Crown.' : 'The ground heaves, its roots flare, and its canes rise toward the party.') : undefined,
-        quickIntro: !lone,
-        attackText: (fs) => (lone ? 'The ' + fs[0].def.form + ' attacks!' : fs.length > 1 ? 'The foes close in!' : 'The ' + fs[0].name + ' attacks!'),
-        winMoth: lone ? 'It thrashes once more, then collapses flat, drops its fruit, withers brown and crumbles away.' : undefined,
-        winText: lone ? 'The thicket is only dead canes and fallen fruit now.' : 'The souls go home as pale moths, and the road is quiet again.',
+        introMsg: bram0 ? (fs) => (fs[0].id === 'brambleAmbush' ? 'A low blackberry thicket grows over the road, heavy with fruit.' : 'A blackberry thicket stands by the road, lusher than it should be, and heavy with fruit.') : undefined,
+        introAfter: bram0 ? (fs) => (fs[0].id === 'brambleAmbush' ? 'It was never a thicket. It strikes before anyone can move.' : fs[0].id === 'brambleAncient' ? 'The ground heaves. Old woody horns rise out of its crown: an Ancient Crown.' : 'The ground heaves, its roots flare, and its canes rise toward the party.') : undefined,
+        quickIntro: !bram0,
+        attackText: (fs) => (bram0 ? 'The ' + fs[0].def.form + ' attacks!' : fs.length > 1 ? 'The foes close in!' : 'The ' + fs[0].name + ' attacks!'),
+        winMoth: bram0 ? 'It thrashes once more, then collapses flat, drops its fruit, withers brown and crumbles away.' : undefined,
+        winText: bram0 ? 'The thicket is only dead canes and fallen fruit now.' : 'The souls go home as pale moths, and the road is quiet again.',
         loseText: 'The party falls. They wake at the last rest with everything they had.',
-      });
+      }, worded(opts.words)); // (Coven: a meeting may bring its own words: the slots' stand-ins, a fight by a thing)
+    }
+    // Coven: a big fight given as data (game/encounters/zone-N.js: a zone's gate, its other big fights, each form of the
+    // last one). opts.story = { arena, stand, scene, foes: [{ id, level, hpMul, dmgMul }], ends, canFlee, reward, alias,
+    // fanfare, flags, words: { intro, after, attack, moth, win, lose, fled, retreat: [..], tip, name } }
+    if (kind === 'story') {
+      const st = opts.story || {}, c = base(st.scene || 'gloamwood-road', P);
+      if (arena) inArena(c, st.arena || ARENA_OF.wild[opts.band || 1], ARENA_AT[st.stand] || ARENA_AT.great, opts);
+      const ends = Object.assign({}, st.ends || {}); if (st.canFlee) ends.canFlee = true;
+      const foes = (st.foes || []).map((f) => Object.assign({}, f));
+      if (st.alias) c.alias = st.alias;
+      return Object.assign(c, {
+        fight: () => { const f = { party: partyOf(P), foes: foes.map((x) => Object.assign({}, x)), flags: flagsOf(P, st.flags), ...bagOf(P), ends: Object.assign({}, ends) }; if (st.reward != null) f.reward = st.reward; if (st.canFlee) f.flee = fleeOf(P); return f; },
+        fanfare: !!st.fanfare,
+      }, worded(st.words));
     }
     if (kind === 'first') {
       const c = base('night-square', P, true);

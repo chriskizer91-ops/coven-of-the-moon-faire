@@ -30,7 +30,10 @@
   W3D.THINGS['zone-2'] = NODES.map((n) => ({
     id: n.id, place: ['ember-line-road', n.stand[0], n.stand[1]], reach: 3.0, label: 'Light the road stone',
     can: (c) => c.stage >= 1 && !c.flag(n.id),
-    use: (t, c, story) => { c.flag(n.id, true); story.setNodes(c.nodes + 1); },
+    // fights job: a fight by each stone (game/encounters/zone-2.js, `things`). If one waits there it is fought first, and
+    // the stone is lit when it is won; with no fights on the page, or once it is won, the stone is lit as before
+    use: (t, c, story) => { const light = () => { c.flag(n.id, true); story.setNodes(c.nodes + 1); if (G.__things) G.__things.looks(); };
+      if (G.__fights && G.__fights.thing && G.__fights.thing(n.id, light)) return; light(); },
     make: (t, k) => { const T = k.THREE, x = k.X(n.at[0]), zf = k.Z(n.at[1]), y = k.ground(x, zf) + n.eye, z = zf + n.d * (1 - 0.15 * n.eye / n.h) / 2 + 0.05;
       const eye = new T.Mesh(new T.CircleGeometry(0.17, 20), new T.MeshBasicMaterial({ color: 0xffa23a })); eye.position.set(x, y, z);       // the eye itself, amber
       const halo = k.glow(0xff7a1c, 2.6, 0.9); halo.position.set(x, y, z + 0.04);                                                           // its glow, on the stone's face

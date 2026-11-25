@@ -87,7 +87,8 @@
     // Thornwake (340), so a Moon Faire number n is about 265 x (n / 40)^0.166 here. MP costs are about twice Moon Faire's, as Io's
     // are. The first numbers came from that; the balance check then moved them (see docs/slips/fights.md).
     fox: {
-      name: 'Europa', hp: 1270, mp: 100, atb: 2.16, noTrance: true, // her trance is Chris's to make: none yet
+      name: 'Europa', hp: 1270, mp: 100, atb: 2.16, noTrance: true, back: true, // Coven (step 4): she stands at the back, where a leaper lands
+      // // her trance is Chris's to make: none yet
       moves: {
         // her shears split into two daggers: one quick cut (Moon Faire 50)
         fangs: { name: 'Hemline Fangs', kind: 'attack', hits: [275], physical: true, target: 'foe', time: 2.6 },
@@ -110,7 +111,7 @@
       },
     },
     ranger: {
-      name: 'Callisto', hp: 1600, mp: 0, atb: 1.92, noTrance: true, // the same
+      name: 'Callisto', hp: 1600, mp: 0, atb: 1.92, noTrance: true, back: true, // the same
       moves: {
         // Moonsteel Draw: one arrow (Moon Faire 150)
         bow: { name: 'Moonsteel Draw', kind: 'attack', hits: [330], physical: true, target: 'foe', time: 5.5 },
@@ -338,6 +339,7 @@
     sunder: 1.25,    // Sundered
     frostSlow: 0.6,  // Frost: the party's gauges fill at 60%
     defend: 0.5,     // Defend and Guard
+    weak: 0.75,      // Coven (step 4): Weakened: every blow the party lands is a quarter lighter, for a foe move's `weaken` seconds
   };
 
   // ---------- herbs, the items (bible); the map lists them by place, shops sell them for sunstone shards ----------

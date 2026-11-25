@@ -80,6 +80,8 @@
       },
       rest() { S.hp = {}; S.mp = {}; P.save(); tell('rest'); },
       addHerb(id, n) { S.herbs[id] = Math.min(RL().CARRY, (S.herbs[id] || 0) + (n == null ? 1 : n)); P.save(); tell('herb'); },
+      // (for the checks, and for trying a later zone by itself) the party at a level, whole, with no experience toward the next
+      setLevel(n) { S.level = Math.max(1, Math.min(RL().MAX_LEVEL, Math.round(n))); S.xp = 0; S.hp = {}; S.mp = {}; P.save(); tell('level'); },
       // (for the checks) set one witch's HP, as if hurt
       setHp(id, n) { S.hp[id] = Math.max(0, Math.min(n, P.maxHp(id))); P.save(); tell('hp'); },
       setHerb(id, n) { S.herbs[id] = Math.max(0, Math.min(RL().CARRY, n)); P.save(); tell('herb'); },

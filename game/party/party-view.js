@@ -60,7 +60,7 @@
           '<div class="g"><i style="width:' + (100 * hp / mh).toFixed(0) + '%"></i></div>' + (mm ? '<div class="g mp"><i style="width:' + (100 * P.mp(id) / mm).toFixed(0) + '%"></i></div>' : '') + '</div>';
       }
       s += '<div class="line">' + (P.xpNeed ? nf(P.xp) + ' of ' + nf(P.xpNeed) + ' experience to level ' + (P.level + 1) : 'The highest level') + '</div><div class="g xp"><i style="width:' + (100 * P.xpPart).toFixed(0) + '%"></i></div>';
-      const herbs = Object.keys(P.herbs).filter((k) => P.herbs[k] > 0).map((k) => window.BattleRules.HERBS[k].name + ' ' + P.herbs[k]);
+      const herbs = Object.keys(P.herbs).filter((k) => P.herbs[k] > 0).map((k) => (window.BattleRules.HERBS[k] || { name: k.replace(/-/g, ' ') }).name + ' ' + P.herbs[k]);   // (a herb the battle does not know yet, such as zone 4's white sage, is shown by its own name)
       s += '<div class="line">' + nf(P.shards) + ' sunstone shards · fights ' + P.fights.won + ' won, ' + P.fights.fled + ' run from, ' + P.fights.lost + ' lost</div><div class="line" style="font-size:12.5px;color:#c8c4ea">' + (herbs.length ? herbs.join(' · ') : 'No herbs') + '</div>';
       s += '<div class="row"><button data-k="rest"' + (camp && !P.whole() ? '' : ' disabled') + '>Rest</button><button data-k="afresh" class="warn">' + (sure ? 'Tap again: start afresh' : 'Start afresh') + '</button></div>';
       s += '<p class="note">' + (camp ? (P.whole() ? 'Everyone is rested.' : 'Rest here: everyone whole again.') : 'Rest at the Moon Faire’s camp.') + (sure ? ' Starting afresh forgets the levels, the shards and the herbs.' : '') + '</p>';
