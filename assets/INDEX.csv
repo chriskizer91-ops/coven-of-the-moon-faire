@@ -323,3 +323,4 @@ game/battle/models/m7/thornhound/color-512.webp,aethermoor-m7-,claude/brave-davi
 game/battle/models/m7/thornhound/normal-512.webp,aethermoor-m7-,claude/brave-davinci-790efm,2070b57,prototypes/foe-hd/foes/thornhound/assets/normal-1024.webp,the Thornhound's bump picture (made smaller here),2026-11-24
 game/battle/models/m7/thornhound/ao-512.webp,aethermoor-m7-,claude/brave-davinci-790efm,2070b57,prototypes/foe-hd/foes/thornhound/assets/ao-512.webp,the Thornhound's shading picture,2026-11-24
 game/battle/models/m7/thornhound/emit-256.webp,aethermoor-m7-,claude/brave-davinci-790efm,2070b57,prototypes/foe-hd/foes/thornhound/assets/emit-256.webp,the Thornhound's glow picture,2026-11-24
+game/battle/models/m7/meshopt-decoder.js,outside: meshoptimizer (MIT licence),not recorded,not recorded,not recorded,meshoptimizer's model decoder (built from meshoptimizer 0.14 by its header) that unpacks the M7 creatures' models,2026-11-24
