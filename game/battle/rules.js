@@ -357,6 +357,11 @@
     mugwort: { name: 'Silver Mugwort', mp: 40, target: 'io', price: 50 },
     emberLily: { name: 'Ember-star Lily', might: 0.1, target: 'party', price: 30 },
     nightrose: { name: 'Nightrose', revive: 0.25, target: 'fallen', price: 120 },
+    // fights-polish (Coven): zone 4's own herb, picked on the frozen land where zones 1 to 3 grow Lavender ("White sage,
+    // white thyme, white everything. It still works. Mostly."). Until now the battle did not know it, so it was carried
+    // and never offered in a fight. What it does is a stand-in, the job's call: it heals the whole party as Lavender
+    // does. start: 0, so a new party does not begin with any (it is only picked on zone 4's land)
+    'white-sage': { name: 'White sage', heal: Math.round(HEROES.io.moves.waxing.heal * 1.2), target: 'allies', price: 60, start: 0 },
   };
 
   // ---------- the keepsakes ----------

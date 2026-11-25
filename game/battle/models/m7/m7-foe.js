@@ -314,12 +314,18 @@
     }
     animate(0, 0, 0, 0);
     let tri = sh.meta.triangles || sh.geo.index.count / 3;
-    return { root, animate, play, anchor, ACTIONS: sh.ACTIONS, kind: o.kind, F,
+    const foe = { root, animate, play, anchor, ACTIONS: sh.ACTIONS, kind: o.kind, F,
       guard(on) { guardOn = !!on; }, reset() { actv = null; gone = false; guardOn = false; },
       get busy() { return !!actv && !(actv.a.hold && actv.t >= actv.a.dur - 1e-6); }, get action() { return actv ? actv.name : ''; },
       get progress() { return actv ? Math.min(1, actv.t / actv.a.dur) : -1; }, get dash() { return 0; }, get lift() { return Math.max(0, liftV); }, get gone() { return gone; },
       get state() { return state; }, set state(v) { if (v) Object.assign(state, v); }, setFade(f) { fadeE = clamp01(+f); },
       pose, height: H, material: mat,
       stats: { triangles: Math.round(tri), drawCalls: 1 + (motes ? 1 : 0), textures: Object.keys(def.tex).filter((k) => def.tex[k]).length, bones: sh.meta.bones.length } };
+    // fights-polish: one maker for every creature. A creature with more than its baked model can hold (the frozen peaks'
+    // two: their ice spines, their sparks, their own effect; `peak` in its data) has that added here by the maker
+    // peak-foe.js lays in M7.extras. Until now that was a second maker, makePeakFoe, wrapped round this one; it is now
+    // only another name for this one. Not on M7's own look (?m7=before), as before
+    const peakExtra = M7.extras && M7.extras[o.kind];
+    return peakExtra && def.peak && !M7.LOOK.before ? peakExtra(foe, def, M7.bins[o.kind].meta) : foe;
   };
 })(window);

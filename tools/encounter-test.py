@@ -294,7 +294,11 @@ with sync_playwright() as p:
 
     if not QUICK:
         print('6. a lost fight: the party sent in at 1 HP each, as far from the camp as it can stand (the strongest foes), played carelessly')
-        pg.evaluate("() => { const F = window.__fights; for (const id of F.party.witches()) F.party.setHp(id, 1); }")
+        # fights-polish: the level this part needs is set here, the level the coven comes into the zone at (zone 1: 1). Run
+        # whole, an earlier part leaves the party higher (zone 1: level 5), and at level 5
+        # a party at 1 HP each still wins by the camp; run with --long-only it was at this level already
+        pg.evaluate("(L) => { const F = window.__fights; F.party.setLevel(L); for (const id of F.party.witches()) F.party.setHp(id, 1); }", L0)
+        print('    the party at level', pg.evaluate('window.__fights.party.level'))
         print('    she stands at', [round(v) for v in pg.evaluate(PUT, FAR or WILD)], 'the camp at', [round(v) for v in CAMP])
         y = pg.evaluate(FIGHT, 'careless')
         print('    met:', y['m'].get('foes'), 'slot', y['m'].get('slot'), '; the party', y['during']['heroes'])   # hub: what the lost fight met
