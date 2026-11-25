@@ -21,6 +21,9 @@
   'use strict';
   const RL = G.BattleRules, WORDS = (G.COVEN_FIGHT_WORDS || {}).gates || {};
   const KN = (WORDS.knightOfLight || {}).moves || {}, FIRE = (WORDS.theFire || {}).forms || [{}, {}];
+  // last-foe: the fire's level is the last fight's setting (easy 20, medium 21, hard 22, crazy 22.8: game/battle/last-fight.js
+  // sets CovenLastFight.level while its fight is made), and 20, as it always was, when no setting is chosen (the balance tools)
+  const lastLevel = () => (G.CovenLastFight && G.CovenLastFight.level) || 20;
   const FOES = {
     // ---- zone 3's big fight, level 15: the knight of light. She fights with Io's own spells and has no ending to seal.
     // She is never beaten: at a share of her Life (the fight's `ends`, in game/encounters/zone-3.js) she stops and walks
@@ -40,7 +43,7 @@
     // The first form: "Nothing hurts it. It won't let anything end." It cannot be sealed, and at a share of its Life the
     // fight stops (the fight's `ends`): the coven has learned it will not end this way.
     fireHolds: {
-      name: FIRE[0].name || 'The fire', hp: 14000, atb: 2.7, fixedLevel: 20, boss: true, noFate: true, shards: 0, xp: 90,
+      name: FIRE[0].name || 'The fire', hp: 14000, atb: 2.7, get fixedLevel() { return lastLevel(); }, boss: true, noFate: true, shards: 0, xp: 90,
       moves: {
         reach: { name: 'Reaching flames', weight: 0.35, hits: [210, 210, 210], target: 'random', act: 'blow', time: 2.6 },   // last-foe: act (was crownShards)
         draw: { name: 'Draws the light', weight: 0.25, hits: [210], sap: 24, target: 'all', act: 'call', time: 2.8 },   // last-foe: act (was frostDust)
@@ -52,7 +55,7 @@
     // Kore. No blow can end it: every blow on her writes its Fate, and when its Fate meets the Life it has left, her
     // Sealed Fate ends it. It grows harder every turn it takes, so it is a race.
     fireHunger: {
-      name: FIRE[1].name || 'The fire', hp: 8000, atb: 2.6, fixedLevel: 20, boss: true, unending: true, rage: 0.1, shards: 600, xp: 700,
+      name: FIRE[1].name || 'The fire', hp: 8000, atb: 2.6, get fixedLevel() { return lastLevel(); }, boss: true, unending: true, rage: 0.1, shards: 600, xp: 700,
       moves: {
         hunger: { name: 'Hunger', weight: 0.5, hits: [336], target: 'jester', act: 'blow', time: 2.4 },   // last-foe: act (was crownShards)
         allOfIt: { name: 'All of it', weight: 0.22, charge: true, chargeName: 'It gathers all of it', hits: [672], target: 'jester', act: 'call', time: 4.2 },   // last-foe: act (was voidSphere)
@@ -70,7 +73,9 @@
     // yawBias: about 0.6 of the way round to face the party, as its own page stood it). Form one appears dark and
     // lights up; the final form appears whole and breaks open as its fight begins (its change). reach: how far from
     // its middle a witch stops to strike it (the bowl and its legs). detail 1 is the model as Chris saw it.
-    fireHolds: { make: 'makeFinalFireFoe', opts: { form: 1, detail: 1 }, look: { kind: 'finalFire', tall: 8, halfW: 2.4, shadow: 4.2, reach: 1.9, stand: [3.2, -11.5], yawBias: 0.18, fxScale: 2.2,
+    // with: where form one's helpers stand (the last fight's setting brings them: game/battle/last-fight-data.js), as
+    // Envoi's own page of this fight stood its two wraiths and two frost wisps.
+    fireHolds: { make: 'makeFinalFireFoe', opts: { form: 1, detail: 1 }, look: { kind: 'finalFire', tall: 8, halfW: 2.4, shadow: 4.2, reach: 1.9, stand: [3.2, -11.5], with: [[1.5, -5.2], [5.0, -6.6], [2.8, -3.8], [4.6, -4.4]], yawBias: 0.18, fxScale: 2.2,
       glow: [3.2, 0xd42a48], appearColor: [0.83, 0.16, 0.28], hitColor: 0xf08fa6, hitRGB: [0.94, 0.56, 0.65], downAct: 'none' } },
     fireHunger: { make: 'makeFinalFireFoe', opts: { form: 2, detail: 1, breaks: true }, look: { kind: 'finalFire', tall: 12, halfW: 4.8, shadow: 5, reach: 2.4, stand: [3.2, -11.5], yawBias: 0.18, fxScale: 2.8,
       glow: [4.6, 0xff1f3d], appearColor: [1, 0.79, 0.82], hitColor: 0xff1f3d, hitRGB: [1, 0.12, 0.24], downAct: 'die' } },
