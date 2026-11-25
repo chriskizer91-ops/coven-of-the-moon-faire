@@ -111,7 +111,7 @@ with sync_playwright() as p:
             if (n > k0) { if (last > -1e9) minGap = Math.min(minGap, path - last); last = path; }
           }
         }
-        if (walked > 2000) out[id] = { km: +(walked / 1000).toFixed(1), meetings: n, slots, perKm: +(n / (walked / 1000)).toFixed(2), perKmW: +(units / (walked / 1000)).toFixed(2), units, every: wh.every, minGap: Math.round(minGap) };
+        if (walked > 2000) out[id] = { km: +(walked / 1000).toFixed(1), meetings: n, slots, perKm: +(n / (walked / 1000)).toFixed(2), perKmW: +(units / (walked / 1000)).toFixed(2), units, every: Math.round(mm.every ? mm.every(wh) : wh.every), file: wh.every, minGap: Math.round(minGap) };   // fights-tune: every: the ground's metres between meetings now (mm.every; file: the zone file's own)
         else out[id] = { km: +(walked / 1000).toFixed(1), none: true };
       }
       // in a place, and in the camp: walking there never counts
@@ -121,18 +121,30 @@ with sync_playwright() as p:
       for (let i = 0; i < 4000; i++) { const a = i * 0.01; W.setIo(M.px(c[0] + 25 * Math.cos(a)), M.py(c[1] + 25 * Math.sin(a))); mm.check(); }
       const inCamp = n;
       F.meetings.hold(false);
-      return { out, inTown, inCamp, calm: D.calm, on: window.COVEN_SLOTS.on(F.zone).map((s) => s.slot), want: ['A', 'B'].filter((k) => window.COVEN_SLOTS.zones[F.zone][k] && window.COVEN_SLOTS.zones[F.zone][k].on) };   // hub: want: the slots the slots file marks on
+      // fights-tune: the first meeting on a page: a fresh count, walked straight out of the camp along the first line that stays in the wilds
+      const m2 = window.CovenMeetings.create({ W, land, data: D, party: { level: D.levels[0] }, rand, onMeet: () => {} }); m2.stop();
+      let firstAt = null; const R0 = m2.rule;
+      for (let a = 0; a < 6.28 && firstAt == null; a += 0.35) { const m3 = window.CovenMeetings.create({ W, land, data: D, party: { level: D.levels[0] }, rand, onMeet: () => {} }); m3.stop();
+        let x = c[0], z = c[1], out0 = null, k = 0; W.setIo(M.px(x), M.py(z)); m3.check();
+        for (let s = 0; s < 300; s++) { x += Math.cos(a) * 1; z += Math.sin(a) * 1; if (x < B[0] + 5 || x > B[2] - 5 || z < B[1] + 5 || z > B[3] - 5) break; W.setIo(M.px(x), M.py(z));
+          if (out0 == null && !m3.inside(x, z, D.margin)) out0 = s; const got = m3.check(); if (got) { firstAt = { wild: m3.numbers().wild, fromStart: s + 1, outAt: out0 }; break; } } }
+      return { out, inTown, inCamp, calm: (mm.rule || {}).calm != null ? mm.rule.calm : D.calm, rule: mm.rule || null, firstAt, on: window.COVEN_SLOTS.on(F.zone).map((s) => s.slot), want: ['A', 'B'].filter((k) => window.COVEN_SLOTS.zones[F.zone][k] && window.COVEN_SLOTS.zones[F.zone][k].on) };   // hub: want: the slots the slots file marks on
     }""")
     if not LONG:
         seen = {k: v for k, v in per['out'].items() if not v.get('none')}
         for k, v in per['out'].items():
             if v.get('none'): print('    %-8s only %.1f km of it could be found to walk: not counted' % (k, v['km'])); continue
-            print('    %-8s %5.1f km walked: %3d meetings, %.1f a km (one every %d m on average; the data file says %d). Closest two: %d m apart. The new creature: %d of them' % (k, v['km'], v['meetings'], v['perKm'], round(1000 / max(v['perKm'], 0.01)), v['every'], v['minGap'], v['slots']))
+            print('    %-8s %5.1f km walked: %3d meetings, %.1f a km (one every %d m on average; it should be %d, the zone file says %d). Closest two: %d m apart. The new creature: %d of them' % (k, v['km'], v['meetings'], v['perKm'], round(1000 / max(v['perKm'], 0.01)), v['every'], v.get('file', v['every']), v['minGap'], v['slots']))   # fights-tune: the file's own number beside
         # hub: counted by worth: zone 4's slot B (worth 3, on since the peak-creatures job) uses up the ground of three meetings
         for k, v in seen.items():
             if v['units'] != v['meetings']: print('    %-8s counted by worth: %d (one every %d m)' % (k, v['units'], round(1000 / max(v['perKmW'], 0.01))))
         check(len(seen) >= 2 and all(abs(1000 / max(v['perKmW'], 0.01) - v['every']) < v['every'] * 0.35 for v in seen.values()), 'each kind of ground brings about as many as its data file says, a fight worth 3 counted as 3 (within a third: 20 km is not many meetings)')
-        check(all(v['minGap'] >= per['calm'] for v in seen.values()), 'never two meetings within %d m of each other' % per['calm'])
+        check(all(v['minGap'] >= per['calm'] for v in seen.values()), 'never two meetings within %d m of each other (the grace after a fight)' % per['calm'])
+        # fights-tune: the first meeting on a page comes soon after she leaves the camp's safe ground
+        R0, FA = per.get('rule') or {}, per.get('firstAt')
+        if R0 and R0.get('first'):
+            print('    how often now: %.2f times as often as the zone file says; grace after a fight %d m; first meeting after %d to %d m of wilds' % (R0['often'], R0['calm'], R0['first'] * 0.5, R0['first'] * 1.5))
+            check(bool(FA) and R0['first'] * 0.5 - 2.5 <= FA['wild'] <= R0['first'] * 1.5 + 2.5, 'walking straight out of the camp, the first meeting came after %s m of wilds (%s m from the camp\'s middle)' % ((FA or {}).get('wild'), (FA or {}).get('fromStart')))
         check(per['inTown'] == 0 and per['inCamp'] == 0, 'none in the first place (%d) or in the camp (%d), walking 8 km round them' % (per['inTown'], per['inCamp']))
         allm = sum(v['meetings'] for v in seen.values()); alls = sum(v['slots'] for v in seen.values())
         # hub: the creatures and peak-creatures jobs turned slot B on in every zone (the slots file says so): the page must
@@ -160,6 +172,9 @@ with sync_playwright() as p:
         check(hp_ok, 'each witch\'s HP was carried back: ' + ', '.join('%s %s' % (k, a['state']['hp'].get(k)) for k in l['party']))
         check(sum(a['state']['fights'].values()) == 1, 'the fight was counted: %s' % a['state']['fights'])
         check(abs(a['at'][0] - where[0]) < 1 and abs(a['at'][1] - where[1]) < 1 if l['result'] != 'lost' else True, 'she walks on from where she stood')
+        # fights-tune: after the fight (won, run from or lost alike: land-fights.js calls calm() after every one), the grace has begun
+        g2 = pg.evaluate("() => { const F = window.__fights, n = F.meetings.numbers(); return { calmLeft: n.calmLeft, first: n.first, calm: (F.meetings.rule || {}).calm }; }")
+        if g2.get('calm') is not None: check(g2['calmLeft'] >= g2['calm'] and not g2['first'], 'after the fight, no meeting for the next %d m (the grace: %d m left)' % (g2['calm'], g2['calmLeft']))
         kept = pg.evaluate("JSON.parse(localStorage.getItem('coven.party'))")
         check(kept['xp'] == a['state']['xp'] and kept['level'] == a['state']['level'], 'the party was kept in the browser')
         check(pg.evaluate("window.__heard.filter((w) => w === 'fight-start').length === 1 && window.__heard.filter((w) => w === 'fight-end').length === 1"), 'the page was told the fight began and ended')
@@ -334,10 +349,11 @@ with sync_playwright() as p:
             }
             const each = xp / n, need = RL.xpNeed(L); per.push([L, Math.round(each), need, +(need / each).toFixed(1)]); fights += need / each;
           }
-          return { per, fights: Math.round(fights), plan: window.COVEN_PLAN.fights[F.zone], from, goal };
+          return { per, fights: Math.round(fights), plan: Math.round(DRAW.planFights ? DRAW.planFights(F.zone) : window.COVEN_PLAN.fights[F.zone]), often: DRAW.often ? DRAW.often(F.zone) : 1, from, goal };   // fights-tune: the plan's fights times how often meetings come
         }""")
         for L, each, need, k in n5['per']: print('    level %d to %d: %d experience asked, %d a fight: %.1f fights' % (L, L + 1, need, each, k))
-        check(abs(n5['fights'] - n5['plan']) <= 10, 'about %d fights from level %d to %d (the plan: about %d)' % (n5['fights'], n5['from'], n5['goal'], n5['plan']))
+        # fights-tune: the give-or-take grows with the plan's fights (10 in 45, as before)
+        check(abs(n5['fights'] - n5['plan']) <= 10 * n5['often'], 'about %d fights from level %d to %d (the plan: about %d, give or take %d)' % (n5['fights'], n5['from'], n5['goal'], n5['plan'], 10 * n5['often']))
     b.close()
 
 check(not errors, 'page errors: %d' % len(errors))

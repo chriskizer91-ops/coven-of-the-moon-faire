@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Coven of the Moon Faire: the eight creatures in a row</title>
+<link rel="stylesheet" href="../battle/screen-layer.css">
+<style>
+/* fights-tune job: a copy of the creatures job's page (creatures-lab.html), with the two peak creatures loaded too, so
+   all eight creatures can stand in one row beside a witch for a picture (tools/creatures-look.py --row --keys ...).
+   Not in the game itself. The page's own list still shows the six; the row takes any of the eight. */
+html,body{margin:0;min-height:100%;background:#0d0a14;color:#f0ecff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+#lab{box-sizing:border-box;max-width:720px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(20px + env(safe-area-inset-bottom,0px))}
+#lab h1{margin:0 0 4px;font:400 26px/1.15 Georgia,"Times New Roman",serif;color:#ffe6a8}
+#lab p{margin:0 0 12px;font-size:14.5px;line-height:1.4;color:#cfc8ee}
+#list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+#list button{appearance:none;font:inherit;text-align:left;min-height:56px;padding:8px 12px;border-radius:12px;border:1px solid rgba(214,222,255,.28);background:rgba(34,28,62,.6);color:#f0ecff;cursor:pointer}
+#list button b{display:block;font-size:15px;font-weight:600}
+#list button small{display:block;font-size:12.5px;color:#b8b4e0;line-height:1.25}
+#list button[aria-pressed="true"]{border-color:#ffe6a8;box-shadow:0 0 0 1px #ffe6a8;background:rgba(70,56,110,.8)}
+#bar{position:sticky;bottom:0;margin:16px -14px 0;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(13,10,20,.94);border-top:1px solid rgba(214,222,255,.18);display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.go{appearance:none;min-height:48px;min-width:104px;padding:0 18px;border-radius:24px;border:1px solid rgba(255,230,168,.75);background:rgba(70,56,110,.9);color:#fff3d6;font:600 16px Georgia,serif;cursor:pointer}
+#last,#wait{margin:10px 0 0;font-size:14px;color:#d8d4f4;min-height:1.3em}
+#viewer{position:fixed;inset:0;background:#120e1c}
+#view{position:absolute;inset:0;width:100%;height:100%;display:block}
+#vtop{position:absolute;left:0;right:0;top:0;padding:calc(8px + env(safe-area-inset-top,0px)) 10px 0;display:flex;align-items:flex-start;gap:8px;pointer-events:none}
+#vtop button{pointer-events:auto}
+#vname{flex:1;text-align:center;font:400 17px/1.3 Georgia,serif;color:#ffe6a8;text-shadow:0 1px 3px #000;padding-top:12px}
+#fps{position:absolute;right:12px;top:calc(62px + env(safe-area-inset-top,0px));font-size:12px;color:#b8b4e0;background:rgba(13,10,20,.6);padding:2px 8px;border-radius:10px}
+#vbar{position:absolute;left:0;right:0;bottom:0;padding:8px 8px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,rgba(13,10,20,.85) 40%)}
+#moves{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+#moves button,#vtop button{appearance:none;flex:0 0 auto;min-height:46px;min-width:46px;padding:0 14px;border-radius:23px;border:1px solid rgba(214,222,255,.4);background:rgba(34,28,62,.85);color:#f0ecff;font:500 15px system-ui,sans-serif;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="lab">
+  <h1 id="title"></h1>
+  <p id="lead"></p>
+  <div id="list"></div>
+  <p id="wait" aria-live="polite"></p>
+  <p id="last" aria-live="polite"></p>
+  <div id="bar"><button class="go" id="look"></button><button class="go" id="play"></button><button class="go" id="watch"></button></div>
+</div>
+<div id="viewer" hidden>
+  <canvas id="view"></canvas>
+  <div id="vtop"><button id="vclose"></button><div id="vname"></div><button id="vturn"></button></div>
+  <div id="fps"></div>
+  <div id="vbar"><div id="moves"></div></div>
+</div>
+<script src="../lib/three.r128.min.js"></script>
+<script src="../witches/io/meshopt_simplifier.js"></script>
+<script src="../witches/io/palette.js"></script>
+<script src="../witches/io/io_tex.js"></script>
+<script src="../witches/io/io_plus.js"></script>
+<script src="../witches/kore/jester_tex.js"></script>
+<script src="../witches/kore/jester_kit.js"></script>
+<script src="../witches/kore/lod.js"></script>
+<script src="../witches/europa/fox_tex.js"></script>
+<script src="../witches/europa/fox_lod.js"></script>
+<script src="../witches/callisto/ranger_tex.js"></script>
+<script src="../witches/callisto/ranger_lod.js"></script>
+<script src="../witches/io/witch_levels.js"></script>
+<script src="../witches/io/moon-io.js"></script>
+<script src="../look/flipbook.js"></script>
+<script src="../battle/stage/arena-river-glade.js"></script>
+<script src="../battle/stage/arena-warm-roads-moor.js"></script>
+<script src="../battle/stage/arena-eldergrove.js"></script>
+<script src="../battle/stage/arena-frostmere.js"></script>
+<script src="../battle/stage/arena-bogmire.js"></script>
+<script src="../battle/stage/arena-dawnroost.js"></script>
+<script src="../battle/stage/arena-crossroads.js"></script>
+<script src="../battle/stage/arena-dead-moonwell.js"></script>
+<script src="../battle/models/wraith.js"></script>
+<script src="../battle/models/wisp.js"></script>
+<script src="../battle/models/bramble.js"></script>
+<script src="../battle/models/colossus.js"></script>
+<script src="../battle/models/halcyon.js"></script>
+<script src="../battle/models/noctara.js"></script>
+<script src="../battle/models/lunara.js"></script>
+<script src="../battle/models/envoi.js"></script>
+<script src="../battle/models/stand-in.js"></script>
+<!-- creatures job: start (the six creatures from Aethermoor M7: the shared way in, their moves, their data) -->
+<script src="../battle/models/m7/meshopt-decoder.js"></script>
+<script src="../battle/models/m7/m7-foe.js"></script>
+<script src="../battle/models/m7/moves/mushroom.js"></script>
+<script src="../battle/models/m7/moves/spark.js"></script>
+<script src="../battle/models/m7/moves/walkers.js"></script>
+<script src="../battle/models/m7/moves/stag.js"></script>
+<script src="../battle/models/m7/moves/hound.js"></script>
+<script src="../battle/models/m7/glowcap/light.js"></script>
+<script src="../battle/models/m7/glowcap/glowcap.js"></script>
+<script src="../battle/models/m7/forge-spark/light.js"></script>
+<script src="../battle/models/m7/forge-spark/forge-spark.js"></script>
+<script src="../battle/models/m7/sapwight/light.js"></script>
+<script src="../battle/models/m7/sapwight/sapwight.js"></script>
+<script src="../battle/models/m7/rotwarden/light.js"></script>
+<script src="../battle/models/m7/rotwarden/rotwarden.js"></script>
+<script src="../battle/models/m7/rotstag/light.js"></script>
+<script src="../battle/models/m7/rotstag/rotstag.js"></script>
+<script src="../battle/models/m7/thornhound/light.js"></script>
+<script src="../battle/models/m7/thornhound/thornhound.js"></script>
+<!-- creatures job: end -->
+<!-- fights-tune job: start (the two peak creatures, as game/pages/peak-creatures-lab.html loads them) -->
+<script src="../battle/models/m7/moves/stoat.js"></script>
+<script src="../battle/models/m7/moves/ox.js"></script>
+<script src="../battle/models/m7/wickstoat/light.js"></script>
+<script src="../battle/models/m7/wickstoat/wickstoat.js"></script>
+<script src="../battle/models/m7/hoarmantle/light.js"></script>
+<script src="../battle/models/m7/hoarmantle/hoarmantle.js"></script>
+<script src="../battle/models/m7/hoarmantle/face.js"></script>
+<script src="../battle/models/m7/peak/peak-foe.js"></script>
+<!-- fights-tune job: end -->
+<script src="../battle/fx/battle-fx.js"></script>
+<script src="../battle/fx/battlefield.js"></script>
+<script src="../battle/fx/arena.js"></script>
+<script src="../battle/fx/io-spells.js"></script>
+<script src="../witches/kore/moon-jester.js"></script>
+<script src="../witches/europa/moon-fox.js"></script>
+<script src="../witches/callisto/moon-ranger.js"></script>
+<script src="../battle/witch-look.js"></script>
+<script src="../battle/trance.js"></script>
+<script src="../battle/rules.js"></script>
+<script src="../battle/engine.js"></script>
+<script src="../battle/sim.js"></script>
+<script src="../sound/sound.js"></script>
+<script src="../battle/screen.js"></script>
+<script src="../battle/fights.js"></script>
+<script src="../battle/start.js"></script>
+<script src="../encounters/words.js"></script>
+<script src="../encounters/plan.js"></script>
+<script src="../encounters/foes.js"></script>
+<script src="../encounters/slots.js"></script>
+<script src="../encounters/zone-1.js"></script>
+<script src="../encounters/zone-2.js"></script>
+<script src="../encounters/zone-3.js"></script>
+<script src="../encounters/zone-4.js"></script>
+<script src="../encounters/draw.js"></script>
+<script src="../battle/models/m7/lab-words.js"></script>
+<script src="../battle/models/m7/creatures-lab.js"></script>
+</body>
+</html>
