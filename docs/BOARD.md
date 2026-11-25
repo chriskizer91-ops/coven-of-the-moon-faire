@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 25, 2026, 07:05, by the hub.
+Last updated: November 25, 2026, 08:00, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -86,7 +86,8 @@ ceiling was 1.5; nothing is shrunk without Chris's word).
 | Job | Branch | What | Slip |
 |---|---|---|---|
 | `fights-polish` | `job/fights-polish` | **In `main` since November 25, 07:05 (`31fee0f`).** A fight on an upright phone fills the screen (a witch 125 to 206 px tall at 412x880; she was 60 to 70). The camera's numbers are one block of data, `FRAMING` in `game/battle/screen.js`. "Skip intro" is 44 px tall and under the frame-rate words. White sage can be used in a fight (a stand-in: Lavender's heal). `encounter-test` on zone 1 runs whole (39 good). One foe maker, `makeM7Foe`. New check: `tools/battle-frame-test.py` | `docs/slips/fights-polish.md` |
-| `small-things` | `job/small-things` | The rough spots of the journey and the land, listed under "Known rough spots" below, each put right or said why not | `docs/slips/small-things.md` |
+| `small-things` | `job/small-things` | **In `main` since November 25, 08:00.** Eleven items, each put right or said why not (the slip has a table): the phone's talk box, the end card's button, the front door's line, the corner map painted behind the Begin screen, the flight's edge labels, lanterns on the ships of zones 2 and 3, the leaving said after "Set course", zone 3's flight out starts over the slip | `docs/slips/small-things.md` |
+| `left-overs` | `job/left-overs` | **Started November 25, 07:10.** Small people's bent knees (`solveLimb` in `game/witches/kore/jester_kit.js`); the nine big fights played again; flames that lean north; a report on what a zone page's 100 MB are made of (it changes nothing there) | `docs/slips/left-overs.md` |
 
 When each has "Report for the hub" at the top of its slip: review it, bring it in, run the checks its files touch,
 send Chris a set of builds.
@@ -109,6 +110,10 @@ The whole list, each with the hub's suggestion, is the first part of `docs/quest
 
 ### Known rough spots (the `small-things` and `fights-polish` jobs take the first two groups)
 
+- **Put right by `small-things` (in `main`, November 25, 08:00), kept here as the record.** Still open from it: the
+  coven's leaving lines speak "from up here" while the picture is still the pier (Chris's call, D8); `story-test`
+  runs with `?test` and still sees the leaving on the land; in `journey-test`'s own pictures the corner map is empty
+  because that check presses Begin at once.
 - **Seen in the pictures of November 25:** on a phone the talk box is 418 px wide on a 412 px screen; on the
   phone's end card "Back to the front door" wraps to two lines and lies over the frame-rate pill; after the ending
   the front door's slot says "part 1 of 5" and "the end reached" together; the minimap is nearly empty in every
@@ -740,7 +745,8 @@ The hub's plan. Names and order may change.
 | `creatures` | Six of Aethermoor M7's creatures in the battle and in the slots of zones 1 to 3 (a sub-agent) | `job/creatures` | `docs/slips/creatures.md` | **Done, in `main`** (November 25, 03:50). Where each lives is a proposal |
 | `peak-creatures` | The Wickstoat and the Hoarmantle, built from Chris's sheets, for zone 4 (a sub-agent) | `job/peak-creatures` | `docs/slips/peak-creatures.md` | **Done, in `main`** (November 25, 03:50) |
 | `fights-polish` | A fight on an upright phone, and the fights' small things (a sub-agent) | `job/fights-polish` | `docs/slips/fights-polish.md` | **In `main`, November 25, 07:05** |
-| `small-things` | The rough spots of the journey and the land (a sub-agent) | `job/small-things` | `docs/slips/small-things.md` | **Started November 25, 04:00** |
+| `small-things` | The rough spots of the journey and the land (a sub-agent) | `job/small-things` | `docs/slips/small-things.md` | **In `main`, November 25, 08:00** |
+| `left-overs` | Bent knees, the nine big fights again, leaning flames, a size report (a sub-agent) | `job/left-overs` | `docs/slips/left-overs.md` | **Started November 25, 07:10** |
 
 **Who owns which files, so two conversations never write the same one:**
 

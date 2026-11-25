@@ -56,6 +56,7 @@ The thirteen questions of November 18, all answered, are kept below as the recor
 | D5 | The townsfolk's own bodies | The 23 keep stand-in bodies. The kit for their pictures waits unless you ask |
 | D6 | The knight and the fire wear Halcyon's and Noctara's models | Stand-ins until you say what they should be |
 | D7 | The sky's names (stars, planets, the crystal band) | A proposal: `docs/lore/sky-names-proposal.md` |
+| D8 | When the leaving lines are said (the narrator, then the coven, as the ship leaves a zone) | After "Board the ship" and "Set course", just before the flight. Before November 25 they were said on the land, before she boarded. The coven's lines speak as if already in the air while the picture is still the pier. Saying them over the flight itself is a bigger change, not made |
 
 ---
 
