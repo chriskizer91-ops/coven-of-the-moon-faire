@@ -55,6 +55,75 @@ the change in her cannot be seen (her dress hides her knees). 0 page errors on e
 Checks: `townsfolk-test` on the line-up page: **385 good, 0 failed**. `people-test` zone 1: **134 good, 0 failed**.
 `zone-test`: run on all four zones after task 3 (below), which covers this too.
 
+## Task 3: flames that lean north-east
+
+**Which way.** The lines and the story say **north-east**: "Every flame in the camp is leaning north-east" (Callisto),
+the Grey Hat's pennant "North-east, always", "Everything leans north-east up here" (Kore, zone 3), and the story page
+("every flame at the Faire leans north-east"). Only one line says "north" (Io at the cottage, "Even here they lean
+north"). The board and my brief say "north". **My call: north-east, as the lines say. It is one number** (`toward: 45`
+in the data; 0 is north). Chris or the hub may change it.
+
+**Where north is.** Read from each zone's map data, not assumed: every zone's land lies on the map of Aethermoor by a
+shift and a scale and no turn (`atlas.map` in `game/places/zone-1.js` to `zone-4.js`: the map's x is the land's x, the
+map's y is the land's z), and the small map draws the land's -z at the top, under its N. So on all four zones north is
+-z and east is +x.
+
+**How far.** Odile measures the lean in fingers' widths: "two at dusk, then three, then four" ("Four fingers now" at
+stage 2), and after the great wraith "a finger less than at dusk". Zone 2: "The flames lean harder here than at the
+lake." Zone 3: "The lean's worse up here." At the Faire at the end: "Every flame standing straight." So, in fingers,
+stage by stage (0 to 4): zone 1: 2, 3, 4, 4, 1; zone 2: 5; zone 3: 6; zone 4: 6, then 0 once the fire is ended
+(stage 4); the Faire ending: 0. **One finger is 3 degrees** (so 6 degrees at dusk, at most 18). A proposal, as data;
+I tried 3.5 (too small to see on any fire), 5 (a metre-tall fire leant like a gale) and settled on 3 from the pictures.
+
+**The data, in one place:** `game/look/flame-lean.js`. `on` (one switch: false and every flame stands straight),
+`strength` (one number for all: 1 as now, 0.5 half, 2 twice), `toward`, `fingerDegrees`, `flicker` (0.22: the lean
+wavers by about a fifth, at two quick rates, and the flame's height a little), and the fingers zone by zone.
+
+### What leans now
+
+| Flame | Where | How it is drawn | Now |
+|---|---|---|---|
+| Every lantern the place engine draws: on walls, posts, pillars, the well, the cottage's gate pillars | every town on all four zones (Wickhollow 33, Bogmire 17, the jetty 12, the cottage 11, Dawnroost 35, the shipyard 46 and more) | was one glowing block of "glass"; now see-through glass and a small flame inside (a cone in a cone, 20 cm tall at the usual size) | **leans** (too small to see much on a lantern at dusk: about 1 cm at the tip) |
+| The Grey Hat's ship lanterns at the landings | zones 2, 3, 4 | the same lantern (small-things made them the engine's lanterns) | **leans** |
+| The Warm Roads camp's fire | zone 2 | tongues of fire (triangles) | **leans** |
+| Dawnroost's node: fire bowls and braziers | zone 2 | tongues of fire | **leans** |
+| The frozen camp's fire | zone 4 | cones of fire | **leans**, and stands straight once the fire is ended |
+
+How: the place engine's builder has one new call, `B.leaning(root height, draw)`. Everything drawn inside it remembers
+how far above the flame's root each corner is; the engine's shader moves those corners north-east by that height times
+the lean, with the flicker on the game's own clock. Everything else remembers 0 and does not move. A page without the
+data file draws every flame straight.
+
+### What does not lean, and why (each would need remaking first)
+
+- **Fires made of glowing blocks**: the engine's own campfire (the northern camp, zone 3), the shipyard's braziers
+  (zone 3), the forges' and Wickhollow's inn hearths. Leaned, a block becomes a slanted slab (tried and looked at:
+  it looks wrong). They would need flame shapes first.
+- **Painted pictures** from the Faire's kit: the Moon Faire camp's lantern posts and braziers (zone 1), and **Old
+  Bridie's lantern**: her lantern is one of the Faire's painted lantern posts, its flames painted on its glass. I
+  tried a small 3D flame inside it: it showed as a pale cone across the painting, so it is out. So her lamp does not
+  "stand almost straight" after the great wraith; it stands as it always did. To do her line properly her lantern
+  would need to be one of the engine's own lanterns (Chris's call: it would look different).
+- **Points of light**: every lamp's soft halo, the gate lamps' wide glows, the moving warm lights, the lamplight
+  painted on the ground. They have no shape to lean.
+- **The twelve lamps that come home to the Grey Hat's ship in zone 1** (plain glowing boxes on hooks, the story's).
+- **The flight's ships** (Skies of Aethermoor's painted lantern cards) and the moored ship's crystal glows.
+- **No warm flame to lean**: zone 4's Misthollow and Moonwell (put out by the story), the Warm Roads camp's candle (a
+  glowing stick with no flame on it).
+- Flames in fights and spells are not the land's.
+
+**Something else that changed with it (please look):** a lantern's glass is now see-through and a little darker; from
+a few metres the lantern reads less like a solid lit block. The halo round it is the same.
+
+### Pictures
+
+`left-overs/flames/flames-sheet.png` in the scratchpad (see the report's top): four flames, before and after, with
+north-east marked (the camera looks north-west, so north-east is straight to the right). Single pictures:
+`flames/<name>-before.png` and `-after.png`: `wall` (zone 1, dusk), `wall2` (stage 2), `wall4` (after the wraith),
+`campfire`, `bowl`, `lamp2` (zone 2), `frozenfire` and `frozenfire4` (zone 4 before and after the fire is ended),
+`hearth`, `northfire`, `brazier` (the block fires, from the try that was put back), `bridie0` and `bridie4`. **A still
+cannot show the flicker; nobody here has seen it move.**
+
 ## Task 4: what a zone page is made of (a report; nothing was changed)
 
 Measured with `python3 tools/left-overs-weigh.py builds/zone-N.html` on pages built from this branch at `509d4f8`
