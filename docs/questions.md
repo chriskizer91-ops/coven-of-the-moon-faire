@@ -6,11 +6,15 @@ Written by the hub. The game is whole and in `main`. These are the calls that ar
 and the game is built on the suggestion until you say otherwise. Answer in any form ("A3: yes", or your own words).
 The thirteen questions of November 18, all answered, are kept below as the record.
 
+**Answered on November 25, about 09:15 (your message after playing on the laptop):** A1 in part, B1, C3, D6, and three
+new things (pages under 100 MB and on GitHub; close-ups in a fight; who leads). Each is marked **Answered** below
+and is in `docs/decisions.md`.
+
 ### A. Only you can do these
 
 | | What | Why it matters |
 |---|---|---|
-| A1 | **Open the builds on your laptop and your phone.** Read the frame rate off each page. Close the page, open it again, and see whether your save is still there | No machine here can measure speed, motion, sound or touch |
+| A1 | **Open the builds on your laptop and your phone.** Read the frame rate off each page. Close the page, open it again, and see whether your save is still there | **Answered in part, November 25:** on the laptop the fights page ran at 30 frames a second, and the front door opens zone 1 once every file has its exact name. Still to tell me: the frame rate on the land of each zone, and whether a save is still there the next day. The phone can wait: you said the laptop comes first |
 | A2 | **On the phone: does one downloaded page open the next?** Open `index.html` from a folder holding all five files and board the ship at zone 1 | If it does not, the journey on a phone needs another way to hand over, and I build that next |
 | A3 | **On the phone: does a page of 100 to 125 MB open at all,** and how long does it take? | If it does not, the pages have to be made lighter for the phone |
 | A4 | **Record the held Warden's two lines** (`z4.warden.01`, `.02`). Is that Warden a man or a woman? | Zone 4 has 142 of its 144 voices |
@@ -20,7 +24,7 @@ The thirteen questions of November 18, all answered, are kept below as the recor
 
 | | The call | What the game does now (my suggestion) |
 |---|---|---|
-| B1 | How many fights a zone | About 45, a meeting every 100 to 130 m. A careful player meets 181 in the whole game |
+| B1 | How many fights a zone | **Answered, November 25: "the foes should pop up in the wilds more often".** It was a meeting every 100 to 130 m, about 45 a zone. The `fights-tune` job is making it about every 50 to 65 m, with each meeting giving less, so the coven is no stronger at the big fights. You get the new numbers to try |
 | B2 | How often a creature is met, not a wisp or wraith | About one fight in 3, with both creatures of a zone turned on. With only the first of the two it would be about one in 6 |
 | B3 | What happens to a beaten creature | It is let go, not killed: the Rotwarden and the Glowcap root, the Forge-Spark gutters out, the Thornhound and the Rot-Stag run off, the Sapwight withers, the Wickstoat drops its lights and bolts, the Hoarmantle walks off |
 | B4 | The knight | He stops at 3/10 of his Life. Each answer gives him back 1/10, up to 6/10 |
@@ -37,7 +41,7 @@ The thirteen questions of November 18, all answered, are kept below as the recor
 |---|---|---|
 | C1 | Where each one lives | Zone 1: the Rotwarden (A), the Glowcap (B). Zone 2: the Forge-Spark (A), the Thornhound (B). Zone 3: the Sapwight (A), the Rot-Stag (B). Zone 4: the Wickstoat (A), the Hoarmantle (B) |
 | C2 | Their names and their moves' names | All stand-ins, in `game/encounters/words.js`. Two begin with "The" (the Rotwarden, the Rot-Stag) and six do not. The Hoarmantle's "Paws the ground" names a motion that was taken out |
-| C3 | The Forge-Spark's size | 0.49 m, as in M7. It is hard to see on a phone. I suggest half as big again (about 0.75 m) and a stronger glow |
+| C3 | The Forge-Spark's size | **Answered, November 25: "the tinier foes could be made bigger"; the Glowcaps stay small ("kind of cute").** The Forge-Spark goes from 0.49 m to about 0.75 m with a stronger glow. My call with it: the Wickstoat goes from 0.60 m to about 0.8 m. Say if the Wickstoat should stay as it was |
 | C4 | The Forge-Spark's weakening move | "Lure" |
 | C5 | The Wickstoat's sparks at the start of a fight | 3 lit |
 | C6 | The Hoarmantle: another round on its hair and horns? | They are softer than your sheet: streaks where yours has layered locks, and paler, more banded horns |
@@ -54,7 +58,7 @@ The thirteen questions of November 18, all answered, are kept below as the recor
 | D3 | Zone 4's peaks | One ninth of the map's height |
 | D4 | Whether the flight is made again from stage 5 of your airship game | You said "let me think about the flight". It stands as built |
 | D5 | The townsfolk's own bodies | The 23 keep stand-in bodies. The kit for their pictures waits unless you ask |
-| D6 | The knight and the fire wear Halcyon's and Noctara's models | Stand-ins until you say what they should be |
+| D6 | The knight and the fire wear Halcyon's and Noctara's models | **Answered, November 25:** the fire wears the final boss you built in Moon Faire (both forms); the `last-foe` job is bringing it in. The knight's model "was being built": that job is looking for it in your four games and I will show you what it finds. **Where is the knight being built, if not in one of those four?** |
 | D7 | The sky's names (stars, planets, the crystal band) | A proposal: `docs/lore/sky-names-proposal.md` |
 | D8 | When the leaving lines are said (the narrator, then the coven, as the ship leaves a zone) | After "Board the ship" and "Set course", just before the flight. Before November 25 they were said on the land, before she boarded. The coven's lines speak as if already in the air while the picture is still the pier. Saying them over the flight itself is a bigger change, not made |
 

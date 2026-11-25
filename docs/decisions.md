@@ -13,6 +13,42 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 25, 2026, 09:15: Chris played it on his laptop
+
+All from Chris's messages of November 25, about 09:15 to 09:45, after he opened the second set of builds.
+
+- **Stands. Every page is under 100 MB as a file,** "so that we can make it all GitHub hosted web page connected
+  pages game system ... That way you can push it to GitHub and give me a link and I can have all of it, but I could
+  also download it and run it on an offline browser." GitHub takes no file of 100 MB or more. So: the game is
+  published as linked pages on GitHub, and each page is still one file that runs from a download with no internet.
+  Today's sizes: zone 1 124.8 MB, zone 2 110.4, zone 3 108.9, zone 4 100.5. The `left-overs` job makes them smaller.
+- **Stands. The laptop comes first.** "We're focused on it working perfect on a laptop." The phone "is fine for now,
+  as long as it's working".
+- **Stands. The fight camera cuts in close.** "I want it to get close-ups on the person attacking. So I guess their
+  attack begins, the camera zooms in on them, and then the camera backs out maybe ... the angles are good. It's just
+  I think it needs to be automatically kind of cutting in closer and choosing them differently." The angles work on
+  small creatures; with a giant foe (the Great bramble) the party was tiny: "based off size we need to maybe work
+  camera angles". **He asked for a Fable 5.2 sub-agent at high effort for this**, and the `fight-camera` job is one.
+- **Stands. Foes are met more often in the wilds.** "It just was way more running than I thought. I think that the
+  foes should pop up in the wilds more often." This replaces "about 180 fights" where the two pull apart.
+  **Hub's call:** about every 50 to 65 m in place of 100 to 130 m, each meeting giving less so the levels still fit.
+- **Stands. The tiniest foes stand bigger; the Glowcaps stay small** ("I think it's actually kind of cute that
+  they're that small"). **Hub's call:** the Forge-Spark about 0.75 m with a stronger glow; the Wickstoat about 0.8 m.
+- **Stands. The fire wears Moon Faire's final boss, not Noctara's model.** "I would like that to be swapped out ...
+  the final boss has already been built." The knight's model "was being built": where is not yet known.
+- **Stands. All four witches from the beginning, and any of them can lead:** "there has to be a thing in the menu to
+  change who's the walking around model."
+- **Stands (said again). Moon Faire's fights with four witches, on Envoi's battle** (its arenas, sound, music and
+  Kore's fate rules).
+- **What he saw:** the fights page ran at 30 frames a second on his laptop. The front door said "file not found"
+  until every file in his folder had its exact name (a second download had been given another name by the browser).
+  He had not seen zone 4 yet.
+- **He asked for one file with the 20 lines still to record** (the held Warden's 2, the narrator's 18 for zone 4).
+  Sent at 09:35. He will go through the questions list.
+- **Hub's call:** five jobs run at once: `fight-camera` (Fable 5.2, high), and on Opus 5.5 at high effort
+  `fights-tune`, `leader`, `last-foe` and `left-overs` (now also: every page under 95 MB). The nine big fights are
+  played again only after the camera and the last foe are in.
+
 ## November 25, 2026, 08:00: the small-things repair job is in `main`
 
 - **Hub's call:** `job/small-things` was brought into `main`. Put right: the talk box on a phone (384 px on a 412 px
