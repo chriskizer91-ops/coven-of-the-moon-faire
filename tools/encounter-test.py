@@ -121,7 +121,7 @@ with sync_playwright() as p:
       for (let i = 0; i < 4000; i++) { const a = i * 0.01; W.setIo(M.px(c[0] + 25 * Math.cos(a)), M.py(c[1] + 25 * Math.sin(a))); mm.check(); }
       const inCamp = n;
       F.meetings.hold(false);
-      return { out, inTown, inCamp, calm: D.calm, on: window.COVEN_SLOTS.on(F.zone).map((s) => s.slot) };
+      return { out, inTown, inCamp, calm: D.calm, on: window.COVEN_SLOTS.on(F.zone).map((s) => s.slot), want: ['A', 'B'].filter((k) => window.COVEN_SLOTS.zones[F.zone][k] && window.COVEN_SLOTS.zones[F.zone][k].on) };   // hub: want: the slots the slots file marks on
     }""")
     if not LONG:
         seen = {k: v for k, v in per['out'].items() if not v.get('none')}
@@ -132,7 +132,9 @@ with sync_playwright() as p:
         check(all(v['minGap'] >= per['calm'] for v in seen.values()), 'never two meetings within %d m of each other' % per['calm'])
         check(per['inTown'] == 0 and per['inCamp'] == 0, 'none in the first place (%d) or in the camp (%d), walking 8 km round them' % (per['inTown'], per['inCamp']))
         allm = sum(v['meetings'] for v in seen.values()); alls = sum(v['slots'] for v in seen.values())
-        check(per['on'] == ['A'] and alls > 0, 'slot A is on and slot B is off; over all that ground the new creature was %d of %d meetings (each kind of ground walked the same, which is not how the coven walks: the plan\'s one in five is tools/encounter-balance.mjs\'s to check)' % (alls, allm))
+        # hub: the creatures and peak-creatures jobs turned slot B on in every zone (the slots file says so): the page must
+        # have on exactly the slots the file marks on, and the creatures must be met
+        check(per['on'] == per['want'] and alls > 0, 'the slots on are the ones the slots file marks on (%s); over all that ground the creatures were %d of %d meetings (each kind of ground walked the same, which is not how the coven walks: the plan\'s share is tools/encounter-balance.mjs\'s to check)' % (' and '.join(per['on']) or 'none', alls, allm))
 
     if not LONG:
         print('3. a meeting in the wilds near the camp, fought (the battle plays itself, sped up)')
