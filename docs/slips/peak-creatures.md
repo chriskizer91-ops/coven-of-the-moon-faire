@@ -11,32 +11,50 @@ How to do it all again on another machine: "How to make the two again", below.
 | | The Wickstoat (zone 4, A) | The Hoarmantle (zone 4, B) |
 |---|---|---|
 | Sculpt (kept as source, not shipped) | 1,141,618 triangles, painted from the sheet | 1,118,426 triangles, painted from the sheet |
+| Stretch check (M7's) | PASS, every move | PASS, every move |
 | Light model the game draws | 20,583 triangles (+ 9 ice spines made in the page, 12 triangles each) | 34,205 triangles |
 | In the page | model 423 KB, pictures 290 KB (colour 1024, surface and shading 512) | model 766 KB, pictures 0.9 MB (colour and surface 1024, shading 512) |
 | Height | 0.60 m (1.63 m nose to tail) beside a 1.65 m witch | 2.16 m to the snow on its hump, 2.86 m long |
 
-**How near the sheet.** The Wickstoat is close: outline, white fur, dark paws, round ears, whiskers, black frosted tail
-tip, dark eyes, all from his picture. Not as near: its fur is less fluffy (a little thinner from the front); the spines
-read as pale glassy triangles in the flat light, and the last three sit low in the fur; the sparks show best at night.
-The Hoarmantle is recognisably his ox (face, horns with ice rings, ice helm, snow mantle, grey-blue hair to the ground,
-icicles, hooves peeping, painted from his picture) but **it is blockier than his**: the hair curtain hangs straighter
-and the snow sits as a cap; his hair is wider, wilder locks that flare more at the hem.
+**How near the sheet.** The Wickstoat is close: outline, white fur, dark paws, round ears, whiskers, black frosted
+tail tip, dark eyes and nose (its own, no longer smudged from the sheet), and nine clear ice spines from the shoulders
+to the tail, each with a solid warm amber spark (all nine lit beside the sheet; 3 when met). Not as near: its fur is
+less fluffy and a little thinner from the front; its sparks are a touch yellower than his. The Hoarmantle is
+recognisably his ox (face, horns with ice rings, ice helm, snow mantle, grey-blue hair to the ground, icicles, hooves
+peeping, painted from his picture) and it looks huge beside a witch, **but it is blockier than his**: its hair
+curtain hangs straighter and the snow sits as a cap; his hair is wider, wilder locks that flare at the hem, and his
+helm is clearer ice than the model's pale facets.
 
-**What would not mend (said plainly).** M7's no-stretching check does **not** pass yet for either. The Wickstoat:
-standing, Hurt and Skitter pass; Bound, Pinch, Glint and the Fall stretch to 1.3 to 1.6 times (limit 1.3) at the
-shoulders, haunches and knees, where short legs come out of thick fur. The Hoarmantle: standing passes; the others
-stretch 1.8 to 2.8 times, at the hem round the hind hooves and under the neck. The check's pictures are in the scratch
-folder only. Next step for whoever goes on: softer moves at those joints, or M7's per-joint limits (`mend.limits`).
+**No stretching: both PASS M7's check on every move** (limit 1.3 times for a big edge, 3 for a crease). Before, then
+after (the worst big edge of each move):
+
+| Wickstoat | Breathe | Bound | Pinch | Skitter | Glint | Hit | Fall |
+|---|---|---|---|---|---|---|---|
+| first check | 1.09 | 2.59 | 1.90 | 2.16 | 3.55 | 1.33 | 1.89 |
+| now | 1.08 | 1.28 | 1.29 | 1.29 | 1.28 | 1.27 | 1.26 |
+
+| Hoarmantle | Breathe | Walk | Trample | Winter Breath | Shake | Hit | Fall |
+|---|---|---|---|---|---|---|---|
+| first check | 1.24 | 2.74 | 3.73 | 4.00 | 2.85 | 3.37 | 2.97 |
+| now | 1.28 | 1.28 | 1.28 | 1.30 | 1.26 | 1.24 | 1.29 |
+
+What it took: the Hoarmantle's hair belongs to the body only and its legs only to their own hooves, in the hollow
+under the hair; its body sways whole instead of twisting; its head does the work and its neck barely moves; its
+legs move only a little, inside the hair. **Quieter than planned, said plainly:** Trample no longer shows a pawing
+hoof (it tore the hem beside the hoof): its wind-up is the head lowered and the body rocking back and dipping twice,
+then the charge. The Wickstoat's legs bend at the joints that show and its back arches less; its Glint rears less
+high (about 30 degrees). No move was left out.
 
 **Pictures for Chris** (in the repo, `game/battle/models/m7/peak/for-chris/`): `<key>-beside-sheet.webp` (his picture
 above the model, front, side, back), `<key>-stand-1280x720.webp` and `-412x880` (in the battle's light beside a witch),
-`<key>-strip.webp` (every motion), `<key>-fight-...` (fights). Made again from the repo with one command each:
+`<key>-strip.webp` (every motion), `<key>-fight-...` (fights). Every one was taken again on a fresh page for each
+creature (the first Hoarmantle pictures had caught the end of the Wickstoat's fight) and every one was looked at. Made again from the repo with one command each:
 `python3 tools/build.py game/pages/peak-creatures-lab.html` then
 `python3 tools/peak-look.py builds/peak-creatures-lab.html <folder> --sheet game/battle/models/m7/wickstoat/src/sheet-wickstoat-reference.webp wickstoat --sheet game/battle/models/m7/hoarmantle/src/sheet-hoarmantle-reference.webp hoarmantle --stand --strip --fight 4,8`
 (add `--size 412x880` for the phone). The lab page: `builds/peak-creatures-lab.html` (16.6 MB, nothing fetched).
 
-**Checked:** both build and draw with 0 page errors; both fought in their slots with no screen (the Hoarmantle's long
-fight was pictured at 4 and 8 seconds, not played to its end); heights and triangles above; `node
+**Checked:** both build and draw with 0 page errors; both fought in their slots with no screen (each fight pictured at 4 and 8
+seconds on its own fresh page, not played to its end); heights and triangles above; `node
 tools/encounter-balance.mjs` with both slots as now: "every target met" (zone 4, A and B on: -1.4 fights). **Not checked:** motion and frame rate (no screen here; the page shows its own), the phone in Chris's hand,
 zone 4's own page with them (built but not walked), Glint being stronger with more sparks (only its flash is).
 
