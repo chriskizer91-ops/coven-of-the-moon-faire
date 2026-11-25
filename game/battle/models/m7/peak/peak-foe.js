@@ -119,6 +119,25 @@
   function hoarmantle(f, def, meta) {
     const P = def.peak, F = f.F, root = f.root, S = P.sheet;
     const nose = hang(F, meta, 'head', toModel([0, (P.nose[0] - S.mid) * S.m, (S.ground - P.nose[1]) * S.m]));
+    // the brow ice: one faceted slab of clear pale-blue ice, low on the brow, its lower edge a shallow V (data: peak.helm)
+    if (P.helm) {
+      const Hm = P.helm, toS = (q) => [q[0] * S.m, (q[1] - S.mid) * S.m, (S.ground - q[2]) * S.m], c0 = Hm.centre, rows = Hm.rows, nr = rows.length, nc = rows[0].length;
+      const outer = [], inner = [];
+      for (const row of rows) for (const q of row) { outer.push(toModel(toS(q)));
+        const k = Hm.thick / Math.hypot(q[1] - c0[0], q[2] - c0[1], q[0]); inner.push(toModel(toS([q[0] * (1 - k), q[1] - (q[1] - c0[0]) * k, q[2] - (q[2] - c0[1]) * k]))); }
+      const pos = [], quad = (a, b, c, d) => { for (const v of [a, b, c, a, c, d]) pos.push(v.x, v.y, v.z); }, at = (i, j) => i * nc + j;
+      for (let i = 0; i < nr - 1; i++) for (let j = 0; j < nc - 1; j++) {
+        quad(outer[at(i, j)], outer[at(i + 1, j)], outer[at(i + 1, j + 1)], outer[at(i, j + 1)]);
+        quad(inner[at(i, j)], inner[at(i, j + 1)], inner[at(i + 1, j + 1)], inner[at(i + 1, j)]); }
+      const edge = []; for (let j = 0; j < nc; j++) edge.push(at(0, j)); for (let i = 1; i < nr; i++) edge.push(at(i, nc - 1));
+      for (let j = nc - 2; j >= 0; j--) edge.push(at(nr - 1, j)); for (let i = nr - 2; i > 0; i--) edge.push(at(i, 0));
+      for (let e = 0; e < edge.length; e++) { const a = edge[e], b = edge[(e + 1) % edge.length]; quad(outer[a], outer[b], inner[b], inner[a]); }
+      const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.computeVertexNormals();
+      const helmMat = new T.MeshPhongMaterial({ color: Hm.ice, specular: 0x9fc8dc, shininess: 70, flatShading: true, transparent: true, opacity: Hm.opacity, depthWrite: false, side: T.DoubleSide, emissive: new T.Color(Hm.glow) });
+      const mesh = new T.Mesh(g, helmMat); mesh.renderOrder = 2;
+      const o = hang(F, meta, 'head', new T.Vector3()); o.add(mesh);
+      f.helm = { mesh, mat: helmMat };
+    }
     const breath = pool(40, P.breath.size, true); root.add(breath.pts);
     const snow = pool(44, P.snow.size, true); root.add(snow.pts);
     let last = '', lastP = -1, nextHuff = 2 + Math.random() * P.huffEvery, blowing = 0;
@@ -145,6 +164,7 @@
       if (blowing > 0) { blowing -= dt; if (Math.random() < dt * 40) puff(1, P.breath.reach, 1.6, 1.4); }
       if (!act && !(wb > 0.5)) { nextHuff -= dt; if (nextHuff <= 0) { puff(6, 0.5, 0.25, 1.1); nextHuff = P.huffEvery * (0.7 + 0.6 * Math.random()); } }
       const fade = f.material.opacity * (F.mesh.visible ? 1 : 0);
+      if (f.helm) { f.helm.mat.opacity = P.helm.opacity * fade; f.helm.mesh.visible = fade > 0.01; }
       breath.update(dt, fade); snow.update(dt, fade);
     };
     f.stats.peak = { breath: 40, snow: 44 };

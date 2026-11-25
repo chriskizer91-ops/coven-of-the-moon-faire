@@ -40,7 +40,7 @@ def weigh(D, P, idx):
             t = np.clip(((P[:, :2] - a2) @ ab) / max(float(ab @ ab), 1e-9), 0, 1)
             far = np.linalg.norm(P[:, :2] - (a2 + t[:, None] * ab), axis=1) > REACH[n[3:]]
             D[:, i] += np.where(~hol | far, 1000.0, 0.0)                         # a leg is only what stands in the hollow
-            D[:, i] += np.where(np.abs(np.abs(x) - abs(bn[3][0])) > 0.17, 1000.0, 0.0)   # and only its own column: never the hem beside the hoof
+            D[:, i] += np.where(np.abs(np.abs(x) - abs(bn[3][0])) > np.where(z < 0.09, 0.16, 0.07), 1000.0, 0.0)   # its own column: the hoof, never the hem beside it
     for e in ('head',):
         D[:, idx[e]] += np.where(y < (975 - MID) * S, 1000.0, 0.0)
     for e in ('neck_base', 'neck'):

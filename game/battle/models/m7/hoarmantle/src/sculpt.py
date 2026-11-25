@@ -28,7 +28,7 @@ LEGS = {   # across px, then side-view joints: shoulder/hip, elbow/stifle, knee/
     'br': [(-92, 520, 520), (-95, 508, 610), (-95, 516, 690), (-95, 512, 752), (-95, 516, 776)],
 }
 LEGS = {k: [p(*j) for j in v] for k, v in LEGS.items()}
-EYES = [p(s * 42, 1046, 492) for s in (1, -1)]
+EYES = [p(s * 53, 1052, 492) for s in (1, -1)]     # on the skull's surface, clear of the hair
 NOSE = p(0, 1110, 552)
 def REAR(z):                       # the curtain's back: 402 px low down, rounding forward over the rump
     return (402 + 70 * np.clip((z - 0.75) / 0.4, 0, 1) ** 2 - MID) * S
@@ -38,7 +38,7 @@ SKIRT_C = (735 - MID) * S          # (the middle, for the hem's pattern)
 HOLLOW_TOP = 0.78                  # how high the hollow under the hair reaches (the belly)
 
 WOOL = np.array([0.56, 0.62, 0.70]); WOOL2 = np.array([0.80, 0.84, 0.89]); FROSTW = np.array([0.87, 0.91, 0.94])
-HIDE = np.array([0.23, 0.25, 0.28]); HORN = np.array([0.47, 0.38, 0.30]); HORN2 = np.array([0.62, 0.53, 0.43])
+HIDE = np.array([0.23, 0.25, 0.28]); HORN = np.array([0.45, 0.37, 0.31]); HORN2 = np.array([0.60, 0.55, 0.52])   # the sheet's horn brown, the tips paler
 ICE = np.array([0.66, 0.85, 0.93]); ICE2 = np.array([0.82, 0.93, 0.97]); HOOF = np.array([0.17, 0.17, 0.19])
 EYE = np.array([0.62, 0.80, 0.90])
 
@@ -142,7 +142,8 @@ def build(K):
     xo, sx, sy = topx(SP)
     # the snow where the sheet has it: white in the side view and in the front or back view (drifts, hair between)
     def snowy(c): return (c.mean(1) > 200) & (c.max(1) - c.min(1) < 38)
-    ok = (SN[:, 2] > 0.2) & snowy(PIX(SP, 's')) & (snowy(PIX(SP, 'f')) | snowy(PIX(SP, 'b'))) & (sx < 1000)
+    drift = fbm(SP * np.array([1.0, 2.2, 1.0], np.float32) + 3, 1.6, 3) > 0.47          # separate drifts along the hump and spine, hair between
+    ok = (SN[:, 2] > 0.45) & snowy(PIX(SP, 's')) & (snowy(PIX(SP, 'f')) | snowy(PIX(SP, 'b'))) & (sx < 1000) & drift & (np.abs(SP[:, 0]) < 0.42)
     C = SP[ok]
     C = C[srng.permutation(len(C))]
     keep = []; from scipy.spatial import cKDTree
@@ -197,13 +198,14 @@ def build(K):
         b |= is_snow(P)
         Z = zones(P)
         b |= Z['face'] > 0.5
+        for e in EYES: b |= np.linalg.norm((P - e) / r(16, 14, 13), axis=1) < 1
         b |= Z['hooves'] > 0.5
         b |= Z['legs'] > 0.5
         return b
 
     def style(TP, TL, rng):
         n = len(TP); Z = zones(TP)
-        W = TL * (0.30 + 0.1 * rng.random(n)); H = np.minimum(TL * (0.08 + 0.03 * rng.random(n)), 0.055)
+        W = TL * (0.30 + 0.1 * rng.random(n)); H = np.minimum(TL * (0.11 + 0.04 * rng.random(n)), 0.085)       # deep locks, so they read in the baked surface
         H = H * (0.35 + 0.65 * sstep(0.12, 0.55, TP[:, 2]))          # thinning toward the hem: no ledge where the locks end
         C = mix(WOOL, WOOL2, rng.random(n)[:, None] ** 1.5)
         hi = np.clip((TP[:, 2] - 1.0) / 0.8, 0, 1)                                    # paler, frostier up high
@@ -255,7 +257,7 @@ def build(K):
         # colour: brown, paler toward the tip; rings of ice at intervals
         t_ = np.argmin(np.linalg.norm(V[:, None, :] - c[None, ::max(1, len(c) // 24), :], axis=2), 1) * max(1, len(c) // 24) / (len(c) - 1)
         cc = mix(HORN, HORN2, np.clip(t_ * 1.2, 0, 1)[:, None])
-        ring = (np.abs(np.sin(t_ * math.pi * 7 + 0.5)) > 0.94) & (t_ < 0.85)
+        ring = (np.abs(np.sin(t_ * math.pi * 9 + 0.5)) > 0.97) & (t_ < 0.85)        # fine pale rings of ice
         cc[ring] = ICE2
         M.add(V, F, np.clip(cc, 0, 1), 5, mat=(0.5, 0.0))
         for q in (0.35, 0.5, 0.62, 0.74):
@@ -279,12 +281,12 @@ def build(K):
         n_ = np.cross(pts[f[1]] - pts[f[0]], pts[f[2]] - pts[f[0]])
         if n_ @ (pts[f[0]] - cen) < 0: F[i] = f[[0, 2, 1]]
     used = np.unique(F); remap = -np.ones(len(pts), int); remap[used] = np.arange(len(used))
-    M.add(pts[used], remap[F], mix(ICE, ICE2, hr.random(len(used))[:, None]), 8, mat=(0.15, 0.0))
+    # (the brow ice is made in the page as clear faceted ice, peak/peak-foe.js: a baked picture cannot be see-through)
 
     # ---- eyes: small, calm, pale blue ----
     for e in EYES:
-        V, F = G.ellipsoid(e, r(7, 6, 5.5), {0: 6, 1: 8, 2: 12, 3: 16}[LV], {0: 10, 1: 14, 2: 20, 3: 28}[LV])
-        cc = np.tile(EYE, (len(V), 1)); cc[np.linalg.norm((V - e) / r(7, 6, 5.5) - np.array([0, 1, 0]), axis=1) < 0.55] = [0.05, 0.06, 0.08]
+        V, F = G.ellipsoid(e, r(10, 9, 8), {0: 6, 1: 8, 2: 12, 3: 16}[LV], {0: 10, 1: 14, 2: 20, 3: 28}[LV])
+        cc = np.tile(EYE, (len(V), 1)); cc[np.linalg.norm((V - e) / r(10, 9, 8) - np.array([0, 1, 0]), axis=1) < 0.5] = [0.05, 0.06, 0.08]
         M.add(V, F, cc, 8, mat=(0.2, 0.0))
 
     # ---- icicles: on the hair's ends round the hem, under the snow's shelves, under the horns ----
@@ -314,7 +316,8 @@ def build(K):
         import os, sheetpaint
         V, F, Cc, Kd = M.arrays()
         sheet = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', K.cfg['sheet'])
-        Cn = sheetpaint.paint(V, F, Cc, sheet, S, {'front': (200, GROUND), 'side': (MID, GROUND), 'back': (1331, 786)}, log=log)
+        Cn = sheetpaint.paint(V, F, Cc, sheet, S, {'front': (200, GROUND), 'side': (MID, GROUND), 'back': (1331, 786)}, power=4, log=log)
+        Cn[Kd != 0] = Cc[Kd != 0]          # horns, eyes, icicles keep their own colours (taken from the sheet), never smeared
         o = 0
         for i, c in enumerate(M.C): M.C[i] = Cn[o:o + len(c)]; o += len(c)
     return M

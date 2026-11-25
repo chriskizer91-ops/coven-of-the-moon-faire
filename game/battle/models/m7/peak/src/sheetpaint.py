@@ -23,7 +23,7 @@ def normals(V, F):
     for k in range(3): np.add.at(N, F[:, k], n)
     return N / np.maximum(np.linalg.norm(N, axis=1, keepdims=True), 1e-12)
 
-def paint(V, F, C, sheet_png, S, views, skip=None, keep=0.12, tol=0.035, log=print):
+def paint(V, F, C, sheet_png, S, views, skip=None, keep=0.12, tol=0.035, power=2, log=print):
     img = np.asarray(Image.open(sheet_png).convert('RGB')).astype(np.float32)
     Hh, Ww = img.shape[:2]
     bg = np.median(img[5:40, 5:40].reshape(-1, 3), 0)
@@ -46,11 +46,11 @@ def paint(V, F, C, sheet_png, S, views, skip=None, keep=0.12, tol=0.035, log=pri
         return col, ok
     x, y, z = V[:, 0], V[:, 1], V[:, 2]
     jobs = []
-    fc, fg = views['front']; jobs.append(('front', fc - x / S, fg - z / S, y, np.clip(N[:, 1], 0, 1) ** 2))
-    bc, bg_ = views['back']; jobs.append(('back', bc + x / S, bg_ - z / S, -y, np.clip(-N[:, 1], 0, 1) ** 2))
+    fc, fg = views['front']; jobs.append(('front', fc - x / S, fg - z / S, y, np.clip(N[:, 1], 0, 1) ** power))
+    bc, bg_ = views['back']; jobs.append(('back', bc + x / S, bg_ - z / S, -y, np.clip(-N[:, 1], 0, 1) ** power))
     sm, sg = views['side']
     for side in (1, -1):        # the sheet shows one side; the other is its mirror
-        w = np.clip(side * N[:, 0], 0, 1) ** 2
+        w = np.clip(side * N[:, 0], 0, 1) ** power        # power 4: only what faces the view squarely, no streaks down the sides
         jobs.append(('side', sm + y / S, sg - z / S, side * x, w))
     for name, u, v, depth, w in jobs:
         col, ok = look(u, v, depth, w)
