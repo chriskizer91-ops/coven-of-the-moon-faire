@@ -142,3 +142,38 @@ in code" (Envoi's `docs/project-notes/decisions.md`). That model was built the s
   Briars, Lunar Mend, Moonlight) to the doll's motions (it has Io's casts, so each could be Io's own motion for that
   spell, which would suit "she fights with Io's own spells"); load the files on zone 3's page and the fights lab.
   About half a day, and 6.3 MB on zone 3's page. **Not done: the hub asks Chris which knight he means.**
+
+## Calls for Chris (each made as one line of data, or left as the game had it)
+
+| # | What | Done here | The other choice |
+|---|---|---|---|
+| C1 | Form one's end | the story's: it cannot be sealed or ended, and its fight stops at 45% of its Life ("Nothing hurts it") | the plan's: it falls when its Life is gone or Kore seals it, and her Curtain Call brings the fallen up |
+| C2 | The final form's numbers and its end | the story's: its own Life (8,000 at level 1), no blow ends it, its blows fall on Kore, only her Sealed Fate ends it | the plan's: form one's body with 20% more Life and 10% bigger blows, ended in the Curtain Call |
+| C3 | Form one's helpers | two wraiths and two frost wisps (Envoi's page of this fight; zone 4's wisps) | the plan's "wraiths and brambles" (this game's brambles are foes always met alone); or, one day, the forty held Wardens of the story's proposal 14 |
+| C4 | A party lost in the final form | comes back to the final form, as before (the card asks again) | the plan's: the whole fight again from before form one (one line in `land-fights.js`, under "For the hub") |
+| C5 | A rest spot just outside the fight (the plan) | none added: the camp and Ede's inn in Misthollow | a rest spot by the dead Moonwell (`rests` in `zone-4.js`) |
+| C6 | The card has no "not now" | once the fire is faced, a setting must be chosen | a fifth button that walks away from the well |
+| C7 | When the fire breaks open | at the start of the final form's fight, after the coven's moment on the land, as Kore steps in front | at the end of form one's fight, as it stops |
+| C8 | How fine the model is drawn | detail 1, 21,104 triangles (as Chris saw it and approved it) | detail 0.5, 10,724 triangles (what Envoi's page of this fight used); one number in `foes.js` |
+| C9 | The card's words | stand-ins, except the four names (Moon Faire's own) | Chris's words |
+
+## The sums: how often a level 20 coven wins the last fight (`node tools/last-fight-balance.mjs --n 300`)
+
+One go is form one (stopped at 45%) and then the final form (ended by Kore's Sealed Fate); a go is won when both are.
+300 goes each, the battle's own pretend players, the same seeds every run. Nothing was tuned.
+
+| Setting | Careless | Attentive (careful) | Expert |
+|---|---|---|---|
+| As before today (level 20, no helpers, no refill) | 1% | 100% | 95% |
+| **Easy** (level 20, with helpers, the refill) | 0% | 44% | 70% |
+| **Medium** (level 21) | 0% | 14% | 29% |
+| **Hard** (level 22) | 0% | 4% | 10% |
+| **Crazy** (level 22.8) | 0% | 1% | 2% |
+
+- **Almost every lost go is lost in form one**, to the fire and its four helpers (easy: 56% of the attentive player's
+  goes, 30% of the expert's). With the refill, a coven that sees form one through nearly always wins the final form.
+- **Against Moon Faire's own measures** (its plan, the same kinds of player, nothing found): attentive and careful 80%,
+  3%, 0%, 0%; expert and careful 100%, 91%, 12%, 0%. Here easy is harder for both, medium is easier for the attentive
+  player and harder for the expert, and hard and crazy come out about the same. The two games' rules differ (four
+  witches here, this fight's own moves, the 45% stop), so the plan's numbers cannot be expected to carry over.
+- A win takes about 8 to 11 minutes of play.
