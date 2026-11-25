@@ -1,7 +1,5 @@
 # peak-creatures: two new creatures for the frozen peaks, the Wickstoat and the Hoarmantle
 
-NOT DONE: the Hoarmantle's look (the hub, November 24 evening: it must be reshaped from Chris's sheet; in progress).
-
 ## Report for the hub (kept true as the work goes; newest state, November 24 evening)
 
 **M7's way ran here, all of it.** Blender 4.0.2 and Python's numpy, scipy, scikit-image were installed from Ubuntu's
@@ -12,20 +10,27 @@ How to do it all again on another machine: "How to make the two again", below.
 
 | | The Wickstoat (zone 4, A) | The Hoarmantle (zone 4, B) |
 |---|---|---|
-| Sculpt (kept as source, not shipped) | 1,141,618 triangles, painted from the sheet | 1,118,426 triangles, painted from the sheet |
+| Sculpt (kept as source, not shipped) | 1,141,618 triangles, painted from the sheet | 1,151,096 triangles, shaped and painted from the sheet |
 | Stretch check (M7's) | PASS, every move | PASS, every move |
-| Light model the game draws | 20,583 triangles (+ 9 ice spines made in the page, 12 triangles each) | 34,205 triangles |
-| In the page | model 423 KB, pictures 290 KB (colour 1024, surface and shading 512) | model 766 KB, pictures 0.9 MB (colour and surface 1024, shading 512) |
-| Height | 0.60 m (1.63 m nose to tail) beside a 1.65 m witch | 2.16 m to the snow on its hump, 2.86 m long |
+| Light model the game draws | 20,583 triangles (+ 9 ice spines made in the page, 12 triangles each) | 35,972 triangles |
+| In the page | model 423 KB, pictures 290 KB (colour 1024, surface and shading 512) | model 759 KB, pictures 0.9 MB (colour and surface 1024, shading 512) |
+| Height | 0.60 m (1.63 m nose to tail) beside a 1.65 m witch | 2.06 m to the snow on its hump |
 
 **How near the sheet.** The Wickstoat is close: outline, white fur, dark paws, round ears, whiskers, black frosted
 tail tip, dark eyes and nose (its own, no longer smudged from the sheet), and nine clear ice spines from the shoulders
 to the tail, each with a solid warm amber spark (all nine lit beside the sheet; 3 when met). Not as near: its fur is
-less fluffy and a little thinner from the front; its sparks are a touch yellower than his. The Hoarmantle is
-recognisably his ox (face, horns with ice rings, ice helm, snow mantle, grey-blue hair to the ground, icicles, hooves
-peeping, painted from his picture) and it looks huge beside a witch, **but it is blockier than his**: its hair
-curtain hangs straighter and the snow sits as a cap; his hair is wider, wilder locks that flare at the hem, and his
-helm is clearer ice than the model's pale facets.
+less fluffy and a little thinner from the front; its sparks are a touch yellower than his. The Hoarmantle was **reshaped from his picture** (the hub's last round): its body is
+cut from the sheet's own outline in all three views (each view cut out of the grey, the three crossed, then rounded
+across so it is an animal, not a box), its head hung low and forward in front of the hair, its horns broad and heavy
+(brown, pale ice rings, curling forward), its brow one faceted slab of ice pointing down between the eyes, its snow
+laid only where his picture has white snow (drifts, hair between), its hair long hanging locks. **How near the
+outline, measured** (shared area over joined area, the model's outline against the sheet's, holes filled;
+`peak/src/overlap.py`): **front 0.947, side 0.936, back 0.932** (before this round, by M7's own measure, which counts
+grey spots inside a figure as background: 0.746, 0.625, 0.653; after, by M7's measure: 0.85, 0.74, 0.70). Still not as
+his: the hair is finer and stiffer than his wide flame-shaped locks; the hem is rounder, less ragged; the brow slab
+stands a little proud. The Wickstoat by the same measure: front 0.64, side 0.75, back 0.74 (its sculpt has no spines,
+which are made in the page, and no whisker tips, and the sheet's front figure takes in a piece of the side view's
+tail: so these numbers are low for reasons other than its body; beside the sheet it is the same animal).
 
 **No stretching: both PASS M7's check on every move** (limit 1.3 times for a big edge, 3 for a crease). Before, then
 after (the worst big edge of each move):
@@ -38,11 +43,12 @@ after (the worst big edge of each move):
 | Hoarmantle | Breathe | Walk | Trample | Winter Breath | Shake | Hit | Fall |
 |---|---|---|---|---|---|---|---|
 | first check | 1.24 | 2.74 | 3.73 | 4.00 | 2.85 | 3.37 | 2.97 |
-| now | 1.28 | 1.28 | 1.28 | 1.30 | 1.26 | 1.24 | 1.29 |
+| before reshaping | 1.28 | 1.28 | 1.28 | 1.30 | 1.26 | 1.24 | 1.29 |
+| reshaped (now) | 1.29 | 1.29 | 1.29 | 1.30 | 1.29 | 1.22 | 1.30 |
 
 What it took: the Hoarmantle's hair belongs to the body only and its legs only to their own hooves, in the hollow
 under the hair; its body sways whole instead of twisting; its head does the work and its neck barely moves; its
-legs move only a little, inside the hair. **Quieter than planned, said plainly:** Trample no longer shows a pawing
+legs stand still inside the hair (its walk is the body's heavy roll and bob); its head moves less. **Quieter than planned, said plainly:** Trample no longer shows a pawing
 hoof (it tore the hem beside the hoof): its wind-up is the head lowered and the body rocking back and dipping twice,
 then the charge. The Wickstoat's legs bend at the joints that show and its back arches less; its Glint rears less
 high (about 30 degrees). No move was left out.
