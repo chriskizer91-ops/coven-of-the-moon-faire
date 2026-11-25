@@ -20,7 +20,7 @@
     // the Skiff fitted out (skiff2) from the Warm Roads, the Cutter from the northern wilds (after her refit at the
     // shipyard), the Cutter made ready for the peaks (cutter2) from the frozen camp, home.
     shipFrom: { wickhollow: 'skiff', warmCamp: 'skiff2', northCamp: 'cutter', frozenCamp: 'cutter2' },
-    ships: ['skiff', 'cutter', 'brig', 'frigate', 'skiff2', 'cutter2'],   // (journey job: the two fitted-out ships added)   // the four that can be flown, smallest first (a landing not in the table flies the first)
+    ships: ['skiff', 'cutter', 'brig', 'frigate', 'skiff2', 'cutter2'],   // (journey job: the two fitted-out ships added)   // the six ships the piece knows (hub: four of them are flown now, the ones in shipFrom; the Brig and the Frigate are not used, Chris, November 24). A landing not in the table flies the first
 
     // ---------------- the flight ----------------
     startHeight: 680,        // metres over the landing she leaves from (Skies' own starting height; its clouds lie at 430)

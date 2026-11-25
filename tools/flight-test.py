@@ -195,7 +195,10 @@ def main():
             check(r and r.get('arrived') and events(pg) == ['start', 'raiders', 'clear', 'end'], '   flown straight, never firing: arrived after %d s, and both events still came, in order' % r.get('seconds', -1))
 
         flown = sorted(set(v['ship'] for v in notes.values() if isinstance(v, dict)), key=D['ships'].index)
-        check(flown == D['ships'], 'all four ships flew: %s' % ', '.join(D['words']['ships'][x]['cls'] for x in flown))
+        # hub: Chris dropped the Brig and the Frigate from the flights (November 24): the ships that must fly are the ones
+        # the table gives (shipFrom), not every ship listed. The Brig can still be named in a call: the next check does that
+        table = sorted(set(D['shipFrom'][a['id']] for a, t in flights), key=D['ships'].index)
+        check(flown == table, 'every ship the table gives flew (%d of the %d listed): %s' % (len(flown), len(D['ships']), ', '.join(D['words']['ships'][x]['cls'] for x in flown)))
         gave = pg.evaluate("(() => { W3D.flight.fly({ from: 'wickhollow', to: 'warmCamp', ship: 'brig', test: { hold: true } }); return W3D.flight.whenReady(); })()"); pg.evaluate('() => { W3D.flight.stop(); }'); pg.wait_for_function('!W3D.flight.flying')
         check(gave['ship'] == 'brig', 'a ship named in the call overrules the table (asked for the Brig from Wickhollow, got the %s)' % gave['ship'])
         if SIM:

@@ -229,13 +229,20 @@ def main():
             check(len(ships) == 3 and ships[0]['shown'] and not ships[1]['shown'] and not ships[2]['shown'], 'the fitted Skiff lies at the northern camp, not yet on the slip: %s' % json.dumps([(x['id'], x['ship'], x['shown']) for x in ships]))
             bs = at_gate(0); check(bs and bs[-1]['text'] == 'Board the ship', 'her button at the camp'); shot('e2-landing-zone-3')
             pg.evaluate("(() => { __people.move('captain', { place: ['shipyard', 800, 384], look: [764, 240] }, true); })()"); pg.wait_for_timeout(1200)
+            # hub: on a busy machine the switch can take longer than 1.2 s: wait for it, up to 10 s, then read
+            try: pg.wait_for_function("(() => { const s = W3D.landingShips.list(); return s[1].shown && !s[0].shown; })()", timeout=10000)
+            except Exception: pass
             ships = pg.evaluate('W3D.landingShips.list()')
             check(ships[1]['shown'] and not ships[0]['shown'] and not ships[2]['shown'], 'once the Grey Hat has gone to the slip, she is on the slip and not at the camp')
             bs = at_gate(1); pg.evaluate('() => __journey.board(1)'); pg.wait_for_timeout(300)
             ln = pg.evaluate("__journey.log.filter((l) => l.what === 'line').map((l) => l.text)")
             check(ln and 'slip' in ln[-1] and not pg.evaluate('!!W3D.maps.world.choosing'), 'on the slip, before the story is done, she will not fly: "%s"' % (ln[-1] if ln else ''))
             pg.wait_for_timeout(5000); at_gate(1); shot('e3-on-the-slip')
-            pg.evaluate("__story.set({ stage: 4 })"); pg.wait_for_timeout(1200); ships = pg.evaluate('W3D.landingShips.list()')
+            pg.evaluate("__story.set({ stage: 4 })"); pg.wait_for_timeout(1200)
+            # hub: the switch to the Cutter takes about 0.6 s and more on a busy machine: wait for it, up to 10 s, then read
+            try: pg.wait_for_function("(() => { const s = W3D.landingShips.list(); return s[2].shown && s[2].ship === 'cutter' && !s[1].shown; })()", timeout=10000)
+            except Exception: pass
+            ships = pg.evaluate('W3D.landingShips.list()')
             check(ships[2]['shown'] and ships[2]['ship'] == 'cutter' and not ships[1]['shown'], 'the refit done (stage 4), the ship on the slip is the Cutter')
             at_gate(1); pg.wait_for_timeout(300); at_gate(1); shot('e4-refit-done')
 
