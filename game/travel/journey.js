@@ -69,13 +69,72 @@
     if (!TEST) { mark('ended'); if (W3D.saves) W3D.saves.save('ended'); }
     say('ended', {});
     setTimeout(() => { const b = document.createElement('button'); b.className = 'cj-door'; b.textContent = WORDS().toDoor;
-      b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(28px + env(safe-area-inset-bottom,0px));z-index:31;min-height:52px;min-width:200px;padding:10px 24px;border-radius:26px;border:1px solid rgba(255,226,160,.7);background:rgba(30,26,60,.8);color:#ffe9b8;font:600 17px Georgia,serif;cursor:pointer';
+      // small-things: on one line (white-space:nowrap: with its left edge at the middle the button had only half the
+      // screen to fill, so on an upright phone it wrapped onto two lines), and 60 px up, clear of the frame-rate pill
+      // (bottom left: 12 px up, about 32 px tall)
+      b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:31;min-height:52px;min-width:200px;padding:10px 24px;border-radius:26px;border:1px solid rgba(255,226,160,.7);background:rgba(30,26,60,.8);color:#ffe9b8;font:600 17px Georgia,serif;cursor:pointer;white-space:nowrap';
       b.addEventListener('click', () => open('index.html', '')); document.body.appendChild(b); }, JT ? 0 : 6000);
   }
   // ---- the zone's story ----
   const story = () => G.__story || null;
   const isDone = () => { const st = story() && story().state(), d = D().done[zone]; if (!st || !d) return false;
+    if (!d.flag && st.flags && st.flags[LEAVE_READY]) return true;      // small-things: the moment is ready, held for the ship (below)
     return d.flag ? !!(st.flags && st.flags[d.flag]) : !!(st.moments && st.moments[d]); };      // a moment's name, or { flag } (zone 4: flags.leaving)
+
+  // ---- small-things (November 25): the leaving's lines are said once "Board the ship" is pressed and a course is set ----
+  // Each zone's leaving (its narrator says the ship lifts; in zones 1 to 3 the coven then speak, from the air) was said on
+  // the land the moment the story reached its end, before the player had boarded. Not a word is changed and nothing is
+  // cut: the story's own moment (zones 1 to 3) or told line (zone 4) is held back, and said, as it was written, after
+  // "Set course" on the 3D map and before the next page opens. Only on the flight onward (to the next landing, or home),
+  // once. Held back by turning its condition into a flag of the story's (LEAVE_READY), which the journey reads as "done".
+  // With ?test (the story's own checks) the story is left as it was.
+  const LEAVE_READY = 'journey.leave';
+  function holdLeaving() {
+    const cfg = (W3D.STORY || {})[zone]; if (!cfg || TEST || cfg.__heldLeaving) return; cfg.__heldLeaving = true;
+    for (const list of [cfg.moments, cfg.tell]) for (const m of list || []) if (m && m[0] === 'leaving' && typeof m[1] === 'function') {
+      const when = m[1];
+      m[1] = (c) => { try { if (!c.flag(LEAVE_READY) && when(c)) c.flag(LEAVE_READY, true); } catch (e) { console.error(e); } return false; };
+    }
+  }
+  // say the leaving now, then go on (go is called once, whatever happens)
+  function sayLeaving(go) {
+    let over = false; const fin = () => { if (!over) { over = true; go(); } };
+    try {
+      const st = story(), P = G.__people, cfg = (W3D.STORY || {})[zone] || {}, s = state();
+      if (TEST || !st || !P || (s.leftSaid || []).indexOf(zone) >= 0) return fin();
+      const gk = (st.zone || '') + '.leaving';      // (the story's groups are named by its talk's zone: 'z1.leaving', ...)
+      const asMoment = (cfg.moments || []).some((m) => m && m[0] === 'leaving') && st.groups[gk];
+      const told = !asMoment && (cfg.tell || []).some((m) => m && m[0] === 'leaving') && st.narration && st.narration.leaving;
+      if (!asMoment && !told) return fin();
+      if (asMoment && st.state().moments.leaving) return fin();          // (said already, the old way, in a save from before)
+      s.leftSaid = (s.leftSaid || []).concat(zone); store.set(KEY, JSON.stringify(s));
+      if (P.busy()) P.stop();
+      const lines = asMoment ? [].concat(st.narration.leaving ? [st.narration.leaving] : [], st.groups[gk]) : [st.narration.leaving];
+      say('leaving', { ids: lines.map((l) => l.id) });
+      let tries = 0;
+      const start = () => {
+        const ok = asMoment ? st.moment('leaving', fin) : P.play(lines, null, fin);
+        if (!ok && ++tries < 30) return void setTimeout(start, 200);     // (the land may take a moment to start again after the map)
+        if (!ok) return fin();
+        // whatever happens, the next page opens: if the lines end without saying so (another talk took their place), once
+        // nobody has been speaking for 3 seconds (the menu held open only pauses them, and does not count)
+        let idle = 0; const iv = setInterval(() => { if (over) return clearInterval(iv); idle = P.busy() ? 0 : idle + 1; if (idle >= 3) { clearInterval(iv); fin(); } }, 1000);
+      };
+      start();
+    } catch (e) { console.error(e); fin(); }
+  }
+  // ---- small-things: where on the atlas she lies, from the gate she was boarded at (each gate stands by the ship), so the
+  // flight starts over the ship, not over the landing's own spot (zone 3: up on the shipyard's slip, 3 km from the camp)
+  let boardedAt = null;
+  function atlasOf(g) {
+    try {
+      const Wd = W || G.__w3d, part = g && Wd && Wd.P.parts.find((p) => p.id === g.place[0]);
+      const Zd = ((G.W3D_PLACES || {})[zone] || {}).zone, A = Zd && Zd.land && Zd.land.atlas && Zd.land.atlas.map;
+      if (!part || !A || !A.origin || !A.k) return null;
+      const PM = part.P.M, x = part.ox + PM.x(g.place[1]), z = part.oz + PM.z(g.place[2]);
+      return [+(A.origin[0] + x / A.k).toFixed(1), +(A.origin[1] + z / A.k).toFixed(1)];
+    } catch (e) { return null; }
+  }
   const next = () => (G.COVEN_LANDINGS || []).find((l) => l.after === here) || null;
 
   // ---- one line of words, at the top of the screen (out of the middle of the picture) ----
@@ -127,6 +186,7 @@
   // ---- 1 and 2: the gate, and choosing ----
   async function board(gate) {
     if (busy) return false;
+    boardedAt = gate || null;      // small-things: the flight starts over this gate's ship
     const w = WORDS(), done = isDone();
     if (gate && gate.refit && !done) { line(w.onSlip); return false; }
     const s = state(), open1 = s.reached.filter((id) => id !== here && landing(id));
@@ -145,8 +205,19 @@
   function leave(to) {
     const L = landing(to); if (!L) { busy = false; return false; }
     busy = true;
+    // small-things: on the flight onward (the next landing, or home), the leaving's lines first; then the page opens
+    const H0 = D().home, nx = next(), onward = isDone() && ((nx && to === nx.id) || (H0 && here === H0.from && to === H0.to));
+    if (onward && !TEST && !leaving) { leaving = true; return new Promise((ok) => sayLeaving(() => ok(leaveNow(to, L)))); }
+    return leaveNow(to, L);
+  }
+  let leaving = false;
+  function leaveNow(to, L) {
     if (W3D.saves && !W3D.saves.test) W3D.saves.save('journey');
     const H = D().home, n = { v: 1, from: here, to, at: Date.now() };
+    // small-things: where she lies, if it is not the landing's own spot (more than 30 pixels of the atlas, about 100 m, off)
+    { const fits = (q) => !q.ship || !ships() || [].concat(q.ship).indexOf(ships()) >= 0;      // (the gate of the ship that is shown)
+      const g = boardedAt && fits(boardedAt) ? boardedAt : ((D().gates || {})[here] || []).find(fits) || null, a = g && atlasOf(g);
+      if (a && L && landing(here) && Math.hypot(a[0] - landing(here).atlas[0], a[1] - landing(here).atlas[1]) > 30) n.start = a; }
     if (H && here === H.from && to === H.to && isDone()) n.ending = true;      // the flight home: the next page opens as the ending
     store.set(NEXT, JSON.stringify(n));                // (for a page opened by hand: it finds its flight here)
     const c = carry(true);
@@ -202,8 +273,8 @@
     const onClear = () => { if (!firstIn) return; const ls = pick(fl.clear); heard(ls, 'flight-after'); sayLines(ls); say('moment', { name: 'flight-after' }); };
     G.addEventListener('coven:flight-raiders', onRaiders); G.addEventListener('coven:flight-clear', onClear);
     const ship = (W3D.flight.shipFor && W3D.flight.shipFor(from.id)) || undefined;
-    say('flight', { from: from.id, to: to.id, ship, firstIn });
-    const go = W3D.flight.fly({ from: from.id, to: to.id, test: JT ? { hold: true } : undefined });
+    say('flight', { from: from.id, to: to.id, ship, firstIn, start: n.start || null });
+    const go = W3D.flight.fly({ from: from.id, to: to.id, at: n.start || undefined, test: JT ? { hold: true } : undefined });      // small-things: at, where she lay
     if (firstIn) { const ls = pick(fl.start); heard(ls); setTimeout(() => sayLines(ls), JT ? 0 : 1800); }
     let r = null; try { r = await go; } catch (e) { r = { arrived: false, why: 'error' }; }
     G.removeEventListener('coven:flight-raiders', onRaiders); G.removeEventListener('coven:flight-clear', onClear);
@@ -296,7 +367,10 @@
     const list = el('div', 'slots', root), msg = el('p', 'msg', root, '');
     recs.forEach((rec, i) => { if (!rec) return; const n = i + 1, b = el('button', 'slot', list); b.dataset.slot = n;
       const js = parse(rec.keys && rec.keys[KEY]), end = js && js.ended ? ' · ' + w.ended : '';
-      el('b', '', b, (MW.carryOn || 'Carry on')); el('span', '', b, fill(MW.slot || 'Save {n}', { n }) + ' · ' + S.line(rec) + end);
+      // small-things: a slot that has seen the end says so without the story's part (a save made in the ending before
+      // menu/saves.js was put right carries "part 1 of 5", from the Faire's story read as zone 1's)
+      const shown = js && js.ended ? Object.assign({}, rec, { bits: Object.assign({}, rec.bits, { part: null, parts: null, lamps: null }) }) : rec;
+      el('b', '', b, (MW.carryOn || 'Carry on')); el('span', '', b, fill(MW.slot || 'Save {n}', { n }) + ' · ' + S.line(shown) + end);
       b.addEventListener('click', () => { msg.textContent = w.opening; say('door', { carryOn: n });
         if (n === S.current) open(rec.page || D().firstPage, carry(true)); else S.load(n); }); });
     const empty = recs.findIndex((r) => !r) + 1;
@@ -336,6 +410,7 @@
         return walk0.apply(this, arguments);
       };
       endingWraps();
+      holdLeaving();      // small-things: the leaving's lines wait for the ship (see sayLeaving)
       // the foot of an upright phone (journey job): the talk's button and words (people.js, things.js, the gate) sit just over
       // the frame-rate pill (bottom left) and the level pill (bottom right), not on them, where the screen is narrow
       { const st = document.createElement('style'); st.textContent = '@media (max-width:620px){.talkbtn{bottom:calc(66px + env(safe-area-inset-bottom,0px)) !important}.talkbox{bottom:calc(126px + env(safe-area-inset-bottom,0px)) !important}}'; document.head.appendChild(st); }

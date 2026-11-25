@@ -4,6 +4,8 @@
 //   W3D.flight.fly({ from, to, ship })   ->   a promise of { arrived: true } or { arrived: false, why }
 //
 //     from, to   a landing's id from game/travel/landings.js ('wickhollow', 'warmCamp', ...), or a landing itself
+//     at         (small-things, November 25) where on the atlas she starts, [x, y] in its pixels, when the ship does not
+//                lie at the landing's own spot (zone 3: up on the shipyard's slip). Left out: over the landing she leaves
 //     ship       'skiff', 'cutter', 'brig' or 'frigate'. Left out: the ship the data file gives for the landing the
 //                flight leaves (flight-data.js, shipFrom: the Skiff from Wickhollow, then the next at each gate)
 //     why        'lost' (she went down, and the crew got her home), 'turned-back' (the player gave the flight up),
@@ -52,6 +54,8 @@
     if (!from || !to || !from.atlas || !to.atlas) return Promise.resolve({ arrived: false, why: 'no-landing' });
     if (!D || !G.COVEN_FLIGHT_FRAME) return Promise.resolve({ arrived: false, why: 'error', message: 'the flight is not in this page' });
     const ship = D.ships.indexOf(o.ship) >= 0 ? o.ship : shipFor(from), doc = G.document;
+    // small-things: the spot she starts over (o.at, two numbers on the atlas), or the landing's own
+    const start = Array.isArray(o.at) && o.at.length === 2 && o.at.every((v) => isFinite(v)) ? [+o.at[0], +o.at[1]] : from.atlas;
     return new Promise((answer) => {
       const layer = doc.createElement('div'), frame = doc.createElement('iframe');
       layer.setAttribute('data-coven-flight', '');
@@ -66,7 +70,7 @@
         const m = e.data;
         if (!m || m.coven !== 'flight' || e.source !== frame.contentWindow) return;
         if (m.type === 'loaded') {
-          say({ type: 'start', opts: { from: { name: from.name, atlas: from.atlas }, to: { name: to.name, atlas: to.atlas }, ship: ship, data: D,
+          say({ type: 'start', opts: { from: { name: from.name, atlas: start }, to: { name: to.name, atlas: to.atlas }, ship: ship, data: D,
             test: TEST || !!o.test, hold: !!(o.test && o.test.hold), touch: o.test && o.test.touch != null ? o.test.touch : undefined } });
         } else if (m.type === 'ready') {
           clearTimeout(slow); cur.ready = true; focus(); if (cur.onReady) cur.onReady(m.state);

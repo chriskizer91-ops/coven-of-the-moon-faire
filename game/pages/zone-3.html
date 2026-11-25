@@ -29,7 +29,8 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 #world canvas.bigmap{position:absolute;inset:auto;left:50%;top:50%;transform:translate(-50%,-50%);z-index:8;width:auto;height:auto;touch-action:manipulation;border-radius:14px;box-shadow:0 6px 40px rgba(0,0,0,.75);cursor:pointer}
 /* the foot of the screen, in the middle: the Talk button, and over it the words a person says */
 .talkbtn{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:6;appearance:none;min-height:48px;min-width:150px;padding:10px 22px;border-radius:24px;border:1px solid rgba(255,226,160,.7);background:rgba(34,26,60,.86);color:#ffe9b8;font:600 16px Georgia,serif;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.45)}
-.talkbox{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:6;width:min(560px,calc(100% - 28px));padding:10px 16px 12px;border-radius:14px;background:rgba(14,12,34,.84);border:1px solid rgba(214,222,255,.28);pointer-events:none}
+/* small-things: the box's padding (16 px a side) and border (1 px a side) are outside its width here, so the width leaves room for them: on a 412 px phone it was 418 px wide; now 384 px, 14 px clear each side. A laptop's box is the same 594 px as before */
+.talkbox{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:6;width:min(560px,calc(100% - 62px));padding:10px 16px 12px;border-radius:14px;background:rgba(14,12,34,.84);border:1px solid rgba(214,222,255,.28);pointer-events:none}
 .talkbox.narr{background:rgba(8,8,22,.78);border-color:rgba(255,226,160,.3);text-align:center}
 .talkbox.narr .talksaid{font-style:italic;color:#ffeccc}
 .talkbox.narr .talkwho{display:none}
@@ -296,7 +297,7 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
     let story = null;
     try { const people = await W3D.people.start({ W, root: $('world'), zone: 'zone-3' }); story = W3D.story.start({ W, people, zone: 'zone-3', waitBegin: true }); W3D.things.start({ W, root: $('world'), people, story, zone: 'zone-3' }); } catch (e) { console.error(e); window.__peopleErr = String(e && e.stack || e); }
     // the start: the land waits behind one button (a phone only plays sound after a tap)
-    if (!/[?&]test\b/.test(location.search)) { const b = $('begin'), again = story && story.state().moments.landing; b.querySelector('button').textContent = again ? 'Carry on' : 'Begin'; b.style.display = 'grid'; W.pause(true);
+    if (!/[?&]test\b/.test(location.search)) { const b = $('begin'), again = story && story.state().moments.landing; b.querySelector('button').textContent = again ? 'Carry on' : 'Begin'; $('load').style.display = 'none'; /* small-things: the loading screen goes at once as the Begin screen comes (its fade only moves while frames are drawn, so the two showed through each other) */ b.style.display = 'grid'; W.pause(true);
       b.querySelector('button').addEventListener('click', () => { b.style.display = 'none'; W.pause(false); if (story) setTimeout(() => story.begin(), 900); }, { once: true }); }
     window.__ready = true;
   } catch (e) { console.error(e); $('loadmsg').textContent = 'Something went wrong: ' + e.message; window.__err = String(e && e.stack || e); }

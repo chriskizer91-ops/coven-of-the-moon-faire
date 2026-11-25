@@ -13,6 +13,20 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 25, 2026, 08:00: the small-things repair job is in `main`
+
+- **Hub's call:** `job/small-things` was brought into `main`. Put right: the talk box on a phone (384 px on a 412 px
+  screen), the end card's button (one line, clear of the frame-rate pill), the front door's line after the ending,
+  the corner map (painted while the Begin screen shows), the flight's edge labels, the ship's lamps on zones 2 and 3
+  (lanterns now), the loading words under the Begin screen, zone 3's flight out (it starts over the slip).
+- **Hub's call, a stand-in for Chris's:** the leaving lines of a zone are said after "Set course", not on the land
+  before she boards. No word changed. `docs/questions.md`, D8.
+- **Hub's call:** a third repair job, `left-overs`, started at 07:10 (Opus 5.5, high): small people's bent knees,
+  the nine big fights played again, flames that lean north, and a report on what a zone page's 100 MB are made of.
+  It makes nothing of a creature or a voice lighter.
+- The hub made the two small fixes the job asked for: the airship game's twelve lines in `assets/INDEX.csv` name the
+  branch they were really read from; `docs/lore/story-voices-z4.html` says 142 lines, not 144.
+
 ## November 25, 2026, 07:05: the fights repair job is in `main`
 
 - **Hub's call:** `job/fights-polish` was brought into `main` (`31fee0f`). A fight on an upright phone now fills
