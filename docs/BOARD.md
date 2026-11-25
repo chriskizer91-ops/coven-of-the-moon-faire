@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 18:17, by the hub.
+Last updated: November 24, 2026, 18:19, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -27,7 +27,13 @@ has been reviewed by a hub, and nothing of them is in `main`:**
   three things: the Hoarmantle's pictures show a fight's Victory card, not the ox, so nobody has seen its model;
   the Wickstoat's sparks must be warm amber, nine of them, and its face cleaned up; and BOTH FAIL M7's
   no-stretching check on most moves (the ox 1.8 to 2.8 times at the hem and under the neck; the stoat 1.3 to 1.6),
-  which must pass before either goes in. It is finished only when its slip's report says the check passes.
+  which must pass before either goes in.
+  **At 18:19:** the stretch check now passes on every move of both, and the Wickstoat is good (nine spines, amber
+  sparks). **But the Hoarmantle does not yet look like Chris's sheet** (a box with a flat hem, thin striped horns,
+  loose shards for the brow), and the hub sent it back a second time: shape the sculpt from the sheet's own
+  outlines and measure the overlap in each view (0.90 side, 0.85 front and back). **Do not bring this branch in
+  until its slip's first line no longer says "NOT DONE: the Hoarmantle's look", and a hub has looked at
+  `game/battle/models/m7/peak/for-chris/hoarmantle-beside-sheet.webp` and found the same animal in both rows.**
 
 **Why there is a handoff.** Chris's week of Fable usage reached 84%. The hub's conversation had grown so long that
 every step in it was costly, so he starts a fresh one. **A new hub cannot talk to the old hub's sub-agents and will
