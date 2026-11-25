@@ -14,6 +14,9 @@ Branch: job/left-overs      Updated: November 25, 2026
   The lines say north-east (8 lines) more than north (1). Data: `game/look/flame-lean.js` (committed, not yet loaded by
   any page). Engine and place patches drafted in the scratchpad (patch-core.py, patch-world.py, patch-places.py): to be
   applied only after `main` has small-things.
+- Task 1 done: pictures and knee angles on zones 1, 2, 3, before (the line undone in a copy of the built page) and
+  after (the page as built). Knees: Pell 92 to 165, Tamsin 92 to 165, Tock 77 to 174, Pim 72 to 168; Tobb 165 both;
+  Nettie (1.02) 174 to 165; the four witches the same both times. 0 page errors. Sheet: knees/small-folk-sheet.png.
 - Task 4: `tools/left-overs-weigh.py` written (reads a built page, changes nothing).
 
 ## Task 4: what a zone page is made of (a report; nothing was changed)
