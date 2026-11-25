@@ -17,19 +17,24 @@
     { id: 'callisto', name: 'Callisto', is: 'the Ranger', key: 'ranger' },
   ];
   // leader (November 25): how fast each one's steps go. The walker (engine/place/walker.js) plays her steps faster or slower
-  // by her speed over `natural` (metres a second at which her own steps keep her feet still on the ground: walk and jog).
-  // Kore and Europa (Moon Faire's Jester and the Fox forked from her) walk by a phase, in radians: in her walk a foot on the
-  // ground goes 0.51 m back in 62% of a step cycle, so the ground goes by at 0.131 m for each radian; in her run 0.38 m in
-  // a quarter of the cycle, 0.243 m a radian (game/witches/kore/jester_kit.js, fillBase). So at the walker's walk (1.3 m a
-  // second) and run (3.0) the phase goes 9.9 and 12.3 radians a second. Io and Callisto play named moves: Io keeps the
-  // walker's own numbers (as before); Callisto's are measured from her model (tools/leader-look.py prints them)
+  // by her speed over `natural`: the metres a second at which her own steps keep her feet still on the ground, at a walk and
+  // at a run. Measured on the leader job's small page (game/pages/leader-lab.html): a foot on the ground, how fast it goes
+  // back under her, at the walker's walk (1.3 m a second) and run (3.0).
+  //   Kore and Europa (Moon Faire's Jester, and the Fox made from her) walk by a phase, in radians. On the ground her foot
+  //   goes back 0.131 m for each radian at a walk and 0.292 m at a run, so at the walker's walk and run the phase goes 9.9
+  //   and 10.3 radians a second. (It went 2.2 and 3.3 before: her feet slid, at about a quarter of the ground's pace.)
+  //   Io: her walk as before (1.05: her feet go 1.24 m a second at 1.3); her run 2.79 (it was 2.13, and her feet went back
+  //   3.9 m a second while the ground went 3.0). Callisto: 1.27 and 2.35 (she had Io's numbers: 1.56 m a second at a walk).
+  // The other choice is the old numbers (io: walk 1.054, jog 2.125 for Io and Callisto; 2.2 and 3.3 for the phase)
   const STEP = {
-    phased: { walk: 1.3 / 0.131, run: 3.0 / 0.243, natural: { walk: 1.3, jog: 3.0 } },
+    phased: { walk: 1.3 / 0.131, run: 3.0 / 0.292, natural: { walk: 1.3, jog: 3.0 } },
+    io: { walk: 1.054, jog: 2.79 },
+    callisto: { walk: 1.27, jog: 2.35 },
   };
   const made = {};
   W3D.witch = function (id) {
     if (made[id]) return made[id];
-    if (id === 'io') { const A = G.makeMoonIo({ weight: 'lightest' }); A.id = 'io'; return (made.io = A); }
+    if (id === 'io') { const A = G.makeMoonIo({ weight: 'lightest' }); A.id = 'io'; A.natural = STEP.io; return (made.io = A); }
     const w = W3D.WITCHES.find((q) => q.id === id); if (!w) throw new Error('no witch called ' + id);
     const m = G.MF_WITCHES[w.key].raw('lightest'), phased = !!m.ACTIONS;
     if (m.spellLight && m.spellLight.parent) m.spellLight.parent.remove(m.spellLight);   // her spell light is not lit while she walks
