@@ -207,15 +207,16 @@
     // straight behind the party toward the audience), rise (degrees up from level), fov (the lens, degrees top to bottom).
     // `centre`: how many times a wide shot is moved onto the middle of what it frames and fitted again (0: it looks at the
     // middle between the party and the foes, as before). `clearTop`: on a screen that keeps the foes' name box clear, the
-    // pixels left under that box. A screen is upright when it is narrower than `upright` times its height (a phone held
+    // pixels left under that box. `edge`: how far out to the side a shot may reach, as a share of half the screen's width
+    // (0.9 leaves a twentieth of the width at each side). A screen is upright when it is narrower than `upright` times its height (a phone held
     // upright): there the `tall` numbers are used. Before, an upright phone used the laptop's numbers, and a witch stood
     // about 45 to 75 px tall in a thin band across the middle of an 880 px screen; now the shot comes round nearer
     // behind the party and looks down more, so the party stands big near the bottom and the foes beyond them higher up.
     // A laptop and a phone on its side keep the numbers they had
     const FRAMING = {
       upright: 0.9,
-      wide: { turn: 50, rise: 7, fov: 36 }, fit: { turn: 48, rise: 9, fov: 36 }, centre: 0, clearTop: 0,
-      tall: { wide: { turn: 10, rise: 22, fov: 40 }, fit: { turn: 12, rise: 22, fov: 40 }, centre: 3, clearTop: 8 },
+      wide: { turn: 50, rise: 7, fov: 36 }, fit: { turn: 48, rise: 9, fov: 36 }, centre: 0, clearTop: 0, edge: 0.9,
+      tall: { wide: { turn: 10, rise: 14, fov: 40 }, fit: { turn: 12, rise: 16, fov: 40 }, centre: 3, clearTop: 8, edge: 0.84 },
     };
     const upright = () => view.w < view.h * FRAMING.upright, framing = () => (upright() ? FRAMING.tall : FRAMING);
     const DIR = (() => {
@@ -247,7 +248,8 @@
       // the distance along a direction at which every point fits (a little in from the edges)
       function fitDist(dir, look, pts, fov, min) {
         const U = usable(); tmp.fov = fov; tmp.aspect = view.w / Math.max(1, U.H); tmp.updateProjectionMatrix();
-        const ok = (d) => { tmp.position.copy(look).addScaledVector(dir, d); tmp.lookAt(look); tmp.updateMatrixWorld(); for (const p of pts) { q.copy(p).project(tmp); if (q.z > 1 || Math.abs(q.x) > 0.9 || Math.abs(q.y) > U.yLim * 0.9) return false; } return true; };
+        const E = framing().edge; // fights-polish: FRAMING.edge (was 0.9 written here)
+        const ok = (d) => { tmp.position.copy(look).addScaledVector(dir, d); tmp.lookAt(look); tmp.updateMatrixWorld(); for (const p of pts) { q.copy(p).project(tmp); if (q.z > 1 || Math.abs(q.x) > E || Math.abs(q.y) > U.yLim * 0.9) return false; } return true; };
         let lo = min || 1.6, hi = 90; if (ok(lo)) return lo;
         for (let i = 0; i < 22; i++) { const m = (lo + hi) / 2; if (ok(m)) hi = m; else lo = m; }
         return hi;
@@ -359,7 +361,8 @@
       // back to the painter's own camera (the opening; a fight that ends)
       T.fixed = () => { T.free = false; T.followF = null; if (back) { back.visible = false; mirror.visible = false; } if (SHEET) SHEET.visible = true; for (const m of framers()) m.visible = true; camera.fov = fullCam.fov; camera.aspect = fullCam.aspect; camera.near = fullCam.near; camera.far = fullCam.far; camera.position.copy(fullCam.position); camera.quaternion.copy(fullCam.quaternion); camera.updateMatrixWorld(); camera.updateProjectionMatrix(); lastTf = ''; };
       T.debug = () => ({ back: !!back, sheet: !!(AF && AF.root.children.find((o) => o.isMesh && o.renderOrder === -100)), img: paintImg.naturalWidth, kids: AF ? AF.root.children.length : 0, pos: T.pos.toArray().map((v) => +v.toFixed(2)), look: T.look.toArray().map((v) => +v.toFixed(2)), fov: T.fov, bpos: back ? back.position.toArray().map((v) => +v.toFixed(1)) : null, cam: fullCam.position.toArray().map((v) => +v.toFixed(2)) });
-      T.start = () => { if (!T.on) return; T.free = true; T.n = 0; T.cutNext = true; };
+      // fights-polish: started again when already moving (an upright phone's intro), it glides on instead of cutting
+      T.start = (glide) => { if (!T.on) return; const was = T.free; T.free = true; if (!(glide && was)) { T.n = 0; T.cutNext = true; } };
       return T;
     })();
     function addShake(px) { if (!REDUCED) shake.amp = Math.max(shake.amp, px); if (BF) BF.shake(px); }
@@ -2266,6 +2269,9 @@
         for (const f of foes) { f.pos = { x: f.home.x, z: f.home.z }; f.yaw = f.tyaw = f.home.yaw; }
         const told = cfg.introMsg && !quick, said = (x) => (typeof x === 'function' ? x(E.foes) : x);
         if (told) { $('skip').hidden = false; shot(IW / 2, IH * 0.4, 0, 1.4); UI.msg(said(cfg.introMsg)); await ws(2.6); }
+        // fights-polish: on an upright phone the painter's fixed camera shows only a narrow slice of the wide painting, so
+        // the party was cut at the edge while the foes rose: there the moving camera takes over now, not after the intro
+        S.dirEarly = upright() && !cfg.standing; if (S.dirEarly) DIR.start();
         shotField(3);
         // after a cutscene (cfg.standing) the foes already stand where it left them, so they don't rise a second time
         for (const f of foes) {
@@ -2294,7 +2300,7 @@
         await wait(1);
       }
       UI.showBattle(true); UI.buildWindows(); UI.status(); layoutView();
-      DIR.start();
+      DIR.start(S.dirEarly); S.dirEarly = false; // fights-polish: glides on from the upright intro's shot
       shotField(2);
       io().m.play('cast'); UI.msg(cfg.attackText ? cfg.attackText(E.foes) : 'The foes attack!'); S.musicBase = cfg.finale ? (MP.finale || MP.boss) : cfg.fanfare || foes.some((f) => f.kind === 'halcyon' || f.kind === 'noctara' || f.kind === 'colossus') ? MP.boss : MP.battle; SND.startMusic(S.musicBase);
       await wait(1.4); UI.hideMsg();
@@ -2876,22 +2882,28 @@
         get sharp() { const s = renderer ? renderer.getDrawingBufferSize(new THREE.Vector2()) : null; return { sharp: SHARP, ratio: renderer ? renderer.getPixelRatio() : 0, dpr: DPR, w: s ? s.x : 0, h: s ? s.y : 0 }; },
         // in an arena after a cutscene, the lens and crop the fight held while the cutscene's last picture faded into it
         get opening() { return S.opening || null; },
-        // fights-polish: where each fighter stands on the screen, in CSS pixels (for the checks): the box round its visible
-        // meshes as drawn now, and its nominal feet and head (pos, tall). The stage's size and the menus' top come too
+        // fights-polish: where each fighter stands on the screen, in CSS pixels (for the checks): the box round its body as
+        // drawn now (its posed points, every third one; not its glows, shadows and effects), its height on the screen as a
+        // person would measure it, and its height in metres. The stage's size, the menus' top and the name box's bottom too
         boxes() {
-          const out = [], b = new THREE.Box3(), bb = new THREE.Box3(), v = new THREE.Vector3();
+          const out = [], v = new THREE.Vector3();
           camera.updateMatrixWorld();
           for (const f of heroes.concat(foes)) {
             if (!f.m.root.visible || f.out) continue;
-            b.makeEmpty(); f.m.root.updateMatrixWorld(true);
-            f.m.root.traverseVisible((o) => { if (!o.isMesh || !o.geometry) return; if (!o.geometry.boundingBox) o.geometry.computeBoundingBox(); bb.copy(o.geometry.boundingBox).applyMatrix4(o.matrixWorld); b.union(bb); });
-            let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
-            if (!b.isEmpty()) for (let i = 0; i < 8; i++) { v.set(i & 1 ? b.max.x : b.min.x, i & 2 ? b.max.y : b.min.y, i & 4 ? b.max.z : b.min.z); const p = toScreen(v); x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
-            const feet = toScreen(v.set(f.pos.x, 0, f.pos.z)), head = toScreen(v.set(f.pos.x, f.tall, f.pos.z));
-            // its height on the screen as a person would measure it: its lowest to its highest point, straight up where it stands
-            const cx = b.isEmpty() ? f.pos.x : (b.min.x + b.max.x) / 2, cz = b.isEmpty() ? f.pos.z : (b.min.z + b.max.z) / 2;
-            const lo = toScreen(v.set(cx, b.isEmpty() ? 0 : Math.max(0, b.min.y), cz)), hi = toScreen(v.set(cx, b.isEmpty() ? f.tall : b.max.y, cz));
-            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, box: [x0, y0, x1, y1].map((n) => Math.round(n)), feet: feet.slice(0, 2).map(Math.round), head: head.slice(0, 2).map(Math.round), mh: +(b.isEmpty() ? 0 : b.max.y - Math.max(0, b.min.y)).toFixed(2), hpx: Math.round(Math.abs(lo[1] - hi[1])) });
+            f.m.root.updateMatrixWorld(true);
+            let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9, lo = 1e9, hi = -1e9;
+            f.m.root.traverseVisible((o) => {
+              if (!o.isMesh || !o.geometry || !o.geometry.attributes.position) return;
+              const mt = Array.isArray(o.material) ? o.material[0] : o.material;
+              if (mt && (mt.blending === THREE.AdditiveBlending || (mt.transparent && !mt.depthWrite) || mt.opacity < 0.05 || mt.colorWrite === false)) return;
+              const P = o.geometry.attributes.position, n = P.count, step = n > 3000 ? 3 : 1;
+              for (let i = 0; i < n; i += step) {
+                if (o.isSkinnedMesh) o.boneTransform(i, v); else v.fromBufferAttribute(P, i);
+                v.applyMatrix4(o.matrixWorld); lo = Math.min(lo, v.y); hi = Math.max(hi, v.y);
+                const p = toScreen(v); x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]);
+              }
+            });
+            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, box: [x0, y0, x1, y1].map((n) => Math.round(n)), hpx: Math.round(y1 - y0), mh: +(hi - Math.max(0, lo)).toFixed(2) });
           }
           const ui = $('ui'), en = $('enemy');
           return { w: view.w, h: view.h, shot: DIR.free ? DIR.last : 'painting', uiTop: ui && !ui.hidden ? view.h - ui.offsetHeight : view.h, enemyBottom: en && !en.hidden ? en.offsetTop + en.offsetHeight : 0, fighters: out };
