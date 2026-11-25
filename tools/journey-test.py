@@ -115,7 +115,9 @@ def main():
                 try: s = pg.evaluate("(() => { if (!window.__people) return null; const s = __people.say(); return { page: location.pathname.split('/').pop(), id: s && s.id, go: !!" + GO + " }; })()")
                 except Exception: break
                 if not s or s['page'] != page_from: break
-                if s['id'] and (not ids or ids[-1] != s['id']): ids.append(s['id'])
+                if s['id'] and (not ids or ids[-1] != s['id']):
+                    ids.append(s['id'])
+                    if len(ids) == 1: shot('leaving-said-' + page_from.replace('.html', ''))
                 if s['go'] and time.time() - last > 1.2:
                     try: pg.evaluate("(() => { const b = " + GO + "; if (b) b.click(); })()"); last = time.time()
                     except Exception: break
