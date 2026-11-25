@@ -74,8 +74,8 @@ with the old numbers put back in `FRAMING.tall`.
 | Fight | Foes | Upright phone 412x880, before | Upright phone, after | Laptop 1280x720 (unchanged) | Phone on its side 880x412 (unchanged) |
 |---|---|---|---|---|---|
 | zone 1, A | the Rotwarden (2.6 m) | 67 to 70 px | **173 to 206 px** | 182 to 225 px | 94 to 110 px |
-| zone 1, B | three Glowcaps | 60 to 63 px | **125 to 146 px** | 165 to 209 px | (see the log) |
-| zone 2, A | the Forge-Spark (0.49 m) and a wraith | 59 to 61 px | **168 to 200 px** | 170 to 206 px | (see the log) |
+| zone 1, B | three Glowcaps | 60 to 63 px | **125 to 146 px** | 165 to 209 px | 91 to 106 px |
+| zone 2, A | the Forge-Spark (0.49 m) and a wraith | 59 to 61 px | **168 to 200 px** | 170 to 206 px | 91 to 106 px |
 | zone 4, B | the Hoarmantle | 65 to 68 px | **158 to 185 px** | 181 to 224 px | 93 to 109 px |
 
 (The hub's "about 45 px" was read off zone 4's picture, slot A; measured this way, zone 4 B stood 65 to 68 px.)
@@ -85,7 +85,48 @@ Forge-Spark 46 (its box with its reach; the creature itself is about 25 px: its 
 
 ### What was checked, and how many good and failed
 
-(see "The checks" below; filled in as each ended)
+Every page was built from this branch. Every browser check ran through the shared lock, one at a time, with
+`PYTHONPATH=tools/hub/pw-bridge` (the bridge needed nothing new).
+
+| Check | Page | Good | Failed |
+|---|---|---|---|
+| `tools/battle-frame-test.py`, 4 fights (zone 1 A: the Rotwarden alone; zone 1 B: three Glowcaps; zone 2 A: the Forge-Spark and a wraith; zone 4 B: the Hoarmantle) at 412x880, 1280x720 and 880x412 | `fights-lab.html` | 213 | 0 |
+| the same, "before" (old numbers put back), at 412x880 | `fights-lab.html` | 74 | 16 (every witch under 110 px: the fault this job mends) |
+| `tools/battle-frame-test.py --land`, slot A of each zone, at the three sizes | `zone-1.html` to `zone-4.html` | 48, 55, 48, 55 | 0 |
+| `tools/battle-test.py` | `battle.html` | 8 fights played | 0, 0 page errors |
+| `tools/battle-start-test.py` | `battle.html` | 14 | 0 |
+| `tools/encounter-fights-test.py --only zone-1-A,zone-1-B,zone-2-A,zone-4-A`, each played to its end | `fights-lab.html` | 13 (all four won) | 0, 0 page errors |
+| `tools/encounter-test.py`, run whole | `zone-2.html` | 43 | 0 |
+| `tools/encounter-test.py`, run whole | `zone-1.html` | 39 (the lost fight at level 1: lost, the coven woke at the camp, healed) | 0 |
+| `node tools/encounter-balance.mjs` | sums | every target met; 181 fights for the attentive player, as on the board | 0 |
+| white sage, by sums with the battle's engine | | offered, heals all four, then "once a fight" | 0 |
+| one foe maker: `makeM7Foe` and `makePeakFoe` give the same creature, in a browser | `fights-lab.html` | Wickstoat: 9 spines, 9 sparks, its motes; Hoarmantle: its breath and snow; Rotwarden: nothing added | 0 |
+
+"Skip intro" was checked in every one of the frame runs: 44 px tall, under the frame-rate words, inside the screen.
+
+A note on the hub's pictures: with the camera settled, the old upright shot already had all four witches inside the
+picture (only small). The witch cut at the left edge in the hub's pictures was taken while the camera was still
+gliding or during a move (this browser draws only 2 or 3 frames a second, so a glide takes many seconds here), and in
+the intro, where the painting's slice was centred on the painting's middle. The frame check now waits until the
+camera has arrived.
+
+### The pictures (every one looked at)
+
+All in `/tmp/claude-0/-home-user-coven-of-the-moon-faire/41576e32-9c97-530a-9c7c-c502d1946878/scratchpad/fights-polish/`:
+- `upright-before-after.jpg`: the four lab fights on an upright phone, before (top row) and after (bottom row).
+- `land-upright.jpg`: slot A on each zone's page, upright phone, after.
+- `after/`: the lab fights, `<fight>-intro-<size>.png` and `<fight>-rest-<size>.png`, at the three sizes;
+  `before/`: the same at 412x880 with the old numbers; `land/`: slot A on each zone page, intro and resting shot, at
+  the three sizes. `frame-numbers.json` in each folder holds every box measured.
+- The logs of every check are beside them (`*.log`, and `summary.txt`).
+
+These are the resting shot (the menu waiting) and the intro, not a shot a few seconds into the auto-player's moves as
+the hub's were: the resting shot is the picture the player sees most, and it is the one the change is about.
+
+What is still wrong in them: on an upright phone the painted place does not show (all ground; "Rough" below); the
+Forge-Spark is a speck on every screen (its size is Chris's call); in zone 4 slot A on a laptop, a small glow of the
+frost wisp shows during the intro's first line, before the foes rise (older than this job: the laptop's intro was not
+changed).
 
 ### Not checked
 
