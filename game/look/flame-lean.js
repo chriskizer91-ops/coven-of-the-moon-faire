@@ -21,7 +21,7 @@
     on: true,              // false: every flame stands straight, as before
     strength: 1,           // how far they all lean: 1 as below, 0.5 half as far, 2 twice as far
     toward: 45,            // which way, in degrees from north round toward east: 0 north, 45 north-east (the lines), 90 east
-    fingerDegrees: 5,      // one of Odile's fingers' widths of lean, as degrees from upright
+    fingerDegrees: 3,      // one of Odile's fingers' widths of lean, as degrees from upright
     flicker: 0.22,         // how much a flame wavers about its lean, as a share of it (0: not at all)
     // how many fingers the flames lean, on each zone's land, at each stage of its story (0 to 4). On zone 1 the stages
     // are dusk, asked, home, the fen, after the great wraith. Left-overs' reading of the lines: a proposal.

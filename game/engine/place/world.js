@@ -766,7 +766,7 @@
         layWall: (k, len, y0, y1, lay, s0) => { const q = layWall(k, len, y0, y1, lay || newLay()); if (s0 && !q.n) { q.uv[0] += s0; q.uv[2] += s0; } return q.uv; }, lays: LAYS, newLay, wear: WEAR, have: HAVE,
         light: (px, py, r, s, kind) => lights.push([px, py, r, s, kind || 'warm']),
         halo: (x, y, z, size, rgb) => halos.push([x, y, z, size, rgb[0], rgb[1], rgb[2]]),
-        fire(px, py, size) { const x = X(px), z = Z(py), y = gh(px, py), s = size || 1; B.box('stone', x, y - 0.1, z, 0.9 * s, 0.25, 0.9 * s, 0.785, [0.6, 0.58, 0.6]); B.leaning(y + 0.1, () => { B.box('glass', x, y + 0.1, z, 0.45 * s, 0.35 * s, 0.45 * s, 0.3, [2.0, 0.85, 0.3]); B.box('glass', x, y + 0.3 * s, z, 0.25 * s, 0.35 * s, 0.25 * s, 1.1, [2.2, 1.2, 0.4]); });      /* Coven (left-overs): the fire leans */ halos.push([x, y + 0.5 * s, z, 2.6 * s, 1.0, 0.5, 0.2]); lights.push([px, py, 170 * s, 1.4, 'forge']); lamps3d.push({ x, y: y + 0.6, z, c: 0xff8a40, k: 1.8 }); addBlock(circlePx(px, py, 0.6 * s, 8)); },
+        fire(px, py, size) { const x = X(px), z = Z(py), y = gh(px, py), s = size || 1; B.box('stone', x, y - 0.1, z, 0.9 * s, 0.25, 0.9 * s, 0.785, [0.6, 0.58, 0.6]); B.box('glass', x, y + 0.1, z, 0.45 * s, 0.35 * s, 0.45 * s, 0.3, [2.0, 0.85, 0.3]); B.box('glass', x, y + 0.3 * s, z, 0.25 * s, 0.35 * s, 0.25 * s, 1.1, [2.2, 1.2, 0.4]); halos.push([x, y + 0.5 * s, z, 2.6 * s, 1.0, 0.5, 0.2]); lights.push([px, py, 170 * s, 1.4, 'forge']); lamps3d.push({ x, y: y + 0.6, z, c: 0xff8a40, k: 1.8 }); addBlock(circlePx(px, py, 0.6 * s, 8)); },
       };
       place.extra(K);
     }
