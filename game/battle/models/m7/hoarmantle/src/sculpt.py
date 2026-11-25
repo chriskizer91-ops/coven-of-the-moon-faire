@@ -248,10 +248,10 @@ def build(K):
     for s in (1, -1):
         c = curve([p(s * 62, 995, 462), p(s * 112, 962, 468), p(s * 150, 918, 505), p(s * 158, 908, 560),
                    p(s * 146, 932, 605), p(s * 118, 985, 614), p(s * 90, 1030, 592), p(s * 74, 1054, 562)],
-                  {0: 14, 1: 20, 2: 36, 3: 52}[LV])
+                  40)                                   # the same at every level, so the bake finds it
         u = np.linspace(0, 1, len(c))
         rad = (36 * (1 - u) ** 0.7 + 6) * S                 # broad and heavy at the root, as the sheet draws them
-        V, F = G.tube(c, rad, max(7, SIDES + 2), ridges=10 if LV >= 2 else 0, ridge_amp=0.06)
+        V, F = G.tube(c, rad, 14, ridges=10, ridge_amp=0.04)
         # colour: brown, paler toward the tip; rings of ice at intervals
         t_ = np.argmin(np.linalg.norm(V[:, None, :] - c[None, ::max(1, len(c) // 24), :], axis=2), 1) * max(1, len(c) // 24) / (len(c) - 1)
         cc = mix(HORN, HORN2, np.clip(t_ * 1.2, 0, 1)[:, None])
