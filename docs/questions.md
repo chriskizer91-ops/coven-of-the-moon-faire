@@ -28,6 +28,8 @@ The thirteen questions of November 18, all answered, are kept below as the recor
 | B6 | Resting | She can rest at the hall, the bunkhouse and the inn |
 | B7 | What waits at the road stones | Frost wisps and a wraith |
 | B8 | A lost flight | She is put back where she left, and nothing is lost |
+| B9 | What zone 4's white sage does in a fight | It heals the whole party, as Lavender does. A stand-in by the fights-polish job. Before November 25 it was carried and could not be used at all |
+| B10 | A fight on an upright phone: the painted place, or the fighters big | The fighters big. The camera stands behind the party and looks down, so only ground shows behind them. To see a strip of the painting the camera must look down less, and then the witches stand in front of the foes |
 
 ### C. The creatures
 

@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 25, 2026, 04:00, by the hub.
+Last updated: November 25, 2026, 07:05, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -85,7 +85,7 @@ ceiling was 1.5; nothing is shrunk without Chris's word).
 
 | Job | Branch | What | Slip |
 |---|---|---|---|
-| `fights-polish` | `job/fights-polish` | A fight on an upright phone: the fighters are tiny in a thin band and the lower half is empty. "Skip intro" lies over the frame-rate words. Zone 4's white sage cannot be used in a fight. `encounter-test` on zone 1 run whole wins a fight it means to lose (the check's own order). One foe maker instead of two, if it is small | `docs/slips/fights-polish.md` |
+| `fights-polish` | `job/fights-polish` | **In `main` since November 25, 07:05 (`31fee0f`).** A fight on an upright phone fills the screen (a witch 125 to 206 px tall at 412x880; she was 60 to 70). The camera's numbers are one block of data, `FRAMING` in `game/battle/screen.js`. "Skip intro" is 44 px tall and under the frame-rate words. White sage can be used in a fight (a stand-in: Lavender's heal). `encounter-test` on zone 1 runs whole (39 good). One foe maker, `makeM7Foe`. New check: `tools/battle-frame-test.py` | `docs/slips/fights-polish.md` |
 | `small-things` | `job/small-things` | The rough spots of the journey and the land, listed under "Known rough spots" below, each put right or said why not | `docs/slips/small-things.md` |
 
 When each has "Report for the hub" at the top of its slip: review it, bring it in, run the checks its files touch,
@@ -124,6 +124,11 @@ The whole list, each with the hub's suggestion, is the first part of `docs/quest
   they look good).
 - **Small and left:** the Sapwight's root tip is 11 cm under the ground; the Glowcap has a small dark notch low
   on its belly; `battle-balance`'s two old misses.
+- **Left by the fights-polish job:** on an upright phone only ground shows behind a fight, not the painted place
+  (Chris's call, B10); the Hoarmantle's own fight was not played to its end after the makers were made one (the
+  Wickstoat's was, through the same path); in zone 4's first slot on a laptop a small wisp glow shows during the
+  intro's first line; `tools/battle-scope-css.py` must not be run as it is, because it would drop the hand-made
+  phone block at the end of `game/battle/screen-layer.css` and the "Skip intro" change.
 
 ### How the hub works on this machine
 
@@ -734,7 +739,7 @@ The hub's plan. Names and order may change.
 | `journey` | The four zones joined as one journey: the ship as the gate, the flight, one save, the front door, the ending (a sub-agent) | `job/journey` | `docs/slips/journey.md` | **Done, in `main`** (November 25, 03:50) |
 | `creatures` | Six of Aethermoor M7's creatures in the battle and in the slots of zones 1 to 3 (a sub-agent) | `job/creatures` | `docs/slips/creatures.md` | **Done, in `main`** (November 25, 03:50). Where each lives is a proposal |
 | `peak-creatures` | The Wickstoat and the Hoarmantle, built from Chris's sheets, for zone 4 (a sub-agent) | `job/peak-creatures` | `docs/slips/peak-creatures.md` | **Done, in `main`** (November 25, 03:50) |
-| `fights-polish` | A fight on an upright phone, and the fights' small things (a sub-agent) | `job/fights-polish` | `docs/slips/fights-polish.md` | **Started November 25, 04:00** |
+| `fights-polish` | A fight on an upright phone, and the fights' small things (a sub-agent) | `job/fights-polish` | `docs/slips/fights-polish.md` | **In `main`, November 25, 07:05** |
 | `small-things` | The rough spots of the journey and the land (a sub-agent) | `job/small-things` | `docs/slips/small-things.md` | **Started November 25, 04:00** |
 
 **Who owns which files, so two conversations never write the same one:**

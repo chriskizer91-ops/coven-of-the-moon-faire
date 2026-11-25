@@ -13,6 +13,17 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 25, 2026, 07:05: the fights repair job is in `main`
+
+- **Hub's call:** `job/fights-polish` was brought into `main` (`31fee0f`). A fight on an upright phone now fills
+  the screen: a witch stands 125 to 206 px tall on a 412x880 screen, where she stood 60 to 70. A laptop and a phone
+  on its side keep the numbers they had.
+- **Hub's call, a stand-in:** zone 4's white sage heals the whole party as Lavender does. Until now it could be
+  picked and carried but not used. What it should do is Chris's call (`docs/questions.md`, B9).
+- **Hub's call:** on an upright phone the fighters are big and the painted place does not show behind them. The
+  other way round is one number (`FRAMING.tall.wide.rise` in `game/battle/screen.js`). Chris's call (B10).
+- **Hub's call:** one maker for every creature (`makeM7Foe`); `makePeakFoe` is kept as another name for it.
+
 ## November 25, 2026, 03:50: the whole game is in `main`; Chris sees it as it is built
 
 - **Chris, November 24, about 20:40: "As it gets built I do want to see the whole game as you put it together."**
