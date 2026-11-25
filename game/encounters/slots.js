@@ -50,6 +50,7 @@
   // creatures job: each slot's creature from Aethermoor M7 has its own name and moves' names in the words file
   // (slots.creatures, STAND-INS: their M7 names). `C(id)` is its name, `CM(id)` its moves' names; the stand-in's words else
   const CW = ((G.COVEN_FIGHT_WORDS || {}).slots || {}).creatures || {}, C = (id) => (CW[id] || {}).name || NAME, CM = (id) => Object.assign({}, M, (CW[id] || {}).moves || {});
+  const PN = ((G.COVEN_FIGHT_WORDS || {}).slots || {}).names || {};      // peak-creatures job: the creatures' own names, where a slot has one
   const standIn = (shape, tall, wide, eyes, look) => ({ make: 'makeStandIn', opts: { shape, tall, wide, eyes }, look: Object.assign({ kind: 'standin', tall, shadow: wide * 0.75, yawBias: 0, glow: [wide * 1.1, eyes], appearColor: [0.6, 0.62, 0.8], hitColor: 0xdfe8ff, hitRGB: [0.8, 0.85, 1] }, look || {}) });
   // creatures job: a creature from Aethermoor M7 (game/battle/models/m7/): its kind, its look, and the stand-in it falls
   // back to. A page that does not load the M7 creatures (the block marked "creatures job") keeps the stand-in
@@ -130,27 +131,35 @@
       // the light-thief: drains the four's magic rather than their health. It comes with one of the zone's own foes
       A: { on: true, job: 'the light-thief: drains the four’s magic rather than their health',
         suggested: { creature: 'Rime-Wraith', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'a held soul, to be let go; it chills and pulls under. Nothing there drains magic: the drain would be this game’s own rule' },
+        // peak-creatures job (November 24): the Wickstoat, made for this slot from Chris's sheet (the hub's proposal,
+        // docs/lore/zone-4-creatures-proposal.md: its name and moves are STAND-INS). Its moves: Pinch drinks one witch's
+        // magic, Glint flashes over all four, Skitter makes the next blow at it miss. The stand-in's lines were:
+        //   drink 110 sap 42 one; dirge 62 sap 20 all; grasp 135 frost 4 all; pull (charged) 500 sap 40 one; Life 3500
         from: 15, met: ['pass'], worth: 1, pack: ['lightThief', 'frostWisp'],
-        foes: { lightThief: { name: NAME, hp: 3500, atb: 2.9, weak: { moon: 1.3 }, xp: 40, shards: 30,
+        foes: { lightThief: { name: PN.wickstoat || NAME, hp: 3500, atb: 2.9, weak: { moon: 1.3 }, xp: 40, shards: 30,
           moves: {
-            drink: { name: M.drink, weight: 0.35, hits: [110], sap: 42, target: 'one', act: 'strike', time: 2.2 },
-            dirge: { name: M.dirge, weight: 0.3, hits: [62], sap: 20, target: 'all', act: 'cast', time: 2.4 },
-            grasp: { name: M.grasp, weight: 0.2, hits: [135], frost: 4, target: 'all', act: 'cast', time: 2.2 },
-            pull: { name: M.pull, weight: 0.15, charge: true, chargeName: M.gather, hits: [500], sap: 40, target: 'one', act: 'heave', time: 3 },
+            pinch: { name: M.pinch, weight: 0.45, hits: [110], sap: 42, target: 'one', act: 'pinch', time: 2.2 },
+            glint: { name: M.glint, weight: 0.35, hits: [95], sap: 15, frost: 3, target: 'all', act: 'glint', time: 2.4 },
+            skitter: { name: M.skitter, weight: 0.2, evade: 1, target: 'self', noRepeat: true, act: 'skitter', time: 1.5 },
           } } },
-        model: { lightThief: standIn('hooded', 1.9, 0.95, 0xa8d4ff, { near: 1.8 }) } },
+        model: { lightThief: { make: 'makePeakFoe', opts: { kind: 'wickstoat' },
+          look: { kind: 'm7', tall: 0.62, shadow: 0.55, yawBias: 0, glow: null, appearColor: [1, 0.75, 0.35], hitColor: 0xffe0b0, hitRGB: [1, 0.88, 0.7], near: 1.15 } } } },
       // the big one: rare, a long fight, worth three ordinary ones
-      B: { on: false, job: 'the big one: rare, a long fight, worth three ordinary ones',
+      B: { on: true, job: 'the big one: rare, a long fight, worth three ordinary ones',
         suggested: { creature: 'Peak-Troll', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'Regrow makes a long fight; Hurl Boulder is a big blow that can be seen coming' },
+        // peak-creatures job (November 24): the Hoarmantle, made for this slot from Chris's sheet (the hub's proposal:
+        // name and moves are STAND-INS), met near Misthollow. Trample is the big blow seen coming (it paws the ground
+        // first); Winter Breath slows all four; Shake the Mantle drops snow and icicles on all four. On, as the brief says.
+        // The stand-in's lines were: smash 340 lastAttacker; boulder (charged) 480 one; stomp 165 all; regrow 5%; Life 11000
         from: 16, met: ['town'], worth: 3, pack: ['bigOne'],
-        foes: { bigOne: { name: NAME, hp: 11000, atb: 2.9, alone: true, xp: 40, shards: 30,
+        foes: { bigOne: { name: PN.hoarmantle || NAME, hp: 11000, atb: 2.9, alone: true, xp: 40, shards: 30,
           moves: {
-            smash: { name: M.smash, weight: 0.4, hits: [340], target: 'lastAttacker', act: 'strike', time: 2.4 },
-            boulder: { name: M.boulder, weight: 0.25, charge: true, chargeName: M.lift, hits: [480], target: 'one', act: 'heave', time: 3.2 },
-            stomp: { name: M.stomp, weight: 0.2, hits: [165], target: 'all', act: 'cast', time: 2.4 },
-            regrow: { name: M.regrow, weight: 0.15, healPct: 0.05, hurt: 0.75, cooldown: 3, target: 'self', act: 'cast', time: 2.4 },
+            trample: { name: M.trample, weight: 0.4, charge: true, chargeName: M.paw, hits: [480], target: 'one', act: 'trample', time: 3.2 },
+            breath: { name: M.winterBreath, weight: 0.3, hits: [120], frost: 5, target: 'all', act: 'breath', time: 2.6 },
+            shake: { name: M.shake, weight: 0.3, hits: [165], target: 'all', act: 'shake', time: 2.4 },
           } } },
-        model: { bigOne: standIn('huge', 3.4, 2.6, 0xffe2b8, { near: 3.2, reach: 1.2, halfW: 1.6, fxScale: 1.6 }) } },
+        model: { bigOne: { make: 'makePeakFoe', opts: { kind: 'hoarmantle' },
+          look: { kind: 'm7', tall: 2.1, shadow: 1.5, yawBias: 0, glow: null, appearColor: [0.75, 0.88, 1], hitColor: 0xe8f4ff, hitRGB: [0.9, 0.95, 1], near: 2.6, reach: 1.0, halfW: 1.6, fxScale: 1.5 } } } },
     },
   };
   // ---- the slots' creatures join the battle's foes, and the battle learns what draws each ----
