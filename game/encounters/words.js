@@ -34,6 +34,16 @@
       attack: 'The strange creature attacks!',          // STAND-IN
       attackMany: 'The strange creatures close in!',    // STAND-IN
       win: 'It goes still, and is only a shape in the dark.',   // STAND-IN (what a beaten creature does is Chris's call)
+      // creatures job: the six creatures from Aethermoor M7 in their slots. STAND-IN: their M7 names and their own M7
+      // moves' names, until Chris names them for this game
+      creatures: {
+        heavyOne: { name: 'The Rotwarden', moves: { swipe: 'Rootlash', bigBlow: 'Grasping Roots', gather: 'Lifts the great root', mendSelf: 'Heartroot Bloom' } },
+        swarmling: { name: 'Glowcap', moves: { nip: 'Headbutt', dart: 'Spore Puff' } },
+        coldBringer: { name: 'Forge-Spark', moves: { chill: 'Flare', drainStrength: 'Lure', touch: 'Singe', blink: 'Flicker' } },
+        pairBeast: { name: 'Thornhound', moves: { bite: 'Bite', rake: 'Lunge' } },
+        armouredOne: { name: 'Sapwight', moves: { slam: 'Grasp', crush: 'Sap Leech', gather: 'Lurches forward', sweep: 'Sweep' } },
+        leaper: { name: 'The Rot-Stag', moves: { lunge: 'Antler Charge', snap: 'Gore', pounce: 'Trample', crouch: 'Rears' } },
+      },
       moves: {                                          // STAND-IN names of the stand-ins' moves
         swipe: 'Swipe', bigBlow: 'Heavy blow', gather: 'Gathers itself', mendSelf: 'Knits itself', nip: 'Nip', dart: 'Dart',
         chill: 'Cold breath', drainStrength: 'Cold hands', touch: 'Cold touch', blink: 'Blink', bite: 'Bite', rake: 'Rake',
