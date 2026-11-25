@@ -4,7 +4,7 @@ Branch: job/small-things      Updated: November 25, 2026      By: a sub-agent of
 
 ## Report for the hub
 
-**Ready to bring in: CHECKS_VERDICT.** Eleven items: 1, 2, 3, 4, 7, 8 and 9 were real and are put right; 6 and 10 were half
+**Ready to bring in: yes.** Eleven items: 1, 2, 3, 4, 7, 8 and 9 were real and are put right; 6 and 10 were half
 real (that half put right) and half only how a check shows them; 5 was item 4 seen again; 11 is two facts for the hub.
 Pictures (not in the repo): `small-things/after/` and `small-things/before/` under the session's scratchpad folder
 (the same one as the hub's `final-check/`).
@@ -89,7 +89,34 @@ Pictures (not in the repo): `small-things/after/` and `small-things/before/` und
 
 ### What was checked, and how many good and failed
 
-CHECKS
+On pages built from this branch after the last change to the game (`0272887`; the flight page and the maps page from
+`7cbf221`, which already held every flight change, and nothing since touches them), one at a time, each through the
+shared lock and `PYTHONPATH=tools/hub/pw-bridge`:
+
+| Check | Page | Good | Failed |
+|---|---|---|---|
+| `journey-test`, whole | zone 1 to the ending | 63 (was 58: 5 new) | 0 |
+| `journey-test --only AF --size 412x880` | | 23 (was 21) | 0 |
+| `zone-test` | zones 1, 2, 3, 4 | 28, 21, 25, 19 | 0 |
+| `menu-test`, whole | zone 1 | 93 | 0 |
+| `menu-test --only A` | zone 2 | 57 | 0 |
+| `maps-test` | the maps page; zone 1 | 102; 108 | 0 |
+| `flight-test` | the flight page | 64 | 0 |
+| `faire-test` | the ending page | 72 | 0 |
+
+In all: 675 good, 0 failed, 0 page errors. Logs: `builds/check-logs/` (not kept in git).
+
+The new checks in journey-test: in A, zone 1 ready to leave with its leaving not said; after "Set course" the six
+lines said, the narrator's first, then the next page; the flight out of Wickhollow starts over its landing. In G, zone
+3's flight out starts over the slip (2097, 683), not the northern camp (1150, 590). In H, zone 4's line said after
+"Set course"; the flight home starts over its landing. In F, no "part" in the line of a slot that has seen the end.
+
+Also run, by my own scripts: the four zones opened as a player would (no `?test`) at three sizes, 12 openings, 0 page
+errors; the ending and the front door at three sizes, 0 page errors; the flight at three sizes with the view turned both
+ways, 0 page errors.
+
+Not run again (the hub's list did not ask, and this job's changes do not reach them): story-test, people-test,
+things-test, the fights' and creatures' checks, townsfolk-test, flight-ship-test, walk-test.
 
 ### Pictures (each looked at)
 
