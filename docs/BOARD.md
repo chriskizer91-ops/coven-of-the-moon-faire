@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 25, 2026, 09:45, by the hub.
+Last updated: November 25, 2026, 15:35, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -95,6 +95,22 @@ ceiling was 1.5; nothing is shrunk without Chris's word).
 
 When each has "Report for the hub" at the top of its slip: review it, bring it in, run the checks its files touch,
 send Chris a set of builds.
+
+### Usage, and which jobs are awake (November 25, 15:35)
+
+- **All five jobs were stopped at about 11:00 by the account's 5-hour usage limit** (five at once used it up in about
+  an hour and a half). Nothing was lost: each had pushed its branch. Chris, 15:00: the 5-hour window is full again,
+  and **24% of the week's usage is left.** So: three jobs at a time, and finish jobs before starting more.
+- **Awake since 14:55:** `left-overs` (page sizes), `fight-camera`, `last-foe` (also, on Chris's word of 10:40: the
+  card before the last fight, easy, medium, hard or crazy, levels 20, 21, 22 and 22.8, helpers first and then alone,
+  the party refilled between the two forms, from Moon Faire's `game/plan/finalboss/final-fight.json`).
+- **Held back, to be woken with a message when one of those reports:** `fights-tune` (last commit `bfd7daf`) and
+  `leader` (last commit `c42838d`). A stopped sub-agent is woken with a message and carries on from its slip's log.
+- **Chris's 20 recordings are in `main` (`4c7d6bc`):** the held Warden's 2 lines and the narrator's 18 for zone 4.
+  Zone 4 has all 144 voices; `story-test` on zone 4 is 76 good, 0 failed. Zone 1 and zone 4, rebuilt with them and
+  checked (journey 63, zones 28 and 19, Faire 72), went to Chris at 15:00. As files they are 126.2 and 101.9 MB.
+- He tests from a folder on his laptop, with `index.html` as the front door. A new file must replace the old one of
+  the same name, or his browser renames it and the front door cannot find it.
 
 ### Chris played it on his laptop (November 25, 09:15): what he said, and what the hub does next
 
