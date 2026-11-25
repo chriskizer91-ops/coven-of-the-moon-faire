@@ -5,10 +5,15 @@
 // balance the game so that as long as one of those creatures gets added everything works out, and it's easy to
 // rebalance if two additional creatures come in for each zone."
 //
-// So every zone has two slots, A and B. A is ON: the game is balanced with it in. B is OFF: turning it on is the one
-// word `on: true` below, and one run of the check (node tools/encounter-balance.mjs).
-// Until Chris's creatures come, each slot is a STAND-IN that can be fought: a plain dark shape with two pale eyes
-// (game/battle/models/stand-in.js), shown as "Strange creature" (the name is in game/encounters/words.js).
+// So every zone has two slots, A and B. The game is balanced with A alone on, and stays balanced with both on.
+// hub: today every slot, A and B, is ON (`on: true` below): the creatures job turned B on in zones 1 to 3 and the
+// peak-creatures job in zone 4. Turning one off is the one word `on: false`, and one run of the check
+// (node tools/encounter-balance.mjs).
+// Each slot now holds a creature: in zones 1 to 3 six from Aethermoor M7 (the creatures job), in zone 4 the Wickstoat
+// and the Hoarmantle (the peak-creatures job). Which creature is in which slot, and B being on, is A PROPOSAL, NOT
+// APPROVED BY CHRIS YET; so are their names and moves' names (game/encounters/words.js). A page that does not load a
+// creature's model draws the slot's STAND-IN instead: a plain dark shape with two pale eyes
+// (game/battle/models/stand-in.js), shown as "Strange creature".
 //
 // `suggested` is the creature docs/foes-from-m7.md suggests for the slot. SUGGESTED, NOT APPROVED: Chris has not
 // chosen. Each slot's job in a fight is shaped so that creature could take it with no change to the rules.
@@ -58,6 +63,7 @@
   const SLOTS = {
     'zone-1': {
       // the heavy one: slow and tough, with one big blow that can be seen coming
+      // hub: the Rotwarden in this slot is A PROPOSAL, NOT APPROVED BY CHRIS YET (the creatures job; name and moves STAND-INS)
       A: { on: true, job: 'the heavy one: slow and tough, with one big blow that can be seen coming',
         suggested: { creature: 'Willow-Wight', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'slow; its Bough-Fall is a charged blow; it weeps to heal' },
         from: 2, met: ['thorn', 'fen'], worth: 1, pack: ['heavyOne'],
@@ -69,6 +75,7 @@
           } } },
         model: { heavyOne: m7('rotwarden', { kind: 'm7', tall: 2.6, shadow: 0.95, yawBias: 0, glow: null, appearColor: [0.55, 0.75, 0.35], hitColor: 0xd8e8a0, hitRGB: [0.8, 0.9, 0.55], near: 2.3 }, standIn('heavy', 2.6, 1.7, 0xdfe8ff, { near: 2.4 })) } },
       // the swarm: three small quick ones, each down in a blow or two
+      // hub: the Glowcap in this slot, and this slot being on, is A PROPOSAL, NOT APPROVED BY CHRIS YET (the creatures job)
       B: { on: true, job: 'the swarm: three small quick ones, each down in a blow or two',
         suggested: { creature: 'Briarling', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'one of the weakest creatures there; three of them read well' },
         from: 1, met: ['home', 'wilds'], worth: 1, pack: ['swarmling', 'swarmling', 'swarmling'],
@@ -81,6 +88,7 @@
     },
     'zone-2': {
       // the cold-bringer: does little harm itself, but slows and weakens the four. It comes with one of the zone's own foes
+      // hub: the Forge-Spark in this slot is A PROPOSAL, NOT APPROVED BY CHRIS YET (the creatures job; name and moves STAND-INS)
       A: { on: true, job: 'the cold-bringer: does little harm itself, but slows and weakens the four',
         suggested: { creature: 'Mirage Wisp', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'Cold Touch chills, Beguile charms, Blink dodges; little harm of its own' },
         from: 5, met: ['road'], worth: 1, pack: ['coldBringer', 'wraith'],
@@ -93,8 +101,9 @@
           } } },
         model: { coldBringer: m7('forge-spark', { kind: 'm7', tall: 0.55, shadow: 0.3, yawBias: 0, glow: [0.9, 0xffa040], appearColor: [1, 0.6, 0.25], hitColor: 0xffc070, hitRGB: [1, 0.75, 0.4], near: 1.0 }, standIn('thin', 1.5, 0.7, 0xbfe4ff, { near: 1.6 })) } },
       // the pair: two that are much stronger while both stand
+      // hub: the Thornhound in this slot, and this slot being on, is A PROPOSAL, NOT APPROVED BY CHRIS YET (the creatures job)
       B: { on: true, job: 'the pair: two that are much stronger while both stand',
-        suggested: { creature: 'Thornhound', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'its Pack Howl: the pack answers, and every foe is quicker. It fails M7’s own stretch check today' },
+        suggested: { creature: 'Thornhound', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'its Pack Howl: the pack answers, and every foe is quicker' },     // hub: "it fails M7's stretch check today" taken out: M7 mended its legs, and it passes this game's check (tools/m7-stretch.mjs)
         from: 5, met: ['open', 'pine', 'far'], worth: 1, pack: ['pairBeast', 'pairBeast'],
         foes: { pairBeast: { name: C('pairBeast'), hp: 2500, atb: 3.0, pair: { dmg: 1.45, haste: 1.25 }, xp: 40, shards: 30,
           moves: {
@@ -105,6 +114,7 @@
     },
     'zone-3': {
       // the armoured one: blades slide off it, magic does not
+      // hub: the Sapwight in this slot is A PROPOSAL, NOT APPROVED BY CHRIS YET (the creatures job; name and moves STAND-INS)
       A: { on: true, job: 'the armoured one: blades slide off it, magic does not',
         suggested: { creature: 'Sapwight', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'bark wound round it like armour, and a Bark Hide move. That blades slide off would be this game’s own rule' },
         from: 10, met: ['bramble', 'pine'], worth: 1, pack: ['armouredOne'],
@@ -116,6 +126,7 @@
           } } },
         model: { armouredOne: m7('sapwight', { kind: 'm7', tall: 2.06, shadow: 0.6, yawBias: 0, glow: [0.7, 0xffa040], appearColor: [0.9, 0.6, 0.25], hitColor: 0xffd090, hitRGB: [1, 0.8, 0.5], near: 1.6 }, standIn('plated', 2.1, 1.5, 0xc8ffd0, { near: 2.2 })) } },
       // the leaper: goes past the front for whoever stands at the back
+      // hub: the Rot-Stag in this slot, and this slot being on, is A PROPOSAL, NOT APPROVED BY CHRIS YET (the creatures job)
       B: { on: true, job: 'the leaper: goes past the front for whoever stands at the back',
         suggested: { creature: 'Rime Wolf', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'one of the fastest there; its Lunge is a charged leap. Only planned in M7 today: no model yet' },
         from: 10, met: ['open', 'pine', 'far'], worth: 1, pack: ['leaper', 'leaper'],
