@@ -13,7 +13,26 @@
     // the level the party must be for each zone's big fight, and about how many fights the zone should take to get there
     // (counted from the level the party comes into the zone at, with the last zone's big fight won)
     gateLevel: { 'zone-1': 5, 'zone-2': 10, 'zone-3': 15, 'zone-4': 20 },
+    // fights-tune: these 45s are the fights at each zone's OWN spacing (its grounds' `every`, as the fights job set
+    // them). With meetings coming more often (`wilds`, below) the same walk brings more fights, each worth less, so the
+    // check holds a zone to 45 times `often` (game/encounters/draw.js: CovenDraw.planFights): the same walk, the same
+    // level at the big fight. Chris's earlier "about 180" is beaten by his newer word of November 25 (below)
     fights: { 'zone-1': 45, 'zone-2': 45, 'zone-3': 45, 'zone-4': 45 },
+    // ---- fights-tune: how often a meeting comes in the wilds. Chris, November 25, after playing zone 1: "It just was
+    // way more running than I thought. I think that the foes should pop up in the wilds more often." ----
+    // The one number to change is `every`. Each kind of ground keeps its own share as its zone's file sets it (kinder
+    // near home, harder in the fen): the file's `every`s are scaled together so that their average (weighted by
+    // `part`) is this. What an ordinary meeting gives (`reward`: its experience and shards) is scaled down in step, so
+    // a kilometre walked in the wilds still gives what it gave, and the coven is the same level at each big fight.
+    // Roads count as wilds, as before; inside a place, the camp and their margin there are still none.
+    wilds: {
+      every: 58,     // metres walked in the wilds between two meetings, on average (before: about 191 in zone 1, 125, 115 and 118 in zones 2 to 4)
+      first: 30,     // the first meeting on a zone's page comes after half to one and a half times this many metres of wilds (before: the calm, 70, then the usual wait)
+      calm: 25,      // after every fight, won, run from or lost: no meeting for this many metres (before: 70). So two never come back to back
+    },
+    // the story's walk in each zone, in km of wilds before its big fight, as the fights job measured it (the zones'
+    // files say how). Only the check reads it: the level the coven has at the big fight after walking it once
+    walk: { 'zone-1': 9.0, 'zone-2': 2.5, 'zone-3': 4.8, 'zone-4': 3.3 },
     // how much of a zone's fighting a slot's creature takes (counted in ordinary fights: a fight worth 3 counts as 3):
     // about one fight in five when one slot is on, about one in six each when both are
     share: { alone: 1 / 5, both: 1 / 6 },

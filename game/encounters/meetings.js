@@ -9,6 +9,7 @@
 //   M.hold(on)       stop counting (while a fight or a menu is up); M.held
 //   M.force(o)       a meeting now, where she stands (for the checks); o.slot: 'A' or 'B' forces that slot's creature
 //   M.numbers()      { walked, wild, meetings, where, toNext } for the checks
+//   M.every(where)   fights-tune: the metres between meetings on that ground now; M.rule: { calm, first, often }
 //   M.spot(at)       a spot from a data file, [x, z] or ['place id', px, py] or 'ZONE4.bramble.at', as [x, z] in the zone's metres (or null)
 //   onMeet(meeting)  meeting = { where, name, stretch, foes: ['wisp', ...], foeLevel: [low, high], reward, worth, slot, arena, x, z }
 //
@@ -16,6 +17,9 @@
 // margin past them). After a fight, nothing for `calm` metres. Then each metre has the same small chance, set so a
 // meeting comes every `every` metres on average where she is (more often in the fen than near home). A jump (a fall
 // back to the camp, a switch of witch) is not counted as walking.
+// fights-tune (November 25, Chris: "the foes should pop up in the wilds more often"): `every` and `calm` now come
+// through game/encounters/draw.js from the plan's `wilds` (game/encounters/plan.js: one number, its average), and the
+// first meeting on the page comes after `first` metres of wilds, give or take a half, with no calm before it.
 // What kind of ground she is on (step 4), the first of the zone's `where` that fits:
 //   test: (x, z) => ...   a test of her spot (zone 1)          kind: 'fen'     the land's own kind under her feet
 //   road: 16              within that many metres of a road     near: ['place id', 300]   that near a place's edge
@@ -29,6 +33,10 @@
     const MD = land.mapData(), rects = land.rects, flats = MD.flats;   // (the land's map data, read once)
     const parts = {}; for (const p of W.P.parts || []) parts[p.id] = p;
     let last = null, held = false, calmLeft = D.calm, need = -Math.log(1 - rand()), have = 0, meetings = 0, walked = 0, wild = 0, where = null;
+    // fights-tune: the grace after a fight, and the first meeting (a page with no plan keeps the zone's own calm and no first rule)
+    const DR = window.CovenDraw, CALM = DR && DR.calm ? DR.calm(D) : D.calm, FIRST = DR && DR.first ? DR.first() : 0;
+    const everyAt = (w) => (DR && DR.every ? DR.every(D, w) : w.every);
+    let first = FIRST > 0, firstLeft = FIRST * (0.5 + rand()); calmLeft = CALM;
     const at = () => ({ x: M.x(W.io.px), z: M.z(W.io.py) });
     // a spot from a data file: [x, z], or ['place id', px, py] in that place's own painting (null if the place is not on this land)
     // or 'ZONE4.bramble.at': a spot another file has worked out and left under window.W3D (null until it is there)
@@ -52,12 +60,12 @@
     function meeting(x, z, force) {
       const w = whereAt(x, z), st = stretchAt(x, z), a = nearest(x, z);
       let m = window.CovenDraw.meeting(D, { where: w, stretch: st, level: party.level, rand });
-      // (for the checks) a slot's creature, whatever the ground: with the experience of this ground's ordinary fights
-      if (force && force.slot) { const s = (window.COVEN_SLOTS.zones[D.id] || {})[force.slot]; if (s) m = Object.assign(m, { foes: s.pack.slice(), slot: s.slot, worth: s.worth || 1, reward: D.reward * (s.worth || 1) * window.CovenDraw.meanBase(w, D.band) / window.CovenDraw.base(s.pack, D.band) }); }
+      // (for the checks) a slot's creature, whatever the ground: with the experience of this ground's ordinary fights (fights-tune: CovenDraw.reward, was D.reward)
+      if (force && force.slot) { const s = (window.COVEN_SLOTS.zones[D.id] || {})[force.slot]; if (s) m = Object.assign(m, { foes: s.pack.slice(), slot: s.slot, worth: s.worth || 1, reward: window.CovenDraw.reward(D) * (s.worth || 1) * window.CovenDraw.meanBase(w, D.band) / window.CovenDraw.base(s.pack, D.band) }); }
       return Object.assign(m, { stretch: st ? st.id : null, arena: a.id, arenaName: a.name, x, z });
     }
     // after a meeting: the calm, and the count to the next one. A fight worth n uses up the ground of n meetings
-    function spend(n) { n = Math.max(1, n || 1); calmLeft = D.calm * n; have = 0; need = 0; for (let i = 0; i < n; i++) need += -Math.log(1 - rand()); }
+    function spend(n) { n = Math.max(1, n || 1); first = false; calmLeft = CALM * n; have = 0; need = 0; for (let i = 0; i < n; i++) need += -Math.log(1 - rand()); }   // fights-tune: CALM (was D.calm); the first is over
     function check() {
       if (held || (W.paused)) { last = null; return null; }
       const p = at();
@@ -68,12 +76,15 @@
           if (!inside(p.x, p.z, D.margin)) {
             wild += d;
             const w = whereAt(p.x, p.z); where = w.id;
-            if (calmLeft > 0) calmLeft -= d;
+            let due = false;
+            if (first) { firstLeft -= d; due = firstLeft <= 0; }     // fights-tune: the page's first meeting, soon after she leaves safe ground
+            else if (calmLeft > 0) calmLeft -= d;
             else {
-              have += d / Math.max(10, w.every - D.calm);          // so that, with the calm, one comes every `every` metres on average
-              if (have >= need) { last = p; meetings++; const m = meeting(p.x, p.z); spend(m.worth); if (o.onMeet) o.onMeet(m); return m; }
+              have += d / Math.max(10, everyAt(w) - CALM);           // so that, with the calm, one comes every `every` metres on average (fights-tune: everyAt, CALM)
+              due = have >= need;
             }
-          } else calmLeft = Math.max(calmLeft, D.calm * 0.5);     // coming out of a place or the camp: a little calm first
+            if (due) { last = p; meetings++; const m = meeting(p.x, p.z); spend(m.worth); if (o.onMeet) o.onMeet(m); return m; }
+          } else if (!first) calmLeft = Math.max(calmLeft, CALM * 0.5);     // coming out of a place or the camp: a little calm first (fights-tune: CALM; none before the first)
         }
       }
       last = p; return null;
@@ -86,7 +97,8 @@
       get held() { return held; },
       force(f) { const p = at(); meetings++; const m = meeting(p.x, p.z, f); spend(m.worth); if (o.onMeet) o.onMeet(m); return m; },
       whereAt, stretchAt, inside,
-      numbers: () => ({ walked: Math.round(walked), wild: Math.round(wild), meetings, where, calmLeft: Math.max(0, Math.round(calmLeft)), toNext: +(need - have).toFixed(2) }),
+      every: everyAt, rule: { calm: CALM, first: FIRST, often: DR && DR.often ? DR.often(D) : 1 },     // fights-tune
+      numbers: () => ({ walked: Math.round(walked), wild: Math.round(wild), meetings, where, calmLeft: Math.max(0, Math.round(calmLeft)), toNext: +(need - have).toFixed(2), first, firstLeft: first ? Math.round(firstLeft) : 0 }),
       stop() { clearInterval(timer); },
     };
   }

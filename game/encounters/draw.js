@@ -8,6 +8,8 @@
 //   CovenDraw.grounds(D, level)         [[where, weight]]: how much of the zone's fighting each kind of ground takes
 //   CovenDraw.slotChances(zone, where, level)   [{ slot, p }]: the chance a meeting on this ground is each slot's
 //   CovenDraw.base(pack)                a pack's experience at level 1, before the zone's `reward`
+//   CovenDraw.often(zone), .every(zone, where), .reward(zone), .calm(zone), .first(), .planFights(zone)
+//                                       fights-tune: how often meetings come now (the plan's `wilds`), and what follows from it
 //
 // THE RULE THAT KEEPS THE BALANCE STEADY. A slot's fight is given the experience and shards of the ordinary fights it
 // takes the place of: on this ground, at these levels, times the slot's `worth`. So it is the same whether a slot is on
@@ -47,6 +49,19 @@
     }
     return out;
   }
+  // ---- fights-tune (November 25): how often a meeting comes, from the plan's `wilds` (game/encounters/plan.js) ----
+  // own(D): the zone's own average metres between meetings, its grounds' `every` weighted by `part` (what its `reward`
+  // was set for). often(D): how many times as often meetings come now (the plan's wilds.every against that; 1 with no
+  // plan). A ground's metres between meetings, and what an ordinary meeting gives, are both divided by it, so a
+  // kilometre walked gives what it gave before and the level at each big fight does not move
+  const W = () => PLAN().wilds || {};
+  const own = (D) => { let a = 0, n = 0; for (const w of D.where) if (w.part > 0 && w.every) { a += w.every * w.part; n += w.part; } return n ? a / n : 0; };
+  const often = (z) => { const D = zoneOf(z), o = own(D), e = D.wildsEvery || W().every; return o && e ? o / e : 1; };
+  const every = (z, w) => w.every / often(z);
+  const reward = (z) => zoneOf(z).reward / often(z);
+  const calm = (z) => (W().calm != null ? W().calm : zoneOf(z).calm);
+  const first = () => W().first || 0;
+  const planFights = (zid) => ((G.COVEN_PLAN || {}).fights || {})[zid] * often(zid);
   function meeting(zone, o) {
     const D = zoneOf(zone), w = o.where, L = o.level, rand = o.rand || Math.random, band = D.band || 1;
     // the foes' levels: the stretch's (or the ground's), within the zone's, never more than `above` over the party's own
@@ -54,10 +69,11 @@
     const hi = Math.max(D.levels[0], Math.min(lv[1], D.levels[1], L + D.above)), lo = Math.min(hi, Math.max(lv[0], D.levels[0]));
     let r = rand(), slot = null;
     for (const c of slotChances(D, w, L)) { if (r < c.p) { slot = c.slot; break; } r -= c.p; }
-    const ordinary = meanBase(w, band);
+    const ordinary = meanBase(w, band), R = reward(D);      // fights-tune: what a meeting gives, scaled with how often they come (was D.reward)
     if (slot) return { where: w.id, name: w.name, foes: slot.pack.slice(), foeLevel: [lo, hi], worth: slot.worth || 1, slot: slot.slot,
-      reward: D.reward * (slot.worth || 1) * ordinary / base(slot.pack, band) };
-    return { where: w.id, name: w.name, foes: pick(w.packs, rand).slice(), foeLevel: [lo, hi], worth: 1, slot: null, reward: D.reward };
+      reward: R * (slot.worth || 1) * ordinary / base(slot.pack, band) };
+    return { where: w.id, name: w.name, foes: pick(w.packs, rand).slice(), foeLevel: [lo, hi], worth: 1, slot: null, reward: R };
   }
-  G.CovenDraw = { meeting, grounds, stretchFor, slotChances, base, meanBase, pick };
+  // fights-tune: own, often, every, reward, calm, first, planFights added (see above)
+  G.CovenDraw = { meeting, grounds, stretchFor, slotChances, base, meanBase, pick, own, often, every, reward, calm, first, planFights };
 })(typeof globalThis !== 'undefined' ? globalThis : window);
