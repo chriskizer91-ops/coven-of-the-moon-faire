@@ -121,8 +121,11 @@
   // the numbers a save's line is made of: the zone, how far its story is, the coven's level, the lamps home (zone 1)
   function bits() {
     const b = { zone: zoneN(zone) };
-    const st = G.__story && G.__story.state ? G.__story.state() : null, rules = (W3D.STORY || {})[zone];
-    if (st && rules && rules.stages) { b.part = (st.kept != null ? st.kept : st.stage) + 1; b.parts = rules.stages.length + 1; }
+    // small-things: only the zone's own story has parts and lamps. In the ending, zone 1's page runs the Faire's story
+    // (its rules are W3D.STORY.faire), which was read against zone 1's rules and gave "part 1 of 5" beside "the end reached"
+    const own = !(G.__story && G.__story.cfg && G.__story.cfg !== (W3D.STORY || {})[zone]);
+    const st = own && G.__story && G.__story.state ? G.__story.state() : null, rules = (W3D.STORY || {})[zone];
+    if (st && rules && rules.stages) { b.part =(st.kept != null ? st.kept : st.stage) + 1; b.parts = rules.stages.length + 1; }
     const live = G.__fights && G.__fights.party, kept = parse(store.get('coven.party'));
     b.level = live ? live.level : kept && kept.level >= 1 ? Math.round(kept.level) : 1;
     if (b.zone === 1 && st && st.lamps != null) b.lamps = st.lamps;

@@ -47,13 +47,27 @@
   const LIFT = 0.04;                 // her keel this far over the ground (so it does not flicker into it)
   let moored = [], shownId = null;
 
-  function hooks(B, S, SHIP) {
+  // small-things: each lamp is a lantern like the place engine's own (K.lantern: an iron base, cap and corner bars round
+  // warm glass), as zone 4's ship and the jetty's lamps are, not a bare box of over-bright glass (it drew as a plain white
+  // block). `lit` is K.lantern itself where the ship is drawn into the place (zone 2: with its halo and light); where she
+  // is drawn apart, to be shown or moved away (zone 3), the same lantern is drawn into her own builder with no halo, so a
+  // ship moved away leaves no glow behind
+  const LANTERN = 0.62;              // its size, as zone 4's ship's (game/places/zone-4.js)
+  function lanternIn(B, x, y, z, s) {
+    B.box('iron', x, y + 0.3 * s, z, 0.03, 0.4, 0.03, 0);
+    B.box('iron', x, y - 0.03 * s, z, 0.26 * s, 0.05 * s, 0.26 * s, 0);
+    B.box('glass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [1.6, 1.1, 0.62]);
+    B.box('iron', x, y + 0.3 * s, z, 0.3 * s, 0.06 * s, 0.3 * s, 0);
+    B.cyl('iron', x, y + 0.36 * s, z, 0.16 * s, 0.02, 0.14 * s, 4);
+    for (const [dx, dz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) B.box('iron', x + dx * 0.1 * s, y, z + dz * 0.1 * s, 0.025, 0.3 * s, 0.025, 0);
+  }
+  function hooks(B, S, SHIP, lit) {
     const L = SHIP.hull.bow - SHIP.hull.stern, mid = (SHIP.hull.bow + SHIP.hull.stern) / 2, T3 = G.THREE, solid0 = B.solid; B.solid = false;
     const stick = (a, b, r) => { const d = new T3.Vector3(b[0] - a[0], b[1] - a[1], b[2] - a[2]), len = d.length(), g = new T3.CylinderGeometry(r, r, len, 5, 1, true);
       B.geom('iron', g, new T3.Matrix4().compose(new T3.Vector3((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2), new T3.Quaternion().setFromUnitVectors(new T3.Vector3(0, 1, 0), d.normalize()), new T3.Vector3(1, 1, 1)), null, [1, 1]); g.dispose(); };
     for (const f of HOOKS) for (const side of [-1, 1]) { const z = mid + f * L * 0.8, foot = S.rail(z, side, 0, -0.06), head = S.rail(z, side, 0, POST_H), tip = S.rail(z, side, ARM, POST_H), lamp = S.rail(z, side, ARM, POST_H - DROP);
       stick(foot, head, 0.026); stick(head, tip, 0.02); stick(tip, [lamp[0], lamp[1] + 0.12, lamp[2]], 0.012);
-      B.box('glass', lamp[0], lamp[1] - 0.09, lamp[2], 0.13, 0.18, 0.13, 0, [2.2, 1.3, 0.5]); }
+      if (lit) lit(lamp[0], lamp[1] - 0.09, lamp[2], null, LANTERN, true); else lanternIn(B, lamp[0], lamp[1] - 0.09, lamp[2], LANTERN); }     // small-things: a lantern, where a glass box was
     B.solid = solid0;
   }
   function build(K, e, alone, i) {
@@ -62,7 +76,7 @@
     const x = K.X(e.at[0]), z = K.Z(e.at[1]), ground = e.deck != null ? e.deck : K.gh(e.at[0], e.at[1]);
     const at = [x, ground - SHIP.hull.keel + LIFT, z], turn = TURN[e.bow] || 0;
     e.hull = SHIP.hull; e.beam = SHIP.beam; e.length = SHIP.length;
-    if (alone) { const S = W3D.mooredShip(K, SHIP, { at, turn, glow: e.glow == null ? 0.45 : e.glow }); hooks(K.B, S, SHIP); return; }
+    if (alone) { const S = W3D.mooredShip(K, SHIP, { at, turn, glow: e.glow == null ? 0.45 : e.glow }); hooks(K.B, S, SHIP, K.lantern); return; }     // small-things: K.lantern (its halo and light too)
     // one of two places she can be: drawn apart, so she can be shown in one and not the other
     const fb = K.far(1e6 + i * 1000, 1e6);
     const S = W3D.mooredShip(Object.assign({}, K, { B: fb, halo: () => {} }), SHIP, { at, turn, glow: 0 });
