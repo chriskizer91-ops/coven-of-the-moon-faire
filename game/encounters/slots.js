@@ -153,7 +153,8 @@
             glint: { name: M.glint, weight: 0.35, hits: [95], sap: 15, frost: 3, target: 'all', act: 'glint', time: 2.4 },
             skitter: { name: M.skitter, weight: 0.2, evade: 1, target: 'self', noRepeat: true, act: 'skitter', time: 1.5 },
           } } },
-        model: { lightThief: { make: 'makePeakFoe', opts: { kind: 'wickstoat' },
+        // fights-polish: made by makeM7Foe, the one maker for every creature (was makePeakFoe, which wrapped it; here and below)
+        model: { lightThief: { make: 'makeM7Foe', opts: { kind: 'wickstoat' },
           look: { kind: 'm7', tall: 0.62, shadow: 0.55, yawBias: 0, glow: null, appearColor: [1, 0.75, 0.35], hitColor: 0xffe0b0, hitRGB: [1, 0.88, 0.7], near: 1.15 } } } },
       // the big one: rare, a long fight, worth three ordinary ones
       B: { on: true, job: 'the big one: rare, a long fight, worth three ordinary ones',
@@ -169,7 +170,7 @@
             breath: { name: M.winterBreath, weight: 0.3, hits: [120], frost: 5, target: 'all', act: 'breath', time: 2.6 },
             shake: { name: M.shake, weight: 0.3, hits: [165], target: 'all', act: 'shake', time: 2.4 },
           } } },
-        model: { bigOne: { make: 'makePeakFoe', opts: { kind: 'hoarmantle' },
+        model: { bigOne: { make: 'makeM7Foe', opts: { kind: 'hoarmantle' },
           look: { kind: 'm7', tall: 2.1, shadow: 1.5, yawBias: 0, glow: null, appearColor: [0.75, 0.88, 1], hitColor: 0xe8f4ff, hitRGB: [0.9, 0.95, 1], near: 2.6, reach: 1.0, halfW: 1.6, fxScale: 1.5 } } } },
     },
   };

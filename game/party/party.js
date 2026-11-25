@@ -26,7 +26,8 @@
   // a new party (job's calls): level 1, no experience, every witch whole, no shards, and three of each of the battle's
   // five herbs, as Envoi's game began (rules.js START_HERBS)
   function fresh() {
-    const herbs = {}; for (const id in RL().HERBS) herbs[id] = RL().START_HERBS;
+    // fights-polish: a herb that says its own start (zone 4's white sage: none) begins with that many
+    const herbs = {}; for (const id in RL().HERBS) herbs[id] = RL().HERBS[id].start != null ? RL().HERBS[id].start : RL().START_HERBS;
     return { v: VERSION, level: 1, xp: 0, shards: 0, hp: {}, mp: {}, herbs, fights: { won: 0, lost: 0, fled: 0 }, gates: {}, made: Date.now() };
   }
 

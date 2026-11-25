@@ -195,9 +195,9 @@
   }
 
   const MAKERS = { wickstoat, hoarmantle };
-  G.makePeakFoe = function (opts) {
-    const o = opts || {}, f = G.makeM7Foe(o), def = M7.kinds[o.kind];
-    if (!def.peak || !MAKERS[o.kind] || M7.LOOK.before) return f;
-    return MAKERS[o.kind](f, def, M7.bins[o.kind].meta);
-  };
+  // fights-polish: makeM7Foe adds these itself (M7.extras), only to a real model: before, makePeakFoe added them to
+  // whatever makeM7Foe gave back, a plain stand-in too when a fight began before the models were unpacked. makePeakFoe
+  // stays as another name for makeM7Foe (the peak creatures' look page calls it)
+  M7.extras = Object.assign(M7.extras || {}, MAKERS);
+  G.makePeakFoe = function (opts) { return G.makeM7Foe(opts); };
 })(window);

@@ -132,8 +132,10 @@
 .coven-battle .card .lvl p{margin:6px 0 0;font-size:13px;color:#dfe4ff}
 .coven-battle .go{appearance:none;border:0;border-radius:22px;min-height:44px;padding:0 22px;font-size:16px;font-weight:700;background:linear-gradient(180deg,#ffe28f,#f0b84a);color:#2a1d05;box-shadow:0 2px 0 rgba(0,0,0,.35)}
 .coven-battle .go:disabled{opacity:.6;cursor:default}
-.coven-battle #skip{position:absolute;right:10px;top:10px;z-index:8}
-.coven-battle .skipb{appearance:none;border:1px solid rgba(255,255,255,.35);background:rgba(10,8,18,.6);color:#fff;border-radius:18px;padding:8px 14px;font-size:14px}
+/* fights-polish: on the land and the lab page the frame-rate words stand in the top right corner (start.js), so "Skip intro"
+   stands just under them, and is 44 px tall at least, for a thumb (made by hand, as the Coven block at the end is) */
+.coven-battle #skip{position:absolute;right:calc(10px + env(safe-area-inset-right,0px));top:calc(30px + env(safe-area-inset-top,0px));z-index:8}
+.coven-battle .skipb{appearance:none;border:1px solid rgba(255,255,255,.35);background:rgba(10,8,18,.6);color:#fff;border-radius:22px;padding:8px 16px;font-size:14px;min-height:44px}
 @media (min-width:700px){.coven-battle #cmd,.coven-battle #status{min-height:112px}}
 @media (max-width:560px){.coven-battle #banner{left:auto;right:10px;top:10px;transform:translate(0,-8px);font-size:16px;padding:6px 12px;white-space:normal;text-align:center;max-width:calc(100% - 196px)}.coven-battle #banner.on{transform:translate(0,0)}.coven-battle #msg{top:34%}}
 @media (max-width:420px){.coven-battle #cmd button{font-size:13.5px;gap:3px;min-height:26px}.coven-battle #cmd button .hand{width:18px}.coven-battle #cmd button .mp{font-size:10px}.coven-battle .stat .v{font-size:16px}.coven-battle #status .name{font-size:14.5px}.coven-battle header{padding-inline:12px}}
