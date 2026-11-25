@@ -1,6 +1,85 @@
 # left-overs: four left-over jobs (small folk's knees, the nine big fights again, flames that lean north, what a zone page weighs)
 
-Branch: job/left-overs      Updated: November 25, 2026
+Branch: job/left-overs      Updated: November 25, 2026, 22:10
+
+## Report for the hub
+
+Plain words first; the details are in the four task sections below.
+
+### What changed, file by file
+
+- `tools/build.py` (the hub's; marked "left-overs:"): each picture and sound a script names is packed **once**, in a
+  table at the top of the page (`var __CP = [...]`), and read from there. The builder now prints the page's real size
+  ("as a file: 89.0 MB"), **warns from 95 MB and stops at 100 MB**.
+- `tools/voice-list.py` (marked "left-overs"): for z4 it also writes `game/people/voice-z4-faire.js` (new, made by the
+  tool): the 43 zone 4 recordings zone 1's page can play (the Faire ending and the homecoming). `game/pages/zone-1.html`
+  loads it in place of `voice-z4.js` (one line, marked "left-overs").
+- `game/engine/place/core.js` (copied from the old Envoi; marked "Coven (left-overs)"): the builder's new
+  `B.leaning(root, draw)`; the shader leans what is drawn inside it.
+- `game/engine/place/world.js` (old Envoi's; "Coven (left-overs)"): the engine's lantern has see-through glass
+  (`lampGlass`) and a small flame inside that leans.
+- `game/places/dawnroost-node.js`, `frozen-camp.js`, `warm-roads-camp.js` (Coven): their fires drawn inside
+  `B.leaning`. `game/places/landing-ships.js` (small-things'; "left-overs:"): the ship's own lantern copy, the same.
+- `game/look/flame-lean.js` (new): the lean's numbers, in one place. Loaded by `game/pages/zone-1.html` to `zone-4.html`
+  and `faire-ending.html`, each in one block marked "left-overs job".
+- New tools (none is the game): `tools/left-overs-weigh.py` (what a page is made of), `left-overs-load.py` (time to
+  the Begin screen), `left-overs-folk.py` (how people stand), `left-overs-flames.py` (close pictures of flames).
+  `tools/encounter-fights-test.py` takes `--size` (marked "left-overs:").
+- Task 1 needed no change: the fix was already in `main` (the journey job's, November 24). Proved below.
+
+### The numbers
+
+| | Good | Failed |
+|---|---|---|
+| Pages as files (main at 4c7d6bc): zone 1, 2, 3, 4, the Faire ending | **89.0, 81.0, 90.2, 81.9, 67.1 MB** (were 126.2, 110.5, 108.9, 101.9, 98.8). Nothing seen or heard changed | |
+| Time to the Begin screen here, zones 1 to 4, old and new in one run (two runs each) | before 12.1/10.4, 17.1/15.6, 17.8/15.8, 13.0/12.7 s; after 10.0/10.6, 15.3/14.6, 14.8/14.5, 11.8/11.4 s: no slower | |
+| Small folk's knees (180 is straight) | Pell 92 to 165, Tamsin 92 to 165, Tock 77 to 174, Pim 72 to 168; Tobb and the four witches unchanged | |
+| `zone-test`, zones 1, 2, 3, 4 (on the new pages) | 28, 21, 25, 19 | 0 |
+| `story-test`, zones 2, 3, 4 | 61, 64, 76 (zone 4 whole now: the Warden's recordings are in) | 0 |
+| `people-test` zone 1; `menu-test --only A` zone 2 | 134; 57 | 0 |
+| `encounter-test --quick` zone 3 | 35 | 0 |
+| `faire-test` (the ending); `walk-test` (first-test) | 72; 14 | 0 |
+| `journey-test`, whole (zone 1 to the ending and the front door) | 63 | 0 |
+| `townsfolk-test` (the line-up) | 385 | 0 |
+| The lean, read in the page | zone 1 at dusk 6 degrees (2 fingers); the Faire ending 0 | |
+| Task 2 (dropped): fights replayed at 1280x720 | 2 of 9, both won: the great wraith (77 turns), the stone by the bridge (12) | |
+| Sound | not changed: no recording was re-encoded, so no listening numbers were needed | |
+
+### Pictures (in the scratchpad's `left-overs/` folder)
+
+Show Chris these two or three:
+1. `knees/small-folk-sheet.png`: Pell, Tamsin, Tock and Pim, before and after, each on their own zone.
+2. `flames/flames-sheet.png`: four flames before and after, north-east marked (to the right).
+3. (if he asks) `flames/frozenfire4-after.png`: zone 4's camp fire standing straight once the fire is ended.
+
+The rest: `knees/<who>-before.png`, `-after.png` (also Tobb, Nettie and `witch-<id>-...`); `flames/<name>-...`.
+
+### What could not be checked here
+
+Frame rate, motion (the flicker moving), sound, touch: no machine here can show them. Whether Chris's phone opens a
+90 MB page, and how long his laptop takes. The six big fights that were not replayed (task 2 was dropped).
+
+### Calls that are Chris's
+
+- **Which way the flames lean**: I followed the lines, **north-east** (the board said "north"). One number,
+  `toward` in `game/look/flame-lean.js`.
+- **How far**: 3 degrees a finger, growing with the story as Odile counts it (zone 1: 2, 3, 4, 4, 1 fingers; zone 2: 5;
+  zones 3 and 4: 6; none after the fire, none at the Faire). A proposal, as data (`strength` scales all of it).
+- **Old Bridie's lamp** cannot "stand almost straight" after the wraith: it is a painted picture. Making it one of
+  the engine's own lanterns would let it, and would change how it looks.
+- **Lanterns now have see-through glass with a small flame** (they were one glowing block): a little darker from afar.
+
+### For the hub
+
+- Bring in `job/left-overs`; the pages to send are built by the new `tools/build.py` (they fit GitHub's limit).
+- When recordings come for zone 4 again: `tools/voice-list.py z4` now writes two files; commit both.
+- `docs/BOARD.md`: "No flame leans anywhere" is done for the engine's lanterns and the fires made of tongues and cones;
+  the list of flames that still do not lean (block fires, painted lanterns, halos) is in task 3 below.
+- If a page grows past 95 MB again, the next safe step: leave the code's comments out of the built page (about 1.8
+  MB a page). Room now under 95 MB: zone 1 6.0, zone 2 14.0, zone 3 4.8, zone 4 13.1.
+- The load-time tool, `tools/left-overs-load.py`, may be worth keeping in the hub's checks (it times the Begin screen).
+- Task 2 (the nine big fights) was dropped on your word: 2 of 9 replayed at 1280x720, both won (see task 2).
+- `tools/battle-frame-test.py` reaches the big fights as it is (`--only greatWraith,...`), when you replay them.
 
 ## Running log (so the work can carry on if the machine stops)
 
