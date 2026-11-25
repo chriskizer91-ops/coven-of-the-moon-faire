@@ -2,7 +2,7 @@
 """fight-camera-look.py: stills of the battle camera's shots (the fight-camera job).
 
     python3 tools/fight-camera-look.py builds/fights-lab.html <out folder> [--fights greatBramble,zone-1-A] [--sizes 1280x720,1600x750,412x880]
-                                       [--kinds rest,front,...] [--beats 6] [--level 16] [--who io]
+                                       [--kinds rest,front,...] [--beats 6] [--level 16] [--who io] [--as 12x4.8]
 
 A browser with no screen draws two or three pictures a second and cannot show motion. So this takes stills:
  1. of each named kind of shot, set at once by the battle's test hook (window.__battle.shot): the resting shot; close on a
@@ -11,6 +11,8 @@ A browser with no screen draws two or three pictures a second and cannot show mo
  2. (--beats N) of N moves as the fight plays itself: the battle's clock is stopped the moment the camera comes to each
     part of a move (the close-up when it begins, the blow landing, the backing out, the resting shot), a still is taken,
     and the clock is set going again.
+--as 12x4.8 tells the camera the first foe is 12 m tall and reaches 4.8 m to each side, whatever its model: to see how
+the shots would frame a foe of that size before its model is here (the stills are named "...-as12x4.8").
 Beside each still it writes what was measured (shots.json): how tall each fighter stands, what ground the camera sees,
 where the numbers are. The pictures are for a person to look at; tools/battle-frame-test.py judges the numbers.
 """
@@ -23,7 +25,7 @@ opt = lambda k, d: args[args.index(k) + 1] if k in args else d
 SIZES = [tuple(int(x) for x in s.split('x')) for s in opt('--sizes', '1280x720').split(',')]
 FIGHTS = [x for x in opt('--fights', 'greatBramble').split(',') if x]
 KINDS = [x for x in opt('--kinds', 'rest,front,profile,shoulder,foe-front,victim,target,hit-witch,clash,all-witches,all-foes').split(',') if x]
-BEATS = int(opt('--beats', '0')); LEVEL = int(opt('--level', '0')); WHO = opt('--who', 'io')
+BEATS = int(opt('--beats', '0')); LEVEL = int(opt('--level', '0')); WHO = opt('--who', 'io'); AS = opt('--as', '')
 os.makedirs(out, exist_ok=True)
 FLAGS = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl']
 SETTLED = "() => { const D = window.__battle.DIR; return !D.free || (D.pos.distanceTo(D.to.pos) < 0.02 && D.look.distanceTo(D.to.look) < 0.02); }"
@@ -58,6 +60,11 @@ with sync_playwright() as p:
             foe = pg.evaluate("() => { const F = window.__battle.F; return Object.keys(F).filter((k) => F[k].side === 'foe'); }")
             print('%s at %s (foes: %s)' % (fid, tag, ', '.join(foe)), flush=True)
             key = lambda x: WHO if x == 'W' else foe[0] if x == 'F' else None
+            if AS:
+                tw = [float(x) for x in AS.split('x')]
+                pg.evaluate("([k, t, hw]) => { const f = window.__battle.F[k]; f.tall = t; f.look = Object.assign({}, f.look, { halfW: hw }); }", [foe[0], tw[0], tw[1]])
+                fid_tag = fid + '-as' + AS
+            else: fid_tag = fid
             for kind in KINDS:
                 if kind == 'all-foes' and len(foe) < 2: continue
                 hk, a, c = SHOT[kind]
@@ -66,7 +73,7 @@ with sync_playwright() as p:
                     pg.wait_for_timeout(700)
                 r = pg.evaluate("([k, a, c]) => window.__battle.shot(k, a, c)", [hk, key(a), key(c)])
                 settle(pg)
-                name = '%s-%s-%s.png' % (fid, kind, tag); pg.screenshot(path=os.path.join(out, name))
+                name = '%s-%s-%s.png' % (fid_tag, kind, tag); pg.screenshot(path=os.path.join(out, name))
                 m = pg.evaluate(MEASURE)
                 hs = {f['key']: f['hpx'] for f in m['boxes']['fighters']}
                 print('  %-12s %s  tall on the screen: %s  ground: %s' % (kind, r, hs, m['ground']), flush=True)
@@ -89,7 +96,7 @@ with sync_playwright() as p:
                     tagp = (fz['n'], fz['phase'])
                     if tagp != last or fz['phase'] == 'hit':
                         settle(pg, 350)
-                        name = '%s-move%02d-%s-%s-%s.png' % (fid, fz['n'] - n0, {'act': '1act', 'hit': '2hit', 'out': '3out', 'rest': '4rest'}[fz['phase']], info['last'], tag)
+                        name = '%s-move%02d-%s-%s-%s.png' % (fid_tag, fz['n'] - n0, {'act': '1act', 'hit': '2hit', 'out': '3out', 'rest': '4rest'}[fz['phase']], info['last'], tag)
                         if not os.path.exists(os.path.join(out, name)):
                             pg.screenshot(path=os.path.join(out, name)); m = pg.evaluate(MEASURE)
                             hs = {f['key']: f['hpx'] for f in m['boxes']['fighters']}
