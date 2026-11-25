@@ -102,13 +102,14 @@
     try {
       const st = story(), P = G.__people, cfg = (W3D.STORY || {})[zone] || {}, s = state();
       if (TEST || !st || !P || (s.leftSaid || []).indexOf(zone) >= 0) return fin();
-      const asMoment = (cfg.moments || []).some((m) => m && m[0] === 'leaving') && st.groups[zone + '.leaving'];
+      const gk = (st.zone || '') + '.leaving';      // (the story's groups are named by its talk's zone: 'z1.leaving', ...)
+      const asMoment = (cfg.moments || []).some((m) => m && m[0] === 'leaving') && st.groups[gk];
       const told = !asMoment && (cfg.tell || []).some((m) => m && m[0] === 'leaving') && st.narration && st.narration.leaving;
       if (!asMoment && !told) return fin();
       if (asMoment && st.state().moments.leaving) return fin();          // (said already, the old way, in a save from before)
       s.leftSaid = (s.leftSaid || []).concat(zone); store.set(KEY, JSON.stringify(s));
       if (P.busy()) P.stop();
-      const lines = asMoment ? [].concat(st.narration.leaving ? [st.narration.leaving] : [], st.groups[zone + '.leaving']) : [st.narration.leaving];
+      const lines = asMoment ? [].concat(st.narration.leaving ? [st.narration.leaving] : [], st.groups[gk]) : [st.narration.leaving];
       say('leaving', { ids: lines.map((l) => l.id) });
       let tries = 0;
       const start = () => {

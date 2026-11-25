@@ -122,8 +122,8 @@
   function bits() {
     const b = { zone: zoneN(zone) };
     // small-things: only the zone's own story has parts and lamps. In the ending, zone 1's page runs the Faire's story
-    // (its zone is 'faire'), which was read against zone 1's rules and gave "part 1 of 5" beside "the end reached"
-    const own = !(G.__story && G.__story.zone && G.__story.zone !== zone);
+    // (its rules are W3D.STORY.faire), which was read against zone 1's rules and gave "part 1 of 5" beside "the end reached"
+    const own = !(G.__story && G.__story.cfg && G.__story.cfg !== (W3D.STORY || {})[zone]);
     const st = own && G.__story && G.__story.state ? G.__story.state() : null, rules = (W3D.STORY || {})[zone];
     if (st && rules && rules.stages) { b.part =(st.kept != null ? st.kept : st.stage) + 1; b.parts = rules.stages.length + 1; }
     const live = G.__fights && G.__fights.party, kept = parse(store.get('coven.party'));
