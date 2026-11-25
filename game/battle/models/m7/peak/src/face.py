@@ -12,7 +12,7 @@ from scipy.spatial import cKDTree
 
 S, GROUND, MID = 2.1 / 554, 788, 757           # the sheet's side view (as hoarmantle/src/sculpt.py)
 FRONT_C = 200                                  # the front view's middle
-FRONT = (128, 272, 418, 606)                   # the face in the front view: x0, x1, y0, y1 (sheet pixels)
+FRONT = (120, 280, 398, 606)                   # the face in the front view: x0, x1, y0, y1 (sheet pixels)
 SIDE = (1062, 1126, 455, 606)                  # the muzzle and eye in the side view (clear of the horn's tip)
 SHEET_NOSE = 1120                              # the nose's tip in the side view
 EYES = [(160, 494), (245, 494)]                # the eyes in the front view

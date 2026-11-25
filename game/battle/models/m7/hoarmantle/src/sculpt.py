@@ -255,9 +255,9 @@ def build(K):
         rad = (36 * (1 - u) ** 0.7 + 6) * S                 # broad and heavy at the root, as the sheet draws them
         V, F = G.tube(c, rad, 14, ridges=10, ridge_amp=0.04)
         # colour: brown, paler toward the tip; rings of ice at intervals
-        t_ = np.argmin(np.linalg.norm(V[:, None, :] - c[None, ::max(1, len(c) // 24), :], axis=2), 1) * max(1, len(c) // 24) / (len(c) - 1)
+        t_ = np.argmin(np.linalg.norm(V[:, None, :] - c[None, :, :], axis=2), 1) / (len(c) - 1)      # along the horn, finely
         cc = mix(HORN, HORN2, np.clip(t_ * 1.2, 0, 1)[:, None])
-        ring = (np.abs(np.sin(t_ * math.pi * 9 + 0.5)) > 0.97) & (t_ < 0.85)        # fine pale rings of ice
+        ring = (np.abs(np.sin(t_ * math.pi * 9 + 0.5)) > 0.985) & (t_ < 0.85)       # fine pale rings of ice
         cc[ring] = ICE2
         M.add(V, F, np.clip(cc, 0, 1), 5, mat=(0.5, 0.0))
         for q in (0.35, 0.5, 0.62, 0.74):
@@ -314,6 +314,10 @@ def build(K):
         sheet = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..', '..', K.cfg['sheet'])
         Cn = sheetpaint.paint(V, F, Cc, sheet, S, {'front': (200, GROUND), 'side': (MID, GROUND), 'back': (1331, 786)}, power=4, log=log)
         Cn[Kd != 0] = Cc[Kd != 0]          # horns, eyes, icicles keep their own colours (taken from the sheet), never smeared
+        # the horns straight from his side view: ridged brown horn, frost in the ridges (each point where the sheet draws it)
+        hv = Kd == 5; u_ = np.clip(np.round(V[hv, 1] / S + MID).astype(int), 0, 1535); v_ = np.clip(np.round(GROUND - V[hv, 2] / S).astype(int), 0, 1023)
+        hc = IMG[v_, u_] / 255.0; brown = hc[:, 0] > hc[:, 2] + 0.03
+        Cn[np.where(hv)[0]] = np.where((brown | (hc.mean(1) > 0.62))[:, None], hc, Cc[hv])
         o = 0
         for i, c in enumerate(M.C): M.C[i] = Cn[o:o + len(c)]; o += len(c)
     return M

@@ -154,6 +154,8 @@
       const eyeM = new T.MeshStandardMaterial({ color: P.eye, emissive: new T.Color(P.eyeGlow), roughness: 0.25 }), pupM = new T.MeshBasicMaterial({ color: 0x0a0c10 });
       for (const e of FC.eyes) { const v = toModel(e), r = P.eyeSize;
         const ball = new T.Mesh(new T.SphereGeometry(r, 12, 8), eyeM); ball.position.copy(v); ball.scale.set(1, 0.85, 0.6); o.add(ball);
+        const lid = new T.Mesh(new T.SphereGeometry(r * 1.25, 12, 6, 0, Math.PI * 2, 0, Math.PI * 0.42), new T.MeshStandardMaterial({ color: P.lid, roughness: 0.9 }));
+        lid.position.copy(v).add(new T.Vector3(0, r * 0.15, -r * 0.2)); lid.rotation.x = 0.35; lid.scale.set(1, 0.9, 0.75); o.add(lid);     // a heavy lid over each
         const pup = new T.Mesh(new T.SphereGeometry(r * 0.55, 8, 6), pupM); pup.position.copy(v).add(new T.Vector3(0, 0, r * 0.4)); pup.scale.set(1, 1, 0.5); o.add(pup); }
       f.face = { mats };
     }
