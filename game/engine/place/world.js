@@ -71,6 +71,9 @@
       iron: m({ tint: 0x2a2632, spec: 0.6, shade: 0.5 }),
       cloth: m({ tint: TINT.cloth, map: ST('cloth'), rep: 1, cut: true, side: DS, shade: 0.3 }),
       glass: m({ lit: 0 }),
+      // Coven (left-overs, November 25, 2026): a lantern's glass, see-through: it glows, added to what is behind it, so the
+      // flame inside shows (and leans)
+      lampGlass: (() => { const g = m({ lit: 0, transparent: true }); g.blending = THREE.AdditiveBlending; g.depthWrite = false; return g; })(),
       // doors and windows: Chris's painted ones where the page carries them (short list, group B: cut-outs, the frame and
       // the sill in the picture; a lit window's glass glows by itself, glowmap), else the ones paint.js draws
       win: PIC('shared_window_lit') ? m({ map: T('shared_window_lit'), alphaTest: 0.5, glowmap: true, shade: 0.3 }) : m({ map: pics.win, lit: 0 }),
@@ -295,7 +298,10 @@
       if (n) B.box('iron', x - n[0] * 0.15, y + 0.33 * s, z - n[2] * 0.15, Math.abs(n[2]) > 0.5 ? 0.05 : 0.36, 0.05, Math.abs(n[0]) > 0.5 ? 0.05 : 0.36, 0, null);
       if (hang) B.box('iron', x, y + 0.3 * s, z, 0.03, 0.4, 0.03, 0);
       B.box('iron', x, y - 0.03 * s, z, 0.26 * s, 0.05 * s, 0.26 * s, 0);
-      B.box('glass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [1.6, 1.1, 0.62]);
+      // Coven (left-overs): the glass is see-through and dimmer (it was one glowing block, [1.6, 1.1, 0.62]), and a small
+      // flame burns inside it, leaning as every flame does (game/look/flame-lean.js)
+      B.box('lampGlass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [0.62, 0.42, 0.24], { solid: false });
+      B.leaning(y + 0.04 * s, () => { B.cyl('glass', x, y + 0.04 * s, z, 0.055 * s, 0, 0.2 * s, 7, [2.0, 0.95, 0.32]); B.cyl('glass', x, y + 0.04 * s, z, 0.03 * s, 0, 0.12 * s, 6, [2.4, 1.75, 0.85]); });
       B.box('iron', x, y + 0.3 * s, z, 0.3 * s, 0.06 * s, 0.3 * s, 0);
       B.cyl('iron', x, y + 0.36 * s, z, 0.16 * s, 0.02, 0.14 * s, 4);
       for (const [dx, dz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) B.box('iron', x + dx * 0.1 * s, y, z + dz * 0.1 * s, 0.025, 0.3 * s, 0.025, 0);

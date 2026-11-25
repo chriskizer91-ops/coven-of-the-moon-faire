@@ -346,6 +346,10 @@
       // a flame: a few thin tongues of fire leaning a little apart, a brighter heart, and a soft glow round it
       function flame(x, y, z, h, w) {
         const r = W3D.rand(Math.round(x * 97 + z * 31) >>> 0);
+        if (B.leaning) return B.leaning(y, () => tongues(x, y, z, h, w, r));      // Coven (left-overs, November 25, 2026): the flame leans (game/look/flame-lean.js)
+        tongues(x, y, z, h, w, r);
+      }
+      function tongues(x, y, z, h, w, r) {      // Coven (left-overs): the flame's tongues, as before, drawn inside B.leaning
         for (let i = 0; i < 5; i++) {
           const a = i * Math.PI / 5 + r() * 0.4, c = Math.cos(a) * w * 0.55, s = Math.sin(a) * w * 0.55, hh = h * (0.55 + r() * 0.45), lx = (r() - 0.5) * w * 0.8, lz = (r() - 0.5) * w * 0.8;
           for (const [k, f, col] of [[1, 1, [1.0, 0.36, 0.05]], [0.5, 0.6, [1.3, 0.85, 0.3]]]) {
