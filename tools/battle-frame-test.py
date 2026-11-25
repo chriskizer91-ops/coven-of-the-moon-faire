@@ -79,7 +79,11 @@ with sync_playwright() as p:
             pg.wait_for_function("!!window.__battle", timeout=60000); pg.evaluate("() => { window.__battle.turbo = 4; }")
             # the resting shot: the menu waits for the player's first move
             pg.wait_for_function("window.__battle && window.__battle.state === 'battle' && window.__battle.menuOpen", timeout=300000, polling=200)
-            pg.evaluate("() => { window.__battle.turbo = 0; }"); pg.wait_for_timeout(4500)
+            pg.evaluate("() => { window.__battle.turbo = 0; }"); pg.wait_for_timeout(1500)
+            # the camera glides into its resting shot, and this browser draws only a few frames a second: wait till it is there
+            try: pg.wait_for_function("() => { const D = window.__battle.DIR; return !D.free || (D.pos.distanceTo(D.to.pos) < 0.03 && D.look.distanceTo(D.to.look) < 0.03); }", timeout=60000, polling=300)
+            except Exception: print('  (the camera had not settled after a minute)')
+            pg.wait_for_timeout(800)
             m = pg.evaluate("() => window.__battle.boxes()")
             pg.screenshot(path=os.path.join(out, '%s-rest-%s.png' % (fid, tag)))
             hs = [f['hpx'] for f in m['fighters'] if f['side'] == 'hero']

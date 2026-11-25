@@ -216,7 +216,7 @@
     const FRAMING = {
       upright: 0.9,
       wide: { turn: 50, rise: 7, fov: 36 }, fit: { turn: 48, rise: 9, fov: 36 }, centre: 0, clearTop: 0, edge: 0.9,
-      tall: { wide: { turn: 10, rise: 14, fov: 40 }, fit: { turn: 12, rise: 16, fov: 40 }, centre: 3, clearTop: 8, edge: 0.84 },
+      tall: { wide: { turn: 10, rise: 22, fov: 40 }, fit: { turn: 12, rise: 24, fov: 40 }, centre: 3, clearTop: 8, edge: 0.84 },
     };
     const upright = () => view.w < view.h * FRAMING.upright, framing = () => (upright() ? FRAMING.tall : FRAMING);
     const DIR = (() => {
@@ -257,6 +257,9 @@
       // a direction: round from a way along the ground by an angle (toward the audience when positive), raised by another
       function dirOf(base, side, turn, rise) { const d = new V3().copy(base).multiplyScalar(Math.cos(turn * rad)).addScaledVector(side, Math.sin(turn * rad)); flat(d); d.multiplyScalar(Math.cos(rise * rad)); d.y = Math.sin(rise * rad); return d.normalize(); }
       function set(kind, dir, look, pts, fov, k, min, centre) {
+        // fights-polish: the name box's height as it is now (its watcher tells only after the next layout, and a frame of
+        // another height is a narrower view across: a foe at the side went out of the picture)
+        if (FRAMING.tall.clearTop) { const en = $('enemy'); view.enemyH = en && !en.hidden ? en.offsetTop + en.offsetHeight : 0; }
         let d = fitDist(dir, look, pts, fov, min);
         // fights-polish: a wide shot may be moved onto the middle of what it frames, across and up and down, and fitted
         // again (FRAMING.centre): so the one farthest out at one side no longer sets how far off the camera stands
@@ -2860,7 +2863,8 @@
       // an arena keeps the fighters' feet above the menus while a command is chosen (applyCam), so it follows their height
       if (AF && window.ResizeObserver) { const ui = $('ui'); uiRo = new ResizeObserver(() => { view.uiNow = ui.hidden ? 0 : ui.offsetHeight + 12; }); uiRo.observe(ui); }
       // fights-polish: and the bottom of the foes' name box at the top left, which an upright phone's shots keep clear (FRAMING.clearTop)
-      if (AF && window.ResizeObserver) { const en = $('enemy'); enRo = new ResizeObserver(() => { view.enemyH = en.hidden ? 0 : en.offsetTop + en.offsetHeight; }); enRo.observe(en); }
+      if (AF && window.ResizeObserver) { const en = $('enemy'); enRo = new ResizeObserver(() => { const was = view.enemyH; view.enemyH = en.hidden ? 0 : en.offsetTop + en.offsetHeight;
+        if (was !== view.enemyH && upright() && DIR.free && DIR.last === 'wide') DIR.wide(2); }); enRo.observe(en); } // (and the resting shot is fitted again when it changes)
 
       // test hooks for headless checks
       window.__battle = {
@@ -2903,7 +2907,12 @@
                 const p = toScreen(v); x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]);
               }
             });
-            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, box: [x0, y0, x1, y1].map((n) => Math.round(n)), hpx: Math.round(y1 - y0), mh: +(hi - Math.max(0, lo)).toFixed(2) });
+            // a creature made with Aethermoor M7's kit is bent on the graphics card in its own way, so its points cannot be
+            // posed here: it is measured by where it stands, its stated height and its reach to either side
+            const nominal = f.kind === 'm7';
+            if (nominal) { x0 = y0 = 1e9; x1 = y1 = -1e9; lo = 0; hi = f.tall; const r = (f.look && f.look.halfW) || Math.max(0.3, f.tall * 0.4);
+              for (const [dx, y, dz] of [[r, 0, 0], [-r, 0, 0], [0, 0, r], [0, 0, -r], [r, f.tall, 0], [-r, f.tall, 0]]) { const p = toScreen(v.set(f.pos.x + dx, y, f.pos.z + dz)); x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); } }
+            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, nominal, box: [x0, y0, x1, y1].map((n) => Math.round(n)), hpx: Math.round(y1 - y0), mh: +(hi - Math.max(0, lo)).toFixed(2) });
           }
           const ui = $('ui'), en = $('enemy');
           return { w: view.w, h: view.h, shot: DIR.free ? DIR.last : 'painting', uiTop: ui && !ui.hidden ? view.h - ui.offsetHeight : view.h, enemyBottom: en && !en.hidden ? en.offsetTop + en.offsetHeight : 0, fighters: out };
