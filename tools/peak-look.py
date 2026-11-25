@@ -147,8 +147,11 @@ with sync_playwright() as p:
                     print(k, 'fight at %ds:' % at, d.get('triangles'), 'triangles,', d.get('calls'), 'draw calls')
                     pg.evaluate('() => { window.__battle.turbo = 2; }')
                 pg.evaluate('() => { if (window.__battle) window.__battle.turbo = 40; }')
-                pg.wait_for_function('() => !window.__plab.busy', timeout=900000, polling=500)
-                print(k, 'fight ended:', pg.evaluate('() => document.getElementById("last").textContent'))
+                try:
+                    pg.wait_for_function('() => !window.__plab.busy', timeout=180000, polling=500)
+                    print(k, 'fight ended:', pg.evaluate('() => document.getElementById("last").textContent'))
+                except Exception:
+                    print(k, 'fight still going after 3 minutes at top speed (a long fight): not played to its end')
         except Exception as e:
             print(k, 'FAILED:', str(e)[:300])
     b.close()
