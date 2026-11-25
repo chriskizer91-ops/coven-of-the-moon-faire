@@ -87,6 +87,9 @@ RESULTS of the rest (each filled in as it finished):
 - `maps-1` (108 ok, 0 failed): ALL PASSED
 - `maps-2` (108 ok, 0 failed): ALL PASSED
 - `maps-3` (108 ok, 0 failed): ALL PASSED
+- `maps-4` (108 ok, 0 failed): ALL PASSED
+- `people-1` (134 ok, 0 failed): ALL PASSED
+- `things-1` (40 ok, 0 failed): ALL PASSED
 
 ### The pictures (looked at, every one)
 
