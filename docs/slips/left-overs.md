@@ -142,8 +142,9 @@ north-east marked (the camera looks north-west, so north-east is straight to the
 `hearth`, `northfire`, `brazier` (the block fires, from the try that was put back), `bridie0` and `bridie4`. **A still
 cannot show the flicker; nobody here has seen it move.**
 
-## Task 4: what a zone page is made of (a report; nothing was changed)
+## Task 4: what a zone page is made of, and every page made smaller than 95 MB
 
+The report first (as asked, before anything was changed), then what was changed (below, "Making every page smaller").
 Measured with `python3 tools/left-overs-weigh.py builds/zone-N.html` on pages built from this branch at `509d4f8`
 (main before small-things). It reads the page as text and changes nothing. MB here is 1,048,576 bytes, as the builder
 counts. "As text" is what it weighs inside the page; "as files" is what the same thing weighs as a file on its own.
