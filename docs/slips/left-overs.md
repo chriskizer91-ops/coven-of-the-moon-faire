@@ -55,6 +55,24 @@ the change in her cannot be seen (her dress hides her knees). 0 page errors on e
 Checks: `townsfolk-test` on the line-up page: **385 good, 0 failed**. `people-test` zone 1: **134 good, 0 failed**.
 `zone-test`: run on all four zones after task 3 (below), which covers this too.
 
+## Task 2: the nine big fights, played again (DROPPED on the hub's word)
+
+The hub dropped this task at 15:35 (two other jobs are changing the fight camera and the last foe's model, so a replay
+now would be out of date). How far it got, on the lab page built from this branch at `509d4f8`, at 1280x720, with
+`tools/encounter-fights-test.py` (it now takes `--size`; the fights job played at 320x180), the expert player, turbo 60:
+
+| Fight | Result | Turns | Time here | Checks |
+|---|---|---|---|---|
+| Zone 1, the great wraith (level 5) | **won** | 77 (the fights job's run: 51) | 50 min | every check passed, 0 page errors |
+| Zone 2, the stone by the bridge (level 7, two frost wisps) | **won** | 12 | 5 min | every check passed, 0 page errors |
+| Zone 2, the stone in the ring | started, then stopped when the task was dropped | | | |
+| the other six (the third stone, the night at the node, the knight of light, the fire's two forms, the great bramble) | not played | | | |
+
+Nothing odd was seen in the two. At 1280x720 a big fight takes most of an hour here (each frame is slow without a
+graphics card), so all nine would take about eight hours of the shared browser. The 412x880 frame check on the nine
+(`tools/battle-frame-test.py --only greatWraith,stone-road,...`) was queued and taken back before it ran: it can reach
+the big fights by their lab names as it is, no change needed.
+
 ## Task 3: flames that lean north-east
 
 **Which way.** The lines and the story say **north-east**: "Every flame in the camp is leaning north-east" (Callisto),
@@ -184,6 +202,37 @@ The largest by source file (zone 1): `engine/place/extras.js` 15.0, `people/voic
 
 Together the first three are about **36 MB off zone 1 (119 to about 83)** and about **21 MB off zone 4 (96 to about
 75)**, with nothing seen or heard changed.
+
+### Making every page smaller than 95 MB (Chris's word of November 25: every page under 100 MB, for GitHub)
+
+**Done by the first way alone, with nothing seen or heard changed.** `tools/build.py` (the hub's; changes marked
+"left-overs:") now puts each picture and sound that a script names in the page ONCE, in a table at the top
+(`var __CP = [...]`), and the script reads it from there (`__CP[12]` stands where `"data:..."` stood). It does this only
+where the name stands as a plain value in code (`key: "./x.webp",`); I checked every such name in the five big pages'
+scripts: all 1,294 stand that way. Anything else is packed where it stands, as before.
+
+| Page, as a file | Before | After | Copies left out | Begin showing here, before | after |
+|---|---|---|---|---|---|
+| zone 1 | 124.8 MB | **93.1 MB** | 31.7 MB | 9.9 s, 9.1 s | 7.9 s, 8.9 s |
+| zone 2 | 110.5 MB | **81.0 MB** | 29.5 MB | 12.5 s, 12.4 s | 12.0 s, 12.0 s |
+| zone 3 | 108.9 MB | **90.2 MB** | 18.7 MB | 13.0 s, 13.9 s | 13.5 s, 13.7 s |
+| zone 4 | 100.5 MB | **80.5 MB** | 20.0 MB | 11.3 s, 10.9 s | 9.5 s, 10.9 s |
+| the Faire ending | 97.5 MB | **65.8 MB** | 31.7 MB | (not timed) | |
+
+(Times: `tools/left-overs-load.py`, the page opened as a player would, two runs each, on this shared machine with no
+graphics card: for comparing, not what a laptop takes. The page's text is read faster, 1.5 s against 2.1 s; the rest
+is the game building itself.) Each copy left out is also one copy less in the phone's memory.
+
+**The builder now says the real size and stops at 100 MB:** "as a file: 93.1 MB (93122527 bytes)". 1 MB here is
+1,000,000 bytes, as GitHub counts. From 95 MB it warns; at 100 MB or more it stops with "STOP" and fails.
+
+**Not done, because it was not needed** (each is ready to be the next step if a page grows again):
+- zone 1 carries all 142 of zone 4's recordings for the Faire ending, which uses 41 (the moments `faire` and
+  `homecoming`): leaving the other 101 out would save about **4.3 MB** on zone 1. It needs a second voice list kept in
+  step with `voice-z4.js` (when zone 4's missing recordings come), so I left it.
+- the code's comments left out of the built page: about 1.8 MB a page.
+- a denser packing than base64: about 5 MB a page, but every file would then be unpacked by the page's own code.
+- Nothing lossy was done: no picture, sound, voice or creature was made lighter.
 
 ### Ways that WOULD change what he sees or hears (only on Chris's word; not suggested now)
 
