@@ -23,6 +23,11 @@ Branch: job/left-overs      Updated: November 25, 2026
   engine's campfire, the shipyard's braziers) became slanted slabs: put back. Bridie's painted lantern: an added 3D
   flame looked wrong on the painting: taken out.
 - Task 2: great wraith played at 1280x720: won (50 min here). The other eight run after the checks.
+- 15:35: the hub dropped task 2 and grew task 4 (every page under 95 MB). The builder packs each picture once: zone
+  pages 93.1, 81.0, 90.2, 80.5 MB. Checks started; cut off by the usage limit at about 17:00 (zone-test 1 to 4 and
+  story-test 2 and 3 had passed; story-test 4 had its 2 expected failures, the Warden's lines with no recording).
+- 21:00: carried on. Merged `main` (4c7d6bc: 20 new recordings for zone 4). One long run: rebuild, sizes, load times,
+  the rest of the checks.
 
 ## Task 1: small folk stand straight
 
