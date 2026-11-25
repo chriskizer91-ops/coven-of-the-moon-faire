@@ -50,10 +50,28 @@
     }
   }
 
-  let page = null, zone = null, here = null, W = null, arrived = false, readyDone = false, busy = false;
+  let page = null, zone = null, here = null, W = null, arrived = false, readyDone = false, busy = false, ending = false, endApi = null;
   // ---- what the journey keeps in the slot: the landings reached ----
   function state() { const s = parse(store.get(KEY)); return s && s.v === 1 && Array.isArray(s.reached) ? s : { v: 1, reached: ['wickhollow'] }; }
   function reach(id) { const s = state(); if (s.reached.indexOf(id) < 0) s.reached.push(id); s.at = id; store.set(KEY, JSON.stringify(s)); return s; }
+  function mark(k) { const s = state(); s[k] = true; store.set(KEY, JSON.stringify(s)); return s; }
+  // ---- the ending (journey-data.js, home): zone 1's page opened after the flight home, or a slot that is in the ending ----
+  function endingWraps() {
+    const H = D().home;
+    const ps = W3D.people && W3D.people.start; if (ps) W3D.people.start = function () { if (ending && W3D.faireEnding) W3D.faireEnding.cast('zone-1'); return ps.apply(this, arguments); };
+    const ss = W3D.story && W3D.story.start; if (ss) W3D.story.start = function (o) {
+      if (!(ending && o && o.zone === 'zone-1' && W3D.faireEnding)) return ss.apply(this, arguments);
+      endApi = W3D.faireEnding.start({ W: o.W, root: document.getElementById('world') || document.body, people: o.people, waitBegin: o.waitBegin, onEnd: ended });
+      say('ending', {}); return endApi.story; };
+    const LF = G.CovenLandFights; if (LF && LF.start && !H.fights) { const fs = LF.start; LF.start = function () { if (ending) { say('no-fights', {}); return null; } return fs.apply(this, arguments); }; }
+  }
+  function ended() {
+    if (!TEST) { mark('ended'); if (W3D.saves) W3D.saves.save('ended'); }
+    say('ended', {});
+    setTimeout(() => { const b = document.createElement('button'); b.className = 'cj-door'; b.textContent = WORDS().toDoor;
+      b.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:calc(28px + env(safe-area-inset-bottom,0px));z-index:31;min-height:52px;min-width:200px;padding:10px 24px;border-radius:26px;border:1px solid rgba(255,226,160,.7);background:rgba(30,26,60,.8);color:#ffe9b8;font:600 17px Georgia,serif;cursor:pointer';
+      b.addEventListener('click', () => open('index.html', '')); document.body.appendChild(b); }, JT ? 0 : 6000);
+  }
   // ---- the zone's story ----
   const story = () => G.__story || null;
   const isDone = () => { const st = story() && story().state(), d = D().done[zone]; if (!st || !d) return false;
@@ -113,6 +131,7 @@
     if (gate && gate.refit && !done) { line(w.onSlip); return false; }
     const s = state(), open1 = s.reached.filter((id) => id !== here && landing(id));
     const nx = next(); if (done && nx && open1.indexOf(nx.id) < 0) open1.push(nx.id);
+    const H = D().home; if (done && H && here === H.from) open1.splice(0, open1.length, H.to);     // the last zone done: the only way is home
     if (!done) line(w.notYet[zone] || w.notYet['zone-4']);
     if (!open1.length) { if (done) line(w.nowhereElse); say('board', { open: [], done }); return false; }
     say('board', { open: open1, done });
@@ -127,7 +146,8 @@
     const L = landing(to); if (!L) { busy = false; return false; }
     busy = true;
     if (W3D.saves && !W3D.saves.test) W3D.saves.save('journey');
-    const n = { v: 1, from: here, to, at: Date.now() };
+    const H = D().home, n = { v: 1, from: here, to, at: Date.now() };
+    if (H && here === H.from && to === H.to && isDone()) n.ending = true;      // the flight home: the next page opens as the ending
     store.set(NEXT, JSON.stringify(n));                // (for a page opened by hand: it finds its flight here)
     const c = carry(true);
     return open(L.page, 'journey=' + encodeURIComponent(JSON.stringify(n)) + (c ? '&' + c : ''));
@@ -214,7 +234,7 @@
     if (readyDone) return; readyDone = true; W = G.__w3d;
     if (!TEST) reach(here);
     if (arrived) {
-      const a = (D().arrive || {})[here]; if (a && W) try { placeAt(a); } catch (e) { console.error(e); }
+      const a = ending ? null : (D().arrive || {})[here]; if (a && W) try { placeAt(a); } catch (e) { console.error(e); }
       if (W3D.saves && !TEST) setTimeout(() => W3D.saves.save('arrived'), 50);
       // the Begin screen: passed by itself after a flight, if the player's taps on the flight already let sound play
       const b = document.getElementById('begin'), act = navigator.userActivation;
@@ -224,7 +244,7 @@
       const w = WORDS(), L = landing(note.from), k = note.back === 'turned-back' ? 'turnedBack' : note.back === 'lost' ? 'lost' : 'flightError';
       setTimeout(() => line(fill(w[k], { from: L ? L.name : '' }), 5), 400);
     }
-    try { gatesUp(); } catch (e) { console.error(e); }
+    if (!ending) try { gatesUp(); } catch (e) { console.error(e); }
     if (W3D.landingShips && W3D.landingShips.ready) try { W3D.landingShips.ready({ W, here }); } catch (e) { console.error(e); }
     say('ready', { here, arrived });
   }
@@ -247,7 +267,7 @@
   // journey's own (not one of the zone's things), so the zone's things stay as their checks know them ----
   let gateList = [], gateBtn = null, gateNear = null;
   const ships = () => (W3D.landingShips ? W3D.landingShips.shown() : null);
-  const gateCan = (g) => !busy && !(W3D.flight && W3D.flight.flying) && (!g.ship || !ships() || ships() === g.ship);
+  const gateCan = (g) => !busy && !(W3D.flight && W3D.flight.flying) && (!g.ship || !ships() || [].concat(g.ship).indexOf(ships()) >= 0);
   function gatesUp() {
     const Z = W.P;
     gateList = ((D().gates || {})[here] || []).map((g, i) => { const part = Z.parts.find((p) => p.id === g.place[0]); if (!part) return null;
@@ -275,7 +295,8 @@
     el('h1', '', root, w.title); el('p', 'sub', root, w.subtitle);
     const list = el('div', 'slots', root), msg = el('p', 'msg', root, '');
     recs.forEach((rec, i) => { if (!rec) return; const n = i + 1, b = el('button', 'slot', list); b.dataset.slot = n;
-      el('b', '', b, (MW.carryOn || 'Carry on')); el('span', '', b, fill(MW.slot || 'Save {n}', { n }) + ' · ' + S.line(rec));
+      const js = parse(rec.keys && rec.keys[KEY]), end = js && js.ended ? ' · ' + w.ended : '';
+      el('b', '', b, (MW.carryOn || 'Carry on')); el('span', '', b, fill(MW.slot || 'Save {n}', { n }) + ' · ' + S.line(rec) + end);
       b.addEventListener('click', () => { msg.textContent = w.opening; say('door', { carryOn: n });
         if (n === S.current) open(rec.page || D().firstPage, carry(true)); else S.load(n); }); });
     const empty = recs.findIndex((r) => !r) + 1;
@@ -301,6 +322,9 @@
       const walk0 = W3D.walk;
       if (!TEST && typeof walk0 === 'function') W3D.walk = async function () {
         W3D.walk = walk0;
+        const H = D().home;
+        ending = !!(H && page === H.page && (flight ? note.ending : !note && state().ending));
+        if (ending && flight) mark('ending');
         if (flight) {
           const r = await flyIn(note);
           if (!r.arrived && D().lostGoesBack) { goBack(note, r); return new Promise(() => {}); }
@@ -311,11 +335,15 @@
         }
         return walk0.apply(this, arguments);
       };
+      endingWraps();
+      // the foot of an upright phone (journey job): the talk's button and words (people.js, things.js, the gate) sit just over
+      // the frame-rate pill (bottom left) and the level pill (bottom right), not on them, where the screen is narrow
+      { const st = document.createElement('style'); st.textContent = '@media (max-width:620px){.talkbtn{bottom:calc(66px + env(safe-area-inset-bottom,0px)) !important}.talkbox{bottom:calc(126px + env(safe-area-inset-bottom,0px)) !important}}'; document.head.appendChild(st); }
       setTimeout(hookSaves, 0);
       const poll = setInterval(() => { hookSaves(); if (G.__ready && G.__w3d && (G.__story || G.__peopleErr)) { clearInterval(poll); try { onReady(); } catch (e) { console.error(e); } } }, 250);
     },
     door, state, board: (i) => board(((D().gates || {})[here] || [])[i || 0] || null), leave, isDone, next, line,
     get note() { return note; }, get arrived() { return arrived; }, get here() { return here; }, get busy() { return busy; },
   };
-  G.__journey = { log, state, gates: () => gateList, gateTick: () => gateBtn && gateTick(), board: (i) => W3D.journey.board(i), leave, isDone, get note() { return note; }, get arrived() { return arrived; }, get ready() { return readyDone; } };
+  G.__journey = { get ending() { return ending; }, get endApi() { return endApi; }, log, state, gates: () => gateList, gateTick: () => gateBtn && gateTick(), board: (i) => W3D.journey.board(i), leave, isDone, get note() { return note; }, get arrived() { return arrived; }, get ready() { return readyDone; } };
 })(window);

@@ -16,7 +16,10 @@ test handle. Nothing is left behind: the browser is a new one with storage of it
   D  a flight back to Wickhollow: landed on the jetty's pier; the slot says zone 1
   E  zone 1 to zone 2 again (no flight lines this time), zone 2's story set to its end, on to the northern wilds: zone
      3's flight lines, the landing, the slot says zone 3
-  F  the front door (index.html): the game's name, the slot, Carry on opens the slot's page
+  G  zone 3 to zone 4: zone 4's flight line and the narrator's, the landing, the slot says zone 4, the ship's button
+  H  zone 4 done (its story's flag "leaving"): boarding offers only Wickhollow; the flight home; zone 1's page opens
+     AS THE ENDING (the Faire's last night), not as its first night; the end card, and the way back to the front door
+  F  the front door (index.html): the game's name, the slot (after H: "the end reached"), Carry on opens its page
 
 The browser here has no screen: it cannot show motion or measure a frame rate. Only a real laptop or phone can.
 """
@@ -38,7 +41,7 @@ def main():
     args = sys.argv[1:]
     if not args:
         sys.exit(__doc__)
-    d = os.path.abspath(args[0]); only = 'ABCDEF'; size = (1280, 720); shots = None
+    d = os.path.abspath(args[0]); only = 'ABCDEGHF'; size = (1280, 720); shots = None
     i = 1
     while i < len(args):
         if args[i] == '--only': only = args[i + 1]; i += 2
@@ -134,7 +137,7 @@ def main():
             pg.click('#begin button')
             pg.wait_for_timeout(500)
             st = pg.evaluate('__journey.state()')
-            check(st['reached'] == ['wickhollow'], 'a new game has reached Wickhollow only: %s' % json.dumps(st['reached']))
+            check(st['reached'] == ['wickhollow'] and not pg.evaluate('__journey.ending'), 'a new game opens zone 1 as its first night, and has reached Wickhollow only: %s' % json.dumps(st['reached']))
             bs = at_gate(0, 0)
             check(bs and bs[-1]['text'] == 'Board the ship' and bs[-1]['h'] >= 44 and bs[-1]['w'] >= 44, 'at the foot of the gangway the button says "Board the ship" (%s)' % json.dumps(bs))
             pg.evaluate('() => __journey.board()'); pg.wait_for_timeout(300)
@@ -163,7 +166,7 @@ def main():
             check(pg.evaluate('__journey.state().reached') == ['wickhollow', 'warmCamp'], 'reached: Wickhollow and the Warm Roads')
             bs = at_gate(); check(bs and bs[-1]['text'] == 'Board the ship', 'zone 2 has its ship and its button too'); shot('a5-gate-zone-2')
             ships = pg.evaluate('W3D.landingShips.list()')
-            check(len(ships) == 1 and ships[0]['ship'] == 'cutter', 'the ship at the Warm Roads: %s' % json.dumps(ships))
+            check(len(ships) == 1 and ships[0]['ship'] == 'skiff2', 'the ship at the Warm Roads, the Skiff fitted out: %s' % json.dumps(ships))
 
         # ---------------- B ----------------
         if 'B' in only:
@@ -223,29 +226,70 @@ def main():
             pg.wait_for_function('__story.state().moments.landing === true', timeout=20000)
             pg.wait_for_timeout(500); sl = slot(); check(sl and sl['page'] == 'zone-3.html' and sl['zone'] == 3, 'the slot says zone 3: %s' % json.dumps(sl))
             ships = pg.evaluate('W3D.landingShips.list()')
-            check(len(ships) == 2 and ships[0]['shown'] and not ships[1]['shown'], 'the ship lies at the northern camp, not yet on the slip: %s' % json.dumps(ships))
+            check(len(ships) == 3 and ships[0]['shown'] and not ships[1]['shown'] and not ships[2]['shown'], 'the fitted Skiff lies at the northern camp, not yet on the slip: %s' % json.dumps([(x['id'], x['ship'], x['shown']) for x in ships]))
             bs = at_gate(0); check(bs and bs[-1]['text'] == 'Board the ship', 'her button at the camp'); shot('e2-landing-zone-3')
             pg.evaluate("(() => { __people.move('captain', { place: ['shipyard', 800, 384], look: [764, 240] }, true); })()"); pg.wait_for_timeout(1200)
             ships = pg.evaluate('W3D.landingShips.list()')
-            check(ships[1]['shown'] and not ships[0]['shown'], 'once the Grey Hat has gone to the slip, she is on the slip and not at the camp')
+            check(ships[1]['shown'] and not ships[0]['shown'] and not ships[2]['shown'], 'once the Grey Hat has gone to the slip, she is on the slip and not at the camp')
             bs = at_gate(1); pg.evaluate('() => __journey.board(1)'); pg.wait_for_timeout(300)
             ln = pg.evaluate("__journey.log.filter((l) => l.what === 'line').map((l) => l.text)")
             check(ln and 'slip' in ln[-1] and not pg.evaluate('!!W3D.maps.world.choosing'), 'on the slip, before the story is done, she will not fly: "%s"' % (ln[-1] if ln else ''))
             pg.wait_for_timeout(5000); at_gate(1); shot('e3-on-the-slip')
+            pg.evaluate("__story.set({ stage: 4 })"); pg.wait_for_timeout(1200); ships = pg.evaluate('W3D.landingShips.list()')
+            check(ships[2]['shown'] and ships[2]['ship'] == 'cutter' and not ships[1]['shown'], 'the refit done (stage 4), the ship on the slip is the Cutter')
+            at_gate(1); pg.wait_for_timeout(300); at_gate(1); shot('e4-refit-done')
+
+        # ---------------- G ----------------
+        if 'G' in only:
+            print('G. zone 3 to zone 4')
+            end_story()
+            board_and_choose('frozenCamp')
+            flight_page('zone-4.html'); pg.wait_for_timeout(1500)
+            raised, said1 = fly_through(); err = ready()
+            said = pg.evaluate("__journey.log.filter((l) => l.what === 'said').map((l) => l.id)")
+            check(not err and 'z4.narrator.01' in said and 'z4.captain.01' in said, 'zone 4\'s flight lines: %s' % ', '.join(said))
+            pg.wait_for_function('__story.state().moments.landing === true', timeout=30000)
+            pg.wait_for_timeout(500); sl = slot(); check(sl and sl['page'] == 'zone-4.html' and sl['zone'] == 4, 'the slot says zone 4: %s' % json.dumps(sl))
+            bs = at_gate(0); check(bs and bs[-1]['text'] == 'Board the ship', 'the ship\'s button at the frozen camp'); pg.wait_for_timeout(300); at_gate(0); shot('g1-gate-zone-4')
+
+        # ---------------- H ----------------
+        if 'H' in only:
+            print('H. home, and the ending')
+            pg.evaluate("__story.flag('leaving', true)")
+            check(pg.evaluate('__journey.isDone()'), "zone 4's story done (its flag \"leaving\")")
+            board_and_choose('wickhollow', None, ['wickhollow'])
+            flight_page('zone-1.html'); pg.wait_for_timeout(2500); shot('h1-flight-home')
+            fly_through(); err = ready()
+            check(not err and pg.evaluate('__journey.ending') and pg.evaluate('!!window.__faire'), 'zone 1\'s page opens as the ending (the Faire\'s last night), not as its first night')
+            check(pg.evaluate('!window.__fights') and pg.evaluate("__journey.state().ending === true"), 'the wilds are quiet, and the slot knows it is in the ending')
+            pg.wait_for_function('__faire.story.state().moments.homecoming === true', timeout=30000)
+            pg.wait_for_timeout(1500); shot('h2-ending-opens')
+            pg.evaluate('() => W3D.faireEnding.onLast()'); pg.wait_for_timeout(7000)
+            st = pg.evaluate("(() => { const b = document.querySelector('.cj-door'); const r = b && b.getBoundingClientRect(); return { door: b ? b.textContent : null, h: r ? r.height : 0, ended: __journey.state().ended }; })()")
+            check(st['door'] == 'Back to the front door' and st['h'] >= 44 and st['ended'], 'the end card, with "%s" under it; the slot says the end is reached' % st['door'])
+            shot('h3-end-card')
+            pg.evaluate("document.querySelector('.cj-door').click()"); pg.wait_for_url('**/index.html*', timeout=30000)
+            check(where() == 'index.html', 'it opens the front door')
 
         # ---------------- F ----------------
         if 'F' in only:
             print('F. the front door')
-            pg.goto(url('index.html')); pg.wait_for_function('window.__ready', timeout=30000); pg.wait_for_timeout(300)
+            if where() != 'index.html':
+                pg.goto(url('index.html'))
+            pg.wait_for_function('window.__ready', timeout=30000); pg.wait_for_timeout(300)
             st = pg.evaluate('''(() => { const bs = [...document.querySelectorAll('button')].map((e) => { const r = e.getBoundingClientRect(); return { text: e.textContent, w: r.width, h: r.height }; });
                 return { title: document.querySelector('h1').textContent, bs }; })()''')
             shot('f1-front-door')
+            if 'H' in only:
+                check(any('the end reached' in x['text'] for x in st['bs']), 'the slot that has seen the ending says so')
             check(st['title'] == 'Coven of the Moon Faire', 'the name: %s' % st['title'])
             check(all(x['h'] >= 44 for x in st['bs']) and len(st['bs']) <= 4, 'its buttons (%d), each 44 px or more: %s' % (len(st['bs']), ' / '.join(x['text'] for x in st['bs'])))
             if 'E' in only or 'A' in only:
                 pg.click('button[data-slot]')
                 pg.wait_for_url('**/zone-*.html*', timeout=60000)
-                check(where() in ('zone-2.html', 'zone-3.html'), 'Carry on opens the slot\'s page: %s' % where())
+                check(where() in ('zone-1.html', 'zone-2.html', 'zone-3.html', 'zone-4.html'), 'Carry on opens the slot\'s page: %s' % where())
+                if 'H' in only:
+                    ready(); check(pg.evaluate('__journey.ending'), 'and a slot in the ending opens the ending again')
 
         b.close()
     real = [e for e in errors if 'willReadFrequently' not in e]

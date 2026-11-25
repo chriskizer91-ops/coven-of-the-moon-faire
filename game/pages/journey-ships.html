@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Grey Hat's four ships: Coven of the Moon Faire</title>
+<!-- journey-ships.html: the journey job's own small page (November 24, 2026), to look at the Grey Hat's ship as she is in
+     each zone, side by side: the Skiff (zone 1), the Skiff fitted out (zone 2, and zone 3 before her refit), the Cutter
+     (zone 3 after her refit), the Cutter made ready for the peaks (zone 4). Drawn from the same baked data the zones
+     moor (game/flight/moored/), in plain light, with their painted pieces. Nothing here is part of the game.
+       python3 tools/build.py game/pages/journey-ships.html          ?ship=skiff2 shows one alone, from the pier's distance -->
+<style>
+  html, body { margin: 0; height: 100%; background: #1d1a2e; color: #f3ecdc; font: 15px/1.3 system-ui, sans-serif; overflow: hidden; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+  #names div { position: fixed; transform: translateX(-50%); text-align: center; font-size: 13px; max-width: 22vw; text-shadow: 0 1px 3px #000; }
+  #names b { display: block; font-size: 14px; color: #ffe9b8; }
+</style></head>
+<body><canvas id="c"></canvas><div id="names"></div>
+<script src="../lib/three.r128.min.js"></script>
+<script src="../flight/moored/skiff.js"></script>
+<script src="../flight/moored/skiff2.js"></script>
+<script src="../flight/moored/cutter.js"></script>
+<script src="../flight/moored/cutter2.js"></script>
+<script>
+(function () {
+  const T = THREE, $ = (id) => document.getElementById(id), Q = new URLSearchParams(location.search);
+  const PICS = { planks: "./../flight/assets/ships/planks.webp", deck: "./../flight/assets/ships/deck.webp", band: "./../flight/assets/ships/band.webp", parts: "./../flight/assets/ships/parts.webp", plates: "./../flight/assets/ships/plates.webp" };
+  const LOOK = { hull: ['planks'], plates: ['plates', 0xc8c8cc], deck: ['deck'], band: ['band', 0xd8d2cc], brass: [null, 0xb48c40], bronze: [null, 0x8a5e2c], wood: ['deck', 0xc49a74],
+    rope: [null, 0x8a6a48], dark: [null, 0x140b06], canvas: ['parts'], parts: ['parts'], crystal: [null, 0xffa23a, 0x8a4000], gem: ['parts', 0xffffff, 0x4a2400], flag: [null, 0xffffff] };
+  const ALL = [['skiff', 'The Skiff', 'zone 1'], ['skiff2', 'The Skiff, fitted out', 'zone 2; zone 3 before the refit'], ['cutter', 'The Cutter', 'zone 3, after the refit'], ['cutter2', 'The Cutter, for the peaks', 'zone 4']];
+  const one = Q.get('ship'), list = one ? ALL.filter((s) => s[0] === one) : ALL;
+  const bytes = (s) => { const b = atob(s), a = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) a[i] = b.charCodeAt(i); return a.buffer; };
+  const tex = {}, pic = (id) => tex[id] || (tex[id] = (() => { const t = new T.TextureLoader().load(PICS[id]); t.wrapS = t.wrapT = T.RepeatWrapping; t.encoding = T.sRGBEncoding; return t; })());
+  const R = new T.WebGLRenderer({ canvas: $('c'), antialias: true, preserveDrawingBuffer: true }); R.outputEncoding = T.sRGBEncoding; R.setPixelRatio(1);
+  const scene = new T.Scene(); scene.background = new T.Color(0x1d1a2e);
+  scene.add(new T.HemisphereLight(0xcfd6ff, 0x3a2e28, 0.9)); const sun = new T.DirectionalLight(0xfff0dc, 0.9); sun.position.set(6, 10, 8); scene.add(sun);
+  const facts = [];
+  let x0 = 0; const placed = [];
+  for (const [id, name, where] of list) {
+    const ship = window.COVEN_SHIPS[id], g = new T.Group(); let tris = 0;
+    for (const key in ship.parts) {
+      const P = ship.parts[key], geo = new T.BufferGeometry(), k = ship.reach / 32767;
+      const pos = new Float32Array(new Int16Array(bytes(P.pos))); for (let i = 0; i < pos.length; i++) pos[i] *= k;
+      const n8 = new Int8Array(bytes(P.nor)), nor = new Float32Array(P.corners * 3); for (let i = 0; i < P.corners; i++) { nor[i * 3] = n8[i * 4] / 127; nor[i * 3 + 1] = n8[i * 4 + 1] / 127; nor[i * 3 + 2] = n8[i * 4 + 2] / 127; }
+      geo.setAttribute('position', new T.BufferAttribute(pos, 3)); geo.setAttribute('normal', new T.BufferAttribute(nor, 3)); geo.setAttribute('uv', new T.BufferAttribute(new Float32Array(bytes(P.uv)), 2));
+      geo.setIndex(new T.BufferAttribute(P.wide ? new Uint32Array(bytes(P.idx)) : new Uint16Array(bytes(P.idx)), 1));
+      const L = LOOK[key] || [null, 0xaaaaaa], m = new T.MeshStandardMaterial({ color: L[1] == null ? 0xffffff : L[1], map: L[0] ? pic(L[0]) : null, side: T.DoubleSide, roughness: 0.7, metalness: key === 'brass' || key === 'bronze' ? 0.4 : 0, emissive: L[2] || 0, alphaTest: key === 'parts' ? 0.45 : 0 });
+      g.add(new T.Mesh(geo, m)); tris += P.triangles || geo.index.count / 3;
+    }
+    g.rotation.y = -Math.PI / 2;               // her bow to the west (to the left)
+    const box = new T.Box3().setFromObject(g), w = box.max.x - box.min.x;
+    g.position.x = x0 - box.min.x; x0 += w + 3; scene.add(g); placed.push({ g, name, where, top: box.max.y });
+    facts.push({ id, name, triangles: Math.round(tris), length: ship.length });
+  }
+  const span = x0 - 3, cx = span / 2;
+  for (const p of placed) p.g.position.x -= cx;
+  const cam = new T.PerspectiveCamera(30, 1, 0.1, 400);
+  const layout = () => { const w = innerWidth, h = innerHeight; R.setSize(w, h, false); cam.aspect = w / h;
+    const need = Math.max(span + 4, 12), d = Math.max(need / 2 / Math.tan(cam.fov * Math.PI / 360) / cam.aspect, (one ? 7 : 10) / Math.tan(cam.fov * Math.PI / 360)) * 0.98;
+    cam.position.set(0, d * 0.36, d); cam.lookAt(0, 1.2, 0); cam.updateProjectionMatrix(); R.render(scene, cam);
+    $('names').innerHTML = ''; const v = new T.Vector3();
+    for (const p of placed) { const b = new T.Box3().setFromObject(p.g); v.set((b.min.x + b.max.x) / 2, b.min.y - 0.6, 0).project(cam); const dv = document.createElement('div'); dv.style.left = ((v.x + 1) / 2 * w) + 'px'; dv.style.top = Math.min(h - 50, (1 - v.y) / 2 * h) + 'px';
+      const f = facts.find((q) => q.name === p.name); dv.innerHTML = '<b></b><span></span>'; dv.firstChild.textContent = p.name; dv.lastChild.textContent = p.where + ' · ' + f.triangles.toLocaleString() + ' triangles'; $('names').appendChild(dv); } };
+  layout(); addEventListener('resize', layout);
+  let n = 0; const again = () => { layout(); if (++n < 20) setTimeout(again, 150); }; again();      // (once the painted pieces have come in)
+  window.__ships = facts; window.__ready = true;
+})();
+</script></body></html>
