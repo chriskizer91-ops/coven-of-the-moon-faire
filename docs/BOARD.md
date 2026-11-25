@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 12:08, by the hub.
+Last updated: November 24, 2026, 18:17, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -9,6 +9,25 @@ branch `job/<name>`. The rules are in `CLAUDE.md`.
 `docs/slips/`. Build the newest page (`game/README.md` says how) and open it before changing anything.
 
 ## Hub handoff, November 24, 2026, 12:08: READ THIS FIRST
+
+**THE STATE AT 18:17, NOVEMBER 24 (newer than the table below).** The machine stopped twice more (13:13, 15:57); each
+sub-agent was taken up again from where it stood. **Three of the four are finished and wait to be brought in; none
+has been reviewed by a hub, and nothing of them is in `main`:**
+
+- `job/journey` (`596cf47`): **done.** The whole journey, first night to the ending, and the four ship versions (made
+  with the flight kit's own parts, not a sculpt and bake). `flight-test` fails 1 of 64: its line 198 expects every
+  listed ship to fly, and the Brig and Frigate no longer do. That line is the hub's to change.
+- `job/fights` (`4b5cab8`): **done,** but for pictures of the land's buttons (the node, a road stone, a rest, the
+  bramble, the fire), which were never taken. All 17 fights played to their end in a browser. It put right a real
+  fault: with no running away allowed, the knight never stopped and the fire's first form could not end.
+- `job/creatures` (`7de1f9a`): **done.** Six of M7's creatures in zones 1 to 3. `sh tools/creatures-pictures.sh` makes
+  the sheets again. Chris has seen the sheets.
+- `job/peak-creatures` (`c8b695c`): **NOT done; a sub-agent of the old hub is still at it.** Both creatures are built
+  (sculpts of 1,141,618 and 1,118,426 triangles, baked and painted from Chris's sheets). Sent back by the hub for
+  three things: the Hoarmantle's pictures show a fight's Victory card, not the ox, so nobody has seen its model;
+  the Wickstoat's sparks must be warm amber, nine of them, and its face cleaned up; and BOTH FAIL M7's
+  no-stretching check on most moves (the ox 1.8 to 2.8 times at the hem and under the neck; the stoat 1.3 to 1.6),
+  which must pass before either goes in. It is finished only when its slip's report says the check passes.
 
 **Why there is a handoff.** Chris's week of Fable usage reached 84%. The hub's conversation had grown so long that
 every step in it was costly, so he starts a fresh one. **A new hub cannot talk to the old hub's sub-agents and will
