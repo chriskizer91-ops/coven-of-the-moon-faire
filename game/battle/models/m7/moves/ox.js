@@ -36,8 +36,8 @@ const ox = {
       // a slow heavy walk: one leg at a time (left hind, left fore, right hind, right fore), the body rolling over it
       const s = step * 0.5;
       const ph = { bl: 0, fl: Math.PI / 2, br: Math.PI, fr: Math.PI * 1.5 };
-      for (const l of LEGS) { const a = Math.sin(s + ph[l]); rx(b, l + '_upper', -0.02 * a); const lift = Math.max(0, Math.cos(s + ph[l]));
-        rx(b, l + '_lower', (l[0] === 'f' ? -0.03 : 0.03) * lift); }   // the legs move only a little, inside the hair (no stretching at the hem)
+      // the legs stand still inside the hair (moving them tore the hem beside the hooves in M7's stretch check):
+      // the walk is the body's heavy roll and bob
       B.rotation.z = 0.02 * Math.sin(s);
       B.position.y = 0.008 * H * Math.abs(Math.sin(s)); rx(b, 'head', 0.03 * Math.sin(s * 2)); ry(b, 'head', 0.03 * Math.sin(s));
       return;
@@ -56,20 +56,19 @@ const ox = {
     if (move === 'breath') {
       // it lifts its head and draws in (the hump rises), then lowers it and breathes out long and cold over all four
       const draw = seg(u, 0, 0.35) * (1 - seg(u, 0.42, 0.55)), blow = seg(u, 0.45, 0.58) * (1 - seg(u, 0.85, 1));
-      rx(b, 'head', -0.1 * draw + 0.06 * blow); B.rotation.x = -0.02 * draw + 0.015 * blow; B.position.y = 0.015 * H * draw;
-      ry(b, 'head', 0.14 * Math.sin((u - 0.5) * 6) * blow);
+      rx(b, 'head', -0.05 * draw + 0.03 * blow); B.rotation.x = -0.02 * draw + 0.015 * blow; B.position.y = 0.015 * H * draw;
+      ry(b, 'head', 0.03 * Math.sin((u - 0.5) * 6) * blow); B.rotation.y = 0.05 * Math.sin((u - 0.5) * 6) * blow;
       return;
     }
     if (move === 'shake') {
       // braced, it shakes its whole mantle: a shudder from the head back along the body; snow and icicles fall at 0.5
       const k = seg(u, 0.1, 0.3) * (1 - seg(u, 0.75, 0.95)), w = Math.sin(u * 50);
-      rz(b, 'head', 0.1 * w * k); B.rotation.z = 0.035 * Math.sin(u * 50 - 0.5) * k; B.position.x = 0.03 * Math.sin(u * 50) * k; headDown(b, 0.4 * k);
-      for (const l of LEGS) rz(b, l + '_upper', (l[1] === 'l' ? -0.04 : 0.04) * k);       // legs braced wide
+      rz(b, 'head', 0.04 * w * k); B.rotation.z = 0.035 * Math.sin(u * 50 - 0.5) * k; B.position.x = 0.03 * Math.sin(u * 50) * k; headDown(b, 0.4 * k);
       return;
     }
     if (move === 'hurt') {
       const a = bump(u * 1.5) * (1 - seg(u, 0.6, 1));
-      B.position.z = -0.12 * a; rx(b, 'head', -0.08 * a); B.rotation.x = -0.025 * a;
+      B.position.z = -0.12 * a; rx(b, 'head', -0.04 * a); B.rotation.x = -0.03 * a;
       B.rotation.z = 0.02 * a;
       return;
     }
