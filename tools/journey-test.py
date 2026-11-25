@@ -20,6 +20,10 @@ test handle. Nothing is left behind: the browser is a new one with storage of it
   H  zone 4 done (its story's flag "leaving"): boarding offers only Wickhollow; the flight home; zone 1's page opens
      AS THE ENDING (the Faire's last night), not as its first night; the end card, and the way back to the front door
   F  the front door (index.html): the game's name, the slot (after H: "the end reached"), Carry on opens its page
+small-things (November 25) added: in A, the story at its end holds its leaving ("The Grey Hat's ship lifts from the
+lake...", then the coven) until "Set course", and says it then; in H, zone 4's leaving likewise; in G, zone 3's flight
+out starts over the shipyard's slip, where she lay; in A and H the flights start over their landings; in F, the slot
+that has seen the end has no "part" in its line.
 
 The browser here has no screen: it cannot show motion or measure a frame rate. Only a real laptop or phone can.
 """
@@ -102,6 +106,27 @@ def main():
             pg.evaluate("document.querySelector('.cvm-go').click()")
             return st['lines']
 
+        def leaving_lines(page_from, secs=150):
+            """small-things: after "Set course" the zone's leaving is said (Go on is pressed through it), then the next page
+            opens. Returns the ids of the lines said, in order."""
+            ids = []; t1 = time.time(); last = 0
+            GO = "[...document.querySelectorAll('.talkbtn')].find((e) => e.style.display !== 'none' && e.textContent === 'Go on')"
+            while time.time() - t1 < secs:
+                try: s = pg.evaluate("(() => { if (!window.__people) return null; const s = __people.say(); return { page: location.pathname.split('/').pop(), id: s && s.id, go: !!" + GO + " }; })()")
+                except Exception: break
+                if not s or s['page'] != page_from: break
+                if s['id'] and (not ids or ids[-1] != s['id']): ids.append(s['id'])
+                if s['go'] and time.time() - last > 1.2:
+                    try: pg.evaluate("(() => { const b = " + GO + "; if (b) b.click(); })()"); last = time.time()
+                    except Exception: break
+                time.sleep(0.3)
+            return ids
+
+        def flight_start():
+            """small-things: where the flight just begun on this page starts, on the atlas (null: over the landing's own spot)"""
+            fl = pg.evaluate("__journey.log.filter((l) => l.what === 'flight').pop() || null")
+            return fl.get('start') if fl else 'no flight'
+
         def flight_page(page_name, timeout=120):
             pg.wait_for_url('**/' + page_name + '*', timeout=timeout * 1000)
             pg.wait_for_function('!!(window.W3D && W3D.flight && W3D.flight.flying)', timeout=180000)
@@ -143,12 +168,16 @@ def main():
             pg.evaluate('() => __journey.board()'); pg.wait_for_timeout(300)
             ln = pg.evaluate("__journey.log.filter((l) => l.what === 'line').map((l) => l.text)")
             check(ln and 'lamps' in ln[-1] and not pg.evaluate('!!W3D.maps.world.choosing'), 'before the story is done, with nowhere reached, she says why and the map does not open: "%s"' % (ln[-1] if ln else ''))
-            end_story()
-            check(pg.evaluate('__journey.isDone()'), "zone 1's story set to its end (the moment \"leaving\")")
+            # small-things: the story at its end as play reaches it: the leaving is ready, and held for the ship
+            pg.evaluate("__story.flag('journey.leave', true)")
+            check(pg.evaluate('__journey.isDone()') and not pg.evaluate('!!__story.state().moments.leaving'), "zone 1's story at its end: she may leave, and the leaving's lines (\"The Grey Hat's ship lifts from the lake\") are not said yet")
             pg.evaluate('() => { window.__shown = document.querySelector(".cj-line"); }')
             bs = at_gate(0, 0); pg.wait_for_timeout(5000); at_gate(0, 0); shot('a1-gate-zone-1')
             board_and_choose('warmCamp', 'a2-map-choose', ['warmCamp'])
+            ids = leaving_lines('zone-1.html')
+            check(ids[:1] == ['z1.narrator.07'] and 'z1.io.13' in ids, 'after "Set course" the leaving is said, the narrator first, then the coven: %s; then zone 2\'s page opens' % ', '.join(ids))
             t0 = time.time(); s = flight_page('zone-2.html'); notes['flight starts (s)'] = round(time.time() - t0)
+            check(flight_start() is None, 'the flight out of Wickhollow starts over the landing (the ship lies there): %s' % json.dumps(flight_start()))
             check(s and s.get('state') == 'fly' and s.get('ship') == 'skiff', 'zone 2\'s page opens and the flight in starts before its world: %s, in the %s' % (s and s.get('state'), s and s.get('ship')))
             check(not pg.evaluate('!!window.__w3d'), 'no world is built under the flight')
             pg.wait_for_timeout(2500); shot('a3-flight-in')
@@ -252,6 +281,8 @@ def main():
             end_story()
             board_and_choose('frozenCamp')
             flight_page('zone-4.html'); pg.wait_for_timeout(1500)
+            st0 = flight_start(); nc = [1150, 590]
+            check(isinstance(st0, list) and ((st0[0] - nc[0]) ** 2 + (st0[1] - nc[1]) ** 2) ** 0.5 > 500, 'zone 3\'s flight out starts over the shipyard\'s slip, where she lay, not over the northern camp %s: %s' % (json.dumps(nc), json.dumps(st0)))
             raised, said1 = fly_through(); err = ready()
             said = pg.evaluate("__journey.log.filter((l) => l.what === 'said').map((l) => l.id)")
             check(not err and 'z4.narrator.01' in said and 'z4.captain.01' in said, 'zone 4\'s flight lines: %s' % ', '.join(said))
@@ -265,7 +296,10 @@ def main():
             pg.evaluate("__story.flag('leaving', true)")
             check(pg.evaluate('__journey.isDone()'), "zone 4's story done (its flag \"leaving\")")
             board_and_choose('wickhollow', None, ['wickhollow'])
+            ids = leaving_lines('zone-4.html')
+            check(ids == ['z4.narrator.16'], 'after "Set course" the narrator says the ship lifts out of the snow: %s' % ', '.join(ids))
             flight_page('zone-1.html'); pg.wait_for_timeout(2500); shot('h1-flight-home')
+            check(flight_start() is None, 'the flight home starts over the frozen camp, where she lay (its landing\'s own spot): %s' % json.dumps(flight_start()))
             fly_through(); err = ready()
             check(not err and pg.evaluate('__journey.ending') and pg.evaluate('!!window.__faire'), 'zone 1\'s page opens as the ending (the Faire\'s last night), not as its first night')
             check(pg.evaluate('!window.__fights') and pg.evaluate("__journey.state().ending === true"), 'the wilds are quiet, and the slot knows it is in the ending')
@@ -288,7 +322,8 @@ def main():
                 return { title: document.querySelector('h1').textContent, bs }; })()''')
             shot('f1-front-door')
             if 'H' in only:
-                check(any('the end reached' in x['text'] for x in st['bs']), 'the slot that has seen the ending says so')
+                ends = [x['text'] for x in st['bs'] if 'the end reached' in x['text']]
+                check(ends and all(' part ' not in x for x in ends), 'the slot that has seen the ending says so, without a part of the story (small-things): %s' % json.dumps(ends))
             check(st['title'] == 'Coven of the Moon Faire', 'the name: %s' % st['title'])
             check(all(x['h'] >= 44 for x in st['bs']) and len(st['bs']) <= 4, 'its buttons (%d), each 44 px or more: %s' % (len(st['bs']), ' / '.join(x['text'] for x in st['bs'])))
             if 'E' in only or 'A' in only:

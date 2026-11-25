@@ -377,10 +377,15 @@
       const i = jobs.indexOf(job); if (i > 0 && first) jobs.splice(i, 1); if (i < 0 || (i > 0 && first)) { if (first) jobs.unshift(job); else jobs.push(job); }
       if (!workT) workT = setTimeout(work, 30); return job;
     };
+    // small-things: while the land is paused (the Begin screen, the menu) nothing else wants the time, so the slices are
+    // bigger (30 in every 40 thousandths). The zone's picture is then most often ready by the time Begin is pressed: on
+    // this machine (no graphics card) its 2.2 s of work took 8 s with 7 ms slices behind the Begin screen, and once the
+    // land drew at 1 to 3 frames a second it got only one slice a frame, so the map stayed empty for minutes
+    const SLICE = () => (WK.paused ? 30 : 7), REST = () => (WK.paused ? 10 : 24);
     function work() {
-      workT = 0; const t = performance.now();
-      while (jobs.length && performance.now() - t < 7) { const j = jobs[0]; if (j.step(Math.max(1, 7 - (performance.now() - t)))) { jobs.shift(); done(j); } }
-      if (jobs.length) workT = setTimeout(work, 24);
+      workT = 0; const t = performance.now(), B = SLICE();
+      while (jobs.length && performance.now() - t < B) { const j = jobs[0]; if (j.step(Math.max(1, B - (performance.now() - t)))) { jobs.shift(); done(j); } }
+      if (jobs.length) workT = setTimeout(work, REST());
     }
     function done(j) { if (j === zoneJob || j === roadJob) bigStatic = null; }
     const MARGIN = 30, ZR = [BX0 - MARGIN, BZ0 - MARGIN, BX1 + MARGIN, BZ1 + MARGIN], zoneJob = paintJob(ZR, S0, 'full');

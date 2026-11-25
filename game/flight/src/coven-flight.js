@@ -266,7 +266,11 @@ async function begin(o) {
   // ---------- the keys' list, and the corner map ----------
   const toggleHelp = () => { const h = $('help'); h.hidden = !h.hidden; $('btn-help').hidden = !h.hidden; };
   $('btn-help').addEventListener('click', toggleHelp);
-  const mini = $('minimap'), mctx = mini.getContext('2d'), mimg = new Image(); mimg.src = minimapUrl;
+  const mini = $('minimap'), mctx = mini.getContext('2d'), mimg = new Image();
+  // Coven (small-things, November 25): the corner map is drawn as soon as its picture is ready, not only at the next
+  // read-out (a flight held still by a check never got one, so its corner map stayed an empty box)
+  mimg.onload = () => { try { drawMini(); } catch (e) { /* the flight is not set up yet: the read-outs will draw it */ } };
+  mimg.src = minimapUrl;
   mini.addEventListener('click', () => { mini.classList.toggle('big'); requestAnimationFrame(sizeMini); });
   function sizeMini() { const r = mini.getBoundingClientRect(); mini.width = Math.round(r.width * devicePixelRatio); mini.height = Math.round(r.height * devicePixelRatio); hudTimer = 0; }
 
@@ -326,6 +330,9 @@ async function begin(o) {
     placed.sort((a, b) => a.y - b.y);
     placed.forEach((a, i) => {
       for (let j = 0; j < i; j++) { const b = placed[j]; if (Math.abs(a.x - b.x) < 84 && a.y - b.y < 40) a.y = b.y + 40; }
+      // Coven (small-things, November 25): the whole tag stays on the screen. Pinned to an edge, its middle was kept 56 px
+      // in, so a tag wider than 112 px ("The Warm Roads 3.4 km" is about 150) was cut off at the left or right edge
+      { const hw = (a.el.offsetWidth || 0) / 2 + 8; if (hw > 8) a.x = Math.min(innerWidth - hw, Math.max(hw, a.x)); }
       a.el.style.transform = `translate(${a.x}px, ${a.y}px) translate(-50%, ${a.below ? '10px' : '-100%'})`;
     });
     for (const el of [...$('tags').children]) if (el !== wayTag && !raiders.list.some((r) => r.tag === el)) el.remove();
@@ -359,7 +366,11 @@ async function begin(o) {
     else if (player.pos.y > THINNING - 350) { w.hidden = false; w.textContent = Wd.warnHigh; }
     else if (Math.abs(player.pos.x) > MAP.w / 2 + 1500 || Math.abs(player.pos.z) > MAP.h / 2 + 1500) { w.hidden = false; w.textContent = Wd.warnSea; }
     else w.hidden = true;
-    // the corner map: the way as a dotted line, the landing as a gold diamond, the ship as a gold arrow, raiders as red dots
+    drawMini();
+  }
+  // the corner map: the way as a dotted line, the landing as a gold diamond, the ship as a gold arrow, raiders as red dots
+  // (Coven, small-things: a function of its own, so it can also be drawn when its picture has loaded; not changed inside)
+  function drawMini() {
     if (mimg.complete && mimg.naturalWidth && mini.width) {
       const W2 = mini.width, H2 = mini.height, mx = (v) => (v / MAP.w + 0.5) * W2, my = (v) => (v / MAP.h + 0.5) * H2, s = Math.max(5, W2 / 40);
       mctx.drawImage(mimg, 0, 0, W2, H2);
