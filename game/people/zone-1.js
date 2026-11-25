@@ -84,10 +84,7 @@
         const x = b.x - az * 1.15 - ax * 0.35, z = b.z + ax * 1.15 - az * 0.35;                                     // a step along the road from her, a little further off it
         const out = W3D.fair.piece(k.W.P, 'lanternPost', { x, z, turn: Math.atan2(-az, ax) * 180 / Math.PI }), L = out.lamps[0] || { x, y: k.stand(x, z) + 2.6, z };
         t.x = x; t.z = z; t.lamp = [L.x, L.y, L.z]; t.post = out;
-        t.pool = k.pool(0xffb070, 11, 0.62, L.x, L.z); k.scene.add(t.pool);
-        // left-overs (November 25, 2026): a small flame in her lantern's glass, leaning as every flame does; once the great
-        // wraith has passed it stands almost straight ("There. It's standing almost straight.": game/look/flame-lean.js)
-        if (W3D.flameLean) { t.flame = W3D.flameLean.flame(0.15, k.W.P.U && k.W.P.U.uTime, 'bridie'); t.flame.position.set(L.x, L.y - 0.1, L.z); k.scene.add(t.flame); } },
+        t.pool = k.pool(0xffb070, 11, 0.62, L.x, L.z); k.scene.add(t.pool); },
     },
     // the twelve ship's lamps, each on its hook as it comes home (one for every four fights won in the wilds, the twelfth
     // with the great wraith: game/people/story.js). Bare hooks until then. The hooks are the stand-in ship's.

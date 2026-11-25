@@ -57,7 +57,7 @@
     B.box('iron', x, y + 0.3 * s, z, 0.03, 0.4, 0.03, 0);
     B.box('iron', x, y - 0.03 * s, z, 0.26 * s, 0.05 * s, 0.26 * s, 0);
     // left-overs (November 25, 2026): as the engine's own lantern now is, see-through glass and a flame inside that leans
-    if (B.leaning) { B.box('lampGlass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [0.62, 0.42, 0.24], { solid: false }); B.leaning(y + 0.05 * s, () => { B.cyl('glass', x, y + 0.05 * s, z, 0.05 * s, 0, 0.18 * s, 7, [2.4, 1.55, 0.7]); B.cyl('glass', x, y + 0.05 * s, z, 0.026 * s, 0, 0.11 * s, 6, [2.6, 2.2, 1.4]); }); }
+    if (B.leaning) { B.box('lampGlass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [0.62, 0.42, 0.24], { solid: false }); B.leaning(y + 0.04 * s, () => { B.cyl('glass', x, y + 0.04 * s, z, 0.055 * s, 0, 0.2 * s, 7, [2.0, 0.95, 0.32]); B.cyl('glass', x, y + 0.04 * s, z, 0.03 * s, 0, 0.12 * s, 6, [2.4, 1.75, 0.85]); }); }
     else B.box('glass', x, y, z, 0.2 * s, 0.3 * s, 0.2 * s, 0, [1.6, 1.1, 0.62]);
     B.box('iron', x, y + 0.3 * s, z, 0.3 * s, 0.06 * s, 0.3 * s, 0);
     B.cyl('iron', x, y + 0.36 * s, z, 0.16 * s, 0.02, 0.14 * s, 4);

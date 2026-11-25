@@ -2,7 +2,7 @@
 """left-overs-flames.py: close pictures of the land's flames (the left-overs job, November 25, 2026). Nothing here is the game.
 
     python3 tools/left-overs-flames.py builds/zone-1.html --list                       # every lamp and fire, place by place
-    python3 tools/left-overs-flames.py builds/zone-1.html <out> <name>=<place>:<n>[:<stage>] ... [--tag after] [--dist 1.2]
+    python3 tools/left-overs-flames.py builds/zone-1.html <out> <name>=<place>:<n>[:<stage>[:<dist>]] ... (thing:<id>:0 for a story thing's lamp) [--tag after] [--dist 1.2]
 
 A shot: the n-th lamp or fire of that place (as --list numbers them), the story set to <stage> (if given). The camera
 stands <dist> m off to the south-east of the flame, a little above it, looking north-west: so north-east, the way the
@@ -24,8 +24,11 @@ shots = [s.split('=', 1) for s in rest[1:]] if out else []
 LAMPS = """() => { const L = window.__land, Z = L ? window.__w3d.P : null, parts = (Z && Z.parts) || [{ id: 'place', ox: 0, oy: 0, oz: 0, P: window.__w3d.P }];
   return parts.map((p) => ({ id: p.id || (p.P.place && p.P.place.id), lamps: (p.P.lamps || []).map((l) => [+(l.x + (p.ox || 0)).toFixed(2), +(l.y + (p.oy || 0)).toFixed(2), +(l.z + (p.oz || 0)).toFixed(2), l.c.toString(16)]) })); }"""
 SHOT = """([part, n, stage, dist]) => { const w = window.__w3d, M = w.P.M, Z = w.P;
-  const parts = Z.parts || [{ id: 'place', ox: 0, oy: 0, oz: 0, P: Z }], p = parts.find((q) => (q.id || (q.P.place && q.P.place.id)) === part); if (!p) return { err: 'no place ' + part };
-  const l = p.P.lamps[n]; if (!l) return { err: 'no lamp ' + n }; const x = l.x + (p.ox || 0), y = l.y + (p.oy || 0), z = l.z + (p.oz || 0);
+  const parts = Z.parts || [{ id: 'place', ox: 0, oy: 0, oz: 0, P: Z }];
+  let x, y, z, l = { c: 0 };
+  if (part.startsWith('thing:')) { const t = window.__things && window.__things.get(part.slice(6)); if (!t || !t.lamp) return { err: 'no thing ' + part }; [x, y, z] = t.lamp; y -= 0.03; }      // a story thing's lamp (Old Bridie's)
+  else { const p = parts.find((q) => (q.id || (q.P.place && q.P.place.id)) === part); if (!p) return { err: 'no place ' + part };
+    l = p.P.lamps[n]; if (!l) return { err: 'no lamp ' + n }; x = l.x + (p.ox || 0); y = l.y + (p.oy || 0); z = l.z + (p.oz || 0); }
   if (stage != null && window.__story) window.__story.set({ stage });
   if (window.W3D.flameLean) window.W3D.flameLean.refresh(true);
   // Io well away, to the north-west, so she is not in the picture
@@ -46,8 +49,10 @@ with sync_playwright() as pw:
     else:
         os.makedirs(out, exist_ok=True)
         for name, spec in shots:
-            q = spec.split(':'); part, n, stage = q[0], int(q[1]), (int(q[2]) if len(q) > 2 else None)
-            r = pg.evaluate(SHOT, [part, n, stage, dist]); pg.screenshot(path=os.path.join(out, '%s-%s.png' % (name, tag)))
+            q = spec.split(':')
+            if q[0] == 'thing': q = ['thing:' + q[1]] + q[2:]
+            part, n = q[0], int(q[1]); stage = int(q[2]) if len(q) > 2 and q[2] != '' else None; d = float(q[3]) if len(q) > 3 else dist
+            r = pg.evaluate(SHOT, [part, n, stage, d]); pg.screenshot(path=os.path.join(out, '%s-%s.png' % (name, tag)))
             print(name, json.dumps(r))
     b.close()
 print('page errors: %d' % len(errors))
