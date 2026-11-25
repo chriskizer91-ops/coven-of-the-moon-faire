@@ -2271,7 +2271,10 @@
         // the foes rise where they stand, with a line of story before and after when the page has one
         for (const f of foes) { f.pos = { x: f.home.x, z: f.home.z }; f.yaw = f.tyaw = f.home.yaw; }
         const told = cfg.introMsg && !quick, said = (x) => (typeof x === 'function' ? x(E.foes) : x);
-        if (told) { $('skip').hidden = false; shot(IW / 2, IH * 0.4, 0, 1.4); UI.msg(said(cfg.introMsg)); await ws(2.6); }
+        // fights-polish: on an upright phone the painting's slice is centred on the party (it was its middle, and Io stood
+        // outside it at the left); elsewhere the painting's middle, as before
+        let cx0 = IW / 2; if (upright() && heroes.length) { let x = 0, z = 0; for (const h of heroes) { x += h.pos.x; z += h.pos.z; } cx0 = toPx(tmpV.set(x / heroes.length, 1, z / heroes.length))[0]; }
+        if (told) { $('skip').hidden = false; shot(cx0, IH * 0.4, 0, 1.4); UI.msg(said(cfg.introMsg)); await ws(2.6); }
         // fights-polish: on an upright phone the painter's fixed camera shows only a narrow slice of the wide painting, so
         // the party was cut at the edge while the foes rose: there the moving camera takes over now, not after the intro
         S.dirEarly = upright() && !cfg.standing; if (S.dirEarly) DIR.start();
