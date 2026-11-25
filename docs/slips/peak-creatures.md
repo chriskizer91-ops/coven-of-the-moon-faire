@@ -1,7 +1,5 @@
 # peak-creatures: two new creatures for the frozen peaks, the Wickstoat and the Hoarmantle
 
-NOT DONE: the Hoarmantle's detail (the hub's five surface defects; in progress).
-
 ## Report for the hub (kept true as the work goes; newest state, November 24 evening)
 
 **M7's way ran here, all of it.** Blender 4.0.2 and Python's numpy, scipy, scikit-image were installed from Ubuntu's
@@ -12,11 +10,11 @@ How to do it all again on another machine: "How to make the two again", below.
 
 | | The Wickstoat (zone 4, A) | The Hoarmantle (zone 4, B) |
 |---|---|---|
-| Sculpt (kept as source, not shipped) | 1,141,618 triangles, painted from the sheet | 1,151,096 triangles, shaped and painted from the sheet |
+| Sculpt (kept as source, not shipped) | 1,141,618 triangles, painted from the sheet | 1,186,480 triangles, shaped and painted from the sheet |
 | Stretch check (M7's) | PASS, every move | PASS, every move |
-| Light model the game draws | 20,583 triangles (+ 9 ice spines made in the page, 12 triangles each) | 35,972 triangles |
-| In the page | model 423 KB, pictures 290 KB (colour 1024, surface and shading 512) | model 759 KB, pictures 0.9 MB (colour and surface 1024, shading 512) |
-| Height | 0.60 m (1.63 m nose to tail) beside a 1.65 m witch | 2.06 m to the snow on its hump |
+| Light model the game draws | 20,583 triangles (+ 9 ice spines made in the page, 12 triangles each) | 39,882 triangles + the face's skins (7,668) |
+| In the page | model 423 KB, pictures 290 KB (colour 1024, surface and shading 512) | model 812 KB, face 0.4 MB, pictures 0.9 MB (colour and surface 1024, shading 512) |
+| Height | 0.60 m (1.63 m nose to tail) beside a 1.65 m witch | 2.05 m to the snow on its hump |
 
 **How near the sheet.** The Wickstoat is close: outline, white fur, dark paws, round ears, whiskers, black frosted
 tail tip, dark eyes and nose (its own, no longer smudged from the sheet), and nine clear ice spines from the shoulders
@@ -28,9 +26,19 @@ across so it is an animal, not a box), its head hung low and forward in front of
 laid only where his picture has white snow (drifts, hair between), its hair long hanging locks. **How near the
 outline, measured** (shared area over joined area, the model's outline against the sheet's, holes filled;
 `peak/src/overlap.py`): **front 0.947, side 0.936, back 0.932** (before this round, by M7's own measure, which counts
-grey spots inside a figure as background: 0.746, 0.625, 0.653; after, by M7's measure: 0.85, 0.74, 0.70). Still not as
-his: the hair is finer and stiffer than his wide flame-shaped locks; the hem is rounder, less ragged; the brow slab
-stands a little proud. The Wickstoat by the same measure: front 0.64, side 0.75, back 0.74 (its sculpt has no spines,
+grey spots inside a figure as background: 0.746, 0.625, 0.653; after, by M7's measure: 0.85, 0.74, 0.70). **Its surface, mended after the hub's last two rounds and Chris's "the face is very
+blurry":** the face now has pictures of its own, his front and side views of it laid on thin skins that follow the
+sculpt's face (the side picture fitted nose to nose), so the muzzle, the nostrils and the mouth line are as sharp as his
+(`peak/src/face.py`; close-ups `hoarmantle-face-front` and `-side`, laptop and phone); the eyes are small pale-blue
+pieces of their own under heavy lids, with no glow; the brow ice is his own painting of it, on the face's picture,
+its lower edge his V (a raised slab made in the page stuck out at the edges and glowed, so it was taken out: the ice
+is painted, not raised); the horns are thick and painted straight from his side view; the snow lies in drifts along
+the hump and spine with hair between; the locks are sculpted deeper so they read; the dark seam lines are gone (the
+bake's empty space is filled with each island's own colour before the pictures are made smaller: `dilate.py`).
+Outline after all of it: front 0.944, side 0.938, back 0.941. Stretch check: passes, every move (Breathe 1.27, Walk
+1.27, Trample 1.27, Winter Breath 1.28, Shake 1.21, Hit 1.19, Fall 1.28). Still softer than his: the hair beside the
+face and down the sides (baked), and the horns read paler and more banded than his ridged brown horn.
+The Wickstoat by the same measure: front 0.64, side 0.75, back 0.74 (its sculpt has no spines,
 which are made in the page, and no whisker tips, and the sheet's front figure takes in a piece of the side view's
 tail: so these numbers are low for reasons other than its body; beside the sheet it is the same animal).
 
