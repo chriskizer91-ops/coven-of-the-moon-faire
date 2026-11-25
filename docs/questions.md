@@ -1,5 +1,64 @@
 # Questions for Chris
 
+## Open calls, November 25, 2026
+
+Written by the hub. The game is whole and in `main`. These are the calls that are yours. Each has my suggestion,
+and the game is built on the suggestion until you say otherwise. Answer in any form ("A3: yes", or your own words).
+The thirteen questions of November 18, all answered, are kept below as the record.
+
+### A. Only you can do these
+
+| | What | Why it matters |
+|---|---|---|
+| A1 | **Open the builds on your laptop and your phone.** Read the frame rate off each page. Close the page, open it again, and see whether your save is still there | No machine here can measure speed, motion, sound or touch |
+| A2 | **On the phone: does one downloaded page open the next?** Open `index.html` from a folder holding all five files and board the ship at zone 1 | If it does not, the journey on a phone needs another way to hand over, and I build that next |
+| A3 | **On the phone: does a page of 100 to 125 MB open at all,** and how long does it take? | If it does not, the pages have to be made lighter for the phone |
+| A4 | **Record the held Warden's two lines** (`z4.warden.01`, `.02`). Is that Warden a man or a woman? | Zone 4 has 142 of its 144 voices |
+| A5 | **Record the narrator's 18 lines for zone 4** (`game/people/recording/narration-recording-order-z4.txt`) | Zone 4's narration is silent until then |
+
+### B. The fights
+
+| | The call | What the game does now (my suggestion) |
+|---|---|---|
+| B1 | How many fights a zone | About 45, a meeting every 100 to 130 m. A careful player meets 181 in the whole game |
+| B2 | How often a creature is met, not a wisp or wraith | About one fight in 3, with both creatures of a zone turned on. With only the first of the two it would be about one in 6 |
+| B3 | What happens to a beaten creature | It is let go, not killed: the Rotwarden and the Glowcap root, the Forge-Spark gutters out, the Thornhound and the Rot-Stag run off, the Sapwight withers, the Wickstoat drops its lights and bolts, the Hoarmantle walks off |
+| B4 | The knight | He stops at 3/10 of his Life. Each answer gives him back 1/10, up to 6/10 |
+| B5 | The fire's ending | Its first form stops at 45%. Only Kore's Sealed Fate ends the second. The two forms' names are stand-ins |
+| B6 | Resting | She can rest at the hall, the bunkhouse and the inn |
+| B7 | What waits at the road stones | Frost wisps and a wraith |
+| B8 | A lost flight | She is put back where she left, and nothing is lost |
+
+### C. The creatures
+
+| | The call | What the game does now (my suggestion) |
+|---|---|---|
+| C1 | Where each one lives | Zone 1: the Rotwarden (A), the Glowcap (B). Zone 2: the Forge-Spark (A), the Thornhound (B). Zone 3: the Sapwight (A), the Rot-Stag (B). Zone 4: the Wickstoat (A), the Hoarmantle (B) |
+| C2 | Their names and their moves' names | All stand-ins, in `game/encounters/words.js`. Two begin with "The" (the Rotwarden, the Rot-Stag) and six do not. The Hoarmantle's "Paws the ground" names a motion that was taken out |
+| C3 | The Forge-Spark's size | 0.49 m, as in M7. It is hard to see on a phone. I suggest half as big again (about 0.75 m) and a stronger glow |
+| C4 | The Forge-Spark's weakening move | "Lure" |
+| C5 | The Wickstoat's sparks at the start of a fight | 3 lit |
+| C6 | The Hoarmantle: another round on its hair and horns? | They are softer than your sheet: streaks where yours has layered locks, and paler, more banded horns |
+| C7 | The Hoarmantle's weight | 2.18 MB in a page; the aim was 1.5. I suggest leaving it: zone 4 is the lightest page |
+| C8 | The Rot-Stag's colour picture | 768 px now (1.22 MB). 512 px would save about 0.3 MB and look a little softer |
+| C9 | A big foe at the right edge of a laptop screen is cut a little by the camera | Left as it is until you have seen it move |
+
+### D. The journey and the words
+
+| | The call | What the game does now (my suggestion) |
+|---|---|---|
+| D1 | The words "Board the ship", "Back to the front door", "the end reached", and the front door's line | Stand-ins, in `game/travel/journey-data.js` |
+| D2 | Whether the homecoming lines move onto the flight home | They play on arrival now |
+| D3 | Zone 4's peaks | One ninth of the map's height |
+| D4 | Whether the flight is made again from stage 5 of your airship game | You said "let me think about the flight". It stands as built |
+| D5 | The townsfolk's own bodies | The 23 keep stand-in bodies. The kit for their pictures waits unless you ask |
+| D6 | The knight and the fire wear Halcyon's and Noctara's models | Stand-ins until you say what they should be |
+| D7 | The sky's names (stars, planets, the crystal band) | A proposal: `docs/lore/sky-names-proposal.md` |
+
+---
+
+## The thirteen questions of November 18 (all answered)
+
 > **Answered, November 18, 2026, afternoon.** Chris said yes to all 13, with changes in his own words on questions 3,
 > 5 and 8: all four witches from the start; any of them can lead; and crossing the whole map on foot should take about
 > an hour and a half. His answers are in `docs/decisions.md`. This page is kept as the record of what was asked.

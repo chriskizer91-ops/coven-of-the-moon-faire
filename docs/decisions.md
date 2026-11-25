@@ -13,6 +13,29 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 25, 2026, 03:50: the whole game is in `main`; Chris sees it as it is built
+
+- **Chris, November 24, about 20:40: "As it gets built I do want to see the whole game as you put it together."**
+  **Stands.** A set of builds (the front door and the four zones) goes to him at each stage, not only at the end.
+  The first went at 20:46 on November 24, before the checks were done and marked so. The checked set went at 03:50
+  on November 25.
+- **`main` moved to `fb4699e` at 03:45, on his word of November 24 ("you can merge to Main").** It holds the four
+  jobs joined (`fights`, `creatures`, `peak-creatures`, `journey`) and what the hub's two checking sub-agents put
+  right. The checks and their numbers are on the board.
+- **Hub's call.** *Checks that were wrong were changed, not the game:* `flight-test` asks for the four ships that
+  fly; `journey-test` waits longer for the ship to change at zone 3; `encounter-test` and
+  `encounter-fights-test` expect the real creatures, the slots that are on, and count a meeting by its worth.
+- **Hub's call.** *Zones 1 to 3 load their six creatures* (the joining had left that out), *zone 4's page no longer
+  loads the Skiff, and the end card hides the talk box.*
+- **Hub's call.** *Nothing of a creature is made lighter or bigger without Chris's word.* The Hoarmantle is
+  2.18 MB against a ceiling of 1.5; the Forge-Spark is 0.49 m tall and hard to see on a phone. Both are in
+  `docs/questions.md` (C3, C7).
+- **Hub's call.** *Two repair jobs start,* `fights-polish` (a fight on an upright phone first of all) and
+  `small-things` (the rough spots seen in the pictures), each a sub-agent on Opus 5.5 at high effort. Neither
+  settles a call of Chris's.
+- **Hub's call.** *The hub's whole-game check and its browser bridge are kept in `tools/hub/`,* so a new hub on a
+  new machine can run every check again.
+
 ## November 24, 2026, 19:55: the two upgraded ships are approved; a new hub; the four jobs come in
 
 - **Chris, on the picture of the four ships side by side: "Yes they look good."** So the Skiff fitted out (zone 2,
