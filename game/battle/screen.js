@@ -264,7 +264,7 @@
     const DIR = (() => {
       const V3 = THREE.Vector3, T = {
         on: !!AF && cfg.director !== false, free: false, pos: new V3(), look: new V3(), fov: 32, to: { pos: new V3(), look: new V3(), fov: 32 }, k: 3, last: '', n: 0, followF: null, cutNext: false,
-        subject: null, trackF: null, trackP: null, freezeOn: null, frozen: null, // fight-camera: who a close-up is on; the one it keeps pace with; and the checks' stop (below)
+        subject: null, trackF: null, trackP: null, freezeOn: null, frozen: null, now: 0, // fight-camera: who a close-up is on; the one it keeps pace with; the checks' stop (below); and the director's own clock, in real seconds (a hold is not stretched by a blow's slow motion)
       };
       const tmp = new THREE.PerspectiveCamera(32, 1, 0.1, 400), q = new V3(), u = new V3(), w = new V3();
       const rad = Math.PI / 180, flat = (v) => { v.y = 0; return v.lengthSq() > 1e-9 ? v.normalize() : v.set(1, 0, 0); };
@@ -427,7 +427,7 @@
       // close-up or its blow is held, a shot the move's own choreography asks for waits its turn (B.pending) and is taken
       // when the hold is over: the move itself never waits for the camera
       const B = { on: false, n: 0, phase: '', actor: null, targets: [], seen: [], blows: [], pending: null, ended: false, until: 0, hitUntil: 0, act: '', hit: '', lastAct: '', lastHit: '', mem: {}, subjects: [] };
-      const held = () => B.on && ((B.phase === 'act' && clock.t < B.until) || (B.phase === 'hit' && clock.t < B.hitUntil));
+      const held = () => B.on && ((B.phase === 'act' && T.now < B.until) || (B.phase === 'hit' && T.now < B.hitUntil));
       // (for the checks, which cannot see motion: T.freezeOn = ['act', 'hit', 'out', 'rest'] stops the battle's clock the moment
       // a beat comes to one of these, and T.frozen says which; the check takes its picture and sets the clock going again)
       const mark = (p) => { if (T.freezeOn && T.freezeOn.includes(p)) { clock.turbo = 0; T.frozen = { n: B.n, phase: p, t: +clock.t.toFixed(2) }; } };
@@ -447,7 +447,7 @@
         if (!T.free || !C.on || !actor || !actor.m.root.visible) return;
         o = o || {};
         const ts = (o.targets || []).filter((f) => f && f !== actor && f.pos), one = ts.length === 1 ? ts[0] : null, other = one && one.side !== actor.side ? one : null;
-        Object.assign(B, { on: true, n: B.n + 1, phase: '', actor, targets: ts, seen: [], pending: null, ended: false, until: clock.t + C.hold, hitUntil: 0, act: '', hit: '', subjects: [] }); B.blows.length = 0;
+        Object.assign(B, { on: true, n: B.n + 1, phase: '', actor, targets: ts, seen: [], pending: null, ended: false, until: T.now + C.hold, hitUntil: 0, act: '', hit: '', subjects: [] }); B.blows.length = 0;
         let kinds = upright() ? ['front', 'profile']
           : actor.side === 'hero' ? (other ? (giant(other) ? ['shoulder', 'front', 'profile'] : ['front', 'shoulder', 'profile']) : ['front', 'profile'])
             : other ? (giant(actor) ? ['victim', 'front'] : ['front', 'victim', 'profile']) : ['front', 'profile'];
@@ -466,7 +466,7 @@
       // them: one from close (or, when the two are at grips, both from the side); several from where they are all seen
       function hitShot() {
         const ts = B.seen.filter((f) => f.m.root.visible && !f.inside); if (!ts.length) return;
-        B.hitUntil = clock.t + C.hit;
+        B.hitUntil = T.now + C.hit;
         let c = null, kind = '';
         // a move with its own film (the black bars are on: a summons, a Trance, a finishing blow) keeps its own shots
         if (!stage.classList.contains('cine') && !ts.every(shown)) {
@@ -487,8 +487,10 @@
       }
       function beatStep() {
         if (B.blows.length) { for (const f of B.blows) if (!B.seen.includes(f)) B.seen.push(f); B.blows.length = 0; hitShot(); }
-        if (B.phase === 'act' && (clock.t >= B.until || blocked({ pos: T.to.pos, look: T.to.look }, B.subjects))) { phase('work'); flush(); }
-        else if (B.phase === 'hit' && clock.t >= B.hitUntil) { phase('out'); flush(); }
+        if (B.phase === 'act' && (T.now >= B.until || blocked({ pos: T.to.pos, look: T.to.look }, B.subjects))) { phase('work'); flush(); }
+        // the blow has been seen: the move's own next shot if it asked for one, else the camera backs out to the resting shot
+        // while the move finishes (a move with its own film keeps its shot)
+        else if (B.phase === 'hit' && T.now >= B.hitUntil) { phase('out'); if (!flush() && !stage.classList.contains('cine')) wide_(2.2); }
         if (B.ended && !held()) { B.on = false; B.pending = null; }
       }
 
@@ -648,7 +650,7 @@
         return out;
       };
       T.frame = (rdt) => {
-        if (B.on) beatStep(); // fight-camera
+        T.now += rdt * clock.turbo; if (B.on) beatStep(); // fight-camera
         if (T.followF) { const p = T.followF(); T.to.look.x = p.x; T.to.look.z = p.z; }
         // fight-camera: a close-up keeps pace with the one it is on (a witch running in to strike): the camera goes with her
         if (T.trackF) { const p = T.trackF, dx = p.x - T.trackP.x, dz = p.z - T.trackP.z; if (dx || dz) { for (const v of [T.pos, T.look, T.to.pos, T.to.look]) { v.x += dx; v.z += dz; } T.trackP.x = p.x; T.trackP.z = p.z; } }
@@ -3223,7 +3225,7 @@
         shot(kind, a, b) { return DIR.test(kind, F[a] || null, F[b] || null); },
         get beat() { return DIR.info(); }, get framing() { return FRAMING; },
         freezeOn(list) { DIR.freezeOn = list && list.length ? list : null; DIR.frozen = null; }, get frozen() { return DIR.frozen; },
-        get numbers() { return UI.numbers; }, number(key, text, cls) { UI.number(chest(F[key]), text, cls || ''); },
+        get numbers() { return UI.numbers; }, number(key, text, cls, where) { if (where === 'head') UI.number(head(F[key]), text, cls || 'word', 18); else UI.number(chest(F[key]), text, cls || ''); },
         ground() { return DIR.ground(); },
         charge(key, o) { const u = E.unit(key); o = o || {}; if (o.trance) { u.trance = 1; u.tranceReady = true; } if (o.mp != null) u.mp = o.mp; if (o.fate != null) u.fate = o.fate; if (o.hp != null) u.hp = o.hp; Object.assign(D[key], { mp: u.mp, fate: u.fate || 0, hp: u.hp, tr: u.trance }); },
         flipbook(on) { flipbook(on); },
@@ -3261,7 +3263,9 @@
             const nominal = f.kind === 'm7';
             if (nominal) { x0 = y0 = 1e9; x1 = y1 = -1e9; lo = 0; hi = f.tall; const r = (f.look && f.look.halfW) || Math.max(0.3, f.tall * 0.4);
               for (const [dx, y, dz] of [[r, 0, 0], [-r, 0, 0], [0, 0, r], [0, 0, -r], [r, f.tall, 0], [-r, f.tall, 0]]) { const p = toScreen(v.set(f.pos.x + dx, y, f.pos.z + dz)); x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); } }
-            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, nominal, box: [x0, y0, x1, y1].map((n) => Math.round(n)), hpx: Math.round(y1 - y0), mh: +(hi - Math.max(0, lo)).toFixed(2) });
+            // fight-camera: and how far it reaches to each side, and where on the screen the place it stands is (a giant may be cut by the edge)
+            const foot = toScreen(v.set(f.pos.x, 0, f.pos.z));
+            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, nominal, box: [x0, y0, x1, y1].map((n) => Math.round(n)), hpx: Math.round(y1 - y0), mh: +(hi - Math.max(0, lo)).toFixed(2), halfW: (f.look && f.look.halfW) || 0, foot: [Math.round(foot[0]), Math.round(foot[1])] });
           }
           const ui = $('ui'), en = $('enemy');
           return { w: view.w, h: view.h, shot: DIR.free ? DIR.last : 'painting', uiTop: ui && !ui.hidden ? view.h - ui.offsetHeight : view.h, enemyBottom: en && !en.hidden ? en.offsetTop + en.offsetHeight : 0, fighters: out };
