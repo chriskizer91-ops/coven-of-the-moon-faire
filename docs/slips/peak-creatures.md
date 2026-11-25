@@ -1,5 +1,7 @@
 # peak-creatures: two new creatures for the frozen peaks, the Wickstoat and the Hoarmantle
 
+NOT DONE: the Hoarmantle's detail (the hub's five surface defects; in progress).
+
 ## Report for the hub (kept true as the work goes; newest state, November 24 evening)
 
 **M7's way ran here, all of it.** Blender 4.0.2 and Python's numpy, scipy, scikit-image were installed from Ubuntu's
