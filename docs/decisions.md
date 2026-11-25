@@ -13,6 +13,23 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 24, 2026, 19:55: the two upgraded ships are approved; a new hub; the four jobs come in
+
+- **Chris, on the picture of the four ships side by side: "Yes they look good."** So the Skiff fitted out (zone 2,
+  and zone 3 until the refit) and the Cutter for the peaks (zone 4) stand as the journey job made them: built with
+  the ship kit's own parts, by recipe. He saw them as they are and said yes, so they are not made again as a sculpt
+  and a bake unless he asks.
+- **Chris: a new hub conversation carries on** (started about 14:15). "You can merge to Main." And, on usage: "We
+  have all of the fable usage of this account either get through the rest of this project or get through as much
+  of it as we can."
+- **Hub's reading.** *Sub-agents stay on Opus 5.5 at high effort,* as he said when he started the new hub; the hub
+  itself runs on Fable and keeps its own steps few.
+- **Chris, 19:55: all four sub-agents are done.** The hub brought the four jobs together in the handoff's order
+  (fights, creatures, peak-creatures, journey) on its own branch first, to be checked whole before `main` gets it.
+- **Hub's call.** *The journey job's three marked changes to the flight's code stand* (`game/flight/src/ships/index.js`,
+  `game/flight/src/ship/build.js`, `game/flight/flight-frame.js` built again). Its brief said to change nothing
+  there, but the two approved ships cannot fly without them.
+
 ## November 24, 2026, 12:00: which ship lies where; how a model is built
 
 - **Chris: the ships.** "Have the skiff for the first two zones and have them differentiated by changing the skiff
