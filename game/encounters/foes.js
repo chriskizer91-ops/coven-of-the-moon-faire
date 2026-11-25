@@ -11,8 +11,12 @@
 //   act       on a move: which of its model's motions plays
 // A foe with no model of its own WEARS the nearest model the battle has, as a stand-in:
 //   the knight of light wears Halcyon's (the Gloam Knight of the new Envoi: dark armour, where the story says "all light");
-//   the fire, in both forms, wears Noctara's (the new Envoi's last foe);
+//   the fire, in both forms, wore Noctara's (the new Envoi's last foe) until the last-foe job (below);
 //   the great bramble is the battle's own Bramble Colossus, made weaker for where it stands in the story.
+// last-foe: the fire now wears its own model, in both forms: Moon Faire's final foe, "the fire that would not end"
+// (game/battle/models/final-fire.js, copied in as it is; game/battle/models/final-fire-foe.js plays it in the battle).
+// Each of its moves plays the nearest of the model's two moves (blow: its iron hand strikes; call: its rings line up,
+// flame streams in from the party's side and bursts). Only `act` changed in the moves: no rule and no number.
 (function (G) {
   'use strict';
   const RL = G.BattleRules, WORDS = (G.COVEN_FIGHT_WORDS || {}).gates || {};
@@ -38,10 +42,10 @@
     fireHolds: {
       name: FIRE[0].name || 'The fire', hp: 14000, atb: 2.7, fixedLevel: 20, boss: true, noFate: true, shards: 0, xp: 90,
       moves: {
-        reach: { name: 'Reaching flames', weight: 0.35, hits: [210, 210, 210], target: 'random', act: 'crownShards', time: 2.6 },
-        draw: { name: 'Draws the light', weight: 0.25, hits: [210], sap: 24, target: 'all', act: 'frostDust', time: 2.8 },
-        flare: { name: 'Flare', weight: 0.25, charge: true, chargeName: 'The fire draws breath', hits: [720], target: 'all', act: 'voidSphere', time: 4.6 },
-        cold: { name: 'The warmth goes', weight: 0.15, hits: [150], frost: 8, target: 'all', act: 'frostDust', time: 2.8 },
+        reach: { name: 'Reaching flames', weight: 0.35, hits: [210, 210, 210], target: 'random', act: 'blow', time: 2.6 },   // last-foe: act (was crownShards)
+        draw: { name: 'Draws the light', weight: 0.25, hits: [210], sap: 24, target: 'all', act: 'call', time: 2.8 },   // last-foe: act (was frostDust)
+        flare: { name: 'Flare', weight: 0.25, charge: true, chargeName: 'The fire draws breath', hits: [720], target: 'all', act: 'call', time: 4.6 },   // last-foe: act (was voidSphere)
+        cold: { name: 'The warmth goes', weight: 0.15, hits: [150], frost: 8, target: 'all', act: 'call', time: 2.8 },   // last-foe: act (was frostDust)
       },
     },
     // The second form: Kore draws the fire's hunger onto herself and gives it its ending. Its single blows all fall on
@@ -50,9 +54,9 @@
     fireHunger: {
       name: FIRE[1].name || 'The fire', hp: 8000, atb: 2.6, fixedLevel: 20, boss: true, unending: true, rage: 0.1, shards: 600, xp: 700,
       moves: {
-        hunger: { name: 'Hunger', weight: 0.5, hits: [336], target: 'jester', act: 'crownShards', time: 2.4 },
-        allOfIt: { name: 'All of it', weight: 0.22, charge: true, chargeName: 'It gathers all of it', hits: [672], target: 'jester', act: 'voidSphere', time: 4.2 },
-        heat: { name: 'Heat', weight: 0.28, hits: [448], target: 'all', act: 'frostDust', time: 2.6 },
+        hunger: { name: 'Hunger', weight: 0.5, hits: [336], target: 'jester', act: 'blow', time: 2.4 },   // last-foe: act (was crownShards)
+        allOfIt: { name: 'All of it', weight: 0.22, charge: true, chargeName: 'It gathers all of it', hits: [672], target: 'jester', act: 'call', time: 4.2 },   // last-foe: act (was voidSphere)
+        heat: { name: 'Heat', weight: 0.28, hits: [448], target: 'all', act: 'call', time: 2.6 },   // last-foe: act (was frostDust)
       },
     },
   };
@@ -60,7 +64,15 @@
   // how each looks in the battle (game/battle/fights.js reads this): the model it wears, and its light
   G.COVEN_FOE_LOOKS = Object.assign(G.COVEN_FOE_LOOKS || {}, {
     knightOfLight: { wears: 'halcyon', standIn: true, look: { glow: [1.7, 0xfff0c8], appearColor: [1, 0.94, 0.78], hitColor: 0xfff1d0, hitRGB: [1, 0.92, 0.75], near: 2.2, downAct: 'kneel' } },
-    fireHolds: { wears: 'noctara', standIn: true, look: { glow: [2.0, 0xffa24a], appearColor: [1, 0.6, 0.25], hitColor: 0xffb060, hitRGB: [1, 0.65, 0.3], downAct: 'none' } },
-    fireHunger: { wears: 'noctara', standIn: true, look: { glow: [2.4, 0xff5a2a], appearColor: [1, 0.4, 0.2], hitColor: 0xff8040, hitRGB: [1, 0.5, 0.25], downAct: 'die' } },
+    // last-foe: the fire, in its own model (it wore Noctara's, as a stand-in). As Moon Faire shows it: about 8 m tall
+    // and 4.8 m across whole, 12 m and 9.6 m broken open; crimson and rose light; standing about 12 m from the party,
+    // turned a little toward it (stand: where it stands in its arena, in metres, whatever the fight's own stand says;
+    // yawBias: about 0.6 of the way round to face the party, as its own page stood it). Form one appears dark and
+    // lights up; the final form appears whole and breaks open as its fight begins (its change). reach: how far from
+    // its middle a witch stops to strike it (the bowl and its legs). detail 1 is the model as Chris saw it.
+    fireHolds: { make: 'makeFinalFireFoe', opts: { form: 1, detail: 1 }, look: { kind: 'finalFire', tall: 8, halfW: 2.4, shadow: 4.2, reach: 1.9, stand: [3.2, -11.5], yawBias: 0.18, fxScale: 2.2,
+      glow: [3.2, 0xd42a48], appearColor: [0.83, 0.16, 0.28], hitColor: 0xf08fa6, hitRGB: [0.94, 0.56, 0.65], downAct: 'none' } },
+    fireHunger: { make: 'makeFinalFireFoe', opts: { form: 2, detail: 1, breaks: true }, look: { kind: 'finalFire', tall: 12, halfW: 4.8, shadow: 5, reach: 2.4, stand: [3.2, -11.5], yawBias: 0.18, fxScale: 2.8,
+      glow: [4.6, 0xff1f3d], appearColor: [1, 0.79, 0.82], hitColor: 0xff1f3d, hitRGB: [1, 0.12, 0.24], downAct: 'die' } },
   });
 })(typeof globalThis !== 'undefined' ? globalThis : window);

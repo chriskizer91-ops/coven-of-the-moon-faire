@@ -222,7 +222,11 @@
     if (kind === 'story') {
       const st = opts.story || {}, c = base(st.scene || 'gloamwood-road', P);
       if (arena) inArena(c, st.arena || ARENA_OF.wild[opts.band || 1], ARENA_AT[st.stand] || ARENA_AT.great, opts);
-      const ends = Object.assign({}, st.ends || {}); if (st.canFlee) ends.canFlee = true;
+      // last-foe: a foe met alone that says in its look where it stands in an arena (`stand`, metres: the fire, where
+      // Moon Faire stands it) stands there, whatever the fight's own stand says
+      const own = (st.foes || []).length === 1 ? ((EXTRA()[st.foes[0].id] || {}).look || {}).stand : null;
+      if (c.arena && own) c.slots = [own.slice()];
+      const ends =Object.assign({}, st.ends || {}); if (st.canFlee) ends.canFlee = true;
       const foes = (st.foes || []).map((f) => Object.assign({}, f));
       if (st.alias) c.alias = st.alias;
       return Object.assign(c, {
