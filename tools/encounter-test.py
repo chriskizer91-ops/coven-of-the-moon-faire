@@ -165,10 +165,13 @@ with sync_playwright() as p:
         pg.evaluate("() => { const F = window.__fights, Z = window.COVEN_ENCOUNTERS[F.zone], S = window.COVEN_SLOTS.zones[F.zone].A; window.__keep0 = F.party.state; let n = 0; while (F.party.level < Math.max(Z.levels[0] + 1, S.from || 1) && n++ < 400) F.party.afterBattle({ result: 'won', won: true, xp: 300, shards: 0, party: {} }); F.party.rest(); window.__forceSlot = 'A'; }")
         pg.evaluate(PUT, WILD)
         y = pg.evaluate(FIGHT, 'expert'); pg.evaluate("() => { window.__forceSlot = null; }")
-        sl = pg.evaluate("() => { const F = window.__fights, S = window.COVEN_SLOTS.zones[F.zone].A; return { pack: S.pack, job: S.job, suggested: S.suggested.creature + ' (' + S.suggested.status + ')', looks: S.pack.map((id) => (window.COVEN_FOE_LOOKS[id] || {}).make || 'the battle\\'s own') }; }")
+        sl = pg.evaluate("() => { const F = window.__fights, S = window.COVEN_SLOTS.zones[F.zone].A; return { pack: S.pack, job: S.job, suggested: S.suggested.creature + ' (' + S.suggested.status + ')', looks: S.pack.map((id) => (window.COVEN_FOE_LOOKS[id] || {}).make || 'the battle\\'s own'), kinds: S.pack.map((id) => ((window.COVEN_FOE_LOOKS[id] || {}).opts || {}).kind || null), unpacked: window.M7 ? Object.keys(window.M7.bins).filter((k) => window.M7.bins[k].bin) : [] }; }")
         print('    slot A:', sl['job'], '; suggested for it:', sl['suggested']); print('    meeting:', json.dumps(y['m'])); print('    fight:', y['during']['foes'], '; answer:', y['last']['result'], y['last']['xp'], 'experience')
         check(y['m']['slot'] == 'A' and [f.split(' ')[0] for f in y['during']['foes']] == sl['pack'], 'the fight was the slot\'s own: %s' % ', '.join(sl['pack']))
-        check('makeStandIn' in sl['looks'], 'its creature is drawn by the stand-in model')
+        # hub: since the creatures came in, a slot's creature is drawn by its own model (makeM7Foe, makePeakFoe), unpacked
+        own = [k for m, k in zip(sl['looks'], sl['kinds']) if m in ('makeM7Foe', 'makePeakFoe')]
+        if own: check(all(k in sl['unpacked'] for k in own), 'its creature is drawn by its own model (%s), unpacked' % ', '.join(sorted(set(own))))
+        else: check('makeStandIn' in sl['looks'], 'its creature is drawn by the stand-in model')
         check(y['last']['result'] in ('won', 'lost', 'fled') and not y['after']['layer'], 'it played to its end (%s)' % y['last']['result'])
         pg.evaluate("() => { localStorage.setItem('coven.party', JSON.stringify(window.__keep0)); }")
         pg.reload(timeout=600000); pg.wait_for_function('(window.__ready && (window.__fights || window.__fightsErr)) || window.__err', timeout=600000)

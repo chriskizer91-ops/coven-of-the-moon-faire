@@ -7,7 +7,9 @@ On the fights job's own small page (game/pages/fights-lab.html) it starts each n
 (CovenBattle.start), lets the battle play itself, sped up, leaves the end card, and checks:
   1. the fight started with the foes its data names, and all four witches;
   2. it played to its end (won, lost or run from) and its layer went;
-  3. what is particular to it: a stand-in creature is drawn by the stand-in model; the knight of light stops and walks
+  3. what is particular to it: a slot's creature is drawn by its own model (hub: since the creatures came in, by
+     makeM7Foe or makePeakFoe with its model unpacked when the fight began; a slot still on a stand-in is drawn by
+     the stand-in model); the knight of light stops and walks
      away (she is never beaten) and was answered at least once; the fire's first form stops at its share of Life; the
      fire's second form is ended by Kore's Sealed Fate and by nothing else;
   4. no page errors from first to last.
@@ -30,7 +32,9 @@ RUN = """async ([id, style, turbo]) => {
   await new Promise((r) => { const t = setInterval(() => { if ((window.__battle && window.__battle.engine) || window.__labErr) { clearInterval(t); r(); } }, 200); });
   if (window.__labErr) return { err: window.__labErr };
   const B = window.__battle, E = B.engine; B.turbo = turbo;
-  const began = { heroes: E.heroes.map((h) => h.id), foes: E.foes.map((f) => ({ id: f.id, level: f.level, hp: f.maxHp, standIn: !!(B.foes && 0) })), layer: !!document.querySelector('.coven-battle') };
+  const began = { heroes: E.heroes.map((h) => h.id), foes: E.foes.map((f) => ({ id: f.id, level: f.level, hp: f.maxHp, standIn: !!(B.foes && 0) })), layer: !!document.querySelector('.coven-battle'),
+    // hub: which creatures' models were unpacked when the fight began (else makeM7Foe draws the slot's stand-in)
+    unpacked: window.M7 ? Object.keys(window.M7.bins).filter((k) => window.M7.bins[k].bin) : [] };
   const seen = { sealedEnd: false, say: {}, minHp: {}, retreat: false };
   const watch = setInterval(() => { for (const f of E.foes) seen.minHp[f.key] = Math.min(seen.minHp[f.key] == null ? 1 : seen.minHp[f.key], f.hp / f.maxHp); }, 300);
   const t2 = setInterval(() => { const B2 = window.__battle; if (B2 && B2.state === 'over' && !document.getElementById('end').hidden) { clearInterval(t2); B2.again(); } }, 500);
@@ -48,7 +52,7 @@ with sync_playwright() as p:
     pg.wait_for_function('!!window.__lab', timeout=180000)
     pg.evaluate("() => { try { localStorage.setItem('mfw.flipbook', '0'); localStorage.setItem('envoi.sharp', '0.5'); } catch (e) {} }")
     fights = pg.evaluate('window.__lab.list')
-    looks = pg.evaluate("() => { const o = {}; for (const id in window.COVEN_FOE_LOOKS) o[id] = { standIn: !!window.COVEN_FOE_LOOKS[id].standIn, wears: window.COVEN_FOE_LOOKS[id].wears || null, make: window.COVEN_FOE_LOOKS[id].make || null }; return o; }")
+    looks = pg.evaluate("() => { const o = {}; for (const id in window.COVEN_FOE_LOOKS) o[id] = { standIn: !!window.COVEN_FOE_LOOKS[id].standIn, wears: window.COVEN_FOE_LOOKS[id].wears || null, make: window.COVEN_FOE_LOOKS[id].make || null, kind: (window.COVEN_FOE_LOOKS[id].opts || {}).kind || null }; return o; }")
     print('%d new fights on the page; %d foes drawn by data (%d stand-in shapes, %d wearing another foe\'s model)' % (len(fights), len(looks), sum(1 for v in looks.values() if v['make'] == 'makeStandIn'), sum(1 for v in looks.values() if v['wears'])))
     for f in fights:
         if ONLY and f['id'] not in ONLY: continue
@@ -62,7 +66,12 @@ with sync_playwright() as p:
         check(r['result'] in ('won', 'lost', 'fled') and not x['layerAfter'], 'it played to its end (%s, %d turns) and its layer went' % (r['result'], x['turns']))
         if f['group'] == 'slots':
             mine = [i for i in ids if i in looks]
-            check(bool(mine) and all(looks[i]['make'] == 'makeStandIn' for i in mine), 'the creature is a stand-in shape (%s)' % ', '.join(sorted(set(mine))))
+            # hub: the slots now hold real creatures; a slot still on a stand-in is checked as before
+            real = [i for i in mine if looks[i]['make'] in ('makeM7Foe', 'makePeakFoe')]
+            if real:
+                check(all(looks[i]['kind'] in began['unpacked'] for i in real), 'the creature is drawn by its own model, unpacked when the fight began (%s)' % ', '.join(sorted(set('%s: %s' % (i, looks[i]['kind']) for i in real))))
+            else:
+                check(bool(mine) and all(looks[i]['make'] == 'makeStandIn' for i in mine), 'the creature is a stand-in shape (%s)' % ', '.join(sorted(set(mine))))
         if f['id'] == 'knightOfLight':
             check(x['over'] in ('retreat', 'lose'), 'the knight is never beaten: the fight ended with "%s"' % x['over'])
             left = x['foesLeft'][0]
