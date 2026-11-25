@@ -232,18 +232,69 @@
   // ---- the Maps tab, a stand-in line until the maps job's tab takes its place ----
   function mapsTab(el) { const col = scroller(el); mk('p', 'cm-p cm-soon', col, T.mapsSoon); }
 
-  // ---- the Coven tab: the four witches, each one's level and health (read from the party, never changed), who walks ----
-  function covenTab(el) {
+  // ---- the Coven tab: who leads, at the top (the leader job, November 25); then the four witches, each one's level and
+  // health (read from the party, never changed) ----
+  // Who leads: four big buttons, one for each witch, with her own colour (menu-data.js, leader.colours) and her name. The one
+  // leading is marked. Choosing another changes the one walking at once, where she stood and facing as she faced (the
+  // walker's setWho), and keeps her as the leader (saves.js); the menu stays open. The arrow keys move between the four
+  let leadBusy = false;
+  function leadStrip(col, el) {
+    const four = W3D.WITCHES || [{ id: 'io', name: 'Io', is: '', key: 'io' }], who = W && W.who, LD = D.leader || {}, colours = LD.colours || {};
+    const box = mk('section', 'cm-lead', col); box.dataset.place = 'leader';
+    mk('h2', 'cm-h', box, T.leadTitle);
+    mk('p', 'cm-small cm-leadnote', box, T.leadNote);
+    const row = mk('div', 'cm-leadrow', box); row.setAttribute('role', 'radiogroup'); row.setAttribute('aria-label', T.leadTitle);
+    const bs = [];
+    for (const w of four) {
+      const on = who === w.id, b = mk('button', 'cm-leadb' + (on ? ' cm-on' : ''), row); b.type = 'button';
+      b.dataset.act = 'walk-' + w.id; b.dataset.leader = w.id; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', String(on));
+      b.tabIndex = on || (!four.some((q) => q.id === who) && w === four[0]) ? 0 : -1;
+      b.style.setProperty('--her', colours[w.id] || '#8a80c8');
+      const disc = mk('span', 'cm-disc', b); disc.setAttribute('aria-hidden', 'true'); disc.textContent = w.name.charAt(0);
+      const t = mk('span', 'cm-leadtext', b); mk('b', '', t, w.name); mk('small', 'cm-leadis', t, w.is || '');
+      mk('span', 'cm-leadstate', b, on ? T.leading : T.leadTap);
+      b.setAttribute('aria-label', w.name + (w.is ? ', ' + w.is : '') + (on ? ': ' + T.leading : ''));
+      b.addEventListener('click', () => lead(w, b, el));
+      bs.push(b);
+    }
+    row.addEventListener('keydown', (e) => {
+      const i = bs.indexOf(document.activeElement); if (i < 0) return;
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; let j = -1;
+      if (step) j = (i + step + bs.length) % bs.length; else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = bs.length - 1;
+      if (j < 0) return;
+      e.preventDefault(); e.stopPropagation(); bs[i].tabIndex = -1; bs[j].tabIndex = 0; bs[j].focus();
+    });
+    return bs;
+  }
+  // choose her: the walker swaps the model where she stands (built the first time she is chosen, which takes a moment)
+  function lead(w, b, el) {
+    if (!W || leadBusy || W.who === w.id) return;
+    leadBusy = true; b.classList.add('cm-busy'); b.setAttribute('aria-busy', 'true');
+    const st = b.querySelector('.cm-leadstate'); if (st) st.textContent = T.leadBusy;
+    const was = (W3D.WITCHES || []).find((q) => q.id === W.who);
+    setTimeout(() => {
+      let ok = true; try { W.setWho(w.id); } catch (er) { console.error(er); ok = false; }
+      leadBusy = false;
+      if (isOpen && cur === 'coven') covenTab(el, w.id);
+      note(ok && W.who === w.id ? fill(T.leadNow, { name: w.name }) : fill(T.leadFailed, { name: w.name, now: was ? was.name : '' }));
+    }, 30);
+  }
+  function covenTab(el, focusId) {
     const col = scroller(el, true), live = G.__fights && G.__fights.party, kept = parse(S().store.get('coven.party'));
     const level = live ? live.level : kept && kept.level >= 1 ? Math.round(kept.level) : 1;
-    mk('h2', 'cm-h', col, fill(T.covenTitle, { n: level }));
+    const bs = leadStrip(col, el);
+    if (focusId) { const f = bs.find((b) => b.dataset.leader === focusId); if (f) try { f.focus({ preventScroll: true }); } catch (e) { /* fine */ } }
+    mk('h2', 'cm-h cm-h2', col, fill(T.covenTitle, { n: level }));
     if (!live) mk('p', 'cm-small', col, T.covenNoParty);
     const grid = mk('div', 'cm-witches', col), who = W && W.who;
-    const four = W3D.WITCHES || [{ id: 'io', name: 'Io', is: '', key: 'io' }];
+    const four = W3D.WITCHES || [{ id: 'io', name: 'Io', is: '', key: 'io' }], colours = (D.leader && D.leader.colours) || {};
     const viewerEl = mk('div', 'cm-viewer'); viewerEl.dataset.place = 'character-viewer';
     for (const w of four) {
       const id = w.key || w.id, card = mk('div', 'cm-card cm-witch' + (who === w.id ? ' cm-use' : ''), grid); card.dataset.witch = w.id;
-      const head = mk('div', 'cm-head', card); mk('b', '', head, w.name); mk('span', 'cm-is', head, w.is || '');
+      card.style.setProperty('--her', colours[w.id] || '#8a80c8');
+      const head = mk('div', 'cm-head', card); mk('b', '', head, w.name);
+      // leader: the one leading says so on her card (the choosing is in the strip above)
+      if (who === w.id) mk('span', 'cm-badge cm-walking', head, T.leadBadge); else mk('span', 'cm-is', head, w.is || '');
       mk('div', 'cm-lv', card, fill(T.level, { n: level }).replace(/^./, (c) => c.toUpperCase()));
       const bar = (cls, a, b, words) => { const r = mk('div', 'cm-stat', card); mk('span', '', r, words); const g = mk('div', 'cm-bar ' + cls, card); mk('i', '', g).style.width = (b ? Math.max(0, Math.min(100, 100 * a / b)) : 100).toFixed(0) + '%'; };
       if (live && live.maxHp) {
@@ -254,13 +305,7 @@
         const h = kept && kept.hp && kept.hp[id] != null ? kept.hp[id] : null;
         mk('div', 'cm-stat', card, h == null ? T.whole : fill(T.hurtNoMax, { a: nf(h) }));
       }
-      const acts = mk('div', 'cm-acts', card);
-      if (who === w.id) mk('div', 'cm-walking', acts, T.walking);
-      else btn('cm-span', acts, fill(T.walkAs, { name: w.name }), (e) => {
-        e.currentTarget.disabled = true; e.currentTarget.textContent = '…';
-        setTimeout(() => { try { W.setWho(w.id); } catch (er) { console.error(er); } covenTab(el); }, 30);
-      }).dataset.act = 'walk-' + w.id;
-      if (typeof api.viewer === 'function') btn('cm-span', acts, T.look, () => { viewerEl.innerHTML = ''; try { api.viewer(viewerEl, w.id, ctx()); } catch (er) { console.error(er); } }).dataset.act = 'look-' + w.id;
+      if (typeof api.viewer === 'function') { const acts = mk('div', 'cm-acts', card); btn('cm-span', acts, T.look, () => { viewerEl.innerHTML = ''; try { api.viewer(viewerEl, w.id, ctx()); } catch (er) { console.error(er); } }).dataset.act = 'look-' + w.id; }
     }
     // the place kept for a full character viewer (later): its own box under the four
     col.appendChild(viewerEl);

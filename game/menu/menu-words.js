@@ -82,6 +82,16 @@
     hurtNoMax: '{a} HP',
     walking: 'Walking now',
     walkAs: 'Walk as {name}',
+    // ---- who leads, at the top of the Coven tab (the leader job, November 25). STAND-IN, every one: Chris's to change ----
+    leadTitle: 'Who leads',
+    leadNote: 'You walk as the one who leads. The other three are with her.',
+    leading: 'Leading',
+    leadTap: 'Lead',
+    leadBusy: 'Coming…',
+    leadNow: '{name} leads now.',
+    leadFailed: 'Something went wrong bringing {name}. {now} still leads.',
+    leadBadge: 'Leads',
+    bringing: 'Bringing {name}…',
     covenNoParty: 'Fights are not joined to this zone yet: the coven’s level is the one kept from zone 1.',
     // STAND-IN: the place kept for a full character viewer, to be built later
     viewerSoon: 'A closer look at each witch comes here later.',

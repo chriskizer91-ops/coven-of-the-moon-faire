@@ -33,7 +33,9 @@
     let scene = P.scene, M = P.M, placeKids = new Set(scene.children);   // the place's own; what's added after is the walker's
 
     // ---- Io ----
-    say('Bringing Io…');
+    // leader: who leads walks (game/menu/saves.js keeps her: W3D.leader), unless the page names one (opt.who); Io if neither
+    const first = opt.who || (W3D.leader && W3D.leader.get ? W3D.leader.get() : null) || 'io';
+    { const q = (W3D.WITCHES || []).find((w) => w.id === first), MW = W3D.MENU_WORDS; say(MW && MW.bringing ? MW.bringing.replace('{name}', q ? q.name : 'Io') : 'Bringing ' + (q ? q.name : 'Io') + '…'); }
     const es = new THREE.Scene(), sg = new THREE.SphereGeometry(10, 24, 12), scol = [];
     { const top = new THREE.Color(0.22, 0.21, 0.36), mid = new THREE.Color(0.09, 0.08, 0.13), bot = new THREE.Color(0.03, 0.022, 0.035), c = new THREE.Color();
       for (let i = 0; i < sg.attributes.position.count; i++) { const y = sg.attributes.position.getY(i) / 10; if (y > 0) c.copy(mid).lerp(top, Math.pow(y, 0.7)); else c.copy(mid).lerp(bot, Math.pow(-y, 0.5)); scol.push(c.r, c.g, c.b); }
@@ -43,7 +45,10 @@
       const pm = new THREE.PMREMGenerator(renderer); scene.environment = pm.fromScene(es, 0.03).texture; pm.dispose(); }
     // (Coven of the Moon Faire, November 18) who walks: any of the four witches (witches/walkers.js); Io unless the page
     // says otherwise. api.setWho(id) swaps her for another where she stands
-    let A = W3D.witch ? W3D.witch(opt.who || 'io') : makeMoonIo({ weight: 'lightest' }); A.walkRun = false; scene.add(A.root);
+    // leader: if her model cannot be made here (a page without her files), Io walks
+    let A = null; try { A = W3D.witch ? W3D.witch(first) : null; } catch (e) { console.error(e); A = null; }
+    if (!A) A = W3D.witch ? W3D.witch('io') : makeMoonIo({ weight: 'lightest' });
+    A.walkRun = false; scene.add(A.root);
     // her triangles as drawn (her spells' props stay hidden while she walks)
     const ioDrawn = () => { const shown = (o) => { for (let q = o; q; q = q.parent) if (!q.visible) return false; return true; }; let n = 0; A.root.traverse((o) => { if (o.isMesh && o.geometry && shown(o)) n += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; }); return Math.round(n); };
     // her light: the moon from above, a cool sky, a violet rim, a soft fill from the camera, and the three lamps nearest her
@@ -438,13 +443,16 @@
 
     // the page's hooks, for headless stills and the checks (?test: the clock only moves when told)
     const api = {
-      P, A, io, C, cam, renderer, guide: setGuide, numbers, switchTo, warm, nearestFit, isBusy: () => busy,
+      P, io, C, cam, renderer, guide: setGuide,
+      get A() { return A; },   // leader: the one walking now (it was the first one made, and stayed so after setWho) numbers, switchTo, warm, nearestFit, isBusy: () => busy,
       step(sec, fps, draw) { const n = Math.max(1, Math.round(sec * (fps || 30))); for (let i = 0; i < n; i++) { clock += 1 / (fps || 30); tick(1 / (fps || 30), clock); } if (draw !== false && !busy) drawFrame(); return numbers(); },
       render() { if (!busy) drawFrame(); }, setLook, look,
       // Coven: stop the land (no walking, no drawing) while something is laid over it, and start it again. Keys held are let go.
       pause(on) { paused = !!on; input.keys = {}; run.on = false; last = null; return paused; },
       get paused() { return paused; },
-      setWho(id) { const B = W3D.witch(id); if (B === A) return id; B.root.position.copy(A.root.position); B.root.rotation.copy(A.root.rotation); scene.remove(A.root); scene.add(B.root); A = B; return id; },
+      // leader: she takes the place of the one walking, where that one stood and facing as she faced (from where the walker
+      // keeps her, not the old model's last drawn spot); her pose is set at once, so the next picture drawn is already her
+      setWho(id) { const B = W3D.witch(id); if (B === A) return id; B.root.position.copy(pos()); B.root.rotation.set(0, io.yaw, 0); scene.remove(A.root); scene.add(B.root); A = B; A.walkRun = io.jog; try { A.camera = cam; A.animate(0, io.moving ? 1 : 0, clock, 0); } catch (e) { console.error(e); } return id; },
       get who() { return A.id || 'io'; },
       setIo(px, py, yaw) { io.px = px; io.py = py; io.y = P.walkH(px, py); if (yaw != null) io.yaw = yaw; placeCamera(0, true); },
       setCam(yaw, pitch, dist) { if (yaw != null) C.yaw = yaw; C.pitch = pitch != null ? pitch : view.pitch; C.pitchSet = pitch != null; C.dist = dist != null ? dist : view.dist; C.base = C.dist; C.zoom = 1; C.hold = dist != null; C.auto = 99; placeCamera(0, true); },

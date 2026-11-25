@@ -23,6 +23,8 @@
 //   W3D.saves.toFile()       { name, text } of the slot in use, saved first   .fromText(text)  { ok, save, why }
 //   W3D.saves.put(save, n)   a save from a file into slot n (into the slot in use: the page starts again with it)
 //   W3D.saves.storage        { ok: true / false / null (not tried: ?test), first, visits, inMemory }
+//   W3D.leader.get()         who leads (leader job): 'io', 'kore', 'europa' or 'callisto'   .set(id)  kept (the walker's
+//                            setWho does this itself once the page is ready)
 //   W3D.saves.openPage       left null. If set to (page, carry) => ..., it is called in place of opening this page again
 //                            when the slot to be played was last saved on another zone's page (for the hub, when the
 //                            pages call each other). carry is '' or, on a page with no storage, 'coven=...' to be put
@@ -32,6 +34,7 @@
   const W3D = G.W3D = G.W3D || {}, D = W3D.MENU_DATA, WD = W3D.MENU_WORDS;
   const TEST = /[?&]test\b/.test(location.search);
   const STATE = 'coven.saves', WHERE = 'coven.where', SLOT = (n) => 'coven.slot.' + n;
+  const LEADER = 'coven.leader';   // leader: who leads (the leader job, November 25), a slot key (menu-data.js)
 
   // ---- the browser's storage, and with ?test a layer in memory over it (reads fall through, writes stay here) ----
   let LS = null; try { LS = G.localStorage; } catch (e) { LS = null; }
@@ -114,6 +117,22 @@
   // ---- a slot ----
   function slot(n) { if (!okN(n)) return null; const r = parse(store.get(SLOT(n))); return r && r.v === 1 && r.keys && typeof r.keys === 'object' ? r : null; }
   const slots = () => { const out = []; for (let n = 1; n <= N; n++) out.push(slot(n)); return out; };
+
+  // ---- leader: who leads (the leader job, November 25, 2026). Chris: "all four witches from the beginning. Any of them can
+  // lead". She is kept in the game's own key coven.leader, written the moment she is chosen, so she is in every save of the
+  // slot, goes from page to page with the journey's save, and comes back with Continue, the front door's Carry on and a
+  // save from a file. A save made before this job has no coven.leader: then the one who walked in it (coven.where), and if
+  // none, the start (menu-data.js: Io, who walked every page before). The walker (engine/place/walker.js) asks for her
+  // when it is made, so she is the first model built ----
+  const LD = D.leader || { ids: ['io', 'kore', 'europa', 'callisto'], start: 'io' };
+  const okWho = (id) => typeof id === 'string' && LD.ids.indexOf(id) >= 0;
+  function leaderGet() {
+    const r = parse(store.get(LEADER)); if (r && okWho(r.who)) return r.who;
+    const w = parse(store.get(WHERE)); if (w && okWho(w.who)) return w.who;
+    return okWho(LD.start) ? LD.start : 'io';
+  }
+  function leaderSet(id) { if (!okWho(id)) return false; if (leaderGet() !== id || !parse(store.get(LEADER))) put(LEADER, { v: 1, who: id }); return true; }
+  W3D.leader = { get: leaderGet, set: leaderSet, ids: LD.ids.slice(), key: LEADER };
 
   // ---- this page, once it is ready (menu.js calls ready) ----
   let W = null, page = null, zone = null, switching = false, lastSaved = '', failed = false, timer = 0;
@@ -230,9 +249,21 @@
   function ready(o) {
     W = o.W; page = o.page; zone = o.zone;
     const w = parse(store.get(WHERE));
+    // leader: whoever changes who walks (the Coven tab, or a page's own "who" panel), she is kept as the leader, at once,
+    // and the slot is saved; and if the walker was made with another (a page that names its own), the leader takes her place
+    if (W && typeof W.setWho === 'function' && !W.__leaderKept) {
+      const sw = W.setWho;
+      W.setWho = function (id) {
+        const was = W.who, r = sw.apply(this, arguments);
+        if (W.who !== was) { leaderSet(W.who); G.dispatchEvent(new CustomEvent('coven:leader', { detail: { who: W.who, was } })); if (!TEST) save('leader'); }
+        return r;
+      };
+      W.__leaderKept = true;
+      try { const want = leaderGet(); if (W.who !== want && W3D.witch) W.setWho(want); } catch (e) { console.error(e); }
+    }
     if (!TEST && D.keepWhere && W && w && w.page === page && isFinite(w.px) && isFinite(w.py)) {
       try {
-        if (w.who && w.who !== W.who && W3D.witch && (W3D.WITCHES || []).some((q) => q.id === w.who)) W.setWho(w.who);
+        // leader: who walks is the leader now (above), not coven.where's own word (in a save from before, the two are the same)
         const at = W.nearestFit(w.px, w.py); if (W.C) W.C.yaw = (w.yaw || 0) + Math.PI; W.setIo(at[0], at[1], w.yaw || 0);
         api.restored = { px: at[0], py: at[1], who: W.who };
       } catch (e) { console.error(e); }

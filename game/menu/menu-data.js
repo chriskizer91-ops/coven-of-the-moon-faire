@@ -16,6 +16,8 @@
       { prefix: 'coven.story.', slot: true, what: 'a zone\'s story: its stage, the lines heard, who has been talked to, the moments played, road stones lit, small flags (game/people/story.js; zone 1 coven.story.v1, zone 2 coven.story.z2.v1, zone 3 coven.story.z3.v1, and zone 4\'s when it comes)' },
       { key: 'envoi3d-found', slot: true, what: 'the keepsakes found on the land (game/engine/place/walker.js)' },
       { key: 'coven.where', slot: true, what: 'where the coven stands, which way she faces, who walks, and on which page (this job\'s: written with every save)' },
+      // leader: who leads, kept in the save and carried from page to page (the leader job, November 25)
+      { key: 'coven.leader', slot: true, what: 'who leads: the witch the player walks as, any of the four (the leader job\'s: written the moment she is chosen)' },
       { key: 'envoi3d-look', slot: false, what: 'the Flipbook look on the land, on or off, and how fine (walker.js)' },
       { key: 'envoi.sharp', slot: false, what: 'how sharp a fight\'s 3D is drawn: 3/4, half or full (game/battle/screen.js, game/pages/battle.html)' },
       { key: 'envoi.fps', slot: false, what: 'the fights\' frame-rate cap (game/battle/screen.js)' },
@@ -31,6 +33,19 @@
     // the menu job's call: a save remembers where the coven stood and who walked, and the page puts her back there when
     // it opens again (only on the page the save was made on). The other choice: false, and she starts where the page starts
     keepWhere: true,
+    // ---- who leads (the leader job, November 25, 2026; Chris: "Any of them can lead, so there has to be a thing in the menu
+    // to change who's the walking-around model") ----
+    // ids: the four, in the coven's order (W3D.WITCHES, game/witches/walkers.js, has their names)
+    // start: who leads in a new game, and in a save made before this job (it kept no leader: Io walked). The leader job's
+    //   call; the other choice is to keep the leader of the game being played when a new game starts
+    // colours: each one's own colour, for her button in the Coven tab: picked from her clothes as the land draws them
+    //   (Io her wine-red hat and robe, Kore her plum jester's coat, Europa her orange patchwork, Callisto her slate-blue
+    //   cloak). The leader job's call; the other choice is a small picture of each
+    leader: {
+      ids: ['io', 'kore', 'europa', 'callisto'],
+      start: 'io',
+      colours: { io: '#b0354f', kore: '#9a3a7c', europa: '#e07a30', callisto: '#5f7f9a' },
+    },
     // the hub's call, for Chris to overrule: one menu button on the land where there were two ("who" and "nums"), with
     // both inside the menu. false keeps the old buttons beside the menu's
     oneButton: true,
