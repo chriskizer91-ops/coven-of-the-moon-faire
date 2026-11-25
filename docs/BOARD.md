@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 24, 2026, 18:19, by the hub.
+Last updated: November 24, 2026, 19:53, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -22,18 +22,14 @@ has been reviewed by a hub, and nothing of them is in `main`:**
   fault: with no running away allowed, the knight never stopped and the fire's first form could not end.
 - `job/creatures` (`7de1f9a`): **done.** Six of M7's creatures in zones 1 to 3. `sh tools/creatures-pictures.sh` makes
   the sheets again. Chris has seen the sheets.
-- `job/peak-creatures` (`c8b695c`): **NOT done; a sub-agent of the old hub is still at it.** Both creatures are built
-  (sculpts of 1,141,618 and 1,118,426 triangles, baked and painted from Chris's sheets). Sent back by the hub for
-  three things: the Hoarmantle's pictures show a fight's Victory card, not the ox, so nobody has seen its model;
-  the Wickstoat's sparks must be warm amber, nine of them, and its face cleaned up; and BOTH FAIL M7's
-  no-stretching check on most moves (the ox 1.8 to 2.8 times at the hem and under the neck; the stoat 1.3 to 1.6),
-  which must pass before either goes in.
-  **At 18:19:** the stretch check now passes on every move of both, and the Wickstoat is good (nine spines, amber
-  sparks). **But the Hoarmantle does not yet look like Chris's sheet** (a box with a flat hem, thin striped horns,
-  loose shards for the brow), and the hub sent it back a second time: shape the sculpt from the sheet's own
-  outlines and measure the overlap in each view (0.90 side, 0.85 front and back). **Do not bring this branch in
-  until its slip's first line no longer says "NOT DONE: the Hoarmantle's look", and a hub has looked at
-  `game/battle/models/m7/peak/for-chris/hoarmantle-beside-sheet.webp` and found the same animal in both rows.**
+- `job/peak-creatures` (`da438fb`, 19:53): **done, and looked at by the hub.** Both creatures are built Chris's way
+  (sculpts of over a million triangles, baked onto light models, painted from his sheets) and both pass M7's
+  no-stretching check on every move. **The Wickstoat is good** (nine spines, amber sparks). **The Hoarmantle** took
+  four rounds: its outline now matches his sheet (0.94 in every view) and its face is sharp (nose, mouth, calm
+  pale-blue eyes; Chris asked for that fix himself). **Still softer than his sheet, and said so to him:** the hair
+  is a soft streaked surface where his has layered locks, and the horns are paler and more banded than his. The
+  brow ice is painted on, not raised. He has the pictures; whether it gets another round on hair and horns is his
+  call. Its slip says how the tools (Blender 4.0 among them) are set up on a new machine.
 
 **Why there is a handoff.** Chris's week of Fable usage reached 84%. The hub's conversation had grown so long that
 every step in it was costly, so he starts a fresh one. **A new hub cannot talk to the old hub's sub-agents and will
