@@ -66,12 +66,13 @@
     const sh = lookOf(k).shadow || 0.6; v.shadow.scale.set(sh, sh * 0.8, 1);
     return v;
   }
-  function frame(v, ortho) {
+  function frame(v, ortho, zoom) {
     const w = v.cv.clientWidth || window.innerWidth, h = v.cv.clientHeight || window.innerHeight;
     if (v.cv.width !== Math.round(w * v.r.getPixelRatio())) v.r.setSize(w, h, false);
     const box = new T.Box3().setFromObject(v.m.F.mesh), H = Math.max(box.max.y, 1.7);
-    if (ortho) {      // a flat view, as a model sheet draws it: the creature alone, filling the picture
-      const c = box.getCenter(new T.Vector3()), sz = box.getSize(new T.Vector3()), half = Math.max(sz.y * 0.62, Math.max(sz.x, sz.z) * 0.62 * h / w);
+    if (ortho) {      // a flat view, as a model sheet draws it: the creature alone, filling the picture (or, zoom 'face', its face)
+      let c = box.getCenter(new T.Vector3()), sz = box.getSize(new T.Vector3()), half = Math.max(sz.y * 0.62, Math.max(sz.x, sz.z) * 0.62 * h / w);
+      if (zoom === 'face') { c = v.m.anchor('head').add(new T.Vector3(0, -0.05, 0.28).applyQuaternion(v.m.root.quaternion)); half = 0.36 * Math.max(1, h / w); }
       v.ortho.left = -half * w / h; v.ortho.right = half * w / h; v.ortho.top = half; v.ortho.bottom = -half; v.ortho.updateProjectionMatrix();
       v.ortho.position.set(c.x, c.y, 30); v.ortho.lookAt(c.x, c.y, 0); return v.ortho;
     }
@@ -101,7 +102,7 @@
     else { for (let i = 0; i < 30; i++, t += dt) v.m.animate(0, 0, t, dt); v.m.play(act, true); const D = v.m.ACTIONS[act].dur * (o.u == null ? 0.5 : o.u);
       for (let s = 0; s < D - 1e-6; s += dt, t += dt) v.m.animate(0, 0, t, Math.min(dt, D - s)); }
     if (v.witch && v.witch.animate) v.witch.animate(0, 0, t, 0);
-    const cam = frame(v, !!o.ortho); v.r.render(v.scene, cam);
+    const cam = frame(v, !!o.ortho, o.zoom); v.r.render(v.scene, cam);
     const box = new T.Box3().setFromObject(v.m.F.mesh);
     return { act, height: +v.m.height.toFixed(2), triangles: v.r.info.render.triangles, size: box.getSize(new T.Vector3()).toArray().map((x) => +x.toFixed(2)), lit: v.m.lit };
   }

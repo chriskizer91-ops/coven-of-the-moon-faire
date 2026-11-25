@@ -133,10 +133,29 @@
       for (let j = nc - 2; j >= 0; j--) edge.push(at(nr - 1, j)); for (let i = nr - 2; i > 0; i--) edge.push(at(i, 0));
       for (let e = 0; e < edge.length; e++) { const a = edge[e], b = edge[(e + 1) % edge.length]; quad(outer[a], outer[b], inner[b], inner[a]); }
       const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(pos, 3)); g.computeVertexNormals();
-      const helmMat = new T.MeshPhongMaterial({ color: Hm.ice, specular: 0x9fc8dc, shininess: 70, flatShading: true, transparent: true, opacity: Hm.opacity, depthWrite: false, side: T.DoubleSide, emissive: new T.Color(Hm.glow) });
+      const helmMat = new T.MeshPhongMaterial({ color: Hm.ice, specular: 0x4a6878, shininess: 40, flatShading: true, transparent: true, opacity: Hm.opacity, depthWrite: false, side: T.DoubleSide, emissive: new T.Color(Hm.glow) });
       const mesh = new T.Mesh(g, helmMat); mesh.renderOrder = 2;
       const o = hang(F, meta, 'head', new T.Vector3()); o.add(mesh);
       f.helm = { mesh, mat: helmMat };
+    }
+    // the face, sharp from Chris's sheet: thin skins on the sculpt's own face with the sheet's front and side views of
+    // it, and two small pale-blue eyes (data: hoarmantle/face.js, made by peak/src/face.py)
+    if (P.face) {
+      const o = hang(F, meta, 'head', new T.Vector3()), FC = P.face, mats = {};
+      for (const k in FC.pictures) { const tx = new T.TextureLoader().load(FC.pictures[k]); tx.encoding = T.sRGBEncoding; tx.anisotropy = 4;
+        mats[k] = new T.MeshStandardMaterial({ map: tx, emissiveMap: tx, emissive: new T.Color(0xffffff), emissiveIntensity: P.faceLift, roughness: 0.9, metalness: 0,
+          transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }); }
+      for (const sk of FC.skins) {
+        const pos = new Float32Array(sk.p.length * 3), uv = new Float32Array(sk.uv.length * 2);
+        sk.p.forEach((q, i) => { const v = toModel(q); pos[i * 3] = v.x; pos[i * 3 + 1] = v.y; pos[i * 3 + 2] = v.z; uv[i * 2] = sk.uv[i][0]; uv[i * 2 + 1] = 1 - sk.uv[i][1]; });
+        const g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(pos, 3)); g.setAttribute('uv', new T.BufferAttribute(uv, 2));
+        g.setIndex([].concat(...sk.t)); g.computeVertexNormals();
+        const m = new T.Mesh(g, mats[sk.picture]); m.renderOrder = 1; o.add(m); }
+      const eyeM = new T.MeshStandardMaterial({ color: P.eye, emissive: new T.Color(P.eyeGlow), roughness: 0.25 }), pupM = new T.MeshBasicMaterial({ color: 0x0a0c10 });
+      for (const e of FC.eyes) { const v = toModel(e), r = P.eyeSize;
+        const ball = new T.Mesh(new T.SphereGeometry(r, 12, 8), eyeM); ball.position.copy(v); ball.scale.set(1, 0.85, 0.6); o.add(ball);
+        const pup = new T.Mesh(new T.SphereGeometry(r * 0.55, 8, 6), pupM); pup.position.copy(v).add(new T.Vector3(0, 0, r * 0.4)); pup.scale.set(1, 1, 0.5); o.add(pup); }
+      f.face = { mats };
     }
     const breath = pool(40, P.breath.size, true); root.add(breath.pts);
     const snow = pool(44, P.snow.size, true); root.add(snow.pts);
@@ -165,6 +184,7 @@
       if (!act && !(wb > 0.5)) { nextHuff -= dt; if (nextHuff <= 0) { puff(6, 0.5, 0.25, 1.1); nextHuff = P.huffEvery * (0.7 + 0.6 * Math.random()); } }
       const fade = f.material.opacity * (F.mesh.visible ? 1 : 0);
       if (f.helm) { f.helm.mat.opacity = P.helm.opacity * fade; f.helm.mesh.visible = fade > 0.01; }
+      if (f.face) for (const k in f.face.mats) f.face.mats[k].opacity = fade;
       breath.update(dt, fade); snow.update(dt, fade);
     };
     f.stats.peak = { breath: 40, snow: 44 };

@@ -24,12 +24,14 @@ window.M7.add('hoarmantle', {
     sheet: { m: 2.1 / 554, mid: 757, ground: 788 },
     // the brow ice (made in the page, clear): rows of points from the back of the slab to its lower edge, left to right,
     // in the sheet's pixels: [across, px along (side view), py down]; centre: the head's middle (px, py); thick: px
-    helm: { centre: [1040, 520], thick: 12, ice: 0xa9d8ec, opacity: 0.72, glow: 0x14242e, rows: [
+    helm: { centre: [1040, 520], thick: 16, ice: 0x9fcfe6, opacity: 0.6, glow: 0x10202a, rows: [
       [[-60, 965, 425], [-30, 960, 412], [0, 958, 408], [30, 960, 412], [60, 965, 425]],
       [[-78, 1010, 440], [-40, 1020, 425], [0, 1025, 420], [40, 1020, 425], [78, 1010, 440]],
       [[-82, 1050, 462], [-42, 1065, 450], [0, 1075, 445], [42, 1065, 450], [82, 1050, 462]],
       [[-76, 1070, 472], [-38, 1090, 480], [0, 1102, 497], [38, 1090, 480], [76, 1070, 472]] ] },
-    nose: [1116, 556],                    // where the breath comes from (sheet pixels, side view)
+    nose: [1116, 556],
+    faceLift: 0.35,                       // the face's own picture, lifted a little so it reads as his painting does at night
+    eye: 0x86bcd8, eyeGlow: 0x102028, eyeSize: 0.015,   // small calm pale-blue eyes                    // where the breath comes from (sheet pixels, side view)
     huffEvery: 6.0,                       // a huff of frost now and then when it stands (seconds, about)
     breath: { color: 0xa8c4d8, bright: 0.32, size: 0.32, reach: 2.6, long: 1.1 },   // Winter Breath: its colour, how bright, how far, how long
     snow: { color: 0xc8d4e0, ice: 0x9fd8ec, iceShare: 0.3, bright: 0.45, size: 0.07, from: 2.0, wide: 0.6, long: 2.4 },

@@ -40,7 +40,7 @@ HOLLOW_TOP = 0.78                  # how high the hollow under the hair reaches 
 WOOL = np.array([0.56, 0.62, 0.70]); WOOL2 = np.array([0.80, 0.84, 0.89]); FROSTW = np.array([0.87, 0.91, 0.94])
 HIDE = np.array([0.23, 0.25, 0.28]); HORN = np.array([0.45, 0.37, 0.31]); HORN2 = np.array([0.60, 0.55, 0.52])   # the sheet's horn brown, the tips paler
 ICE = np.array([0.66, 0.85, 0.93]); ICE2 = np.array([0.82, 0.93, 0.97]); HOOF = np.array([0.17, 0.17, 0.19])
-EYE = np.array([0.62, 0.80, 0.90])
+EYE = np.array([0.72, 0.87, 0.96])
 
 def build(K):
     Sd, G, LV, VOX, SIDES, SEG = K.sdf, K.geom, K.LV, K.VOX, K.SIDES, K.SEG
@@ -250,7 +250,7 @@ def build(K):
     for s in (1, -1):
         c = curve([p(s * 62, 995, 462), p(s * 112, 962, 468), p(s * 150, 918, 505), p(s * 158, 908, 560),
                    p(s * 146, 932, 605), p(s * 118, 985, 614), p(s * 90, 1030, 592), p(s * 74, 1054, 562)],
-                  40)                                   # the same at every level, so the bake finds it
+                  120)                                  # the same at every level, so the bake finds it; fine enough for thin rings
         u = np.linspace(0, 1, len(c))
         rad = (36 * (1 - u) ** 0.7 + 6) * S                 # broad and heavy at the root, as the sheet draws them
         V, F = G.tube(c, rad, 14, ridges=10, ridge_amp=0.04)
@@ -283,11 +283,7 @@ def build(K):
     used = np.unique(F); remap = -np.ones(len(pts), int); remap[used] = np.arange(len(used))
     # (the brow ice is made in the page as clear faceted ice, peak/peak-foe.js: a baked picture cannot be see-through)
 
-    # ---- eyes: small, calm, pale blue ----
-    for e in EYES:
-        V, F = G.ellipsoid(e, r(10, 9, 8), {0: 6, 1: 8, 2: 12, 3: 16}[LV], {0: 10, 1: 14, 2: 20, 3: 28}[LV])
-        cc = np.tile(EYE, (len(V), 1)); cc[np.linalg.norm((V - e) / r(10, 9, 8) - np.array([0, 1, 0]), axis=1) < 0.5] = [0.05, 0.06, 0.08]
-        M.add(V, F, cc, 8, mat=(0.2, 0.0))
+    # (the eyes and the face's own picture are made in the page, sharp from the sheet: peak/peak-foe.js, hoarmantle/face.js)
 
     # ---- icicles: on the hair's ends round the hem, under the snow's shelves, under the horns ----
     log('icicles')
