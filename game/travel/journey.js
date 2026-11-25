@@ -115,8 +115,9 @@
         const ok = asMoment ? st.moment('leaving', fin) : P.play(lines, null, fin);
         if (!ok && ++tries < 30) return void setTimeout(start, 200);     // (the land may take a moment to start again after the map)
         if (!ok) return fin();
-        // whatever happens, the next page opens: after the lines' own time, with room for their recordings
-        setTimeout(fin, (lines.reduce((t, l) => t + (l.secs || 4) + 3, 0) + 15) * 1000);
+        // whatever happens, the next page opens: if the lines end without saying so (another talk took their place), once
+        // nobody has been speaking for 3 seconds (the menu held open only pauses them, and does not count)
+        let idle = 0; const iv = setInterval(() => { if (over) return clearInterval(iv); idle = P.busy() ? 0 : idle + 1; if (idle >= 3) { clearInterval(iv); fin(); } }, 1000);
       };
       start();
     } catch (e) { console.error(e); fin(); }
