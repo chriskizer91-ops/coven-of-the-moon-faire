@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 25, 2026, 23:15, by the hub.
+Last updated: November 26, 2026, 04:55, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -88,13 +88,32 @@ ceiling was 1.5; nothing is shrunk without Chris's word).
 | `fights-polish` | `job/fights-polish` | **In `main` since November 25, 07:05 (`31fee0f`).** A fight on an upright phone fills the screen (a witch 125 to 206 px tall at 412x880; she was 60 to 70). The camera's numbers are one block of data, `FRAMING` in `game/battle/screen.js`. "Skip intro" is 44 px tall and under the frame-rate words. White sage can be used in a fight (a stand-in: Lavender's heal). `encounter-test` on zone 1 runs whole (39 good). One foe maker, `makeM7Foe`. New check: `tools/battle-frame-test.py` | `docs/slips/fights-polish.md` |
 | `small-things` | `job/small-things` | **In `main` since November 25, 08:00.** Eleven items, each put right or said why not (the slip has a table): the phone's talk box, the end card's button, the front door's line, the corner map painted behind the Begin screen, the flight's edge labels, lanterns on the ships of zones 2 and 3, the leaving said after "Set course", zone 3's flight out starts over the slip | `docs/slips/small-things.md` |
 | `left-overs` | `job/left-overs` | **In `main` since November 25, 16:50 (`60c8584`).** Every page under 95 MB; flames lean north-east; the bent knees proved put right | `docs/slips/left-overs.md` |
-| `fight-camera` | `job/fight-camera` | **Started 09:40. Fable 5.2, high, as Chris asked.** Close-ups that cut in on whoever acts and back out; shots that fit a giant foe without the party shrinking; the ground's edge never in view; damage numbers that do not pile up. Laptop first | `docs/slips/fight-camera.md` |
+| `fight-camera` | `job/fight-camera` | **In `main` since November 26, 04:50 (`c5235d5`).** Three camera beats to a move; giants loom; the ground has no edge; numbers keep apart | `docs/slips/fight-camera.md` |
 | `fights-tune` | `job/fights-tune` | **Started 09:40.** A meeting about every 50 to 65 m in the wilds (it was 100 to 130), each giving less so the levels fit; the Forge-Spark about 0.75 m with a stronger glow, the Wickstoat about 0.8 m; the Glowcaps stay | `docs/slips/fights-tune.md` |
 | `leader` | `job/leader` | **Started 09:40.** A place in the menu to choose which of the four witches walks; kept in the save slot and carried from page to page | `docs/slips/leader.md` |
 | `last-foe` | `job/last-foe` | **In `main` since November 25, 23:10 (`c644a0f`).** The fire's own model in both forms; the card with four strengths; the knight found, not built | `docs/slips/last-foe.md` |
 
 When each has "Report for the hub" at the top of its slip: review it, bring it in, run the checks its files touch,
 send Chris a set of builds.
+
+### Newest (November 26, 04:55)
+
+- **`fight-camera` is in `main` (`c5235d5`)**, and so on the published link. Only `game/battle/screen.js` and two
+  tools changed. Its own checks: the frame check with `--shots` 287 good at 1280x720 (seven fights), 129 at 1600x750,
+  156 on an upright phone, the few misses mended and run again; three fights played to their ends and won;
+  `battle-start-test` passed. **`battle-test` reached only 6 of its 8 fights before a time limit: the hub is running
+  it whole on the joined game** (log: the session scratchpad, `stage5/battle-test.log`, with `stage5/builds.txt`).
+- **Rough, from that job:** a close-up on one witch also shows her neighbours; where the painting meets its mirror a
+  second moon can show in low upward shots; in zone 1's first slot one "both foes" shot on an upright phone cuts the
+  wraith's robe by 29 px; about 31,400 more grass tufts are drawn (three quarters of that on a touch screen), so the
+  frame rate in a fight is the thing for Chris to read.
+- **`encounter-test` on zone 4 `--long-only` now FAILS 4 checks, all one cause:** its self-playing coven, at level
+  16, loses the fire's first form to the four helpers (Chris's plan has four; on this game's rules they weigh a lot).
+  Not a fault in the code: it is Chris's call E1. Until he answers, that check fails, and a careful level-20 coven
+  wins Easy 44 times in 100. `battle-start-test` on the last-foe build passed; the final form's pictures were taken
+  and show it breaking open.
+- **Awake now:** `fights-tune` and `leader`. After them: the nine big fights played again; `noctara.js` taken out of
+  the pages; the "Sol knows that stance." leftover in `screen.js` (`retreatEnding` calls `recognize()`).
 
 ### Newest (November 25, 23:15)
 
@@ -823,7 +842,7 @@ The hub's plan. Names and order may change.
 | `fights-polish` | A fight on an upright phone, and the fights' small things (a sub-agent) | `job/fights-polish` | `docs/slips/fights-polish.md` | **In `main`, November 25, 07:05** |
 | `small-things` | The rough spots of the journey and the land (a sub-agent) | `job/small-things` | `docs/slips/small-things.md` | **In `main`, November 25, 08:00** |
 | `left-overs` | Bent knees, leaning flames, every page under 95 MB (a sub-agent) | `job/left-overs` | `docs/slips/left-overs.md` | **In `main`, November 25, 16:50** |
-| `fight-camera` | Close-ups in a fight, shots by the foe's size (a sub-agent, Fable 5.2) | `job/fight-camera` | `docs/slips/fight-camera.md` | **Started November 25, 09:40** |
+| `fight-camera` | Close-ups in a fight, shots by the foe's size (a sub-agent, Fable 5.2) | `job/fight-camera` | `docs/slips/fight-camera.md` | **In `main`, November 26, 04:50** |
 | `fights-tune` | Foes met more often; the tiniest foes bigger (a sub-agent) | `job/fights-tune` | `docs/slips/fights-tune.md` | **Started November 25, 09:40** |
 | `leader` | Who walks: a choice in the menu (a sub-agent) | `job/leader` | `docs/slips/leader.md` | **Started November 25, 09:40** |
 | `last-foe` | The fire wears Moon Faire's final boss; where the knight's model is (a sub-agent) | `job/last-foe` | `docs/slips/last-foe.md` | **In `main`, November 25, 23:10** |

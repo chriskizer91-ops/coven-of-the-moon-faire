@@ -75,7 +75,7 @@ kept. Each of these is yours to change.
 
 | | The call | What the game does now | The other choice |
 |---|---|---|---|
-| E1 | **How hard it is.** A level-20 coven, played with care, wins Easy 44 times in 100, Medium 14, Hard 4, Crazy 1 (an expert: 70, 29, 10, 2). Before the helpers came in, the same player won every time | Four helpers stand with the fire's first form: two wraiths and two frost wisps. Nearly every lost fight is lost to them | Fewer or weaker helpers (my suggestion: two, so Easy is won about 3 times in 4), or your plan's "wraiths and brambles" |
+| E1 | **How hard it is.** A level-20 coven, played with care, wins Easy 44 times in 100, Medium 14, Hard 4, Crazy 1 (an expert: 70, 29, 10, 2). Before the helpers came in, the same player won every time. The game's own check of zone 4, which comes to the fire at level 16, now loses this fight | Four helpers stand with the fire's first form, as your Moon Faire plan says ("the big body with four helpers"): two wraiths and two frost wisps, at the fire's level. Nearly every lost fight is lost to them. Your plan's numbers were on Moon Faire's scale; on this game's rules four helpers weigh more | Two helpers on Easy and Medium, or helpers a level or two under the fire (my suggestion: measure both and take the one that lets a careful coven win Easy about 3 times in 4) |
 | E2 | How the first form ends | It stops at 45% of its Life; it cannot be sealed | Your plan: it falls when its Life is gone or Kore seals it |
 | E3 | The final form's numbers and end | Its own Life; no blow ends it; only Kore's Sealed Fate does | Your plan: the first form's body with 20% more Life and 10% bigger blows, ended in the Curtain Call |
 | E4 | A party lost in the final form | Starts again at the final form, and the card asks again | Your plan: the whole fight again from before the first form |
@@ -85,6 +85,7 @@ kept. Each of these is yours to change.
 | E8 | How fine the fire is drawn | 21,104 triangles, as you approved it | 10,724, as Envoi's page of this fight used |
 | E9 | The card's words ("How strong is the fire?") | Stand-ins. The four names are Moon Faire's own | Your words |
 | E10 | **The knight.** The only finished knight in your four games is the new Halcyon in Envoi (the base doll in the paladin outfit, about 50,000 triangles, a glow, motions borrowed from Io). Aethermoor M7 has no knight of light | The knight still wears the old stand-in | Bring the new Halcyon in (about half a day; about 6 MB more on zone 3's page, which has 4.8 MB of room: something else would have to give) or tell me where the one you mean is being built |
+| E11 | **The fight camera: cut or glide, and how long it stays close** | It cuts in on whoever begins a move (0.9 s), shows the hit (0.8 s), then backs out. A cut, not a glide: a fast glide swings through whoever stands between | A glide (one switch, `FRAMING.cuts.into` in `game/battle/screen.js`); longer or shorter holds (two numbers beside it) |
 
 ## The thirteen questions of November 18 (all answered)
 

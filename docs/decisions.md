@@ -13,6 +13,17 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 26, 2026, 04:55: the fight camera is in `main`
+
+- **Hub's call:** `job/fight-camera` (the Fable 5.2 sub-agent Chris asked for) was brought into `main` (`c5235d5`).
+  A move has three camera beats: close on whoever begins it, the hit, back out. A giant foe looms and may be cut by
+  the picture's edge; the party is no longer pulled back to fit it (beside the Great bramble a witch stood about 80
+  px tall on a 1600 by 750 screen; now 183 to 229). The arena's ground runs on into the painting; numbers keep apart.
+- **Hub's calls, Chris's to overturn** (`docs/questions.md`, E11): a cut, not a glide; 0.9 s close, 0.8 s on the hit.
+- **A correction to the entry below:** the four helpers with the fire's first form are Chris's own Moon Faire plan
+  ("the big body with four helpers"), not the job's choice. With them the game's own check of zone 4, which comes to
+  the fire at level 16, loses the last fight. How hard it should be stays Chris's call (E1).
+
 ## November 25, 2026, 23:15: the game is published; the fire wears its own model
 
 - **The game is published as linked pages** at the repo's GitHub Pages address (the second run of
