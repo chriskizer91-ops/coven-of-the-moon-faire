@@ -166,11 +166,13 @@ with sync_playwright() as p:
                         check(1 / 3 <= share <= 0.62, '%s: %s stands %d px tall, %.0f%% of the picture (a third to six tenths)' % (name, a, sub['hpx'], share * 100))
                         check(x0 >= 0 and x1 <= w and y0 >= 0 and y1 <= uiTop, '%s: %s is whole, above the panels (box %s)' % (name, a, sub['box']))
                     elif label == 'foe-front':
-                        if big: check(y0 >= 0 and share >= 0.5, '%s: the giant fills the picture from below, its top inside (%d px, %.0f%% of the picture; top at %d)' % (name, sub['hpx'], share * 100, y0))
+                        if big: check(sub.get('head', y0) >= 0 and share >= 0.5, '%s: the giant fills the picture from below, its head inside (%d px, %.0f%% of the picture; its stated height reaches %d px from the top; an arm above that may be cut)' % (name, sub['hpx'], share * 100, sub.get('head', y0)))
                         else: check(x0 >= 0 and x1 <= w and y0 >= 0 and y1 <= uiTop and sub['hpx'] >= 0.12 * h, '%s: the foe is whole, above the panels, and at least an eighth of the picture tall (%d px; box %s)' % (name, sub['hpx'], sub['box']))
                     elif label in ('shoulder', 'victim'):
                         fo = bx.get(foe); wi = bx.get(a if label == 'shoulder' else c)
-                        if fo: check(big or (fo['box'][0] >= 0 and fo['box'][2] <= w and fo['box'][1] >= 0), '%s: the foe beyond her is in the picture (box %s)' % (name, fo['box']))
+                        bigFoe = bool(fo and loom and (fo['tall'] > loom['tall'] or fo.get('halfW', 0) > loom['halfW']))
+                        if fo and bigFoe: check(0 <= fo['foot'][0] <= w, '%s: the giant beyond her is in the picture (it stands at %s; it may be cut by the edge)' % (name, fo['foot']))
+                        elif fo: check((fo['box'][0] >= 0 and fo['box'][2] <= w and fo['box'][1] >= 0), '%s: the foe beyond her is in the picture (box %s)' % (name, fo['box']))
                         if wi: check(wi['box'][1] < uiTop - 60 and wi['box'][2] > 0 and wi['box'][0] < w, '%s: the witch in front shows above the panels (her top at %d, panels from %d)' % (name, wi['box'][1], uiTop))
                     elif label in ('all-witches', 'all-foes'):
                         side = 'hero' if label == 'all-witches' else 'foe'

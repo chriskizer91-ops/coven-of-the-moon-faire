@@ -3300,7 +3300,7 @@
               for (const [dx, y, dz] of [[r, 0, 0], [-r, 0, 0], [0, 0, r], [0, 0, -r], [r, f.tall, 0], [-r, f.tall, 0]]) { const p = toScreen(v.set(f.pos.x + dx, y, f.pos.z + dz)); x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); } }
             // fight-camera: and how far it reaches to each side, and where on the screen the place it stands is (a giant may be cut by the edge)
             const foot = toScreen(v.set(f.pos.x, 0, f.pos.z));
-            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, nominal, box: [x0, y0, x1, y1].map((n) => Math.round(n)), hpx: Math.round(y1 - y0), mh: +(hi - Math.max(0, lo)).toFixed(2), halfW: (f.look && f.look.halfW) || 0, foot: [Math.round(foot[0]), Math.round(foot[1])] });
+            out.push({ key: f.key, side: f.side, kind: f.kind, tall: f.tall, nominal, box: [x0, y0, x1, y1].map((n) => Math.round(n)), hpx: Math.round(y1 - y0), mh: +(hi - Math.max(0, lo)).toFixed(2), halfW: (f.look && f.look.halfW) || 0, foot: [Math.round(foot[0]), Math.round(foot[1])], head: Math.round(toScreen(v.set(f.pos.x, f.tall, f.pos.z))[1]) });
           }
           const ui = $('ui'), en = $('enemy');
           return { w: view.w, h: view.h, shot: DIR.free ? DIR.last : 'painting', uiTop: ui && !ui.hidden ? view.h - ui.offsetHeight : view.h, enemyBottom: en && !en.hidden ? en.offsetTop + en.offsetHeight : 0, fighters: out };
