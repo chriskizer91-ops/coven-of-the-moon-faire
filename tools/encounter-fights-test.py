@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """encounter-fights-test.py: every new fight, played to its end with no screen (the fights job, step 4).
 
-    python3 tools/encounter-fights-test.py builds/fights-lab.html [--only zone-1-A,knightOfLight] [--style expert] [--turbo 60]
+    python3 tools/encounter-fights-test.py builds/fights-lab.html [--only zone-1-A,knightOfLight] [--style expert] [--turbo 60] [--size 1280x720]
 
 On the fights job's own small page (game/pages/fights-lab.html) it starts each new fight the way the land starts it
 (CovenBattle.start), lets the battle play itself, sped up, leaves the end card, and checks:
@@ -21,6 +21,7 @@ from playwright.sync_api import sync_playwright
 args = sys.argv[1:]; page_file = os.path.abspath(args[0])
 opt = lambda k, d: args[args.index(k) + 1] if k in args else d
 ONLY = [x for x in opt('--only', '').split(',') if x]; STYLE = opt('--style', 'expert'); TURBO = int(opt('--turbo', '60'))
+SIZE = [int(v) for v in opt('--size', '320x180').split('x')]      # left-overs: the window's size (320 by 180 unless asked), so a fight can be played at 1280 by 720
 errors, fails = [], []
 def check(ok, text):
     print(('  ok    ' if ok else '  FAIL  ') + text, flush=True)
@@ -45,7 +46,7 @@ RUN = """async ([id, style, turbo]) => {
 
 with sync_playwright() as p:
     b = p.chromium.launch(channel='chrome', headless=True, args=['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl'])
-    pg = b.new_page(viewport={'width': 320, 'height': 180})
+    pg = b.new_page(viewport={'width': SIZE[0], 'height': SIZE[1]})      # left-overs: was 320 by 180 always
     pg.on('pageerror', lambda e: errors.append('pageerror: ' + str(e)))
     pg.on('console', lambda m: errors.append('console: ' + m.text) if m.type == 'error' else None)
     pg.goto('file://' + page_file, wait_until='load', timeout=180000)
@@ -62,6 +63,7 @@ with sync_playwright() as p:
         r, began = x['r'], x['began']
         ids = [q['id'] for q in began['foes']]
         print('%s (the %s player, level %d): %s, level%s %s; %s in %.0f s; %d experience' % (f['name'], STYLE, f['level'], ', '.join(ids), 's' if len(ids) > 1 else '', ', '.join(str(q['level']) for q in began['foes']), r['result'], time.time() - t0, r['xp']))
+        print('  (%d turns; the foes left: %s)' % (x['turns'], ', '.join('%s %d of %d' % (q['id'], q['hp'], q['max']) for q in x['foesLeft'])), flush=True)      # left-overs: how each fight ended
         check(len(began['heroes']) == 4 and began['layer'], 'all four witches fought, in the battle\'s own layer')
         check(r['result'] in ('won', 'lost', 'fled') and not x['layerAfter'], 'it played to its end (%s, %d turns) and its layer went' % (r['result'], x['turns']))
         if f['group'] == 'slots':

@@ -524,11 +524,11 @@
         const flameCol = (base, h) => (v) => { const t = clamp((v.y - base) / h, 0, 1); return [1.5 - 0.3 * t, 1.12 - 0.82 * t, 0.55 - 0.5 * t]; };
         soft(() => {
           const fl = new T3.ConeGeometry(1, 1, 7, 3, true);
-          for (let i = 0; i < 9; i++) {
+          (B.leaning || ((yy, fn) => fn()))(y + 0.12, () => { for (let i = 0; i < 9; i++) {      // Coven (left-overs, November 25, 2026): the flames lean
             const a = i / 9 * TAU + R(), d = i === 0 ? 0 : 0.12 + R() * 0.22, hh = i === 0 ? 1.05 : 0.45 + R() * 0.45, rr = i === 0 ? 0.24 : 0.09 + R() * 0.08;
             const fx_ = x + Math.cos(a) * d, fz_ = z + Math.sin(a) * d, base = y + 0.12;
             B.geom('flame', fl, new T3.Matrix4().compose(new T3.Vector3(fx_, base + hh / 2, fz_), new T3.Quaternion().setFromEuler(new T3.Euler((R() - 0.5) * 0.25, R() * TAU, (R() - 0.5) * 0.25)), new T3.Vector3(rr, hh, rr)), flameCol(base, hh), 1);
-          }
+          } });      // Coven (left-overs): end of the leaning flames
           fl.dispose();
           // the embers under them
           B.geom('flame', K.rockG[0], new T3.Matrix4().compose(new T3.Vector3(x, y + 0.02, z), new T3.Quaternion(), new T3.Vector3(0.55, 0.12, 0.5)), [0.95, 0.3, 0.08], 1);

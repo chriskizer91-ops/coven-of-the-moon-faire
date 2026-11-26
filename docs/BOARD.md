@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 25, 2026, 08:00, by the hub.
+Last updated: November 25, 2026, 21:05, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -87,10 +87,66 @@ ceiling was 1.5; nothing is shrunk without Chris's word).
 |---|---|---|---|
 | `fights-polish` | `job/fights-polish` | **In `main` since November 25, 07:05 (`31fee0f`).** A fight on an upright phone fills the screen (a witch 125 to 206 px tall at 412x880; she was 60 to 70). The camera's numbers are one block of data, `FRAMING` in `game/battle/screen.js`. "Skip intro" is 44 px tall and under the frame-rate words. White sage can be used in a fight (a stand-in: Lavender's heal). `encounter-test` on zone 1 runs whole (39 good). One foe maker, `makeM7Foe`. New check: `tools/battle-frame-test.py` | `docs/slips/fights-polish.md` |
 | `small-things` | `job/small-things` | **In `main` since November 25, 08:00.** Eleven items, each put right or said why not (the slip has a table): the phone's talk box, the end card's button, the front door's line, the corner map painted behind the Begin screen, the flight's edge labels, lanterns on the ships of zones 2 and 3, the leaving said after "Set course", zone 3's flight out starts over the slip | `docs/slips/small-things.md` |
-| `left-overs` | `job/left-overs` | **Started November 25, 07:10.** Small people's bent knees (`solveLimb` in `game/witches/kore/jester_kit.js`); the nine big fights played again; flames that lean north; a report on what a zone page's 100 MB are made of (it changes nothing there) | `docs/slips/left-overs.md` |
+| `left-overs` | `job/left-overs` | **In `main` since November 25, 16:50 (`60c8584`).** Every page under 95 MB; flames lean north-east; the bent knees proved put right | `docs/slips/left-overs.md` |
+| `fight-camera` | `job/fight-camera` | **Started 09:40. Fable 5.2, high, as Chris asked.** Close-ups that cut in on whoever acts and back out; shots that fit a giant foe without the party shrinking; the ground's edge never in view; damage numbers that do not pile up. Laptop first | `docs/slips/fight-camera.md` |
+| `fights-tune` | `job/fights-tune` | **Started 09:40.** A meeting about every 50 to 65 m in the wilds (it was 100 to 130), each giving less so the levels fit; the Forge-Spark about 0.75 m with a stronger glow, the Wickstoat about 0.8 m; the Glowcaps stay | `docs/slips/fights-tune.md` |
+| `leader` | `job/leader` | **Started 09:40.** A place in the menu to choose which of the four witches walks; kept in the save slot and carried from page to page | `docs/slips/leader.md` |
+| `last-foe` | `job/last-foe` | **Started 09:40.** The fire's two forms wear Moon Faire's final boss (`moon-faire` `game/models/foes/final-fire/final-fire.js`) in place of Noctara's model; and a search of the four sources for the knight's model (found out, not built) | `docs/slips/last-foe.md` |
 
 When each has "Report for the hub" at the top of its slip: review it, bring it in, run the checks its files touch,
 send Chris a set of builds.
+
+### Where things stand (November 25, 21:05)
+
+- **`left-overs` is in `main` (`60c8584`). Every page is under 100 MB as a file:** zone 1 89.0 MB, zone 2 81.0,
+  zone 3 90.2, zone 4 81.9, the Faire ending 67.1. Nothing seen or heard was made lighter: the builder now packs each
+  picture and sound once (a table at the top of the page), and zone 1 carries only the 43 zone-4 recordings its
+  ending plays (`tools/voice-list.py z4` writes two files now: commit both). The builder says the real size, warns
+  from 95 MB and stops at 100. Room left under 95: zone 1 6.0 MB, zone 2 14.0, zone 3 4.8, zone 4 13.1. If a page
+  grows again: leave the code's comments out of the built page (about 1.8 MB a page).
+- Also from it: **flames lean north-east** (the lines say north-east eight times, north once), 3 degrees for each of
+  Odile's fingers, as data in `game/look/flame-lean.js`; lanterns have see-through glass and a small flame. Not
+  leaning: fires built of glowing blocks, painted lanterns (Old Bridie's among them), the halos. The small people's
+  bent knees were already put right in `main` by the journey job; the job proved it with pictures.
+- The hub's checks on the lighter pages: journey 63 good, zones 28, 21, 25 and 19, 0 failed (the job itself ran
+  story 61/64/76, people 134, menu 57, fights on zone 3 35, Faire 72, townsfolk 385 on the same files).
+- **Publishing:** `.github/workflows/pages.yml` builds the six pages on GitHub and puts them out as linked pages on
+  every change to `game/` in `main`. **It needs Chris to turn Pages on once** (the repo's Settings, Pages, Source:
+  "GitHub Actions"); until then its last step fails. The link will be the repo's Pages address.
+- **The usage limit stopped the jobs a second time** (about 17:30). Since 21:00 two are awake at a time: first
+  `last-foe` and `fight-camera`, then `fights-tune`, then `leader`. Each is woken with a message.
+- **Still to do after them:** the nine big fights played again on the joined game (`tools/battle-frame-test.py
+  --only greatWraith,...` reaches them; `tools/encounter-fights-test.py` takes `--size`).
+
+### Usage, and which jobs are awake (November 25, 15:35)
+
+- **All five jobs were stopped at about 11:00 by the account's 5-hour usage limit** (five at once used it up in about
+  an hour and a half). Nothing was lost: each had pushed its branch. Chris, 15:00: the 5-hour window is full again,
+  and **24% of the week's usage is left.** So: three jobs at a time, and finish jobs before starting more.
+- **Awake since 14:55:** `left-overs` (page sizes), `fight-camera`, `last-foe` (also, on Chris's word of 10:40: the
+  card before the last fight, easy, medium, hard or crazy, levels 20, 21, 22 and 22.8, helpers first and then alone,
+  the party refilled between the two forms, from Moon Faire's `game/plan/finalboss/final-fight.json`).
+- **Held back, to be woken with a message when one of those reports:** `fights-tune` (last commit `bfd7daf`) and
+  `leader` (last commit `c42838d`). A stopped sub-agent is woken with a message and carries on from its slip's log.
+- **Chris's 20 recordings are in `main` (`4c7d6bc`):** the held Warden's 2 lines and the narrator's 18 for zone 4.
+  Zone 4 has all 144 voices; `story-test` on zone 4 is 76 good, 0 failed. Zone 1 and zone 4, rebuilt with them and
+  checked (journey 63, zones 28 and 19, Faire 72), went to Chris at 15:00. As files they are 126.2 and 101.9 MB.
+- He tests from a folder on his laptop, with `index.html` as the front door. A new file must replace the old one of
+  the same name, or his browser renames it and the front door cannot find it.
+
+### Chris played it on his laptop (November 25, 09:15): what he said, and what the hub does next
+
+- His words are in `docs/decisions.md` (the entry of 09:15). In short: every page under 100 MB and published on
+  GitHub as linked pages, still one file each that runs from a download; the laptop first; close-ups in a fight;
+  foes more often; the tiniest foes bigger; the fire wears Moon Faire's final boss; any of the four witches leads.
+- **A third set of builds was made and checked at 09:27 (`ffadd76`: both repair jobs in) and NOT sent:** every check
+  good (journey 63, phone parts 23, zones 28/21/25/19, story 61/64/74 with zone 4's 2 expected, flight 64, Faire 72,
+  maps 108, fights on zone 1 34, frame check 55). A new download beside the old gets another name from his browser,
+  and the front door then cannot find it: that was his "file not found". The next thing he gets is the link.
+- **The hub's next steps, in order:** bring in each of the five jobs as it reports (camera and last-foe both touch the
+  battle: join with care); when every page is under 100 MB, publish. **Publishing needs one setting only Chris can
+  change** (the repo's Settings, Pages); the plan is a workflow that builds the pages on GitHub and puts them out, so
+  no built page is kept in git. Then have the nine big fights played again on the joined game.
 
 ### Waiting on Chris
 
@@ -746,7 +802,11 @@ The hub's plan. Names and order may change.
 | `peak-creatures` | The Wickstoat and the Hoarmantle, built from Chris's sheets, for zone 4 (a sub-agent) | `job/peak-creatures` | `docs/slips/peak-creatures.md` | **Done, in `main`** (November 25, 03:50) |
 | `fights-polish` | A fight on an upright phone, and the fights' small things (a sub-agent) | `job/fights-polish` | `docs/slips/fights-polish.md` | **In `main`, November 25, 07:05** |
 | `small-things` | The rough spots of the journey and the land (a sub-agent) | `job/small-things` | `docs/slips/small-things.md` | **In `main`, November 25, 08:00** |
-| `left-overs` | Bent knees, the nine big fights again, leaning flames, a size report (a sub-agent) | `job/left-overs` | `docs/slips/left-overs.md` | **Started November 25, 07:10** |
+| `left-overs` | Bent knees, leaning flames, every page under 95 MB (a sub-agent) | `job/left-overs` | `docs/slips/left-overs.md` | **In `main`, November 25, 16:50** |
+| `fight-camera` | Close-ups in a fight, shots by the foe's size (a sub-agent, Fable 5.2) | `job/fight-camera` | `docs/slips/fight-camera.md` | **Started November 25, 09:40** |
+| `fights-tune` | Foes met more often; the tiniest foes bigger (a sub-agent) | `job/fights-tune` | `docs/slips/fights-tune.md` | **Started November 25, 09:40** |
+| `leader` | Who walks: a choice in the menu (a sub-agent) | `job/leader` | `docs/slips/leader.md` | **Started November 25, 09:40** |
+| `last-foe` | The fire wears Moon Faire's final boss; where the knight's model is (a sub-agent) | `job/last-foe` | `docs/slips/last-foe.md` | **Started November 25, 09:40** |
 
 **Who owns which files, so two conversations never write the same one:**
 

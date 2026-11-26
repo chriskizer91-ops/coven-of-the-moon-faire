@@ -70,6 +70,9 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
   <div id="numbers"><b id="fps">…</b> frames a second<small id="more"></small></div></div>
 <div id="load"><div><h1>Coven of the Moon Faire</h1><h2>Zone 1: Wickhollow and the fen</h2><p id="loadmsg">Loading…</p></div></div>
 <script src="../lib/three.r128.min.js"></script>
+<!-- left-overs job: start: every flame on the land leans north-east, by the numbers in this one file -->
+<script src="../look/flame-lean.js"></script>
+<!-- left-overs job: end -->
 <script src="../witches/io/meshopt_simplifier.js"></script>
 <script src="../witches/io/palette.js"></script>
 <script src="../witches/io/io_tex.js"></script>
@@ -204,7 +207,8 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../travel/journey-data.js"></script>
 <!-- the ending at the Faire, after the last flight home (game/people/faire-ending.js, the zone-4 job's): its lines are zone 4's. Loaded always; started only when the page opens as the ending -->
 <script src="../talk/zone-4.js"></script>
-<script src="../people/voice-z4.js"></script>
+<!-- left-overs: only the zone 4 lines this page can play (the Faire and the homecoming), not all of them: about 5 MB less (tools/voice-list.py z4 writes both lists) -->
+<script src="../people/voice-z4-faire.js"></script>
 <script src="../places/zone-4-sky.js"></script>
 <script src="../people/faire-ending.js"></script>
 <script src="../travel/journey.js"></script>
