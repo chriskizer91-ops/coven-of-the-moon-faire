@@ -56,12 +56,19 @@
   // ---- the geometry builder ----
   // Each material key gathers positions, normals, uvs (in metres: the shader repeats its texture every so many metres)
   // and colours (a tint per piece). build() gives one mesh per key.
+  // Coven (left-overs, November 25, 2026): the numbers every leaning flame reads (game/look/flame-lean.js sets them;
+  // without that file they stay 0 and nothing leans)
+  W3D.leanUniforms = () => W3D.LEAN_U || (W3D.LEAN_U = { uLean: { value: new THREE.Vector3(0, 0, 0) }, uLeanF: { value: 0 } });
   W3D.Builder = function () {
     const B = {};
     // every piece that stands up, as { k: material, poly: its footprint in metres, y0, y1 }: world.js makes the ones that
     // stand in Io's way solid. api.solid = false while building something she should walk on (or through)
     const SOLIDS = [];
     const get = (k) => B[k] || (B[k] = { p: [], n: [], u: [], c: [] });
+    // Coven (left-overs, November 25, 2026): a flame's corners remember how far above its root each is (B.leaning), so
+    // the shader can lean it (game/look/flame-lean.js); every other corner remembers 0 and stays where it is
+    let leanRoot = null;
+    const lift = (g, y) => { if (!g.f && leanRoot == null) return; if (!g.f) g.f = new Array(g.p.length / 3 - 1).fill(0); g.f.push(leanRoot == null ? 0 : Math.max(0, y - leanRoot)); };
     const v3 = new THREE.Vector3(), n3 = new THREE.Vector3(), nm = new THREE.Matrix3();
     const api = {
       // a flat quad from four corners (counter-clockwise seen from the front), uv as [u0, v0, u1, v1] in metres
@@ -74,14 +81,14 @@
         const [u0, v0, u1, v1] = uv || [0, 0, Math.hypot(...e1), Math.hypot(...e2)];
         const P = [a, b, c, a, c, d], U = [[u0, v0], [u1, v0], [u1, v1], [u0, v0], [u1, v1], [u0, v1]];
         col = col || [1, 1, 1];
-        for (let i = 0; i < 6; i++) { g.p.push(P[i][0], P[i][1], P[i][2]); g.n.push(nx, ny, nz); g.u.push(U[i][0], U[i][1]); g.c.push(col[0], col[1], col[2]); }
+        for (let i = 0; i < 6; i++) { g.p.push(P[i][0], P[i][1], P[i][2]); lift(g, P[i][1]); g.n.push(nx, ny, nz); g.u.push(U[i][0], U[i][1]); g.c.push(col[0], col[1], col[2]); }      // Coven (left-overs): lift
       },
       tri(k, a, b, c, uv, col) {
         const g = get(k), e1 = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], e2 = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
         let nx = e1[1] * e2[2] - e1[2] * e2[1], ny = e1[2] * e2[0] - e1[0] * e2[2], nz = e1[0] * e2[1] - e1[1] * e2[0];
         const L = Math.hypot(nx, ny, nz) || 1; nx /= L; ny /= L; nz /= L; col = col || [1, 1, 1];
         const P = [a, b, c];
-        for (let i = 0; i < 3; i++) { g.p.push(P[i][0], P[i][1], P[i][2]); g.n.push(nx, ny, nz); g.u.push(uv[i][0], uv[i][1]); g.c.push(col[0], col[1], col[2]); }
+        for (let i = 0; i < 3; i++) { g.p.push(P[i][0], P[i][1], P[i][2]); lift(g, P[i][1]); g.n.push(nx, ny, nz); g.u.push(uv[i][0], uv[i][1]); g.c.push(col[0], col[1], col[2]); }      // Coven (left-overs): lift
       },
       // a box standing on (x, y, z), w across x, d along z, h up, turned by ry; uv in metres on every face
       box(k, x, y, z, w, h, d, ry, col, opt) {
@@ -109,7 +116,7 @@
         let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9, z0 = 1e9, z1 = -1e9;
         const us = uvScale == null ? 1 : uvScale, usx = Array.isArray(us) ? us[0] : us, usy = Array.isArray(us) ? us[1] : us;
         for (let i = 0; i < pa.count; i++) {
-          v3.fromBufferAttribute(pa, i).applyMatrix4(m4); g.p.push(v3.x, v3.y, v3.z);
+          v3.fromBufferAttribute(pa, i).applyMatrix4(m4); g.p.push(v3.x, v3.y, v3.z); lift(g, v3.y);      // Coven (left-overs): lift
           if (v3.x < x0) x0 = v3.x; if (v3.x > x1) x1 = v3.x; if (v3.y < y0) y0 = v3.y; if (v3.y > y1) y1 = v3.y; if (v3.z < z0) z0 = v3.z; if (v3.z > z1) z1 = v3.z;
           if (na) { n3.fromBufferAttribute(na, i).applyMatrix3(nm).normalize(); g.n.push(n3.x, n3.y, n3.z); } else g.n.push(0, 1, 0);
           if (ua) g.u.push(ua.getX(i) * usx, ua.getY(i) * usy); else g.u.push(0, 0);
@@ -124,6 +131,8 @@
         const m = new THREE.Matrix4().makeTranslation(x, y + h / 2, z);
         api.geom(k, geo, m, col, uvs || [Math.PI * 2 * Math.max(r0, r1), h]); geo.dispose();
       },
+      // Coven (left-overs): what fn draws is a flame rooted at height y: it leans (y in metres, the world's own)
+      leaning(y, fn) { const was = leanRoot; leanRoot = y; try { fn(); } finally { leanRoot = was; } },
       keys: () => Object.keys(B),
       solids: SOLIDS,
       count: (k) => (B[k] ? B[k].p.length / 9 : 0),
@@ -137,8 +146,12 @@
           geo.setAttribute('normal', new THREE.Float32BufferAttribute(g.n, 3));
           geo.setAttribute('uv', new THREE.Float32BufferAttribute(g.u, 2));
           geo.setAttribute('color', new THREE.Float32BufferAttribute(g.c, 3));
+          // Coven (left-overs): a mesh with flames in it leans them (its material learns how: LEAN, and the shared numbers)
+          const leans = !!(g.f && W3D.leanUniforms && mats[k] && mats[k].isShaderMaterial);
+          if (leans) { geo.setAttribute('aLean', new THREE.Float32BufferAttribute(g.f, 1)); const L = W3D.leanUniforms(); mats[k].defines.LEAN = ''; mats[k].uniforms.uLean = L.uLean; mats[k].uniforms.uLeanF = L.uLeanF; mats[k].needsUpdate = true; }
           geo.computeBoundingSphere();
           const mesh = new THREE.Mesh(geo, mats[k]); mesh.name = k; mesh.matrixAutoUpdate = false;
+          if (leans) { geo.boundingSphere.radius += 0.5; mesh.onBeforeRender = () => { if (W3D.flameLean) W3D.flameLean.refresh(); }; }
           if (!mats[k]) console.warn('world3d: no material for', k);
           out[k] = mesh;
         }
@@ -196,12 +209,21 @@
   const CHUNK_V = `
     varying vec3 vW; varying vec3 vN; varying vec2 vUv; varying vec3 vCol;
     uniform vec2 uRep;
+    #ifdef LEAN
+      attribute float aLean; uniform vec3 uLean; uniform float uLeanF, uTime;      // Coven (left-overs): the flames' lean
+    #endif
     void main() {
       vec4 p = vec4(position, 1.0); vec3 n = normal;
       #ifdef USE_INSTANCING
         p = instanceMatrix * p; n = mat3(instanceMatrix) * n;
       #endif
-      vec4 w = modelMatrix * p; vW = w.xyz; vN = normalize(mat3(modelMatrix) * n);
+      vec4 w = modelMatrix * p;
+      #ifdef LEAN
+        // Coven (left-overs): uLean.xz is the way they lean (east, south), uLean.y how far (the tangent); it wavers a little
+        float fl = 1.0 + uLeanF * (0.55 * sin(uTime * 7.3 + w.x * 3.1 + w.z * 2.3) + 0.45 * sin(uTime * 12.9 - w.x * 5.7 + w.z * 4.1));
+        w.xz += uLean.xz * (uLean.y * aLean * fl); w.y += aLean * 0.08 * uLeanF * sin(uTime * 9.1 + w.x * 2.0 + w.z * 3.3);
+      #endif
+      vW = w.xyz; vN = normalize(mat3(modelMatrix) * n);
       vUv = uv * uRep;
       #ifdef SWAPUV
         vUv = uv.yx * uRep;   // the picture turned a quarter (a post's grain runs up it)

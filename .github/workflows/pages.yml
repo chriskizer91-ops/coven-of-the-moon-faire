@@ -1,0 +1,53 @@
+# Publishes the game as linked pages on GitHub (Chris, November 25, 2026).
+# It builds the pages here, from this repo alone, and puts them out. No built page is kept in git.
+# Each page is the same one file as the download: it loads nothing from outside itself.
+# It needs one setting, which only the repo's owner can change: Settings, Pages, Source: "GitHub Actions".
+name: Publish the game
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'game/**'
+      - 'tools/build.py'
+      - 'tools/make-io.mjs'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Build the pages (the builder stops if a page reaches outside itself, or reaches 100 MB)
+        run: |
+          for p in index zone-1 zone-2 zone-3 zone-4 fights-lab; do
+            python3 tools/build.py game/pages/$p.html
+          done
+          mkdir site
+          cp builds/index.html builds/zone-1.html builds/zone-2.html builds/zone-3.html builds/zone-4.html builds/fights-lab.html site/
+          ls -la site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
