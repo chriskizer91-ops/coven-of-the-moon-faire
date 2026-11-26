@@ -26,7 +26,9 @@
     // a kilometre walked in the wilds still gives what it gave, and the coven is the same level at each big fight.
     // Roads count as wilds, as before; inside a place, the camp and their margin there are still none.
     wilds: {
-      every: 58,     // metres walked in the wilds between two meetings, on average (before: about 191 in zone 1, 125, 115 and 118 in zones 2 to 4)
+      // hub, November 26: 75, not the job's 58. At 58 the whole game is 424 fights and about 11.5 hours of fighting; at 75 it
+      // is 329 fights and about 8.9 hours (it was 181 and 5.1). Chris's to change: 58, 75 or 90 are in docs/questions.md (B1)
+      every: 75,     // metres walked in the wilds between two meetings, on average (before: about 191 in zone 1, 125, 115 and 118 in zones 2 to 4)
       first: 30,     // the first meeting on a zone's page comes after half to one and a half times this many metres of wilds (before: the calm, 70, then the usual wait)
       calm: 25,      // after every fight, won, run from or lost: no meeting for this many metres (before: 70). So two never come back to back
     },
