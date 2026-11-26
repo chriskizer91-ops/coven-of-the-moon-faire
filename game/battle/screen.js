@@ -516,10 +516,11 @@
       // ---- the shots the choreography asks for (shotField, shotFit, shotBoth, shotAt, followShot) ----
       // fights-polish: their angles and lens are FRAMING's (wide: was 50, 7 and 36; fit: 48, 9 and 36, as a laptop's still are)
       // fight-camera: with a giant among the foes (and not on an upright phone) the resting shot is FRAMING.giant's: the party
-      // whole and at the bottom of the picture, the giant as far as FRAMING.loom; and a cut to it backs out (FRAMING.cuts.pull)
+      // whole and at the bottom of the picture, the giant as far as FRAMING.loom.wide; and a cut to it backs out (FRAMING.cuts.pull).
+      // (An upright phone keeps its own angles, and holds a giant only as far as FRAMING.loom: it has little room across)
       const bigFight = () => !upright() && enemies().some(giant);
       const wide_ = (k) => { const A = axes(), all = party().concat(enemies()), Fr = framing(), big = bigFight(), S = big ? G.wide : Fr.wide; const look = new V3().lerpVectors(A.P, A.F, 0.5); look.y = 1.4;
-        set('wide', dirOf(A.ax.clone().negate(), A.side, S.turn, S.rise), look, bodies(all, 'wide'), S.fov, k, undefined, big ? G.centre : Fr.centre, { foot: big ? G.foot : 0, push: -C.pull }); mark('rest'); };
+        set('wide', dirOf(A.ax.clone().negate(), A.side, S.turn, S.rise), look, bodies(all, upright() ? undefined : 'wide'), S.fov, k, undefined, big ? G.centre : Fr.centre, { foot: big ? G.foot : 0, push: -C.pull }); mark('rest'); };
       // fight-camera: a point the choreography gives at a giant foe's place counts only as high as FRAMING.loom.wide.tall
       const fit_ = (pts, zoom, k) => { const A = axes(), c = new V3(), Fr = framing(), big = bigFight(), S = big ? G.fit : Fr.fit; for (const p of pts) c.add(new V3(p.x, 0, p.z)); c.multiplyScalar(1 / Math.max(1, pts.length)); c.y = 1.0;
         const P = pts.map((p) => { const g = foes.find((f) => giant(f) && Math.hypot(f.pos.x - p.x, f.pos.z - p.z) < 0.6); return new V3(p.x, g ? Math.min(p.y || 0, L.wide.tall) : p.y || 0, p.z); });

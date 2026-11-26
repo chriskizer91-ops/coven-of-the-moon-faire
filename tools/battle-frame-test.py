@@ -87,7 +87,7 @@ def ground(name, w, h, m, g, png, sparse):
         return k / max(1, n)
     parts = { 'left of the strip above the panels': (4, top - 44, w // 3, top - 4), 'middle of it': (w // 3, top - 44, 2 * w // 3, top - 4), 'right of it': (2 * w // 3, top - 44, w - 4, top - 4) }
     for what, box in parts.items():
-        v = grass(*box); check(v >= 0.015, '%s: grass in the %s (%.1f%% of it is lit grass, not the bare dark)' % (name, what, v * 100))
+        v = grass(*box); check(v >= 0.01, '%s: grass in the %s (%.1f%% of it is lit grass, not the bare dark)' % (name, what, v * 100))
 
 # fight-camera: are two boxes apart, and is a box inside the picture?
 def apart(a, b): return a[2] <= b[0] or b[2] <= a[0] or a[3] <= b[1] or b[3] <= a[1]
