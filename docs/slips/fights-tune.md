@@ -92,7 +92,7 @@ the knight 94%, the bramble 95%, the fire 100% for the attentive player, as befo
 | `node tools/m7-stretch.mjs --frames 48` | the six M7 creatures pass, as before (size does not change it; the two peak creatures need Blender, as before) |
 | `encounter-test` zone 1, whole | **41 good, 0 failed**, 0 page errors: one meeting every 50 m in the fen to 83 m round Wickhollow (want 49 to 79); first meeting 17 m out of the camp; grace 25 m; about 145 fights to level 5 (plan 148) |
 | `encounter-test --quick` zone 2 (on the page built after merging `main` at c644a0f) | **37 good, 0 failed**, 0 page errors; first meeting 18 m out of the camp |
-| `encounter-test --quick` zones 3 and 4 | ENC-RESULTS |
+| `encounter-test --quick` zones 3 and 4 (the same pages) | **37 good, 0 failed** each, 0 page errors; first meeting 30 and 32 m out of the camp |
 | `encounter-fights-test` zone 2 A (the Forge-Spark) and zone 4 A (the Wickstoat), played to their end | **7 good, 0 failed**: both won (17 and 20 turns), each drawn by its own model |
 | `battle-frame-test` on the lab page: zones 1 A and B, 2 A, 4 A and B, at 1280x720, 412x880, 880x412 | **267 good, 0 failed**, 0 page errors: every fighter whole on screen, clear of the panels |
 | the row of eight, before and after | heights 0.49, 0.60 then **0.75, 0.80**; the other six the same; 0 page errors |
@@ -160,3 +160,5 @@ sound, touch. Whether 424 fights feel too many. The pictures are stills from a b
   after builds and checks started again.
 - Correction: `node tools/m7-stretch.mjs` checks the six M7 creatures only (all pass); the two peak creatures' own
   check needs Blender, as before. Their size changes nothing a stretch check measures.
+- November 26: `origin/main` (c644a0f, the last-foe job) merged in, no clash. `encounter-balance` and `--gates`: every
+  target met. Zones 2 to 4 built again and `encounter-test --quick` run: 37 good, 0 failed, each. Report written.
