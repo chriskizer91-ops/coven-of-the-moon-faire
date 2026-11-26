@@ -31,8 +31,8 @@ suit a foe's size; and his two photographs (tiny witches, an island of ground in
    - Chosen by **who acts** (a witch or a foe), **what the move is** (at one foe: over a shoulder too; at her own side
      or at everyone: on her alone) and **how big the other is** (a witch at a giant: over her shoulder first, so it
      looms; a giant at a witch: over the witch's shoulder first). The kinds are taken in turn, never the same kind
-     twice running, and never one where somebody stands between the camera and its subject, or nearer the camera than
-     its subject.
+     twice running, and never one where somebody stands between the camera and its subject, nearer the camera than
+     its subject, or right beside the camera.
    - A blow on one fighter cuts to them unless the shot already shows them big. A blow on everyone at once stays in the
      wide shot if it shows them all.
 3. **Cuts, not glides (my call; one data switch, `FRAMING.cuts.into`: `'cut'` or `'glide'`).** Why: a fast glide from
@@ -68,7 +68,66 @@ resting shot on a laptop asks 150 px of every witch (at 720 px high); the ground
 **`tools/fight-camera-look.py`** (new): stills of each kind of shot, and of moves as a fight plays itself (the clock
 stopped at each beat). `--as 12x4.8` tells the camera a foe is that big, to see the framing before a model is here.
 
-RESULTS
+### The numbers: how tall a witch stands (her lowest point to her highest, in screen pixels)
+
+| Shot | Fight | 1280x720 | 1600x750 | Upright phone 412x880 | Phone on its side 880x412 |
+|---|---|---|---|---|---|
+| Resting shot, **before** | the Great bramble | | **79 to 83** | | |
+| Resting shot, after | the Great bramble (7.8 m) | **170 to 210** | **183 to 229** | 133 to 148 | 75 to 86 |
+| Resting shot | the great wraith (7.4 m) | 170 to 210 | | | |
+| Resting shot | the fire, form one (8 m, its own model) | 190 to 244 | | | |
+| Resting shot | the fire, final form (12 m) | 158 to 190 | | | |
+| Resting shot (unchanged) | the Rotwarden (2.6 m) | 182 to 225 | 190 to 236 | 172 to 204 | 93 to 110 |
+| Resting shot (unchanged) | the Forge-Spark (0.55 m) and a wraith | 170 to 206 | 185 to 228 | 167 to 199 | |
+| Resting shot (unchanged) | the Hoarmantle | 181 to 224 | | 157 to 185 | |
+| Close-up on the one acting | every fight | Io 300 (42% of the picture), Kore 310 (43%) | | | |
+
+Close on a foe at 1280x720: the Forge-Spark 195 px tall, the Rotwarden 380, the Hoarmantle 425, the great wraith 608; the
+Great bramble fills the picture from below (852 px of its own height on a 720 px screen, its head inside).
+The ground: in every still, of up to 45 places looked at in the lower part of the picture, **0 were bare**. About 31,400
+tufts are grown round the painter's 4,900 (2,144 round 381 at the dead Moonwell, whose ground is nearly bare by design).
+Numbers: eight numbers and words put up at once: none on another, all inside the picture, in every fight and size tried.
+
+### What was checked, and how many good and failed
+
+Every page was built from this branch. Every browser run went through the shared lock, with
+`PYTHONPATH=tools/hub/pw-bridge`. **Page errors: 0 in every run.**
+
+| Check | Page | Good | Failed |
+|---|---|---|---|
+| `battle-frame-test.py --shots`, 1280x720: the Great bramble, the great wraith, zone 1 A, zone 2 A, zone 4 B, the fire's two forms (then still stand-ins) | `fights-lab.html` | 287 | 2, both the check's own fault on the bramble (it asked a giant to be whole). Mended; the bramble again: 41 good, 0 failed |
+| the same, 1600x750: the Great bramble, zone 2 A, zone 1 A | `fights-lab.html` | 129 | 2: zone 1 A's resting shot (not changed by this job) showed 1.5% and 1.3% lit grass in two parts of the strip above the panels, where I had asked 1.5%. That strip is the trampled clearing, thin by design. The bar is now 1%; run again: 18 good, 0 failed |
+| the same, upright phone 412x880: the Great bramble, zone 1 A, zone 2 A, zone 4 B | `fights-lab.html` | 156 | 2. (1) Io 109 px beside the bramble, 110 asked: mended (an upright phone holds a giant more tightly); again: 20 good, 0 failed, a witch 133 to 148 px. (2) In the shot of both foes at once, the wraith's robe is 29 px past the right edge: **left as it is** (phone only) |
+| resting shot, phone on its side 880x412: the Great bramble, zone 1 A | `fights-lab.html` | 28 | 0 |
+| zone 1 A with `--shots` again, after the last change (no close-up from beside a foe) | `fights-lab.html` | 44 | 0 |
+| `battle-frame-test.py --land`, slot A, 1280x720 and 412x880 | `zone-2.html` | 50 | 0 |
+| `encounter-fights-test.py`: zone 1 A, zone 2 A and **the Great bramble, each played to its end** | `fights-lab.html` | all three won (8, 14 and 36 turns), every check passed | 0 |
+| `battle-start-test.py` | `battle.html` | every check passed | 0 |
+| `battle-test.py` | `battle.html` | BATTLETEST | |
+
+### The pictures (every sheet looked at)
+
+For Chris, in `/tmp/claude-0/-home-user-coven-of-the-moon-faire/41576e32-9c97-530a-9c7c-c502d1946878/scratchpad/fight-camera/for-chris/`:
+- `1-resting-shot-before-and-after.jpg`: the Great bramble at 1600x750, before and after. **Show this first.**
+- `2-a-witchs-move.jpg`: Callisto's shot at the bramble, and at the Rotwarden: the close-up, the hit, the backing out.
+- `3-the-giants-move.jpg`: the bramble's Hammerfall (close from below, the blow on all four, back out), and Io striking by hand.
+  (Its lower left picture was taken before the last mend: the Rotwarden's arm fills the right of it. The camera no longer
+  stands there; checked by numbers, not by a new picture.)
+- `4-the-fire-two-forms.jpg`: the fire's two forms at 1280x720: resting shot, close-up, over a shoulder.
+
+Everything else is in `/tmp/claude-0/-home-user-coven-of-the-moon-faire/41576e32-9c97-530a-9c7c-c502d1946878/scratchpad/fight-camera/`: `before/` (the old camera), `final/shots*`, `final/phone`, `final/side`, `final/land`,
+`final/last`, `final/redo` (the frame check's stills, with `frame-numbers.json`), `final/moves` (moves, beat by beat),
+`final/fire`, `final/fire2`, `final/as` (the bramble told it is 12 m tall), `try3/` (every kind of shot, three fights), and
+`work/*.log` (every run's log). The build to send: `builds/fights-lab.html` in this working copy (23.5 MB).
+
+### The fire's two forms (the hub's word of November 26)
+
+- The framing reads only a foe's `tall` and `halfW`. Nothing was added for the fire.
+- Form one: the resting shot holds the party (190 to 244 px) and the fire up to 5.4 m, so the top of its sphere is cut by
+  the top edge. When it acts, the close-up and the over-the-shoulder shot both hold the sphere.
+- Final form: the same. **One thing I could not tell:** in my stills, 10 seconds into its fight, the final form looked
+  about the first form's size. The close-up is framed for the 12 m it is said to be, so there was sky above it. If the
+  model does grow to 12 m, it will fill that shot.
 
 ### What could not be checked here, and what Chris should watch for on his laptop
 
@@ -129,4 +188,9 @@ No machine here can show motion, a frame rate, sound or touch. Every shot was se
 - 16:00 to 17:00 First and second pass in `screen.js`; `tools/fight-camera-look.py`; the frame check extended.
 - 17:30 Stills of every kind of shot (Great bramble, zone 1 A, zone 2 A at 1280x720) and five moves. Looked at all.
 - 22:40 Frame check with `--shots` at 1280x720 on seven fights: 287 good, 2 failed (both the check's own fault, mended).
-- Nov 26 03:10 `main` merged in. The closing batch started as one run.
+- Nov 26 03:10 `main` merged in. The closing batch started as one run. It was stopped at two hours (a long wait for the
+  lock): the frame checks, the moves and the first fights of the battle test were done.
+- 05:00 `main` merged again (the fire's own model). Second batch: the fire's stills, two re-checks, the land check, the
+  start test, the Great bramble's fight to its end. A close-up was found standing beside the Rotwarden: mended.
+- 07:30 Third batch: the mend checked by numbers; the final form 10 s in. The battle test was cut short twice by my own
+  time limits; run once more alone.
