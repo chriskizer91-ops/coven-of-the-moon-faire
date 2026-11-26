@@ -59,7 +59,17 @@
   const standIn = (shape, tall, wide, eyes, look) => ({ make: 'makeStandIn', opts: { shape, tall, wide, eyes }, look: Object.assign({ kind: 'standin', tall, shadow: wide * 0.75, yawBias: 0, glow: [wide * 1.1, eyes], appearColor: [0.6, 0.62, 0.8], hitColor: 0xdfe8ff, hitRGB: [0.8, 0.85, 1] }, look || {}) });
   // creatures job: a creature from Aethermoor M7 (game/battle/models/m7/): its kind, its look, and the stand-in it falls
   // back to. A page that does not load the M7 creatures (the block marked "creatures job") keeps the stand-in
-  const m7 = (kind, look, fallback) => (typeof G.makeM7Foe === 'function' ? { make: 'makeM7Foe', opts: { kind, standIn: fallback.opts }, look } : fallback);
+  const m7 = (kind, look, fallback) => (typeof G.makeM7Foe === 'function' ? { make: 'makeM7Foe', opts: { kind, standIn: fallback.opts }, look: grown(kind, look) } : fallback);
+  // fights-tune (November 25): a creature whose data says how tall it stands (`tall`, game/battle/models/m7/<kind>/)
+  // has its look grown with it: its stated height (the camera and the frame check read it), its shadow, its glow on the
+  // ground, and how near it comes to strike (its own part of that distance; the witch's side, about 0.3 m, stays), and
+  // the party stands that much further off (`reach`: half its own length, grown). The numbers below are at M7's size
+  function grown(kind, look) {
+    const M = G.M7, k = M && M.grow ? M.grow(kind) : 1; if (!look || Math.abs(k - 1) < 1e-3) return look;
+    const B = M.bins[kind], len = B && B.meta && B.meta.lo ? Math.max(B.meta.hi[2] - B.meta.lo[2], B.meta.hi[0] - B.meta.lo[0]) : 0;
+    return Object.assign({}, look, { tall: +(M.tallOf(kind)).toFixed(2), shadow: look.shadow * k, glow: look.glow ? [look.glow[0] * k, look.glow[1]] : look.glow,
+      near: look.near != null ? 0.3 + (look.near - 0.3) * k : look.near, reach: (look.reach || 0) + len * 0.5 * (k - 1), grownBy: +k.toFixed(3) });
+  }
   const SLOTS = {
     'zone-1': {
       // the heavy one: slow and tough, with one big blow that can be seen coming
@@ -99,7 +109,8 @@
             touch: { name: CM('coldBringer').touch, weight: 0.2, hits: [115], target: 'one', act: 'singe', time: 1.8 },
             blink: { name: CM('coldBringer').blink, weight: 0.15, evade: 1, target: 'self', noRepeat: true, act: 'flicker', time: 1.5 },
           } } },
-        model: { coldBringer: m7('forge-spark', { kind: 'm7', tall: 0.55, shadow: 0.3, yawBias: 0, glow: [0.9, 0xffa040], appearColor: [1, 0.6, 0.25], hitColor: 0xffc070, hitRGB: [1, 0.75, 0.4], near: 1.0 }, standIn('thin', 1.5, 0.7, 0xbfe4ff, { near: 1.6 })) } },
+        // fights-tune: tall 0.49 is M7's own height (it said 0.55); grown to the creature's `tall` by m7() above. Its glow on the ground 1.0 at that size (was 0.9), so 1.54 m as it stands
+        model: { coldBringer: m7('forge-spark', { kind: 'm7', tall: 0.49, shadow: 0.3, yawBias: 0, glow: [1.0, 0xffa040], appearColor: [1, 0.6, 0.25], hitColor: 0xffc070, hitRGB: [1, 0.75, 0.4], near: 1.0 }, standIn('thin', 1.5, 0.7, 0xbfe4ff, { near: 1.6 })) } },
       // the pair: two that are much stronger while both stand
       // hub: the Thornhound in this slot, and this slot being on, is A PROPOSAL, NOT APPROVED BY CHRIS YET (the creatures job)
       B: { on: true, job: 'the pair: two that are much stronger while both stand',
@@ -154,8 +165,9 @@
             skitter: { name: M.skitter, weight: 0.2, evade: 1, target: 'self', noRepeat: true, act: 'skitter', time: 1.5 },
           } } },
         // fights-polish: made by makeM7Foe, the one maker for every creature (was makePeakFoe, which wrapped it; here and below)
+        // fights-tune: grown to the creature's `tall` (0.8 m) as the six above are; tall 0.6 here is its own made height (it said 0.62)
         model: { lightThief: { make: 'makeM7Foe', opts: { kind: 'wickstoat' },
-          look: { kind: 'm7', tall: 0.62, shadow: 0.55, yawBias: 0, glow: null, appearColor: [1, 0.75, 0.35], hitColor: 0xffe0b0, hitRGB: [1, 0.88, 0.7], near: 1.15 } } } },
+          look: grown('wickstoat', { kind: 'm7', tall: 0.6, shadow: 0.55, yawBias: 0, glow: null, appearColor: [1, 0.75, 0.35], hitColor: 0xffe0b0, hitRGB: [1, 0.88, 0.7], near: 1.15 }) } } },
       // the big one: rare, a long fight, worth three ordinary ones
       B: { on: true, job: 'the big one: rare, a long fight, worth three ordinary ones',
         suggested: { creature: 'Peak-Troll', from: 'Aethermoor M7', status: 'SUGGESTED, NOT APPROVED', why: 'Regrow makes a long fight; Hurl Boulder is a big blow that can be seen coming' },

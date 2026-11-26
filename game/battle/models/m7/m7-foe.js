@@ -7,6 +7,7 @@
 //   window.M7.add(key, def)            its look line, its motions and its pictures (<key>/<key>.js: data)
 //   await window.M7.ready              the models unpacked (a page waits for this before its first fight)
 //   makeM7Foe({ kind: key })           one creature, as the battle wants a foe's model (stand-in.js has the list)
+//   M7.tallOf(key), M7.grow(key)       fights-tune: how tall it stands here (its data's `tall`), and that against M7's own size
 //
 // What this file does for every creature at once:
 //   1. LOOK. M7 draws with colour management (its pictures read as sRGB, light worked out in linear numbers, then a
@@ -44,6 +45,12 @@
   M7.bin = (key, meta, text) => { M7.bins[key] = { meta, text, bin: null }; };
   M7.addMoves = (name, set) => { M7.moves[name] = set; };
   M7.add = (key, def) => { def.key = key; M7.kinds[key] = def; };
+  // fights-tune (November 25): a creature's data may say how tall it stands (`tall`, metres). Its whole model is drawn
+  // that much bigger than M7 made it: its body, its motions, its effect, where blows land on it. M7's own height is its
+  // model's highest point standing (the packed model's bounds, `hi`). grow(key): how many times M7's size (1 if not set)
+  M7.ownTall = (key) => { const B = M7.bins[key]; return B && B.meta && B.meta.hi ? B.meta.hi[1] : 0; };
+  M7.grow = (key) => { const d = M7.kinds[key], h = M7.ownTall(key); return d && d.tall && h ? d.tall / h : (d && d.scale) || 1; };
+  M7.tallOf = (key) => M7.ownTall(key) * M7.grow(key);
 
   // ---- the models: unzipped once when the page has loaded, decoded the first time one is made ----
   async function unzip(text) {
@@ -236,11 +243,13 @@
     const sh = shared(o.kind), def = sh.def, A = sh.A, moves = sh.moves;
     const letGo = o.letGo || def.letGo || 'wither', arrive = o.arrive || def.arrive || 'step';
     const mat = makeMaterial(def), sk = buildSkinned(sh, mat), U = mat.userData.m7;
-    const root = new T.Group(), body = new T.Group(); root.add(body); body.add(sk.mesh);
-    const S = def.scale || 1; sk.mesh.scale.setScalar(S); sk.mesh.position.y = (def.lift || 0);
-    const H = sh.height * S;
+    // fights-tune: the size is a group between root and body, so the body's own moves (a moves file's whole-body darts
+    // and hops, in M7's metres) grow with it; before, only the mesh was scaled (by `scale`, which no creature set)
+    const root = new T.Group(), size = new T.Group(), body = new T.Group(); root.add(size); size.add(body); body.add(sk.mesh);
+    const S = def.tall ? def.tall / sh.height : (def.scale || 1); size.scale.setScalar(S); sk.mesh.position.y = (def.lift || 0);
+    const H0 = sh.height, H = H0 * S;        // H0: its height in M7's metres (the body's moves are in these); H: as it stands here
     // F is what M7's moves files pose: its bones, its body (moved whole), its height and plan
-    const F = { group: root, body, mesh: sk.mesh, bones: sk.bones, height: (sh.meta.height || H), plan: sh.meta.plan || 'quad', t: 0 };
+    const F = { group: root, body, mesh: sk.mesh, bones: sk.bones, height: (sh.meta.height || H0), plan: sh.meta.plan || 'quad', t: 0, grow: S };
     const BEFORE = M7.LOOK.before, helpers = sh.meta.helpers || [], limits = (!BEFORE && def.mend && def.mend.limits) || null;
     const moon = new T.Vector3(...M7.LOOK.moon).normalize();
     sk.mesh.onBeforeRender = (r, s, cam) => { U.m7Moon.value.copy(moon).transformDirection(cam.matrixWorldInverse); };
@@ -275,29 +284,31 @@
         const a = actv.a; actv.t = Math.min(a.dur, actv.t + dt); const u = actv.t / a.dur, mu = a.from + (a.to - a.from) * u;
         if (a.arrive) {                                   // it arrives in character (its data's `arrive`)
           pose(arrive === 'walk' ? 'walk' : 'idle', 0, time, u * 6);
-          if (arrive === 'rise') { F.body.position.y -= H * 0.6 * (1 - ease(u * 1.4)); fade = clamp01(u * 2.5); }
-          else if (arrive === 'walk') { F.body.position.z -= 1.2 * (1 - ease(u)); fade = clamp01(u * 2); }
-          else if (arrive === 'drop') { F.body.position.y += H * 0.8 * (1 - ease(u * 1.3)); fade = clamp01(u * 3); }
+          // fights-tune: the body is inside the size now: its offsets in M7's metres (H0), and a walk in of 1.2 m as it stands here (/ S)
+          if (arrive === 'rise') { F.body.position.y -= H0 * 0.6 * (1 - ease(u * 1.4)); fade = clamp01(u * 2.5); }
+          else if (arrive === 'walk') { F.body.position.z -= 1.2 / S * (1 - ease(u)); fade = clamp01(u * 2); }
+          else if (arrive === 'drop') { F.body.position.y += H0 * 0.8 * (1 - ease(u * 1.3)); fade = clamp01(u * 3); }
           else if (arrive === 'flare') { fade = clamp01(u * 2); glowK = 1 + 2.5 * bumpf(u); rate = 3; }
           else fade = clamp01(u * 1.8);
         } else if (a.letGo) {                             // it is let go, not killed (its data's `letGo`)
           const how = a.letGo === true ? letGo : a.letGo;
-          if (how === 'runOff') { pose('walk', 0, time, time * 9); F.body.rotation.y = Math.PI * ease(u * 3); F.body.position.z = -2.6 * ease((u - 0.2) / 0.8) ; fade = 1 - ease((u - 0.45) / 0.55); }
-          else if (how === 'root') { pose('idle', 0, time, 0); F.body.position.y = -H * 1.05 * ease((u - 0.15) / 0.85); F.body.rotation.z = 0.04 * Math.sin(u * 30) * (1 - u); gray = 0.6 * ease(u * 2); fade = 1 - ease((u - 0.7) / 0.3); rate = 2; }
-          else if (how === 'gutter') { pose('hurt', Math.min(1, u * 2) * 0.6, time, 0); const fl = 0.5 + 0.5 * Math.sin(u * 70) * Math.sin(u * 23); glowK = (1 - u) * (0.3 + 0.7 * fl); F.body.position.y = -0.15 * H * ease(u); gray = 0.5 * u; fade = 1 - ease((u - 0.55) / 0.45); rate = 0.3; }
-          else { pose(a.move, clamp01(u * 1.25), time, 0); gray = 0.7 * ease(u * 1.6); glowK = 1 - ease(u * 1.5); fade = 1 - ease((u - 0.62) / 0.38); F.body.position.y -= 0.06 * H * ease((u - 0.5) / 0.5); }
+          // fights-tune: as above, H0 for the body's offsets, and the run off 2.6 m as it stands here (/ S)
+          if (how === 'runOff') { pose('walk', 0, time, time * 9); F.body.rotation.y = Math.PI * ease(u * 3); F.body.position.z = -2.6 / S * ease((u - 0.2) / 0.8) ; fade = 1 - ease((u - 0.45) / 0.55); }
+          else if (how === 'root') { pose('idle', 0, time, 0); F.body.position.y = -H0 * 1.05 * ease((u - 0.15) / 0.85); F.body.rotation.z = 0.04 * Math.sin(u * 30) * (1 - u); gray = 0.6 * ease(u * 2); fade = 1 - ease((u - 0.7) / 0.3); rate = 2; }
+          else if (how === 'gutter') { pose('hurt', Math.min(1, u * 2) * 0.6, time, 0); const fl = 0.5 + 0.5 * Math.sin(u * 70) * Math.sin(u * 23); glowK = (1 - u) * (0.3 + 0.7 * fl); F.body.position.y = -0.15 * H0 * ease(u); gray = 0.5 * u; fade = 1 - ease((u - 0.55) / 0.45); rate = 0.3; }
+          else { pose(a.move, clamp01(u * 1.25), time, 0); gray = 0.7 * ease(u * 1.6); glowK = 1 - ease(u * 1.5); fade = 1 - ease((u - 0.62) / 0.38); F.body.position.y -= 0.06 * H0 * ease((u - 0.5) / 0.5); }
         } else {
           pose(a.move, mu, time, 0);
-          if (a.brace) { const k = bumpf(u) * 0.8 + (guardOn ? 0.2 : 0); F.body.position.y -= 0.04 * H * k; F.body.rotation.x -= 0.1 * k; }
-          if (a.sway) { const k = bumpf(u); F.body.rotation.z += 0.12 * Math.sin(u * 14) * k; F.body.position.x += 0.05 * H * Math.sin(u * 9) * k; }
+          if (a.brace) { const k = bumpf(u) * 0.8 + (guardOn ? 0.2 : 0); F.body.position.y -= 0.04 * H0 * k; F.body.rotation.x -= 0.1 * k; }      // fights-tune: H0
+          if (a.sway) { const k = bumpf(u); F.body.rotation.z += 0.12 * Math.sin(u * 14) * k; F.body.position.x += 0.05 * H0 * Math.sin(u * 9) * k; }
           if (a.glow) glowK = 1 + a.glow * bumpf(u);
           if (a.fx) rate = a.fx;
         }
         if (actv.t >= a.dur - 1e-6) { if (a.hold) { if (a.letGo) gone = true; } else actv = null; }
       } else if (wb > 0.5) pose('walk', 0, time, phase * (def.stride || 1));
       else pose('idle', 0, time, 0);
-      if (guardOn && !actv) { F.body.position.y -= 0.03 * H; F.body.rotation.x -= 0.06; }
-      liftV = F.body.position.y;
+      if (guardOn && !actv) { F.body.position.y -= 0.03 * H0; F.body.rotation.x -= 0.06; }      // fights-tune: H0
+      liftV = F.body.position.y * S;      // fights-tune: (* S) how high it is lifted, as it stands here
       const f = clamp01(fade * fadeE);
       mat.opacity = f; const tr = f < 0.999; if (mat.transparent !== tr) { mat.transparent = tr; mat.depthWrite = !tr || f > 0.5; }
       sk.mesh.visible = f > 0.01; U.m7Gray.value = gray; mat.emissiveIntensity = mat.userData.glowK * glowK;

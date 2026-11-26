@@ -186,7 +186,7 @@
       if (api.busy) return true;
       const L = party.level, hi = Math.max(D.levels[0], Math.min(t.levels[1], L + (t.above || 0))), lo = Math.min(hi, t.levels[0]);
       const road = D.where.find((w) => w.id === 'road') || D.where[0];
-      const reward = D.reward * (t.worth || 1) * window.CovenDraw.meanBase(road, D.band) / window.CovenDraw.base(t.foes, D.band);
+      const reward = window.CovenDraw.reward(D) * (t.worth || 1) * window.CovenDraw.meanBase(road, D.band) / window.CovenDraw.base(t.foes, D.band);   // fights-tune: CovenDraw.reward(D), scaled with how often meetings come (was D.reward)
       if (LW.thingFight) toast(LW.thingFight);
       fight({ id: t.id, arena: t.arena, foes: t.foes.slice(), foeLevel: [lo, hi], reward, gate: 'thing:' + t.id, words: (WORDS.gates || {})[t.words] }, { thing: t.id })
         .then((r) => { if (r && r.won && then) try { then(); } catch (e) { console.error(e); } });

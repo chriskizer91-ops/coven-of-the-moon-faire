@@ -5,6 +5,9 @@
 // Its name and its moves' names are STAND-INS until Chris says yes (game/encounters/words.js holds the words).
 window.M7.add('wickstoat', {
   moves: 'stoat',
+  // fights-tune (November 25): how tall it stands, in metres (as made: 0.60 m). THE HUB'S CALL: about 0.8 m, the other
+  // tiny one. Its spines and their sparks, shadow, where blows land and how near it comes follow this one number
+  tall: 0.8,
   tex: { color: "./color-1024.webp", normal: "./normal-512.webp", ao: "./ao-512.webp" },
   mat: { glowK: 0, exposure: 0.8, double: true },       // white fur: a little lower, so it is never brighter than the witches
   acts: {

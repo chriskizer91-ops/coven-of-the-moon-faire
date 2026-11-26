@@ -24,6 +24,12 @@
 // it costs the walk back to a fire). A lost fight wakes the party whole at the camp, as on the land. No herbs are used
 // on a journey (on the land the party has a few). The slots' table and the big fights begin each fight whole.
 // --slots prints only the slots' table, --gates only the big fights: for setting a new creature's or a fight's numbers.
+// fights-tune (November 25): meetings come as often as the plan's `wilds` says (game/encounters/plan.js), and what an
+// ordinary meeting gives is scaled in step (game/encounters/draw.js: CovenDraw.often, .reward). So the plan's fights
+// for a zone are its 45 times `often` (CovenDraw.planFights), and a new table, THE WALK, says what that means on the
+// land: the km of wilds walked to each gate's level, the level after the story's own walk (the plan's `walk`), and the
+// time spent fighting. --old plays the numbers as they were before (each zone's own spacing, the old grace).
+// --every 80 tries another spacing without changing a file.
 // The seeds are fixed, so the same numbers always give the same table. It exits with 1 if a target is missed.
 import { createRequire } from 'module';
 import path from 'path';
@@ -34,6 +40,8 @@ for (const f of ['battle/rules', 'battle/engine', 'battle/sim', 'encounters/word
   'encounters/zone-1', 'encounters/zone-2', 'encounters/zone-3', 'encounters/zone-4', 'encounters/draw']) require(path.join(R, 'game', f + '.js'));
 const G = globalThis, RL = G.BattleRules, S = G.BattleSim, E = G.BattleEngine, DRAW = G.CovenDraw, PLAN = G.COVEN_PLAN, SLOTS = G.COVEN_SLOTS, ZONES = G.COVEN_ENCOUNTERS;
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf(k); return i < 0 ? d : +args[i + 1]; };
+if (args.includes('--old') && PLAN.wilds) PLAN.wilds = Object.assign({}, PLAN.wilds, { every: null });      // fights-tune: as before November 25
+if (args.includes('--every') && PLAN.wilds) PLAN.wilds = Object.assign({}, PLAN.wilds, { every: opt('--every', PLAN.wilds.every) });
 const QUICK = args.includes('--quick'), ONLY_SLOTS = args.includes('--slots'), ONLY_GATES = args.includes('--gates'), N = opt('--n', QUICK ? 16 : 60), NF = opt('--fights', QUICK ? 200 : 500);
 const PLAYERS = ['careless', 'sensible', 'expert'], SAY = { careless: 'careless', sensible: 'attentive', expert: 'expert' };
 const pct = (x) => (x * 100).toFixed(x < 0.0995 ? 1 : 0) + '%';
@@ -72,9 +80,10 @@ function bigRun(g, L, policy, n) {
 
 // ---- one party's journey through a zone: fights until it is the gate's level, its hurts carried from fight to fight ----
 const REST = { careless: { hp: 0.25, mp: 0 }, sensible: { hp: 0.55, mp: 0.12 }, expert: { hp: 0.65, mp: 0.12 } };
-function journey(zoneId, L0, xp0, policy, seed) {
+// fights-tune: cap: play exactly that many fights (the story's walk), whatever the level; minutes: the time spent fighting
+function journey(zoneId, L0, xp0, policy, seed, cap) {
   const D = ZONES[zoneId], rand = E.rng(seed), goal = PLAN.gateLevel[zoneId], H = RL.HEROES;
-  let L = L0, xp = xp0, fights = 0, lost = 0, fled = 0, slotF = 0, worth = 0, rests = 0, hp = {}, mp = {};
+  let L = L0, xp = xp0, fights = 0, lost = 0, fled = 0, slotF = 0, worth = 0, rests = 0, hp = {}, mp = {}, minutes = 0;
   const maxHp = (id) => Math.round(H[id].hp * RL.scale(L)), maxMp = (id) => Math.round(H[id].mp * RL.mpScale(L));
   const gain = (n) => { const was = L; xp += n; while (L < RL.MAX_LEVEL && xp >= RL.xpNeed(L)) { xp -= RL.xpNeed(L); L++; }
     if (L > was) for (const id of RL.PARTY) { if (hp[id] != null) hp[id] += Math.round(H[id].hp * (RL.scale(L) - RL.scale(was))); if (mp[id] != null) mp[id] += Math.round(H[id].mp * (RL.mpScale(L) - RL.mpScale(was))); } };
@@ -82,7 +91,7 @@ function journey(zoneId, L0, xp0, policy, seed) {
   const P = () => RL.PARTY.map((id) => { const u = { id, level: L }; if (hp[id] != null) u.hp = hp[id]; if (mp[id] != null && H[id].mp) u.mp = mp[id]; return u; });
   const things = (D.things || []).slice(); let nextThing = 4;      // (zone 2's stones: met early, a few fights apart)
   let guard = 0;
-  while (L < goal && guard++ < 600) {
+  while ((cap ? fights < cap : L < goal) && guard++ < 1600) {      // fights-tune: (cap), and room for more fights (was 600)
     const k = REST[policy];
     if (health() < k.hp || (k.mp && mp.io != null && mp.io < maxMp('io') * k.mp)) { hp = {}; mp = {}; rests++; }
     let r;
@@ -91,19 +100,19 @@ function journey(zoneId, L0, xp0, policy, seed) {
       const hi = Math.max(D.levels[0], Math.min(t.levels[1], L + (t.above || 0))), lo = Math.min(hi, t.levels[0]);
       const road = D.where.find((w) => w.id === 'road') || D.where[0];
       r = play({ party: P(), foes: t.foes.map((id) => ({ id, level: lo + Math.floor(rand() * (hi - lo + 1)) })), flags: flagsAt(L), herbs: {}, ends: { canFlee: true },
-        reward: D.reward * (t.worth || 1) * DRAW.meanBase(road, D.band) / DRAW.base(t.foes, D.band) }, policy, seed * 31 + fights);
+        reward: DRAW.reward(D) * (t.worth || 1) * DRAW.meanBase(road, D.band) / DRAW.base(t.foes, D.band) }, policy, seed * 31 + fights);      // fights-tune: DRAW.reward (was D.reward)
       worth += 1;
     } else {
       const gs = DRAW.grounds(D, L), w = DRAW.pick(gs, rand), m = DRAW.meeting(D, { where: w, stretch: DRAW.stretchFor(D, L), level: L, rand });
       r = play(wildSetup(D, m, L, rand, P()), policy, seed * 31 + fights);
       if (m.slot) slotF++; worth += m.worth;
     }
-    fights++;
+    fights++; minutes += r.minutes;
     if (r.outcome === 'lose' || r.outcome === 'stalemate') { lost++; hp = {}; mp = {}; continue; }      // (the coven wakes at the camp, whole)
     for (const h of r.heroes) { hp[h.id] = h.hp > 0 ? h.hp : 1; if (h.maxMp) mp[h.id] = h.mp; }
     if (won(r)) gain(r.xp); else fled++;
   }
-  return { fights, lost, fled, slotF, worth, rests, L, xp };
+  return { fights, lost, fled, slotF, worth, rests, L, xp, minutes, levelF: L + (L < RL.MAX_LEVEL ? xp / RL.xpNeed(L) : 0) };
 }
 
 // ---- 4. a slot's own fights against the fights they take the place of ----
@@ -145,6 +154,7 @@ for (const r of ONLY_GATES ? [] : slotTable()) for (const row of r.levels) {
   if (Math.abs(s.slot - s.ordinary) * 100 > T.slotLoss.sensible) fails.push(r.zone + ' slot ' + r.slot + ' at level ' + row.L + ': the attentive player loses ' + pct(s.slot) + ' of its fights, ' + pct(s.ordinary) + ' of the ordinary ones (more than ' + T.slotLoss.sensible + ' points apart)');
 }
 
+let RES = null;      // fights-tune: the journeys' results, for THE WALK below
 if (!ONLY_SLOTS) {
   // ---- 5. the big fights at their levels ----
   console.log('\nTHE BIG FIGHTS, each at the level it is offered at (' + NF + ' fights each): how often each kind of player wins');
@@ -160,6 +170,7 @@ if (!ONLY_SLOTS) {
 
   // ---- 1 to 3. the journeys, at the three settings ----
   const SETTINGS = ONLY_GATES ? [] : [['A', 'A on (the game as shipped)'], ['AB', 'A and B on'], ['none', 'neither']], res = {};
+  RES = res;
   for (const [set, label] of SETTINGS) {
     SLOTS.set(set); res[set] = {};
     for (const p of PLAYERS) {
@@ -168,9 +179,9 @@ if (!ONLY_SLOTS) {
       for (const z of PLAN.zones) {
         const zi = PLAN.zones.indexOf(z); let L0 = 1, xp0 = 0;
         if (zi > 0) { const prev = PLAN.zones[zi - 1]; L0 = PLAN.gateLevel[prev]; xp0 = gateXp[prev] || 0; while (L0 < RL.MAX_LEVEL && xp0 >= RL.xpNeed(L0)) { xp0 -= RL.xpNeed(L0); L0++; } }
-        const a = { fights: 0, lost: 0, fled: 0, slotF: 0, worth: 0, rests: 0, n: 0, from: L0 };
-        for (let i = 0; i < N; i++) { const j = journey(z, L0, xp0, p, 1000 + i * 17 + zi * 7919); a.fights += j.fights; a.lost += j.lost; a.fled += j.fled; a.slotF += j.slotF; a.worth += j.worth; a.rests += j.rests; a.n++; }
-        res[set][p][z] = { from: L0, fights: a.fights / a.n, lose: a.lost / a.fights, fled: a.fled / a.fights, slot: a.slotF / a.fights, worth: a.worth / a.n, rests: a.rests / a.n };
+        const a = { fights: 0, lost: 0, fled: 0, slotF: 0, worth: 0, rests: 0, n: 0, from: L0, minutes: 0 };
+        for (let i = 0; i < N; i++) { const j = journey(z, L0, xp0, p, 1000 + i * 17 + zi * 7919); a.fights += j.fights; a.lost += j.lost; a.fled += j.fled; a.slotF += j.slotF; a.worth += j.worth; a.rests += j.rests; a.minutes += j.minutes; a.n++; }
+        res[set][p][z] = { from: L0, xp0, fights: a.fights / a.n, lose: a.lost / a.fights, fled: a.fled / a.fights, slot: a.slotF / a.fights, worth: a.worth / a.n, rests: a.rests / a.n, minutes: a.minutes / a.n };
       }
     }
   }
@@ -180,21 +191,25 @@ if (!ONLY_SLOTS) {
     console.log('  zone      levels      plan   ' + PLAYERS.map((p) => (SAY[p] + ': fights, lost, rests').padEnd(30)).join('') + 'new creatures (attentive)');
     let total = 0;
     for (const z of PLAN.zones) {
-      const s = res[set].sensible[z]; total += s.fights;
-      console.log('  ' + z.padEnd(10) + (s.from + ' to ' + PLAN.gateLevel[z]).padEnd(12) + String(PLAN.fights[z]).padEnd(7) + PLAYERS.map((p) => { const r = res[set][p][z]; return (r.fights.toFixed(1) + ', ' + pct(r.lose) + ', ' + r.rests.toFixed(1)).padEnd(30); }).join('') + 'one fight in ' + (s.slot ? (1 / s.slot).toFixed(1) : '(none)'));
+      const s = res[set].sensible[z]; total += s.fights;      // fights-tune: the plan's column is DRAW.planFights (was PLAN.fights)
+      console.log('  ' + z.padEnd(10) + (s.from + ' to ' + PLAN.gateLevel[z]).padEnd(12) + String(Math.round(DRAW.planFights(z))).padEnd(7) + PLAYERS.map((p) => { const r = res[set][p][z]; return (r.fights.toFixed(1) + ', ' + pct(r.lose) + ', ' + r.rests.toFixed(1)).padEnd(30); }).join('') + 'one fight in ' + (s.slot ? (1 / s.slot).toFixed(1) : '(none)'));
     }
-    console.log('  all four zones, the attentive player: ' + Math.round(total) + ' fights (Chris: about 180)');
+    console.log('  all four zones, the attentive player: ' + Math.round(total) + ' fights (the plan: ' + Math.round(PLAN.zones.reduce((a, z) => a + DRAW.planFights(z), 0)) + '; Chris\'s earlier word was about 180, his newer word of November 25 more often)');
   }
   // the targets
   for (const z of ONLY_GATES ? [] : PLAN.zones) {
     const a = res.A.sensible[z];
-    if (Math.abs(a.fights - PLAN.fights[z]) > T.fightsWithin) fails.push(z + ', A on: ' + a.fights.toFixed(1) + ' fights to level ' + PLAN.gateLevel[z] + ' (the plan: ' + PLAN.fights[z] + ', give or take ' + T.fightsWithin + ')');
+    // fights-tune: the plan's fights times `often`, and its give-or-take with them (6 in 45, as before)
+    const pf = DRAW.planFights(z), within = T.fightsWithin * DRAW.often(z);
+    if (Math.abs(a.fights - pf) > within) fails.push(z + ', A on: ' + a.fights.toFixed(1) + ' fights to level ' + PLAN.gateLevel[z] + ' (the plan: ' + Math.round(pf) + ', give or take ' + within.toFixed(0) + ')');
     for (const p of PLAYERS) {
       const r = res.A[p][z], want = T.loss[p];
       if (r.lose < want[0] || r.lose > want[1]) fails.push(z + ', A on: the ' + SAY[p] + ' player loses ' + pct(r.lose) + ' of its fights (the plan: ' + pct(want[0]) + ' to ' + pct(want[1]) + ')');
       for (const set of ['AB', 'none']) {
         const o = res[set][p][z];
-        if (p === 'sensible' && Math.abs(o.fights - a.fights) > T.settingsFights) fails.push(z + ', ' + (set === 'AB' ? 'A and B on' : 'neither') + ': ' + o.fights.toFixed(1) + ' fights, against ' + a.fights.toFixed(1) + ' with A on (more than ' + T.settingsFights + ' apart)');
+        // fights-tune: the give-or-take in fights grows with `often`, as the plan's fights do (3 in 45, as before)
+        const sw = T.settingsFights * DRAW.often(z);
+        if (p === 'sensible' && Math.abs(o.fights - a.fights) > sw) fails.push(z + ', ' + (set === 'AB' ? 'A and B on' : 'neither') + ': ' + o.fights.toFixed(1) + ' fights, against ' + a.fights.toFixed(1) + ' with A on (more than ' + sw.toFixed(1) + ' apart)');
         if (Math.abs(o.lose - r.lose) * 100 > T.settingsLoss) fails.push(z + ', ' + (set === 'AB' ? 'A and B on' : 'neither') + ': the ' + SAY[p] + ' player loses ' + pct(o.lose) + ', against ' + pct(r.lose) + ' with A on (more than ' + T.settingsLoss + ' points apart)');
       }
     }
@@ -205,6 +220,31 @@ if (!ONLY_SLOTS) {
       PLAYERS.map((p) => SAY[p] + ' ' + ((res[set][p][z].lose - a[p][z].lose) * 100 >= 0 ? '+' : '') + ((res[set][p][z].lose - a[p][z].lose) * 100).toFixed(1)).join(', '));
     console.log('  ' + z.padEnd(9) + line.join('     '));
   }
+}
+// ---- fights-tune: THE WALK. What the fights above mean on the land, with slot A on: the metres between meetings, the km
+// of wilds walked to each gate's level (fights times metres), the level the coven has at the big fight after the story's
+// own walk (the plan's `walk`, walked once, no more), and the minutes spent fighting (the attentive player) ----
+if (!ONLY_SLOTS && !ONLY_GATES && PLAN.walk && RES) {
+  SLOTS.set('A');
+  console.log('\nTHE WALK, with A on (the attentive player): how often a meeting comes, and what that means on the land');
+  console.log('  zone      metres between meetings   fights to the gate   km of wilds to the gate   the story\'s walk: km, meetings, level after it (the gate asks)   fighting to the gate');
+  let tf = 0, tm = 0;
+  for (const z of PLAN.zones) {
+    const D = ZONES[z], sp = DRAW.own(D) / DRAW.often(z), a = RES.A.sensible[z], km = a.fights * sp / 1000, walkKm = PLAN.walk[z], n = Math.round(walkKm * 1000 / sp);
+    let lv = 0; const NW = Math.max(8, Math.round(N / 3));
+    for (let i = 0; i < NW; i++) lv += journey(z, a.from, a.xp0 || 0, 'sensible', 5000 + i * 23, n).levelF;
+    lv /= NW; tf += a.fights; tm += a.minutes;
+    const ev = D.where.filter((w) => w.part > 0).map((w) => DRAW.every(z, w)), short = lv < PLAN.gateLevel[z] ? '; short: walk again' : '';
+    console.log('  ' + z.padEnd(10) + (Math.round(sp) + ' (' + Math.round(Math.min(...ev)) + ' to ' + Math.round(Math.max(...ev)) + ')').padEnd(26) + a.fights.toFixed(1).padEnd(21) + km.toFixed(1).padEnd(26) +
+      (walkKm.toFixed(1) + ' km, ' + n + ', level ' + lv.toFixed(1) + ' (' + PLAN.gateLevel[z] + ')' + short).padEnd(63) + (a.minutes / 60).toFixed(1) + ' hours');
+  }
+  console.log('  all four zones: ' + Math.round(tf) + ' fights, about ' + (tm / 60).toFixed(1) + ' hours of fighting (the battle\'s own reckoning of a fight\'s minutes, thinking time included)');
+  // what more meetings cost on the way (a fight hurts as much as before, and more of them come in a km): the rests each
+  // kind of player takes, and the fights it loses, for each km of wilds (here a rest costs nothing; on the land it is the walk to a fire)
+  console.log('  for each km of wilds: rests (careless, attentive, expert); fights lost, waking at the camp (careless, attentive)');
+  for (const z of PLAN.zones) { const D = ZONES[z], sp = DRAW.own(D) / DRAW.often(z), per = (p) => { const r = RES.A[p][z]; return { rests: r.rests / (r.fights * sp / 1000), lost: r.lose * 1000 / sp }; };
+    console.log('  ' + z.padEnd(10) + PLAYERS.map((p) => per(p).rests.toFixed(1)).join(', ').padEnd(22) + ['careless', 'sensible'].map((p) => per(p).lost.toFixed(2)).join(', ')); }
+  SLOTS.set(null);
 }
 console.log('\n' + (fails.length ? fails.length + ' targets missed:\n  ' + fails.join('\n  ') : 'every target met') + '   (' + ((Date.now() - t0) / 1000).toFixed(0) + ' s)');
 process.exit(fails.length ? 1 : 0);
