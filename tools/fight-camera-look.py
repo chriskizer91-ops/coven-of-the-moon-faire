@@ -35,10 +35,18 @@ SHOT = { 'rest': ('rest', None, None), 'front': ('front', 'W', 'F'), 'profile': 
          'foe-front': ('front', 'F', 'W'), 'victim': ('victim', 'F', 'W'), 'target': ('target', 'F', 'W'), 'hit-witch': ('target', 'W', 'F'),
          'clash': ('clash', 'W', 'F'), 'all-witches': ('all', 'W', None), 'all-foes': ('all', 'F', None), 'fit': ('fit', None, None) }
 rows, errors = [], []
+def save():
+    jf = os.path.join(out, 'shots.json'); old = []
+    if os.path.exists(jf):
+        try: old = [r for r in json.load(open(jf)) if not any(r['file'] == n['file'] for n in rows)]
+        except Exception: old = []
+    with open(jf, 'w') as fh: json.dump(old + rows, fh, indent=1)
+    print('page errors: %d' % len(errors))
+    for e in errors[:10]: print('  ! ' + e)
 
-def settle(pg, ms=500):
-    try: pg.wait_for_function(SETTLED, timeout=60000, polling=250)
-    except Exception: print('  (the camera had not settled after a minute)')
+def settle(pg, ms=500, limit=60000):
+    try: pg.wait_for_function(SETTLED, timeout=limit, polling=250)
+    except Exception: pass   # (after a cut the camera eases in for a few seconds: here that is half a minute; the still is taken nearly there)
     pg.wait_for_timeout(ms)
 
 with sync_playwright() as p:
@@ -95,7 +103,7 @@ with sync_playwright() as p:
                     if fz['n'] - n0 >= BEATS and fz['phase'] == 'act': break
                     tagp = (fz['n'], fz['phase'])
                     if tagp != last or fz['phase'] == 'hit':
-                        settle(pg, 350)
+                        settle(pg, 350, 18000)
                         name = '%s-move%02d-%s-%s-%s.png' % (fid_tag, fz['n'] - n0, {'act': '1act', 'hit': '2hit', 'out': '3out', 'rest': '4rest'}[fz['phase']], info['last'], tag)
                         if not os.path.exists(os.path.join(out, name)):
                             pg.screenshot(path=os.path.join(out, name)); m = pg.evaluate(MEASURE)
@@ -103,16 +111,10 @@ with sync_playwright() as p:
                             print('  move %d %-4s %-9s %-16s by %s at %s: %s ground %s numbers %d' % (fz['n'] - n0, fz['phase'], info['last'], info['banner'], info['actor'], info['targets'], hs, m['ground'], len(m['numbers'])), flush=True)
                             rows.append({ 'fight': fid, 'size': tag, 'still': 'move', 'file': name, 'beat': info, 'frozen': fz, 'measure': m }); seen += 1
                     last = tagp
-                    pg.evaluate("() => { const B = window.__battle; B.freezeOn(['act', 'hit', 'out', 'rest']); B.turbo = 1; }")
+                    pg.evaluate("() => { const B = window.__battle; B.freezeOn(['act', 'hit', 'out', 'rest']); B.turbo = 2; }")
             pg.evaluate("() => { if (window.__battle) window.__battle.freezeOn(null); }")
+            jf = os.path.join(out, 'shots-part.json'); json.dump(rows, open(jf, 'w'), indent=1)
         ctx.close()
     b.close()
-old = []
-jf = os.path.join(out, 'shots.json')
-if os.path.exists(jf):
-    try: old = [r for r in json.load(open(jf)) if not any(r['file'] == n['file'] for n in rows)]
-    except Exception: old = []
-with open(jf, 'w') as fh: json.dump(old + rows, fh, indent=1)
-print('page errors: %d' % len(errors))
-for e in errors[:10]: print('  ! ' + e)
+save()
 sys.exit(1 if errors else 0)

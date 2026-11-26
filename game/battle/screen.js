@@ -239,7 +239,8 @@
     // `all`: a move landing on several at once: seen from `turn` degrees round and `rise` up, through a `fov` degree lens.
     // `see`: when a blow lands, the camera cuts to whoever it lands on unless the shot already shows them at least this big
     //   (as a share of the picture's height a witch would stand there): `one` for a blow on one, `many` for a blow on several
-    //   at once (so a move that hits everyone is seen in a wide shot, and a blow on one is seen close).
+    //   at once (so a move that hits everyone is seen in a wide shot, and a blow on one is seen close). A giant also
+    //   counts as seen when it stands `giant` of the picture's height or more (it need not be nearer than that).
     // `cuts`: how the camera goes from shot to shot. `on`: false and there are no close-ups at all (the camera as it was).
     //   `into`: 'cut' (my call: a close-up begins at once) or 'glide' (it flies there, `glide` fast: bigger is faster).
     //   Why a cut: a fast glide from behind the party to in front of one witch swings the picture through whoever stands
@@ -264,7 +265,7 @@
       over: { back: [3.4, 2.2], aside: 0.75, eye: 0.75, fov: 40, pitch: 7 },
       pair: 7,
       all: { turn: 28, rise: 8, fov: 32 },
-      see: { one: 0.3, many: 0.17 },
+      see: { one: 0.3, many: 0.17, giant: 0.9 },
       cuts: { on: true, into: 'cut', glide: 9, swing: 40, push: 0.1, pull: 0.08, ease: 1.6, hold: 0.9, hit: 0.8 },
       ground: { reach: 44, fade: 0.6, density: 0.5, height: 0.75, phone: 0.75 },
       nums: { gap: 3, edge: 8 },
@@ -431,7 +432,7 @@
         const h = Math.min(f.tall, L.tall);
         q.set(f.pos.x, h / 2, f.pos.z).project(tmp); if (q.z > 1 || Math.abs(q.x) > 0.86 || q.y < -U.yLim || q.y > 0.92) return false;
         const y0 = q.set(f.pos.x, 0, f.pos.z).project(tmp).y, y1 = q.set(f.pos.x, 1, f.pos.z).project(tmp).y, ppm = Math.abs(y1 - y0) * U.H / 2;
-        return ppm * 1.7 >= (many ? FRAMING.see.many : FRAMING.see.one) * view.h || (giant(f) && ppm * f.tall >= 0.5 * view.h);
+        return ppm * 1.7 >= (many ? FRAMING.see.many : FRAMING.see.one) * view.h || (giant(f) && ppm * f.tall >= FRAMING.see.giant * view.h);
       }
 
       // ---- fight-camera: a move's beat: close on whoever begins it, then the blow landing, then back out ----
