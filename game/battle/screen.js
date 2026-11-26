@@ -415,9 +415,12 @@
       function blocked(c, subjects) {
         for (const g of heroes.concat(foes)) {
           if (!g.m.root.visible || g.out || (subjects && subjects.includes(g))) continue;
-          if (Math.hypot(c.pos.x - g.pos.x, c.pos.z - g.pos.z) < Math.min(halfOf(g), 3) + (giant(g) ? 0.35 : 0.2) && c.pos.y < g.tall + 0.3) return true;
+          const bulk = Math.max(halfOf(g), g.tall * 0.3); // (a broad creature with no stated reach, such as the Rotwarden, is as broad as three tenths of its height)
+          if (Math.hypot(c.pos.x - g.pos.x, c.pos.z - g.pos.z) < Math.min(bulk, 3) + (giant(g) ? 0.35 : 0.2) && c.pos.y < g.tall + 0.3) return true;
           const lx = c.look.x - c.pos.x, lz = c.look.z - c.pos.z, L2 = lx * lx + lz * lz; if (L2 < 1e-6) continue;
           const gx = g.pos.x - c.pos.x, gz = g.pos.z - c.pos.z, gd = Math.hypot(gx, gz), inView = (gx * lx + gz * lz) / (gd * Math.sqrt(L2));
+          // nor right beside the camera and in its view: it would fill a side of the picture, out of focus
+          if (gd < 2.4 + bulk && inView > 0.45 && c.pos.y < g.tall + 0.5) return true;
           if (c.fore && gd < Math.hypot(c.fore.pos.x - c.pos.x, c.fore.pos.z - c.pos.z) + 0.4 && inView > 0.72) return true;
           // (and, for a close-up, nobody in the picture standing nearer the camera than the one it is on: she would be the bigger)
           if (c.near && gd < Math.hypot(c.near.pos.x - c.pos.x, c.near.pos.z - c.pos.z) - FRAMING.close.ahead && inView > 0.8) return true;
