@@ -22,7 +22,7 @@ Branch: job/last-foe (with `main` 877ef05 merged)      Updated: November 26, 202
 
 **Added to a page** (as files; the builder counts about the same): **zone 4 and the fights lab +0.07 MB each** (the
 model 58 KB, its player 4 KB, the card 11 KB). The battle page: nothing (it does not offer the last fight). Zone 4's
-size after the merge with `main`: see "Checks".
+page after the merge with `main`: **81.9 MB as a file** (78.2 MB as the builder counts it), under 100 MB.
 
 **Checks** (all on pages built from this branch; numbers below)
 | Check | Good | Failed |
@@ -32,7 +32,8 @@ size after the merge with `main`: see "Checks".
 | `node tools/battle-balance.mjs` | 49 of 51 | 2, **the same two as before** (old Envoi's Dawnroost and finale): its numbers did not move |
 | `node tools/encounter-balance.mjs --gates` | every target met (the fire at level 20: careless 4.8%, attentive 100%, expert 100%, as before) | 0 |
 | `node tools/last-fight-balance.mjs --n 300` (new) | the table in "The sums" | |
-| `tools/battle-test.py`, `tools/battle-start-test.py`, `tools/encounter-test.py builds/zone-4.html --long-only` | see "Checks still running" at the end | |
+| `tools/battle-test.py` on the battle page (built after the merge) | 8 fights played to their end | 0 page errors, 0 failed |
+| `tools/battle-start-test.py`, `encounter-test.py builds/zone-4.html --long-only`, form two's stills | **still running** (waiting for the shared lock): see "Checks still running" | |
 
 **Pictures to show Chris** (all in `/tmp/claude-0/-home-user-coven-of-the-moon-faire/41576e32-9c97-530a-9c7c-c502d1946878/scratchpad/last-foe/`):
 `sheet-for-chris.jpg` (the fire's two forms in a fight here, beside the same two as Moon Faire showed them), the card
@@ -257,3 +258,15 @@ One go is form one (stopped at 45%) and then the final form (ended by Kore's Sea
 - 23:30 cut off again; Nov 26 03:05: merged `main` (877ef05), the owed checks run once more (below).
 
 ## Checks still running
+
+Started on November 26 at 03:01 in one queue (), each step under the shared lock; the queue was waiting for
+the lock when this was written (another job held it from 03:32). Log: .
+
+1. .
+2. Form two's stills on the fights lab (: its change in four steps, idle, a blow, a call, being hit,
+   sealed, its ending in three steps). To get there sooner, the still run lowers the final form's Life to a fifth
+   after its first blow and call, so Kore's Fate meets it sooner; the whole final form played without that is the
+   land check above (easy, won by Kore's Sealed Fate after 43 turns). When the queue ends,  remakes
+    with the final form's still in it (until then its bottom-left cell says it is being taken).
+3.  (about an hour): the bramble and both fire forms on the land,
+   with the card picked by itself (Easy).
