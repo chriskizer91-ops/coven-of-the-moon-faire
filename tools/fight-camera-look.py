@@ -25,7 +25,7 @@ opt = lambda k, d: args[args.index(k) + 1] if k in args else d
 SIZES = [tuple(int(x) for x in s.split('x')) for s in opt('--sizes', '1280x720').split(',')]
 FIGHTS = [x for x in opt('--fights', 'greatBramble').split(',') if x]
 KINDS = [x for x in opt('--kinds', 'rest,front,profile,shoulder,foe-front,victim,target,hit-witch,clash,all-witches,all-foes').split(',') if x]
-BEATS = int(opt('--beats', '0')); LEVEL = int(opt('--level', '0')); WHO = opt('--who', 'io'); AS = opt('--as', '')
+BEATS = int(opt('--beats', '0')); LEVEL = int(opt('--level', '0')); WHO = opt('--who', 'io'); AS = opt('--as', ''); WAIT = float(opt('--wait', '4'))
 os.makedirs(out, exist_ok=True)
 FLAGS = ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--enable-webgl']
 SETTLED = "() => { const D = window.__battle.DIR; return !D.free || (D.pos.distanceTo(D.to.pos) < 0.02 && D.look.distanceTo(D.to.look) < 0.02); }"
@@ -64,7 +64,7 @@ with sync_playwright() as p:
             pg.wait_for_function("() => { const c = document.querySelector('.coven-last-card button[data-setting]'); if (c) c.click(); return !!window.__battle; }", timeout=120000, polling=300); pg.evaluate("() => { window.__battle.turbo = 6; }")
             pg.wait_for_function("() => { const b = document.getElementById('skipBtn'); if (b && !document.getElementById('skip').hidden) b.click(); return window.__battle && window.__battle.state === 'battle' && window.__battle.menuOpen; }", timeout=400000, polling=300)
             # (the foes are still rising when the menu first waits: the great bramble takes 4.6 s. The stills wait for them)
-            t0 = pg.evaluate("() => window.__battle.t"); pg.wait_for_function("(t) => window.__battle.t >= t + 4", arg=t0, timeout=240000, polling=200)
+            t0 = pg.evaluate("() => window.__battle.t"); pg.wait_for_function("([t, w]) => window.__battle.t >= t + w", arg=[t0, WAIT], timeout=240000, polling=200)   # (--wait: longer for a foe that takes longer to come to its size)
             pg.evaluate("() => { window.__battle.turbo = 0; }")
             foe = pg.evaluate("() => { const F = window.__battle.F; return Object.keys(F).filter((k) => F[k].side === 'foe'); }")
             print('%s at %s (foes: %s)' % (fid, tag, ', '.join(foe)), flush=True)
