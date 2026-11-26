@@ -1,10 +1,58 @@
 # last-foe: the fire wears its own model; the last fight's four settings; what exists of the knight
 
-Branch: job/last-foe      Updated: November 25, 2026 (work in progress: the numbers below are filled in as the checks finish)
+Branch: job/last-foe (with `main` 877ef05 merged)      Updated: November 26, 2026
 
 ## Report for the hub
 
-(Written last; see the parts below until then.)
+**What was done**
+1. **The fire wears its own model in both forms:** Moon Faire's final foe, "the fire that would not end", copied in
+   unchanged from `moon-faire` `main` `6371714` (`game/battle/models/final-fire.js`, 58 KB, its line in
+   `assets/INDEX.csv`; no web address, no outside code, so no licence note needed). A small new file plays it in the
+   battle (`final-fire-foe.js`, 4 KB). Form one lights up as it appears; the final form appears whole and breaks open
+   as its fight begins; its end is the model's own ending (one small flame left). No rule, number or player's line of
+   the fight was changed by this part (only which motion each move plays). Part 1 below.
+2. **The last fight's four settings (task 3):** a card just before the last fight: Easy, Medium, Hard, Crazy (levels
+   20, 21, 22, 22.8, as Moon Faire's plan and Chris's decision say). The setting is the level of everything in both
+   forms. Form one now has its helpers (two wraiths, two frost wisps); the party comes to the final form refilled. The
+   story's rules stay (form one stops at 45%, only Kore's Sealed Fate ends the final form). Part 2 below, with the plan
+   point by point against the game, and nine calls for Chris.
+3. **The knight: found, not built.** The model Chris means is almost surely **Envoi's new Halcyon** (Moon Faire's base
+   doll in its paladin outfit, with a glow made in code; about 50,000 triangles; motions borrowed from Io; about 6.4 MB).
+   In this game's lore the knight *is* Halcyon. Aethermoor M7 has no knight of light. Part 3 below.
+
+**Added to a page** (as files; the builder counts about the same): **zone 4 and the fights lab +0.07 MB each** (the
+model 58 KB, its player 4 KB, the card 11 KB). The battle page: nothing (it does not offer the last fight). Zone 4's
+size after the merge with `main`: see "Checks".
+
+**Checks** (all on pages built from this branch; numbers below)
+| Check | Good | Failed |
+|---|---|---|
+| The card on the fights lab, 1280x720 and 412x880: four buttons (123x70 px; two rows of two on the phone), keyboard and click/tap, each setting started with the fire and its 4 helpers at its level and the name box showing it (Level 20, 21, 22, 22.8); crazy played 8 turns | 12 + 12 | 0 |
+| The last fight on **zone 4's land** at each setting: card, levels, name box, form one stopped, the coven's moment between, the final form at the same level with the party full, the card asked once; **easy's final form played to its end and won by Kore's Sealed Fate** (43 turns), the other three let fall | 26 | 0 |
+| `node tools/battle-balance.mjs` | 49 of 51 | 2, **the same two as before** (old Envoi's Dawnroost and finale): its numbers did not move |
+| `node tools/encounter-balance.mjs --gates` | every target met (the fire at level 20: careless 4.8%, attentive 100%, expert 100%, as before) | 0 |
+| `node tools/last-fight-balance.mjs --n 300` (new) | the table in "The sums" | |
+| `tools/battle-test.py`, `tools/battle-start-test.py`, `tools/encounter-test.py builds/zone-4.html --long-only` | see "Checks still running" at the end | |
+
+**Pictures to show Chris** (all in `/tmp/claude-0/-home-user-coven-of-the-moon-faire/41576e32-9c97-530a-9c7c-c502d1946878/scratchpad/last-foe/`):
+`sheet-for-chris.jpg` (the fire's two forms in a fight here, beside the same two as Moon Faire showed them), the card
+`card/card-1280x720.png` and `card/card-412x880.png`, a fight at crazy `card/rounds-crazy-1280x720.png`, the knight
+`knight/knight-three-quarter.png`.
+
+**For the camera job (`fight-camera`): the last foe's true sizes, in metres** (it stands at x 3.2, z -11.5; it does
+not walk)
+| | Height | Width | Its middle (the black sphere, `anchor('heart')`) | Its top (`anchor('top')`) | The bowl's glow |
+|---|---|---|---|---|---|
+| Form one | 8.0 | 4.8 | 6.1 up | 8.0 | 1.3 up |
+| Final form | 12.0 | 9.6 (its ribbons and loose blades reach a little past) | 7.9 up | 12.0 | 0.8 up |
+During its change (the first 5.2 s of the final form's fight) it grows from the first row to the second, from 2.6 s
+on. Its look gives `tall` 8 and 12, `halfW` 2.4 and 4.8. Its blow lands about 4.3 m in front of it, so with the party
+12 m away the hand never reaches them in the picture (the hit shows on the witch). Form one's helpers stand at
+(1.5, -5.2), (5.0, -6.6), (2.8, -3.8), (4.6, -4.4).
+
+**What could not be checked here:** motion (stills only), frame rate (this machine draws 1 to 3 frames a second with
+no graphics card; the page shows its own rate for Chris to read), sound, touch on a real phone (the tap was a test
+browser's), how the model looks with the Flipbook look on.
 
 ## Part 1. The fire wears its own model, in both forms
 
@@ -177,3 +225,35 @@ One go is form one (stopped at 45%) and then the final form (ended by Kore's Sea
   player and harder for the expert, and hard and crazy come out about the same. The two games' rules differ (four
   witches here, this fight's own moves, the 45% stop), so the plan's numbers cannot be expected to carry over.
 - A win takes about 8 to 11 minutes of play.
+
+## For the hub
+
+1. **Noctara is worn by nothing now.** `game/battle/models/noctara.js` (0.11 MB) can come out of zones 1 to 4, the
+   fights lab, both creature labs and the battle page; with it `FOE_LOOK.noctara` and `makeNoctara` in `fights.js`
+   (the old Envoi's finale is in `sim.js` and `battle-balance.mjs` only, which need no model). Not done here.
+2. **A bug found by reading `screen.js` (not seen in a picture):** when a story fight ends by its foe stopping (the
+   knight's, and the fire's form one), `retreatEnding` calls `recognize()`, the old Halcyon ambush's moment. For these
+   fights `cfg.knowLines` is empty, so it shows the old Envoi's fallback words "Sol knows that stance." for about three
+   seconds before the fight's own lines. The fix is the camera job's or the hub's file: skip `recognize()` and
+   `learnStoop()` unless `cfg.knowLines` (and `cfg.stoopLines`) are given.
+3. **If Chris takes the plan's rule for a lost final form (call C4):** in `game/encounters/land-fights.js`,
+   `bigFight`, after `const r = await fight(...)`: when `!r.won && last`, delete `party.gates[g.id + '.' + k]` for
+   each earlier form `k`. That is the fights-tune job's file.
+4. **`docs/decisions.md`:** Chris, November 25: the fire's model is swapped for Moon Faire's ("The fire's the final big
+   bad ... I would like that to be swapped out ... the final boss has already been built"), and the four settings
+   ("you select easy, medium, or hard for the final boss, or crazy ... level 20, level 21, level 22, or level 22.8").
+5. **`docs/questions.md`:** D6 (the knight and the fire wear stand-ins): the fire's half is answered; the knight's
+   now asks which knight he means (part 3). Add calls C1 to C9.
+6. **`docs/assets-list.md`:** the final boss's line is now "In the game (zone 4)".
+7. The checks (`encounter-test`, `encounter-fights-test`) pick Easy on the card by themselves when they let the
+   battle play (a test browser, `auto`): their old numbers hold. `CovenLastFight.preset` chooses another.
+
+## Running log
+
+- Nov 25 15:30 to 16:00: read, copied the model, made its player, first build and pictures.
+- 16:00 to 17:00: task 3 built (the card, levels, helpers, refill), card checks passed at both sizes.
+- 17:00 cut off by the usage limit; 20:55 on: the sums, the balance tools, zone 4 and battle built, the knight
+  pictured, the land check passed (26 good).
+- 23:30 cut off again; Nov 26 03:05: merged `main` (877ef05), the owed checks run once more (below).
+
+## Checks still running
