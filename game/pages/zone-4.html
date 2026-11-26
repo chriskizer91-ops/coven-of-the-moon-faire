@@ -70,6 +70,9 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
   <div id="numbers"><b id="fps">…</b> frames a second<small id="more"></small></div></div>
 <div id="load"><div><h1>Coven of the Moon Faire</h1><h2>Zone 4: the northeast peaks</h2><p id="loadmsg">Loading…</p></div></div>
 <script src="../lib/three.r128.min.js"></script>
+<!-- left-overs job: start: every flame on the land leans north-east, by the numbers in this one file -->
+<script src="../look/flame-lean.js"></script>
+<!-- left-overs job: end -->
 <script src="../witches/io/meshopt_simplifier.js"></script>
 <script src="../witches/io/palette.js"></script>
 <script src="../witches/io/io_tex.js"></script>
@@ -187,6 +190,10 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../battle/models/lunara.js"></script>
 <script src="../battle/models/envoi.js"></script>
 <script src="../battle/models/stand-in.js"></script>
+<!-- last-foe job: start: last-foe: the fire that would not end, Moon Faire's final foe, in its own model (both forms of the last fight wear it) -->
+<script src="../battle/models/final-fire.js"></script>
+<script src="../battle/models/final-fire-foe.js"></script>
+<!-- last-foe job: end -->
 <!-- peak-creatures job: start: zone 4's two new creatures (slots A and B: the Wickstoat, the Hoarmantle). The shared way in for creatures made with Aethermoor M7's kit (the creatures job's loader, m7-foe.js, and its decoder), their moves, models and data -->
 <script src="../battle/models/m7/meshopt-decoder.js"></script>
 <script src="../battle/models/m7/m7-foe.js"></script>
@@ -215,6 +222,10 @@ html,body{margin:0;height:100%;background:#0a0b18;overflow:hidden;overscroll-beh
 <script src="../battle/screen.js"></script>
 <script src="../battle/fights.js"></script>
 <script src="../battle/start.js"></script>
+<!-- last-foe job: start: last-foe: the last fight's choice of easy, medium, hard or crazy (after start.js, which it stands in front of) -->
+<script src="../battle/last-fight-data.js"></script>
+<script src="../battle/last-fight.js"></script>
+<!-- last-foe job: end -->
 <!-- the party; the fights' words; the plan; the big fights' foes; the creatures' slots; this zone's numbers; who is met, and when -->
 <script src="../party/party.js"></script>
 <script src="../party/party-view.js"></script>

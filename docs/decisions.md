@@ -13,6 +13,72 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 25, 2026, 23:15: the game is published; the fire wears its own model
+
+- **The game is published as linked pages** at the repo's GitHub Pages address (the second run of
+  `.github/workflows/pages.yml`, 21:07, succeeded; Pages was already turned on). It updates on every change to
+  `game/` in `main`. The hub's machine cannot reach that address, so Chris is the one who can see it.
+- **Hub's call:** `job/last-foe` was brought into `main` (`c644a0f`). The fire's two forms wear Moon Faire's final
+  boss (`game/battle/models/final-fire.js`, copied as it is, with its line in `assets/INDEX.csv`). Before the last
+  fight a card asks Easy, Medium, Hard or Crazy: levels 20, 21, 22 and 22.8, as Chris decided.
+- **Hub's calls, all Chris's to overturn** (`docs/questions.md`, part E): where Moon Faire's plan for the last fight
+  and this game's story differ, the story's way is kept (the first form stops at 45%; only Kore's Sealed Fate ends
+  the final form). The first form's helpers are two wraiths and two frost wisps. With them a careful level-20 coven
+  wins Easy 44 times in 100: nothing was tuned, and how hard it should be is Chris's call.
+- **The knight:** not built. The only finished one in the four sources is the new Halcyon in Envoi. Asked of Chris.
+
+## November 25, 2026, 21:05: every page is under 100 MB; the recordings are in; the pages can be published
+
+- **Chris, about 10:20:** he sent the last 20 recordings (the held Warden's 2 lines, the narrator's 18 for zone 4)
+  and asked for files to test as a folder on his laptop, with `index.html` as the front door. Both done.
+- **Chris, about 10:40:** the last fight's scaling must be in: level 20 is the player's top; before the fight the
+  player picks easy, medium, hard or crazy, and the boss is level 20, 21, 22 or 22.8. **Stands** (it was decided
+  before and had not been built). The `last-foe` job builds it from Moon Faire's final-fight plan.
+- **Chris, 15:00:** the 5-hour window was full again and 24% of the week's usage was left. **Hub's call:** two or
+  three jobs at a time, and jobs are finished before more are started.
+- **Hub's call:** `job/left-overs` was brought into `main` (`60c8584`). The four zone pages are 89.0, 81.0, 90.2 and
+  81.9 MB as files. Nothing seen or heard was made lighter.
+- **Hub's call, for Chris to overturn:** flames lean north-east, as the story's lines say (the board had said
+  north), 3 degrees for each of Odile's fingers. The lanterns' glass is see-through now, with a small flame inside.
+- **Hub's call:** the pages are published by a workflow that builds them on GitHub from this repo alone. No built
+  page is kept in git. It needs Pages turned on by Chris once.
+
+## November 25, 2026, 09:15: Chris played it on his laptop
+
+All from Chris's messages of November 25, about 09:15 to 09:45, after he opened the second set of builds.
+
+- **Stands. Every page is under 100 MB as a file,** "so that we can make it all GitHub hosted web page connected
+  pages game system ... That way you can push it to GitHub and give me a link and I can have all of it, but I could
+  also download it and run it on an offline browser." GitHub takes no file of 100 MB or more. So: the game is
+  published as linked pages on GitHub, and each page is still one file that runs from a download with no internet.
+  Today's sizes: zone 1 124.8 MB, zone 2 110.4, zone 3 108.9, zone 4 100.5. The `left-overs` job makes them smaller.
+- **Stands. The laptop comes first.** "We're focused on it working perfect on a laptop." The phone "is fine for now,
+  as long as it's working".
+- **Stands. The fight camera cuts in close.** "I want it to get close-ups on the person attacking. So I guess their
+  attack begins, the camera zooms in on them, and then the camera backs out maybe ... the angles are good. It's just
+  I think it needs to be automatically kind of cutting in closer and choosing them differently." The angles work on
+  small creatures; with a giant foe (the Great bramble) the party was tiny: "based off size we need to maybe work
+  camera angles". **He asked for a Fable 5.2 sub-agent at high effort for this**, and the `fight-camera` job is one.
+- **Stands. Foes are met more often in the wilds.** "It just was way more running than I thought. I think that the
+  foes should pop up in the wilds more often." This replaces "about 180 fights" where the two pull apart.
+  **Hub's call:** about every 50 to 65 m in place of 100 to 130 m, each meeting giving less so the levels still fit.
+- **Stands. The tiniest foes stand bigger; the Glowcaps stay small** ("I think it's actually kind of cute that
+  they're that small"). **Hub's call:** the Forge-Spark about 0.75 m with a stronger glow; the Wickstoat about 0.8 m.
+- **Stands. The fire wears Moon Faire's final boss, not Noctara's model.** "I would like that to be swapped out ...
+  the final boss has already been built." The knight's model "was being built": where is not yet known.
+- **Stands. All four witches from the beginning, and any of them can lead:** "there has to be a thing in the menu to
+  change who's the walking around model."
+- **Stands (said again). Moon Faire's fights with four witches, on Envoi's battle** (its arenas, sound, music and
+  Kore's fate rules).
+- **What he saw:** the fights page ran at 30 frames a second on his laptop. The front door said "file not found"
+  until every file in his folder had its exact name (a second download had been given another name by the browser).
+  He had not seen zone 4 yet.
+- **He asked for one file with the 20 lines still to record** (the held Warden's 2, the narrator's 18 for zone 4).
+  Sent at 09:35. He will go through the questions list.
+- **Hub's call:** five jobs run at once: `fight-camera` (Fable 5.2, high), and on Opus 5.5 at high effort
+  `fights-tune`, `leader`, `last-foe` and `left-overs` (now also: every page under 95 MB). The nine big fights are
+  played again only after the camera and the last foe are in.
+
 ## November 25, 2026, 08:00: the small-things repair job is in `main`
 
 - **Hub's call:** `job/small-things` was brought into `main`. Put right: the talk box on a phone (384 px on a 412 px

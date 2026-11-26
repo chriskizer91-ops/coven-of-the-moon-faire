@@ -116,7 +116,7 @@ Three cautions about Moon Faire's `main`:
 | The four Bramble Horrors | **E:** `src/models/bramble.js` | Finished | **Use as is** |
 | The Bramble Colossus | **E:** `src/models/colossus.js` | Finished | **Use as is** |
 | Moon Faire's three brambles (Bramble, Flowering, Great), light and fine weights | **MF:** `game/models/foes/bramble/` | Built. Chris has not looked at them. Not joined to any fight | **Leave out** for now. They were made from Envoi's own two brambles; Envoi's originals are already in the battle. Come back if a lighter bramble is needed for crowds |
-| **The final boss, "the fire that would not end"**, in two forms (about 21,000 triangles) | **MF:** `game/models/foes/final-fire/final-fire.js`; copy in **E:** `mfw/witches/bigbad/final-fire.js` | Approved ("looks great") | **Use as is** |
+| **The final boss, "the fire that would not end"**, in two forms (about 21,000 triangles) | **MF:** `game/models/foes/final-fire/final-fire.js`; copy in **E:** `mfw/witches/bigbad/final-fire.js` | Approved ("looks great") | **In the game** (zone 4's last fight, both forms; November 25) |
 | The final boss's own page at the dead Moonwell | **E:** `mfw/bigbad/` | Built. Not yet inside the new battle | **Use with changes:** move it into the battle as the finale |
 | **The new Halcyon**: the base doll in the paladin outfit, with a glow made in code | **E:** `mfw/src/halcyon-paladin.js`, `mfw/witches/doll/` | Built. Her moves are Io's for now; her fight is not rebuilt | **Use with changes:** she needs her fight, and Chris's call on whether she gets moves of her own |
 | Everyone Who Fights: all 17 fighting models on one page | **E:** `mfw/lineup/` | Built, waiting for Chris to lock the 17 in | **Use as is** as a check page, not part of the game |

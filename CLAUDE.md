@@ -81,6 +81,10 @@ git -C <folder> show HEAD:<path>                 # one file
   internet needed. Send it as a file to download.
   Make it with `python3 tools/build.py game/pages/<page>.html`. The builder stops if the file would reach outside
   itself. Check it with `tools/walk-test.py` and look at it with `tools/look.py` before sending it.
+- **Every page is under 100 MB as a file** (Chris, November 25). GitHub takes no file of 100 MB or more, and the
+  game is also published there as linked pages. The builder stops at 100 MB. A published page is the same one file
+  as the download: it still loads nothing from outside itself.
+- **The laptop comes first** (Chris, November 25). The phone has to keep working, no more, until he says.
 - **Say what could not be checked.** A browser with no screen cannot measure a frame rate or show motion. Only Chris's
   laptop and phone can. Every build shows its own frame rate so he can read it off.
 - **A copied file that is changed here** gets a comment marked "Coven" at each change, and a line in the job's slip.

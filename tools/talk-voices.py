@@ -189,7 +189,9 @@ def main():
     tr.setup(data)
     cast = tc.cast()
     lines = {l['id']: l for l in data['lines']}
-    files = {p.stem: p for p in AUDIO.glob('*.mp3')}
+    # hub, November 25: the narrator's files live in the same folder (tools/narrator-sound.py makes them and checks them):
+    # they are not the people's lines, so they are left out here
+    files = {p.stem: p for p in AUDIO.glob('*.mp3') if '.narrator.' not in p.stem}
     missing = sorted(set(lines) - set(files)); extra = sorted(set(files) - set(lines))
     with cf.ThreadPoolExecutor(8) as ex:
         m = dict(zip(sorted(files), ex.map(probe, [files[k] for k in sorted(files)])))
