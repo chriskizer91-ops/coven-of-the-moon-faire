@@ -13,6 +13,22 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 25, 2026, 21:05: every page is under 100 MB; the recordings are in; the pages can be published
+
+- **Chris, about 10:20:** he sent the last 20 recordings (the held Warden's 2 lines, the narrator's 18 for zone 4)
+  and asked for files to test as a folder on his laptop, with `index.html` as the front door. Both done.
+- **Chris, about 10:40:** the last fight's scaling must be in: level 20 is the player's top; before the fight the
+  player picks easy, medium, hard or crazy, and the boss is level 20, 21, 22 or 22.8. **Stands** (it was decided
+  before and had not been built). The `last-foe` job builds it from Moon Faire's final-fight plan.
+- **Chris, 15:00:** the 5-hour window was full again and 24% of the week's usage was left. **Hub's call:** two or
+  three jobs at a time, and jobs are finished before more are started.
+- **Hub's call:** `job/left-overs` was brought into `main` (`60c8584`). The four zone pages are 89.0, 81.0, 90.2 and
+  81.9 MB as files. Nothing seen or heard was made lighter.
+- **Hub's call, for Chris to overturn:** flames lean north-east, as the story's lines say (the board had said
+  north), 3 degrees for each of Odile's fingers. The lanterns' glass is see-through now, with a small flame inside.
+- **Hub's call:** the pages are published by a workflow that builds them on GitHub from this repo alone. No built
+  page is kept in git. It needs Pages turned on by Chris once.
+
 ## November 25, 2026, 09:15: Chris played it on his laptop
 
 All from Chris's messages of November 25, about 09:15 to 09:45, after he opened the second set of builds.

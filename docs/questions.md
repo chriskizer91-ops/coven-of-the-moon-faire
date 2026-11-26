@@ -61,6 +61,9 @@ and is in `docs/decisions.md`.
 | D6 | The knight and the fire wear Halcyon's and Noctara's models | **Answered, November 25:** the fire wears the final boss you built in Moon Faire (both forms); the `last-foe` job is bringing it in. The knight's model "was being built": that job is looking for it in your four games and I will show you what it finds. **Where is the knight being built, if not in one of those four?** |
 | D7 | The sky's names (stars, planets, the crystal band) | A proposal: `docs/lore/sky-names-proposal.md` |
 | D8 | When the leaving lines are said (the narrator, then the coven, as the ship leaves a zone) | After "Board the ship" and "Set course", just before the flight. Before November 25 they were said on the land, before she boarded. The coven's lines speak as if already in the air while the picture is still the pier. Saying them over the flight itself is a bigger change, not made |
+| D9 | Which way the flames lean, and how far | North-east, as the story's lines say eight times (one line says north). 3 degrees for each of Odile's fingers, so 6 to 18 degrees. One number each in `game/look/flame-lean.js` |
+| D10 | The lanterns' new look | See-through glass with a small flame inside, so the flame can lean. They are a little darker from far off than the old glowing blocks |
+| D11 | Old Bridie's lantern | Its flame is painted on the glass, so it cannot lean or "stand almost straight". Making it one of the land's own lanterns would fix that and change how it looks |
 
 ---
 
