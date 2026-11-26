@@ -103,7 +103,7 @@ Every page was built from this branch. Every browser run went through the shared
 | `battle-frame-test.py --land`, slot A, 1280x720 and 412x880 | `zone-2.html` | 50 | 0 |
 | `encounter-fights-test.py`: zone 1 A, zone 2 A and **the Great bramble, each played to its end** | `fights-lab.html` | all three won (8, 14 and 36 turns), every check passed | 0 |
 | `battle-start-test.py` | `battle.html` | every check passed | 0 |
-| `battle-test.py` | `battle.html` | BATTLETEST | |
+| `battle-test.py` (8 fights) | `battle.html` | **6 of 8 played to their end and won** (the first fight, the four bands, the Bramble Horror), three times over | 0 failed, but **the last 2 were never reached**: each time the run was stopped by a time limit (mine, or the machine's two hours with the wait for the lock). They are the longest fights. Not run a fourth time. The Colossus itself was played to its end as the Great bramble (the row above) |
 
 ### The pictures (every sheet looked at)
 
@@ -174,6 +174,10 @@ No machine here can show motion, a frame rate, sound or touch. Every shot was se
 - For the `last-foe` job: the fire's two forms need only `tall` and `halfW` in their looks (they have them: 8 m and
   12 m). At 12 m the close-up on it stands about 20 m off, behind the party; pictures "as 12x4.8" show the framing.
 - For `docs/questions.md`: cut or glide; how long the close-up holds.
+- **Not finished: `tools/battle-test.py` whole.** Its last two fights were not reached in three tries (time limits, not
+  failures). Please run it once on a quiet machine with no time limit before bringing the branch in:
+  `python3 tools/battle-test.py builds/battle.html`.
+- The fire's final form: say whether the model stands 12 m on the lab page (see "The fire's two forms" above).
 
 ### For Chris
 
