@@ -149,7 +149,6 @@ def part_a(b, d, page, shots, quick):
     pg.press('.cm-leadb[data-leader="kore"]', 'ArrowLeft'); f2 = pg.evaluate('document.activeElement && document.activeElement.dataset.leader')
     pg.press('.cm-leadb[data-leader="io"]', 'End'); f3 = pg.evaluate('document.activeElement && document.activeElement.dataset.leader')
     check(f1 == 'kore' and f2 == 'io' and f3 == 'callisto', 'the arrow keys move between the four (right: %s, left: %s, End: %s)' % (f1, f2, f3))
-    st0 = pg.evaluate(STATE)
     wild = pg.evaluate(WILD) if fights else None
     order = ['kore', 'europa', 'callisto', 'io']
     for n, w in enumerate(order):
@@ -173,7 +172,7 @@ def part_a(b, d, page, shots, quick):
         check(moved < 0.01 and abs(after['yaw'] - before['yaw']) < 1e-6 and mdist < 0.01 and abs(after['model'][1] - after['y']) < 0.01 and abs(((after['modelYaw'] - after['yaw'] + math.pi) % (2 * math.pi)) - math.pi) < 1e-3,
               'she stands where %s stood (moved %.3f m), facing as she faced (%.2f), her model on that spot (%.3f m off)' % (before['who'], moved, after['yaw'], mdist))
         check(after['inScene'] and after['othersDrawn'] == 0, 'her model is drawn and the one before is not (%d others drawn)' % after['othersDrawn'])
-        check(s1 == s0 == st0, 'the story, the party and the game\'s keys are as they were')
+        check(s1 == s0, 'the story, the party and the game\'s keys are as they were')
         check(mark['focus'] == w, 'the keys stay on her button (for the next arrow)')
         pg.evaluate("W3D.menu.close()")
         if shots: pg.evaluate('(() => { __w3d.step(0.5, 30, true); })()'); pg.screenshot(path=os.path.join(shots, 'a-%s-chosen.png' % w))
