@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 25, 2026, 21:05, by the hub.
+Last updated: November 25, 2026, 23:15, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -91,10 +91,30 @@ ceiling was 1.5; nothing is shrunk without Chris's word).
 | `fight-camera` | `job/fight-camera` | **Started 09:40. Fable 5.2, high, as Chris asked.** Close-ups that cut in on whoever acts and back out; shots that fit a giant foe without the party shrinking; the ground's edge never in view; damage numbers that do not pile up. Laptop first | `docs/slips/fight-camera.md` |
 | `fights-tune` | `job/fights-tune` | **Started 09:40.** A meeting about every 50 to 65 m in the wilds (it was 100 to 130), each giving less so the levels fit; the Forge-Spark about 0.75 m with a stronger glow, the Wickstoat about 0.8 m; the Glowcaps stay | `docs/slips/fights-tune.md` |
 | `leader` | `job/leader` | **Started 09:40.** A place in the menu to choose which of the four witches walks; kept in the save slot and carried from page to page | `docs/slips/leader.md` |
-| `last-foe` | `job/last-foe` | **Started 09:40.** The fire's two forms wear Moon Faire's final boss (`moon-faire` `game/models/foes/final-fire/final-fire.js`) in place of Noctara's model; and a search of the four sources for the knight's model (found out, not built) | `docs/slips/last-foe.md` |
+| `last-foe` | `job/last-foe` | **In `main` since November 25, 23:10 (`c644a0f`).** The fire's own model in both forms; the card with four strengths; the knight found, not built | `docs/slips/last-foe.md` |
 
 When each has "Report for the hub" at the top of its slip: review it, bring it in, run the checks its files touch,
 send Chris a set of builds.
+
+### Newest (November 25, 23:15)
+
+- **The game is published.** The second publishing run succeeded (the first failed only because the last step asked
+  for the upload too soon; it is its own job now). The link is the repo's Pages address; every change to `game/` in
+  `main` republishes in about a minute. The hub's machine cannot open that address: only Chris can look.
+- **`last-foe` is in `main` (`c644a0f`).** The fire wears Moon Faire's final boss in both forms (8 m and 12 m tall);
+  a card before the last fight sets its level (20, 21, 22, 22.8); the first form has four helpers; the party is
+  refilled before the final form. Checked by the job: the card at two sizes 24 good, the last fight on zone 4's land
+  at all four settings 26 good, `battle-test` 8 fights, the balance sums unmoved. **Still owed when the browser was
+  free:** `battle-start-test`, the final form's stills, `encounter-test` on zone 4 `--long-only` (their log:
+  the session scratchpad, `last-foe/logs/run-e.log`). The self-playing checks pick Easy by themselves.
+- **For the hub from that job, not yet done:** take `noctara.js` out of the pages that load it (nothing wears it now;
+  0.11 MB); a likely leftover in `game/battle/screen.js` (the camera job's file now): when a story fight ends by its
+  foe stopping, `retreatEnding` calls `recognize()` and shows old Envoi's words "Sol knows that stance." for about
+  three seconds; `docs/assets-list.md` should say the final boss is in the game.
+- **Chris's new calls are part E of `docs/questions.md`:** how hard the last fight is (a careful coven wins Easy 44
+  times in 100 with the four helpers), eight smaller points where his plan and the story differ, and the knight
+  (Envoi's new Halcyon is the only finished one).
+- **Awake now:** `fight-camera` (it has the fire's sizes) and `fights-tune`. **Held back:** `leader`.
 
 ### Where things stand (November 25, 21:05)
 
@@ -806,7 +826,7 @@ The hub's plan. Names and order may change.
 | `fight-camera` | Close-ups in a fight, shots by the foe's size (a sub-agent, Fable 5.2) | `job/fight-camera` | `docs/slips/fight-camera.md` | **Started November 25, 09:40** |
 | `fights-tune` | Foes met more often; the tiniest foes bigger (a sub-agent) | `job/fights-tune` | `docs/slips/fights-tune.md` | **Started November 25, 09:40** |
 | `leader` | Who walks: a choice in the menu (a sub-agent) | `job/leader` | `docs/slips/leader.md` | **Started November 25, 09:40** |
-| `last-foe` | The fire wears Moon Faire's final boss; where the knight's model is (a sub-agent) | `job/last-foe` | `docs/slips/last-foe.md` | **Started November 25, 09:40** |
+| `last-foe` | The fire wears Moon Faire's final boss; where the knight's model is (a sub-agent) | `job/last-foe` | `docs/slips/last-foe.md` | **In `main`, November 25, 23:10** |
 
 **Who owns which files, so two conversations never write the same one:**
 

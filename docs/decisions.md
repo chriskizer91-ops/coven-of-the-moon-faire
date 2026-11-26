@@ -13,6 +13,20 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 25, 2026, 23:15: the game is published; the fire wears its own model
+
+- **The game is published as linked pages** at the repo's GitHub Pages address (the second run of
+  `.github/workflows/pages.yml`, 21:07, succeeded; Pages was already turned on). It updates on every change to
+  `game/` in `main`. The hub's machine cannot reach that address, so Chris is the one who can see it.
+- **Hub's call:** `job/last-foe` was brought into `main` (`c644a0f`). The fire's two forms wear Moon Faire's final
+  boss (`game/battle/models/final-fire.js`, copied as it is, with its line in `assets/INDEX.csv`). Before the last
+  fight a card asks Easy, Medium, Hard or Crazy: levels 20, 21, 22 and 22.8, as Chris decided.
+- **Hub's calls, all Chris's to overturn** (`docs/questions.md`, part E): where Moon Faire's plan for the last fight
+  and this game's story differ, the story's way is kept (the first form stops at 45%; only Kore's Sealed Fate ends
+  the final form). The first form's helpers are two wraiths and two frost wisps. With them a careful level-20 coven
+  wins Easy 44 times in 100: nothing was tuned, and how hard it should be is Chris's call.
+- **The knight:** not built. The only finished one in the four sources is the new Halcyon in Envoi. Asked of Chris.
+
 ## November 25, 2026, 21:05: every page is under 100 MB; the recordings are in; the pages can be published
 
 - **Chris, about 10:20:** he sent the last 20 recordings (the held Warden's 2 lines, the narrator's 18 for zone 4)

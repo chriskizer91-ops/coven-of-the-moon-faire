@@ -67,6 +67,25 @@ and is in `docs/decisions.md`.
 
 ---
 
+### E. The last fight (new on November 25, from the `last-foe` job)
+
+The fire now wears your final boss from Moon Faire, and the card with Easy, Medium, Hard and Crazy is built (levels
+20, 21, 22 and 22.8). Where your plan for the fight and this game's story said different things, the story's way was
+kept. Each of these is yours to change.
+
+| | The call | What the game does now | The other choice |
+|---|---|---|---|
+| E1 | **How hard it is.** A level-20 coven, played with care, wins Easy 44 times in 100, Medium 14, Hard 4, Crazy 1 (an expert: 70, 29, 10, 2). Before the helpers came in, the same player won every time | Four helpers stand with the fire's first form: two wraiths and two frost wisps. Nearly every lost fight is lost to them | Fewer or weaker helpers (my suggestion: two, so Easy is won about 3 times in 4), or your plan's "wraiths and brambles" |
+| E2 | How the first form ends | It stops at 45% of its Life; it cannot be sealed | Your plan: it falls when its Life is gone or Kore seals it |
+| E3 | The final form's numbers and end | Its own Life; no blow ends it; only Kore's Sealed Fate does | Your plan: the first form's body with 20% more Life and 10% bigger blows, ended in the Curtain Call |
+| E4 | A party lost in the final form | Starts again at the final form, and the card asks again | Your plan: the whole fight again from before the first form |
+| E5 | A rest spot just outside the fight | None added: the camp, and the inn in Misthollow | A rest spot by the dead Moonwell |
+| E6 | Walking away from the card | The card has no "not now": a strength must be chosen | A fifth button that walks away from the well |
+| E7 | When the fire breaks open into its final form | At the start of the final form's fight | At the end of the first form's fight |
+| E8 | How fine the fire is drawn | 21,104 triangles, as you approved it | 10,724, as Envoi's page of this fight used |
+| E9 | The card's words ("How strong is the fire?") | Stand-ins. The four names are Moon Faire's own | Your words |
+| E10 | **The knight.** The only finished knight in your four games is the new Halcyon in Envoi (the base doll in the paladin outfit, about 50,000 triangles, a glow, motions borrowed from Io). Aethermoor M7 has no knight of light | The knight still wears the old stand-in | Bring the new Halcyon in (about half a day; about 6 MB more on zone 3's page, which has 4.8 MB of room: something else would have to give) or tell me where the one you mean is being built |
+
 ## The thirteen questions of November 18 (all answered)
 
 > **Answered, November 18, 2026, afternoon.** Chris said yes to all 13, with changes in his own words on questions 3,
