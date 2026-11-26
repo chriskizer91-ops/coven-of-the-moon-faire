@@ -1,6 +1,6 @@
 # Coven of the Moon Faire: the board
 
-Last updated: November 26, 2026, 04:55, by the hub.
+Last updated: November 26, 2026, 06:10, by the hub.
 
 **Only the hub changes this board.** A job conversation writes only its own slip, `docs/slips/<name>.md`, on its own
 branch `job/<name>`. The rules are in `CLAUDE.md`.
@@ -89,12 +89,26 @@ ceiling was 1.5; nothing is shrunk without Chris's word).
 | `small-things` | `job/small-things` | **In `main` since November 25, 08:00.** Eleven items, each put right or said why not (the slip has a table): the phone's talk box, the end card's button, the front door's line, the corner map painted behind the Begin screen, the flight's edge labels, lanterns on the ships of zones 2 and 3, the leaving said after "Set course", zone 3's flight out starts over the slip | `docs/slips/small-things.md` |
 | `left-overs` | `job/left-overs` | **In `main` since November 25, 16:50 (`60c8584`).** Every page under 95 MB; flames lean north-east; the bent knees proved put right | `docs/slips/left-overs.md` |
 | `fight-camera` | `job/fight-camera` | **In `main` since November 26, 04:50 (`c5235d5`).** Three camera beats to a move; giants loom; the ground has no edge; numbers keep apart | `docs/slips/fight-camera.md` |
-| `fights-tune` | `job/fights-tune` | **Started 09:40.** A meeting about every 50 to 65 m in the wilds (it was 100 to 130), each giving less so the levels fit; the Forge-Spark about 0.75 m with a stronger glow, the Wickstoat about 0.8 m; the Glowcaps stay | `docs/slips/fights-tune.md` |
+| `fights-tune` | `job/fights-tune` | **In `main` since November 26, 06:05 (`bc187d6`).** A meeting about every 75 m; the Forge-Spark 0.75 m, the Wickstoat 0.80 m | `docs/slips/fights-tune.md` |
 | `leader` | `job/leader` | **Started 09:40.** A place in the menu to choose which of the four witches walks; kept in the save slot and carried from page to page | `docs/slips/leader.md` |
 | `last-foe` | `job/last-foe` | **In `main` since November 25, 23:10 (`c644a0f`).** The fire's own model in both forms; the card with four strengths; the knight found, not built | `docs/slips/last-foe.md` |
 
 When each has "Report for the hub" at the top of its slip: review it, bring it in, run the checks its files touch,
 send Chris a set of builds.
+
+### Newest (November 26, 06:10)
+
+- **`fights-tune` is in `main` (`bc187d6`).** A meeting about every 75 m in the wilds (`every` in
+  `game/encounters/plan.js`; the hub set 75 where the job had 58), the first of a page after 15 to 45 m, 25 m of
+  grace after a fight; a meeting's reward scaled in step, so `node tools/encounter-balance.mjs` meets every target
+  (329 fights; `--old` plays the old numbers, `--every N` tries another). The Forge-Spark 0.75 m, the Wickstoat
+  0.80 m: a creature's data may carry `tall`, and its whole model and look follow. The job's checks at 58 m:
+  `encounter-test` zone 1 whole 41 good, zones 2 to 4 quick 37 each, the two creatures' fights 7, the frame check on
+  the lab page 267, all 0 failed. **The hub's own run at 75 m is queued** (the session scratchpad, `stage6/`).
+- **Left by it:** more fights wear the coven down between rests (Chris's call, B1); the two lab pages' end cards still
+  show a slot's old reward; `game/pages/creatures-row.html` is a picture page, not part of the game.
+- **Only `leader` is still out.** Then: the nine big fights played again; `noctara.js` out of the pages; the "Sol
+  knows that stance." leftover.
 
 ### Newest (November 26, 04:55)
 
@@ -843,7 +857,7 @@ The hub's plan. Names and order may change.
 | `small-things` | The rough spots of the journey and the land (a sub-agent) | `job/small-things` | `docs/slips/small-things.md` | **In `main`, November 25, 08:00** |
 | `left-overs` | Bent knees, leaning flames, every page under 95 MB (a sub-agent) | `job/left-overs` | `docs/slips/left-overs.md` | **In `main`, November 25, 16:50** |
 | `fight-camera` | Close-ups in a fight, shots by the foe's size (a sub-agent, Fable 5.2) | `job/fight-camera` | `docs/slips/fight-camera.md` | **In `main`, November 26, 04:50** |
-| `fights-tune` | Foes met more often; the tiniest foes bigger (a sub-agent) | `job/fights-tune` | `docs/slips/fights-tune.md` | **Started November 25, 09:40** |
+| `fights-tune` | Foes met more often; the tiniest foes bigger (a sub-agent) | `job/fights-tune` | `docs/slips/fights-tune.md` | **In `main`, November 26, 06:05** |
 | `leader` | Who walks: a choice in the menu (a sub-agent) | `job/leader` | `docs/slips/leader.md` | **Started November 25, 09:40** |
 | `last-foe` | The fire wears Moon Faire's final boss; where the knight's model is (a sub-agent) | `job/last-foe` | `docs/slips/last-foe.md` | **In `main`, November 25, 23:10** |
 

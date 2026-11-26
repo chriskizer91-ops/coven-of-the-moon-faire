@@ -24,7 +24,7 @@ and is in `docs/decisions.md`.
 
 | | The call | What the game does now (my suggestion) |
 |---|---|---|
-| B1 | How many fights a zone | **Answered, November 25: "the foes should pop up in the wilds more often".** It was a meeting every 100 to 130 m, about 45 a zone. The `fights-tune` job is making it about every 50 to 65 m, with each meeting giving less, so the coven is no stronger at the big fights. You get the new numbers to try |
+| B1 | **How often foes are met in the wilds** (you: "the foes should pop up in the wilds more often") | **About every 75 m now** (25 seconds of running), and the first fight of a zone 15 to 45 m after she leaves safe ground. Before, in the woods round Wickhollow it was every 260 m, and your first fight came after about 316 m (106 seconds). Each fight gives less, so the coven is the same level at each big fight. The whole game: 329 fights, about 8.9 hours of fighting (it was 181 and 5.1). **One number, three choices:** every 58 m is 424 fights and 11.5 hours; every 75 m is 329 and 8.9; every 90 m is 274 and 7.4. Also yours: more fights wear the coven down more between rests (a careful player rests about 4 times a km now, 1.4 to 2.9 before). A fix would be to give back a little Life after each fight in the wilds; not built |
 | B2 | How often a creature is met, not a wisp or wraith | About one fight in 3, with both creatures of a zone turned on. With only the first of the two it would be about one in 6 |
 | B3 | What happens to a beaten creature | It is let go, not killed: the Rotwarden and the Glowcap root, the Forge-Spark gutters out, the Thornhound and the Rot-Stag run off, the Sapwight withers, the Wickstoat drops its lights and bolts, the Hoarmantle walks off |
 | B4 | The knight | He stops at 3/10 of his Life. Each answer gives him back 1/10, up to 6/10 |
@@ -41,7 +41,7 @@ and is in `docs/decisions.md`.
 |---|---|---|
 | C1 | Where each one lives | Zone 1: the Rotwarden (A), the Glowcap (B). Zone 2: the Forge-Spark (A), the Thornhound (B). Zone 3: the Sapwight (A), the Rot-Stag (B). Zone 4: the Wickstoat (A), the Hoarmantle (B) |
 | C2 | Their names and their moves' names | All stand-ins, in `game/encounters/words.js`. Two begin with "The" (the Rotwarden, the Rot-Stag) and six do not. The Hoarmantle's "Paws the ground" names a motion that was taken out |
-| C3 | The Forge-Spark's size | **Answered, November 25: "the tinier foes could be made bigger"; the Glowcaps stay small ("kind of cute").** The Forge-Spark goes from 0.49 m to about 0.75 m with a stronger glow. My call with it: the Wickstoat goes from 0.60 m to about 0.8 m. Say if the Wickstoat should stay as it was |
+| C3 | The smallest foes' size | **Done, November 26:** the Forge-Spark stands 0.75 m (it was 0.49) with a brighter fire and more embers; the Wickstoat 0.80 m (it was 0.60; my call). The Glowcaps are as they were. Each is one number |
 | C4 | The Forge-Spark's weakening move | "Lure" |
 | C5 | The Wickstoat's sparks at the start of a fight | 3 lit |
 | C6 | The Hoarmantle: another round on its hair and horns? | They are softer than your sheet: streaks where yours has layered locks, and paler, more banded horns |

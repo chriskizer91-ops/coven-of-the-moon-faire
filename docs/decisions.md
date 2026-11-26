@@ -13,6 +13,19 @@ hub made so the work could go on, as Chris asked on November 18. He can change a
 The full older record stays in the old repos and is not copied here:
 `envoi-on-the-longest-night` `docs/project-notes/decisions.md` and `moon-faire` `docs/project-notes/decisions.md`.
 
+## November 26, 2026, 06:10: foes are met more often; the tiniest foes stand bigger
+
+- **Hub's call:** `job/fights-tune` was brought into `main` (`bc187d6`). What Chris felt in zone 1, measured: his
+  first fight came on average 316 m (106 seconds of running) after the start, and then one every 260 m in the woods
+  round Wickhollow. Now the first comes 15 to 45 m after she leaves safe ground, and one about every 75 m after.
+- **Hub's call, Chris's to change (one number, `every` in `game/encounters/plan.js`):** 75 m. The job chose 58 m
+  (424 fights in the whole game, about 11.5 hours of fighting); 75 m is 329 fights and 8.9 hours; it was 181 and 5.1.
+  A meeting gives less in step, so the coven is the same level at each big fight. This replaces "about 180 fights".
+- The grace after a fight is 25 m (it was 70). Roads have always had meetings of their own and still do; camps and
+  towns are safe.
+- The Forge-Spark stands 0.75 m with a stronger glow; the Wickstoat 0.80 m (the hub's call); the Glowcaps stay.
+- **Not built, for Chris (B1):** more fights wear the coven down more between rests.
+
 ## November 26, 2026, 04:55: the fight camera is in `main`
 
 - **Hub's call:** `job/fight-camera` (the Fable 5.2 sub-agent Chris asked for) was brought into `main` (`c5235d5`).
