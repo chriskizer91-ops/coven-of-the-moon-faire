@@ -259,14 +259,14 @@ One go is form one (stopped at 45%) and then the final form (ended by Kore's Sea
 
 ## Checks still running
 
-Started on November 26 at 03:01 in one queue (), each step under the shared lock; the queue was waiting for
-the lock when this was written (another job held it from 03:32). Log: .
+Started on November 26 at 03:01 in one queue (`run-e.sh`), each step under the shared lock; the queue was waiting for
+the lock when this was written (another job held it from 03:32). Log: `/tmp/claude-0/-home-user-coven-of-the-moon-faire/41576e32-9c97-530a-9c7c-c502d1946878/scratchpad/last-foe/logs/run-e.log`.
 
-1. .
-2. Form two's stills on the fights lab (: its change in four steps, idle, a blow, a call, being hit,
+1. `tools/battle-start-test.py builds/battle.html`.
+2. Form two's stills on the fights lab (`pics2/2-*.png`: its change in four steps, idle, a blow, a call, being hit,
    sealed, its ending in three steps). To get there sooner, the still run lowers the final form's Life to a fifth
    after its first blow and call, so Kore's Fate meets it sooner; the whole final form played without that is the
-   land check above (easy, won by Kore's Sealed Fate after 43 turns). When the queue ends,  remakes
-    with the final form's still in it (until then its bottom-left cell says it is being taken).
-3.  (about an hour): the bramble and both fire forms on the land,
-   with the card picked by itself (Easy).
+   land check above (easy, won by Kore's Sealed Fate after 43 turns). When the queue ends, `run-f.sh` remakes
+   `sheet-for-chris.jpg` with the final form's still in it (until then its bottom-left cell says it is being taken).
+3. `tools/encounter-test.py builds/zone-4.html --long-only` (about an hour): the bramble and both fire forms on the
+   land, with the card picked by itself (Easy).
